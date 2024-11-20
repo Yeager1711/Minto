@@ -1,0 +1,98 @@
+@import 'normalize.css';
+@import url("https://fonts.googleapis.com/css2?family=Charm:wght@700&family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;1,100;1,300&family=Source+Code+Pro:ital,wght@0,400;0,500;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Lobster&display=swap" rel="stylesheet');
+* {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  text-transform: none;
+}
+
+:root {
+  --bg-White: #fff;
+  --background: #f5f5f7;
+  --colorWhite: #fff;
+  --globalColor: #0bb88a;
+  --border-aimation: #00FF8B;
+  --border: #dbdbdb;
+  --viewDetails: #fb6900;
+  --colorWhiteText: #fff;
+  --colorBlackText: #333;
+  --textBlur: #666666f5;
+  --colorPrice: #ff7d55;
+  --shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+  --weight400: 400;
+  --weight500: 500;
+  --weight550: 550;
+  --weight600: 600;
+}
+
+html {
+  font-size: 62.5%;
+  overflow-x: none;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  background-color: var(--background);
+  min-height: 93vh;
+}
+
+.wrapper-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+}
+
+.marTop {
+  margin-top: 4.2rem;
+}
+
+section,
+footer {
+  padding: 3rem 15%;
+}
+
+a {
+  color: #333;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+
+h3 {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-bottom: 0.7rem;
+  font-size: 2.2rem;
+  text-transform: capitalize;
+  color: var(--colorBlackText);
+  text-transform: uppercase;
+  font-weight: var(--weight600);
+}
+h3 p {
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  margin-bottom: 0.7rem;
+}
+h3::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  height: 100%;
+  width: 0.4rem;
+  background: #f5b324;
+}/*# sourceMappingURL=GlobalStyles.css.map */

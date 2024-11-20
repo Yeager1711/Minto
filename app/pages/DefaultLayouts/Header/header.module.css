@@ -1,0 +1,102 @@
+.header_wrapper {
+  padding: 1.5rem 15%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 99;
+  max-width: 100%;
+  background: rgb(0, 0, 0);
+  box-shadow: var(--shadow);
+}
+.header_wrapper .logo {
+  max-width: 15rem;
+}
+.header_wrapper .logo img {
+  width: 100%;
+  height: 100%;
+}
+.header_wrapper .navbar {
+  display: flex;
+  align-items: center;
+}
+.header_wrapper .navbar .nav-link {
+  font-size: 1.4rem;
+  padding: 0.7rem 1rem;
+  margin-left: 2rem;
+  text-transform: none;
+  background: none;
+  color: var(--colorWhiteText);
+  position: relative;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.header_wrapper .navbar .nav-link.active {
+  border-radius: 0.5rem;
+}
+.header_wrapper .navbar .nav-link.active::before {
+  content: "";
+  position: absolute;
+  bottom: -0.4rem;
+  left: 0;
+  width: 100%;
+  height: 0.3rem;
+  background: var(--globalColor);
+  transition: all 0.3s ease;
+  border-radius: 1rem;
+}
+.header_wrapper .navbar .nav-link:hover {
+  background: var(--globalColor);
+  color: var(--colorWhiteText);
+  border-radius: 0.3rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+.header_wrapper .navbar .nav-link:hover::before {
+  height: 0.4rem;
+  bottom: -0.3rem;
+}
+.header_wrapper .navbar .nav-link i {
+  font-size: 2rem;
+}
+.header_wrapper .button-control {
+  margin-left: 2rem;
+  display: flex;
+  align-items: center;
+}
+.header_wrapper .button-control .btn-login {
+  padding: 0.5rem 2rem;
+  background: var(--globalColor);
+  color: var(--colorWhiteText);
+  border-radius: 0.3rem;
+  font-size: 1.4rem;
+}
+.header_wrapper .button-control .btn-register {
+  padding: 0.5rem 2rem;
+  background: none;
+  color: var(--colorWhiteText);
+  border: 0.1rem solid var(--border);
+  margin-left: 2rem;
+  font-size: 1.4rem;
+  border-radius: 0.3rem;
+}
+.header_wrapper .button-control .employer {
+  margin-left: 1rem;
+  border-left: 0.1rem solid var(--border);
+  color: var(--colorWhiteText);
+}
+.header_wrapper .button-control .employer .header-question-employer {
+  display: block;
+  margin-left: 1rem;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.header_wrapper .button-control .employer .Apply-Now {
+  margin-left: 1rem;
+  color: var(--globalColor);
+  font-weight: var(--weight550);
+  font-size: 1.4rem;
+}/*# sourceMappingURL=header.module.css.map */

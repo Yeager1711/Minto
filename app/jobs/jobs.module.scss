@@ -1,0 +1,233 @@
+.job {
+    padding: 3rem 0;
+    background-color: #f9f9f9;
+
+    .filter-job {
+        padding: 1rem 0;
+        background: var(--globalColor);
+
+        .navigation-search {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem 15%;
+
+            .box-input {
+                width: calc(100% - 45%);
+                background: var(--colorWhiteText);
+                padding: 1rem 1.5rem;
+                border-radius: .5rem;
+                font-size: 1.5rem;
+
+                input {
+                    width: 100%;
+
+                    &::placeholder {
+                        font-size: 1.4rem;
+                    }
+                }
+            }
+
+            .box-select {
+                width: calc(100% - 70%);
+                background: var(--colorWhiteText);
+                padding: 1rem 1.5rem;
+                border-radius: .5rem;
+
+                select {
+                    width: 100%;
+                    font-size: 1.4rem;
+                }
+            }
+
+            .btn-find {
+                width: calc(100% - 85%);
+                padding: 1rem 1.5rem;
+                border-radius: .5rem;
+                font-size: 1.4rem;
+            }
+        }
+    }
+
+    .job-container {
+        padding: 3rem 15% 1rem !important;
+
+        .header-searchByCriteria {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            width: 100%; 
+        }
+
+        .filter-searchByCriteria {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            width: 100%;
+
+            .filter {
+                flex: 1 1 18rem;
+                background: var(--bg-White);
+                color: var(--colorBlackText);
+                display: flex;
+                align-items: center;
+
+                select,
+                input {
+                    padding: 1rem;
+                    cursor: pointer;
+                    width: 100%;
+                    font-size: 1.3rem;
+                }
+
+                input {
+                    font-size: 1.4rem;
+                    width: 100%;
+                }
+
+                .ant-input-number-group-addon {
+                    margin-right: 1rem;
+                    font-size: 1.4rem;
+                }
+            }
+        }
+    }
+
+    .job-wrapperContainer {
+        padding: 1rem 15%;
+
+        .Container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(38rem, 1fr));
+            gap: 1.5rem;
+
+            .box {
+                position: relative;
+                padding: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                border: .1rem solid var(--border);
+                background: var(--bg-White);
+                border-radius: 1rem;
+                cursor: pointer;
+
+                .whislist {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    padding: 1rem;
+                    background: #e6f6ed;
+                    color: var(--globalColor);
+                    font-size: 1.7rem;
+                    border-radius: 50%;
+                }
+
+                .tag-rank {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: .5rem 1.5rem;
+                    background: var(--viewDetails);
+                    color: var(--colorWhiteText);
+                    font-size: 1.4rem;
+                    border-bottom-right-radius: .5rem;
+                    display: none;
+                    align-items: center;
+                    gap: .5rem;
+                    text-transform: uppercase;
+                    
+                    svg {
+                        font-size: 1.7rem;
+                    }
+                }
+
+                .company-logo {
+                    max-width: 12rem;
+                    width: 100%;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .info {
+                    .job-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+
+                        .company-name {
+                            font-size: 1.5rem;
+                        }
+                    }
+
+                    .group {
+                        margin-left: 2rem;
+                        font-size: 1.2rem;
+                        color: var(--textBlur);
+                    }
+
+                    .Salary-Negotiable {
+                        margin-top: 1rem;
+                        margin-left: 2rem;
+                        font-weight: var(--weight550);
+                        font-size: 1.4rem;
+                        color: var (--colorBlackText);
+                    }
+
+                    .job-content-bottom {
+                        margin-top: 1rem;
+                        margin-left: 2rem;
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 1rem;
+                        align-items: center;
+
+                        .job-content-bottom-tag {
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+
+                            .location,
+                            .views-box {
+                                padding: .5rem 1rem;
+                                border: .1rem solid var(--border);
+                                border-radius: .5rem;
+                                font-size: 1.2rem;
+                            }
+                        }
+
+
+                        .job-content-bottom-expired {
+                            border-radius: .5rem;
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .pagination {
+            margin: 1.5rem 0;
+           padding: 0;
+            float: right;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            border: .1rem solid var(--border);
+            border-radius: 15rem;
+            overflow: hidden;
+
+            button {
+                padding: .7rem 1.5rem;
+            }
+
+            span {
+                font-size: 1.3rem;
+            }
+        }
+    }
+}
