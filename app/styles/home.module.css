@@ -1,0 +1,325 @@
+.swiper-button-next {
+  right: -5rem;
+  z-index: 999 !important;
+}
+.swiper-button-next::after {
+  font-size: 1.6rem !important;
+  background: #fff;
+  padding: 1.1rem 1.3rem 0.9rem 1.4rem;
+  border-radius: 5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.swiper-button-prev {
+  left: -5rem;
+  z-index: 999 !important;
+}
+.swiper-button-prev::after {
+  font-size: 1.6rem !important;
+  background: #fff;
+  padding: 1.1rem 1.3rem 0.9rem 1.4rem;
+  border-radius: 5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.swiper.swiper-initialized.swiper-horizontal.swiper-css-mode.mySwiper {
+  overflow: visible !important;
+}
+
+.Home {
+  margin: 0;
+}
+.Home .banner-image {
+  max-width: 100%;
+  height: 93vh;
+  position: relative;
+}
+.Home .banner-image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.Home .banner-image .wrapper-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+.Home .banner-image .wrapper-content .search-infoWork {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 75rem;
+  width: 95%;
+}
+.Home .banner-image .wrapper-content .search-infoWork .content {
+  text-align: center;
+}
+.Home .banner-image .wrapper-content .search-infoWork .content h4 {
+  font-size: 4rem;
+  color: var(--colorWhiteText);
+}
+.Home .banner-image .wrapper-content .search-infoWork .content h4 span {
+  color: var(--globalColor);
+}
+.Home .banner-image .wrapper-content .search-infoWork .content p {
+  font-size: 1.7rem;
+  padding: 1rem 0;
+  color: var(--colorWhiteText);
+}
+.Home .banner-image .wrapper-content .search-infoWork .content p span {
+  color: var(--globalColor);
+  font-weight: var(--weight550);
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+  background: var(--background);
+  border-radius: 0.5rem;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .box-input {
+  max-width: 40rem;
+  width: 95%;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .box-input input {
+  width: 100%;
+  font-size: 16px;
+  background: none;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .box-input input::-moz-placeholder {
+  font-size: 1.4rem;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .box-input input::placeholder {
+  font-size: 1.4rem;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .box-select {
+  max-width: 21rem;
+  width: 95%;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .box-select select {
+  background: none;
+  width: 18rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .btn-find {
+  padding: 0.8rem 2.5rem;
+  background: var(--globalColor);
+  color: var(--colorWhiteText);
+  border-radius: 0.5rem;
+  font-size: 1.6rem;
+}
+.Home .wrapper-home .wrapper-container {
+  margin-top: 2rem;
+}
+.Home .wrapper-home .wrapper-container .company {
+  background: var(--bg-White);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 21rem;
+  position: relative;
+  cursor: pointer;
+}
+.Home .wrapper-home .wrapper-container .company:hover {
+  transform: translateY(-0.5rem);
+}
+.Home .wrapper-home .wrapper-container .company .img-company {
+  display: flex;
+  margin: auto;
+  width: 15rem;
+  overflow: hidden;
+  padding: 2rem;
+}
+.Home .wrapper-home .wrapper-container .company .img-company img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.Home .wrapper-home .wrapper-container .company .img-company img:hover {
+  transform: scale(1.05);
+}
+.Home .wrapper-home .wrapper-container .company .content-company {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem 1rem;
+}
+.Home .wrapper-home .wrapper-container .company .content-company h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--colorBlackText);
+  text-transform: capitalize;
+}
+.Home .wrapper-home .wrapper-container .company .content-company .location {
+  font-size: 1.2rem;
+  margin-left: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--colorBlackText);
+  text-transform: capitalize;
+}
+.Home .wrapper-home .recruitment-container {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+.Home .wrapper-home .recruitment-container .company {
+  background: var(--bg-White);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.1);
+  padding: 2rem 2rem 2rem 0;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+}
+.Home .wrapper-home .recruitment-container .company .icon-views {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9 !important;
+  color: var(--colorBlackText);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background: var(--globalColor);
+  color: var(--colorWhiteText);
+}
+.Home .wrapper-home .recruitment-container .company .icon-views svg {
+  color: var(--colorWhiteText);
+}
+.Home .wrapper-home .recruitment-container .company .img-company {
+  flex: 1 1 30rem;
+  margin: auto;
+  text-align: center;
+}
+.Home .wrapper-home .recruitment-container .company .img-company img {
+  width: 10rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.Home .wrapper-home .recruitment-container .company .content-company {
+  flex: 1 1 70rem;
+}
+.Home .wrapper-home .recruitment-container .company .content-company .company-location h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--colorBlackText);
+  text-transform: capitalize;
+}
+.Home .wrapper-home .recruitment-container .company .content-company .company-location .location,
+.Home .wrapper-home .recruitment-container .company .content-company .company-location .position {
+  display: block;
+  color: var(--colorBlackText);
+  margin-left: 2rem;
+  font-size: 1.3rem;
+}
+.Home .wrapper-home .recruitment-container .company .content-company .company-location .name-company {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  font-size: 1.3rem;
+  margin-left: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--viewDetails);
+}
+.Home .wrapper-home .recruitment-container .company .content-company .company-location .district {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  font-size: 1.3rem;
+  margin-left: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.Home .wrapper-home .recruitment-container .company .content-company .company-location .district p {
+  font-weight: var(--weight550);
+  color: var(--viewDetails);
+}
+.Home .wrapper-home .recruitment-container .company .content-company .btn-viewDetails {
+  padding: 0.6rem 2.5rem;
+  background: var(--viewDetails);
+  color: var(--colorWhiteText);
+  font-size: 1.4rem;
+  border-top-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+}
+.Home .HomePage_findJobs .image_HomePage_findJobs {
+  max-width: 100%;
+  height: 50rem;
+  position: relative;
+}
+.Home .HomePage_findJobs .image_HomePage_findJobs::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+.Home .HomePage_findJobs .image_HomePage_findJobs img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs {
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-30%, -50%);
+  max-width: 70rem;
+  width: 95%;
+}
+.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs .title {
+  font-size: 2.9rem;
+  color: var(--globalColor);
+  font-weight: var(--weight550);
+  line-height: 1.5;
+}
+.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs .sub_title {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: var(--colorWhiteText);
+  font-weight: var(--weight500);
+  line-height: 1.5;
+}
+.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs .img-arrow {
+  position: absolute;
+  top: 42%;
+  right: -22%;
+  width: 14rem;
+  -o-object-fit: contain;
+     object-fit: contain;
+  transform: rotate(-10deg);
+}
+.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs .Apply_now {
+  position: absolute;
+  top: 50%;
+  right: -30%;
+  transform: translate(30%, -50%);
+  padding: 0.8rem 3rem;
+  border-radius: 0.5rem;
+  background: var(--globalColor);
+  color: var(--colorWhiteText);
+}/*# sourceMappingURL=home.module.css.map */

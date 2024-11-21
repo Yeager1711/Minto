@@ -36,11 +36,13 @@
 }
 .job .filter-job .navigation-search .box-select select {
   width: 100%;
+  font-size: 1.4rem;
 }
 .job .filter-job .navigation-search .btn-find {
   width: 15%;
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
+  font-size: 1.4rem;
 }
 .job .job-container {
   padding: 3rem 15% 1rem !important;
@@ -71,8 +73,10 @@
   padding: 1rem;
   cursor: pointer;
   width: 100%;
+  font-size: 1.3rem;
 }
 .job .job-container .filter-searchByCriteria .filter input {
+  font-size: 1.4rem;
   width: 100%;
 }
 .job .job-container .filter-searchByCriteria .filter .ant-input-number-group-addon {
@@ -138,19 +142,42 @@
   gap: 1rem;
 }
 .job .job-wrapperContainer .Container .box .info .job-info .company-name {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  max-width: 31rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .job .job-wrapperContainer .Container .box .info .group {
   margin-left: 2rem;
   font-size: 1.2rem;
   color: var(--textBlur);
+  max-width: 29rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .job .job-wrapperContainer .Container .box .info .Salary-Negotiable {
+  display: flex;
+  align-items: center;
   margin-top: 1rem;
   margin-left: 2rem;
-  font-weight: var(--weight550);
   font-size: 1.4rem;
   color: var --colorBlackText;
+}
+.job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary-from,
+.job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary-to {
+  font-weight: var(--weight550);
+}
+.job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary-from {
+  margin-left: 0.5rem;
+  margin-right: 0.3rem;
+  font-weight: var(--weight550);
+}
+.job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary-to {
+  margin-left: 0.3rem;
+  font-weight: var(--weight550);
 }
 .job .job-wrapperContainer .Container .box .info .job-content-bottom {
   margin-top: 1rem;

@@ -12,34 +12,61 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import Data from './Data/data';
+import Data from './Data/data'; // Assuming you have some mock data here
 
 // Định nghĩa kiểu cho công việc
 interface Job {
-      image: string;
+      jobId: string; 
       title: string;
-      company: string;
-      address: string;
-      salary: string;
+      company: {
+            name: string;
+            images: { image_company: string }[]; 
+      };
+      workLocation: {
+            district: { name: string }; 
+      };
 }
+
+const apiUrl = process.env.REACT_APP_API_BASE_URL;
+console.log(process.env.REACT_APP_API_BASE_URL);
+console.log(apiUrl);
 
 function Home() {
       const [jobs, setJobs] = useState<Job[]>([]);
+      const [jobData, setJobData] = useState<Job[]>([]);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState<string | null>(null);
 
       useEffect(() => {
-            const fetchJobs = async () => {
-                  const res = await fetch('/api/crawl');
-                  const data = await res.json();
-                  setJobs(data);
+            const fetchAllJobs = async () => {
+                  try { 
+                        const response = await fetch('http://localhost:5000/jobs/all-jobs');
+                        const data = await response.json();
+                        setJobData(data.data); // Lưu dữ liệu vào state jobs
+                        setLoading(false);
+                  } catch (err) {
+                        setError('Có lỗi xảy ra khi lấy dữ liệu');
+                        setLoading(false);
+                  }
             };
 
-            fetchJobs();
-      }, []);
+            fetchAllJobs();
+      }, []); 
+
+      // Loading and error handling
+      if (loading) {
+            return <div>Loading...</div>;
+      }
+
+      if (error) {
+            return <div>{error}</div>;
+      }
 
       return (
             <div className={styles.Home}>
+                  {/* Banner Section */}
                   <div className={styles['banner-image']}>
-                        <img src="/images/banner.jpg" alt="" />
+                        <img src="/images/banner.jpg" alt="Banner" />
 
                         <div className={styles['wrapper-content']}>
                               <div className={styles['search-infoWork']}>
@@ -77,6 +104,7 @@ function Home() {
                         </div>
                   </div>
 
+                  {/* Swiper Section for Companies */}
                   <section className={styles['wrapper-home']}>
                         <h3>
                               <p>Hàng Đầu & Phổ Biến</p> Công Ty Tuyển Dụng
@@ -122,20 +150,7 @@ function Home() {
                         </div>
                   </section>
 
-                  <section>
-                        <h1>Danh sách công việc</h1>
-                        <ul>
-                              {jobs.map((job, index) => (
-                                    <li key={index}>
-                                          <h3>{job.title}</h3>
-                                          <p>
-                                                {job.company} - {job.address}
-                                          </p>
-                                    </li>
-                              ))}
-                        </ul>
-                  </section>
-
+                  {/* Recruitment Section */}
                   <section className={styles['wrapper-home']}>
                         <div className={styles['header-recruitment']}>
                               <h3>
@@ -144,31 +159,33 @@ function Home() {
                         </div>
 
                         <div className={styles['recruitment-container']}>
-                              {Data.map((company) => (
-                                    <div className={styles['company']} key={company.id}>
+                              {jobData.map((job) => (
+                                    <div className={styles['company']} key={job.jobId}>
                                           <span className={styles['icon-views']}>
                                                 <FontAwesomeIcon icon={faEye} />
-                                                {company.views}
                                           </span>
+
                                           <div className={styles['img-company']}>
-                                                <img src={company.imgSrc} alt="" />
+                                                {/* Hiển thị logo công ty */}
+                                                <img
+                                                      src={job.company.images[0]?.image_company}
+                                                      alt={job.company.name}
+                                                />
                                           </div>
 
                                           <div className={styles['content-company']}>
                                                 <div className={styles['company-location']}>
-                                                      <h3 className={styles['name-company']}>
-                                                            {company.companyName}
+                                                      <h3 className={styles['title-company']}>
+                                                            {/* Hiển thị tiêu đề công việc */}
+                                                            {job.title}
                                                       </h3>
-                                                      <span className={styles['location']}>
-                                                            {company.location}
+                                                      <span className={styles['name-company']}>
+                                                            {/* Hiển thị tên công ty */}
+                                                            {job.company.name}
                                                       </span>
-                                                      <span className={styles['position']}>
-                                                            Vị trí: <p>{company.position}</p>
+                                                      <span className={styles['district']}>
+                                                            {job.workLocation.district.name}
                                                       </span>
-                                                </div>
-
-                                                <div className={styles['btn-viewDetails']}>
-                                                      Xem chi tiết
                                                 </div>
                                           </div>
                                     </div>
@@ -176,9 +193,10 @@ function Home() {
                         </div>
                   </section>
 
+                  {/* Job Application Section */}
                   <div className={styles['HomePage_findJobs']}>
                         <div className={styles['image_HomePage_findJobs']}>
-                              <img src="/images/banner-2.jpg" alt="" />
+                              <img src="/images/banner-2.jpg" alt="Explore Jobs" />
 
                               <div className={styles['content_HomePage_findJobs']}>
                                     <div>
@@ -198,7 +216,7 @@ function Home() {
                                     <img
                                           src="/images/arrow.png"
                                           className={styles['img-arrow']}
-                                          alt=""
+                                          alt="Arrow"
                                     />
                                     <button className={styles['Apply_now']}>Ứng tuyển ngay</button>
                               </div>
