@@ -44,7 +44,7 @@ function Header() {
         <Link href="/jobs" className={cx('nav-link', { active: pathname === '/jobs' })}>
           Việc làm
         </Link>
-        <Link href="/jobmarket/companys" className={cx('nav-link', { active: pathname === '/jobmarket/companys' })}>
+        <Link href="/companies" className={cx('nav-link', { active: pathname === '/companies' })}>
           Công ty
         </Link>
       </nav>
@@ -59,7 +59,7 @@ function Header() {
 
         <div className={cx('employer')}>
           <span className={cx('header-question-employer')}>Bạn là nhà tuyển dụng?</span>
-          <Link href="/jobmarket/companys" className={cx('Apply-Now')}>
+          <Link href="/companies" className={cx('Apply-Now')}>
             Đăng tuyển ngay
             <FontAwesomeIcon icon={faChevronRight} /><FontAwesomeIcon icon={faChevronRight} />
           </Link>

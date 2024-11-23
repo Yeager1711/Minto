@@ -43,6 +43,10 @@
     --weight500: 500;
     --weight550: 550;
     --weight600: 600;
+
+    // hover
+    --hoverBox: #f9fbff;
+    --hoverBoxBd: #cfe0ff;
 }
 
 html {
@@ -59,7 +63,7 @@ html {
 
 .container {
     // margin-top: 5rem;
-    background-color: var(--background);
+    background-color: var(--bg-White);
     min-height: 93vh;
 }
 

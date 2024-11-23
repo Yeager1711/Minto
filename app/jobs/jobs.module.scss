@@ -1,6 +1,6 @@
 .job {
     padding: 3rem 0;
-    background-color: #f9f9f9;
+    background-color: var(--bg-White);
 
     .filter-job {
         padding: 1rem 0;
@@ -100,7 +100,7 @@
 
         .Container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(38rem, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
             gap: 1.5rem;
 
             .box {
@@ -113,6 +113,11 @@
                 background: var(--bg-White);
                 border-radius: 1rem;
                 cursor: pointer;
+
+                &:hover {
+                    background: var(--hoverBox);
+                    border: .1rem solid var(--hoverBoxBd);
+                }
 
                 .whislist {
                     position: absolute;
@@ -145,11 +150,13 @@
                 }
 
                 .company-logo {
-                    max-width: 12rem;
+                    max-width: 10rem;
                     width: 100%;
+                    display: flex;
 
                     img {
-                        width: 100%;
+                        width: 8.5rem;
+                        margin: auto;
                     }
                 }
 
@@ -223,6 +230,10 @@
                                 border: .1rem solid var(--border);
                                 border-radius: .5rem;
                                 font-size: 1.2rem;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                max-width: 25rem;
                             }
                         }
 

@@ -31,6 +31,8 @@
   --weight500: 500;
   --weight550: 550;
   --weight600: 600;
+  --hoverBox: #f9fbff;
+  --hoverBoxBd: #cfe0ff;
 }
 
 html {
@@ -44,7 +46,7 @@ html::-webkit-scrollbar {
 }
 
 .container {
-  background-color: var(--background);
+  background-color: var(--bg-White);
   min-height: 93vh;
 }
 

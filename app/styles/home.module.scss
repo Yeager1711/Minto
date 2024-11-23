@@ -75,6 +75,7 @@
                         font-size: 1.7rem;
                         padding: 1rem 0;
                         color: var(--colorWhiteText);
+                        margin-bottom: 1rem;
 
                         span {
                             color: var(--globalColor);
@@ -84,53 +85,214 @@
                 }
 
                 .find-work {
-                    margin-top: 2rem;
-                    display: flex;
-                    align-items: center;
-                    padding: .5rem .5rem .5rem 1.5rem;
-                    background: var(--background);
                     border-radius: .5rem;
+                    min-height: 0;
+                    transition: min-height 0.5s ease-in-out !important;
 
-                    .box-input {
-                        max-width: 40rem;
-                        width: 95%;
+                    &.expand {
+                        min-height: 35rem !important;
+                        overflow: hidden;
+                        background: var(--bg-White);
+                        transition: min-height .5s ease-in-out !important;
 
-                        input {
-                            width: 100%;
-                            font-size: 16px;
-                            background: none;
+                        .flex-search {
+                            display: flex;
+                            flex-wrap: wrap;
+                            align-items: center;
+                            justify-content: space-between;
+                            transition: padding .5s ease-in-out !important;
+                            padding: 1rem;
+                            border-bottom: .1rem solid var(--border);
 
-                            &::placeholder {
+                            .box-input {
+                                flex: 1 1;
+                                max-width: 40rem;
+                                width: 95%;
+                                border-right: .2em solid #333;
+
+                                input {
+                                    color: var(--colorBlackText) !important;
+
+                                    &::placeholder {
+                                        font-size: 1.4rem;
+                                        color: var(--colorBlackText) !important;
+                                    }
+                                }
+                            }
+
+                            .box-select {
+                                flex: 1 1;
+
+                                select {
+                                    color: var(--colorBlackText) !important;
+                                }
+                            }
+                        }
+
+                        .search-result__container {
+                            padding: 2rem;
+                            height: 35rem !important;
+                            transition: height .5s ease-in-out !important;
+                            overflow: auto;
+
+                            .search-result__total {
                                 font-size: 1.4rem;
+                                font-weight: var(--weight400);
+                            }
+
+                            .no-result {
+                                font-size: 1.4rem;
+                            }
+
+                            .search-result-item {
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 2rem;
+                                cursor: pointer;
+                                padding: 1.5rem;
+
+                                &:hover {
+                                    background: var(--background);
+                                }
+
+
+                                .image-company__result {
+                                    max-width: 4.5rem;
+                                    height: 4.5rem;
+                                    overflow: hidden;
+                                    border-radius: 50%;
+
+                                    img {
+                                        width: 100%;
+                                        object-fit: contain;
+                                        height: 100%;
+                                    }
+                                }
+
+                                .name-company__result,
+                                .position__result,
+                                .salary__result {
+                                    font-size: 1.4rem;
+                                    font-weight: var(--weight550);
+                                    text-transform: capitalize;
+                                }
+
+                                .position__result {
+                                    font-weight: var(--weight400);
+                                }
+
+                                .name-company__result {
+                                    float: left;
+                                    width: 35rem;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                }
+
+                                .salary__result {
+                                    width: 9rem;
+                                    float: right;
+                                    color: #ff842a;
+                                }
+
+                                .location__result {
+                                    width: 15rem;
+                                    font-size: 1.4rem;
+                                }
                             }
                         }
                     }
 
-                    .box-select {
-                        max-width: 21rem;
-                        width: 95%;
+                    .flex-search {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 1rem 0;
+                        border-bottom: .1rem solid var(--border);
 
-                        select {
-                            background: none;
-                            width: 18rem;
-                            font-size: 1.5rem;
-                            cursor: pointer;
+
+                        .box-input {
+                            max-width: 40rem;
+                            width: 95%;
+                            border-right: .2rem solid #fff;
+
+                            input {
+                                width: 100%;
+                                font-size: 16px;
+                                background: none;
+                                color: var(--colorWhiteText) !important;
+
+                                &::placeholder {
+                                    font-size: 1.4rem;
+                                    color: var(--colorWhiteText) !important;
+                                }
+                            }
+                        }
+
+                        .box-select {
+                            max-width: 21rem;
+                            width: 95%;
+
+                            select {
+                                background: none;
+                                width: 20rem;
+                                font-size: 1.5rem;
+                                color: var(--colorWhiteText);
+                                cursor: pointer;
+
+                                option {
+                                    color: var(--colorBlackText);
+                                }
+                            }
+                        }
+
+                        .btn-find {
+                            padding: .8rem 2.5rem;
+                            background: var(--globalColor);
+                            color: var(--colorWhiteText);
+                            border-radius: .5rem;
+                            font-size: 1.6rem;
+                            height: 3.5rem;
                         }
                     }
-
-                    .btn-find {
-                        padding: .8rem 2.5rem;
-                        background: var(--globalColor);
-                        color: var(--colorWhiteText);
-                        border-radius: .5rem;
-                        font-size: 1.6rem;
-                    }
                 }
+
             }
         }
     }
 
     .wrapper-home {
+        .header-recruitment {
+            position: relative;
+
+            .pagination {
+                position: absolute;
+                right: 0;
+                top: 0rem;
+                padding: 1rem 2rem;
+                padding: 0;
+                float: right;
+                display: flex;
+                gap: 2rem;
+                align-items: center;
+                border: .1rem solid var(--border);
+                overflow: hidden;
+                border-radius: 5rem;
+    
+                button {
+                    padding: 1rem 2.5rem;
+                    background: none;
+
+                    svg {
+                        font-size: 1.7rem;
+                    }
+                }
+    
+                span {
+                    font-size: 1.4rem;
+                }
+            }
+        }
         .wrapper-container {
             margin-top: 2rem;
 
@@ -151,12 +313,12 @@
                     display: flex;
                     margin: auto;
                     width: 15rem;
-                    overflow: hidden;
+                    height: 15rem;
                     padding: 2rem;
 
                     img {
                         width: 100%;
-                        object-fit: cover;
+                        object-fit: contain;
                         transition: transform 0.3s ease;
 
                         &:hover {
@@ -178,6 +340,9 @@
                         margin-bottom: 0.5rem;
                         color: var(--colorBlackText);
                         text-transform: capitalize;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
 
                     .location {
@@ -202,11 +367,16 @@
                 background: var(--bg-White);
                 border-radius: 1rem;
                 overflow: hidden;
-                box-shadow: 0 .4rem 1.5rem rgba(0, 0, 0, 0.1);
-                padding: 2rem 2rem 2rem 0;
+                border: .1rem solid var(--border);
+                padding: 2rem;
                 cursor: pointer;
                 position: relative;
                 display: flex;
+
+                &:hover {
+                    background: var(--hoverBox);
+                    border: .1rem solid var(--hoverBoxBd);
+                }
 
                 .icon-views {
                     position: absolute;
@@ -234,7 +404,7 @@
                     text-align: center;
 
                     img {
-                        width: 10rem;
+                        width: 8rem;
                         object-fit: cover;
 
                     }
@@ -245,20 +415,17 @@
 
 
                     .company-location {
+                        max-width: 31rem;
+
                         h3 {
                             font-size: 1.5rem;
                             font-weight: 600;
                             margin-bottom: 1rem;
                             color: var(--colorBlackText);
                             text-transform: capitalize;
-                        }
-
-                        .location,
-                        .position {
-                            display: block;
-                            color: var(--colorBlackText);
-                            margin-left: 2rem;
-                            font-size: 1.3rem;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
 
                         .name-company {
@@ -272,11 +439,17 @@
                             overflow: hidden;
                             text-overflow: ellipsis;
                             color: var(--viewDetails);
+                            text-transform: capitalize;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-width: 31rem;
+                            margin-bottom: 1rem;
                         }
-                        
+
 
                         .district {
-                            display: flex;
+                            display: inline-block;
                             align-items: center;
                             gap: .5rem;
                             padding: .5rem 0;
@@ -285,6 +458,14 @@
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
+                            border: .1rem solid var(--border);
+                            padding: .5rem 1rem;
+                            border-radius: .3rem;
+                            text-transform: capitalize;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-width: 31rem;
 
                             p {
                                 font-weight: var(--weight550);
@@ -305,6 +486,8 @@
                 }
             }
         }
+
+        
     }
 
     .HomePage_findJobs {

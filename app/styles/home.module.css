@@ -70,50 +70,190 @@
   font-size: 1.7rem;
   padding: 1rem 0;
   color: var(--colorWhiteText);
+  margin-bottom: 1rem;
 }
 .Home .banner-image .wrapper-content .search-infoWork .content p span {
   color: var(--globalColor);
   font-weight: var(--weight550);
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work {
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
-  background: var(--background);
   border-radius: 0.5rem;
+  min-height: 0;
+  transition: min-height 0.5s ease-in-out !important;
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work .box-input {
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand {
+  min-height: 35rem !important;
+  overflow: hidden;
+  background: var(--bg-White);
+  transition: min-height 0.5s ease-in-out !important;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  transition: padding 0.5s ease-in-out !important;
+  padding: 1rem;
+  border-bottom: 0.1rem solid var(--border);
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-input {
+  flex: 1 1;
   max-width: 40rem;
   width: 95%;
+  border-right: 0.2em solid #333;
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work .box-input input {
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-input input {
+  color: var(--colorBlackText) !important;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-input input::-moz-placeholder {
+  font-size: 1.4rem;
+  color: var(--colorBlackText) !important;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-input input::placeholder {
+  font-size: 1.4rem;
+  color: var(--colorBlackText) !important;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-select {
+  flex: 1 1;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-select select {
+  color: var(--colorBlackText) !important;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container {
+  padding: 2rem;
+  height: 35rem !important;
+  transition: height 0.5s ease-in-out !important;
+  overflow: auto;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result__total {
+  font-size: 1.4rem;
+  font-weight: var(--weight400);
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .no-result {
+  font-size: 1.4rem;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+  cursor: pointer;
+  padding: 1.5rem;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item:hover {
+  background: var(--background);
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .image-company__result {
+  max-width: 4.5rem;
+  height: 4.5rem;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .image-company__result img {
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  height: 100%;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .name-company__result,
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .position__result,
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .salary__result {
+  font-size: 1.4rem;
+  font-weight: var(--weight550);
+  text-transform: capitalize;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .position__result {
+  font-weight: var(--weight400);
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .name-company__result {
+  float: left;
+  width: 35rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .salary__result {
+  width: 9rem;
+  float: right;
+  color: #ff842a;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .location__result {
+  width: 15rem;
+  font-size: 1.4rem;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 0.1rem solid var(--border);
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input {
+  max-width: 40rem;
+  width: 95%;
+  border-right: 0.2rem solid #fff;
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input {
   width: 100%;
   font-size: 16px;
   background: none;
+  color: var(--colorWhiteText) !important;
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work .box-input input::-moz-placeholder {
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input::-moz-placeholder {
   font-size: 1.4rem;
+  color: var(--colorWhiteText) !important;
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work .box-input input::placeholder {
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input::placeholder {
   font-size: 1.4rem;
+  color: var(--colorWhiteText) !important;
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work .box-select {
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-select {
   max-width: 21rem;
   width: 95%;
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work .box-select select {
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-select select {
   background: none;
-  width: 18rem;
+  width: 20rem;
   font-size: 1.5rem;
+  color: var(--colorWhiteText);
   cursor: pointer;
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work .btn-find {
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-select select option {
+  color: var(--colorBlackText);
+}
+.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .btn-find {
   padding: 0.8rem 2.5rem;
   background: var(--globalColor);
   color: var(--colorWhiteText);
   border-radius: 0.5rem;
   font-size: 1.6rem;
+  height: 3.5rem;
+}
+.Home .wrapper-home .header-recruitment {
+  position: relative;
+}
+.Home .wrapper-home .header-recruitment .pagination {
+  position: absolute;
+  right: 0;
+  top: 0rem;
+  padding: 1rem 2rem;
+  padding: 0;
+  float: right;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  border: 0.1rem solid var(--border);
+  overflow: hidden;
+  border-radius: 5rem;
+}
+.Home .wrapper-home .header-recruitment .pagination button {
+  padding: 1rem 2.5rem;
+  background: none;
+}
+.Home .wrapper-home .header-recruitment .pagination button svg {
+  font-size: 1.7rem;
+}
+.Home .wrapper-home .header-recruitment .pagination span {
+  font-size: 1.4rem;
 }
 .Home .wrapper-home .wrapper-container {
   margin-top: 2rem;
@@ -133,13 +273,13 @@
   display: flex;
   margin: auto;
   width: 15rem;
-  overflow: hidden;
+  height: 15rem;
   padding: 2rem;
 }
 .Home .wrapper-home .wrapper-container .company .img-company img {
   width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
   transition: transform 0.3s ease;
 }
 .Home .wrapper-home .wrapper-container .company .img-company img:hover {
@@ -158,6 +298,9 @@
   margin-bottom: 0.5rem;
   color: var(--colorBlackText);
   text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .Home .wrapper-home .wrapper-container .company .content-company .location {
   font-size: 1.2rem;
@@ -177,11 +320,15 @@
   background: var(--bg-White);
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.1);
-  padding: 2rem 2rem 2rem 0;
+  border: 0.1rem solid var(--border);
+  padding: 2rem;
   cursor: pointer;
   position: relative;
   display: flex;
+}
+.Home .wrapper-home .recruitment-container .company:hover {
+  background: var(--hoverBox);
+  border: 0.1rem solid var(--hoverBoxBd);
 }
 .Home .wrapper-home .recruitment-container .company .icon-views {
   position: absolute;
@@ -207,12 +354,15 @@
   text-align: center;
 }
 .Home .wrapper-home .recruitment-container .company .img-company img {
-  width: 10rem;
+  width: 8rem;
   -o-object-fit: cover;
      object-fit: cover;
 }
 .Home .wrapper-home .recruitment-container .company .content-company {
   flex: 1 1 70rem;
+}
+.Home .wrapper-home .recruitment-container .company .content-company .company-location {
+  max-width: 31rem;
 }
 .Home .wrapper-home .recruitment-container .company .content-company .company-location h3 {
   font-size: 1.5rem;
@@ -220,13 +370,9 @@
   margin-bottom: 1rem;
   color: var(--colorBlackText);
   text-transform: capitalize;
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location .location,
-.Home .wrapper-home .recruitment-container .company .content-company .company-location .position {
-  display: block;
-  color: var(--colorBlackText);
-  margin-left: 2rem;
-  font-size: 1.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .Home .wrapper-home .recruitment-container .company .content-company .company-location .name-company {
   display: flex;
@@ -239,9 +385,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--viewDetails);
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 31rem;
+  margin-bottom: 1rem;
 }
 .Home .wrapper-home .recruitment-container .company .content-company .company-location .district {
-  display: flex;
+  display: inline-block;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
@@ -250,6 +402,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border: 0.1rem solid var(--border);
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 31rem;
 }
 .Home .wrapper-home .recruitment-container .company .content-company .company-location .district p {
   font-weight: var(--weight550);

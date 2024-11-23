@@ -1,6 +1,6 @@
 .job {
   padding: 3rem 0;
-  background-color: #f9f9f9;
+  background-color: var(--bg-White);
 }
 .job .filter-job {
   padding: 1rem 0;
@@ -88,7 +88,7 @@
 }
 .job .job-wrapperContainer .Container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(38rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
   gap: 1.5rem;
 }
 .job .job-wrapperContainer .Container .box {
@@ -101,6 +101,10 @@
   background: var(--bg-White);
   border-radius: 1rem;
   cursor: pointer;
+}
+.job .job-wrapperContainer .Container .box:hover {
+  background: var(--hoverBox);
+  border: 0.1rem solid var(--hoverBoxBd);
 }
 .job .job-wrapperContainer .Container .box .whislist {
   position: absolute;
@@ -130,11 +134,13 @@
   font-size: 1.7rem;
 }
 .job .job-wrapperContainer .Container .box .company-logo {
-  max-width: 12rem;
+  max-width: 10rem;
   width: 100%;
+  display: flex;
 }
 .job .job-wrapperContainer .Container .box .company-logo img {
-  width: 100%;
+  width: 8.5rem;
+  margin: auto;
 }
 .job .job-wrapperContainer .Container .box .info .job-info {
   display: flex;
@@ -198,6 +204,10 @@
   border: 0.1rem solid var(--border);
   border-radius: 0.5rem;
   font-size: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 25rem;
 }
 .job .job-wrapperContainer .Container .box .info .job-content-bottom .job-content-bottom-expired {
   border-radius: 0.5rem;

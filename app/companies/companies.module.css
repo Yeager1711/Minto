@@ -1,0 +1,119 @@
+.companies {
+  padding: 3rem 0;
+}
+.companies .find-companies .find-companies__wrapper {
+  padding: 2rem 25%;
+  display: flex;
+  align-items: center;
+  background: var(--globalColor);
+}
+.companies .find-companies .find-companies__wrapper .companies__input {
+  padding: 1.29rem 1.5rem;
+  width: 100%;
+  max-width: 70rem;
+  background: var(--bg-White);
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+.companies .find-companies .find-companies__wrapper .companies__input input {
+  font-size: 1.4rem;
+  width: 100%;
+}
+.companies .find-companies .find-companies__wrapper .find-companies__button {
+  border-left: 0.1rem solid var(--border);
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  background: var(--bg-White);
+  padding: 1.3rem 2rem;
+  font-size: 1.4rem;
+  width: 15rem;
+}
+.companies .find-companies .find-companies__wrapper .find-companies__button button {
+  background: none;
+}
+.companies .recruitment-companies .recruitment-companies__wapper {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(42rem, 1fr));
+  gap: 1.5rem;
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company {
+  background: var(--bg-White);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  height: 21rem;
+  border: 0.1rem solid var(--border);
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company:hover {
+  background: var(--hoverBox);
+  border: 0.1rem solid var(--hoverBoxBd);
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper {
+  height: 10rem;
+  width: 100%;
+  position: relative;
+  margin: auto;
+  border-bottom: 0.1rem solid var(--border);
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-logo {
+  max-width: 13rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-logo img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 1rem;
+  transform: scale(0.5);
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-logo__border {
+  max-width: 8rem;
+  height: 8rem;
+  position: absolute;
+  top: 70%;
+  left: 20%;
+  transform: translate(-50%, -20%);
+  background: var(--bg-White);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 0.2rem dashed var(--border);
+  padding: 1rem;
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-logo__border img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-content {
+  position: absolute;
+  top: 145%;
+  left: 60%;
+  width: 30rem;
+  transform: translate(-50%, -50%);
+  background: var(--bg-White);
+  border-radius: 50%;
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-content h3 {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-content .company-content__details {
+  margin-left: 2.5rem;
+  font-size: 1.3rem;
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-content .company-content__details .company-district {
+  color: #888;
+  display: block;
+}
+.companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-content .company-content__details .total__job {
+  margin-top: 0.6rem;
+  color: #d4452c;
+  display: block;
+  cursor: pointer;
+  font-weight: var(--weight550);
+}/*# sourceMappingURL=companies.module.css.map */
