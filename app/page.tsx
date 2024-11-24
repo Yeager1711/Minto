@@ -1,4 +1,6 @@
 'use client';
+import Link from 'next/link';
+
 import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.scss';
 import 'aos/dist/aos.css';
@@ -43,7 +45,7 @@ function Home() {
     const [selectedLocation, setSelectedLocation] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-
+    const [isClient, setIsClient] = useState(false);
     useEffect(() => {
         const fetchJobs = async () => {
             try {
@@ -170,23 +172,22 @@ function Home() {
                             </div>
 
                             <div className={styles['search-result__container']}>
-                                {filteredJobs.length > 0 ? (
+                                {isExpanded && filteredJobs.length > 0 && (
                                     <span className={styles['search-result__total']}>
                                         Kết quả tìm kiếm: {filteredJobs.length}
                                     </span>
-                                ) : (
-                                    <span style={{ display: 'none' }}></span>
                                 )}
+
                                 {isExpanded && filteredJobs.length > 0 ? (
                                     filteredJobs.map((job) => (
-                                        <div key={job.jobId} className={styles['search-result-item']}>
+                                        <Link href={`/jobs/job_details/${job.jobId}`} key={job.jobId} className={styles['search-result-item']}>
                                             <div className={styles['image-company__result']}>
                                                 <img
                                                     src={job.company.images[0]?.image_company}
                                                     alt={job.company.name}
                                                 />
                                             </div>
-                                            <div className={styles['name-company__result']} title={job.title}>
+                                            <div   className={styles['name-company__result']} title={job.title}>
                                                 <span>{job.title}</span>
                                             </div>
                                             <div className={styles['location__result']}>
@@ -203,7 +204,7 @@ function Home() {
                                                     )}
                                                 </span>
                                             </div>
-                                        </div>
+                                        </Link>
                                     ))
                                 ) : isExpanded ? (
                                     <div className={styles['no-result']}>Không tìm thấy công việc phù hợp !</div>
@@ -278,7 +279,8 @@ function Home() {
 
                 <div className={styles['recruitment-container']}>
                     {currentData.map((job) => (
-                        <div className={styles['company']} key={job.jobId}>
+                        <Link href={`/jobs/job_details/${job.jobId}`} className={styles['company']} key={job.jobId} style={{ cursor: 'pointer' }}>
+                           
                             <span className={styles['icon-views']}>
                                 <FontAwesomeIcon icon={faEye} />
                             </span>
@@ -301,7 +303,7 @@ function Home() {
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </section>

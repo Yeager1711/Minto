@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from './jobs.module.scss';
 // import { PiDiamondsFour } from "react-icons/pi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -148,7 +149,7 @@ function Jobs() {
             <section className={styles['job-wrapperContainer']}>
                 <div className={styles['Container']}>
                     {currentData.map((item) => (
-                        <div className={styles['box']} key={item.jobId}>
+                        <Link href={`/jobs/job_details/${item.jobId}`} className={styles['box']} key={item.jobId}>
                             <FontAwesomeIcon className={styles['whislist']} icon={faHeart} />
                             <span className={styles['tag-rank']}>{/* <PiDiamondsFour /> Pro */}</span>
                             <div className={styles['company-logo']}>
@@ -186,7 +187,7 @@ function Jobs() {
                                     {/* <div className={styles['job-content-bottom-expired']}>{item.expired}</div> */}
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 

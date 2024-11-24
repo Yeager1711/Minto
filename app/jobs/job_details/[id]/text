@@ -1,0 +1,92 @@
+<section className={styles.jobDetail + ' marTop'}>
+    <div className={styles.company}>
+        <span>{jobDetails.jobId}</span>
+        <div className={styles.image_company}>
+            <img
+                src={jobDetails.company.images[0]?.image_company || 'default-image.png'}
+                alt={jobDetails.company.name}
+            />
+        </div>
+        <div className={styles.name_company}>{jobDetails.company.name}</div>
+    </div>
+
+    <div style={{ display: 'flex', gap: '2rem', marginTop: '3rem' }}>
+        <div className={styles.infomation}>
+            <div className={styles.wrapper_infomation}>
+                <div className={styles.basic_infomation}>
+                    <h4 className={styles.infomation_Content_Title_job}>{jobDetails.title}</h4>
+                    <div className={styles.infomation_Content_section}>
+                        <span className={styles.basic_infomation_item}>
+                            <FontAwesomeIcon icon={faCommentsDollar} />
+                            Mức lương:
+                            <p>
+                                {jobDetails.salary_from} - {jobDetails.salary_to} VND
+                            </p>
+                        </span>
+                        <span className={styles.basic_infomation_item}>
+                            <FontAwesomeIcon icon={faLocationDot} />
+                            Địa điểm:
+                            <p>{jobDetails.workLocation.address_name}</p>
+                        </span>
+                        <span className={styles.basic_infomation_item}>
+                            <FontAwesomeIcon icon={faHourglassStart} />
+                            Kinh nghiệm:
+                            <p>{jobDetails.requirement}</p>
+                        </span>
+                    </div>
+                    <div className={styles.box_apply_current}>
+                        <a href={jobDetails.refJob.ref_url} className={styles.box_apply}>
+                            Ứng tuyển ngay
+                        </a>
+                    </div>
+                </div>
+
+                <div className={styles.basic_infomation_description}>
+                    <h3>Mô tả công việc</h3>
+                    <span>
+                        {jobDetails.description
+                            .split('-')
+                            .map((item, index) => item.trim() && <p key={index}>- {item.trim()}</p>)}
+                    </span>
+                </div>
+
+                <div className={styles.basic_infomation_requesment}>
+                    <h3>Yêu cầu ứng viên</h3>
+                    <span>
+                        {jobDetails.requirement
+                            .split('-')
+                            .map((item, index) => item.trim() && <p key={index}>- {item.trim()}</p>)}
+                    </span>
+                </div>
+
+                <div className={styles.basic_infomation_benifet}>
+                    <h3>Phúc lợi</h3>
+                    <span>
+                        {jobDetails.benefits
+                            .split('-')
+                            .map((item, index) => item.trim() && <p key={index}>- {item.trim()}</p>)}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div className={styles.generalInformation}>
+            <h3>Thông tin chung</h3>
+            <span className={styles.generalInformation_item}>
+                Cấp bậc: <p>{jobDetails.jobLevel.name.join(', ')}</p>
+            </span>
+            <span className={styles.generalInformation_item}>
+                Số lượng tuyển: <p>{jobDetails.generalInformation.numberOfRecruits}</p>
+            </span>
+            <span className={styles.generalInformation_item}>
+                Hình thức làm việc: <p>{jobDetails.jobType.name.join(', ')}</p>
+            </span>
+            <span className={styles.generalInformation_item}>
+                Giới tính: <p>{jobDetails.generalInformation.gender}</p>
+            </span>
+            <span className={styles.generalInformation_item}>
+                Hạn nộp hồ sơ: <p>{jobDetails.expire_on}</p>
+            </span>
+        </div>
+    </div>
+</section>;
