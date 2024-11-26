@@ -20,6 +20,8 @@ interface Job {
     };
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+
 function Companies() {
     const [jobData, setJobData] = useState<Job[]>([]);
     const [groupedCompanies, setGroupedCompanies] = useState<{ [key: string]: { name: string; district: string; jobs: Job[] } }>({});
@@ -29,7 +31,7 @@ function Companies() {
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
-                const response = await fetch('http://localhost:5000/jobs/all-jobs');
+                const response = await fetch(`${apiUrl}/jobs/all-jobs`);
                 const data = await response.json();
                 setJobData(data.data);
 

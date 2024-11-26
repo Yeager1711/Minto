@@ -194,9 +194,10 @@
                         font-size: 1.4rem;
                         color: var (--colorBlackText);
 
-                        .Salary-from,
-                        .Salary-to {
-                            font-weight: var(--weight550);
+                        .Salary,
+                        .Salary-from {
+                            font-weight: var(--weight500);
+                            color: var(--viewDetails);
                         }
 
                         .Salary-from {

@@ -1,18 +1,21 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter, useParams } from 'next/navigation';
 import styles from './jobDetail.module.scss';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentsDollar, faHourglassStart, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
+import { formatSalary } from '../../../Ultils/formatSalary';
 
 interface Job {
     success: boolean;
     data: {
         jobId: number;
         title: string;
+        salary: string;
         salary_from: number;
         salary_to: number;
         expire_on: string;
@@ -50,6 +53,7 @@ interface Job {
         };
         jobType: {
             jobTypeId: number;
+            work_at: string[];
             name: string[];
         };
         jobLevel: {
@@ -65,23 +69,34 @@ interface Job {
             numberOfRecruits: number;
             gender: string;
             experience: string;
+            tech_stack: string[];
         };
     };
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+
 function JobDetail() {
+    const router = useRouter();
     const [jobDetails, setJobDetails] = useState<Job['data'] | null>(null);
     const [jobData, setJobData] = useState<Record<string, Job['data'][]>>({});
-    const groupedJobs: Record<string, Job['data'][]> = {};
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const jobId = window.location.pathname.split('/').pop();
+    const handleRedirect = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+        e.preventDefault();
+        if (url) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+    };
+
+    const params = useParams();
+    const jobId = params.id;
 
     useEffect(() => {
         const fetchJobDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/jobs/${jobId}`);
+                const response = await fetch(`${apiUrl}/jobs/${jobId}`);
                 const { data } = await response.json();
                 setJobDetails(data);
             } catch (error) {
@@ -95,7 +110,7 @@ function JobDetail() {
         const fetchJobs = async () => {
             try {
                 // Fetch job details to get the current company
-                const currentJobResponse = await fetch(`http://localhost:5000/jobs/${jobId}`);
+                const currentJobResponse = await fetch(`${apiUrl}/jobs/${jobId}`);
                 const currentJobData = await currentJobResponse.json();
 
                 if (!currentJobData.success) {
@@ -104,15 +119,20 @@ function JobDetail() {
                 }
 
                 const currentCompanyName = currentJobData.data.company.name;
+                const currentJobsLevel = currentJobData.data.jobLevel.name;
 
                 // Fetch all jobs
-                const response = await fetch('http://localhost:5000/jobs/all-jobs');
+                const response = await fetch(`${apiUrl}/jobs/all-jobs`);
                 const allJobsData = await response.json();
 
                 if (allJobsData.success) {
                     // Lọc công việc cùng công ty
                     const filteredJobs = allJobsData.data.filter(
                         (job: Job['data']) => job.company.name === currentCompanyName
+                    );
+
+                    const filteredJobsLevel = allJobsData.data.filter(
+                        (job: Job['data']) => job.jobLevel.name === currentJobsLevel
                     );
 
                     // Nhóm công việc theo công ty
@@ -125,8 +145,18 @@ function JobDetail() {
                         return acc;
                     }, {});
 
-                    setJobData(groupedJobs); // Cập nhật state với công việc được nhóm
-                } else {
+                    // nhóm các công ty đang tuyển cùng 1 vị trí
+                    const groupedJobLevel = filteredJobsLevel.reduce((acc: any, level: any) => {
+                        const jobLevel = level.jobLevel.name;
+                        if (!acc[jobLevel]) {
+                            acc[jobLevel] = [];
+                        }
+                        acc[jobLevel].push(level);
+                        return acc;
+                    }, {});
+
+                    setJobData({ ...groupedJobs, ...groupedJobLevel });
+                } else  {
                     setError('Không tìm thấy dữ liệu công việc');
                 }
             } catch (err) {
@@ -176,7 +206,7 @@ function JobDetail() {
                                             <>Thỏa thuận</>
                                         ) : (
                                             <>
-                                                {jobDetails.salary_from} - {jobDetails.salary_from}
+                                                {formatSalary(jobDetails.salary)}
                                             </>
                                         )}
                                     </p>
@@ -187,18 +217,20 @@ function JobDetail() {
                                     <p> {jobDetails.generalInformation.experience}</p>
                                 </span>
                             </div>
-                            <div className={styles.box_apply_current}>
-                                <a href={jobDetails.refJob.ref_url} className={styles.box_apply}>
-                                    Ứng tuyển ngay
-                                </a>
-                            </div>
+                            <Link
+                                href="#"
+                                className={styles.box_apply_current}
+                                onClick={(e) => handleRedirect(e, jobDetails.refJob.ref_url)}
+                            >
+                                Ứng tuyển ngay
+                            </Link>
                         </div>
 
                         <div className={styles.basic_infomation_description}>
                             <h3>Mô tả công việc</h3>
                             <span>
                                 {jobDetails.description
-                                    .split('\n')
+                                    .split(/\n|•/)
                                     .filter((line) => line.trim())
                                     .map(
                                         (item, index) =>
@@ -215,7 +247,7 @@ function JobDetail() {
                             <h3>Yêu cầu ứng viên</h3>
                             <span>
                                 {jobDetails.requirement
-                                    .split('\n')
+                                    .split(/\n|•/)
                                     .filter((line) => line.trim()) // Lọc các dòng không rỗng
                                     .map((item, index) => (
                                         // <p key={index} style={{ marginBottom: '1rem', textIndent: '1rem' }}>
@@ -229,7 +261,7 @@ function JobDetail() {
                         <div className={styles.basic_infomation_benifet}>
                             <h3>Phúc lợi</h3>
                             <span>
-                                {jobDetails.benefits.split('\n').map(
+                                {jobDetails.benefits.split(/\n|•/).map(
                                     (item, index) =>
                                         item.trim() && (
                                             <p key={index} style={{ marginBottom: '1rem' }}>
@@ -241,7 +273,7 @@ function JobDetail() {
 
                             <span>
                                 {jobDetails.benefits
-                                    .split('\n')
+                                    .split(/\n|•/)
                                     .filter((line) => line.trim())
                                     .map(
                                         (item, index) =>
@@ -262,19 +294,28 @@ function JobDetail() {
 
                         <React.Fragment>
                             <span className={styles.generalInformation_item}>
+                                Kinh nghiệm tối thiếu: <p>{jobDetails.generalInformation.experience}</p>
+                            </span>
+
+                            <span className={styles.generalInformation_item}>
                                 Cấp bậc: <p>{jobDetails.jobLevel.name.join(', ')}</p>
                             </span>
 
                             <span className={styles.generalInformation_item}>
                                 Số lượng tuyển:{' '}
-                                <p>
-                                    {jobDetails.generalInformation.numberOfRecruits === 0
-                                        ? 'Đang cập nhật'
-                                        : jobDetails.generalInformation.numberOfRecruits}
-                                </p>
+                                {jobDetails?.generalInformation?.numberOfRecruits ? (
+                                    <p>{jobDetails.generalInformation.numberOfRecruits}</p>
+                                ) : (
+                                    <p>Không đề cập</p>
+                                )}
                             </span>
+
                             <span className={styles.generalInformation_item}>
-                                Hình thức làm việc: <p>{jobDetails.jobType.name}</p>
+                                Loại hợp đồng: <p>{jobDetails.jobType.name}</p>
+                            </span>
+
+                            <span className={styles.generalInformation_item}>
+                                Hình thức làm việc: <p>{jobDetails.jobType.work_at.join(' , ')}</p>
                             </span>
                             <span className={styles.generalInformation_item}>
                                 Giới tính:{' '}
@@ -283,6 +324,17 @@ function JobDetail() {
                                         ? 'Không đề cập'
                                         : jobDetails.generalInformation.gender}
                                 </p>
+                            </span>
+
+                            <span className={styles.generalInformation_itemTech_Stack}>
+                                <p> Công nghệ sử dụng:</p>
+                                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                                    {jobDetails.generalInformation.tech_stack.map((tech, index) => (
+                                        <p key={index} className={styles.tech__stack}>
+                                            {tech}
+                                        </p>
+                                    ))}
+                                </div>
                             </span>
                         </React.Fragment>
                     </div>
@@ -294,8 +346,8 @@ function JobDetail() {
                         {Object.entries(jobData).map(([companyName, jobs]) => (
                             <div key={companyName} className={styles.companyJobs}>
                                 {jobs.map((job, index) => (
-                                    <Link
-                                        href={`/jobs/job_details/${job.jobId}`}
+                                    <div
+                                        onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}
                                         key={job.jobId}
                                         className={styles.box_companyJob}
                                     >
@@ -308,8 +360,58 @@ function JobDetail() {
                                         </div>
 
                                         <div className={styles.jobInfo}>
-                                            <h4>{job.title}</h4>
-                                            <p className={styles.company__name}>{job.company.name}</p>
+                                            <h2 title={job.title}>{job.title}</h2>
+                                            <p
+                                                className={styles.job__experience}
+                                                title={job.generalInformation.experience}
+                                            >
+                                                {job.jobLevel.name.join(' , ')} - {job.generalInformation.experience}
+                                            </p>
+                                            <p className={styles.company__salary}>
+                                                {job.salary_from === 0 || job.salary_to === 0
+                                                    ? 'Thỏa thuận'
+                                                    : `${formatSalary(job.salary)}`}
+                                            </p>
+                                            <p className={styles.company__location}>{job.workLocation.district.name}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* <div className={styles.jobLevelSame__company}>
+                        <h3>
+                            <p>{jobDetails.jobLevel.name.join(' , ')}</p> Vị trí đang tuyển
+                        </h3>
+                        {Object.entries(jobData).map(([jobLevel, jobs]) => (
+                            <div key={jobLevel} className={styles.companyJobs}>
+                                {jobs.map((job, index) => (
+                                    <div
+                                        onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}
+                                        key={job.jobId}
+                                        className={cx({
+                                            [styles.box_companyJob]: true,
+                                            [styles.current_company]:
+                                                job.company.companyId === jobDetails.company.companyId,
+                                        })}
+                                    >
+                                        <div className={styles.logo__company}>
+                                            <img
+                                                src={job.company.images[0]?.image_company || 'default-image.png'}
+                                                alt={job.company.name}
+                                                className={styles.jobImage}
+                                            />
+                                        </div>
+
+                                        <div className={styles.jobInfo}>
+                                            <h2 title={job.title}>{job.title}</h2>
+                                            <p
+                                                className={styles.job__experience}
+                                                title={job.generalInformation.experience}
+                                            >
+                                                {job.jobLevel.name.join(' , ')} - {job.generalInformation.experience}
+                                            </p>
                                             <p className={styles.company__salary}>
                                                 {job.salary_from === 0 || job.salary_to === 0
                                                     ? 'Thỏa thuận'
@@ -317,11 +419,11 @@ function JobDetail() {
                                             </p>
                                             <p className={styles.company__location}>{job.workLocation.district.name}</p>
                                         </div>
-                                    </Link>
+                                    </div>
                                 ))}
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </section>

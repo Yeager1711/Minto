@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.scss';
 import 'aos/dist/aos.css';
@@ -18,7 +18,7 @@ import Data from './Data/data'; // Assuming you have some mock data here
 
 // Định nghĩa kiểu cho công việc
 interface Job {
-    jobId: string;
+    jobId: number;
     title: string;
     salary_from: number;
     salary_to: number;
@@ -26,14 +26,16 @@ interface Job {
         name: string;
         images: { image_company: string }[];
     };
+    jobLevel: {
+        jobLevelId: number;
+        name: string[];
+    };
     workLocation: {
         district: { name: string };
     };
 }
 
-const apiUrl = process.env.REACT_APP_API_BASE_URL;
-console.log(process.env.REACT_APP_API_BASE_URL);
-console.log(apiUrl);
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 function Home() {
     const [jobs, setJobs] = useState<Job[]>([]);
@@ -45,11 +47,12 @@ function Home() {
     const [selectedLocation, setSelectedLocation] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    const [isClient, setIsClient] = useState(false);
+    const router = useRouter();
+
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const response = await fetch('http://localhost:5000/jobs/all-jobs');
+                const response = await fetch(`${apiUrl}/jobs/all-jobs`);
                 const data = await response.json();
                 const shuffledData = data.data.sort(() => Math.random() - 0.5);
                 setJobs(shuffledData);
@@ -75,7 +78,13 @@ function Home() {
 
         // Lọc theo từ khóa nếu có
         if (searchTerm.trim()) {
-            results = results.filter((job) => job.title.toLowerCase().includes(searchTerm.toLowerCase()));
+            results = results.filter((job) => {
+                const titleMatch = job.title.toLowerCase().includes(searchTerm.toLowerCase());
+                const jobLevelMatch = job.jobLevel.name.some((level) =>
+                    level.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                return titleMatch || jobLevelMatch;
+            });
         }
 
         // Lọc theo địa điểm nếu có
@@ -180,14 +189,18 @@ function Home() {
 
                                 {isExpanded && filteredJobs.length > 0 ? (
                                     filteredJobs.map((job) => (
-                                        <Link href={`/jobs/job_details/${job.jobId}`} key={job.jobId} className={styles['search-result-item']}>
+                                        <Link
+                                            href={`/jobs/job_details/${job.jobId}`}
+                                            key={job.jobId}
+                                            className={styles['search-result-item']}
+                                        >
                                             <div className={styles['image-company__result']}>
                                                 <img
                                                     src={job.company.images[0]?.image_company}
                                                     alt={job.company.name}
                                                 />
                                             </div>
-                                            <div   className={styles['name-company__result']} title={job.title}>
+                                            <div className={styles['name-company__result']} title={job.title}>
                                                 <span>{job.title}</span>
                                             </div>
                                             <div className={styles['location__result']}>
@@ -279,14 +292,17 @@ function Home() {
 
                 <div className={styles['recruitment-container']}>
                     {currentData.map((job) => (
-                        <Link href={`/jobs/job_details/${job.jobId}`} className={styles['company']} key={job.jobId} style={{ cursor: 'pointer' }}>
-                           
+                        <div
+                            onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}
+                            className={styles['company']}
+                            key={job.jobId}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <span className={styles['icon-views']}>
                                 <FontAwesomeIcon icon={faEye} />
                             </span>
 
                             <div className={styles['img-company']}>
-                                {/* Hiển thị logo công ty */}
                                 <img src={job.company.images[0]?.image_company} alt={job.company.name} />
                             </div>
 
@@ -298,12 +314,18 @@ function Home() {
                                     <span className={styles['name-company']} title={job.company.name}>
                                         {job.company.name}
                                     </span>
-                                    <span className={styles['district']} title={job.workLocation.district.name}>
-                                        {job.workLocation.district.name}
-                                    </span>
+
+                                    <div style={{ display: 'flex' }}>
+                                        <span className={styles['positon']}>
+                                            <p> {job.jobLevel.name.join(', ')}</p>
+                                        </span>
+                                        <span className={styles['district']} title={job.workLocation.district.name}>
+                                            {job.workLocation.district.name}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             </section>

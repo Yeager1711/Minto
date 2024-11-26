@@ -1,32 +1,41 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 import styles from './jobs.module.scss';
 // import { PiDiamondsFour } from "react-icons/pi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faLocationPin, faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Data from '../Data/data';
+
+import { formatSalary } from '../Ultils/formatSalary';
 
 interface Job {
-    jobId: string;
+    jobId: number;
     title: string;
     salary_from: number;
     salary_to: number;
+    salary: string;
     company: {
         name: string;
         images: { image_company: string }[];
+    };
+    jobLevel: {
+        jobLevelId: number;
+        name: string[];
     };
     workLocation: {
         district: { name: string };
     };
 }
 
-function Jobs() {
+function Jobs({ salary }: { salary: string }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const [jobData, setJobData] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchAllJobs = async () => {
@@ -149,7 +158,11 @@ function Jobs() {
             <section className={styles['job-wrapperContainer']}>
                 <div className={styles['Container']}>
                     {currentData.map((item) => (
-                        <Link href={`/jobs/job_details/${item.jobId}`} className={styles['box']} key={item.jobId}>
+                        <div
+                            onClick={() => router.push(`/jobs/job_details/${item.jobId}`)}
+                            className={styles['box']}
+                            key={item.jobId}
+                        >
                             <FontAwesomeIcon className={styles['whislist']} icon={faHeart} />
                             <span className={styles['tag-rank']}>{/* <PiDiamondsFour /> Pro */}</span>
                             <div className={styles['company-logo']}>
@@ -165,13 +178,11 @@ function Jobs() {
                                     {item.company.name}
                                 </div>
                                 <div className={styles['Salary-Negotiable']}>
-                                    Lương:
                                     {item.salary_from === 0 || item.salary_to === 0 ? (
                                         <span className={styles['Salary-from']}>Thỏa thuận</span>
                                     ) : (
                                         <>
-                                            <span className={styles['Salary-from']}>{item.salary_from}</span> -{' '}
-                                            <span className={styles['Salary-to']}>{item.salary_to}Tr</span>
+                                            <span className={styles['Salary']}>{formatSalary(item.salary)}</span>
                                         </>
                                     )}
                                 </div>
@@ -187,7 +198,7 @@ function Jobs() {
                                     {/* <div className={styles['job-content-bottom-expired']}>{item.expired}</div> */}
                                 </div>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
 
