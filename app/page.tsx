@@ -14,7 +14,8 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Data from './Data/data'; // Assuming you have some mock data here
+import { formatSalary } from './Ultils/formatSalary';
+
 
 // Định nghĩa kiểu cho công việc
 interface Job {
@@ -22,6 +23,7 @@ interface Job {
     title: string;
     salary_from: number;
     salary_to: number;
+    salary:string,
     company: {
         name: string;
         images: { image_company: string }[];
@@ -212,7 +214,7 @@ function Home() {
                                                         <>Thỏa thuận</>
                                                     ) : (
                                                         <>
-                                                            {job.salary_from}-{job.salary_to}Tr
+                                                            {formatSalary(job.salary)}
                                                         </>
                                                     )}
                                                 </span>

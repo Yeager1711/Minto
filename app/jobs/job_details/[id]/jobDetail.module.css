@@ -1,5 +1,6 @@
 .jobDetail {
   padding: 5rem 15%;
+  background: var(--background);
 }
 .jobDetail .company {
   background: var(--bg-White);
@@ -13,6 +14,26 @@
   font-size: 2.5rem;
   font-weight: var(--weight550);
 }
+.jobDetail .company .name_company .basic_infomation_item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1.3rem;
+  max-width: 50rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+.jobDetail .company .name_company .basic_infomation_item svg {
+  font-size: 1.7rem;
+  padding: 1rem 1.2rem;
+  background: #e6f6ed;
+  border-radius: 5rem;
+}
+.jobDetail .company .name_company .basic_infomation_item p {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: var(--weight550);
+}
 .jobDetail .company .image_company {
   border: 0.1rem solid var(--border);
   border-radius: 50%;
@@ -23,8 +44,8 @@
 .jobDetail .company .image_company img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
   transform: scale(0.6);
 }
 .jobDetail .infomation {
@@ -39,8 +60,8 @@
 .jobDetail .infomation .wrapper_infomation .basic_infomation .infomation_Content_section {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin: 2.5rem 0;
+  gap: 4rem;
 }
 .jobDetail .infomation .wrapper_infomation .basic_infomation .infomation_Content_section .basic_infomation_item {
   text-align: center;
@@ -68,11 +89,10 @@
   background: var(--globalColor);
   text-align: center;
   border-radius: 0.3rem;
-}
-.jobDetail .infomation .wrapper_infomation .basic_infomation .box_apply_current a {
   font-size: 1.5rem;
   font-weight: var(--weight550);
   color: var(--colorWhiteText);
+  display: block;
 }
 .jobDetail .infomation .wrapper_infomation .basic_infomation_description,
 .jobDetail .infomation .wrapper_infomation .basic_infomation_requesment,
@@ -86,30 +106,166 @@
 .jobDetail .infomation .wrapper_infomation .basic_infomation_requesment h3,
 .jobDetail .infomation .wrapper_infomation .basic_infomation_benifet h3 {
   font-size: 1.7rem;
+  margin-bottom: 1rem;
 }
 .jobDetail .infomation .wrapper_infomation .basic_infomation_description span,
 .jobDetail .infomation .wrapper_infomation .basic_infomation_requesment span,
 .jobDetail .infomation .wrapper_infomation .basic_infomation_benifet span {
-  font-size: 1.4rem;
-  line-height: 2.5;
+  font-size: 1.3rem;
+  line-height: 1.5;
 }
-.jobDetail .generalInformation {
-  flex: 1 1 20rem;
+.jobDetail .wraper__generalInformation {
+  flex: 1 1 40rem;
+}
+.jobDetail .wraper__generalInformation .generalInformation {
   background: var(--bg-White);
   padding: 2rem;
   border-radius: 0.5rem;
-  height: 30rem;
+  height: auto;
 }
-.jobDetail .generalInformation h3 {
+.jobDetail .wraper__generalInformation .generalInformation h3 {
   font-size: 1.7rem;
 }
-.jobDetail .generalInformation .generalInformation_item {
-  display: flex;
-  gap: 0.3rem;
+.jobDetail .wraper__generalInformation .generalInformation .generalInformation_item {
+  gap: 0.4rem;
   padding: 1.65rem 0;
   font-size: 1.4rem;
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 0;
+  font-size: 1.4rem;
 }
-.jobDetail .generalInformation .generalInformation_item p {
+.jobDetail .wraper__generalInformation .generalInformation .generalInformation_item p {
   font-weight: var(--weight550);
+  font-size: 1.55rem;
+  margin-top: 0.3rem;
+}
+.jobDetail .wraper__generalInformation .generalInformation .generalInformation_itemTech_Stack {
+  gap: 0.4rem;
+  padding: 1.65rem 0;
+  font-size: 1.4rem;
+  display: grid;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 0;
+  font-size: 1.4rem;
+}
+.jobDetail .wraper__generalInformation .generalInformation .generalInformation_itemTech_Stack p {
+  font-weight: var(--weight500);
+  font-size: 1.55rem;
+  margin-top: 0.3rem;
+}
+.jobDetail .wraper__generalInformation .generalInformation .generalInformation_itemTech_Stack .tech__stack {
+  background: var(--hoverBox);
+  border: 0.1rem solid var(--hoverBoxBd);
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+.jobDetail .wraper__generalInformation .jobSame__company,
+.jobDetail .wraper__generalInformation .jobLevelSame__company {
+  background: var(--bg-White);
+  margin-top: 2rem;
+  padding: 2rem 1rem 2rem 2rem;
+  border-radius: 0.5rem;
+}
+.jobDetail .wraper__generalInformation .jobSame__company h3,
+.jobDetail .wraper__generalInformation .jobLevelSame__company h3 {
+  font-size: 1.7rem;
+  text-transform: none;
+}
+.jobDetail .wraper__generalInformation .jobSame__company h3 p,
+.jobDetail .wraper__generalInformation .jobLevelSame__company h3 p {
+  font-weight: var(--weight500);
+  color: #ff7d55;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs {
+  margin-top: 2rem;
+  overflow: auto;
+  max-height: 55rem;
+  height: auto;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs::-webkit-scrollbar,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs::-webkit-scrollbar {
+  background: #dbdbdb;
+  height: 1px;
+  border-radius: 5rem;
+  width: 0.7rem;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs::-webkit-scrollbar-thumb,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs::-webkit-scrollbar-thumb {
+  height: 1px;
+  width: 0.15rem;
+  background: #fb6900;
+  border-radius: 5rem;
+  cursor: pointer;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 0.1rem solid var(--border);
+  margin-bottom: 1.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob:hover,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob:hover {
+  border: 0.1rem solid var(--hoverBoxBd);
+  background: var(--hoverBox);
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob:last-child,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob:last-child {
+  margin-bottom: 0;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .logo__company,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .logo__company {
+  max-width: 12rem;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  display: flex;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .logo__company img,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .logo__company img {
+  width: 8rem;
+  height: 8rem;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin: auto;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .jobInfo h2,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .jobInfo h2 {
   font-size: 1.5rem;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20rem;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .jobInfo .job__experience,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .jobInfo .job__experience {
+  padding: 0.5rem 0;
+  color: var(--viewDetails);
+  font-size: 1.25rem;
+  font-weight: var(--weight550);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 20rem;
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .jobInfo .company__salary,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .jobInfo .company__salary {
+  padding: 0.5rem 0;
+  font-size: 1.3rem;
+  font-weight: var(--weight550);
+}
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .jobInfo .company__location,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .jobInfo .company__location {
+  padding: 0.5rem 0;
+  font-size: 1.3rem;
 }/*# sourceMappingURL=jobDetail.module.css.map */

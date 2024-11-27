@@ -172,12 +172,12 @@
   font-size: 1.4rem;
   color: var --colorBlackText;
 }
-.job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary-from,
-.job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary-to {
-  font-weight: var(--weight550);
+.job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary,
+.job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary-from {
+  font-weight: var(--weight500);
+  color: var(--viewDetails);
 }
 .job .job-wrapperContainer .Container .box .info .Salary-Negotiable .Salary-from {
-  margin-left: 0.5rem;
   margin-right: 0.3rem;
   font-weight: var(--weight550);
 }

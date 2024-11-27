@@ -330,7 +330,7 @@ function JobDetail() {
                                 <p> Công nghệ sử dụng:</p>
                                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                                     {jobDetails.generalInformation.tech_stack.map((tech, index) => (
-                                        <p key={index} className={styles.tech__stack}>
+                                        <p onClick={() => router.push(`/job_tag/${tech}`)} key={index} className={styles.tech__stack}>
                                             {tech}
                                         </p>
                                     ))}

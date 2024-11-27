@@ -53,7 +53,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 75rem;
+  max-width: 85rem;
   width: 95%;
 }
 .Home .banner-image .wrapper-content .search-infoWork .content {
@@ -172,12 +172,12 @@
   text-overflow: ellipsis;
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .salary__result {
-  width: 9rem;
+  width: 8.5rem;
   float: right;
   color: #ff842a;
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .location__result {
-  width: 15rem;
+  width: 22.5rem;
   font-size: 1.4rem;
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search {
@@ -349,7 +349,7 @@
   color: var(--colorWhiteText);
 }
 .Home .wrapper-home .recruitment-container .company .img-company {
-  flex: 1 1 30rem;
+  flex: 1 1 20rem;
   margin: auto;
   text-align: center;
 }
@@ -392,13 +392,28 @@
   max-width: 31rem;
   margin-bottom: 1rem;
 }
+.Home .wrapper-home .recruitment-container .company .content-company .company-location .positon {
+  display: inline-block;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 1.3rem;
+  margin-left: 1rem;
+  border: 0.1rem solid var(--border);
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+.Home .wrapper-home .recruitment-container .company .content-company .company-location .positon p {
+  font-weight: var(--weight550);
+}
 .Home .wrapper-home .recruitment-container .company .content-company .company-location .district {
   display: inline-block;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
   font-size: 1.3rem;
-  margin-left: 2rem;
+  margin-left: 1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
