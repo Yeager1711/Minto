@@ -4,7 +4,9 @@ import styles from './jobTag.module.scss';
 import classNames from 'classnames';
 import { useRouter, useParams } from 'next/navigation';
 import { formatSalary } from 'app/Ultils/formatSalary';
-
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import TechStack__Skeleton from './tech_skeleton';
 interface Job {
     success: boolean;
     jobId: number;
@@ -69,8 +71,9 @@ interface Job {
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
-function jobTag() {
+function skillTag() {
     const [jobs, setJobs] = useState<Job[]>([]);
+    const [loading, setLoading] = useState(true); // Added loading state
     const router = useRouter();
     const params = useParams();
     const tech = params.tech;
@@ -83,15 +86,18 @@ function jobTag() {
                 setJobs(data);
             } catch (error) {
                 console.error('Error fetching job details:', error);
+            } finally {
+                setLoading(false); // Stop loading once the data is fetched
             }
         };
         fetchJobDetails();
     }, [tech]);
 
+
     return (
         <section className={styles.jobTag + ' marTop'}>
             <div className={styles.wrapper__jobTag}>
-                <div className={styles.filter__work}>
+            <div className={styles.filter__work}>
                     <div className={styles.filter_work__location}>
                         <select name="" id="">
                             <option value="">Chọn địa điểm</option>
@@ -143,61 +149,77 @@ function jobTag() {
 
                 <div className={styles.wrapper_jobs}>
                     <h2>
-                    {jobs.length} Jobs <span className={styles.tag}>{typeof tech === 'string' ? decodeURIComponent(tech) : tech?.[0] ? decodeURIComponent(tech[0]) : ''}</span>
-
+                        {loading ? <Skeleton width={50} /> : `${jobs.length} Jobs`}
+                        {loading ? (
+                            <Skeleton width={50} height={30} />
+                        ) : (
+                            <span className={styles.tag}>
+                                {typeof tech === 'string'
+                                    ? decodeURIComponent(tech)
+                                    : tech?.[0]
+                                      ? decodeURIComponent(tech[0])
+                                      : ''}
+                            </span>
+                        )}
                     </h2>
 
                     <div className={styles.wrapper_jobsContainer}>
-                        {jobs.map((job) => (
-                            <div className={styles.box_jobs} key={job.jobId}>
-                                <div className={styles.image_company}>
-                                    <img
-                                        src={job.company.images[0]?.image_company || '/placeholder.jpg'}
-                                        alt={job.company.name}
-                                    />
-                                </div>
-
-                                <div className={styles.content}>
-                                    <h3>{job.title}</h3>
-                                    <span className={styles.company__name} title={job.company.name}>{job.company.name}</span>
-                                    <span className={styles.job_level}>
-                                        <p>{job.jobLevel.name.join(' , ')}</p>
-                                        <svg
-                                            stroke="currentColor"
-                                            fill="currentColor"
-                                            strokeWidth="0"
-                                            viewBox="0 0 256 256"
-                                            height="1em"
-                                            width="1em"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path d="M156,128a28,28,0,1,1-28-28A28,28,0,0,1,156,128Z"></path>
-                                        </svg>
-
-                                        <p>{job.salary === 'Negotiable' ? 'Negotiable' : formatSalary(job.salary)}</p>
-                                    </span>
-
-                                    <div className={styles.tag__job}>
-                                        {job.generalInformation.tech_stack.map((tech, index) => (
-                                            <p
-                                                onClick={() => router.push(`/job_tag/${tech}`)}
-                                                key={index}
-                                                className={styles.tech__stack}
-                                            >
-                                                {tech}
-                                            </p>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                        {loading
+                            ? TechStack__Skeleton()
+                            : jobs.map((job) => (
+                                  <div
+                                      className={styles.box_jobs}
+                                      key={job.jobId}
+                                  >
+                                      <div className={styles.image_company}>
+                                          <img onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}
+                                              src={job.company.images[0]?.image_company || '/placeholder.jpg'}
+                                              alt={job.company.name}
+                                          />
+                                      </div>
+                                      <div className={styles.content}>
+                                          <h3 onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}>{job.title}</h3>
+                                          <span className={styles.company__name} title={job.company.name}>
+                                              {job.company.name}
+                                          </span>
+                                          <span className={styles.job_level}>
+                                              <p onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}>{job.jobLevel.name.join(' , ')}</p>
+                                              <svg
+                                                  stroke="currentColor"
+                                                  fill="currentColor"
+                                                  strokeWidth="0"
+                                                  viewBox="0 0 256 256"
+                                                  height="1em"
+                                                  width="1em"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                              >
+                                                  <path d="M156,128a28,28,0,1,1-28-28A28,28,0,0,1,156,128Z"></path>
+                                              </svg>
+                                              <p>
+                                                  {job.salary === 'Negotiable'
+                                                      ? 'Negotiable'
+                                                      : formatSalary(job.salary)}
+                                              </p>
+                                          </span>
+                                          <div className={styles.tag__job}>
+                                              {job.generalInformation.tech_stack.map((tech, index) => (
+                                                  <p
+                                                      onClick={() => router.push(`/skill_tag/${tech}`)}
+                                                      key={index}
+                                                      className={styles.tech__stack}
+                                                  >
+                                                      {tech}
+                                                  </p>
+                                              ))}
+                                          </div>
+                                      </div>
+                                  </div>
+                              ))}
                     </div>
-
-                    {/* <div></div> */}
                 </div>
             </div>
         </section>
     );
 }
 
-export default jobTag;
+export default skillTag;

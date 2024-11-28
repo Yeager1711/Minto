@@ -34,12 +34,14 @@
 
         .wrapper_jobs {
             h2 {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
                 padding: 2rem;
                 background: var(--bg-White);
                 border-bottom: .1rem solid var(--border);
 
                 .tag {
-                    margin-left: 1rem;
                     padding: .5rem 1rem;
                     border: .2rem solid var(--hoverBoxBd);
                     border-radius: .5rem;
@@ -73,7 +75,8 @@
                         display: flex;
                         object-fit: contain;
 
-                        img {
+                        img,
+                        .skeleton__img {
                             width: 15rem;
                             height: 100%;
                             object-fit: contain;
@@ -82,7 +85,6 @@
                     }
 
                     .content {
-                        flex: 1 1 60rem;
 
                         h3 {
                             font-size: 1.7rem;
@@ -98,24 +100,28 @@
                             display: flex;
                             gap: 1.5rem;
 
+                           
+
                             p {
                                 padding: .6rem 1.5rem;
                                 border-radius: .3rem;
                                 font-size: 1.3rem;
                                 border: .1rem solid var(--hoverBoxBd);
+                                transition: .3s linear;
+
+                                &:hover {
+                                        transition: .3s linear;
+                                        border: .1rem solid red;
+                                    
+                                }
                             }
                         }
 
                         .company__name {
-                            // position: absolute;
-                            // top: 0;
-                            // left: 0;
-                            max-width: 29rem;
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
                             padding: .7rem 1.5rem;
-                            // background: var(--globalColor);
                             display: flex;
                             align-items: center;
                             font-size: 1.5rem;
@@ -144,20 +150,6 @@
                                 color: var(--viewDetails);
                             }
                         }
-
-                        .job_level {
-                            margin-top: 1.5rem;
-                            display: flex;
-                            gap: 1.5rem;
-
-                            p {
-                                padding: .6rem 1.5rem;
-                                border-radius: .3rem;
-                                font-size: 1.3rem;
-                                border: .1rem solid var(--hoverBoxBd);
-                            }
-                        }
-
 
                     }
                 }

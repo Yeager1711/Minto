@@ -3,12 +3,15 @@
 
     .find-companies {
         .find-companies__wrapper {
-            padding: 2rem 25%;
+            padding: 2rem 22%;
             display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
             align-items: center;
             background: var(--globalColor);
 
             .companies__input {
+                flex: 1 1 70rem;
                 padding: 1.29rem 1.5rem;
                 width: 100%;
                 max-width: 70rem;
@@ -25,13 +28,14 @@
             }
 
             .find-companies__button {
+                flex: 1 1 10rem;
                 border-left: 0.1rem solid var(--border);
                 border-top-right-radius: 0.5rem;
                 border-bottom-right-radius: 0.5rem;
                 background: var(--bg-White);
                 padding: 1.3rem 2rem;
                 font-size: 1.4rem;
-                width: 15rem;
+                text-align: center;
 
                 button {
                     background: none;
@@ -107,7 +111,7 @@
                     .company-content {
                         position: absolute;
                         top: 145%;
-                        left: 60%;
+                        left: 66%;
                         width: 30rem;
                         transform: translate(-50%, -50%);
                         background: var(--bg-White);

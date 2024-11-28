@@ -4,7 +4,6 @@ import styles from './companies.module.scss';
 // import { PiDiamondsFour } from "react-icons/pi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faLocationPin, faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Data from '../Data/data';
 
 interface Job {
     jobId: string;

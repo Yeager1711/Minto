@@ -9,6 +9,7 @@ import { faCommentsDollar, faHourglassStart, faLocationDot } from '@fortawesome/
 
 const cx = classNames.bind(styles);
 import { formatSalary } from '../../../Ultils/formatSalary';
+import JobDetails_Skeleton from './jobDetail__Skeleton';
 
 interface Job {
     success: boolean;
@@ -96,8 +97,10 @@ function JobDetail() {
     useEffect(() => {
         const fetchJobDetails = async () => {
             try {
+                // Gọi API
                 const response = await fetch(`${apiUrl}/jobs/${jobId}`);
                 const { data } = await response.json();
+
                 setJobDetails(data);
             } catch (error) {
                 console.error('Error fetching job details:', error);
@@ -156,7 +159,7 @@ function JobDetail() {
                     }, {});
 
                     setJobData({ ...groupedJobs, ...groupedJobLevel });
-                } else  {
+                } else {
                     setError('Không tìm thấy dữ liệu công việc');
                 }
             } catch (err) {
@@ -170,7 +173,11 @@ function JobDetail() {
     }, [jobId]);
 
     if (!jobDetails) {
-        return <p>Đang tải dữ liệu...</p>;
+        return (
+            <section className={styles.jobDetail + ' marTop'}>
+                <JobDetails_Skeleton />
+            </section>
+        );
     }
 
     return (
@@ -192,7 +199,7 @@ function JobDetail() {
                 </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '2rem', marginTop: '3rem' }}>
+            <div style={{ display: 'flex', gap: '2rem', marginTop: '3rem', flexWrap: 'wrap' }}>
                 <div className={styles.infomation}>
                     <div className={styles.wrapper_infomation}>
                         <div className={styles.basic_infomation}>
@@ -205,9 +212,7 @@ function JobDetail() {
                                         {jobDetails.salary_from === 0 || jobDetails.salary_to === 0 ? (
                                             <>Thỏa thuận</>
                                         ) : (
-                                            <>
-                                                {formatSalary(jobDetails.salary)}
-                                            </>
+                                            <>{formatSalary(jobDetails.salary)}</>
                                         )}
                                     </p>
                                 </span>
@@ -330,7 +335,11 @@ function JobDetail() {
                                 <p> Công nghệ sử dụng:</p>
                                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                                     {jobDetails.generalInformation.tech_stack.map((tech, index) => (
-                                        <p onClick={() => router.push(`/job_tag/${tech}`)} key={index} className={styles.tech__stack}>
+                                        <p
+                                            onClick={() => router.push(`/skill_tag/${tech}`)}
+                                            key={index}
+                                            className={styles.tech__stack}
+                                        >
                                             {tech}
                                         </p>
                                     ))}
@@ -379,51 +388,6 @@ function JobDetail() {
                             </div>
                         ))}
                     </div>
-
-                    {/* <div className={styles.jobLevelSame__company}>
-                        <h3>
-                            <p>{jobDetails.jobLevel.name.join(' , ')}</p> Vị trí đang tuyển
-                        </h3>
-                        {Object.entries(jobData).map(([jobLevel, jobs]) => (
-                            <div key={jobLevel} className={styles.companyJobs}>
-                                {jobs.map((job, index) => (
-                                    <div
-                                        onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}
-                                        key={job.jobId}
-                                        className={cx({
-                                            [styles.box_companyJob]: true,
-                                            [styles.current_company]:
-                                                job.company.companyId === jobDetails.company.companyId,
-                                        })}
-                                    >
-                                        <div className={styles.logo__company}>
-                                            <img
-                                                src={job.company.images[0]?.image_company || 'default-image.png'}
-                                                alt={job.company.name}
-                                                className={styles.jobImage}
-                                            />
-                                        </div>
-
-                                        <div className={styles.jobInfo}>
-                                            <h2 title={job.title}>{job.title}</h2>
-                                            <p
-                                                className={styles.job__experience}
-                                                title={job.generalInformation.experience}
-                                            >
-                                                {job.jobLevel.name.join(' , ')} - {job.generalInformation.experience}
-                                            </p>
-                                            <p className={styles.company__salary}>
-                                                {job.salary_from === 0 || job.salary_to === 0
-                                                    ? 'Thỏa thuận'
-                                                    : `${job.salary_from} - ${job.salary_to} VND`}
-                                            </p>
-                                            <p className={styles.company__location}>{job.workLocation.district.name}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div> */}
                 </div>
             </div>
         </section>

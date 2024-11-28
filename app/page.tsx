@@ -12,10 +12,12 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
+// icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { formatSalary } from './Ultils/formatSalary';
+import { CiLocationOn } from 'react-icons/ci';
 
+import { formatSalary } from './Ultils/formatSalary';
 
 // Định nghĩa kiểu cho công việc
 interface Job {
@@ -23,7 +25,7 @@ interface Job {
     title: string;
     salary_from: number;
     salary_to: number;
-    salary:string,
+    salary: string;
     company: {
         name: string;
         images: { image_company: string }[];
@@ -48,7 +50,7 @@ function Home() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocation, setSelectedLocation] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+    const itemsPerPage = 9;
     const router = useRouter();
 
     useEffect(() => {
@@ -177,9 +179,9 @@ function Home() {
                                         <option value="Quy Nhơn">TP.Quy Nhơn</option>
                                     </select>
                                 </div>
-                                <button className={styles['btn-find']} onClick={handleSearch}>
+                                <div className={styles['btn-find']} onClick={handleSearch}>
                                     Tìm việc
-                                </button>
+                                </div>
                             </div>
 
                             <div className={styles['search-result__container']}>
@@ -206,16 +208,17 @@ function Home() {
                                                 <span>{job.title}</span>
                                             </div>
                                             <div className={styles['location__result']}>
-                                                <span>{job.workLocation.district.name}</span>
+                                                <span>
+                                                    {' '}
+                                                    <CiLocationOn /> {job.workLocation.district.name}
+                                                </span>
                                             </div>
                                             <div className={styles['salary__result']}>
                                                 <span>
                                                     {job.salary_from === 0 || job.salary_to === 0 ? (
                                                         <>Thỏa thuận</>
                                                     ) : (
-                                                        <>
-                                                            {formatSalary(job.salary)}
-                                                        </>
+                                                        <>{formatSalary(job.salary)}</>
                                                     )}
                                                 </span>
                                             </div>
@@ -245,11 +248,12 @@ function Home() {
                         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
                         className="mySwiper"
                         slidesPerView={4}
-                        spaceBetween={15}
+                        spaceBetween={10}
                         breakpoints={{
-                            640: { slidesPerView: 1 },
-                            768: { slidesPerView: 2 },
-                            1024: { slidesPerView: 3 },
+                            320: { slidesPerView: 1 },
+                            640: { slidesPerView: 2 },
+                            768: { slidesPerView: 3 },
+                            1024: { slidesPerView: 4 },
                         }}
                     >
                         {jobs.map((company) => (
@@ -277,19 +281,6 @@ function Home() {
                     <h3>
                         <p>Tuyển dụng</p> Việc Làm Tốt Nhất
                     </h3>
-
-                    {/* Phân trang */}
-                    <div className={styles['pagination']}>
-                        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                            <FontAwesomeIcon icon={faChevronLeft} />
-                        </button>
-                        <span>
-                            {currentPage} / {totalPages}
-                        </span>
-                        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-                            <FontAwesomeIcon icon={faChevronRight} />
-                        </button>
-                    </div>
                 </div>
 
                 <div className={styles['recruitment-container']}>
@@ -317,18 +308,37 @@ function Home() {
                                         {job.company.name}
                                     </span>
 
-                                    <div style={{ display: 'flex' }}>
-                                        <span className={styles['positon']}>
-                                            <p> {job.jobLevel.name.join(', ')}</p>
-                                        </span>
-                                        <span className={styles['district']} title={job.workLocation.district.name}>
-                                            {job.workLocation.district.name}
-                                        </span>
-                                    </div>
+                                    <span className={styles['salary']} title={job.salary}>
+                                        {job.salary_from === 0 || job.salary_to === 0 ? (
+                                            <>Thỏa thuận</>
+                                        ) : (
+                                            <> {formatSalary(job.salary)}</>
+                                        )}
+                                    </span>
+
+                                    <span className={styles['positon']}>
+                                        <p> {job.jobLevel.name.join(', ')}</p>
+                                    </span>
+                                    <span className={styles['district']} title={job.workLocation.district.name}>
+                                        <CiLocationOn />
+                                        {job.workLocation.district.name}
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     ))}
+                </div>
+                {/* Phân trang */}
+                <div className={styles['pagination']}>
+                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                        <FontAwesomeIcon icon={faChevronLeft} />
+                    </button>
+                    <span>
+                        {currentPage} / {totalPages}
+                    </span>
+                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </button>
                 </div>
             </section>
 

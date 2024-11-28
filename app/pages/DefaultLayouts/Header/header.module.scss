@@ -1,120 +1,234 @@
 .header_wrapper {
-    padding: 1.5rem 15%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+  padding: 1.5rem 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 99;
+  max-width: 100%;
+  background: rgba(0, 0, 0, 1);
+  box-shadow: var(--shadow);
+
+  .menu-icon {
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo {
+    max-width: 15rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .navbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    z-index: 99;
-    max-width: 100%;
-    background: rgba(0, 0, 0, 1);
-    box-shadow: var(--shadow);
-  
-    .logo {
-      max-width: 15rem;
-      
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  
-    .navbar {
-      display: flex;
-      align-items: center;
-  
-      .nav-link {
-        font-size: 1.4rem;
-        padding: 0.7rem 1rem;
-        margin-left: 4rem;
-        text-transform: none;
-        background: none;
-        color: var(--colorWhiteText);
-        position: relative;
-        text-decoration: none;
-        transition: all 0.3s ease;
-  
-        &.active {
-          border-radius: 0.5rem;
-  
-          &::before {
-            content: '';
-            position: absolute;
-            bottom: -0.4rem;
-            left: 0;
-            width: 100%;
-            height: 0.3rem;
-            background: var(--globalColor);
-            transition: all 0.3s ease;
-            border-radius: 1rem;
-          }
-        }
-  
-        &:hover {
+
+    .nav-link {
+      font-size: 1.4rem;
+      padding: 0.7rem 1rem;
+      margin-left: 4rem;
+      text-transform: none;
+      background: none;
+      color: var(--colorWhiteText);
+      position: relative;
+      text-decoration: none;
+      transition: all 0.3s ease;
+
+      &.active {
+        border-radius: 0.5rem;
+
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: -0.4rem;
+          left: 0;
+          width: 100%;
+          height: 0.3rem;
           background: var(--globalColor);
-          color: var(--colorWhiteText);
-          border-radius: .3rem;
-          border-radius: .3rem;
-          cursor: pointer;
-  
-          &::before {
-            height: 0.4rem;
-            bottom: -0.3rem;
-          }
-        }
-  
-        i {
-          font-size: 2rem;
+          transition: all 0.3s ease;
+          border-radius: 1rem;
         }
       }
-  
-  
-    }
-  
-    .button-control {
-      margin-left: 2rem;
-      display: flex;
-      align-items: center;
-  
-      .btn-login {
-        padding: .5rem 2rem;
+
+      &:hover {
         background: var(--globalColor);
         color: var(--colorWhiteText);
         border-radius: .3rem;
-        font-size: 1.4rem;
-      }
-  
-      .btn-register {
-        padding: .5rem 2rem;
-        background: none;
-        color: var(--colorWhiteText);
-        border: .1rem solid var(--border);
-        margin-left: 2rem;
-        font-size: 1.4rem;
         border-radius: .3rem;
-      }
-  
-      .employer {
-        margin-left: 1rem;
-        border-left: .1rem solid var(--border);
-        color: var(--colorWhiteText);
-  
-        .header-question-employer {
-          display: block;
-          margin-left: 1rem;
-          font-size: 1.1rem;
-          margin-bottom: .5rem;
+        cursor: pointer;
+
+        &::before {
+          height: 0.4rem;
+          bottom: -0.3rem;
         }
-  
-        .Apply-Now {
-  
-          margin-left: 1rem;
-          color: var(--globalColor);
-          font-weight: var(--weight550);
-          font-size: 1.4rem;
+      }
+
+      i {
+        font-size: 2rem;
+      }
+    }
+
+
+  }
+
+  .button-control {
+    margin-left: 2rem;
+    display: flex;
+    align-items: center;
+
+    .btn-login {
+      padding: .5rem 2rem;
+      background: var(--globalColor);
+      color: var(--colorWhiteText);
+      border-radius: .3rem;
+      font-size: 1.4rem;
+    }
+
+    .btn-register {
+      padding: .5rem 2rem;
+      background: none;
+      color: var(--colorWhiteText);
+      border: .1rem solid var(--border);
+      margin-left: 2rem;
+      font-size: 1.4rem;
+      border-radius: .3rem;
+    }
+
+    .employer {
+      margin-left: 1rem;
+      border-left: .1rem solid var(--border);
+      color: var(--colorWhiteText);
+
+      .header-question-employer {
+        display: block;
+        margin-left: 1rem;
+        font-size: 1.1rem;
+        margin-bottom: .5rem;
+      }
+
+      .Apply-Now {
+        margin-left: 1rem;
+        color: var(--globalColor);
+        font-weight: var(--weight550);
+        font-size: 1.4rem;
+
+        svg {
+          width: auto;
+          margin-left: .3rem;
+          height: 1.2rem;
         }
       }
     }
   }
+}
+
+@media screen and (max-width: 1040px) {
+
+  .navbar,
+  .button-control {
+    display: none !important;
+  }
+
+  .menu-icon {
+    display: flex !important;
+    font-size: 2rem;
+    color: var(--colorWhiteText);
+    cursor: pointer;
+  }
+
+  // Thanh trượt toàn màn hình
+  .side-drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 35rem;
+    height: 100vh;
+    background-color: var(--bg-White);
+    color: var(--colorBlackText);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 1.5rem;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+
+    &.open {
+      right: 0; // Khi mở, trượt vào màn hình
+    }
+
+    .side-drawer-header {
+      display: flex;
+      justify-content: flex-end;
+
+      .close-icon {
+        font-size: 2rem;
+        cursor: pointer;
+      }
+    }
+
+    .side-drawer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      position: absolute;
+      top: 6rem;
+      left: 2rem;
+      right: 2rem;
+
+      .auth-buttons {
+        display: flex;
+        gap: 1.5rem;
+
+        .btn-login,
+        .btn-register {
+          margin: auto;
+          width: 100%;
+          padding: 0.7rem 1.5rem;
+          font-size: 1.4rem;
+          border-radius: 0.3rem;
+          cursor: pointer;
+          text-align: center;
+        }
+
+        .btn-login {
+          background: #0057b5;
+          color: var(--colorWhiteText);
+        }
+
+        .btn-register {
+          background: none;
+          color: #0057b5;
+          border: 0.1rem solid var(--border);
+        }
+      }
+
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        a {
+          text-decoration: none;
+          color: var(--colorBlackText);
+          font-size: 1.6rem;
+          transition: color 0.3s;
+          padding: 1rem 0;
+
+          &:hover {
+            color: var(--globalColor);
+          }
+        }
+      }
+    }
+  }
+
+}

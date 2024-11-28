@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faLocationPin, faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 import { formatSalary } from '../Ultils/formatSalary';
+import Jobs_Skeleton from './job_skeleton';
 
 interface Job {
     jobId: number;
@@ -31,7 +32,7 @@ interface Job {
 
 function Jobs({ salary }: { salary: string }) {
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+    const itemsPerPage = 9;
     const [jobData, setJobData] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -55,11 +56,6 @@ function Jobs({ salary }: { salary: string }) {
 
         fetchAllJobs();
     }, []);
-
-    // Loading and error handling
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     if (error) {
         return <div>{error}</div>;
@@ -157,49 +153,56 @@ function Jobs({ salary }: { salary: string }) {
 
             <section className={styles['job-wrapperContainer']}>
                 <div className={styles['Container']}>
-                    {currentData.map((item) => (
-                        <div
-                            onClick={() => router.push(`/jobs/job_details/${item.jobId}`)}
-                            className={styles['box']}
-                            key={item.jobId}
-                        >
-                            <FontAwesomeIcon className={styles['whislist']} icon={faHeart} />
-                            <span className={styles['tag-rank']}>{/* <PiDiamondsFour /> Pro */}</span>
-                            <div className={styles['company-logo']}>
-                                <img src={item.company.images[0]?.image_company} alt={item.company.name} />
-                            </div>
-                            <div className={styles['info']}>
-                                <div className={styles['job-info']}>
-                                    <h3 className={styles['company-name']} title={item.title}>
-                                        {item.title}
-                                    </h3>
-                                </div>
-                                <div className={styles['group']} title={item.company.name}>
-                                    {item.company.name}
-                                </div>
-                                <div className={styles['Salary-Negotiable']}>
-                                    {item.salary_from === 0 || item.salary_to === 0 ? (
-                                        <span className={styles['Salary-from']}>Thỏa thuận</span>
-                                    ) : (
-                                        <>
-                                            <span className={styles['Salary']}>{formatSalary(item.salary)}</span>
-                                        </>
-                                    )}
-                                </div>
-                                <div className={styles['job-content-bottom']}>
-                                    <div className={styles['job-content-bottom-tag']}>
-                                        <div className={styles['location']} title={item.workLocation.district.name}>
-                                            <FontAwesomeIcon icon={faLocationPin} /> {item.workLocation.district.name}
-                                        </div>
-                                        <div className={styles['views-box']}>
-                                            {/* <FontAwesomeIcon icon={faEye} /> {item.views} */}
-                                        </div>
-                                    </div>
-                                    {/* <div className={styles['job-content-bottom-expired']}>{item.expired}</div> */}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                    {loading
+                        ? Jobs_Skeleton()
+                        : currentData.map((item) => (
+                              <div
+                                  onClick={() => router.push(`/jobs/job_details/${item.jobId}`)}
+                                  className={styles['box']}
+                                  key={item.jobId}
+                              >
+                                  <FontAwesomeIcon className={styles['whislist']} icon={faHeart} />
+                                  <span className={styles['tag-rank']}>{/* <PiDiamondsFour /> Pro */}</span>
+                                  
+                                  <div className={styles['company-logo']}>
+                                      <img src={item.company.images[0]?.image_company} alt={item.company.name} />
+                                  </div>
+                                  <div className={styles['info']}>
+                                      <div className={styles['job-info']}>
+                                          <h3 className={styles['company-name']} title={item.title}>
+                                              {item.title}
+                                          </h3>
+                                      </div>
+                                      <div className={styles['group']} title={item.company.name}>
+                                          {item.company.name}
+                                      </div>
+                                      <div className={styles['Salary-Negotiable']}>
+                                          {item.salary_from === 0 || item.salary_to === 0 ? (
+                                              <span className={styles['Salary-from']}>Thỏa thuận</span>
+                                          ) : (
+                                              <>
+                                                  <span className={styles['Salary']}>{formatSalary(item.salary)}</span>
+                                              </>
+                                          )}
+                                      </div>
+                                      <div className={styles['job-content-bottom']}>
+                                          <div className={styles['job-content-bottom-tag']}>
+                                              <div
+                                                  className={styles['location']}
+                                                  title={item.workLocation.district.name}
+                                              >
+                                                  <FontAwesomeIcon icon={faLocationPin} />{' '}
+                                                  {item.workLocation.district.name}
+                                              </div>
+                                              <div className={styles['views-box']}>
+                                                  {/* <FontAwesomeIcon icon={faEye} /> {item.views} */}
+                                              </div>
+                                          </div>
+                                          {/* <div className={styles['job-content-bottom-expired']}>{item.expired}</div> */}
+                                      </div>
+                                  </div>
+                              </div>
+                          ))}
                 </div>
 
                 {/* Phân trang */}
@@ -208,7 +211,7 @@ function Jobs({ salary }: { salary: string }) {
                         <FontAwesomeIcon icon={faChevronLeft} />
                     </button>
                     <span>
-                        {currentPage} / {totalPages}
+                        {currentPage} / {totalPages} Trang
                     </span>
                     <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                         <FontAwesomeIcon icon={faChevronRight} />

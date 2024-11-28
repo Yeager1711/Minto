@@ -1,11 +1,12 @@
 .jobDetail {
-    padding: 5rem 15%;
+    padding: 5rem 10%;
     background: var(--background);
 
     .company {
         background: var(--bg-White);
         border-radius: 5rem;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         gap: 2rem;
         padding: 1rem 2rem;
@@ -57,7 +58,9 @@
     }
 
     .infomation {
-        flex: 1 1 60rem;
+        flex: 1 1 55rem;
+        max-width: 100rem;
+        width: 100%;
         background: var(--bg-White);
         padding: 2rem;
         border-radius: .5rem;
@@ -71,6 +74,7 @@
                 .infomation_Content_section {
                     display: flex;
                     align-items: center;
+                    flex-wrap: wrap;
                     margin: 2.5rem 0;
                     gap: 4rem;
 
@@ -133,13 +137,15 @@
     }
 
     .wraper__generalInformation {
-        flex: 1 1 40rem;
+        flex: 1 1 15rem;
+        width: 100%;
 
         .generalInformation {
             background: var(--bg-White);
             padding: 2rem;
             border-radius: .5rem;
             height: auto;
+           
 
             h3 {
                 font-size: 1.7rem;
@@ -261,13 +267,15 @@
                     }
 
                     .jobInfo {
+                        max-width: 23rem;
+                        width: 100%;
+
                         h2 {
                             font-size: 1.5rem;
                             font-size: 1.5rem;
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
-                            max-width: 20rem;
                         }
 
                         .job__experience {
@@ -278,7 +286,6 @@
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
-                            width: 20rem;
                         }
 
                         .company__salary {

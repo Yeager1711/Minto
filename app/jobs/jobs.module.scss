@@ -8,11 +8,14 @@
 
         .navigation-search {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 2rem;
-            padding: 2rem 15%;
+            gap: 1rem;
+            padding: 2rem 10%;
 
             .box-input {
+                flex: 1 1 70rem;
+
                 width: calc(100% - 45%);
                 background: var(--colorWhiteText);
                 padding: 1rem 1.5rem;
@@ -29,9 +32,10 @@
             }
 
             .box-select {
+                flex: 1 1 20rem;
                 width: calc(100% - 70%);
                 background: var(--colorWhiteText);
-                padding: 1rem 1.5rem;
+                padding: .9rem 1.5rem;
                 border-radius: .5rem;
 
                 select {
@@ -41,6 +45,8 @@
             }
 
             .btn-find {
+                flex: 1 1 10rem;
+
                 width: calc(100% - 85%);
                 padding: 1rem 1.5rem;
                 border-radius: .5rem;
@@ -50,7 +56,7 @@
     }
 
     .job-container {
-        padding: 3rem 15% 1rem !important;
+        padding: 3rem 10% 1rem !important;
 
         .header-searchByCriteria {
             display: flex;
@@ -68,7 +74,7 @@
             width: 100%;
 
             .filter {
-                flex: 1 1 18rem;
+                flex: 1 1 21rem;
                 background: var(--bg-White);
                 color: var(--colorBlackText);
                 display: flex;
@@ -96,19 +102,20 @@
     }
 
     .job-wrapperContainer {
-        padding: 1rem 15%;
+        padding: 1rem 10%;
 
         .Container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
             gap: 1.5rem;
+            margin-bottom: 2rem;
 
             .box {
                 position: relative;
-                padding: 1rem;
+                padding: 1rem 4.5rem 1rem 1rem;
                 display: flex;
                 align-items: center;
-                gap: 2rem;
+                gap: 1rem;
                 border: .1rem solid var(--border);
                 background: var(--bg-White);
                 border-radius: 1rem;
@@ -121,12 +128,12 @@
 
                 .whislist {
                     position: absolute;
-                    top: 1rem;
-                    right: 1rem;
-                    padding: 1rem;
+                    top: .5rem;
+                    right: .7rem;
+                    padding: .7rem;
                     background: #e6f6ed;
                     color: var(--globalColor);
-                    font-size: 1.7rem;
+                    font-size: 1.4rem;
                     border-radius: 50%;
                 }
 
@@ -155,20 +162,19 @@
                     display: flex;
 
                     img {
-                        width: 8.5rem;
+                        width: 8rem;
                         margin: auto;
                     }
                 }
 
                 .info {
-                    .job-info {
-                        display: flex;
-                        align-items: center;
-                        gap: 1rem;
+                    max-width: 32rem;
+                    width: 90%;
+                    overflow: hidden;
 
+                    .job-info {
                         .company-name {
                             font-size: 1.4rem;
-                            max-width: 31rem;
                             line-height: 1.3;
                             white-space: nowrap;
                             overflow: hidden;
@@ -180,7 +186,6 @@
                         margin-left: 2rem;
                         font-size: 1.2rem;
                         color: var(--textBlur);
-                        max-width: 29rem;
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
@@ -221,11 +226,13 @@
 
                         .job-content-bottom-tag {
                             display: flex;
+                            flex-wrap: wrap;
                             align-items: center;
                             gap: 1rem;
 
                             .location,
                             .views-box {
+
                                 padding: .5rem 1rem;
                                 border: .1rem solid var(--border);
                                 border-radius: .5rem;
@@ -233,7 +240,14 @@
                                 white-space: nowrap;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
-                                max-width: 25rem;
+                            }
+
+                            .location {
+                                flex: 1 1 14rem;
+                            }
+
+                            .views-box {
+                                flex: 1 1 2rem;
                             }
                         }
 
@@ -248,22 +262,29 @@
         }
 
         .pagination {
-            margin: 1.5rem 0;
-            padding: 0;
-            float: right;
             display: flex;
+            margin: 1.5rem 0;
+            margin: auto;
+            width: 20rem;
+            padding: 0;
+           
             gap: 2rem;
             align-items: center;
-            border: .1rem solid var(--border);
+            
             border-radius: 15rem;
             overflow: hidden;
 
             button {
-                padding: .7rem 1.5rem;
+                margin: auto;
+                padding: 1rem 1.3rem;
+                background: var(--hoverBox);
+                border: .1rem solid var(--hoverBoxBd);
+                border-radius: 5rem;
             }
 
             span {
-                font-size: 1.3rem;
+                margin: auto;
+                font-size: 1.5rem;
             }
         }
     }
