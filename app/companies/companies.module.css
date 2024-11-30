@@ -1,13 +1,17 @@
 .companies {
+  margin-top: 4.2rem;
   padding: 3rem 0;
 }
 .companies .find-companies .find-companies__wrapper {
-  padding: 2rem 25%;
+  padding: 2rem 22%;
   display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   align-items: center;
   background: var(--globalColor);
 }
 .companies .find-companies .find-companies__wrapper .companies__input {
+  flex: 1 1 70rem;
   padding: 1.29rem 1.5rem;
   width: 100%;
   max-width: 70rem;
@@ -20,13 +24,14 @@
   width: 100%;
 }
 .companies .find-companies .find-companies__wrapper .find-companies__button {
+  flex: 1 1 10rem;
   border-left: 0.1rem solid var(--border);
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   background: var(--bg-White);
   padding: 1.3rem 2rem;
   font-size: 1.4rem;
-  width: 15rem;
+  text-align: center;
 }
 .companies .find-companies .find-companies__wrapper .find-companies__button button {
   background: none;
@@ -36,6 +41,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(42rem, 1fr));
   gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 .companies .recruitment-companies .recruitment-companies__wapper .box-company {
   background: var(--bg-White);
@@ -92,7 +98,7 @@
 .companies .recruitment-companies .recruitment-companies__wapper .box-company .company-logo__wrapper .company-content {
   position: absolute;
   top: 145%;
-  left: 60%;
+  left: 66%;
   width: 30rem;
   transform: translate(-50%, -50%);
   background: var(--bg-White);
@@ -116,4 +122,26 @@
   display: block;
   cursor: pointer;
   font-weight: var(--weight550);
+}
+.companies .pagination {
+  display: flex;
+  margin: 1.5rem 0;
+  margin: auto;
+  width: 22rem;
+  padding: 0;
+  gap: 2rem;
+  align-items: center;
+  border-radius: 15rem;
+  overflow: hidden;
+}
+.companies .pagination button {
+  margin: auto;
+  padding: 1rem 1.3rem;
+  background: var(--hoverBox);
+  border: 0.1rem solid var(--hoverBoxBd);
+  border-radius: 5rem;
+}
+.companies .pagination span {
+  margin: auto;
+  font-size: 1.5rem;
 }/*# sourceMappingURL=companies.module.css.map */

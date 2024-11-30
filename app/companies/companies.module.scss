@@ -1,4 +1,5 @@
 .companies {
+    margin-top: 4.2rem;
     padding: 3rem 0;
 
     .find-companies {
@@ -50,6 +51,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(42rem, 1fr));
             gap: 1.5rem;
+            margin-bottom: 2rem;
 
             .box-company {
                 background: var(--bg-White);
@@ -143,6 +145,33 @@
                     }
                 }
             }
+        }
+    }
+
+    .pagination {
+        display: flex;
+        margin: 1.5rem 0;
+        margin: auto;
+        width: 22rem;
+        padding: 0;
+
+        gap: 2rem;
+        align-items: center;
+
+        border-radius: 15rem;
+        overflow: hidden;
+
+        button {
+            margin: auto;
+            padding: 1rem 1.3rem;
+            background: var(--hoverBox);
+            border: .1rem solid var(--hoverBoxBd);
+            border-radius: 5rem;
+        }
+
+        span {
+            margin: auto;
+            font-size: 1.5rem;
         }
     }
 }

@@ -57,12 +57,17 @@ html::-webkit-scrollbar {
 }
 
 .marTop {
-  margin-top: 4.2rem;
+  margin-top: 0;
 }
 
+@media screen and (max-width: 1040px) {
+  .marTop {
+    margin-top: 4.2rem;
+  }
+}
 section,
 footer {
-  padding: 3rem 15%;
+  padding: 3rem 5%;
 }
 
 a {
@@ -97,4 +102,43 @@ h3::before {
   height: 100%;
   width: 0.4rem;
   background: #f5b324;
+}
+
+.swiper {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  overflow: none !important;
+  list-style: none;
+  padding: 0;
+  z-index: 0 !important;
+  display: block;
+}
+
+.swiper-button-next {
+  right: -1rem !important;
+  z-index: 999 !important;
+}
+.swiper-button-next::after {
+  font-size: 1.6rem !important;
+  background: #fff;
+  padding: 1.1rem 1.3rem 0.9rem 1.4rem;
+  border-radius: 5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.swiper-button-prev {
+  left: -1rem !important;
+  z-index: 999 !important;
+}
+.swiper-button-prev::after {
+  font-size: 1.6rem !important;
+  background: #fff;
+  padding: 1.1rem 1.3rem 0.9rem 1.4rem;
+  border-radius: 5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.swiper.swiper-initialized.swiper-horizontal.swiper-css-mode.mySwiper {
+  overflow: visible !important;
 }/*# sourceMappingURL=GlobalStyles.css.map */

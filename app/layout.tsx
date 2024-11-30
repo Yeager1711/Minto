@@ -1,6 +1,9 @@
-import 'normalize.css'; // Import CSS reset
-import './GlobalStyles/GlobalStyles.scss'; // Import global SCSS styles
+import 'normalize.css'; 
+import './GlobalStyles/GlobalStyles.scss'; 
 import Header from './pages/DefaultLayouts/Header/page';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RootLayout({
   children,
@@ -12,6 +15,7 @@ export default function RootLayout({
       <body>
         <Header />
         <main className="container">{children}</main>
+        <ToastContainer />
       </body>
     </html>
   );

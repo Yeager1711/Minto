@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import styles from './jobDetail.module.scss';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentsDollar, faHourglassStart, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faCommentsDollar, faHourglassStart, faLocationDot, faIndustry } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 import { formatSalary } from '../../../Ultils/formatSalary';
@@ -192,6 +192,11 @@ function JobDetail() {
                 <div className={styles.name_company}>
                     {jobDetails.company.name}
 
+                    <span className={styles.basic_infomation_item__industry}>
+                    <FontAwesomeIcon icon={faIndustry} />
+                        Ngành nghề:
+                        <p>{jobDetails.jobIndustry.name}</p>
+                    </span>
                     <span className={styles.basic_infomation_item}>
                         <FontAwesomeIcon icon={faLocationDot} />
                         <p>{jobDetails.workLocation.address_name}</p>
@@ -253,7 +258,7 @@ function JobDetail() {
                             <span>
                                 {jobDetails.requirement
                                     .split(/\n|•/)
-                                    .filter((line) => line.trim()) // Lọc các dòng không rỗng
+                                    .filter((line) => line.trim())
                                     .map((item, index) => (
                                         // <p key={index} style={{ marginBottom: '1rem', textIndent: '1rem' }}>
                                         <p key={index} style={{ marginBottom: '1rem' }}>

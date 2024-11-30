@@ -1,14 +1,14 @@
 // Jobs_Skeleton.tsx
-import React, { Fragment } from 'react';
+import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'; // Đảm bảo CSS của react-loading-skeleton được import
 import styles from './jobDetail.module.scss';
 
 const JobDetails_Skeleton = () => {
     return (
-        <Fragment>
+        <div>
             {Array.from({ length: 10 }).map((_, index) => (
-                <>
+                <div>
                     <div className={styles.company}>
                         <div className={styles.image_company}>
                             <Skeleton width={100} height={100} />
@@ -50,25 +50,25 @@ const JobDetails_Skeleton = () => {
                                 <div className={styles.basic_infomation_description}>
                                     <h3>Mô tả công việc</h3>
                                     <span>
-                                        <Skeleton width={500} height={100} />
+                                        <Skeleton width={730} height={100} />
                                     </span>
                                 </div>
 
                                 <div className={styles.basic_infomation_requesment}>
                                     <h3>Yêu cầu ứng viên</h3>
                                     <span>
-                                        <Skeleton width={500} height={100} />
+                                        <Skeleton width={730} height={100} />
                                     </span>
                                 </div>
 
                                 <div className={styles.basic_infomation_benifet}>
                                     <h3>Phúc lợi</h3>
                                     <span>
-                                        <Skeleton width={500} height={100} />
+                                        <Skeleton width={730} height={100} />
                                     </span>
 
                                     <span>
-                                        <Skeleton width={500} height={100} />
+                                        <Skeleton width={730} height={100} />
                                     </span>
                                 </div>
                             </div>
@@ -163,9 +163,9 @@ const JobDetails_Skeleton = () => {
                             </div>
                         </div>
                     </div>
-                </>
+                </div>
             ))}
-        </Fragment>
+        </div>
     );
 };
 

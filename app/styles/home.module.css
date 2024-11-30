@@ -1,31 +1,3 @@
-.swiper-button-next {
-  right: -5rem;
-  z-index: 999 !important;
-}
-.swiper-button-next::after {
-  font-size: 1.6rem !important;
-  background: #fff;
-  padding: 1.1rem 1.3rem 0.9rem 1.4rem;
-  border-radius: 5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-.swiper-button-prev {
-  left: -5rem;
-  z-index: 999 !important;
-}
-.swiper-button-prev::after {
-  font-size: 1.6rem !important;
-  background: #fff;
-  padding: 1.1rem 1.3rem 0.9rem 1.4rem;
-  border-radius: 5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-.swiper.swiper-initialized.swiper-horizontal.swiper-css-mode.mySwiper {
-  overflow: visible !important;
-}
-
 .Home {
   margin: 0;
 }
@@ -183,14 +155,13 @@
 .Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 2rem;
   padding: 1rem 0;
   border-bottom: 0.1rem solid var(--border);
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input {
-  max-width: 40rem;
-  width: 95%;
-  border-right: 0.2rem solid #fff;
+  max-width: 52.5rem;
+  width: 90%;
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input {
   width: 100%;
@@ -200,19 +171,19 @@
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input::-moz-placeholder {
   font-size: 1.4rem;
-  color: var(--colorWhiteText) !important;
+  color: #999 !important;
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input::placeholder {
   font-size: 1.4rem;
-  color: var(--colorWhiteText) !important;
+  color: #999 !important;
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-select {
-  max-width: 21rem;
-  width: 95%;
+  max-width: 15rem;
+  width: 100%;
 }
 .Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-select select {
   background: none;
-  width: 20rem;
+  width: 100%;
   font-size: 1.5rem;
   color: var(--colorWhiteText);
   cursor: pointer;
@@ -227,33 +198,9 @@
   border-radius: 0.5rem;
   font-size: 1.6rem;
   height: 3.5rem;
-}
-.Home .wrapper-home .header-recruitment {
-  position: relative;
-}
-.Home .wrapper-home .header-recruitment .pagination {
-  position: absolute;
-  right: 0;
-  top: 0rem;
-  padding: 1rem 2rem;
-  padding: 0;
-  float: right;
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  border: 0.1rem solid var(--border);
-  overflow: hidden;
-  border-radius: 5rem;
-}
-.Home .wrapper-home .header-recruitment .pagination button {
-  padding: 1rem 2.5rem;
-  background: none;
-}
-.Home .wrapper-home .header-recruitment .pagination button svg {
-  font-size: 1.7rem;
-}
-.Home .wrapper-home .header-recruitment .pagination span {
-  font-size: 1.4rem;
+  max-width: 12rem;
+  width: 95%;
+  cursor: pointer;
 }
 .Home .wrapper-home .wrapper-container {
   margin-top: 2rem;
@@ -310,7 +257,7 @@
   text-transform: capitalize;
 }
 .Home .wrapper-home .recruitment-container {
-  margin-top: 2rem;
+  margin: 2rem 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
   gap: 1.5rem;
@@ -321,7 +268,7 @@
   border-radius: 1rem;
   overflow: hidden;
   border: 0.1rem solid var(--border);
-  padding: 2rem;
+  padding: 1rem 4.5rem 1rem 1rem;
   cursor: pointer;
   position: relative;
   display: flex;
@@ -349,25 +296,25 @@
   color: var(--colorWhiteText);
 }
 .Home .wrapper-home .recruitment-container .company .img-company {
-  flex: 1 1 20rem;
+  flex: 1 1 15rem;
   margin: auto;
   text-align: center;
 }
 .Home .wrapper-home .recruitment-container .company .img-company img {
-  width: 8rem;
+  width: 7.5rem;
   -o-object-fit: cover;
      object-fit: cover;
 }
 .Home .wrapper-home .recruitment-container .company .content-company {
-  flex: 1 1 70rem;
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location {
-  max-width: 31rem;
+  overflow: hidden;
+  overflow: hidden;
+  max-width: 35rem;
+  width: 100%;
 }
 .Home .wrapper-home .recruitment-container .company .content-company .company-location h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: var(--colorBlackText);
   text-transform: capitalize;
   white-space: nowrap;
@@ -378,7 +325,24 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
+  font-size: 1.2rem;
+  margin-left: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--textBlur);
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 31rem;
+}
+.Home .wrapper-home .recruitment-container .company .content-company .company-location .salary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
   font-size: 1.3rem;
   margin-left: 2rem;
   white-space: nowrap;
@@ -390,34 +354,33 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 31rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem;
 }
 .Home .wrapper-home .recruitment-container .company .content-company .company-location .positon {
-  display: inline-block;
+  display: block;
   align-items: center;
   padding: 0.5rem 0;
   font-size: 1.3rem;
   margin-left: 1rem;
-  border: 0.1rem solid var(--border);
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
   border-radius: 0.3rem;
   text-transform: capitalize;
+  max-width: 100%;
   white-space: nowrap;
 }
 .Home .wrapper-home .recruitment-container .company .content-company .company-location .positon p {
   font-weight: var(--weight550);
 }
 .Home .wrapper-home .recruitment-container .company .content-company .company-location .district {
-  display: inline-block;
+  display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0;
-  font-size: 1.3rem;
+  padding: 0.25rem 0;
+  font-size: 1.2rem;
   margin-left: 1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border: 0.1rem solid var(--border);
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
   text-transform: capitalize;
@@ -437,6 +400,28 @@
   font-size: 1.4rem;
   border-top-left-radius: 3rem;
   border-bottom-right-radius: 3rem;
+}
+.Home .wrapper-home .pagination {
+  display: flex;
+  margin: 1.5rem 0;
+  margin: auto;
+  width: 22rem;
+  padding: 0;
+  gap: 2rem;
+  align-items: center;
+  border-radius: 15rem;
+  overflow: hidden;
+}
+.Home .wrapper-home .pagination button {
+  margin: auto;
+  padding: 1rem 1.3rem;
+  background: var(--hoverBox);
+  border: 0.1rem solid var(--hoverBoxBd);
+  border-radius: 5rem;
+}
+.Home .wrapper-home .pagination span {
+  margin: auto;
+  font-size: 1.5rem;
 }
 .Home .HomePage_findJobs .image_HomePage_findJobs {
   max-width: 100%;

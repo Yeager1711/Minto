@@ -16,7 +16,7 @@ function Header() {
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
+
     const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
     const handleRegisterClick = () => setIsRegisterModalOpen(true);
     const handleCloseModal = () => setIsRegisterModalOpen(false);
@@ -41,6 +41,10 @@ function Header() {
                     <Link href="/companies" className={cx('nav-link', { active: pathname === '/companies' })}>
                         Công ty
                     </Link>
+
+                    <div className={cx('nav-link', { active: pathname === '/companies' })}>
+                        Công cụ
+                    </div>
                 </nav>
 
                 <div className={cx('button-control')}>
@@ -89,6 +93,8 @@ function Header() {
                         <Link href="/companies" className={cx({ active: pathname === '/companies' })}>
                             Công ty
                         </Link>
+
+                        <div>Công cụ</div>
                     </div>
                 </div>
             </div>

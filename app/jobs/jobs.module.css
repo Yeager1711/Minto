@@ -1,4 +1,5 @@
 .job {
+  margin-top: 4.2rem;
   padding: 3rem 0;
   background-color: var(--bg-White);
 }
@@ -8,11 +9,13 @@
 }
 .job .filter-job .navigation-search {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 2rem;
-  padding: 2rem 15%;
+  gap: 1rem;
+  padding: 2rem 10%;
 }
 .job .filter-job .navigation-search .box-input {
+  flex: 1 1 70rem;
   width: 55%;
   background: var(--colorWhiteText);
   padding: 1rem 1.5rem;
@@ -29,9 +32,10 @@
   font-size: 1.4rem;
 }
 .job .filter-job .navigation-search .box-select {
+  flex: 1 1 20rem;
   width: 30%;
   background: var(--colorWhiteText);
-  padding: 1rem 1.5rem;
+  padding: 0.9rem 1.5rem;
   border-radius: 0.5rem;
 }
 .job .filter-job .navigation-search .box-select select {
@@ -39,13 +43,14 @@
   font-size: 1.4rem;
 }
 .job .filter-job .navigation-search .btn-find {
+  flex: 1 1 10rem;
   width: 15%;
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
   font-size: 1.4rem;
 }
 .job .job-container {
-  padding: 3rem 15% 1rem !important;
+  padding: 3rem 10% 1rem !important;
 }
 .job .job-container .header-searchByCriteria {
   display: flex;
@@ -62,7 +67,7 @@
   width: 100%;
 }
 .job .job-container .filter-searchByCriteria .filter {
-  flex: 1 1 18rem;
+  flex: 1 1 21rem;
   background: var(--bg-White);
   color: var(--colorBlackText);
   display: flex;
@@ -84,19 +89,20 @@
   font-size: 1.4rem;
 }
 .job .job-wrapperContainer {
-  padding: 1rem 15%;
+  padding: 1rem 10%;
 }
 .job .job-wrapperContainer .Container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
   gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 .job .job-wrapperContainer .Container .box {
   position: relative;
-  padding: 1rem;
+  padding: 1rem 4.5rem 1rem 1rem;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   border: 0.1rem solid var(--border);
   background: var(--bg-White);
   border-radius: 1rem;
@@ -108,12 +114,12 @@
 }
 .job .job-wrapperContainer .Container .box .whislist {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 1rem;
+  top: 0.5rem;
+  right: 0.7rem;
+  padding: 0.7rem;
   background: #e6f6ed;
   color: var(--globalColor);
-  font-size: 1.7rem;
+  font-size: 1.4rem;
   border-radius: 50%;
 }
 .job .job-wrapperContainer .Container .box .tag-rank {
@@ -139,17 +145,16 @@
   display: flex;
 }
 .job .job-wrapperContainer .Container .box .company-logo img {
-  width: 8.5rem;
+  width: 8rem;
   margin: auto;
 }
-.job .job-wrapperContainer .Container .box .info .job-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.job .job-wrapperContainer .Container .box .info {
+  max-width: 32rem;
+  width: 90%;
+  overflow: hidden;
 }
 .job .job-wrapperContainer .Container .box .info .job-info .company-name {
   font-size: 1.4rem;
-  max-width: 31rem;
   line-height: 1.3;
   white-space: nowrap;
   overflow: hidden;
@@ -159,7 +164,6 @@
   margin-left: 2rem;
   font-size: 1.2rem;
   color: var(--textBlur);
-  max-width: 29rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -195,6 +199,7 @@
 }
 .job .job-wrapperContainer .Container .box .info .job-content-bottom .job-content-bottom-tag {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
 }
@@ -207,26 +212,35 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 25rem;
+}
+.job .job-wrapperContainer .Container .box .info .job-content-bottom .job-content-bottom-tag .location {
+  flex: 1 1;
+  width: auto;
+  text-align: center;
 }
 .job .job-wrapperContainer .Container .box .info .job-content-bottom .job-content-bottom-expired {
   border-radius: 0.5rem;
   font-size: 1.2rem;
 }
 .job .job-wrapperContainer .pagination {
-  margin: 1.5rem 0;
-  padding: 0;
-  float: right;
   display: flex;
+  margin: 1.5rem 0;
+  margin: auto;
+  width: 22rem;
+  padding: 0;
   gap: 2rem;
   align-items: center;
-  border: 0.1rem solid var(--border);
   border-radius: 15rem;
   overflow: hidden;
 }
 .job .job-wrapperContainer .pagination button {
-  padding: 0.7rem 1.5rem;
+  margin: auto;
+  padding: 1rem 1.3rem;
+  background: var(--hoverBox);
+  border: 0.1rem solid var(--hoverBoxBd);
+  border-radius: 5rem;
 }
 .job .job-wrapperContainer .pagination span {
-  font-size: 1.3rem;
+  margin: auto;
+  font-size: 1.5rem;
 }/*# sourceMappingURL=jobs.module.css.map */

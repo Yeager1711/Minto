@@ -1,5 +1,6 @@
 .jobDetail {
-  padding: 5rem 15%;
+  padding: 5rem 10%;
+  margin-top: 4.2rem;
   background: var(--background);
 }
 .jobDetail .company {
@@ -31,6 +32,7 @@
 }
 .jobDetail .company .name_company .basic_infomation_item p {
   display: block;
+  line-height: 1.5;
   font-size: 1.4rem;
   font-weight: var(--weight550);
 }
@@ -49,7 +51,9 @@
   transform: scale(0.6);
 }
 .jobDetail .infomation {
-  flex: 1 1 60rem;
+  flex: 1 1 55rem;
+  max-width: 100rem;
+  width: 100%;
   background: var(--bg-White);
   padding: 2rem;
   border-radius: 0.5rem;
@@ -60,6 +64,7 @@
 .jobDetail .infomation .wrapper_infomation .basic_infomation .infomation_Content_section {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   margin: 2.5rem 0;
   gap: 4rem;
 }
@@ -115,7 +120,8 @@
   line-height: 1.5;
 }
 .jobDetail .wraper__generalInformation {
-  flex: 1 1 40rem;
+  flex: 1 1 15rem;
+  width: 100%;
 }
 .jobDetail .wraper__generalInformation .generalInformation {
   background: var(--bg-White);
@@ -238,6 +244,11 @@
      object-fit: contain;
   margin: auto;
 }
+.jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .jobInfo,
+.jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .jobInfo {
+  max-width: 23rem;
+  width: 100%;
+}
 .jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .jobInfo h2,
 .jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .jobInfo h2 {
   font-size: 1.5rem;
@@ -245,7 +256,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 20rem;
 }
 .jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .jobInfo .job__experience,
 .jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .jobInfo .job__experience {
@@ -256,7 +266,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 20rem;
 }
 .jobDetail .wraper__generalInformation .jobSame__company .companyJobs .box_companyJob .jobInfo .company__salary,
 .jobDetail .wraper__generalInformation .jobLevelSame__company .companyJobs .box_companyJob .jobInfo .company__salary {

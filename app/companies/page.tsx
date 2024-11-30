@@ -1,31 +1,43 @@
 'use client';
 import { useState, useEffect } from 'react';
 import styles from './companies.module.scss';
-// import { PiDiamondsFour } from "react-icons/pi";
+import { useRouter, useParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faLocationPin, faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-interface Job {
-    jobId: string;
-    title: string;
-    salary_from: number;
-    salary_to: number;
-    company: {
-        name: string;
-        images: { image_company: string }[];
-    };
-    workLocation: {
-        district: { name: string };
-    };
-}
+import Companies_Skeleton from './companies_skeleton';
+
+import {Job} from '../interface/Job'
+
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 function Companies() {
+    const router = useRouter()
+    const name = useParams();
     const [jobData, setJobData] = useState<Job[]>([]);
-    const [groupedCompanies, setGroupedCompanies] = useState<{ [key: string]: { name: string; district: string; jobs: Job[] } }>({});
+    const [groupedCompanies, setGroupedCompanies] = useState<{
+        [key: string]: { name: string; district: string; jobs: Job[] };
+    }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const itemsPerPage = 9;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const totalPages = Math.ceil(jobData.length / itemsPerPage);
+
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
+    const getCurrentPageJobs = () => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        return Object.keys(groupedCompanies).slice(startIndex, endIndex);
+    };
 
     useEffect(() => {
         const fetchAllJobs = async () => {
@@ -33,7 +45,6 @@ function Companies() {
                 const response = await fetch(`${apiUrl}/jobs/all-jobs`);
                 const data = await response.json();
                 setJobData(data.data);
-
                 // Nhóm các công ty
                 const grouped = data.data.reduce((acc: any, job: Job) => {
                     const key = `${job.company.name}_${job.workLocation.district.name}`;
@@ -59,11 +70,6 @@ function Companies() {
         fetchAllJobs();
     }, []);
 
-    // Loading and error handling
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
     if (error) {
         return <div>{error}</div>;
     }
@@ -87,34 +93,45 @@ function Companies() {
                 </h3>
 
                 <div className={styles['recruitment-companies__wapper']}>
-                    {Object.keys(groupedCompanies).map((key) => {
-                        const company = groupedCompanies[key];
-                        const firstJob = company.jobs[0]; // Lấy job đầu tiên để hiển thị thông tin logo
-                        return (
-                            <div className={styles['box-company']} key={key}>
-                                <div className={styles['company-logo__wrapper']}>
-                                    <div className={styles['company-logo']}>
-                                        <img src={firstJob.company.images[0]?.image_company} alt={company.name} />
-                                    </div>
+                    {loading
+                        ? Companies_Skeleton()
+                        : getCurrentPageJobs().map((key) => {
+                              const company = groupedCompanies[key];
+                              const firstJob = company.jobs[0];
+                              return (
+                                  <div onClick={() => router.push(`/companies/${company.name}`)} className={styles['box-company']} key={key}>
+                                      <div className={styles['company-logo__wrapper']}>
+                                          <div className={styles['company-logo']}>
+                                              <img src={firstJob.company.images[0]?.image_company} alt={company.name} />
+                                          </div>
+                                          <div className={styles['company-logo__border']}>
+                                              <img src={firstJob.company.images[0]?.image_company} alt={company.name} />
+                                          </div>
+                                          <div className={styles['company-content']}>
+                                              <h3>{company.name}</h3>
+                                              <div className={styles['company-content__details']}>
+                                                  <span className={styles['company-district']}>{company.district}</span>
+                                                  <span className={styles['total__job']}>
+                                                      Số lượng công việc tuyển dụng: {company.jobs.length}
+                                                  </span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              );
+                          })}
+                </div>
 
-                                    <div className={styles['company-logo__border']}>
-                                        <img src={firstJob.company.images[0]?.image_company} alt={company.name} />
-                                    </div>
-
-                                    <div className={styles['company-content']}>
-                                        <h3>{company.name}</h3>
-                                        <div className={styles['company-content__details']}>
-                                            <span className={styles['company-district']}>{company.district}</span>
-
-                                            <span className={styles['total__job']}>
-                                                Số lượng công việc tuyển dụng: {company.jobs.length}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
+                <div className={styles['pagination']}>
+                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                        <FontAwesomeIcon icon={faChevronLeft} />
+                    </button>
+                    <span>
+                        {currentPage} / {totalPages} Trang
+                    </span>
+                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </button>
                 </div>
             </section>
         </section>
@@ -122,4 +139,3 @@ function Companies() {
 }
 
 export default Companies;
-

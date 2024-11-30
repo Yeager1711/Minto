@@ -11,42 +11,40 @@ import { faHeart, faLocationPin, faEye, faChevronLeft, faChevronRight } from '@f
 import { formatSalary } from '../Ultils/formatSalary';
 import Jobs_Skeleton from './job_skeleton';
 
-interface Job {
-    jobId: number;
-    title: string;
-    salary_from: number;
-    salary_to: number;
-    salary: string;
-    company: {
-        name: string;
-        images: { image_company: string }[];
-    };
-    jobLevel: {
-        jobLevelId: number;
-        name: string[];
-    };
-    workLocation: {
-        district: { name: string };
-    };
-}
+import {Job} from '../interface/Job'
+
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 function Jobs({ salary }: { salary: string }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
     const [jobData, setJobData] = useState<Job[]>([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
+    // Tính tổng số trang
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    //   Chuyển trang
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
-                const response = await fetch('http://localhost:5000/jobs/all-jobs');
+                const skip = (currentPage - 1) * itemsPerPage;
+                const take = itemsPerPage;
+
+                const response = await fetch(`http://localhost:5000/jobs/job_skip?skip=${skip}&take=${take}`);
                 const data = await response.json();
 
-                const shuffledData = data.data.sort(() => Math.random() - 0.5);
-                setJobData(shuffledData); // Lưu dữ liệu đã sắp xếp
-                setLoading(false);
+                setJobData(data.data);
+                setTotalItems(data.totalItems);
                 setLoading(false);
             } catch (err) {
                 setError('Có lỗi xảy ra khi lấy dữ liệu');
@@ -55,25 +53,11 @@ function Jobs({ salary }: { salary: string }) {
         };
 
         fetchAllJobs();
-    }, []);
+    }, [currentPage]);
 
     if (error) {
         return <div>{error}</div>;
     }
-
-    // Tính toán số trang
-    const totalPages = Math.ceil(jobData.length / itemsPerPage);
-
-    // Lấy dữ liệu cho trang hiện tại
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentData = jobData.slice(startIndex, startIndex + itemsPerPage);
-
-    //   Chuyển trang
-    const handlePageChange = (page: number) => {
-        if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
-        }
-    };
 
     return (
         <section className={styles.job + ' marTop'}>
@@ -99,7 +83,7 @@ function Jobs({ salary }: { salary: string }) {
             <section className={styles['job-container']}>
                 <div className={styles['header-searchByCriteria']}>
                     <h3>
-                        <p>{jobData.length} Việc làm phù hợp</p> Tất cả
+                        <p>{totalItems} Việc làm phù hợp</p> Tất cả
                     </h3>
                 </div>
 
@@ -155,7 +139,7 @@ function Jobs({ salary }: { salary: string }) {
                 <div className={styles['Container']}>
                     {loading
                         ? Jobs_Skeleton()
-                        : currentData.map((item) => (
+                        : jobData.map((item) => (
                               <div
                                   onClick={() => router.push(`/jobs/job_details/${item.jobId}`)}
                                   className={styles['box']}
@@ -163,7 +147,7 @@ function Jobs({ salary }: { salary: string }) {
                               >
                                   <FontAwesomeIcon className={styles['whislist']} icon={faHeart} />
                                   <span className={styles['tag-rank']}>{/* <PiDiamondsFour /> Pro */}</span>
-                                  
+
                                   <div className={styles['company-logo']}>
                                       <img src={item.company.images[0]?.image_company} alt={item.company.name} />
                                   </div>

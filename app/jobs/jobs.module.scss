@@ -1,4 +1,5 @@
 .job {
+    margin-top: 4.2rem;
     padding: 3rem 0;
     background-color: var(--bg-White);
 
@@ -243,11 +244,13 @@
                             }
 
                             .location {
-                                flex: 1 1 14rem;
+                                flex: 1 1;
+                                width: auto;
+                                text-align: center;
                             }
 
                             .views-box {
-                                flex: 1 1 2rem;
+                               
                             }
                         }
 
@@ -265,7 +268,7 @@
             display: flex;
             margin: 1.5rem 0;
             margin: auto;
-            width: 20rem;
+            width: 22rem;
             padding: 0;
            
             gap: 2rem;

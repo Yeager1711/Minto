@@ -6,7 +6,7 @@ import styles from './jobTag.module.scss';
 const TechStack_Skeleton = () => {
     return (
         <>
-            {Array.from({ length: 5 }).map((_, index) => (
+            {Array.from({ length: 10 }).map((_, index) => (
                 <div className={styles.box_jobs} key={index}>
                     <div className={styles.image_company}>
                         <Skeleton height={80} width={80} className={styles.skeleton__img} />

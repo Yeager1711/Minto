@@ -7,67 +7,7 @@ import { formatSalary } from 'app/Ultils/formatSalary';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import TechStack__Skeleton from './tech_skeleton';
-interface Job {
-    success: boolean;
-    jobId: number;
-    title: string;
-    salary: string;
-    salary_from: number;
-    salary_to: number;
-    expire_on: string;
-    description: string;
-    requirement: string;
-    benefits: string;
-    work_time: string;
-    created_at: string;
-    updated_at: string;
-    workLocation: {
-        workLocationId: number;
-        address_name: string;
-        created_at: string;
-        updated_at: string;
-        district: {
-            districtId: number;
-            name: string;
-        };
-    };
-    company: {
-        companyId: number;
-        name: string;
-        created_at: string;
-        updated_at: string;
-        images: {
-            ImageCompanyId: number;
-            image_company: string;
-        }[];
-    };
-    refJob: {
-        ref_job_Id: number;
-        ref_url: string;
-        created_at: string;
-        updated_at: string;
-    };
-    jobType: {
-        jobTypeId: number;
-        work_at: string[];
-        name: string[];
-    };
-    jobLevel: {
-        jobLevelId: number;
-        name: string[];
-    };
-    jobIndustry: {
-        jobIndustryId: number;
-        name: string;
-    };
-    generalInformation: {
-        general_Information_Id: number;
-        numberOfRecruits: number;
-        gender: string;
-        experience: string;
-        tech_stack: string[];
-    };
-}
+import {Job} from '../../interface/Job'
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 

@@ -11,7 +11,7 @@ const Jobs_Skeleton = () => {
                 <div className={styles.box} key={index}>
                     {/* Logo công ty */}
                     <div className={styles['company-logo']}>
-                        <Skeleton height={80} width={80} borderRadius="8px" />
+                        <Skeleton height={80} width={80} borderRadius={8} />
                     </div>
 
                     {/* Thông tin công việc */}
