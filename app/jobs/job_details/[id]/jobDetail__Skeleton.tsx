@@ -6,10 +6,10 @@ import styles from './jobDetail.module.scss';
 
 const JobDetails_Skeleton = () => {
     return (
-        <div>
+        <div key={0}>
             {Array.from({ length: 10 }).map((_, index) => (
-                <div>
-                    <div className={styles.company}>
+                <div key={index}>
+                    <div className={styles.company} >
                         <div className={styles.image_company}>
                             <Skeleton width={100} height={100} />
                         </div>
@@ -165,7 +165,7 @@ const JobDetails_Skeleton = () => {
                     </div>
                 </div>
             ))}
-        </div>
+        </div >
     );
 };
 

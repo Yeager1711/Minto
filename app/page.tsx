@@ -481,7 +481,7 @@ function Home() {
                         <div className={styles.container}>
                             {paginatedJobs.length > 0 ? (
                                 paginatedJobs.map((job) => (
-                                    <div className={styles.job}>
+                                    <div onClick={() => router.push(`/jobs/job_details/${job.jobId}`)} className={styles.job} key={job.jobId}>
                                         <div className={styles.image__logo}>
                                             <img src={job.company.images[0]?.image_company} alt={job.company.name} />
                                         </div>
