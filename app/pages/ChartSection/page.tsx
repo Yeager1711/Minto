@@ -5,6 +5,7 @@ import CountUp from 'react-countup';
 import styles from './ChartSection.module.scss';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
+import ChartSection_Skeleton from './ChartSection_Sekeleton';
 
 // Register the chart elements
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -16,6 +17,8 @@ const ChartSection = () => {
         totalJobs: number;
         uniqueCompanies: number;
         jobsUpdatedIn48Hours: number;
+        totalSalaryAboveThreshold: number;
+        totalSalaryAboveThreshold_Upto: number;
         jobsCreatedByDate: { date: string; count: number }[];
         jobIndustries: { name: string; jobCount: number }[];
     } | null>(null);
@@ -64,7 +67,6 @@ const ChartSection = () => {
             },
         },
     };
-
     const optionsBar = {
         responsive: true,
         plugins: {
@@ -113,7 +115,8 @@ const ChartSection = () => {
             try {
                 const response = await fetch(`${apiUrl}/jobs/chart-section`);
                 const data = await response.json();
-                setDataChart(data.data); // Assuming data.data contains the object
+
+                setDataChart(data.data);
                 setLoading(false);
             } catch (err) {
                 setError('Có lỗi xảy ra khi lấy dữ liệu');
@@ -190,61 +193,91 @@ const ChartSection = () => {
               datasets: [],
           };
 
+    function formatToVND(salary: number): string {
+        if (isNaN(salary)) {
+            throw new Error('Invalid number');
+        }
+        return salary.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
     return (
         <section className={styles.HomePage_chart}>
             <div className={styles.HomePage_container}>
-                <div className={styles.image__pic}>
-                    <h2>
-                        Thị trường hôm nay:
-                        <p>{`${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`}</p>
-                    </h2>
+                {loading ? (
+                    <ChartSection_Skeleton />
+                ) : error ? (
+                    <div className={styles.error_message}>{error}</div>
+                ) : dataChart ? (
+                    <>
+                        <div className={styles.image__pic}>
+                            <h2>
+                                Thị trường hôm nay:
+                                <p>{`${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`}</p>
+                            </h2>
 
-                    <img src="/images/pic.jpg" alt="Explore Jobs" />
+                            <img src="/images/pic.jpg" alt="Explore Jobs" />
 
-                    <div className={styles.total_salary__VND} data-aos="fade-down" data-aos-delay="200">
-                        721.000.000 vnđ
-                        <p>Tổng Offer lương được đưa ra theo VNĐ</p>
-                    </div>
-
-                    <div className={styles.total_salary__USD} data-aos="fade-right" data-aos-delay="400">
-                        Thỏa thuận
-                        <p>Mức lương phù hợp với năng lực bản thân và nhu cầu nhà tuyển dụng.</p>
-                    </div>
-
-                    <div className={styles.total_salary__upTo} data-aos="fade-up-left" data-aos-delay="600">
-                        78.000 USD
-                        <p>Up to</p>
-                    </div>
-                </div>
-
-                <div className={styles.content_HomePage_chart}>
-                    {dataChart && (
-                        <div className={styles.wrapper_totalItems}>
-                            <div className={styles.total_items}>
-                                <CountUp start={0} end={dataChart.jobsUpdatedIn48Hours} duration={3} separator="," />
-                                <p>Việc làm mới 48h gần nhất</p>
+                            <div className={styles.total_salary__VND} data-aos="fade-down" data-aos-delay="200">
+                            <CountUp
+                                    start={0}
+                                    end={dataChart.totalSalaryAboveThreshold}
+                                    duration={3}
+                                    separator=","
+                                /> VNĐ
+                             
+                                <p>Tổng Offer lương được đưa ra theo VNĐ</p>
                             </div>
-                            <div className={styles.total_items}>
-                                <CountUp start={0} end={dataChart.totalJobs} duration={3} separator="," />
-                                <p>Việc làm đang tuyển</p>
+
+                            <div className={styles.total_salary__USD} data-aos="fade-right" data-aos-delay="400">
+                                Thỏa thuận
+                                <p>Mức lương phù hợp với năng lực bản thân và nhu cầu nhà tuyển dụng.</p>
                             </div>
-                            <div className={styles.total_items}>
-                                <CountUp start={0} end={dataChart.uniqueCompanies} duration={3} separator="," />
-                                <p>Công ty đang tuyển</p>
+
+                            <div className={styles.total_salary__upTo} data-aos="fade-up-left" data-aos-delay="600">
+                                <CountUp
+                                    start={0}
+                                    end={dataChart.totalSalaryAboveThreshold_Upto}
+                                    duration={3}
+                                    separator=","
+                                /> VNĐ
+
+                                <p>Tổng Up To lương</p>
                             </div>
                         </div>
-                    )}
-                    <div className={styles.wrapper_chart}>
-                        <div className={styles.chart_items}>
-                            <h3>Cơ hội việc làm</h3>
-                            <Line data={dataLine1} options={optionsLine} />
+
+                        <div className={styles.content_HomePage_chart}>
+                            <div className={styles.wrapper_totalItems}>
+                                <div className={styles.total_items}>
+                                    <CountUp
+                                        start={0}
+                                        end={dataChart.jobsUpdatedIn48Hours}
+                                        duration={3}
+                                        separator=","
+                                    />
+                                    <p>Việc làm mới 48h gần nhất</p>
+                                </div>
+                                <div className={styles.total_items}>
+                                    <CountUp start={0} end={dataChart.totalJobs} duration={3} separator="," />
+                                    <p>Việc làm đang tuyển</p>
+                                </div>
+                                <div className={styles.total_items}>
+                                    <CountUp start={0} end={dataChart.uniqueCompanies} duration={3} separator="," />
+                                    <p>Công ty đang tuyển</p>
+                                </div>
+                            </div>
+                            <div className={styles.wrapper_chart}>
+                                <div className={styles.chart_items}>
+                                    <h3>Cơ hội việc làm</h3>
+                                    <Line data={dataLine1} options={optionsLine} />
+                                </div>
+                                <div className={styles.chart_items}>
+                                    <h3>Nhu cầu tuyển dụng</h3>
+                                    <Bar data={dataBar} options={optionsBar} />
+                                </div>
+                            </div>
                         </div>
-                        <div className={styles.chart_items}>
-                            <h3>Nhu cầu tuyển dụng</h3>
-                            <Bar data={dataBar} options={optionsBar} />
-                        </div>
-                    </div>
-                </div>
+                    </>
+                ) : null}
             </div>
         </section>
     );

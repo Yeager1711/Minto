@@ -7,7 +7,7 @@ import styles from './jobDetail.module.scss';
 const JobDetails_Skeleton = () => {
     return (
         <div key={0}>
-            {Array.from({ length: 10 }).map((_, index) => (
+            {Array.from({ length: 1 }).map((_, index) => (
                 <div key={index}>
                     <div className={styles.company} >
                         <div className={styles.image_company}>

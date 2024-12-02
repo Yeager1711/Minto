@@ -5,6 +5,7 @@
         padding: 2rem;
         background: linear-gradient(135deg, #004e64, #00a853, #0cdf8b);
         display: flex;
+        flex-wrap: wrap;
         gap: 2rem;
 
         h2 {
@@ -19,11 +20,12 @@
         border-radius: 1rem;
 
         .image__pic {
+            flex: 1 1 30rem;
             max-width: 30rem;
             position: relative;
 
             img {
-                width: 100%;
+                width: 30rem;
                 height: 100%;
                 object-fit: cover;
                 overflow: hidden;
@@ -53,10 +55,11 @@
             .total_salary__USD {
                 position: absolute;
                 top: 50%;
-                left: -45%;
+                left: -25%;
                 padding: 1.5rem;
                 background: linear-gradient(to right, #f69a83, #f9dfcb);
-                max-width: 21rem;
+                max-width: 15rem;
+                height: auto;
                 width: 100%;
                 border-radius: 1rem;
                 font-size: 1.6rem;
@@ -72,8 +75,8 @@
 
             .total_salary__upTo {
                 position: absolute;
-                bottom: -10%;
-                left: 65%;
+                bottom: -7%;
+                left: 60%;
                 padding: 1.5rem;
                 background: linear-gradient(to right, #f68383, #f9dfcb);
                 max-width: 21rem;
@@ -92,7 +95,7 @@
         }
 
         .content_HomePage_chart {
-            flex: 1 1;
+            flex: 1 1 60rem;
 
             .wrapper_totalItems {
                 display: flex;
@@ -121,9 +124,11 @@
 
         .wrapper_chart {
             display: flex;
+            flex-wrap: wrap;
             gap: 2rem;
 
             .chart_items {
+                flex: 1 1 8rem;
                 padding: 1.5rem;
                 background: rgba(0, 0, 0, .3);
                 border-radius: 1rem;

@@ -224,9 +224,9 @@ function Home() {
                 <div className={styles['wrapper-content']}>
                     <div className={styles['search-infoWork']}>
                         <div className={styles['content']}>
-                            <h4>
+                            <h2>
                                 Tìm việc làm nhanh <span>24h</span>, việc làm mới nhất trên toàn quốc.
-                            </h4>
+                            </h2>
                             <p>
                                 Tiếp cận <span>40,000+</span> tuyển dụng việc làm mỗi ngày từ doanh nghiệp uy tín tại
                                 Việt Nam
