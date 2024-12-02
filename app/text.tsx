@@ -32,8 +32,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { CiLocationOn } from 'react-icons/ci';
 
-import  ChartSection from '../app/pages/ChartSection/page'
-
 import { formatSalary } from './Ultils/formatSalary';
 
 import Home_Skeleton from './home_skeleton';
@@ -46,12 +44,18 @@ const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 function Home() {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [allJobData, setAllJobData] = useState<Job[]>([]);
+
     const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isExpanded, setIsExpanded] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocation, setSelectedLocation] = useState('');
+
+    // total job - company - updated 48h
+    const [totalJobs, setTotalJobs] = useState(0); 
+    const [uniqueCompanies, setUniqueCompanies] = useState(0);
+    const [jobsUpdatedIn48Hours, setJobsUpdatedIn48Hours] = useState(0);
 
     // func skip and take data
     const [totalItems, setTotalItems] = useState(0);
@@ -134,6 +138,12 @@ function Home() {
 
                 const shuffledData = data.data.sort(() => Math.random() - 0.5);
                 setAllJobData(shuffledData);
+
+                // // Cập nhật thông tin tổng
+                // setTotalJobs(data.totalJobs);
+                // setUniqueCompanies(data.uniqueCompanies);
+                // setJobsUpdatedIn48Hours(data.jobsUpdatedIn48Hours);
+
                 setTotalPages_Type(Math.ceil(data.data.length / itemsPerPage));
                 setLoading(false);
             } catch (err) {
@@ -143,7 +153,7 @@ function Home() {
         };
 
         fetchAllJobs();
-    }, [itemsPerPage_Type]);
+    }, []);
 
     useEffect(() => {
         const fetchJobsBySkip = async () => {
@@ -210,6 +220,61 @@ function Home() {
         setSelectedLocation(e.target.value);
     };
 
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top' as const,
+                labels: {
+                    color: 'white',
+                },
+            },
+            title: {
+                display: true,
+                text: 'Thống kê',
+                color: '#fff',
+            },
+        },
+
+        scales: {
+            x: {
+                ticks: {
+                    color: 'white',
+                },
+            },
+            y: {
+                ticks: {
+                    color: 'white',
+                },
+            },
+        },
+    };
+
+    const dataLine1 = {
+        labels: ['25/11', '26/11', '27/11', '28/11', '29/11', '30/11', '01/12'],
+        datasets: [
+            {
+                label: 'Cơ hội việc làm',
+                data: [0, 150, 180, 140, 220, 251, 400],
+                borderColor: '#00A884',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                tension: 0.4,
+            },
+        ],
+    };
+
+    const dataLine2 = {
+        labels: ['Software', 'Bank', 'Education', 'Logictist', 'Service', 'Entertainment', 'Advertisement'],
+        datasets: [
+            {
+                label: 'Nhu cầu tuyển dụng',
+                data: [251, 90, 10, 100, 100, 20, 70],
+                borderColor: '#4b7fdb',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                tension: 0.4,
+            },
+        ],
+    };
 
     if (error) {
         return <div>{error}</div>;
@@ -432,7 +497,57 @@ function Home() {
             </section>
 
             {/* Job Application Section */}
-            <ChartSection  />
+            <section className={styles.HomePage_chart}>
+                <div className={styles.HomePage_container}>
+                    <div className={styles.image__pic}>
+                        <h2>Thị trường hôm nay 01/12/2024</h2>
+                        <img src="/images/pic.jpg" alt="Explore Jobs" />
+
+                        <div className={styles.total_salary__VND}>
+                            721.000.000 vnđ
+                            <p>Tổng Offer lương được đưa ra theo VNĐ</p>
+                        </div>
+
+                        <div className={styles.total_salary__USD}>
+                            248.281 USD
+                            <p>Tổng Offer lương được đưa ra theo USD</p>
+                        </div>
+
+                        <div className={styles.total_salary__upTo}>
+                            78.000 USD
+                            <p>Tổng Offer lương được đưa ra theo USD</p>
+                        </div>
+                    </div>
+
+                    <div className={styles.content_HomePage_chart}>
+                        <div className={styles.wrapper_totalItems}>
+                            <div className={styles.total_items}>
+                                {jobsUpdatedIn48Hours}
+                                <p>Việc làm mới 48h gần nhất</p>
+                            </div>
+                            <div className={styles.total_items}>
+                                {totalItems}
+                                <p>Việc làm đang tuyển</p>
+                            </div>
+                            <div className={styles.total_items}>
+                                {uniqueCompanies}
+                                <p>Công ty đang tuyển</p>
+                            </div>
+                        </div>
+
+                        <div className={styles.wrapper_chart}>
+                            <div className={styles.chart_items}>
+                                <h3>Cơ hội việc làm</h3>
+                                <Line data={dataLine1} options={options} />
+                            </div>
+                            <div className={styles.chart_items}>
+                                <h3>Nhu cầu tuyển dụng</h3>
+                                <Line data={dataLine2} options={options} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <section className={styles.jobByTypes}>
                 <h2>Tìm kiếm công việc theo loại</h2>
