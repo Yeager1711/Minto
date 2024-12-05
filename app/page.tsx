@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.scss';
 import 'aos/dist/aos.css';
 
-import { showToastError, showToastSuccess } from '../app/Ultils/toast';
+
 
 import { Line } from 'react-chartjs-2';
 import {
@@ -32,7 +32,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { CiLocationOn } from 'react-icons/ci';
 
-import  ChartSection from '../app/pages/ChartSection/page'
+import ChartSection from './pages/Home/ChartSection/page';
+import SearchTypes from './pages/Home/SearchTypes/page'
 
 import { formatSalary } from './Ultils/formatSalary';
 
@@ -71,70 +72,16 @@ function Home() {
         }
     };
 
-    // Job by types
-    const [itemsPerPage_Type, setItemsPerPage_Type] = useState(9);
-    const [currentPage_Type, setCurrentPage_Type] = useState(1);
-    const [totalPages_Type, setTotalPages_Type] = useState(1);
-
-    const [selectedJobType, setSelectedJobType] = useState('');
-    const [selectedIndustry, setSelectedIndustry] = useState('');
-    const [filteredJobsType, setFilteredJobsType] = useState<Job[]>([]);
-
-    // Cập nhật danh sách phân trang
-    const jobsToDisplay = filteredJobsType.length > 0 ? filteredJobsType : allJobData;
-
-    // Tính tổng số trang
-    useEffect(() => {
-        setTotalPages_Type(Math.ceil(jobsToDisplay.length / itemsPerPage_Type));
-    }, [jobsToDisplay, itemsPerPage_Type]);
-
-    // Lấy dữ liệu phân trang
-    const paginatedJobs = jobsToDisplay.slice(
-        (currentPage_Type - 1) * itemsPerPage_Type,
-        currentPage_Type * itemsPerPage_Type
-    );
-    // Xử lý khi thay đổi trang
-    const handlePageChange_Types = (newPage: number) => {
-        if (newPage > 0 && newPage <= totalPages_Type) {
-            setCurrentPage_Type(newPage);
-        }
-    };
-
-    // Thay đổi loại công việc
-    const handleJobTypeChange = (event: any) => {
-        setSelectedJobType(event.target.value);
-    };
-
-    // Thay đổi danh mục công việc
-    const handleIndustryChange = (event: any) => {
-        setSelectedIndustry(event.target.value);
-    };
-
-    const handleSearchJobType = () => {
-        const filtered = allJobData.filter((job) => {
-            const matchesJobType = selectedJobType ? job.jobLevel.name.includes(selectedJobType) : true;
-            const matchesIndustry = selectedIndustry ? job.jobIndustry.name.includes(selectedIndustry) : true;
-            return matchesJobType && matchesIndustry;
-        });
-
-        if (filtered.length === 0) {
-            showToastError('Không tìm thấy kết quả phù hợp!');
-            setFilteredJobsType([]);
-        } else {
-            setFilteredJobsType(filtered);
-            setCurrentPage_Type(1);
-        }
-    };
-
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
                 const response = await fetch(`${apiUrl}/jobs/all-jobs`);
-                const data = await response.json();
+                const data: { data: Job[]; totalItems: number } = await response.json();
 
-                const shuffledData = data.data.sort(() => Math.random() - 0.5);
-                setAllJobData(shuffledData);
-                setTotalPages_Type(Math.ceil(data.data.length / itemsPerPage));
+                const sortedData = data.data.sort(
+                    (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+                );
+                setAllJobData(sortedData);
                 setLoading(false);
             } catch (err) {
                 setError('Có lỗi xảy ra khi lấy dữ liệu');
@@ -143,7 +90,7 @@ function Home() {
         };
 
         fetchAllJobs();
-    }, [itemsPerPage_Type]);
+    }, []);
 
     useEffect(() => {
         const fetchJobsBySkip = async () => {
@@ -152,12 +99,16 @@ function Home() {
                 const take = itemsPerPage;
 
                 const response = await fetch(`${apiUrl}/jobs/job_skip?skip=${skip}&take=${take}`);
-                const data = await response.json();
+
+                if (!response.ok) throw new Error('API request failed');
+                const data: { data: Job[]; totalItems: number } = await response.json();
 
                 // Random hóa dữ liệu sau khi nhận từ API
-                const shuffledData = data.data.sort(() => Math.random() - 0.5);
+                const sortedData = data.data.sort(
+                    (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+                );
 
-                setJobs(shuffledData);
+                setJobs(sortedData);
                 setTotalItems(data.totalItems);
                 setLoading(false);
             } catch (err) {
@@ -209,7 +160,6 @@ function Home() {
     const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedLocation(e.target.value);
     };
-
 
     if (error) {
         return <div>{error}</div>;
@@ -327,18 +277,18 @@ function Home() {
                         mousewheel={true}
                         keyboard={true}
                         modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
-                        className="mySwiper"
-                        slidesPerView={4}
-                        spaceBetween={10}
+                        className="mySwiper_companyslide"
+                        slidesPerView={5}
+                        spaceBetween={20}
                         autoplay={{
                             delay: 2500,
                             disableOnInteraction: false,
                         }}
                         breakpoints={{
                             320: { slidesPerView: 1 },
-                            640: { slidesPerView: 2 },
-                            768: { slidesPerView: 3 },
-                            1024: { slidesPerView: 4 },
+                            640: { slidesPerView: 3 },
+                            768: { slidesPerView: 4 },
+                            1024: { slidesPerView: 5 },
                         }}
                     >
                         {Array.from(new Map(allJobData.map((job) => [job.company.name, job])).values()).map(
@@ -432,105 +382,9 @@ function Home() {
             </section>
 
             {/* Job Application Section */}
-            <ChartSection  />
+            <ChartSection />
 
-            <section className={styles.jobByTypes}>
-                <h2>Tìm kiếm công việc theo loại</h2>
-                <div className={styles.wrapper_list__jobTypes}>
-                    <div className={styles.list__item}>
-                        <div className={styles.header}>
-                            <h3>Việc làm theo </h3>
-                            <select onChange={handleJobTypeChange}>
-                                <option value="">Tất cả</option>
-                                <option value="Intern">Intern</option>
-                                <option value="Fresher">Fresher</option>
-                                <option value="Junior">Junior</option>
-                                <option value="Middle">Mid-level</option>
-                                <option value="Leader">Leader</option>
-                                <option value="Senior">Senior</option>
-                                <option value="Principal">Principal</option>
-                                <option value="Manager">Engineering Manager</option>
-                                <option value="Director">Director of Engineering</option>
-                            </select>
-
-                            <select onChange={handleIndustryChange}>
-                                <option value="">Tất cả</option>
-                                <option value="Software">Software</option>
-                                <option value="Phần mềm">Phần mềm</option>
-                                <option value="Bank">Bank</option>
-                                <option value="Giải trí">Giải trí</option>
-                                <option value="Giáo dục">Giáo dục</option>
-                                <option value="Dịch vụ">Dịch vụ</option>
-                                <option value="Logistics">Logictist</option>
-                                <option value="Human Resource">Human Resource</option>
-                                <option value="Service">Service</option>
-                                <option value="Quảng Cáo Truyền Thông, Sale & Marketing Services">
-                                    Quảng Cáo Truyền Thông, Sale & Marketing Services
-                                </option>
-                            </select>
-
-                            <div className={styles.btn_search} onClick={handleSearchJobType}>
-                                Tìm
-                            </div>
-                        </div>
-
-                        <div className={styles.container}>
-                            {paginatedJobs.length > 0 ? (
-                                paginatedJobs.map((job) => (
-                                    <div
-                                        onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}
-                                        className={styles.job}
-                                        key={job.jobId}
-                                    >
-                                        <div className={styles.image__logo}>
-                                            <img src={job.company.images[0]?.image_company} alt={job.company.name} />
-                                        </div>
-
-                                        <div className={styles.content}>
-                                            <h3 title={job.title}>{job.title}</h3>
-                                            <span className={styles.name__company} title={job.company.name}>
-                                                {job.company.name}
-                                            </span>
-                                            <span className={styles.positon}>{job.jobLevel.name.join(' - ')}</span>
-                                            <span className={styles.salary}>
-                                                {job.salary_from === 0 || job.salary_to === 0 ? (
-                                                    <>Thỏa thuận</>
-                                                ) : (
-                                                    <>{formatSalary(job.salary)}</>
-                                                )}
-                                            </span>
-
-                                            <span className={styles.district} title={job.workLocation.address_name}>
-                                                <CiLocationOn />
-                                                {job.workLocation.address_name}
-                                            </span>
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>Không có công việc nào!</p>
-                            )}
-                        </div>
-                        <div className={styles['pagination']}>
-                            <button
-                                onClick={() => handlePageChange_Types(currentPage_Type - 1)}
-                                disabled={currentPage_Type === 1}
-                            >
-                                <FontAwesomeIcon icon={faChevronLeft} />
-                            </button>
-                            <span>
-                                {currentPage_Type} / {totalPages_Type} Trang
-                            </span>
-                            <button
-                                onClick={() => handlePageChange_Types(currentPage_Type + 1)}
-                                disabled={currentPage_Type === totalPages}
-                            >
-                                <FontAwesomeIcon icon={faChevronRight} />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <SearchTypes />
         </div>
     );
 }

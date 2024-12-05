@@ -17,7 +17,7 @@ const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 function Jobs({ salary }: { salary: string }) {
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 9;
+    const itemsPerPage = 15;
     const [jobData, setJobData] = useState<Job[]>([]);
     const [totalItems, setTotalItems] = useState(0);
     const [loading, setLoading] = useState(true);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Line, Bar } from 'react-chartjs-2'; // Import Bar chart
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'; // Import necessary chart elements
 import CountUp from 'react-countup';
@@ -23,18 +23,20 @@ const ChartSection = () => {
         jobIndustries: { name: string; jobCount: number }[];
     } | null>(null);
 
+    const chartRef = useRef<HTMLDivElement>(null);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        AOS.init({ duration: 1200 }); // Khởi tạo với thời gian 1.2s
+        AOS.init({ duration: 1200 });
     }, []);
 
     const optionsLine = {
         responsive: true,
         plugins: {
             legend: {
-                position: 'top' as const,
+                position: 'bottom' as const,
                 labels: {
                     color: 'white',
                 },
@@ -71,7 +73,7 @@ const ChartSection = () => {
         responsive: true,
         plugins: {
             legend: {
-                position: 'top' as const,
+                position: 'bottom' as const,
                 labels: {
                     color: 'white',
                 },
@@ -110,21 +112,40 @@ const ChartSection = () => {
         barPercentage: 0.9,
     };
 
-    useEffect(() => {
-        const fetchChart = async () => {
-            try {
-                const response = await fetch(`${apiUrl}/jobs/chart-section`);
-                const data = await response.json();
+    const fetchChart = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/jobs/chart-section`);
+            const data = await response.json();
 
-                setDataChart(data.data);
-                setLoading(false);
-            } catch (err) {
-                setError('Có lỗi xảy ra khi lấy dữ liệu');
-                setLoading(false);
+            setDataChart(data.data);
+            setLoading(false);
+        } catch (err) {
+            setError('Có lỗi xảy ra khi lấy dữ liệu');
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        fetchChart(); // Reload data when the chart is visible
+                    }
+                });
+            },
+            { threshold: 0.5 } // Trigger when 50% of the element is visible
+        );
+
+        if (chartRef.current) {
+            observer.observe(chartRef.current);
+        }
+
+        return () => {
+            if (chartRef.current) {
+                observer.unobserve(chartRef.current);
             }
         };
-
-        fetchChart();
     }, []);
 
     // Function to get the last 7 days in order from past to future
@@ -146,7 +167,7 @@ const ChartSection = () => {
               labels: getLast7Days(),
               datasets: [
                   {
-                      label: 'Cơ hội việc làm',
+                      label: 'Việc làm 7  ngày qua',
                       data: getLast7Days().map((date) => {
                           // Tìm job count tương ứng với ngày
                           const jobData = dataChart.jobsCreatedByDate.find((job) => {
@@ -162,7 +183,7 @@ const ChartSection = () => {
               ],
           }
         : {
-              labels: [], // Rỗng nếu chưa có dữ liệu
+              labels: [],
               datasets: [],
           };
 
@@ -171,20 +192,19 @@ const ChartSection = () => {
               labels: dataChart.jobIndustries.map((industry) =>
                   industry.name.length > 100 ? industry.name.slice(0, 10) + '...' : industry.name
               ),
-
               datasets: [
                   {
-                      label: 'Nhu cầu tuyển dụng',
+                      label: 'Số lượng công việc',
                       data: dataChart.jobIndustries.map((industry) => industry.jobCount),
                       backgroundColor: [
-                          'rgba(72, 144, 232, 0.9)', // Xanh lam rực rỡ
-                          'rgba(255, 102, 102, 0.9)', // Đỏ san hô
-                          'rgba(102, 204, 102, 0.9)', // Xanh lá mạ
-                          'rgba(255, 178, 102, 0.9)', // Cam sáng
-                          'rgba(153, 102, 255, 0.9)', // Tím lavender
-                          'rgba(255, 223, 102, 0.9)', // Vàng sáng
-                          'rgba(102, 217, 239, 0.9)', // Xanh ngọc
-                      ],
+                          'rgba(72, 144, 232, 0.9)',
+                          'rgba(255, 102, 102, 0.9)',
+                          'rgba(102, 204, 102, 0.9)',
+                          'rgba(255, 178, 102, 0.9)',
+                          'rgba(153, 102, 255, 0.9)',
+                          'rgba(255, 223, 102, 0.9)',
+                          'rgba(102, 217, 239, 0.9)',
+                      ].slice(0, dataChart.jobIndustries.length), 
                   },
               ],
           }
@@ -201,7 +221,7 @@ const ChartSection = () => {
     }
 
     return (
-        <section className={styles.HomePage_chart}>
+        <section ref={chartRef} className={styles.HomePage_chart}>
             <div className={styles.HomePage_container}>
                 {loading ? (
                     <ChartSection_Skeleton />
@@ -210,21 +230,22 @@ const ChartSection = () => {
                 ) : dataChart ? (
                     <>
                         <div className={styles.image__pic}>
-                            <h2>
-                                Thị trường hôm nay:
+                            <h3>
+                                Thị trường hôm nay
                                 <p>{`${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`}</p>
-                            </h2>
+                            </h3>
 
                             <img src="/images/pic.jpg" alt="Explore Jobs" />
 
                             <div className={styles.total_salary__VND} data-aos="fade-down" data-aos-delay="200">
-                            <CountUp
+                                <CountUp
                                     start={0}
                                     end={dataChart.totalSalaryAboveThreshold}
                                     duration={3}
                                     separator=","
-                                /> VNĐ
-                             
+                                    redraw
+                                />{' '}
+                                VNĐ
                                 <p>Tổng Offer lương được đưa ra theo VNĐ</p>
                             </div>
 
@@ -239,8 +260,9 @@ const ChartSection = () => {
                                     end={dataChart.totalSalaryAboveThreshold_Upto}
                                     duration={3}
                                     separator=","
-                                /> VNĐ
-
+                                    redraw
+                                />{' '}
+                                VNĐ
                                 <p>Tổng Up To lương</p>
                             </div>
                         </div>
@@ -253,15 +275,22 @@ const ChartSection = () => {
                                         end={dataChart.jobsUpdatedIn48Hours}
                                         duration={3}
                                         separator=","
+                                        redraw
                                     />
                                     <p>Việc làm mới 48h gần nhất</p>
                                 </div>
                                 <div className={styles.total_items}>
-                                    <CountUp start={0} end={dataChart.totalJobs} duration={3} separator="," />
+                                    <CountUp start={0} end={dataChart.totalJobs} duration={3} separator="," redraw />
                                     <p>Việc làm đang tuyển</p>
                                 </div>
                                 <div className={styles.total_items}>
-                                    <CountUp start={0} end={dataChart.uniqueCompanies} duration={3} separator="," />
+                                    <CountUp
+                                        start={0}
+                                        end={dataChart.uniqueCompanies}
+                                        duration={3}
+                                        separator=","
+                                        redraw
+                                    />
                                     <p>Công ty đang tuyển</p>
                                 </div>
                             </div>

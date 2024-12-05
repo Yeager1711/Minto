@@ -194,7 +194,7 @@ function JobDetail() {
 
                     <span className={styles.basic_infomation_item__industry}>
                     <FontAwesomeIcon icon={faIndustry} />
-                        Ngành nghề:
+                        Lĩnh vực:
                         <p>{jobDetails.jobIndustry.name}</p>
                     </span>
                     <span className={styles.basic_infomation_item}>

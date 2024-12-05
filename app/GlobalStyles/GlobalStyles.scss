@@ -90,7 +90,7 @@ html {
 }
 
 .marTop {
-    margin-top: 0;
+    margin-top: 0 !important;
 }
 
 @media screen and (max-width: 1040px) {
@@ -141,16 +141,6 @@ h3 {
     }
 }
 
-.swiper {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    overflow: none !important;
-    list-style: none;
-    padding: 0;
-    z-index: 0 !important;
-    display: block;
-}
 
 .swiper-button-next {
     right: -1rem !important;
@@ -178,7 +168,9 @@ h3 {
     }
 }
 
-.swiper.swiper-initialized.swiper-horizontal.swiper-css-mode.mySwiper {
+.mySwiper_companyslide {
     overflow: visible !important;
-
 }
+
+
+
