@@ -4,9 +4,6 @@ import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.scss';
 import 'aos/dist/aos.css';
-
-
-
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -33,7 +30,9 @@ import { faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-sv
 import { CiLocationOn } from 'react-icons/ci';
 
 import ChartSection from './pages/Home/ChartSection/page';
-import SearchTypes from './pages/Home/SearchTypes/page'
+import SearchTypes from './pages/Home/SearchTypes/page';
+import OutstandingTool from './pages/Home/OutstandingTool/page';
+import  OutstandingCompany from './pages/Home/OutstandingCompany/page'
 
 import { formatSalary } from './Ultils/formatSalary';
 
@@ -42,9 +41,14 @@ import Home_Skeleton from './home_skeleton';
 // Định nghĩa kiểu cho công việc
 import { Job } from '../app/interface/Job';
 
+import { useHandleViewJob } from './Ultils/hanle__viewJob';
+
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 function Home() {
+    const router = useRouter()
+    const handleViewJob = useHandleViewJob();
+
     const [jobs, setJobs] = useState<Job[]>([]);
     const [allJobData, setAllJobData] = useState<Job[]>([]);
     const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
@@ -60,7 +64,6 @@ function Home() {
     const [currentPage, setCurrentPage] = useState(1);
 
     const itemsPerPage = 12;
-    const router = useRouter();
 
     // Tính toán số trang
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -332,6 +335,7 @@ function Home() {
                               >
                                   <span className={styles['icon-views']}>
                                       <FontAwesomeIcon icon={faEye} />
+                                      {job.view}
                                   </span>
 
                                   <div className={styles['img-company']}>
@@ -381,10 +385,13 @@ function Home() {
                 </div>
             </section>
 
-            {/* Job Application Section */}
             <ChartSection />
 
             <SearchTypes />
+
+            <OutstandingTool />
+
+            <OutstandingCompany />
         </div>
     );
 }

@@ -1,0 +1,432 @@
+.PersonalTax {
+    background: var(--background);
+    min-height: 100vh;
+
+    h3 {
+        font-size: 2rem;
+    }
+
+    .PersonalTax__container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+
+        .PersonalTax_temple__right {
+            flex: 1 1 32rem;
+            background: var(--bg-White);
+            padding: 2rem;
+            border-radius: 1rem;
+            // height: 59rem;
+            // overflow: auto;
+
+            .header__content {
+                h1 {
+                    margin-bottom: 1rem;
+                    font-size: 1.8rem;
+
+                }
+
+                span {
+                    font-size: 1.35rem;
+                    line-height: 1.5;
+                    display: block;
+                    margin-top: .5rem;
+
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 2rem 0;
+                        font-size: 1.3rem;
+                        text-align: left;
+                    }
+
+                    th,
+                    td {
+                        border: .1rem solid #ddd;
+                        padding: 2rem;
+                    }
+
+                    th {
+                        background-color: #f4f4f4;
+                    }
+
+                    tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+
+                    tr:hover {
+                        background-color: #f1f1f1;
+                    }
+                }
+            }
+
+            .result {
+                .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 1rem;
+
+                    th,
+                    td {
+                        text-align: center;
+                        padding: 2rem;
+                        border: .1rem solid #ddd;
+                        border-left: none;
+                        border-right: none;
+                        font-size: 1.4rem;
+                    }
+
+                    th {
+                        background-color: #f4f4f4;
+                        font-weight: bold;
+                    }
+
+                    tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+
+                    tr:hover {
+                        background-color: #f1f1f1;
+                    }
+
+                    td {
+                        color: #333;
+                    }
+
+                    .text-orange {
+                        color: #ff5722;
+                        font-weight: bold;
+                    }
+                }
+
+            }
+
+            .result__details {
+                margin: 4rem 0;
+
+                h3 {
+                    font-size: 1.7rem;
+                }
+
+                .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 2rem 0;
+                    font-size: 1.4rem;
+                    font-family: Arial, sans-serif;
+                    text-align: left;
+
+                    tr {
+                        border: 1px solid #ddd;
+
+                        th,
+                        td {
+                            padding: 1.5rem;
+                            border: 1px solid #ddd;
+
+
+                        }
+                    }
+
+                    thead {
+                        background-color: #f4f4f4;
+
+                        th {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            letter-spacing: 0.05em;
+                        }
+                    }
+
+                    tbody {
+                        tr {
+                            transition: background-color 0.3s ease;
+
+                            &:hover {
+                                background-color: #f9f9f9;
+                            }
+                        }
+
+                        td {
+                            color: #555;
+                            font-weight: 600;
+
+                        }
+
+                        .netIncome {
+                            font-weight: var(--weight400);
+                        }
+                    }
+
+                    tfoot {
+                        background-color: #f4f4f4;
+
+                        td {
+                            font-weight: bold;
+                            float: right;
+                        }
+                    }
+
+                    &.striped {
+                        tbody tr:nth-child(odd) {
+                            background-color: #f9f9f9;
+                        }
+
+                        tbody tr:nth-child(even) {
+                            background-color: #fff;
+                        }
+                    }
+
+                    &.bordered {
+                        border: 2px solid #ccc;
+                    }
+
+                    &.compact {
+
+                        th,
+                        td {
+                            padding: 0.5rem;
+                        }
+                    }
+                }
+
+            }
+
+            .Calculate_detailsOfPersonal__income__tax {
+                margin: 4rem 0;
+
+                h3 {
+                    font-size: 1.5rem;
+                }
+
+                .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 2rem 0;
+                    font-size: 1.4rem;
+                    font-family: Arial, sans-serif;
+                    text-align: left;
+
+                    tr {
+                        border: 1px solid #ddd;
+
+                        th,
+                        td {
+                            padding: 1.4rem;
+                            border: 1px solid #ddd;
+
+
+                        }
+                    }
+
+                    thead {
+                        background-color: #f4f4f4;
+
+                        th {
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            letter-spacing: 0.05em;
+                        }
+                    }
+
+                    tbody {
+                        tr {
+                            transition: background-color 0.3s ease;
+
+                            &:hover {
+                                background-color: #f9f9f9;
+                            }
+                        }
+
+                        td {
+                            color: #555;
+                            font-weight: 400;
+
+                        }
+
+                        .netIncome {
+                            font-weight: var(--weight400);
+                        }
+                    }
+
+                    tfoot {
+                        background-color: #f4f4f4;
+
+                        td {
+                            font-weight: bold;
+                            float: right;
+                        }
+                    }
+
+                    &.striped {
+                        tbody tr:nth-child(odd) {
+                            background-color: #f9f9f9;
+                        }
+
+                        tbody tr:nth-child(even) {
+                            background-color: #fff;
+                        }
+                    }
+
+                    &.bordered {
+                        border: 2px solid #ccc;
+                    }
+
+                    &.compact {
+
+                        th,
+                        td {
+                            padding: 0.5rem;
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        .PersonalTax_temple__left {
+            flex: 1 1 32rem;
+            background: var(--bg-White);
+            padding: 2rem;
+            border-radius: 1rem;
+            height: 59rem;
+            overflow: auto;
+
+            h3 {
+                font-size: 1.6rem;
+            }
+
+            .criteria__Personal_Tax {
+                padding: 1.5rem;
+                font-size: 1.4rem;
+                font-weight: var(--weight550);
+                color: var(--viewDetails);
+                border: .1rem solid var(--viewDetails);
+                margin-top: 2rem;
+                text-align: center;
+                border-radius: .3rem;
+            }
+
+            .criteria__Details {
+                margin-top: 1.5rem;
+
+                h2 {
+                    margin-bottom: .3rem;
+                }
+
+                p {
+                    font-size: 1.3rem;
+                    padding: .2rem 0;
+                    line-height: 1.8;
+
+                    a {
+                        font-weight: var(--weight550);
+                        color: var(--viewDetails);
+                    }
+                }
+            }
+
+            .list_salary {
+                padding: 1.5rem;
+                border: .1rem solid var(--border);
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem;
+                align-items: center;
+                justify-content: space-between;
+                border-radius: .5rem;
+
+                div {
+                    p {
+                        font-size: 1.4rem;
+                        margin-bottom: 1rem;
+                    }
+
+                    .text_orange {
+                        font-size: 1.8rem;
+                        color: var(--colorBlackText);
+                        font-weight: var(--weight550);
+                    }
+                }
+            }
+
+            .calculator {
+                margin-top: 3rem;
+
+                .flex_wrap {
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 2rem;
+                    margin-bottom: 2rem;
+
+                    .box__input {
+                        flex: 1 1 22rem;
+
+                        span {
+                            font-size: 1.35rem;
+                            font-weight: var(--weight550);
+                            margin-bottom: .5rem;
+                            display: flex;
+                            gap: .3rem;
+
+                            p {
+                                font-size: 1.3rem;
+                                color: var(--viewDetails);
+                                cursor: pointer;
+                            }
+                        }
+
+                        input {
+                            padding: 1.3rem 1.5rem;
+                            border: .1rem solid var(--border);
+                            max-width: 100%;
+                            width: 100%;
+                            border-radius: .5rem;
+                            font-size: 1.5rem;
+                            text-align: right;
+                        }
+
+                        select {
+                            margin-top: .5rem;
+                            padding: .9rem 1.5rem;
+                            border: .1rem solid var(--border);
+                            max-width: 31rem;
+                            width: 100%;
+                            border-radius: .5rem;
+                            font-size: 1.4rem;
+                            cursor: pointer;
+
+                            option {
+                                font-size: 1.3rem;
+                            }
+                        }
+                    }
+                }
+
+                .convert {
+                    width: 100%;
+                    margin-top: 2.5rem;
+
+                    .btn_PersonalTax {
+                        background: none;
+                        padding: 1rem 2rem;
+                    }
+
+                    .btn_PersonalTax {
+                        background: var(--viewDetails);
+                        padding: 1rem 2rem;
+                        color: var(--colorWhiteText);
+                        font-size: 1.5rem;
+                        border-radius: .3rem;
+                        margin-right: .5rem;
+                    }
+                }
+            }
+
+        }
+    }
+
+
+}

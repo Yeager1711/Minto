@@ -1,294 +1,309 @@
 .job {
     margin-top: 4.2rem;
-    padding: 2.5rem 0;
+    padding: 0 !important;
     background-color: var(--bg-White);
 
-    .filter-job {
-        padding: 1rem 0;
-        background: var(--globalColor);
+    // .filter-job {
+    //     padding: 1rem 0;
+    //     background: var(--banner_header);
 
-        .navigation-search {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 1rem;
-            padding: 2rem 10%;
+    //     .navigation-search {
+    //         display: flex;
+    //         flex-wrap: wrap;
+    //         align-items: center;
+    //         gap: 1rem;
+    //         padding: 2rem 10%;
 
-            .box-input {
-                flex: 1 1 70rem;
+    //         .box-input {
+    //             flex: 1 1 70rem;
 
-                width: calc(100% - 45%);
-                background: var(--colorWhiteText);
-                padding: 1rem 1.5rem;
-                border-radius: .5rem;
-                font-size: 1.5rem;
+    //             width: calc(100% - 45%);
+    //             background: var(--colorWhiteText);
+    //             padding: 1.2rem 1.5rem;
+    //             border-radius: .5rem;
+    //             font-size: 1.5rem;
 
-                input {
-                    width: 100%;
+    //             input {
+    //                 width: 100%;
 
-                    &::placeholder {
-                        font-size: 1.4rem;
-                    }
-                }
-            }
+    //                 &::placeholder {
+    //                     font-size: 1.4rem;
+    //                 }
+    //             }
+    //         }
 
-            .box-select {
-                flex: 1 1 20rem;
-                width: calc(100% - 70%);
-                background: var(--colorWhiteText);
-                padding: .9rem 1.5rem;
-                border-radius: .5rem;
+    //         .box-select {
+    //             flex: 1 1 20rem;
+    //             width: calc(100% - 70%);
+    //             background: var(--colorWhiteText);
+    //             padding: 1.2rem 1.5rem;
+    //             border-radius: .5rem;
+    //             text-transform: uppercase;
 
-                select {
-                    width: 100%;
-                    font-size: 1.4rem;
-                }
-            }
+    //             select {
+    //                 width: 100%;
+    //                 font-size: 1.4rem;
+    //             }
+    //         }
 
-            .btn-find {
-                flex: 1 1 10rem;
+    //         .btn-find {
+    //             flex: 1 1 10rem;
 
-                width: calc(100% - 85%);
-                padding: 1rem 1.5rem;
-                border-radius: .5rem;
-                font-size: 1.4rem;
-            }
-        }
-    }
+    //             width: calc(100% - 85%);
+    //             padding: 1.4rem 1.5rem;
+    //             border-radius: .5rem;
+    //             font-size: 1.4rem;
+    //         }
+    //     }
+    // }
 
-    .job-container {
-        padding: 3rem 10% 1rem !important;
+    // .job-container {
+    //     padding: 3rem 10% 1rem !important;
 
-        .header-searchByCriteria {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            width: 100%;
-        }
+    //     .header-searchByCriteria {
+    //         display: flex;
+    //         align-items: center;
+    //         gap: 2rem;
+    //         width: 100%;
+    //     }
 
-        .filter-searchByCriteria {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-            width: 100%;
+    //     .filter-searchByCriteria {
+    //         display: flex;
+    //         align-items: center;
+    //         justify-content: space-between;
+    //         flex-wrap: wrap;
+    //         gap: 1rem;
+    //         width: 100%;
 
-            .filter {
-                flex: 1 1 21rem;
-                background: var(--bg-White);
-                color: var(--colorBlackText);
-                display: flex;
-                align-items: center;
+    //         .select__money {
+    //             flex: 15rem;
+    //             background: var(--bg-White);
+    //             color: var(--colorBlackText);
+    //             display: flex;
+    //             align-items: center;
+    //             font-size: 1.3rem;
+    //             cursor: pointer;
+    //         }
 
-                select,
-                input {
-                    padding: 1rem;
-                    cursor: pointer;
-                    width: 100%;
-                    font-size: 1.3rem;
-                }
+    //         .filter {
+    //             width:21rem;
+    //             background: var(--bg-White);
+    //             color: var(--colorBlackText);
+    //             display: flex;
+    //             align-items: center;
 
-                input {
-                    font-size: 1.4rem;
-                    width: 100%;
-                }
+    //             label {
+    //                 display: block;
+    //             }
 
-                .ant-input-number-group-addon {
-                    margin-right: 1rem;
-                    font-size: 1.4rem;
-                }
-            }
-        }
-    }
+    //             select,
+    //             input {
+    //                 padding: 1rem;
+    //                 cursor: pointer;
+    //                 width: 100%;
+    //                 font-size: 1.3rem;
+    //             }
 
-    .job-wrapperContainer {
-        padding: 1rem 10%;
+    //             input {
+    //                 font-size: 1.4rem;
+    //                 width: 100%;
+    //             }
 
-        .Container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+    //             .ant-input-number-group-addon {
+    //                 margin-right: 1rem;
+    //                 font-size: 1.4rem;
+    //             }
+    //         }
+    //     }
+    // }
 
-            .box {
-                position: relative;
-                padding: 1rem 4.5rem 1rem 1rem;
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                border: .1rem solid var(--border);
-                background: var(--bg-White);
-                border-radius: 1rem;
-                cursor: pointer;
+    // .job-wrapperContainer {
+    //     padding: 1rem 10%;
 
-                &:hover {
-                    background: var(--hoverBox);
-                    border: .1rem solid var(--hoverBoxBd);
-                }
+    //     .Container {
+    //         display: grid;
+    //         grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
+    //         gap: 1.5rem;
+    //         margin-bottom: 2rem;
 
-                .whislist {
-                    position: absolute;
-                    top: .5rem;
-                    right: .7rem;
-                    padding: .7rem;
-                    background: #e6f6ed;
-                    color: var(--globalColor);
-                    font-size: 1.4rem;
-                    border-radius: 50%;
-                }
+    //         .box {
+    //             position: relative;
+    //             padding: 1rem 4.5rem 1rem 1rem;
+    //             display: flex;
+    //             align-items: center;
+    //             gap: 1rem;
+    //             border: .1rem solid var(--border);
+    //             background: var(--bg-White);
+    //             border-radius: 1rem;
+    //             cursor: pointer;
 
-                .tag-rank {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    padding: .5rem 1.5rem;
-                    background: var(--viewDetails);
-                    color: var(--colorWhiteText);
-                    font-size: 1.4rem;
-                    border-bottom-right-radius: .5rem;
-                    display: none;
-                    align-items: center;
-                    gap: .5rem;
-                    text-transform: uppercase;
+    //             &:hover {
+    //                 background: var(--hoverBox);
+    //                 border: .1rem solid var(--hoverBoxBd);
+    //             }
 
-                    svg {
-                        font-size: 1.7rem;
-                    }
-                }
+    //             .whislist {
+    //                 position: absolute;
+    //                 top: .5rem;
+    //                 right: .7rem;
+    //                 padding: .7rem;
+    //                 background: #e6f6ed;
+    //                 color: var(--globalColor);
+    //                 font-size: 1.4rem;
+    //                 border-radius: 50%;
+    //             }
 
-                .company-logo {
-                    max-width: 10rem;
-                    width: 100%;
-                    display: flex;
+    //             .tag-rank {
+    //                 position: absolute;
+    //                 top: 0;
+    //                 left: 0;
+    //                 padding: .5rem 1.5rem;
+    //                 background: var(--viewDetails);
+    //                 color: var(--colorWhiteText);
+    //                 font-size: 1.4rem;
+    //                 border-bottom-right-radius: .5rem;
+    //                 display: none;
+    //                 align-items: center;
+    //                 gap: .5rem;
+    //                 text-transform: uppercase;
 
-                    img {
-                        width: 8rem;
-                        margin: auto;
-                    }
-                }
+    //                 svg {
+    //                     font-size: 1.7rem;
+    //                 }
+    //             }
 
-                .info {
-                    max-width: 32rem;
-                    width: 90%;
-                    overflow: hidden;
+    //             .company-logo {
+    //                 max-width: 10rem;
+    //                 width: 100%;
+    //                 display: flex;
 
-                    .job-info {
-                        .company-name {
-                            font-size: 1.4rem;
-                            line-height: 1.3;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                        }
-                    }
+    //                 img {
+    //                     width: 8rem;
+    //                     margin: auto;
+    //                 }
+    //             }
 
-                    .group {
-                        margin-left: 2rem;
-                        font-size: 1.2rem;
-                        color: var(--textBlur);
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
+    //             .info {
+    //                 max-width: 32rem;
+    //                 width: 90%;
+    //                 overflow: hidden;
 
-                    .Salary-Negotiable {
-                        display: flex;
-                        align-items: center;
-                        margin-top: 1rem;
-                        margin-left: 2rem;
-                        font-size: 1.4rem;
-                        color: var (--colorBlackText);
+    //                 .job-info {
+    //                     .company-name {
+    //                         font-size: 1.4rem;
+    //                         line-height: 1.3;
+    //                         white-space: nowrap;
+    //                         overflow: hidden;
+    //                         text-overflow: ellipsis;
+    //                     }
+    //                 }
 
-                        .Salary,
-                        .Salary-from {
-                            font-weight: var(--weight500);
-                            color: var(--viewDetails);
-                        }
+    //                 .group {
+    //                     margin-left: 2rem;
+    //                     font-size: 1.2rem;
+    //                     color: var(--textBlur);
+    //                     white-space: nowrap;
+    //                     overflow: hidden;
+    //                     text-overflow: ellipsis;
+    //                 }
 
-                        .Salary-from {
-                            margin-right: .3rem;
-                            font-weight: var(--weight550);
-                        }
+    //                 .Salary-Negotiable {
+    //                     display: flex;
+    //                     align-items: center;
+    //                     margin-top: 1rem;
+    //                     margin-left: 2rem;
+    //                     font-size: 1.4rem;
+    //                     color: var (--colorBlackText);
 
-                        .Salary-to {
-                            margin-left: .3rem;
-                            font-weight: var(--weight550);
-                        }
-                    }
+    //                     .Salary,
+    //                     .Salary-from {
+    //                         font-weight: var(--weight500);
+    //                         color: var(--viewDetails);
+    //                     }
 
-                    .job-content-bottom {
-                        margin-top: 1rem;
-                        margin-left: 2rem;
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 1rem;
-                        align-items: center;
+    //                     .Salary-from {
+    //                         margin-right: .3rem;
+    //                         font-weight: var(--weight550);
+    //                     }
 
-                        .job-content-bottom-tag {
-                            display: flex;
-                            flex-wrap: wrap;
-                            align-items: center;
-                            gap: 1rem;
+    //                     .Salary-to {
+    //                         margin-left: .3rem;
+    //                         font-weight: var(--weight550);
+    //                     }
+    //                 }
 
-                            .location,
-                            .views-box {
+    //                 .job-content-bottom {
+    //                     margin-top: 1rem;
+    //                     margin-left: 2rem;
+    //                     display: flex;
+    //                     flex-wrap: wrap;
+    //                     gap: 1rem;
+    //                     align-items: center;
 
-                                padding: .5rem 1rem;
-                                border: .1rem solid var(--border);
-                                border-radius: .5rem;
-                                font-size: 1.2rem;
-                                white-space: nowrap;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                            }
+    //                     .job-content-bottom-tag {
+    //                         display: flex;
+    //                         flex-wrap: wrap;
+    //                         align-items: center;
+    //                         gap: 1rem;
 
-                            .location {
-                                flex: 1 1;
-                                width: auto;
-                                text-align: center;
-                            }
+    //                         .location,
+    //                         .views-box {
 
-                            .views-box {
+    //                             padding: .5rem 1rem;
+    //                             border: .1rem solid var(--border);
+    //                             border-radius: .5rem;
+    //                             font-size: 1.2rem;
+    //                             white-space: nowrap;
+    //                             overflow: hidden;
+    //                             text-overflow: ellipsis;
+    //                         }
+
+    //                         .location {
+    //                             flex: 1 1;
+    //                             width: auto;
+    //                             text-align: center;
+    //                         }
+
+    //                         .views-box {
                                
-                            }
-                        }
+    //                         }
+    //                     }
 
 
-                        .job-content-bottom-expired {
-                            border-radius: .5rem;
-                            font-size: 1.2rem;
-                        }
-                    }
-                }
-            }
-        }
+    //                     .job-content-bottom-expired {
+    //                         border-radius: .5rem;
+    //                         font-size: 1.2rem;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        .pagination {
-            display: flex;
-            margin: 1.5rem 0;
-            margin: auto;
-            width: 22rem;
-            padding: 0;
+    //     .pagination {
+    //         display: flex;
+    //         margin: 1.5rem 0;
+    //         margin: auto;
+    //         width: 22rem;
+    //         padding: 0;
            
-            gap: 2rem;
-            align-items: center;
+    //         gap: 2rem;
+    //         align-items: center;
             
-            border-radius: 15rem;
-            overflow: hidden;
+    //         border-radius: 15rem;
+    //         overflow: hidden;
 
-            button {
-                margin: auto;
-                padding: 1rem 1.3rem;
-                background: var(--hoverBox);
-                border: .1rem solid var(--hoverBoxBd);
-                border-radius: 5rem;
-            }
+    //         button {
+    //             margin: auto;
+    //             padding: 1rem 1.3rem;
+    //             background: var(--hoverBox);
+    //             border: .1rem solid var(--hoverBoxBd);
+    //             border-radius: 5rem;
+    //         }
 
-            span {
-                margin: auto;
-                font-size: 1.5rem;
-            }
-        }
-    }
+    //         span {
+    //             margin: auto;
+    //             font-size: 1.5rem;
+    //         }
+    //     }
+    // }
 }

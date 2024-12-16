@@ -22,7 +22,10 @@
     --colorWhite: #fff;
     // --globalColor: #0bb88a;
     --globalColor: #c19229;
-    ;
+    --banner_header: #004ba8;
+
+    --disabled: #e6e7e8;
+
     --border-aimation: #00FF8B;
 
     // border
@@ -123,6 +126,7 @@ h3 {
     color: var(--colorBlackText);
     text-transform: uppercase;
     font-weight: var(--weight600);
+    z-index: 9;
 
     p {
         font-size: 1.4rem;
@@ -171,6 +175,3 @@ h3 {
 .mySwiper_companyslide {
     overflow: visible !important;
 }
-
-
-

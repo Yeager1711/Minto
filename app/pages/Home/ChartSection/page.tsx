@@ -7,6 +7,14 @@ import 'aos/dist/aos.css';
 import AOS from 'aos';
 import ChartSection_Skeleton from './ChartSection_Sekeleton';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
+{
+    /* <FontAwesomeIcon icon={faArrowTrendUp} /> */
+}
+{
+    /* <FontAwesomeIcon icon={faArrowTrendDown} /> */
+}
 // Register the chart elements
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -87,7 +95,7 @@ const ChartSection = () => {
         scales: {
             x: {
                 ticks: {
-                    display: false, // Ẩn nhãn trên trục X
+                    display: false,
                 },
                 grid: {
                     display: false,
@@ -130,11 +138,11 @@ const ChartSection = () => {
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        fetchChart(); // Reload data when the chart is visible
+                        fetchChart();
                     }
                 });
             },
-            { threshold: 0.5 } // Trigger when 50% of the element is visible
+            { threshold: 0.5 }
         );
 
         if (chartRef.current) {
@@ -204,7 +212,7 @@ const ChartSection = () => {
                           'rgba(153, 102, 255, 0.9)',
                           'rgba(255, 223, 102, 0.9)',
                           'rgba(102, 217, 239, 0.9)',
-                      ].slice(0, dataChart.jobIndustries.length), 
+                      ].slice(0, dataChart.jobIndustries.length),
                   },
               ],
           }
@@ -219,6 +227,29 @@ const ChartSection = () => {
         }
         return salary.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
+
+    const calculateJobTrend = () => {
+        if (!dataChart) return null;
+
+        const today = new Date();
+
+        // Lấy 7 ngày trước
+        const jobsLast7Days = dataChart.jobsCreatedByDate.filter((job) => {
+            const jobDate = new Date(job.date);
+            return jobDate <= today && jobDate > new Date(today.setDate(today.getDate() - 7));
+        });
+
+        // Lấy 7  ngày sau
+        const jobsNext7Days = dataChart.jobsCreatedByDate.filter((job) => {
+            const jobDate = new Date(job.date);
+            return jobDate > today && jobDate <= new Date(today.setDate(today.getDate() + 7));
+        });
+
+        const totalLast7Days = jobsLast7Days.reduce((sum, job) => sum + job.count, 0);
+        const totalNext7Days = jobsNext7Days.reduce((sum, job) => sum + job.count, 0);
+
+        return totalNext7Days > totalLast7Days ? 'up' : 'down';
+    };
 
     return (
         <section ref={chartRef} className={styles.HomePage_chart}>
@@ -277,11 +308,18 @@ const ChartSection = () => {
                                         separator=","
                                         redraw
                                     />
-                                    <p>Việc làm mới 48h gần nhất</p>
+                                    <p>Việc làm mới 7 ngày qua</p>
                                 </div>
                                 <div className={styles.total_items}>
                                     <CountUp start={0} end={dataChart.totalJobs} duration={3} separator="," redraw />
-                                    <p>Việc làm đang tuyển</p>
+                                    <p>
+                                        Việc làm đang tuyển{' '}
+                                        <span className={styles.trend__jobs}>
+                                            <FontAwesomeIcon
+                                                icon={calculateJobTrend() === 'up' ? faArrowTrendUp : faArrowTrendDown}
+                                            />
+                                        </span>
+                                    </p>
                                 </div>
                                 <div className={styles.total_items}>
                                     <CountUp

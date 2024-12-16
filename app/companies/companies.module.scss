@@ -9,7 +9,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             align-items: center;
-            background: var(--globalColor);
+            background: var(--banner_header);
 
             .companies__input {
                 flex: 1 1 70rem;
@@ -17,8 +17,7 @@
                 width: 100%;
                 max-width: 70rem;
                 background: var(--bg-White);
-                border-top-left-radius: .5rem;
-                border-bottom-left-radius: .5rem;
+                border-radius: 0.5rem;
 
                 input {
                     font-size: 1.4rem;
@@ -31,8 +30,7 @@
             .find-companies__button {
                 flex: 1 1 10rem;
                 border-left: 0.1rem solid var(--border);
-                border-top-right-radius: 0.5rem;
-                border-bottom-right-radius: 0.5rem;
+                border-radius: 0.5rem;
                 background: var(--bg-White);
                 padding: 1.3rem 2rem;
                 font-size: 1.4rem;

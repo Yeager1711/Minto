@@ -10,6 +10,7 @@ export interface Job {
     requirement: string;
     benefits: string;
     work_time: string;
+    view:number;
     created_at: string;
     updated_at: string;
     workLocation: {
