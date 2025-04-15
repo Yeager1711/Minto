@@ -1,398 +1,174 @@
 'use client';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './styles/home.module.scss';
-import 'aos/dist/aos.css';
-import { Line } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
+import Recruitment from './recruitment/page';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-// Swiper
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from 'swiper/modules';
-
-// icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { CiLocationOn } from 'react-icons/ci';
-
-import ChartSection from './pages/Home/ChartSection/page';
-import SearchTypes from './pages/Home/SearchTypes/page';
-import OutstandingTool from './pages/Home/OutstandingTool/page';
-import  OutstandingCompany from './pages/Home/OutstandingCompany/page'
-
-import { formatSalary } from './Ultils/formatSalary';
-
-import Home_Skeleton from './home_skeleton';
-
-// Định nghĩa kiểu cho công việc
-import { Job } from '../app/interface/Job';
-
-import { useHandleViewJob } from './Ultils/hanle__viewJob';
-
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+// Định nghĩa kiểu cho box item
+interface BoxItem {
+    text: string;
+    basePosition: { top: number; left?: number; right?: number };
+}
 
 function Home() {
-    const router = useRouter()
-    const handleViewJob = useHandleViewJob();
+    const textItems: string[] = ['Find', "What's", 'Next'];
 
-    const [jobs, setJobs] = useState<Job[]>([]);
-    const [allJobData, setAllJobData] = useState<Job[]>([]);
-    const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [isExpanded, setIsExpanded] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedLocation, setSelectedLocation] = useState('');
+    const boxItemsData: BoxItem[] = [
+        { text: 'Robotics', basePosition: { top: -350, left: -600 } },
+        { text: 'Cyber Security', basePosition: { top: -350, left: -200 } },
+        { text: 'Web3', basePosition: { top: -350, left: 200 } },
+        { text: 'Mental Health', basePosition: { top: -350, left: 600 } },
+        { text: 'Vue JS Developers', basePosition: { top: -200, left: -500 } },
+        { text: 'iOS Developers', basePosition: { top: -200, left: -100 } },
+        { text: 'React Developers', basePosition: { top: -200, left: 300 } },
+        { text: 'Android Developers', basePosition: { top: -200, left: 700 } },
+        { text: 'Boston', basePosition: { top: 0, left: -700 } },
+        { text: 'Flutter Developers', basePosition: { top: 350, left: -800 } },
+        { text: 'Aerospace', basePosition: { top: 0, left: 500 } },
+        { text: 'Artificial Intelligence', basePosition: { top: 0, left: 700 } },
+        { text: 'Sass', basePosition: { top: 200, left: -600 } },
+        { text: 'Denver', basePosition: { top: 200, left: -200 } },
+        { text: 'Full Stack Developer', basePosition: { top: 200, left: 200 } },
+        { text: 'Senior', basePosition: { top: 200, left: 600 } },
+        { text: 'Hà Nội', basePosition: { top: 350, left: -500 } },
+        { text: 'TP.HCM', basePosition: { top: 350, left: -100 } },
+        { text: 'Đà Nẵng', basePosition: { top: 100, left: 300 } },
+        { text: 'Cần Thơ', basePosition: { top: 350, left: 700 } },
+        { text: 'Hải Phòng', basePosition: { top: -300, left: -800 } },
+        { text: 'Frontend Developers', basePosition: { top: -400, left: 0 } },
+        { text: 'Backend Developers', basePosition: { top: 300, left: 800 } },
+        { text: 'DevOps', basePosition: { top: 400, left: -300 } },
+        { text: 'Data Science', basePosition: { top: 180, left: -470 } },
+        { text: 'Machine Learning', basePosition: { top: 380, left: 300 } },
+        { text: 'Blockchain', basePosition: { top: -90, left: -800 } },
+        { text: 'UI/UX Design', basePosition: { top: -290, left: 800 } },
+        { text: 'Game Development', basePosition: { top: 90, left: -800 } },
+        { text: 'Cloud Computing', basePosition: { top: -400, left: 800 } },
+    ];
 
-    // func skip and take data
-    const [totalItems, setTotalItems] = useState(0);
-    const [totalItems_Type, setTotalItems_Type] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const itemsPerPage = 12;
-
-    // Tính toán số trang
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-    //   Chuyển trang
-    const handlePageChange = (page: number) => {
-        if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
-        }
-    };
+    const [boxItems, setBoxItems] = useState<BoxItem[]>([]);
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const boxRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
+    const mousePositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+    const targetPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+    const currentPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+    const animationFrameRef = useRef<number | null>(null);
 
     useEffect(() => {
-        const fetchAllJobs = async () => {
-            try {
-                const response = await fetch(`${apiUrl}/jobs/all-jobs`);
-                const data: { data: Job[]; totalItems: number } = await response.json();
-
-                const sortedData = data.data.sort(
-                    (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-                );
-                setAllJobData(sortedData);
-                setLoading(false);
-            } catch (err) {
-                setError('Có lỗi xảy ra khi lấy dữ liệu');
-                setLoading(false);
-            }
+        const initializePositions = () => {
+            setBoxItems(boxItemsData);
+            boxRefs.current = boxItemsData.map(() => React.createRef<HTMLDivElement>());
         };
 
-        fetchAllJobs();
+        initializePositions();
+        window.addEventListener('resize', initializePositions);
+        return () => window.removeEventListener('resize', initializePositions);
     }, []);
 
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!sectionRef.current) return;
+
+        const rect = sectionRef.current.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left - rect.width / 2;
+        const mouseY = e.clientY - rect.top - rect.height / 2;
+
+        mousePositionRef.current = { x: mouseX, y: mouseY };
+        targetPositionRef.current = {
+            x: -(mouseX * 0.2),
+            y: -(mouseY * 0.2),
+        };
+    };
+
     useEffect(() => {
-        const fetchJobsBySkip = async () => {
-            try {
-                const skip = (currentPage - 1) * itemsPerPage;
-                const take = itemsPerPage;
+        const lerp = (start: number, end: number, factor: number): number => start + (end - start) * factor;
 
-                const response = await fetch(`${apiUrl}/jobs/job_skip?skip=${skip}&take=${take}`);
+        const updatePositions = () => {
+            currentPositionRef.current.x = lerp(currentPositionRef.current.x, targetPositionRef.current.x, 0.1);
+            currentPositionRef.current.y = lerp(currentPositionRef.current.y, targetPositionRef.current.y, 0.1);
 
-                if (!response.ok) throw new Error('API request failed');
-                const data: { data: Job[]; totalItems: number } = await response.json();
+            boxItems.forEach((box, index) => {
+                const boxElement = boxRefs.current[index]?.current;
+                if (boxElement) {
+                    const sectionWidth = sectionRef.current?.offsetWidth || window.innerWidth;
+                    const sectionHeight = sectionRef.current?.offsetHeight || window.innerHeight;
+                    const boxWidth = boxElement.offsetWidth;
+                    const boxHeight = boxElement.offsetHeight;
 
-                // Random hóa dữ liệu sau khi nhận từ API
-                const sortedData = data.data.sort(
-                    (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-                );
+                    let newLeft: number;
+                    if (box.basePosition.right !== undefined) {
+                        newLeft = sectionWidth / 2 - box.basePosition.right - boxWidth + currentPositionRef.current.x;
+                    } else {
+                        newLeft = (box.basePosition.left || 0) + currentPositionRef.current.x;
+                    }
 
-                setJobs(sortedData);
-                setTotalItems(data.totalItems);
-                setLoading(false);
-            } catch (err) {
-                setError('Có lỗi xảy ra khi lấy dữ liệu');
-                setLoading(false);
-            }
+                    const newTop = box.basePosition.top + currentPositionRef.current.y;
+
+                    const maxLeft = sectionWidth / 2 - boxWidth - 50;
+                    const minLeft = -sectionWidth / 2 + 50;
+                    const maxTop = sectionHeight / 2 - boxHeight - 50;
+                    const minTop = -sectionHeight / 2 + boxHeight + 50;
+
+                    boxElement.style.left = `${Math.max(minLeft, Math.min(maxLeft, newLeft))}px`;
+                    boxElement.style.top = `${Math.max(minTop, Math.min(maxTop, newTop))}px`;
+                    boxElement.style.right = 'auto';
+                }
+            });
+
+            animationFrameRef.current = requestAnimationFrame(updatePositions);
         };
 
-        fetchJobsBySkip();
-    }, [currentPage]);
+        animationFrameRef.current = requestAnimationFrame(updatePositions);
 
-    const handleSearch = () => {
-        // Kiểm tra nếu không nhập gì và không chọn địa điểm
-        if (!searchTerm.trim() && !selectedLocation) {
-            setFilteredJobs([]);
-            setIsExpanded(false);
-            return;
-        }
-
-        let results = allJobData;
-
-        // Lọc theo từ khóa nếu có
-        if (searchTerm.trim()) {
-            results = results.filter((job) => {
-                const titleMatch = job.title.toLowerCase().includes(searchTerm.toLowerCase());
-                const jobLevelMatch = job.jobLevel.name.some((level) =>
-                    level.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                return titleMatch || jobLevelMatch;
-            });
-        }
-
-        // Lọc theo địa điểm nếu có
-        if (selectedLocation) {
-            results = results.filter((job) =>
-                // Kiểm tra xem tên địa phương có chứa địa điểm đã chọn hay không
-                job.workLocation.district.name.toLowerCase().includes(selectedLocation.toLowerCase())
-            );
-        }
-
-        setFilteredJobs(results);
-        setIsExpanded(true);
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-    };
-
-    const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedLocation(e.target.value);
-    };
-
-    if (error) {
-        return <div>{error}</div>;
-    }
+        return () => {
+            if (animationFrameRef.current !== null) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
+        };
+    }, [boxItems]);
 
     return (
-        <div className={styles.Home}>
-            {/* Banner Section */}
-            <div className={styles['banner-image']}>
-                <img src="/images/banner.jpg" alt="Banner" />
-
-                <div className={styles['wrapper-content']}>
-                    <div className={styles['search-infoWork']}>
-                        <div className={styles['content']}>
-                            <h2>
-                                Tìm việc làm nhanh <span>24h</span>, việc làm mới nhất trên toàn quốc.
-                            </h2>
-                            <p>
-                                Tiếp cận <span>40,000+</span> tuyển dụng việc làm mỗi ngày từ doanh nghiệp uy tín tại
-                                Việt Nam
-                            </p>
-                        </div>
-
-                        <div className={`${styles['find-work']} ${isExpanded ? styles['expand'] : ''}`}>
-                            {/* Dynamically add 'expand' class */}
-                            <div className={styles['flex-search']}>
-                                <div className={styles['box-input']}>
-                                    <input
-                                        type="text"
-                                        placeholder="Tìm kiếm các ngành nghề..."
-                                        value={searchTerm}
-                                        onChange={handleInputChange}
-                                        className={styles['search-input']}
-                                    />
-                                </div>
-                                <div className={styles['box-select']}>
-                                    <select onChange={handleLocationChange} className={styles['select-input']}>
-                                        <option value="">Chọn địa điểm</option>
-                                        <option value="Hồ Chí Minh">TP.Hồ Chí Minh</option>
-                                        <option value="Hà Nội">Hà Nội</option>
-                                        <option value="Đà Nẵng">TP.Đà Nẵng</option>
-                                        <option value="Hải Phòng">TP.Hải Phòng</option>
-                                        <option value="Cần Thơ">TP.Cần Thơ</option>
-                                        <option value="Huế">TP.Huế</option>
-                                        <option value="Nha Trang">TP.Nha Trang</option>
-                                        <option value="Vũng Tàu">TP.Vũng Tàu</option>
-                                        <option value="Buôn Ma Thuột">TP.Buôn Ma Thuột</option>
-                                        <option value="Quy Nhơn">TP.Quy Nhơn</option>
-                                    </select>
-                                </div>
-                                <div className={styles['btn-find']} onClick={handleSearch}>
-                                    Tìm việc
-                                </div>
-                            </div>
-
-                            <div className={styles['search-result__container']}>
-                                {isExpanded && filteredJobs.length > 0 && (
-                                    <span className={styles['search-result__total']}>
-                                        Kết quả tìm kiếm: {filteredJobs.length}
-                                    </span>
-                                )}
-
-                                {isExpanded && filteredJobs.length > 0 ? (
-                                    filteredJobs.map((job) => (
-                                        <Link
-                                            href={`/jobs/job_details/${job.jobId}`}
-                                            key={job.jobId}
-                                            className={styles['search-result-item']}
-                                        >
-                                            <div className={styles['image-company__result']}>
-                                                <img
-                                                    src={job.company.images[0]?.image_company}
-                                                    alt={job.company.name}
-                                                />
-                                            </div>
-                                            <div className={styles['name-company__result']} title={job.title}>
-                                                <span>{job.title}</span>
-                                            </div>
-                                            <div className={styles['location__result']}>
-                                                <span>
-                                                    {' '}
-                                                    <CiLocationOn /> {job.workLocation.district.name}
-                                                </span>
-                                            </div>
-                                            <div className={styles['salary__result']}>
-                                                <span>
-                                                    {job.salary_from === 0 || job.salary_to === 0 ? (
-                                                        <>Thỏa thuận</>
-                                                    ) : (
-                                                        <>{formatSalary(job.salary)}</>
-                                                    )}
-                                                </span>
-                                            </div>
-                                        </Link>
-                                    ))
-                                ) : isExpanded ? (
-                                    <div className={styles['no-result']}>Không tìm thấy công việc phù hợp !</div>
-                                ) : null}
-                            </div>
-                        </div>
+        <>
+            <div
+                className={styles.recruitment_home}
+                ref={sectionRef}
+                onMouseMove={handleMouseMove}
+                style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}
+            >
+                <div className={styles.text_wrapper}>
+                    <div className={styles.text_container} style={{ zIndex: 10 }}>
+                        {textItems.map((item, index) => (
+                            <span
+                                key={index}
+                                className={styles.text_item}
+                                style={{ animationDelay: `${index * 0.2}s` }}
+                            >
+                                {item}
+                            </span>
+                        ))}
                     </div>
+
+                    {boxItems.map((box, index) => (
+                        <div
+                            key={index}
+                            ref={boxRefs.current[index]}
+                            className={styles.box_item}
+                            style={{
+                                animationDelay: `${1.2 + index * 0.15}s`,
+                                top: `${box.basePosition.top}px`,
+                                ...(box.basePosition.left !== undefined
+                                    ? { left: `${box.basePosition.left}px` }
+                                    : { right: `${box.basePosition.right}px` }),
+                                position: 'absolute',
+                                zIndex: 5,
+                            }}
+                        >
+                            {box.text}
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            {/* Swiper Section for Companies */}
-            <section className={styles['wrapper-home']}>
-                <h3>
-                    <p>Phổ Biến & Hàng Đầu</p> Công Ty Tuyển Dụng
-                </h3>
-                <div className={styles['wrapper-container']}>
-                    <Swiper
-                        cssMode={true}
-                        navigation={true}
-                        pagination={false}
-                        mousewheel={true}
-                        keyboard={true}
-                        modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
-                        className="mySwiper_companyslide"
-                        slidesPerView={5}
-                        spaceBetween={20}
-                        autoplay={{
-                            delay: 2500,
-                            disableOnInteraction: false,
-                        }}
-                        breakpoints={{
-                            320: { slidesPerView: 1 },
-                            640: { slidesPerView: 3 },
-                            768: { slidesPerView: 4 },
-                            1024: { slidesPerView: 5 },
-                        }}
-                    >
-                        {Array.from(new Map(allJobData.map((job) => [job.company.name, job])).values()).map(
-                            (company) => (
-                                <SwiperSlide key={company.jobId}>
-                                    <div className={styles['company']} title={company.company.name}>
-                                        <div className={styles['img-company']}>
-                                            <img
-                                                src={company.company.images[0]?.image_company}
-                                                alt={company.company.name}
-                                            />
-                                        </div>
-                                        <div className={styles['content-company']}>
-                                            <h3 className={styles['name-company']}>{company.company.name}</h3>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                            )
-                        )}
-                    </Swiper>
-                </div>
-            </section>
-
-            {/* Recruitment Section */}
-            <section className={styles['wrapper-home']}>
-                <div className={styles['header-recruitment']}>
-                    <h3>
-                        <p>Tuyển dụng</p> Việc Làm Tốt Nhất
-                    </h3>
-                </div>
-
-                <div className={styles['recruitment-container']}>
-                    {loading
-                        ? Home_Skeleton()
-                        : jobs.map((job) => (
-                              <div
-                                  onClick={() => router.push(`/jobs/job_details/${job.jobId}`)}
-                                  className={styles['company']}
-                                  key={job.jobId}
-                                  style={{ cursor: 'pointer' }}
-                              >
-                                  <span className={styles['icon-views']}>
-                                      <FontAwesomeIcon icon={faEye} />
-                                      {job.view}
-                                  </span>
-
-                                  <div className={styles['img-company']}>
-                                      <img src={job.company.images[0]?.image_company} alt={job.company.name} />
-                                  </div>
-
-                                  <div className={styles['content-company']}>
-                                      <div className={styles['company-location']}>
-                                          <h3 className={styles['title-company']} title={job.title}>
-                                              {job.title}
-                                          </h3>
-                                          <span className={styles['name-company']} title={job.company.name}>
-                                              {job.company.name}
-                                          </span>
-
-                                          <span className={styles['salary']} title={job.salary}>
-                                              {job.salary_from === 0 || job.salary_to === 0 ? (
-                                                  <>Thỏa thuận</>
-                                              ) : (
-                                                  <> {formatSalary(job.salary)}</>
-                                              )}
-                                          </span>
-
-                                          <span className={styles['positon']}>
-                                              <p> {job.jobLevel.name.join(', ')}</p>
-                                          </span>
-                                          <span className={styles['district']} title={job.workLocation.district.name}>
-                                              <CiLocationOn />
-                                              {job.workLocation.district.name}
-                                          </span>
-                                      </div>
-                                  </div>
-                              </div>
-                          ))}
-                </div>
-                {/* Phân trang */}
-                <div className={styles['pagination']}>
-                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                        <FontAwesomeIcon icon={faChevronLeft} />
-                    </button>
-                    <span>
-                        {currentPage} / {totalPages} Trang
-                    </span>
-                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </button>
-                </div>
-            </section>
-
-            <ChartSection />
-
-            <SearchTypes />
-
-            <OutstandingTool />
-
-            <OutstandingCompany />
-        </div>
+            <Recruitment />
+        </>
     );
 }
 

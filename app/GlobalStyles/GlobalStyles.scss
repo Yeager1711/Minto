@@ -21,7 +21,7 @@
     --background: #f5f5f7;
     --colorWhite: #fff;
     // --globalColor: #0bb88a;
-    --globalColor: #c19229;
+    --globalColor: #004038;
     --banner_header: #004ba8;
 
     --disabled: #e6e7e8;
@@ -68,13 +68,12 @@ html {
     &::-webkit-scrollbar-thumb {
         height: 1px;
         width: .3rem;
-        background: var(--viewDetails);
+        background: var(--globalColor);
         border-radius: .5rem;
         cursor: pointer;
     }
 
 }
-
 
 .container {
     // margin-top: 5rem;
@@ -85,6 +84,18 @@ html {
 .Toastify__toast {
     font-size: 1.4rem !important;
 }
+
+.Toastify__toast-container {
+    width: auto !important;
+    max-width: 55rem !important;
+    min-width: 21rem !important;
+}
+
+.Toastify__toast {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
 
 .wrapper-flex {
     display: flex;
@@ -104,7 +115,9 @@ html {
 
 section,
 footer {
-    padding: 5rem 5% 0 5%;
+    padding: 5rem 0;
+    max-width: 1200px;
+    margin: auto;
 }
 
 a {
@@ -115,6 +128,7 @@ a {
 
 button {
     cursor: pointer;
+    background: none;
 }
 
 h3 {
@@ -126,7 +140,7 @@ h3 {
     color: var(--colorBlackText);
     text-transform: uppercase;
     font-weight: var(--weight600);
-    z-index: 9;
+    z-index: 1;
 
     p {
         font-size: 1.4rem;
@@ -141,7 +155,7 @@ h3 {
         left: 1rem;
         height: 100%;
         width: .4rem;
-        background: #f5b324;
+        background: #33b451;
     }
 }
 
@@ -174,4 +188,10 @@ h3 {
 
 .mySwiper_companyslide {
     overflow: visible !important;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+    width: 3rem !important;
+    height: .7rem !important;
+    border-radius: .5rem !important;
 }

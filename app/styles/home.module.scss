@@ -1,520 +1,88 @@
-.Home {
-    margin: 0;
-
-    .banner-image {
-        max-width: 100%;
-        height: 93vh;
-        position: relative;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .wrapper-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, .7);
-
-            .search-infoWork {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                max-width: 85rem;
-                width: 95%;
-
-
-                .content {
-                    text-align: center;
-
-                    h2 {
-                        // font-size: 5rem;
-                        font-size: 3vw;
-                        color: var(--colorWhiteText);
-
-                        span {
-                            color: var(--globalColor);
-                        }
-                    }
-
-                    p {
-                        // font-size: 1.7rem;
-                        font-size: 1.5vw;
-                        padding: 1rem 0;
-                        color: var(--colorWhiteText);
-                        margin-bottom: 1rem;
-
-                        span {
-                            color: var(--globalColor);
-                            font-weight: var(--weight550);
-                        }
-                    }
-                }
-
-                .find-work {
-                    border-radius: .5rem;
-                    min-height: 0;
-                    transition: min-height 0.5s ease-in-out !important;
-
-                    &.expand {
-                        min-height: 35rem !important;
-                        overflow: hidden;
-                        background: var(--bg-White);
-                        transition: min-height .5s ease-in-out !important;
-
-                        .flex-search {
-                            display: flex;
-                            flex-wrap: wrap;
-                            align-items: center;
-                            justify-content: space-between;
-                            transition: padding .5s ease-in-out !important;
-                            padding: 1rem;
-                            border-bottom: .1rem solid var(--border);
-
-                            .box-input {
-                                flex: 1 1;
-                                max-width: 40rem;
-                                width: 95%;
-                                border-right: .2em solid #333;
-
-                                input {
-                                    color: var(--colorBlackText) !important;
-
-                                    &::placeholder {
-                                        font-size: 1.4rem;
-                                        color: var(--colorBlackText) !important;
-                                    }
-                                }
-                            }
-
-                            .box-select {
-                                flex: 1 1;
-
-                                select {
-                                    color: var(--colorBlackText) !important;
-                                }
-                            }
-                        }
-
-                        .search-result__container {
-                            padding: 2rem;
-                            height: 35rem !important;
-                            transition: height .5s ease-in-out !important;
-                            overflow: auto;
-
-                            .search-result__total {
-                                font-size: 1.4rem;
-                                font-weight: var(--weight400);
-                            }
-
-                            .no-result {
-                                font-size: 1.4rem;
-                            }
-
-                            .search-result-item {
-                                display: inline-flex;
-                                align-items: center;
-                                gap: 2rem;
-                                cursor: pointer;
-                                padding: 1.5rem;
-
-                                &:hover {
-                                    background: var(--background);
-                                }
-
-
-                                .image-company__result {
-                                    max-width: 4.5rem;
-                                    height: 4.5rem;
-                                    overflow: hidden;
-                                    border-radius: 50%;
-
-                                    img {
-                                        width: 100%;
-                                        object-fit: contain;
-                                        height: 100%;
-                                    }
-                                }
-
-                                .name-company__result,
-                                .position__result,
-                                .salary__result {
-                                    font-size: 1.4rem;
-                                    font-weight: var(--weight550);
-                                    text-transform: capitalize;
-                                }
-
-                                .position__result {
-                                    font-weight: var(--weight400);
-                                }
-
-                                .name-company__result {
-                                    float: left;
-                                    width: 35rem;
-                                    white-space: nowrap;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                }
-
-                                .salary__result {
-                                    width: 8.5rem;
-                                    float: right;
-                                    color: #ff842a;
-                                }
-
-                                .location__result {
-                                    width: 22.5rem;
-                                    font-size: 1.4rem;
-                                }
-                            }
-                        }
-                    }
-
-                    .flex-search {
-                        display: flex;
-                        align-items: center;
-                        gap: 2rem;
-                        // justify-content: space-between;
-                        padding: 1rem 0;
-                        border-bottom: .1rem solid var(--border);
-
-
-                        .box-input {
-                            max-width: 52.5rem;
-                            width: 90%;
-
-                            input {
-                                width: 100%;
-                                font-size: 16px;
-                                background: none;
-                                color: var(--colorWhiteText) !important;
-
-                                &::placeholder {
-                                    font-size: 1.4rem;
-                                    color: #999 !important;
-                                }
-                            }
-                        }
-
-                        .box-select {
-                            max-width: 15rem;
-                            width: 100%;
-
-                            select {
-                                background: none;
-                                width: 100%;
-                                font-size: 1.5rem;
-                                color: var(--colorWhiteText);
-                                cursor: pointer;
-
-                                option {
-                                    color: var(--colorBlackText);
-                                }
-                            }
-                        }
-
-                        .btn-find {
-                            padding: .8rem 2.5rem;
-                            background: var(--globalColor);
-                            color: var(--colorWhiteText);
-                            border-radius: .5rem;
-                            font-size: 1.6rem;
-                            height: 3.5rem;
-                            max-width: 12rem;
-                            width: 95%;
-                            cursor: pointer;
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-
-    .wrapper-home {
-        .header-recruitment {}
-
-        .wrapper-container {
-            margin-top: 2rem;
-
-
-            .mySwiper_companyslide {
-                margin-left: auto;
-                margin-right: auto;
-                position: relative;
-                overflow: none !important;
-                list-style: none;
-                padding: 0;
-                z-index: 0 !important;
-                display: block;
-            }
-
-
-
-            .swiper.swiper-initialized.swiper-horizontal.swiper-css-mode.mySwiper_companyslide {
-                overflow: visible !important;
-            }
-
-
-            .company {
-                background: var(--bg-White);
-                border-radius: 0.5rem;
-                overflow: hidden;
-                height: 21rem;
-                position: relative;
-                cursor: pointer;
-
-
-                &:hover {
-                    transform: translateY(-0.5rem);
-                }
-
-                .img-company {
-                    display: flex;
-                    margin: auto;
-                    width: 15rem;
-                    height: 15rem;
-                    padding: 2rem;
-
-                    img {
-                        width: 100%;
-                        object-fit: contain;
-                        transition: transform 0.3s ease;
-
-                        &:hover {
-                            transform: scale(1.05);
-                        }
-                    }
-                }
-
-                .content-company {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    padding: 2rem 1rem;
-
-                    h3 {
-                        font-size: 1.4rem;
-                        font-weight: 600;
-                        margin-bottom: 0.5rem;
-                        color: var(--colorBlackText);
-                        text-transform: capitalize;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
-
-                    .location {
-                        font-size: 1.2rem;
-                        margin-left: 2.5rem;
-                        margin-bottom: 0.5rem;
-                        color: var(--colorBlackText);
-                        text-transform: capitalize;
-                    }
-                }
-            }
-        }
-
-        .recruitment-container {
-            margin: 2rem 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
-            gap: 1.5rem;
-            padding: 1rem;
-
-            .company {
-                background: var(--bg-White);
-                border-radius: 1rem;
-                overflow: hidden;
-                border: .1rem solid var(--border);
-                padding: 1rem 4.5rem 1rem 1rem;
-                cursor: pointer;
-                position: relative;
-                display: flex;
-
-                &:hover {
-                    background: var(--hoverBox);
-                    border: .1rem solid var(--hoverBoxBd);
-                }
-
-                .icon-views {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    z-index: 9 !important;
-                    color: var(--colorBlackText);
-                    font-size: 1.1rem;
-                    display: flex;
-                    align-items: center;
-                    gap: .5rem;
-                    padding: .5rem 1rem;
-                    border-bottom-left-radius: 1rem;
-                    background: var(--globalColor);
-                    color: var(--colorWhiteText);
-
-                    svg {
-                        color: var(--colorWhiteText);
-                    }
-                }
-
-                .img-company {
-                    flex: 1 1 15rem;
-                    margin: auto;
-                    text-align: center;
-
-                    img {
-                        width: 7.5rem;
-                        object-fit: cover;
-
-                    }
-                }
-
-                .content-company {
-                    overflow: hidden;
-                    overflow: hidden;
-                    max-width: 35rem;
-                    width: 100%;
-
-                    .company-location {
-
-                        h3 {
-                            font-size: 1.5rem;
-                            font-weight: 600;
-                            margin-bottom: .5rem;
-                            color: var(--colorBlackText);
-                            text-transform: capitalize;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                        }
-
-                        .name-company {
-                            display: flex;
-                            align-items: center;
-                            gap: .5rem;
-                            padding: .3rem 0;
-                            font-size: 1.2rem;
-                            margin-left: 2rem;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            color: var(--textBlur);
-                            text-transform: capitalize;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            max-width: 31rem;
-                        }
-
-                        .salary {
-                            display: flex;
-                            align-items: center;
-                            gap: .5rem;
-                            padding: .3rem 0;
-                            font-size: 1.3rem;
-                            margin-left: 2rem;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            color: var(--viewDetails);
-                            text-transform: capitalize;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            max-width: 31rem;
-                            margin-bottom: .2rem;
-                        }
-
-                        .positon {
-                            display: block;
-                            align-items: center;
-                            padding: 0.5rem 0;
-                            font-size: 1.3rem;
-                            margin-left: 1rem;
-                            padding: 0.25rem 1rem;
-                            border-radius: 0.3rem;
-                            text-transform: capitalize;
-                            max-width: 100%;
-                            white-space: nowrap;
-
-
-                            p {
-                                font-weight: var(--weight550);
-                            }
-                        }
-
-
-                        .district {
-                            display: flex;
-                            align-items: center;
-                            gap: .5rem;
-                            padding: .25rem 0;
-                            font-size: 1.2rem;
-                            margin-left: 1rem;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            padding: .5rem 1rem;
-                            border-radius: .3rem;
-                            text-transform: capitalize;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            max-width: 31rem;
-
-                            p {
-                                font-weight: var(--weight550);
-                                color: var(--viewDetails);
-                            }
-                        }
-                    }
-
-                    .btn-viewDetails {
-                        padding: .6rem 2.5rem;
-                        background: var(--viewDetails);
-                        color: var(--colorWhiteText);
-                        font-size: 1.4rem;
-                        border-top-left-radius: 3rem;
-                        border-bottom-right-radius: 3rem;
-                    }
-
-                }
-            }
-        }
-    }
-
-    .pagination {
-        display: flex;
-        margin: 1.5rem 0;
-        margin: auto;
-        width: 22rem;
-        padding: 0;
-
-        gap: 2rem;
-        align-items: center;
-
-        border-radius: 15rem;
-        overflow: hidden;
-
-        button {
-            margin: auto;
-            padding: 1rem 1.3rem;
-            background: var(--hoverBox);
-            border: .1rem solid var(--hoverBoxBd);
-            border-radius: 5rem;
-        }
-
-        span {
-            margin: auto;
-            font-size: 1.5rem;
-        }
-    }
-
-
+.recruitment_home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  // background-color: #f5f5f5;
+  background-color: #fff;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.text_wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  width: 50%;
+  margin-right: -78rem;
+}
+
+.text_container {
+  position: absolute;
+  top: 40%;
+  left: 5%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: .3rem dashed red;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.text_item {
+  font-size: 4vw;
+  font-weight: 700;
+  color: #1a1a1a;
+  opacity: 0;
+  transform: translateY(1rem);
+  animation: fadeInUp 0.6s ease-out forwards;
+
+  &:nth-child(2) {
+    position: relative;
+    /* Removed ::after for the apostrophe */
+  }
+}
+
+.box_item {
+  position: absolute;
+  background-color: #fff;
+  border: 0.1rem solid #e0e0e0;
+  border-radius: 0.5rem;
+  padding: 1.2rem 2rem;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: #333;
+  opacity: 0;
+  transform: translateY(1rem) scale(1);
+  animation: fadeInUp 0.6s ease-out forwards;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.05);
+  text-align: center;
+  white-space: nowrap;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2) !important;
+    cursor: pointer;
+    border: 0.1rem dashed #8888ff;
+    background: #c8f0ff;
+    transition: transform 0.3s ease;
+    z-index: 999 !important;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

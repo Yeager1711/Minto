@@ -1,0 +1,50 @@
+.settingsLayout {
+    display: flex;
+    max-width: 37rem;
+    width: 100%;
+
+    &__sidebar {
+        width: 35rem;
+        background: #fff;
+        padding: 0 2rem;
+        border-right: .1rem solid #e0e0e0;
+
+
+
+        a {
+            display: flex;
+            align-items: center;
+            padding: 2rem 1rem; 
+            font-size: 1.5rem;
+            color: #333;
+
+            a {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: inherit;
+                width: 100%;
+            }
+
+            &:hover {
+                border-radius: 1rem;
+                background: #e0eaff;
+            }
+
+            &_active {
+                background: #d0e0ff;
+                font-weight: bold;
+            }
+        }
+
+        &__icon {
+            margin-right: 1rem;
+        }
+    }
+
+    &__content {
+        flex: 1;
+        padding: 2rem;
+        background: #fff;
+    }
+}
