@@ -3,6 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Lobster&display=swap" rel="stylesheet');
 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100..400&display=swap');
+
 * {
     font-family: 'Poppins', sans-serif;
     padding: 0;
@@ -53,6 +57,10 @@
     --hoverBoxBd: #cfe0ff;
 }
 
+body {
+    // display: flex;
+}
+
 html {
     font-size: 62.5%;
     overflow-x: none;
@@ -72,14 +80,16 @@ html {
         border-radius: .5rem;
         cursor: pointer;
     }
-
 }
 
 .container {
-    // margin-top: 5rem;
     background-color: var(--bg-White);
-    min-height: 93vh;
+    min-height: 100vh;
+    width: 100%;
+    float: right;
 }
+
+
 
 .Toastify__toast {
     font-size: 1.4rem !important;
@@ -94,6 +104,10 @@ html {
 .Toastify__toast {
     word-wrap: break-word;
     white-space: normal;
+}
+
+.swiper-slide.swiper-slide-active {
+    margin: auto !important;
 }
 
 
@@ -115,9 +129,7 @@ html {
 
 section,
 footer {
-    padding: 5rem 0;
-    max-width: 1200px;
-    margin: auto;
+    padding: 2rem 4rem;
 }
 
 a {
@@ -131,33 +143,33 @@ button {
     background: none;
 }
 
-h3 {
-    position: relative;
-    padding-left: 2.5rem;
-    margin-bottom: .7rem;
-    font-size: 2.2rem;
-    text-transform: capitalize;
-    color: var(--colorBlackText);
-    text-transform: uppercase;
-    font-weight: var(--weight600);
-    z-index: 1;
+// h3 {
+//     position: relative;
+//     padding-left: 2.5rem;
+//     margin-bottom: .7rem;
+//     font-size: 2.2rem;
+//     text-transform: capitalize;
+//     color: var(--colorBlackText);
+//     text-transform: uppercase;
+//     font-weight: var(--weight600);
+//     z-index: 1;
 
-    p {
-        font-size: 1.4rem;
-        text-transform: capitalize;
-        margin-bottom: .7rem;
-    }
+//     p {
+//         font-size: 1.4rem;
+//         text-transform: capitalize;
+//         margin-bottom: .7rem;
+//     }
 
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 1rem;
-        height: 100%;
-        width: .4rem;
-        background: #33b451;
-    }
-}
+//     &::before {
+//         content: '';
+//         position: absolute;
+//         top: 0;
+//         left: 1rem;
+//         height: 100%;
+//         width: .4rem;
+//         background: #33b451;
+//     }
+// }
 
 
 .swiper-button-next {

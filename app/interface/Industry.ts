@@ -7,3 +7,4 @@ export interface IndustryData {
     companyIndustry_ID: number;
     name: string;
 }
+

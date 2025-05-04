@@ -1,0 +1,623 @@
+.dashboard {
+  background-color: #f1f4f6;
+  padding: 4rem 0;
+}
+.dashboard .banner_image__company {
+  max-width: 120rem;
+  height: 100% !important;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 1rem;
+  padding: 0;
+  margin-bottom: 10rem;
+  position: relative;
+}
+.dashboard .banner_image__company .choose_image__bannerCompany {
+  max-width: 120rem;
+  height: 28rem;
+  border: 0.2rem dashed var(--border);
+  display: flex;
+  margin: auto;
+  border-radius: 1rem;
+  position: relative;
+}
+.dashboard .banner_image__company .choose_image__bannerCompany .img_updated {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.dashboard .banner_image__company .choose_image__bannerCompany .select_image_label {
+  margin: auto;
+  font-size: 1.8rem;
+  z-index: 999;
+  cursor: pointer;
+}
+.dashboard .banner_image__company .choose_image__bannerCompany .file_input__Image {
+  margin: auto;
+}
+.dashboard .banner_image__company .choose_image__bannerCompany .file_input__Image label {
+  font-size: 1.5rem;
+}
+.dashboard .banner_image__company .choose_image__bannerCompany .file_input__Image label svg {
+  width: 2rem;
+  height: 2rem;
+}
+.dashboard .banner_image__company .choose_image__bannerCompany .file_input__Image input {
+  display: none;
+}
+.dashboard .banner_image__company .company_Name__title {
+  position: absolute;
+  bottom: -5.8rem;
+  left: 16rem;
+  max-width: 85%;
+  width: 100%;
+}
+.dashboard .banner_image__company .company_Name__title .company_name {
+  font-size: 2rem;
+}
+.dashboard .banner_image__company .company_Name__title .industry {
+  font-size: 1.35rem;
+  margin-left: 2.7rem;
+}
+.dashboard .banner_image__company .choose_image__logoCompany {
+  position: absolute;
+  bottom: -8rem;
+  left: 2rem;
+  width: 13.5rem;
+  height: 13.5rem;
+}
+.dashboard .banner_image__company .choose_image__logoCompany .logoCompany_preview {
+  max-width: 13.5rem;
+  height: 13.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  padding: 1rem;
+  position: relative;
+}
+.dashboard .banner_image__company .choose_image__logoCompany .logoCompany_preview img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.dashboard .banner_image__company .choose_image__logoCompany .input_fileLogo {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0;
+  font-size: 1.4rem;
+  padding: 0.8rem;
+  background: #fff;
+  border-radius: 50%;
+  border: 0.1rem solid var(--border);
+  cursor: pointer;
+}
+.dashboard .banner_image__company img {
+  width: 100%;
+  height: 28rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  -o-object-fit: cover;
+     object-fit: cover;
+  cursor: pointer;
+}
+.dashboard .account_Auth__level {
+  width: 120rem;
+  margin: auto;
+  padding-top: 2rem;
+  margin-top: 1rem;
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+.dashboard .account_Auth__level > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.dashboard .account_Auth__level > div:nth-child(2) span {
+  font-size: 1.4rem;
+  color: #333;
+  padding: 0.5rem 0;
+}
+.dashboard .account_Auth__level .progress_container {
+  margin: 1rem 0;
+}
+.dashboard .account_Auth__level .progress_container h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+.dashboard .account_Auth__level .progress_container .progress_label {
+  display: block;
+  font: 500 1.4rem/1.5 system-ui;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+.dashboard .account_Auth__level .progress_container .progress_bar {
+  height: 1rem;
+  background: #e0e0e0;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-top: -1.5rem;
+}
+.dashboard .account_Auth__level .progress_container .progress_fill {
+  height: 100%;
+  background: #2ecc71;
+  transition: width 0.3s;
+}
+.dashboard .account_Auth__level .condition {
+  margin-top: 2rem;
+}
+.dashboard .account_Auth__level .condition .condition_item {
+  display: block;
+  font-size: 1.5rem;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  position: relative;
+}
+.dashboard .account_Auth__level .condition .condition_item svg {
+  width: 2rem;
+  height: 2rem;
+}
+.dashboard .account_Auth__level .condition .condition_item:hover {
+  background: #eaf0fa;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+.dashboard .account_Auth__level .condition .condition_item .status {
+  position: absolute;
+  right: 1rem;
+}
+.dashboard .infomation_company {
+  padding: 2rem 3rem;
+  background: var(--bg-White);
+  margin-top: 2rem;
+  border-radius: 1rem;
+}
+.dashboard .infomation_company h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+.dashboard .infomation_company .profile_container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.dashboard .infomation_company .profile_container .user_info {
+  flex: 2 1 42rem !important;
+  width: 100%;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 0.1rem solid var(--border);
+  flex: 1;
+}
+.dashboard .infomation_company .profile_container .user_info .user_header {
+  position: relative;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.dashboard .infomation_company .profile_container .user_info .user_header span {
+  display: block;
+}
+.dashboard .infomation_company .profile_container .user_info .user_header .company_name {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+.dashboard .infomation_company .profile_container .user_info .user_header .user_id {
+  margin-top: 0.7rem;
+  padding: 0.2rem 1rem;
+  display: inline-block;
+  border-radius: 0.3rem;
+  font-size: 1.5rem;
+  color: #666;
+  background: #def5ff;
+}
+.dashboard .infomation_company .profile_container .user_info .user_header .user_rank {
+  position: absolute;
+  top: 0;
+  right: 5rem;
+  font-size: 1.4rem;
+  padding: 0.7rem 2rem;
+  background: #def5ff;
+  font-weight: bold;
+  color: #333;
+  border-radius: 0.5rem;
+}
+.dashboard .infomation_company .profile_container .user_info .user_header .icon_bar {
+  position: absolute;
+  top: 0;
+  right: -1rem;
+  font-size: 1.4rem;
+  padding: 0.7rem 2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+.dashboard .infomation_company .profile_container .user_info .user_header .icon_bar:hover {
+  background: #def5ff;
+  border-radius: 0.5rem;
+  transition: 0.3s ease;
+}
+.dashboard .infomation_company .profile_container .user_info .user_contact {
+  margin-bottom: 1.5rem;
+}
+.dashboard .infomation_company .profile_container .user_info .user_contact p {
+  font-size: 1.4rem;
+  color: #333;
+  padding: 1rem 0;
+}
+.dashboard .infomation_company .profile_container .user_info .user_contact p span {
+  margin-right: 0.5rem;
+}
+.dashboard .infomation_company .profile_container .user_info .membership {
+  margin-bottom: 1.5rem;
+}
+.dashboard .infomation_company .profile_container .user_info .membership .membership_levels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+}
+.dashboard .infomation_company .profile_container .user_info .membership .membership_levels span {
+  display: block;
+}
+.dashboard .infomation_company .profile_container .user_info .membership .membership_levels span p {
+  margin-top: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: var(--weight550);
+  color: #2555ce;
+}
+.dashboard .infomation_company .profile_container .user_info .membership .progress_bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+.dashboard .infomation_company .profile_container .user_info .membership .progress_bar .progress {
+  height: 100%;
+  background: #33b451;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.dashboard .infomation_company .profile_container .user_info .points_section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.dashboard .infomation_company .profile_container .user_info .points_section .points_info .points_label {
+  font-size: 1.4rem;
+  color: #666;
+  margin-right: 0.3rem;
+}
+.dashboard .infomation_company .profile_container .user_info .points_section .points_info .points_value {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #ff6f61;
+}
+.dashboard .infomation_company .profile_container .user_info .points_section .points_button {
+  background: #def5ff;
+  color: #333;
+  padding: 0.7rem 2.5rem;
+  border: none;
+  border-radius: 5rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: background 0.3s ease;
+}
+.dashboard .infomation_company .profile_container .user_info .points_section .points_button:hover {
+  background: #337eb4;
+  color: #fff;
+}
+.dashboard .infomation_company .profile_container .points_credits {
+  flex: 1 1 32rem !important;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 0.1rem solid var(--border);
+  flex: 1;
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points {
+  margin-bottom: 1.5rem;
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points h4 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points .top_points_message {
+  font-size: 1.4rem;
+  color: #333;
+  line-height: 1.5;
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points .top_points_message a {
+  color: #33b451;
+  font-size: 1.8rem;
+  font-weight: var(--weight550);
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points .points_display {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: #def5ff;
+  border-radius: 1rem;
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points .points_display .points_icon {
+  font-size: 1.8rem;
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points .points_display .points_value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points .points_display .points_action {
+  background: #304fcb;
+  color: #fff;
+  padding: 0.8rem 2.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.3s ease;
+  position: absolute;
+  right: 2rem;
+}
+.dashboard .infomation_company .profile_container .points_credits .top_points .points_display .points_action:hover {
+  background: #1424d0;
+}
+.dashboard .infomation_company .profile_container .points_credits .credits h4 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+.dashboard .infomation_company .profile_container .points_credits .credits .credit_types {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.dashboard .infomation_company .profile_container .points_credits .credits .credit_types .credit_type {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  flex: 1;
+}
+.dashboard .infomation_company .profile_container .points_credits .credits .credit_types .credit_type .credit_label {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #666;
+  margin-right: 0.3rem;
+}
+.dashboard .infomation_company .profile_container .points_credits .credits .credit_types .credit_type .credit_value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: var(--weight600);
+  color: var(--viewDetails);
+  margin-top: 1rem;
+}
+.dashboard .verified_statuses {
+  padding: 2rem 3rem;
+  background: var(--bg-White);
+  margin-top: 2rem;
+  border-radius: 1rem;
+}
+.dashboard .verified_statuses .text_title {
+  font-size: 1.5rem;
+}
+.dashboard .verified_statuses .verified_statuses__containers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
+  gap: 3rem;
+  margin-top: 2rem;
+}
+.dashboard .verified_statuses .verified_statuses__containers .verified_box {
+  display: flex;
+  justify-content: space-between;
+  padding: 2.5rem 2rem;
+  border: 0.1rem solid var(--border);
+  background: linear-gradient(90deg, #1c4658, #00b14f);
+  border-radius: 1rem;
+  cursor: pointer;
+  color: #fff;
+}
+.dashboard .verified_statuses .verified_statuses__containers .verified_box span {
+  font-size: 1.4rem;
+}
+.dashboard .verified_statuses .verified_statuses__containers .verified_box svg {
+  width: 2rem;
+  height: 2rem;
+}
+.dashboard .slider_section {
+  margin-top: 2rem;
+  padding: 0;
+  z-index: -1 !important;
+}
+.dashboard .slider_section .swiper_container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 8px;
+  z-index: -1 !important;
+  overflow: hidden;
+}
+.dashboard .slider_section .swiper_container .slide_content {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  z-index: -1 !important;
+  align-items: center;
+}
+.dashboard .slider_section .swiper_container .swiper_image {
+  width: 50%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 1rem;
+  overflow: hidden;
+  z-index: -1 !important;
+  display: block;
+}
+.dashboard .slider_section .swiper_container .swiper_image img {
+  width: 100%;
+  z-index: -1 !important;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dashboard .slider_section .swiper_container .swiper-pagination {
+  bottom: -1rem !important;
+}
+.dashboard .slider_section .swiper_container .swiper-pagination .swiper-pagination-bullet {
+  background: #fff;
+  opacity: 0.7;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+}
+.dashboard .slider_section .swiper_container .swiper-pagination .swiper-pagination-bullet-active {
+  background: #007bff;
+  opacity: 1;
+}
+.dashboard .Recruitment_examination {
+  margin-top: 2rem;
+  background: var(--bg-White);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+.dashboard .Recruitment_examination h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.dashboard .Recruitment_examination .Recruitment_examination__container {
+  border-top: 0.1rem solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 0 0 0;
+}
+.dashboard .Recruitment_examination .Recruitment_examination__container .Recruitment_examination__box {
+  border-radius: 1rem;
+  border: 0.1rem solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  text-align: center;
+}
+.dashboard .Recruitment_examination .Recruitment_examination__container .Recruitment_examination__box .tool_image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dashboard .Recruitment_examination .Recruitment_examination__container .Recruitment_examination__box .content {
+  flex: 2 1;
+}
+.dashboard .Recruitment_examination .Recruitment_examination__container .Recruitment_examination__box .content span {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: var(--weight550);
+}
+.dashboard .Recruitment_examination .Recruitment_examination__container .Recruitment_examination__box .content .btn_tryNow {
+  background: #def5ff;
+  color: #333;
+  padding: 0.7rem 2.5rem;
+  border: none;
+  border-radius: 5rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: background 0.3s ease;
+  margin-top: 1rem;
+}
+.dashboard .Recruitment_examination .Recruitment_examination__container .Recruitment_examination__box .content .btn_tryNow:hover {
+  background: #336bb4;
+  color: #fff;
+}
+.dashboard .CV_recommendation {
+  padding: 2rem;
+  background: var(--bg-White);
+  margin-top: 2rem;
+  border-radius: 1rem;
+}
+.dashboard .CV_recommendation h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+.dashboard .CV_recommendation .CV_recommendation__container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.dashboard .CV_recommendation .CV_recommendation__container .CV_recommendation__banner {
+  flex: 1 1;
+  max-width: 50rem;
+  height: 80%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.dashboard .CV_recommendation .CV_recommendation__container .CV_recommendation__banner img {
+  width: 100%;
+  height: 80%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dashboard .CV_recommendation .CV_recommendation__container .CV_recommendation__content {
+  flex: 1 1;
+}
+.dashboard .CV_recommendation .CV_recommendation__container .CV_recommendation__content h3 {
+  font-size: 1.6rem;
+  text-transform: none;
+}
+.dashboard .CV_recommendation .CV_recommendation__container .CV_recommendation__content .list_content {
+  margin-left: 2.7rem;
+}
+.dashboard .CV_recommendation .CV_recommendation__container .CV_recommendation__content .list_content .content_item {
+  display: block;
+  padding: 1rem 0;
+  font-size: 1.4rem;
+}
+.dashboard .CV_recommendation .CV_recommendation__container .CV_recommendation__content .btn_buy_service {
+  margin-left: 2.6rem;
+  background: #def5ff;
+  color: #333;
+  padding: 0.7rem 2.5rem;
+  border: none;
+  border-radius: 5rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: background 0.3s ease;
+  margin-top: 1rem;
+}
+.dashboard .CV_recommendation .CV_recommendation__container .CV_recommendation__content .btn_buy_service:hover {
+  background: #336bb4;
+  color: #fff;
+}
+.dashboard .all_jobPosted {
+  background: var(--bg-White);
+  margin-top: 1.5rem;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+.dashboard .all_jobPosted h2 {
+  font-size: 2rem;
+}/*# sourceMappingURL=dashboard.module.css.map */

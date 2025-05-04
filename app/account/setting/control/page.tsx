@@ -5,7 +5,6 @@ import 'aos/dist/aos.css';
 import styles from './settings_layout.module.scss';
 
 export default function SettingsLayout() {
-    
     useEffect(() => {
         AOS.init({
             duration: 1000,
@@ -18,10 +17,15 @@ export default function SettingsLayout() {
             AOS.refresh();
         }, 100);
     }, []);
-    
+
     return (
         <div className={styles.settingsLayout}>
             <div className={styles.settingsLayout__sidebar}>
+                <a href="/account/setting/company">
+                    <span className={styles.settingsLayout__sidebar__icon}>🏢</span>
+                    Công ty
+                </a>
+
                 <a href="/account/setting/HR_info">
                     <span className={styles.settingsLayout__sidebar__icon}>📋</span>
                     Thông tin cá nhân
@@ -32,7 +36,7 @@ export default function SettingsLayout() {
                     Đổi mật khẩu
                 </a>
 
-                <a href="/account/setting/company-info">
+                <a href="/account/setting/company_info">
                     <span className={styles.settingsLayout__sidebar__icon}>🏢</span>
                     Thông tin công ty
                 </a>

@@ -1,175 +1,160 @@
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
-import styles from './styles/home.module.scss';
-import Recruitment from './recruitment/page';
 
-// Định nghĩa kiểu cho box item
-interface BoxItem {
-    text: string;
-    basePosition: { top: number; left?: number; right?: number };
+import React, { useState } from 'react';
+import styles from './styles/home.module.scss';
+import Popup from './popup/product_details/page';
+
+// Define the type for product data
+interface Product {
+    id: string;
+    name: string;
+    image: string;
+    link: string;
+    price: number;
+    description: string;
 }
 
-function Home() {
-    const textItems: string[] = ['Find', "What's", 'Next'];
+// Products for "Mẫu thiết kế có sẵn" (Ready-made designs)
+const readyMadeProducts: Product[] = [
+    {
+        id: 'mau_1',
+        name: 'Mẫu 1',
+        image: '/images/m1/1.png',
+        link: 'https://exquisite-tapioca-fae754.netlify.app/',
+        price: 99000,
+        description: 'Phong cách tối giản\nThanh lịch\nMàu sắc nhẹ nhàng\nDễ phối hợp\nHoàn hảo cho tiệc cưới hiện đại',
+    },
+    {
+        id: 'mau_2',
+        name: 'Mẫu 2',
+        image: '/images/m2/m2.png',
+        link: 'https://exquisite-tapioca-fae754.netlify.app/',
+        price: 89000,
+        description: 'Thiết kế đơn giản\nMàu sắc nhẹ nhàng\nThông tin cơ bản đầy đủ\nKết hợp dynamic music bottom',
+    },
+];
+// Products for "Mẫu pro" (Pro designs - full list)
+const proProducts: Product[] = [
+    {
+        id: 'pro_1',
+        name: 'Thiệp cưới hoa đào đỏ hiện đại',
+        image: '/images/p_1.png',
+        link: 'https://exquisite-tapioca-fae754.netlify.app/',
+        price: 129000,
+        description:
+            'Màu đỏ rực rỡ với hoa đào nổi bật.\nThiết kế hiện đại, sang trọng.\nLý tưởng cho cặp đôi yêu sự nổi bật.',
+    },
+    {
+        id: 'pro_2',
+        name: 'Thiệp cưới màu nước tối giản',
+        image: '/images/p_2.png',
+        link: 'https://exquisite-tapioca-fae754.netlify.app/',
+        price: 109000,
+        description: 'Phong cách màu nước mềm mại.\nTối giản nhưng đầy tinh tế.\nPhù hợp cho tiệc cưới ấm cúng.',
+    },
+    {
+        id: 'pro_3',
+        name: 'Thiệp cưới màu xanh, màu trắng mềm mại',
+        image: '/images/p_3.png',
+        link: 'https://exquisite-tapioca-fae754.netlify.app/',
+        price: 119000,
+        description: 'Sắc xanh và trắng dịu dàng.\nThiết kế mềm mại, thanh thoát.\nHoàn hảo cho lễ cưới ngoài trời.',
+    },
+    {
+        id: 'pro_4',
+        name: 'Thiệp cưới hiện đại Blue Gold',
+        image: '/images/p_4.png',
+        link: 'https://exquisite-tapioca-fae754.netlify.app/',
+        price: 139000,
+        description:
+            'Kết hợp xanh dương và vàng ánh kim.\nThiết kế sang trọng, hiện đại.\nLý tưởng cho tiệc cưới cao cấp.',
+    },
+    {
+        id: 'pro_5',
+        name: 'Thiệp cưới thanh lịch',
+        image: '/images/p_5.png',
+        link: 'https://exquisite-tapioca-fae754.netlify.app/',
+        price: 99000,
+        description:
+            'Phong cách thanh lịch, tinh tế.\nMàu sắc trung tính, dễ phối hợp.\nPhù hợp cho mọi phong cách cưới.',
+    },
+];
 
-    const boxItemsData: BoxItem[] = [
-        { text: 'Robotics', basePosition: { top: -350, left: -600 } },
-        { text: 'Cyber Security', basePosition: { top: -350, left: -200 } },
-        { text: 'Web3', basePosition: { top: -350, left: 200 } },
-        { text: 'Mental Health', basePosition: { top: -350, left: 600 } },
-        { text: 'Vue JS Developers', basePosition: { top: -200, left: -500 } },
-        { text: 'iOS Developers', basePosition: { top: -200, left: -100 } },
-        { text: 'React Developers', basePosition: { top: -200, left: 300 } },
-        { text: 'Android Developers', basePosition: { top: -200, left: 700 } },
-        { text: 'Boston', basePosition: { top: 0, left: -700 } },
-        { text: 'Flutter Developers', basePosition: { top: 350, left: -800 } },
-        { text: 'Aerospace', basePosition: { top: 0, left: 500 } },
-        { text: 'Artificial Intelligence', basePosition: { top: 0, left: 700 } },
-        { text: 'Sass', basePosition: { top: 200, left: -600 } },
-        { text: 'Denver', basePosition: { top: 200, left: -200 } },
-        { text: 'Full Stack Developer', basePosition: { top: 200, left: 200 } },
-        { text: 'Senior', basePosition: { top: 200, left: 600 } },
-        { text: 'Hà Nội', basePosition: { top: 350, left: -500 } },
-        { text: 'TP.HCM', basePosition: { top: 350, left: -100 } },
-        { text: 'Đà Nẵng', basePosition: { top: 100, left: 300 } },
-        { text: 'Cần Thơ', basePosition: { top: 350, left: 700 } },
-        { text: 'Hải Phòng', basePosition: { top: -300, left: -800 } },
-        { text: 'Frontend Developers', basePosition: { top: -400, left: 0 } },
-        { text: 'Backend Developers', basePosition: { top: 300, left: 800 } },
-        { text: 'DevOps', basePosition: { top: 400, left: -300 } },
-        { text: 'Data Science', basePosition: { top: 180, left: -470 } },
-        { text: 'Machine Learning', basePosition: { top: 380, left: 300 } },
-        { text: 'Blockchain', basePosition: { top: -90, left: -800 } },
-        { text: 'UI/UX Design', basePosition: { top: -290, left: 800 } },
-        { text: 'Game Development', basePosition: { top: 90, left: -800 } },
-        { text: 'Cloud Computing', basePosition: { top: -400, left: 800 } },
-    ];
+// Define props type for the ProductCard component
+interface ProductCardProps {
+    name: string;
+    image: string;
+    onClick: () => void;
+}
 
-    const [boxItems, setBoxItems] = useState<BoxItem[]>([]);
-    const sectionRef = useRef<HTMLDivElement>(null);
-    const boxRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
-    const mousePositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-    const targetPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-    const currentPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-    const animationFrameRef = useRef<number | null>(null);
+const ProductCard: React.FC<ProductCardProps> = ({ name, image, onClick }) => (
+    <div className={styles.card_product} onClick={onClick}>
+        <div className={styles.image_products}>
+            <img src={image} alt={name} />
+        </div>
+    </div>
+);
 
-    useEffect(() => {
-        const initializePositions = () => {
-            setBoxItems(boxItemsData);
-            boxRefs.current = boxItemsData.map(() => React.createRef<HTMLDivElement>());
-        };
+// Define props type for the ProductList component
+interface ProductListProps {
+    products: Product[];
+    onProductClick: (product: Product) => void;
+}
 
-        initializePositions();
-        window.addEventListener('resize', initializePositions);
-        return () => window.removeEventListener('resize', initializePositions);
-    }, []);
+const ProductList: React.FC<ProductListProps> = ({ products, onProductClick }) => (
+    <div className={styles.grid}>
+        {products.map((product, index) => (
+            <ProductCard
+                key={index}
+                name={product.name}
+                image={product.image}
+                onClick={() => onProductClick(product)}
+            />
+        ))}
+    </div>
+);
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!sectionRef.current) return;
+const Home: React.FC = () => {
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-        const rect = sectionRef.current.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left - rect.width / 2;
-        const mouseY = e.clientY - rect.top - rect.height / 2;
-
-        mousePositionRef.current = { x: mouseX, y: mouseY };
-        targetPositionRef.current = {
-            x: -(mouseX * 0.2),
-            y: -(mouseY * 0.2),
-        };
+    const handleProductClick = (product: Product) => {
+        setSelectedProduct(product);
     };
 
-    useEffect(() => {
-        const lerp = (start: number, end: number, factor: number): number => start + (end - start) * factor;
-
-        const updatePositions = () => {
-            currentPositionRef.current.x = lerp(currentPositionRef.current.x, targetPositionRef.current.x, 0.1);
-            currentPositionRef.current.y = lerp(currentPositionRef.current.y, targetPositionRef.current.y, 0.1);
-
-            boxItems.forEach((box, index) => {
-                const boxElement = boxRefs.current[index]?.current;
-                if (boxElement) {
-                    const sectionWidth = sectionRef.current?.offsetWidth || window.innerWidth;
-                    const sectionHeight = sectionRef.current?.offsetHeight || window.innerHeight;
-                    const boxWidth = boxElement.offsetWidth;
-                    const boxHeight = boxElement.offsetHeight;
-
-                    let newLeft: number;
-                    if (box.basePosition.right !== undefined) {
-                        newLeft = sectionWidth / 2 - box.basePosition.right - boxWidth + currentPositionRef.current.x;
-                    } else {
-                        newLeft = (box.basePosition.left || 0) + currentPositionRef.current.x;
-                    }
-
-                    const newTop = box.basePosition.top + currentPositionRef.current.y;
-
-                    const maxLeft = sectionWidth / 2 - boxWidth - 50;
-                    const minLeft = -sectionWidth / 2 + 50;
-                    const maxTop = sectionHeight / 2 - boxHeight - 50;
-                    const minTop = -sectionHeight / 2 + boxHeight + 50;
-
-                    boxElement.style.left = `${Math.max(minLeft, Math.min(maxLeft, newLeft))}px`;
-                    boxElement.style.top = `${Math.max(minTop, Math.min(maxTop, newTop))}px`;
-                    boxElement.style.right = 'auto';
-                }
-            });
-
-            animationFrameRef.current = requestAnimationFrame(updatePositions);
-        };
-
-        animationFrameRef.current = requestAnimationFrame(updatePositions);
-
-        return () => {
-            if (animationFrameRef.current !== null) {
-                cancelAnimationFrame(animationFrameRef.current);
-            }
-        };
-    }, [boxItems]);
+    const handleClosePopup = () => {
+        setSelectedProduct(null);
+    };
 
     return (
-        <>
-            <div
-                className={styles.recruitment_home}
-                ref={sectionRef}
-                onMouseMove={handleMouseMove}
-                style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}
-            >
-                <div className={styles.text_wrapper}>
-                    <div className={styles.text_container} style={{ zIndex: 10 }}>
-                        {textItems.map((item, index) => (
-                            <span
-                                key={index}
-                                className={styles.text_item}
-                                style={{ animationDelay: `${index * 0.2}s` }}
-                            >
-                                {item}
-                            </span>
-                        ))}
-                    </div>
+        <main className={styles.main}>
+            <h1 className={styles.heading}>GM, Huỳnh Nam! 👋</h1>
 
-                    {boxItems.map((box, index) => (
-                        <div
-                            key={index}
-                            ref={boxRefs.current[index]}
-                            className={styles.box_item}
-                            style={{
-                                animationDelay: `${1.2 + index * 0.15}s`,
-                                top: `${box.basePosition.top}px`,
-                                ...(box.basePosition.left !== undefined
-                                    ? { left: `${box.basePosition.left}px` }
-                                    : { right: `${box.basePosition.right}px` }),
-                                position: 'absolute',
-                                zIndex: 5,
-                            }}
-                        >
-                            {box.text}
-                        </div>
-                    ))}
+            <div className={styles.banner_home}>
+                <div className={styles.banner_imgleft}>
+                    <img src="/images/banner/left.png" alt="Left Floral" />
+                </div>
+                <div className={styles.banner_text}>
+                    <h2>Kỷ niệm</h2>
+                    <h1>Những khoảnh khắc đặc trọng đại, đặc biệt của bạn</h1>
+                    <h3>Cùng chúng tôi</h3>
+                </div>
+                <div className={styles.banner_imgright}>
+                    <img src="/images/banner/right.png" alt="Right Floral" />
                 </div>
             </div>
 
-            <Recruitment />
-        </>
+            <div className={styles.layer_default}>
+                <h2>Mẫu thiết kế có sẵn</h2>
+                <ProductList products={readyMadeProducts} onProductClick={handleProductClick} />
+            </div>
+
+            <div className={styles.layer_default}>
+                <h2>Mẫu pro</h2>
+                <ProductList products={proProducts} onProductClick={handleProductClick} />
+            </div>
+            <Popup product={selectedProduct} onClose={handleClosePopup} />
+        </main>
     );
-}
+};
 
 export default Home;

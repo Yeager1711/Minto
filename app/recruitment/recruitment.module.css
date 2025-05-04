@@ -1,0 +1,366 @@
+@charset "UTF-8";
+.title_header {
+  color: var(--globalColor);
+  font-size: 1.7rem;
+  font-weight: var(--weight550);
+}
+
+.title {
+  font-size: 4rem;
+  margin-top: 1.5rem;
+  text-transform: capitalize;
+}
+
+.des_header {
+  font-size: 1.4rem;
+  margin-left: 2.5rem;
+  color: #888;
+  margin-top: 2rem;
+}
+
+.Recruitment .Recruitment_container .container_job__connect {
+  border-top: 0.1rem solid var(--border);
+  margin: auto;
+  text-align: center;
+  padding: 7% 0;
+}
+.Recruitment .Recruitment_container .container_job__connect .flex_button {
+  margin-top: 3rem;
+}
+.Recruitment .Recruitment_container .container_job__connect .flex_button .btn_post_find_candidates {
+  padding: 2rem 7rem;
+  color: #0034d9;
+  border: 0.1rem solid blue;
+  font-size: 1.5rem;
+  border-radius: 0.8rem;
+  margin-right: 1rem;
+  font-weight: var(--weight550);
+}
+.Recruitment .Recruitment_container .container_job__connect .flex_button .btn_post_find_candidates:hover {
+  background: #7f98ea;
+  transition: 0.3s ease-in-out;
+  color: #fff;
+}
+.Recruitment .Recruitment_container .container_job__connect .flex_button .find_jobss {
+  padding: 2rem 7rem;
+  background: #00b14f;
+  font-size: 1.5rem;
+  border-radius: 0.8rem;
+  color: #fff;
+  margin-left: 1rem;
+  font-weight: var(--weight550);
+}
+.Recruitment .Recruitment_container .container_job__connect .flex_button .find_jobss:hover {
+  background: #2ec242;
+  transition: 0.3s ease-in-out;
+}
+.Recruitment .Recruitment_container .service {
+  margin: auto;
+  text-align: center;
+}
+.Recruitment .Recruitment_container .service .flex_service {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5rem;
+  padding: 4rem 0;
+}
+.Recruitment .Recruitment_container .service .flex_service .image_service {
+  flex: 1 1 42rem;
+  max-width: 75rem;
+  height: 100%;
+}
+.Recruitment .Recruitment_container .service .flex_service .image_service img {
+  width: 100%;
+  height: 100%;
+}
+.Recruitment .Recruitment_container .service .flex_service .contents_service {
+  text-align: start;
+}
+.Recruitment .Recruitment_container .service .flex_service .contents_service h3 {
+  font-size: 2.5rem;
+  text-transform: none;
+}
+.Recruitment .Recruitment_container .service .flex_service .contents_service p {
+  font-size: 1.4rem;
+  padding: 1rem 0 1rem 3rem;
+  color: #888;
+}
+.Recruitment .Recruitment_container .service .flex_service .contents_service .flex_button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 3rem 0 0 3rem;
+}
+.Recruitment .Recruitment_container .service .flex_service .contents_service .flex_button .btn_post_find_candidates {
+  flex: 1 1 28rem;
+  padding: 1.5rem 5rem;
+  color: #0034d9;
+  border: 0.1rem solid blue;
+  font-size: 1.5rem;
+  border-radius: 0.8rem;
+  max-width: 100%;
+  font-weight: var(--weight550);
+}
+.Recruitment .Recruitment_container .service .flex_service .contents_service .flex_button .btn_post_find_candidates:hover {
+  background: #7f98ea;
+  transition: 0.3s ease-in-out;
+  color: #fff;
+}
+.Recruitment .Recruitment_container .service .flex_service .contents_service .flex_button .find_jobss {
+  flex: 1 1 18rem;
+  padding: 1.5rem 5rem;
+  background: #00b14f;
+  font-size: 1.5rem;
+  border-radius: 0.8rem;
+  color: #fff;
+  font-weight: var(--weight550);
+  max-width: 100%;
+}
+.Recruitment .Recruitment_container .service .flex_service .contents_service .flex_button .find_jobss:hover {
+  background: #2ec242;
+  transition: 0.3s ease-in-out;
+}
+.Recruitment .Recruitment_container .service__add {
+  background-color: #fafafa;
+}
+.Recruitment .Recruitment_container .service__add h3 {
+  text-transform: none;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add {
+  padding: 4rem 0;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.1);
+  padding: 3rem 1.5rem;
+  width: 100%;
+  max-width: 37rem;
+  text-align: left;
+  position: relative;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box:nth-child(1) {
+  border-top: 0.6rem solid #0ea5e9;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box:nth-child(2) {
+  border-top: 0.6rem solid #c2b82e;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box:nth-child(3) {
+  border-top: 0.6rem solid red;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box:nth-child(4) {
+  border-top: 0.6rem solid #6f61d9;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box:nth-child(5) {
+  border-top: 0.6rem solid #2e97c2;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box .pricing_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box .pricing_header .pricing_title {
+  font-size: 1.6rem;
+  font-weight: var(--weight550);
+  color: #333;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box .pricing_price_container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box .pricing_price_container .pricing_price_original {
+  font-size: 1.2rem;
+  font-weight: var(--weight550);
+  color: #888;
+  text-decoration: line-through;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box .pricing_price_container .pricing_price_discounted {
+  font-size: 2rem;
+  font-weight: var(--weight550);
+  color: #00b14f;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box .pricing_note {
+  font-size: 1.2rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .pricing_boxes .pricing_box .pricing_description {
+  font-size: 1.4rem;
+  color: #666;
+  line-height: 1.6;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons {
+  margin-top: 3rem;
+  text-align: left;
+  max-width: 100%;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons .notes_list {
+  list-style-type: disc;
+  margin-bottom: 2rem;
+  padding-left: 0;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons .notes_list li {
+  font-size: 1.4rem;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 1.3rem;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons .notes_list li svg {
+  color: #00b14f;
+  margin-right: 1rem;
+  font-size: 1.6rem;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons .flex_button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons .flex_button .btn_consult {
+  padding: 1.5rem 5rem;
+  color: #0034d9;
+  border: 0.1rem solid blue;
+  font-size: 1.5rem;
+  border-radius: 0.8rem;
+  font-weight: var(--weight550);
+  background: transparent;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons .flex_button .btn_consult:hover {
+  background: #7f98ea;
+  transition: 0.3s ease-in-out;
+  color: #fff;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons .flex_button .btn_post_now {
+  padding: 1.5rem 5rem;
+  background: none;
+  font-size: 1.5rem;
+  border-radius: 0.8rem;
+  color: #333;
+  font-weight: var(--weight550);
+  border: 0.1rem solid #333;
+}
+.Recruitment .Recruitment_container .service__add .flex_service__add .notes_and_buttons .flex_button .btn_post_now:hover {
+  transition: 0.3s ease-in-out;
+}
+.Recruitment .Recruitment_container .about_us {
+  margin: auto;
+  text-align: center;
+}
+.Recruitment .Recruitment_container .about_us .flex_about_us {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  padding: 5rem 3rem;
+  background: #fafafa;
+  border-radius: 2rem;
+  margin-top: 3rem;
+}
+.Recruitment .Recruitment_container .about_us .flex_about_us .image_about_us {
+  flex: 1 1 22rem;
+  max-width: 75rem;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 5rem;
+}
+.Recruitment .Recruitment_container .about_us .flex_about_us .image_about_us img {
+  width: 100%;
+  height: 65rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.Recruitment .Recruitment_container .about_us .flex_about_us .contents_about_us {
+  flex: 1 1 41rem;
+  text-align: start;
+}
+.Recruitment .Recruitment_container .about_us .flex_about_us .contents_about_us h3 {
+  font-size: 2.5rem;
+  text-transform: none;
+}
+.Recruitment .Recruitment_container .about_us .flex_about_us .contents_about_us p {
+  font-size: 1.6rem;
+  padding: 1rem 0 1rem 3rem;
+  color: #888;
+  line-height: 2.2;
+}
+.Recruitment .Recruitment_container .about_us .flex_about_us .contents_about_us p a {
+  font-weight: var(--weight550);
+}
+.Recruitment .Recruitment_container .about_us .flex_about_us .contents_about_us p span {
+  font-weight: var(--weight550);
+  color: var(--viewDetails);
+}
+.Recruitment .Recruitment_container .values {
+  margin: auto;
+  text-align: center;
+}
+.Recruitment .Recruitment_container .values .flex_values {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 5rem 3rem;
+  border-radius: 2rem;
+  margin-top: 3rem;
+}
+.Recruitment .Recruitment_container .values .flex_values .box_values {
+  flex: 1 1 40rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background: #fafafa;
+  padding: 3rem;
+  border-radius: 1rem;
+}
+.Recruitment .Recruitment_container .values .flex_values .box_values .image_values {
+  max-width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 2rem;
+}
+.Recruitment .Recruitment_container .values .flex_values .box_values .image_values img {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.Recruitment .Recruitment_container .values .flex_values .box_values .contents_values {
+  text-align: left;
+}
+.Recruitment .Recruitment_container .values .flex_values .box_values .contents_values h3 {
+  font-size: 2.5rem;
+  text-transform: none;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+.Recruitment .Recruitment_container .values .flex_values .box_values .contents_values .values_list {
+  list-style: none;
+  padding: 0;
+}
+.Recruitment .Recruitment_container .values .flex_values .box_values .contents_values .values_list li {
+  font-size: 1.5rem;
+  color: #666;
+  line-height: 2.2;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-left: 3rem;
+}
+.Recruitment .Recruitment_container .values .flex_values .box_values .contents_values .values_list li:before {
+  content: "✔";
+  color: #00b14f;
+  font-size: 1.6rem;
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+}/*# sourceMappingURL=recruitment.module.css.map */

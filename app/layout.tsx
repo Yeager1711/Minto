@@ -6,18 +6,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'aos/dist/aos.css';
 
-export default function RootLayout({
-    
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <body>
                 <ApiProvider>
                     <Header />
                     <main className="container">{children}</main>
+
                     <ToastContainer />
                 </ApiProvider>
             </body>

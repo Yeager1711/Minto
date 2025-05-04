@@ -1,485 +1,96 @@
-.Home {
-  margin: 0;
+.main {
+  padding: 3rem 5%;
+  min-height: 100vh;
+  background: #fff;
 }
-.Home .banner-image {
-  max-width: 100%;
-  height: 93vh;
+.main .heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #1a1a1a;
+}
+.main .banner_home {
+  background: #fff;
+  width: 100%;
+  height: 30rem;
+  border-radius: 1rem;
+  border: 0.1rem solid #dbdbdb;
+  overflow: hidden;
   position: relative;
 }
-.Home .banner-image img {
+.main .banner_home .banner_imgleft {
+  position: absolute;
+  top: 0;
+  left: -5rem;
+  max-width: 25rem;
+}
+.main .banner_home .banner_imgleft img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.Home .banner-image .wrapper-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-}
-.Home .banner-image .wrapper-content .search-infoWork {
+.main .banner_home .banner_text {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 45%;
   transform: translate(-50%, -50%);
-  max-width: 85rem;
-  width: 95%;
-}
-.Home .banner-image .wrapper-content .search-infoWork .content {
   text-align: center;
+  color: #5c4033;
 }
-.Home .banner-image .wrapper-content .search-infoWork .content h4 {
-  font-size: 4rem;
-  color: var(--colorWhiteText);
+.main .banner_home .banner_text h2 {
+  font-family: "Sacramento", cursive;
+  font-size: 3rem;
+  margin: 0;
+  line-height: 1;
 }
-.Home .banner-image .wrapper-content .search-infoWork .content h4 span {
-  color: var(--globalColor);
+.main .banner_home .banner_text h1 {
+  font-family: "Sacramento", cursive;
+  font-size: 3rem;
+  margin: 0.5rem 0;
+  line-height: 1;
+  padding: 0.8rem 0;
 }
-.Home .banner-image .wrapper-content .search-infoWork .content p {
-  font-size: 1.7rem;
-  padding: 1rem 0;
-  color: var(--colorWhiteText);
-  margin-bottom: 1rem;
+.main .banner_home .banner_text h3 {
+  font-family: "Sacramento", cursive;
+  font-size: 2.5rem;
+  margin: 0;
+  line-height: 1;
 }
-.Home .banner-image .wrapper-content .search-infoWork .content p span {
-  color: var(--globalColor);
-  font-weight: var(--weight550);
+.main .banner_home .banner_imgright {
+  position: absolute;
+  top: 4rem;
+  right: 8rem;
+  max-width: 16rem;
+  transform: rotate(-277deg);
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work {
-  border-radius: 0.5rem;
-  min-height: 0;
-  transition: min-height 0.5s ease-in-out !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand {
-  min-height: 35rem !important;
-  overflow: hidden;
-  background: var(--bg-White);
-  transition: min-height 0.5s ease-in-out !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  transition: padding 0.5s ease-in-out !important;
-  padding: 1rem;
-  border-bottom: 0.1rem solid var(--border);
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-input {
-  flex: 1 1;
-  max-width: 40rem;
-  width: 95%;
-  border-right: 0.2em solid #333;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-input input {
-  color: var(--colorBlackText) !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-input input::-moz-placeholder {
-  font-size: 1.4rem;
-  color: var(--colorBlackText) !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-input input::placeholder {
-  font-size: 1.4rem;
-  color: var(--colorBlackText) !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-select {
-  flex: 1 1;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .flex-search .box-select select {
-  color: var(--colorBlackText) !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container {
-  padding: 2rem;
-  height: 35rem !important;
-  transition: height 0.5s ease-in-out !important;
-  overflow: auto;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result__total {
-  font-size: 1.4rem;
-  font-weight: var(--weight400);
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .no-result {
-  font-size: 1.4rem;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 2rem;
-  cursor: pointer;
-  padding: 1.5rem;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item:hover {
-  background: var(--background);
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .image-company__result {
-  max-width: 4.5rem;
-  height: 4.5rem;
-  overflow: hidden;
-  border-radius: 50%;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .image-company__result img {
+.main .banner_home .banner_imgright img {
   width: 100%;
-  -o-object-fit: contain;
-     object-fit: contain;
   height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .name-company__result,
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .position__result,
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .salary__result {
-  font-size: 1.4rem;
-  font-weight: var(--weight550);
-  text-transform: capitalize;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .position__result {
-  font-weight: var(--weight400);
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .name-company__result {
-  float: left;
-  width: 35rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .salary__result {
-  width: 8.5rem;
-  float: right;
-  color: #ff842a;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work.expand .search-result__container .search-result-item .location__result {
-  width: 22.5rem;
-  font-size: 1.4rem;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  padding: 1rem 0;
-  border-bottom: 0.1rem solid var(--border);
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input {
-  max-width: 52.5rem;
-  width: 90%;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input {
-  width: 100%;
-  font-size: 16px;
-  background: none;
-  color: var(--colorWhiteText) !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input::-moz-placeholder {
-  font-size: 1.4rem;
-  color: #999 !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-input input::placeholder {
-  font-size: 1.4rem;
-  color: #999 !important;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-select {
-  max-width: 15rem;
-  width: 100%;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-select select {
-  background: none;
-  width: 100%;
-  font-size: 1.5rem;
-  color: var(--colorWhiteText);
-  cursor: pointer;
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .box-select select option {
-  color: var(--colorBlackText);
-}
-.Home .banner-image .wrapper-content .search-infoWork .find-work .flex-search .btn-find {
-  padding: 0.8rem 2.5rem;
-  background: var(--globalColor);
-  color: var(--colorWhiteText);
-  border-radius: 0.5rem;
-  font-size: 1.6rem;
-  height: 3.5rem;
-  max-width: 12rem;
-  width: 95%;
-  cursor: pointer;
-}
-.Home .wrapper-home .wrapper-container {
+.main .layer_default {
   margin-top: 2rem;
 }
-.Home .wrapper-home .wrapper-container .company {
-  background: var(--bg-White);
-  border-radius: 0.5rem;
-  overflow: hidden;
-  height: 21rem;
-  position: relative;
-  cursor: pointer;
+.main .layer_default h2 {
+  font-size: 2rem;
 }
-.Home .wrapper-home .wrapper-container .company:hover {
-  transform: translateY(-0.5rem);
-}
-.Home .wrapper-home .wrapper-container .company .img-company {
-  display: flex;
-  margin: auto;
-  width: 15rem;
-  height: 15rem;
-  padding: 2rem;
-}
-.Home .wrapper-home .wrapper-container .company .img-company img {
-  width: 100%;
-  -o-object-fit: contain;
-     object-fit: contain;
-  transition: transform 0.3s ease;
-}
-.Home .wrapper-home .wrapper-container .company .img-company img:hover {
-  transform: scale(1.05);
-}
-.Home .wrapper-home .wrapper-container .company .content-company {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem 1rem;
-}
-.Home .wrapper-home .wrapper-container .company .content-company h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--colorBlackText);
-  text-transform: capitalize;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.Home .wrapper-home .wrapper-container .company .content-company .location {
-  font-size: 1.2rem;
-  margin-left: 2.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--colorBlackText);
-  text-transform: capitalize;
-}
-.Home .wrapper-home .recruitment-container {
-  margin: 2rem 0;
+.main .layer_default .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
-  gap: 1.5rem;
-  padding: 1rem;
-}
-.Home .wrapper-home .recruitment-container .company {
-  background: var(--bg-White);
-  border-radius: 1rem;
-  overflow: hidden;
-  border: 0.1rem solid var(--border);
-  padding: 1rem 4.5rem 1rem 1rem;
-  cursor: pointer;
-  position: relative;
-  display: flex;
-}
-.Home .wrapper-home .recruitment-container .company:hover {
-  background: var(--hoverBox);
-  border: 0.1rem solid var(--hoverBoxBd);
-}
-.Home .wrapper-home .recruitment-container .company .icon-views {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 9 !important;
-  color: var(--colorBlackText);
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  background: var(--globalColor);
-  color: var(--colorWhiteText);
-}
-.Home .wrapper-home .recruitment-container .company .icon-views svg {
-  color: var(--colorWhiteText);
-}
-.Home .wrapper-home .recruitment-container .company .img-company {
-  flex: 1 1 15rem;
-  margin: auto;
-  text-align: center;
-}
-.Home .wrapper-home .recruitment-container .company .img-company img {
-  width: 7.5rem;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.Home .wrapper-home .recruitment-container .company .content-company {
-  overflow: hidden;
-  overflow: hidden;
-  max-width: 35rem;
-  width: 100%;
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--colorBlackText);
-  text-transform: capitalize;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location .name-company {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.3rem 0;
-  font-size: 1.2rem;
-  margin-left: 2rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--textBlur);
-  text-transform: capitalize;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 31rem;
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location .salary {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.3rem 0;
-  font-size: 1.3rem;
-  margin-left: 2rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--viewDetails);
-  text-transform: capitalize;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 31rem;
-  margin-bottom: 0.2rem;
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location .positon {
-  display: block;
-  align-items: center;
-  padding: 0.5rem 0;
-  font-size: 1.3rem;
-  margin-left: 1rem;
-  padding: 0.25rem 1rem;
-  border-radius: 0.3rem;
-  text-transform: capitalize;
-  max-width: 100%;
-  white-space: nowrap;
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location .positon p {
-  font-weight: var(--weight550);
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location .district {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0;
-  font-size: 1.2rem;
-  margin-left: 1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0.5rem 1rem;
-  border-radius: 0.3rem;
-  text-transform: capitalize;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 31rem;
-}
-.Home .wrapper-home .recruitment-container .company .content-company .company-location .district p {
-  font-weight: var(--weight550);
-  color: var(--viewDetails);
-}
-.Home .wrapper-home .recruitment-container .company .content-company .btn-viewDetails {
-  padding: 0.6rem 2.5rem;
-  background: var(--viewDetails);
-  color: var(--colorWhiteText);
-  font-size: 1.4rem;
-  border-top-left-radius: 3rem;
-  border-bottom-right-radius: 3rem;
-}
-.Home .wrapper-home .pagination {
-  display: flex;
-  margin: 1.5rem 0;
-  margin: auto;
-  width: 22rem;
-  padding: 0;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: 2rem;
-  align-items: center;
-  border-radius: 15rem;
+  margin-top: 2rem;
+}
+.main .layer_default .grid .card_product {
+  background: #fff;
   overflow: hidden;
+  border-radius: 1rem;
+  cursor: pointer;
 }
-.Home .wrapper-home .pagination button {
-  margin: auto;
-  padding: 1rem 1.3rem;
-  background: var(--hoverBox);
-  border: 0.1rem solid var(--hoverBoxBd);
-  border-radius: 5rem;
-}
-.Home .wrapper-home .pagination span {
-  margin: auto;
-  font-size: 1.5rem;
-}
-.Home .HomePage_findJobs .image_HomePage_findJobs {
-  max-width: 100%;
-  height: 50rem;
-  position: relative;
-}
-.Home .HomePage_findJobs .image_HomePage_findJobs::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-}
-.Home .HomePage_findJobs .image_HomePage_findJobs img {
+.main .layer_default .grid .card_product .image_products img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-}
-.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs {
-  position: absolute;
-  top: 50%;
-  left: 30%;
-  transform: translate(-30%, -50%);
-  max-width: 70rem;
-  width: 95%;
-}
-.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs .title {
-  font-size: 2.9rem;
-  color: var(--globalColor);
-  font-weight: var(--weight550);
-  line-height: 1.5;
-}
-.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs .sub_title {
-  margin-top: 2rem;
-  font-size: 1.5rem;
-  color: var(--colorWhiteText);
-  font-weight: var(--weight500);
-  line-height: 1.5;
-}
-.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs .img-arrow {
-  position: absolute;
-  top: 42%;
-  right: -22%;
-  width: 14rem;
-  -o-object-fit: contain;
-     object-fit: contain;
-  transform: rotate(-10deg);
-}
-.Home .HomePage_findJobs .image_HomePage_findJobs .content_HomePage_findJobs .Apply_now {
-  position: absolute;
-  top: 50%;
-  right: -30%;
-  transform: translate(30%, -50%);
-  padding: 0.8rem 3rem;
-  border-radius: 0.5rem;
-  background: var(--globalColor);
-  color: var(--colorWhiteText);
 }/*# sourceMappingURL=home.module.css.map */

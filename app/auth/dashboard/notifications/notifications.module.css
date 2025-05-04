@@ -1,0 +1,84 @@
+@charset "UTF-8";
+.notifies_important {
+  padding: 0;
+  position: relative;
+}
+.notifies_important .notify_swiper {
+  /* Để có không gian cho navigation */
+}
+.notifies_important .box_notifycations {
+  margin-top: 1rem;
+  border-left: 0.5rem solid #0e60d8;
+  border-radius: 1rem;
+  height: 100%;
+  background: var(--bg-White, #fff);
+  padding: 1.5rem;
+}
+.notifies_important .box_notifycations h3 {
+  color: #0e60d8;
+  font-size: 1.5rem;
+  text-transform: none;
+}
+.notifies_important .box_notifycations span {
+  margin-left: 2.7rem;
+  font-size: 1.3rem;
+  line-height: 1.6;
+}
+.notifies_important .box_notifycations span .bold {
+  font-weight: bold;
+  color: var(--viewDetails);
+}
+.notifies_important .box_notifycations span a {
+  color: #33b451;
+}
+.notifies_important .box_notifycations span strong {
+  margin-left: 2.7rem;
+  display: block;
+  color: #526888;
+}
+.notifies_important .swiper_navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 1.5rem;
+  right: -56rem;
+  width: 100%;
+  gap: 1rem;
+  z-index: 10;
+}
+.notifies_important .swiper_button_prev,
+.notifies_important .swiper_button_next {
+  width: 3rem;
+  height: 3rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+.notifies_important .swiper_button_prev:hover,
+.notifies_important .swiper_button_next:hover {
+  background-color: #d0d0d0;
+}
+.notifies_important .swiper_button_prev::after,
+.notifies_important .swiper_button_next::after {
+  font-size: 1.2rem;
+  color: #fff;
+  /* Mũi tên trắng */
+  font-weight: bold;
+}
+.notifies_important svg {
+  font-size: 1.4rem;
+}
+.notifies_important .swiper_pagination_fraction {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 500;
+}
+.notifies_important .swiper_pagination_fraction .swiper_pagination_current,
+.notifies_important .swiper_pagination_fraction .swiper_pagination_total {
+  margin: 0 0.2rem;
+}/*# sourceMappingURL=notifications.module.css.map */

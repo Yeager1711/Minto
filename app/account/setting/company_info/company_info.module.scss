@@ -1,0 +1,243 @@
+.Company_Info {
+    margin-top: 3rem;
+    // background: #fff;
+    display: flex;
+    padding: 2rem 0;
+    border-radius: 1rem;
+    position: relative;
+
+    .Company_Info__container {
+        max-width: 100%;
+        width: 100%;
+        // background: #fff;
+        border-radius: 0.5rem;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
+
+        h2 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn_update__companyInfo {
+            position: absolute;
+            right: 2rem;
+            padding: 1rem 3rem;
+            background: #0dba60;
+            color: #fff;
+            border-radius: .5rem;
+            font-size: 1.4rem;
+            display: inline-block;
+            cursor: pointer;
+
+            &:hover {
+                transition: .3s ease;
+                background: #0d8e4b;
+            }
+        }
+
+        .Business_type {
+            h3 {
+                font-size: 1.5rem;
+                text-transform: capitalize;
+            }
+
+            .Business_type__checkbox {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+                border: .1rem solid var(--border);
+                border-radius: 5rem;
+                padding: .5rem;
+
+                input {
+                    margin-right: 1rem;
+                }
+
+                label {
+                    font-size: 1.4rem;
+                }
+            }
+
+            .business_license {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+                border: .1rem solid var(--border);
+                border-radius: .5rem;
+                padding: .5rem 2rem;
+
+                .btn_update__business_license {
+                    font-size: 1.4rem;
+                    font-weight: var(--weight550);
+                }
+            }
+
+            .notification_business_type {
+                margin-top: 2rem;
+
+                .notification_business_type__box {
+                    display: flex;
+                    align-items: center;
+                    gap: 1.5rem;
+                    padding: 1rem;
+                    border-left: .5rem solid #e5b500;
+                    background: #fffae9;
+                    border-radius: 1rem;
+
+                    svg {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        color: #e5b500;
+                    }
+
+                    .block_text {
+                        .notification_text {
+                            display: flex;
+                            font-size: 1.3rem;
+                            line-height: 1.6;
+
+                            strong {
+                                font-weight: var(--weight550);
+                                margin: 0 .3rem;
+                            }
+
+                            a {
+                                color: #077c3f;
+                                margin: 0 .5rem;
+                                font-weight: var(--weight550);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .box_input__container {
+            margin-top: 3rem;
+
+            .flex_box {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem;
+
+                .box {
+                    flex: 1 1 16rem;
+                    margin-bottom: 3rem;
+
+                    p {
+                        font-size: 1.2rem;
+                        padding: .5rem 0;
+                    }
+
+                    .industry_tags {
+                        display: flex;
+                        gap: 0.5rem;
+                        flex-wrap: nowrap;
+                        max-width: 90rem;
+                        overflow-x: scroll;
+                        min-height: 38px;
+                        align-items: center;
+                        cursor: pointer;
+
+                        .industry_tag {
+                            display: flex;
+                            align-items: center;
+                            background-color: #d0e8ff;
+                            color: #495057;
+                            padding: .2rem 1rem;
+                            border-radius: 1rem;
+                            font-size: 1.2rem;
+                            margin: 0;
+                            gap: 0.5rem;
+                            margin-bottom: 2rem;
+                            margin-top: 1rem;
+
+                            .text {
+                                max-width: 15rem;
+                                width: 100%;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+
+                            .remove_tag {
+                                cursor: pointer;
+                                color: #dc3545;
+                                font-weight: 700;
+                                font-size: 2rem;
+
+                                &:hover {
+                                    color: #bd2130;
+                                }
+                            }
+                        }
+                    }
+
+                    .select_industry {
+                        margin-top: 1rem;
+                        cursor: pointer;
+                    }
+
+
+
+                    .span {
+                        display: inline-block;
+                        margin-bottom: .8rem;
+                        font-size: 1.3rem;
+                        position: relative;
+
+                        &::after {
+                            position: absolute;
+                            right: -1rem;
+                            content: '*';
+                            color: red;
+                        }
+                    }
+
+                    input,
+                    select {
+                        padding: 1.5rem;
+                        border: .1rem solid var(--border);
+                        width: 100%;
+                        border-radius: .5rem;
+                        font-size: 1.4rem;
+
+                        &::placeholder {
+                            font-size: 1.3rem;
+                        }
+                    }
+                }
+            }
+
+            .description_company {
+                span {
+                    display: inline-block;
+                    margin-bottom: .8rem;
+                    font-size: 1.3rem;
+                    position: relative;
+
+                    &::after {
+                        position: absolute;
+                        right: -1rem;
+                        content: '*';
+                        color: red;
+                    }
+                }
+
+                textarea {
+                    width: 100%;
+                    height: 20rem;
+                    border: .1rem solid var(--border);
+                    border-radius: 1rem;
+                    padding: 1rem 1.5rem;
+                    font-size: 1.4rem;
+                    line-height: 1.5;
+                }
+
+            }
+        }
+    }
+}

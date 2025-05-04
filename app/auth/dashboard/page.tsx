@@ -4,28 +4,27 @@ import { useEffect, useState, useRef } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faImage, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faImage, faCamera, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useRouter } from 'next/navigation';
 import { useApi } from 'app/lib/apiConentext/ApiContext';
 import styles from './dashboard.module.scss';
 
-import { Industry } from 'app/interface/Industry';
 import { RecruitmentInfo } from 'app/interface/Recruitment';
 import { showToastError, showToastSuccess } from 'app/Ultils/toast';
 
 // import layout
 import Notifications from './notifications/page';
+import Job_Product from './job_product/page';
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL || 'http://localhost:5000';
-console.log('log', apiUrl);
 
 function Dashboard() {
     const router = useRouter();
-    const { fetchRecruitmentID, updateBannerBackground, updateCompanyLogo } = useApi();
+    const { fetchCompanyJobs, updateBannerBackground, updateCompanyLogo, fetchRecruitmentID } = useApi();
     const [recruitmentInfo, setRecruitmentInfo] = useState<RecruitmentInfo | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -46,45 +45,49 @@ function Dashboard() {
             AOS.refresh();
         }, 100);
 
-        const loadRecruitmentInfo = async () => {
+        const loadCompanyJobs = async () => {
             try {
                 setLoading(true);
-                const data = await fetchRecruitmentID();
+                // Lấy companyId từ fetchRecruitmentID
+                const companyIdByfetchRecruitmentID = await fetchRecruitmentID();
+                const companyId = companyIdByfetchRecruitmentID.company.companyId;
+                const data = await fetchCompanyJobs(Number(companyId));
                 setRecruitmentInfo(data);
-                // Set initial banner preview from saved banner if available
+                // Set initial banner preview
                 const savedBanner = data.company?.images?.[0]?.banner_BackgroundImage_company;
                 if (savedBanner) {
                     setPreviewBannerImage(`${apiUrl}${savedBanner}`);
                 }
+                // Set initial logo preview
+                const savedLogo = data.company?.images?.[0]?.image_company;
+                if (savedLogo) {
+                    setPreviewLogoImage(`${apiUrl}${savedLogo}`);
+                }
             } catch (err) {
-                console.error('Error loading recruitment info:', err);
+                console.error('Error loading company jobs:', err);
+                setError('Không thể tải thông tin công ty và công việc');
             } finally {
                 setLoading(false);
             }
         };
 
-        loadRecruitmentInfo();
-    }, [fetchRecruitmentID]);
+        loadCompanyJobs();
+    }, [fetchCompanyJobs]);
 
     // Handle banner image selection and upload
     const handleBannerImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            // Store previous banner for reversion on failure
             const previousBanner = previewBannerImage;
-
-            // Update banner preview
             if (previewBannerImage && previewBannerImage.startsWith('blob:')) {
                 URL.revokeObjectURL(previewBannerImage);
             }
             const imageUrl = URL.createObjectURL(file);
             setPreviewBannerImage(imageUrl);
 
-            // Upload to backend
             try {
                 const savedBannerUrl = await updateBannerBackground(file);
-                // Update recruitmentInfo with new banner URL
-                setRecruitmentInfo((prev: any) => {
+                setRecruitmentInfo((prev) => {
                     if (!prev) return prev;
                     return {
                         ...prev,
@@ -99,32 +102,29 @@ function Dashboard() {
                         },
                     };
                 });
-                setPreviewBannerImage(`${apiUrl}${savedBannerUrl}`); // Update preview with saved URL
+                setPreviewBannerImage(`${apiUrl}${savedBannerUrl}`);
                 showToastSuccess(`Ảnh nền Công ty ${recruitmentInfo?.company?.name || ''} đã được cập nhật thành công`);
             } catch (error) {
                 console.error('Failed to upload banner:', error);
-                setPreviewBannerImage(previousBanner); // Revert to previous banner on failure
+                setPreviewBannerImage(previousBanner);
                 showToastError('Lỗi cập nhật ảnh nền');
             }
         }
     };
 
-    // Handle logo image selection and automatic upload
+    // Handle logo image selection and upload
     const handleLogoImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            // Update logo preview
             if (previewLogoImage && previewLogoImage.startsWith('blob:')) {
                 URL.revokeObjectURL(previewLogoImage);
             }
             const imageUrl = URL.createObjectURL(file);
             setPreviewLogoImage(imageUrl);
 
-            // Automatically upload to backend
             try {
                 const savedLogoUrl = await updateCompanyLogo(file);
-                // Update recruitmentInfo with new logo URL
-                setRecruitmentInfo((prev: any) => {
+                setRecruitmentInfo((prev) => {
                     if (!prev) return prev;
                     return {
                         ...prev,
@@ -139,9 +139,9 @@ function Dashboard() {
                         },
                     };
                 });
-                setPreviewLogoImage(`${apiUrl}${savedLogoUrl}`); // Update preview with saved URL
+                setPreviewLogoImage(`${apiUrl}${savedLogoUrl}`);
                 if (logoFileInputRef.current) {
-                    logoFileInputRef.current.value = ''; // Reset file input
+                    logoFileInputRef.current.value = '';
                 }
                 showToastSuccess(`Logo Công ty "${recruitmentInfo?.company?.name || ''}" cập nhật thành công`);
             } catch (error) {
@@ -150,13 +150,13 @@ function Dashboard() {
                     recruitmentInfo?.company?.images?.[0]?.image_company
                         ? `${apiUrl}${recruitmentInfo.company.images[0].image_company}`
                         : null
-                ); // Revert to previous logo
+                );
                 showToastError('Lỗi cập nhật logo');
             }
         }
     };
 
-    // Clean up preview URLs to prevent memory leaks
+    // Clean up preview URLs
     useEffect(() => {
         return () => {
             if (previewBannerImage && previewBannerImage.startsWith('blob:')) {
@@ -215,57 +215,31 @@ function Dashboard() {
                         onChange={handleBannerImageChange}
                         ref={bannerFileInputRef}
                     />
-
-                    {previewBannerImage || recruitmentInfo?.company?.images?.[0]?.banner_BackgroundImage_company ? (
-                        (() => {
-                            const imageUrl =
-                                previewBannerImage ||
-                                `${apiUrl}${recruitmentInfo?.company.images[0].banner_BackgroundImage_company}`;
-                            return (
-                                <img
-                                    src={imageUrl}
-                                    alt="Selected company background"
-                                    className={styles.preview_image}
-                                    onClick={handleBannerPreviewClick}
-                                    style={{ cursor: 'pointer' }}
-                                />
-                            );
-                        })()
+                    {previewBannerImage ? (
+                        <img
+                            src={previewBannerImage}
+                            alt="Selected company background"
+                            className={styles.preview_image}
+                            onClick={handleBannerPreviewClick}
+                            style={{ cursor: 'pointer' }}
+                        />
                     ) : (
                         <label htmlFor="companyImage" className={styles.select_image_label}>
-                            <FontAwesomeIcon icon={faImage} /> Select Company Background Image
+                            <FontAwesomeIcon icon={faImage} /> Chọn ảnh nền công ty
                         </label>
                     )}
-
-                    <div className={styles.img_updated}>
-                        {recruitmentInfo?.company?.images?.[0]?.banner_BackgroundImage_company ? (
-                            (() => {
-                                const updatedImageUrl = `${apiUrl}${recruitmentInfo.company.images[0].banner_BackgroundImage_company}`;
-                                return (
-                                    <img
-                                        src={updatedImageUrl}
-                                        alt="Company banner"
-                                        onClick={handleBannerPreviewClick}
-                                    />
-                                );
-                            })()
-                        ) : (
-                            <></>
-                        )}
-                    </div>
                 </div>
 
                 <div className={styles.company_Name__title}>
                     <h3 className={styles.company_name}>{recruitmentInfo?.company?.name || ''}</h3>
                     <span className={styles.industry}>
-                        Lĩnh vực: {recruitmentInfo?.company?.companyIndustries?.[0].name}
+                        Lĩnh vực: {recruitmentInfo?.company?.companyIndustries?.[0]?.name || 'Chưa xác định'}
                     </span>
                 </div>
 
                 <div className={styles.choose_image__logoCompany}>
                     <div className={styles.logoCompany_preview}>
                         {previewLogoImage ? (
-                            // Show preview image
                             <img
                                 src={previewLogoImage}
                                 alt="Logo Preview"
@@ -273,21 +247,10 @@ function Dashboard() {
                                 style={{ cursor: 'pointer' }}
                                 onClick={handleLogoPreviewClick}
                             />
-                        ) : recruitmentInfo?.company?.images?.[0]?.image_company ? (
-                            // Show logo from DB
-                            <img
-                                src={`${apiUrl}${recruitmentInfo.company.images[0].image_company}`}
-                                alt="Company Logo"
-                                className={styles.logo_image}
-                                style={{ cursor: 'pointer' }}
-                                onClick={handleLogoPreviewClick}
-                            />
                         ) : (
-                            // Show placeholder
                             <div className={styles.logo_placeholder}></div>
                         )}
                     </div>
-
                     <div className={styles.input_fileLogo}>
                         <input
                             type="file"
@@ -322,7 +285,6 @@ function Dashboard() {
                                 <FontAwesomeIcon icon={faBars} />
                             </span>
                         </div>
-
                         <div className={styles.user_contact}>
                             <p>
                                 <span>📧</span> {recruitmentInfo?.email_hr || ''}
@@ -331,7 +293,6 @@ function Dashboard() {
                                 <span>📞</span>0{recruitmentInfo?.company?.phoneNumber_company || ''}
                             </p>
                         </div>
-
                         <div className={styles.membership}>
                             <div className={styles.membership_levels}>
                                 {['Member', 'Silver', 'Gold', 'Platinum', 'Diamond'].map((level, i) => (
@@ -346,7 +307,6 @@ function Dashboard() {
                                 <div className={styles.progress} style={{ width: '83%' }}></div>
                             </div>
                         </div>
-
                         <div className={styles.points_section}>
                             <div className={styles.points_info}>
                                 <span className={styles.points_label}>Điểm xét hạng</span>
@@ -355,7 +315,6 @@ function Dashboard() {
                             <button className={styles.points_button}>Ưu đãi của tui</button>
                         </div>
                     </div>
-
                     <div className={styles.points_credits} data-aos="fade-left" data-aos-delay="200">
                         <div className={styles.top_points}>
                             <h4>Point</h4>
@@ -370,7 +329,6 @@ function Dashboard() {
                                 <button className={styles.points_action}>Đổi điểm</button>
                             </div>
                         </div>
-
                         <div className={styles.credits}>
                             <h4>Credit (CP)</h4>
                             <div className={styles.credit_types}>
@@ -384,6 +342,28 @@ function Dashboard() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className={styles.verified_statuses}>
+                <span className={styles.text_title}>
+                    Hãy thực hiện các bước sau để gia tăng tính bảo mật cho tài khoản của bạn
+                </span>
+                <div className={styles.verified_statuses__containers}>
+                    <div className={styles.verified_box}>
+                        <span>Xác thực Email</span>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </div>
+
+                    <div className={styles.verified_box}>
+                        <span>Cập nhật thông tin công ty</span>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </div>
+
+                    <div className={styles.verified_box}>
+                        <span>Cập nhật Giấy đăng ký doanh nghiệp</span>
+                        <FontAwesomeIcon icon={faChevronRight} />
                     </div>
                 </div>
             </section>
@@ -423,15 +403,10 @@ function Dashboard() {
                         {
                             img: '/images/recruitment/svg/feeds.5fd6538.svg',
                             text: 'Đăng tin tuyển dụng',
+                            href: '/auth/PostJob',
                         },
-                        {
-                            img: '/images/recruitment/svg/search.804d5d1.svg',
-                            text: 'Tìm CV',
-                        },
-                        {
-                            img: '/images/recruitment/svg/services.8840538.svg',
-                            text: 'Mua dịch vụ',
-                        },
+                        { img: '/images/recruitment/svg/search.804d5d1.svg', text: 'Tìm CV' },
+                        { img: '/images/recruitment/svg/services.8840538.svg', text: 'Mua dịch vụ' },
                     ].map((tool, index) => (
                         <div
                             key={index}
@@ -444,7 +419,9 @@ function Dashboard() {
                             </div>
                             <div className={styles.content}>
                                 <span>{tool.text}</span>
-                                <button className={styles.btn_tryNow}>Thử ngay</button>
+                                <button className={styles.btn_tryNow} onClick={() => router.push(`${tool.href}`)}>
+                                    Thử ngay
+                                </button>
                             </div>
                         </div>
                     ))}
@@ -458,7 +435,6 @@ function Dashboard() {
                     <div className={styles.CV_recommendation__banner} data-aos="fade-right" data-aos-delay="1000">
                         <img src="/images/recruitment/GPT.png" alt="AI CV Banner" />
                     </div>
-
                     <div className={styles.CV_recommendation__content} data-aos="fade-left" data-aos-delay="1000">
                         <h3>Kích hoạt CV đề xuất bởi AI để được:</h3>
                         <div className={styles.list_content}>
@@ -469,6 +445,13 @@ function Dashboard() {
                         <button className={styles.btn_buy_service}>Chức năng đang được phát triển ...</button>
                     </div>
                 </div>
+            </section>
+
+            {/* Danh sách công việc */}
+            <section className={styles.all_jobPosted}>
+                <h2>Danh sách các công việc đã đăng tuyển dụng</h2>
+
+                <Job_Product jobs={recruitmentInfo?.jobs || []} company={recruitmentInfo?.company || null} />
             </section>
         </div>
     );

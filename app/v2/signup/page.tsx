@@ -33,6 +33,7 @@ export default function SignUp() {
     const [selectedProvince, setSelectedProvince] = useState<Province | null>(null);
     const [selectedDistrict, setSelectedDistrict] = useState<District | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [formData, setFormData] = useState({
         phoneNumber: '',
@@ -43,6 +44,7 @@ export default function SignUp() {
         firstName: '',
         lastName: '',
         specificAddress: '',
+        company_description: '',
     });
 
     const [errors, setErrors] = useState({
@@ -56,6 +58,7 @@ export default function SignUp() {
         industry: '',
         firstName: '',
         lastName: '',
+        company_description: '',
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -106,18 +109,7 @@ export default function SignUp() {
     const provinceOptions = provinces.map((province) => ({ value: province.code, label: province.name }));
 
     const handleNextTab = () => {
-        let newErrors: {
-            phoneNumber: string;
-            email: string;
-            password: string;
-            confirmPassword: string;
-            companyName: string;
-            province: string;
-            district: string;
-            industry: string;
-            firstName: string;
-            lastName: string;
-        } = { ...errors };
+        let newErrors = { ...errors };
 
         if (activeTab === 1) {
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -154,6 +146,21 @@ export default function SignUp() {
                       ? 'Email phải sử dụng @gmail.com'
                       : '',
             };
+        } else if (activeTab === 3) {
+            newErrors = {
+                ...newErrors,
+                industry:
+                    isCustomIndustry && !customIndustry.trim()
+                        ? 'Vui lòng nhập lĩnh vực công ty'
+                        : !isCustomIndustry && selectedIndustries.length === 0
+                          ? 'Vui lòng chọn ít nhất một lĩnh vực công ty'
+                          : '',
+                company_description: !formData.company_description.trim()
+                    ? 'Mô tả công ty không được để trống'
+                    : formData.company_description.length > 255
+                      ? 'Mô tả công ty không được vượt quá 255 ký tự'
+                      : '',
+            };
         }
 
         setErrors(newErrors);
@@ -164,7 +171,7 @@ export default function SignUp() {
         }
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
         setErrors((prev) => ({ ...prev, [name]: '' }));
@@ -178,16 +185,19 @@ export default function SignUp() {
             : '';
 
     const handleSubmit = async () => {
+        setIsSubmitting(true);
         let industryValue = '';
         if (isCustomIndustry) {
             if (!customIndustry.trim()) {
                 setErrors((prev) => ({ ...prev, industry: 'Vui lòng nhập lĩnh vực công ty' }));
+                setIsSubmitting(false);
                 return;
             }
             industryValue = customIndustry.trim();
         } else {
             if (selectedIndustries.length === 0) {
                 setErrors((prev) => ({ ...prev, industry: 'Vui lòng chọn ít nhất một lĩnh vực công ty' }));
+                setIsSubmitting(false);
                 return;
             }
             industryValue = selectedIndustries.map((industry) => industry.value).join(', ');
@@ -199,6 +209,13 @@ export default function SignUp() {
                 province: !selectedProvince ? 'Vui lòng chọn tỉnh/thành phố' : '',
                 district: !selectedDistrict ? 'Vui lòng chọn quận/huyện' : '',
             }));
+            setIsSubmitting(false);
+            return;
+        }
+
+        if (!formData.company_description.trim()) {
+            setErrors((prev) => ({ ...prev, company_description: 'Mô tả công ty không được để trống' }));
+            setIsSubmitting(false);
             return;
         }
 
@@ -215,7 +232,8 @@ export default function SignUp() {
                 fullAddress,
                 industryValue,
                 formData.firstName,
-                formData.lastName
+                formData.lastName,
+                formData.company_description
             );
             toast.success('Đăng ký thành công!');
             setFormData({
@@ -227,6 +245,7 @@ export default function SignUp() {
                 firstName: '',
                 lastName: '',
                 specificAddress: '',
+                company_description: '',
             });
             setSelectedProvince(null);
             setSelectedDistrict(null);
@@ -245,10 +264,13 @@ export default function SignUp() {
                 industry: '',
                 firstName: '',
                 lastName: '',
+                company_description: '',
             });
         } catch (error) {
             console.error('Registration error:', error);
             toast.error('Đăng ký thất bại, vui lòng kiểm tra lại.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -469,7 +491,7 @@ export default function SignUp() {
                                     placeholder="Ví dụ: Tòa nhà X, tòa x, ...."
                                 />
                                 {selectedAddressText && (
-                                    <p className={styles.selectedAddress}>Địa chỉ được chọn: {selectedAddressText}</p>
+                                    <p className={styles.error}>Địa chỉ được chọn: {selectedAddressText}</p>
                                 )}
                             </div>
                         </div>
@@ -553,6 +575,20 @@ export default function SignUp() {
                                     {errors.industry && <p className={styles.error}>{errors.industry}</p>}
                                 </div>
                             )}
+
+                            <div className={styles.formGroup}>
+                                <label>Mô tả công ty *</label>
+                                <textarea
+                                    name="company_description"
+                                    value={formData.company_description}
+                                    onChange={handleInputChange}
+                                    placeholder="Nhập mô tả công ty (tối đa 255 ký tự)"
+                                    rows={5}
+                                />
+                                {errors.company_description && (
+                                    <p className={styles.error}>{errors.company_description}</p>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -568,8 +604,13 @@ export default function SignUp() {
                             Tiếp tục
                         </button>
                     ) : (
-                        <button className={styles.nextButton} onClick={handleSubmit} style={{ borderRadius: '5rem' }}>
-                            Đăng ký tuyển dụng
+                        <button
+                            className={styles.nextButton}
+                            onClick={handleSubmit}
+                            style={{ borderRadius: '5rem' }}
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Prossing...' : 'Đăng ký tuyển dụng'}
                         </button>
                     )}
                 </div>

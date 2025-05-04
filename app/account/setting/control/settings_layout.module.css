@@ -1,0 +1,41 @@
+.settingsLayout {
+  display: flex;
+  max-width: 30rem;
+  width: 100%;
+}
+.settingsLayout__sidebar {
+  width: 35rem;
+  background: #fff;
+  padding: 0 2rem;
+  border-right: 0.1rem solid #e0e0e0;
+}
+.settingsLayout__sidebar a {
+  display: flex;
+  align-items: center;
+  padding: 2rem 1rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+.settingsLayout__sidebar a a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+.settingsLayout__sidebar a:hover {
+  border-radius: 1rem;
+  background: #e0eaff;
+}
+.settingsLayout__sidebar a_active {
+  background: #d0e0ff;
+  font-weight: bold;
+}
+.settingsLayout__sidebar__icon {
+  margin-right: 1rem;
+}
+.settingsLayout__content {
+  flex: 1;
+  padding: 2rem;
+  background: #fff;
+}/*# sourceMappingURL=settings_layout.module.css.map */

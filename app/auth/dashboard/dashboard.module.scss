@@ -492,6 +492,45 @@
         }
     }
 
+    .verified_statuses {
+        padding: 2rem 3rem;
+        background: var(--bg-White);
+        margin-top: 2rem;
+        border-radius: 1rem;
+
+        .text_title {
+            font-size: 1.5rem;
+        }
+
+        .verified_statuses__containers {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+
+            .verified_box {
+                display: flex;
+                justify-content: space-between;
+                padding: 2.5rem 2rem;
+                border: .1rem solid var(--border);
+                background: linear-gradient(90deg, #1c4658, #00b14f);
+                // background: radial-gradient(32.92% 194.38% at 50.11% -.56%, #00b14f 0, #0d7153 100%);
+                border-radius: 1rem;
+                cursor: pointer;
+                color: #fff;
+
+                span {
+                    font-size: 1.4rem;
+                }
+
+                svg {
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
+        }
+    }
+
     .slider_section {
         margin-top: 2rem;
         padding: 0;
@@ -684,5 +723,17 @@
                 }
             }
         }
+    }
+
+    .all_jobPosted {
+        background: var(--bg-White);
+        margin-top: 1.5rem;
+        padding: 2rem;
+        border-radius: 1rem;
+
+        h2 {
+            font-size: 2rem;
+        }
+
     }
 }

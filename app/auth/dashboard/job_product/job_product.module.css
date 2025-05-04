@@ -1,0 +1,100 @@
+.all_jobPosted__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(42rem, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+.all_jobPosted__container .all_jobPosted__box {
+  position: relative;
+  padding: 1.5rem 7rem 1.5rem 1.5rem;
+  background: var(--bg-White);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid var(--border);
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__image {
+  flex: 1 1 12rem;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__image img {
+  width: 10rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content {
+  flex: 2 1 42rem;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content .views {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  background: #32708a;
+  color: #fff;
+  border-top-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content .views_details {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  color: #333;
+  background: transparent;
+  overflow: hidden;
+  cursor: pointer;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content .views_details::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-top: 1px solid #32708a;
+  border-left: 1px solid #32708a;
+  border-top-left-radius: 0.5rem;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content .views_details::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-bottom: 1px solid #32708a;
+  border-right: 1px solid #32708a;
+  border-bottom-right-radius: 0.5rem;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content h3 {
+  font-size: 1.5rem;
+  max-width: 37rem;
+  overflow: hidden;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--colorBlackText);
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content span {
+  margin-left: 2.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0;
+  font-size: 1.4rem;
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content span p {
+  color: #0063fb;
+  font-weight: var(--weight550);
+}
+.all_jobPosted__container .all_jobPosted__box .all_jobPosted__content .levels p {
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 14.5rem;
+}/*# sourceMappingURL=job_product.module.css.map */

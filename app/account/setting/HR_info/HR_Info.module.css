@@ -1,0 +1,130 @@
+.AccountPage {
+  margin-top: 5rem;
+  background: #fff;
+  border: 0.1rem solid var(--border);
+  display: flex;
+  padding: 2rem 0 2rem 0;
+  border-radius: 1rem;
+}
+.AccountPage_container {
+  max-width: 100%;
+  width: 100%;
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 2rem;
+}
+
+.update_infomation h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+.update_infomation__container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.update_infomation .box__update_infomation__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.update_infomation .box__update_infomation__container span {
+  font: 500 1.4rem/1.5 system-ui;
+  color: #333;
+}
+.update_infomation .box__update_infomation__container input,
+.update_infomation .box__update_infomation__container select {
+  padding: 1.5rem;
+  border: 0.1rem solid #e0e0e0;
+  border-radius: 0.25rem;
+  font-size: 1.5rem;
+  color: #333;
+  background: #fff;
+  transition: border-color 0.3s;
+}
+.update_infomation .box__update_infomation__container input:focus,
+.update_infomation .box__update_infomation__container select:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+.update_infomation .box__update_infomation__container input:disabled,
+.update_infomation .box__update_infomation__container select:disabled {
+  background: #f5f7fa;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+.update_infomation .box__update_infomation__container select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: #fff url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") no-repeat right 0.75rem center/1rem;
+}
+
+.account_Auth__level {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 0.0625rem solid #e0e0e0;
+}
+.account_Auth__level > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.account_Auth__level > div:nth-child(2) span {
+  font-size: 1.4rem;
+  color: #333;
+  padding: 0.5rem 0;
+}
+.account_Auth__level .progress_container {
+  margin: 1rem 0;
+}
+.account_Auth__level .progress_container h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+.account_Auth__level .progress_container .progress_label {
+  display: block;
+  font: 500 1.4rem/1.5 system-ui;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+.account_Auth__level .progress_container .progress_bar {
+  height: 1rem;
+  background: #e0e0e0;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-top: -1.5rem;
+}
+.account_Auth__level .progress_container .progress_fill {
+  height: 100%;
+  background: #2ecc71;
+  transition: width 0.3s;
+}
+.account_Auth__level .condition {
+  margin-top: 2rem;
+}
+.account_Auth__level .condition .condition_item {
+  display: block;
+  font-size: 1.5rem;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  position: relative;
+}
+.account_Auth__level .condition .condition_item svg {
+  width: 2rem;
+  height: 2rem;
+}
+.account_Auth__level .condition .condition_item:hover {
+  background: #eaf0fa;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+.account_Auth__level .condition .condition_item .status {
+  position: absolute;
+  right: 1rem;
+}/*# sourceMappingURL=HR_Info.module.css.map */
