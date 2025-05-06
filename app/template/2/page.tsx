@@ -89,9 +89,9 @@ function Mau2InviteeName() {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (isExpanded) setIsExpanded(false);
-            if (window.scrollY > 100) setIsIntroOpen(false);
-            else setIsIntroOpen(true);
+            if (isExpanded) {
+                setIsExpanded(false);
+            }
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -130,39 +130,39 @@ function Mau2InviteeName() {
                         </div>
                     </div>
                 </div>
-                <div className={`${styles.mau_2} ${isIntroOpen ? styles.content_hidden : styles.content_visible}`}>
-                    <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
-                        <div className={styles.dynamic_content}>
-                            <div
-                                className={styles.controls}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    togglePlayPause();
-                                }}
-                            >
-                                <FontAwesomeIcon
-                                    icon={isPlaying ? faCirclePause : faCirclePlay}
-                                    className={styles.playPauseIcon}
-                                />
-                            </div>
-                            <h3>{isPlaying ? 'Đang Phát: Bài này không để đi diễn' : 'Bài này không để đi diễn'}</h3>
+                <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
+                    <div className={styles.dynamic_content}>
+                        <div
+                            className={styles.controls}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                togglePlayPause();
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                icon={isPlaying ? faCirclePause : faCirclePlay}
+                                className={styles.playPauseIcon}
+                            />
                         </div>
-                        {isExpanded && (
-                            <div className={styles.expanded_content}>
-                                <div className={styles.album_art}>
-                                    <img src={images.mainImage} alt="Album Art" />
-                                </div>
-                                <div className={styles.song_info}>
-                                    <h4>Bài này không để đi diễn</h4>
-                                    <p>Anh Tu Atus x DieuNhiOfficial Wedding</p>
-                                </div>
-                                <div className={styles.progress_bar}>
-                                    <div className={styles.progress}></div>
-                                </div>
-                            </div>
-                        )}
-                        <audio ref={audioRef} src="/audio/song.mp3" />
+                        <h3>{isPlaying ? 'Đang Phát: Bài này không để đi diễn' : 'Bài này không để đi diễn'}</h3>
                     </div>
+                    {isExpanded && (
+                        <div className={styles.expanded_content}>
+                            <div className={styles.album_art}>
+                                <img src={images.mainImage} alt="Album Art" />
+                            </div>
+                            <div className={styles.song_info}>
+                                <h4>Bài này không để đi diễn</h4>
+                                <p>Anh Tu Atus x DieuNhiOfficial Wedding</p>
+                            </div>
+                            <div className={styles.progress_bar}>
+                                <div className={styles.progress}></div>
+                            </div>
+                        </div>
+                    )}
+                    <audio ref={audioRef} src="/audio/song.mp3" />
+                </div>
+                <div className={`${styles.mau_2} ${isIntroOpen ? styles.content_hidden : styles.content_visible}`}>
                     <div className={styles.mau_2__wrapper}>
                         <div className={styles.page_2}>
                             <img src="/images/m2/page2.png" alt="" />
@@ -243,12 +243,9 @@ function Mau2InviteeName() {
                                 <div className={styles.left} data-aos="fade-right" data-aos-delay="1000">
                                     <span>
                                         Tình yêu giữa {weddingData.groom} và {weddingData.bride} bắt đầu bằng một bản
-                                        nhạc cũ vang lên trong quán cà phê ven biển. Cô `use client` directive indicates
-                                        that this code is intended to run only on the client side, so we need to be
-                                        careful about accessing browser-specific objects like `localStorage` during
-                                        server-side rendering. Cô ngồi ở góc quán, lặng lẽ đọc sách, còn anh vừa bước
-                                        vào đã sững người khi nghe giai điệu quen thuộc – bài hát mẹ anh thường bật
-                                        những ngày mưa.
+                                        nhạc cũ vang lên trong quán cà phê ven biển. Cô ngồi ở góc quán, lặng lẽ đọc
+                                        sách, còn anh vừa bước vào đã sững người khi nghe giai điệu quen thuộc – bài hát
+                                        mẹ anh thường bật những ngày mưa.
                                     </span>
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="1200">
