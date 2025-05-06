@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 import path from 'path';
 
 const nextConfig: NextConfig = {
-    // output: 'export',
+    // output: 'export', // Comment hoặc xóa dòng này
     images: {
         unoptimized: true,
     },
