@@ -1,8 +1,9 @@
 'use client';
-
 import React, { useState } from 'react';
 import styles from './styles/home.module.scss';
-import Popup from './popup/product_details/page';
+import Popup from './popup/product_details/Product_Details';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 // Define the type for product data
 interface Product {
@@ -17,19 +18,19 @@ interface Product {
 // Products for "Mẫu thiết kế có sẵn" (Ready-made designs)
 const readyMadeProducts: Product[] = [
     {
-        id: 'mau_1',
-        name: 'Mẫu 1',
+        id: 'template_1',
+        name: 'Template 1',
         image: '/images/m1/1.png',
         link: 'https://exquisite-tapioca-fae754.netlify.app/',
         price: 99000,
         description: 'Phong cách tối giản\nThanh lịch\nMàu sắc nhẹ nhàng\nDễ phối hợp\nHoàn hảo cho tiệc cưới hiện đại',
     },
     {
-        id: 'mau_2',
-        name: 'Mẫu 2',
+        id: 'template_2',
+        name: 'Template 2',
         image: '/images/m2/m2.png',
         link: 'https://exquisite-tapioca-fae754.netlify.app/',
-        price: 89000,
+        price: 199000,
         description: 'Thiết kế đơn giản\nMàu sắc nhẹ nhàng\nThông tin cơ bản đầy đủ\nKết hợp dynamic music bottom',
     },
 ];
@@ -127,21 +128,31 @@ const Home: React.FC = () => {
 
     return (
         <main className={styles.main}>
-            <h1 className={styles.heading}>GM, Huỳnh Nam! 👋</h1>
+            <header className={styles.header}>
+                <h1 className={styles.headerTitle}>What will you design today?</h1>
+                <div className={styles.headerButtons}>
+                    <button className={styles.headerButtonActive}>Templates thiệp cưới</button>
+                    <button className={styles.headerButton}>Templates tốt nghiệp</button>
+                    <button className={styles.headerButton}>Template sinh nhật</button>
+                </div>
 
-            <div className={styles.banner_home}>
-                <div className={styles.banner_imgleft}>
-                    <img src="/images/banner/left.png" alt="Left Floral" />
+                <div className={styles.wrapper_expend}>
+                    <div className={styles.searchBar}>
+                        <input type="text" placeholder="Search millions of templates" className={styles.searchInput} />
+                        <span className={styles.searchIcon}>
+                            <FontAwesomeIcon icon={faArrowRight} />
+                        </span>
+                    </div>
+                    <div className={styles.categories}>
+                        <button className={styles.categoryButton}>Thiệp cưới</button>
+                        <button className={styles.categoryButton}>Sinh nhật</button>
+                        <button className={styles.categoryButton}>Lễ tốt nghiệp</button>
+                        <button className={styles.categoryButton}>Sự kiện quan trọng</button>
+                    </div>
                 </div>
-                <div className={styles.banner_text}>
-                    <h2>Kỷ niệm</h2>
-                    <h1>Những khoảnh khắc đặc trọng đại, đặc biệt của bạn</h1>
-                    <h3>Cùng chúng tôi</h3>
-                </div>
-                <div className={styles.banner_imgright}>
-                    <img src="/images/banner/right.png" alt="Right Floral" />
-                </div>
-            </div>
+            </header>
+
+            <h1 className={styles.heading}>GM, Huỳnh Nam! 👋</h1>
 
             <div className={styles.layer_default}>
                 <h2>Mẫu thiết kế có sẵn</h2>

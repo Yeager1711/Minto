@@ -1,85 +1,23 @@
-// background: linear-gradient(to right, #f0f4ff, #ffffff);
+// Existing styles remain unchanged
 .main {
-
-  padding: 3rem 5%;
+  padding: 2rem 5%;
   min-height: 100vh;
-  // background: linear-gradient(to right, #f0f4ff, #ffffff, #f0f4ff);
-  background: #fff;
+  // background: linear-gradient(
+  //   to bottom,
+  //   rgba(231, 216, 255, 1) 0%,
+  //   rgba(245, 234, 255, 1) 35%,
+  //   rgba(255, 255, 255, 1) 100%
+  // );
+
+
+  max-width: 1400px;
+  margin: auto;
 
   .heading {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 2rem;
     color: #1a1a1a;
-  }
-
-  .banner_home {
-    background: #fff;
-    width: 100%;
-    height: 30rem;
-    border-radius: 1rem;
-    border: 0.1rem solid #dbdbdb;
-    overflow: hidden;
-    position: relative;
-
-    .banner_imgleft {
-      position: absolute;
-      top: 0;
-      left: -5rem;
-      max-width: 25rem;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    .banner_text {
-      position: absolute;
-      top: 50%;
-      left: 45%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: #5c4033; // A soft brown to match the floral tones
-
-      h2 {
-        font-family: 'Sacramento', cursive;
-        font-size: 3rem;
-        margin: 0;
-        line-height: 1;
-
-      }
-
-      h1 {
-        font-family: 'Sacramento', cursive;
-        font-size: 3rem;
-        margin: 0.5rem 0;
-        line-height: 1;
-        padding: .8rem 0;
-      }
-
-      h3 {
-        font-family: 'Sacramento', cursive;
-        font-size: 2.5rem;
-        margin: 0;
-        line-height: 1;
-      }
-    }
-
-    .banner_imgright {
-      position: absolute;
-      top: 4rem;
-      right: 8rem;
-      max-width: 16rem;
-      transform: rotate(-277deg);
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
   }
 
   .layer_default {
@@ -91,7 +29,7 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
       gap: 2rem;
       margin-top: 2rem;
 
@@ -100,11 +38,13 @@
         overflow: hidden;
         border-radius: 1rem;
         cursor: pointer;
+        border: .1rem solid #dbdbdb;
+        height: 28rem;
 
         .image_products {
           img {
             width: 100%;
-            height: 100%;
+            height: 28rem;
             object-fit: cover;
           }
         }
@@ -112,4 +52,114 @@
     }
   }
 
+  // Updated header styles
+  .header {
+    padding: 2rem 0%;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+
+    .headerTitle {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .headerButtons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+
+      .headerButtonActive {
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 5rem;
+        background: #fff;
+        color: #333;
+        cursor: pointer;
+        font-weight: 500;
+        border: .1rem solid #dbdbdb;
+        background: #bdeef2;
+        font-size: 1.3rem;
+
+        &:hover {
+          background: rgba(149, 131, 255, 0.2);
+        }
+      }
+
+      .headerButton {
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 5rem;
+        color: #333;
+        cursor: pointer;
+        font-size: 1.3rem;
+        border: .1rem solid #dbdbdb;
+      }
+    }
+
+    .wrapper_expend {
+      border: .1rem solid#8888e8;
+      border-radius: .5rem;
+      margin-top: 2rem;
+      padding-top: .5rem;
+
+      .searchBar {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+
+        .searchInput {
+          border: none;
+          outline: none;
+          flex: 1;
+          font-size: 16px;
+          color: #1a1a1a;
+
+          &::placeholder {
+            color: #888;
+            font-size: 1.3rem;
+          }
+        }
+
+        .searchIcon {
+          margin-left: 0.5rem;
+          font-size: 1.4rem;
+          padding: 1rem 1.2rem;
+          background: #8888e8;
+          color: #fff;
+          border-radius: 5rem;
+          cursor: pointer;
+        }
+      }
+
+      .categories {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        // background: #b6b6fe;
+        padding: 1rem;
+
+        .categoryButton {
+          padding: 1rem 2.5rem;
+          border: none;
+          border-radius: 5rem;
+          color: #333;
+          cursor: pointer;
+          font-weight: 500;
+          white-space: nowrap;
+          border: .1rem solid #dbdbdb;
+
+        }
+      }
+    }
+
+  }
 }
