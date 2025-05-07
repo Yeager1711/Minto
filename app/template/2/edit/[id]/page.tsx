@@ -355,19 +355,19 @@ function Template2Edit() {
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="800">
                                     <span>
-                                        Trong một thị trấn nhỏ dọc bờ biển, {weddingData.groom} – chàng họa sĩ trẻ, tình cờ
-                                        gặp {weddingData.bride} – cô gái bán sách cũ, khi cô đánh rơi một quyển sách trên
-                                        con dốc gió lộng. Anh nhặt lên, trao lại, và họ nhìn nhau
+                                        Trong một thị trấn nhỏ dọc bờ biển, {weddingData.groom} – chàng họa sĩ trẻ, tình
+                                        cờ gặp {weddingData.bride} – cô gái bán sách cũ, khi cô đánh rơi một quyển sách
+                                        trên con dốc gió lộng. Anh nhặt lên, trao lại, và họ nhìn nhau
                                     </span>
                                 </div>
                             </div>
                             <div className={styles.footer_content}>
                                 <div className={styles.left} data-aos="fade-right" data-aos-delay="1000">
                                     <span>
-                                        Tình yêu giữa {weddingData.groom} và {weddingData.bride} bắt đầu bằng một bản nhạc
-                                        cũ vang lên trong quán cà phê ven biển. Cô ngồi ở góc quán, lặng lẽ đọc sách, còn
-                                        anh vừa bước vào đã sững người khi nghe giai điệu quen thuộc – bài hát mẹ anh thường
-                                        bật những ngày mưa.
+                                        Tình yêu giữa {weddingData.groom} và {weddingData.bride} bắt đầu bằng một bản
+                                        nhạc cũ vang lên trong quán cà phê ven biển. Cô ngồi ở góc quán, lặng lẽ đọc
+                                        sách, còn anh vừa bước vào đã sững người khi nghe giai điệu quen thuộc – bài hát
+                                        mẹ anh thường bật những ngày mưa.
                                     </span>
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="1200">
@@ -387,18 +387,7 @@ function Template2Edit() {
                                     />
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className={styles.story_bride}>
-                        <div className={styles.story_bride_wrapper}>
-                            <div className={styles.story_bride__content} data-aos="zoom-in" data-aos-delay="400">
-                                <h3>Chuyện</h3>
-                                <h4>
-                                    <span>Của</span> Cô Dâu
-                                </h4>
-                                <h2>{weddingData.bride}</h2>
-                            </div>
-                            <div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
+                        </div><div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
                                 <Image
                                     src={images.brideImage}
                                     alt=""
@@ -414,38 +403,75 @@ function Template2Edit() {
                                     style={{ display: 'none' }}
                                 />
                             </div>
+                    </div>
+                    <div className={styles.story_bride}>
+                        <div className={styles.story_bride_wrapper}>
+                            <div className={styles.story_bride__content} data-aos="zoom-in" data-aos-delay="400">
+                                <div className={styles.left}>
+                                    <h3>Chuyện</h3>
+                                    <h4>
+                                        <span>Của</span> Cô Dâu
+                                    </h4>
+                                </div>
+                                <div className={styles.right}>
+                                    <h2>{weddingData.bride}</h2>
+                                </div>
+                            </div>
+
                             <div className={styles.content} data-aos="fade-up" data-aos-delay="800">
                                 <span>{weddingData.brideStory}</span>
+
+                                <div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
+                                    <Image
+                                        src={images.brideImage}
+                                        alt=""
+                                        width={200}
+                                        height={200}
+                                        onClick={() => triggerFileInput('brideImage')}
+                                    />
+                                    <input
+                                        type="file"
+                                        ref={fileInputRefs.brideImage}
+                                        onChange={handleImageChange('brideImage')}
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className={styles.story_groom} data-aos="fade-up" data-aos-delay="200">
                         <div className={styles.story_groom_wrapper}>
                             <div className={styles.story_groom__content} data-aos="zoom-in" data-aos-delay="400">
-                                <h3>Chuyện</h3>
-                                <h4>
-                                    <span>Của</span> Chú Rể
-                                </h4>
-                                <h2>{weddingData.groom}</h2>
+                                <div className={styles.left}>
+                                    <h3>Chuyện</h3>
+                                    <h4>
+                                        <span>Của</span> Chú Rể
+                                    </h4>
+                                </div>
+                                <div className={styles.right}>
+                                    <h2>{weddingData.groom}</h2>
+                                </div>
                             </div>
                             <div className={styles.content} data-aos="fade-up" data-aos-delay="600">
                                 <span>{weddingData.groomStory}</span>
-                            </div>
-                            <div className={styles.img_story__groom} data-aos="fade-left" data-aos-delay="800">
-                                <Image
-                                    src={images.groomImage}
-                                    alt=""
-                                    width={200}
-                                    height={200}
-                                    onClick={() => triggerFileInput('groomImage')}
-                                />
-                                <input
-                                    type="file"
-                                    ref={fileInputRefs.groomImage}
-                                    onChange={handleImageChange('groomImage')}
-                                    accept="image/*"
-                                    style={{ display: 'none' }}
-                                />
+
+                                <div className={styles.img_story__groom} data-aos="fade-left" data-aos-delay="800">
+                                    <Image
+                                        src={images.groomImage}
+                                        alt=""
+                                        width={200}
+                                        height={200}
+                                        onClick={() => triggerFileInput('groomImage')}
+                                    />
+                                    <input
+                                        type="file"
+                                        ref={fileInputRefs.groomImage}
+                                        onChange={handleImageChange('groomImage')}
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -488,14 +514,17 @@ function Template2Edit() {
                                     <div className={styles.column}>
                                         <span className={styles.dayOfWeek}>{formatTime(weddingData.weddingTime)}</span>
                                         <span className={styles.day}>{weddingData.weddingDate.split('/')[0]}</span>
-                                        <span className={styles.month}>Tháng {weddingData.weddingDate.split('/')[1]}</span>
+                                        <span className={styles.month}>
+                                            Tháng {weddingData.weddingDate.split('/')[1]}
+                                        </span>
                                     </div>
                                     <span className={styles.year}>{weddingData.weddingDate.split('/')[2]}</span>
                                 </div>
                             </div>
                             <div className={styles.calendar} data-aos="zoom-in" data-aos-duration="1000">
                                 <h3>
-                                    Tháng {weddingData.weddingDate.split('/')[1]} {weddingData.weddingDate.split('/')[2]}
+                                    Tháng {weddingData.weddingDate.split('/')[1]}{' '}
+                                    {weddingData.weddingDate.split('/')[2]}
                                 </h3>
                                 <div className={styles.calendarHeader}>
                                     <span>CN</span>
@@ -515,14 +544,19 @@ function Template2Edit() {
                                                 <span
                                                     key={index}
                                                     className={
-                                                        parseInt(day) === parseInt(weddingData.weddingDate.split('/')[0])
+                                                        parseInt(day) ===
+                                                        parseInt(weddingData.weddingDate.split('/')[0])
                                                             ? styles.highlight
                                                             : ''
                                                     }
                                                 >
-                                                    {parseInt(day) === parseInt(weddingData.weddingDate.split('/')[0]) ? (
+                                                    {parseInt(day) ===
+                                                    parseInt(weddingData.weddingDate.split('/')[0]) ? (
                                                         <span className={styles.highlightContent}>
-                                                            <FontAwesomeIcon icon={faHeart} className={styles.heartIcon} />
+                                                            <FontAwesomeIcon
+                                                                icon={faHeart}
+                                                                className={styles.heartIcon}
+                                                            />
                                                             <span>{day}</span>
                                                         </span>
                                                     ) : (
@@ -687,8 +721,8 @@ function Template2Edit() {
                         <div className={styles.content_foooter}>
                             <span data-aos="fade-up" data-aos-duration="1000">
                                 Chúng tôi háo hức mong chờ đến chung vui trong ngày trọng đại của đời mình – một dấu mốc
-                                thiêng liêng và đáng nhớ. Sẽ thật trọn vẹn và ý nghĩa biết bao nếu có sự hiện diện cùng lời
-                                chúc phúc chân thành từ bạn trong khoảnh khắc đặc biệt ấy.
+                                thiêng liêng và đáng nhớ. Sẽ thật trọn vẹn và ý nghĩa biết bao nếu có sự hiện diện cùng
+                                lời chúc phúc chân thành từ bạn trong khoảnh khắc đặc biệt ấy.
                             </span>
                         </div>
                     </footer>
@@ -702,10 +736,19 @@ function Template2Edit() {
                     </button>
                 </div>
                 {showEditPopup && (
-                    <EditPopup weddingData={weddingData} onSave={handleSaveEdit} onClose={() => setShowEditPopup(false)} />
+                    <EditPopup
+                        weddingData={weddingData}
+                        onSave={handleSaveEdit}
+                        onClose={() => setShowEditPopup(false)}
+                    />
                 )}
                 {showInviteePopup && (
-                    <InviteePopup quantity={quantity} totalPrice={totalPrice} onClose={handleInviteePopupClose} id={id} />
+                    <InviteePopup
+                        quantity={quantity}
+                        totalPrice={totalPrice}
+                        onClose={handleInviteePopupClose}
+                        id={id}
+                    />
                 )}
             </div>
         </Suspense>

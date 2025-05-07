@@ -243,6 +243,7 @@
 
     .mau_2 {
         // Centers the container on larger screens
+        // background: #fdfcfd;
         background: #fdfcfd;
         padding-bottom: 2rem;
 
@@ -351,6 +352,7 @@
                             1px -1px 0 #555,
                             -1px 1px 0 #555,
                             1px 1px 0 #555;
+                        text-transform: capitalize;
                     }
 
                     span {
@@ -566,74 +568,156 @@
         }
 
         .story_bride {
-            margin-top: 5rem;
-            min-height: 50vh;
-            padding: 0 2rem;
+            margin: 5rem 0 0 0;
 
             .story_bride_wrapper {
-                display: flex;
-                position: relative;
 
 
                 .story_bride__content {
-                    flex: 1 1;
-                    width: 100%;
-                    z-index: 9;
-                    margin-bottom: 2rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 2rem;
 
-                    h3 {
-                        color: #333;
-                        z-index: 3;
-                        font-family: "Allura", cursive;
-                        font-size: 4rem;
-                        margin-left: 0;
-                    }
+                    .left {
 
-                    h4 {
-                        color: #333;
-                        z-index: 3;
-                        font-family: "Allura", cursive;
-                        font-size: 2rem;
-                        margin-left: 2rem;
 
-                        span {
-                            font-size: 2.5rem;
+                        h3 {
+                            color: #333;
+                            z-index: 3;
                             font-family: "Allura", cursive;
-                            margin-left: 0;
-                            color: #bb9148;
+                            font-size: 4rem;
+
+                        }
+
+                        h4 {
+                            color: #333;
+                            z-index: 3;
+                            font-family: "Allura", cursive;
+                            font-size: 2rem;
+
+
+                            span {
+                                font-size: 2.5rem;
+                                font-family: "Allura", cursive;
+                                color: #bb9148;
+                            }
+
+
                         }
                     }
 
-                    h2 {
-                        margin-top: 4rem;
-                        margin-left: 0;
-                        font-size: 4.5rem;
-                        font-family: "Herr Von Muellerhoff", cursive;
-                        font-weight: 600;
-                    }
-                }
+                    .right {
+                        flex: 1 1 22rem;
 
-                .img_story__bride {
-                    flex: 1 1;
-                    width: 100%;
-                    overflow: hidden;
-                    border-radius: 1rem;
-                    z-index: 2;
-                    margin-top: 3rem;
-
-                    img {
-                        width: 20rem;
-                        height: 25rem;
-                        border-radius: 1rem;
-                        object-fit: cover;
+                        h2 {
+                            margin-top: 2rem;
+                            margin-left: 0;
+                            font-size: 4rem;
+                            font-family: "Herr Von Muellerhoff", cursive;
+                            font-weight: 600;
+                            text-transform: capitalize;
+                        }
                     }
                 }
 
                 .content {
-                    position: absolute;
-                    bottom: -15rem;
-                    left: 0rem;
-                    max-width: 37rem;
+                    position: relative;
+                    max-width: 100%;
+                    width: 100%;
+                    height: 25rem;
+                    background: #fff;
+                    padding: 1rem;
+                    border-radius: .5rem;
+                    z-index: 10;
+                    z-index: 1;
+                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+
+                    span {
+                        font-size: 1.3rem;
+                        line-height: 1.6;
+                        margin-bottom: 2rem;
+                        display: block;
+
+                        &:nth-child(1) {
+                            max-width: 16rem;
+                            width: 95%;
+                        }
+                    }
+
+                    .img_story__bride {
+                        position: absolute;
+                        bottom: -2rem;
+                        right: 1rem;
+                        overflow: hidden;
+                        border-radius: 1rem;
+                        z-index: 2;
+
+                        img {
+                            width: 13rem;
+                            height: 15rem;
+                            border-radius: 1rem;
+                            object-fit: cover;
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+
+        .story_groom {
+            margin: 5rem 0 0 0;
+
+            .story_groom_wrapper {
+
+
+                .story_groom__content {
+                    display: flex;
+                    align-items: center;
+                    gap: 2rem;
+
+                    .left {
+                        h3 {
+                            color: #333;
+                            z-index: 3;
+                            font-family: "Allura", cursive;
+                            font-size: 4rem;
+
+                        }
+
+                        h4 {
+                            color: #333;
+                            z-index: 3;
+                            font-family: "Allura", cursive;
+                            font-size: 2rem;
+
+
+                            span {
+                                font-size: 2.5rem;
+                                font-family: "Allura", cursive;
+                                color: #bb9148;
+                            }
+
+
+                        }
+                    }
+
+                    .right {
+                        flex: 1 1 22rem;
+
+                        h2 {
+                            margin-top: 2rem;
+                            margin-left: 0;
+                            font-size: 4rem;
+                            font-family: "Herr Von Muellerhoff", cursive;
+                            text-transform: capitalize;
+                            font-weight: 600;
+                        }
+                    }
+                }
+
+                .content {
+                    position: relative;
+                    max-width: 100%;
                     width: 100%;
                     height: 25rem;
                     background: #fff;
@@ -654,96 +738,22 @@
                             width: 95%;
                         }
                     }
-                }
-            }
-        }
 
-        .story_groom {
-            margin-top: 5rem;
-            min-height: 50vh;
-            padding: 0 2rem;
-
-            .story_groom_wrapper {
-                display: flex;
-                position: relative;
-
-                .story_groom__content {
-                    flex: 1 1;
-                    width: 100%;
-                    z-index: 9;
-                    margin-bottom: 2rem;
-
-                    h3 {
-                        color: #333;
-                        z-index: 3;
-                        font-family: "Allura", cursive;
-                        font-size: 4rem;
-                        margin-left: 0;
-                    }
-
-                    h4 {
-                        color: #333;
-                        z-index: 3;
-                        font-family: "Allura", cursive;
-                        font-size: 2rem;
-                        margin-left: 2rem;
-
-                        span {
-                            font-size: 2.5rem;
-                            font-family: "Allura", cursive;
-                            margin-left: 0;
-                            color: #bb9148;
-                        }
-                    }
-
-                    h2 {
-                        margin-top: 4rem;
-                        margin-left: 0;
-                        font-size: 3.5rem;
-                        font-family: "Herr Von Muellerhoff", cursive;
-                        font-weight: 600;
-                    }
-                }
-
-                .content {
-                    position: absolute;
-                    bottom: -12rem;
-                    left: 0rem;
-                    max-width: 50rem;
-                    width: 95%;
-                    height: 25rem;
-                    background: #fff;
-                    padding: 1rem;
-                    border-radius: .5rem;
-                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-                    z-index: 1;
-
-                    span {
-                        font-size: 1.3rem;
-                        line-height: 1.6;
-                        margin-bottom: 2rem;
-                        display: block;
-
-                        &:nth-child(1) {
-                            max-width: 17.5rem;
-                        }
-                    }
-                }
-
-                .img_story__groom {
-                    flex: 1 1;
-                    width: 100%;
-                    overflow: hidden;
-                    border-radius: 1rem;
-                    margin-left: 2rem;
-                    z-index: 2;
-                    margin-top: 3rem;
-
-                    img {
-                        width: 20rem;
-                        height: 25rem;
+                    .img_story__groom {
+                        position: absolute;
+                        bottom: -2rem;
+                        left: 1rem;
+                        overflow: hidden;
                         border-radius: 1rem;
-                        object-fit: cover;
+                        z-index: 2;
+
+                        img {
+                            width: 13rem;
+                            height: 15rem;
+                            border-radius: 1rem;
+                            object-fit: cover;
+                            display: block;
+                        }
                     }
                 }
             }
@@ -793,18 +803,21 @@
                         display: flex;
                         justify-content: space-around;
                         gap: 2rem;
+                        text-transform: capitalize;
                     }
 
                     .family_box {
                         padding: 2rem;
                         border-radius: 1rem;
                         width: 25rem;
+                        text-transform: capitalize;
                         text-align: center;
 
                         h4 {
                             font-size: 2.5rem;
                             color: #bb9148;
                             margin-bottom: 1rem;
+                            text-transform: capitalize;
                             font-family: "Allura", cursive;
                         }
 
@@ -837,6 +850,7 @@
                             font-size: 3rem;
                             font-family: "Allura", cursive;
                             font-weight: 600;
+                            text-transform: capitalize;
                         }
 
                         span {
@@ -872,6 +886,7 @@
                         .time {
                             font-weight: 600;
                             font-size: clamp(1.7rem, 2.5vw, 2.5rem);
+                            text-transform: capitalize;
                         }
 
                         .column {

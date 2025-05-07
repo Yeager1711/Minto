@@ -253,40 +253,55 @@ function Mau2InviteeName() {
                                 </div>
                             </div>
                         </div>
+
                         <div className={styles.story_bride}>
                             <div className={styles.story_bride_wrapper}>
                                 <div className={styles.story_bride__content} data-aos="zoom-in" data-aos-delay="400">
-                                    <h3>Chuyện</h3>
-                                    <h4>
-                                        <span>Của</span> Cô Dâu
-                                    </h4>
-                                    <h2>{weddingData.bride}</h2>
+                                    <div className={styles.left}>
+                                        <h3>Chuyện</h3>
+                                        <h4>
+                                            <span>Của</span> Cô Dâu
+                                        </h4>
+                                    </div>
+
+                                    <div className={styles.right}>
+                                        <h2>{weddingData.bride}</h2>
+                                    </div>
                                 </div>
-                                <div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
-                                    <img src={images.brideImage} alt="" />
-                                </div>
+
                                 <div className={styles.content} data-aos="fade-up" data-aos-delay="800">
                                     <span>{weddingData.brideStory}</span>
+
+                                    <div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
+                                        <img src={images.brideImage} alt="" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                         <div className={styles.story_groom} data-aos="fade-up" data-aos-delay="200">
                             <div className={styles.story_groom_wrapper}>
                                 <div className={styles.story_groom__content} data-aos="zoom-in" data-aos-delay="400">
-                                    <h3>Chuyện</h3>
-                                    <h4>
-                                        <span>Của</span> Chú Rể
-                                    </h4>
-                                    <h2>{weddingData.groom}</h2>
+                                    <div className={styles.left}>
+                                        <h3>Chuyện</h3>
+                                        <h4>
+                                            <span>Của</span> Chú Rể
+                                        </h4>
+                                    </div>
+                                    <div className={styles.right}>
+                                        <h2>{weddingData.groom}</h2>
+                                    </div>
                                 </div>
                                 <div className={styles.content} data-aos="fade-up" data-aos-delay="600">
                                     <span>{weddingData.groomStory}</span>
-                                </div>
-                                <div className={styles.img_story__groom} data-aos="fade-left" data-aos-delay="800">
-                                    <img src={images.groomImage} alt="" />
+
+                                    <div className={styles.img_story__groom} data-aos="fade-left" data-aos-delay="800">
+                                        <img src={images.groomImage} alt="" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                         <div className={styles.time_location}>
                             <div className={styles.wrapper}>
                                 <h3>Tới dự buổi tiệc mừng Lễ thành hôn</h3>
