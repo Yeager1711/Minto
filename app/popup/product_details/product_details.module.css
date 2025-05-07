@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .popupOverlay {
   position: fixed;
   top: 0;
@@ -107,6 +108,18 @@
 .popupBody .description p {
   margin: 5px 0;
 }
+.popupBody .statusReady {
+  color: #28a745;
+  /* Màu xanh cho "Sẵn sàng" */
+  font-weight: bold;
+  margin-top: 10px;
+}
+.popupBody .statusUpdating {
+  color: #dc3545;
+  /* Màu đỏ cho "Đang được cập nhật" */
+  font-weight: bold;
+  margin-top: 10px;
+}
 .popupBody .actionButtons {
   display: flex;
   gap: 1rem;
@@ -126,8 +139,12 @@
 .popupBody .actionButtons .customizeButton:hover {
   background-color: #c0392b;
 }
+.popupBody .actionButtons .customizeButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 .popupBody .actionButtons .favoriteButton {
-  background-color: #f1c40f;
+  background-color: #fff;
   color: #ffffff;
   border: none;
   padding: 1rem;
@@ -137,12 +154,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 4.7rem;
+  height: 4.7rem;
   transition: background-color 0.3s ease;
 }
+.popupBody .actionButtons .favoriteButton svg {
+  width: 3rem;
+  height: 3rem;
+  color: #333;
+}
 .popupBody .actionButtons .favoriteButton:hover {
-  background-color: #d4ac0d;
+  border: 0.1rem solid #dbdbdb;
 }
 @media (max-width: 768px) {
   .popupBody .infoSection {

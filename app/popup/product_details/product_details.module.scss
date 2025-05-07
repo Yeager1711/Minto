@@ -100,7 +100,6 @@
         gap: 15px;
         background-color: #ffffff;
         border-radius: 8px;
-        // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .price {
@@ -120,6 +119,20 @@
         }
     }
 
+    .statusReady {
+        color: #28a745;
+        /* Màu xanh cho "Sẵn sàng" */
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .statusUpdating {
+        color: #dc3545;
+        /* Màu đỏ cho "Đang được cập nhật" */
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
     .actionButtons {
         display: flex;
         gap: 1rem;
@@ -132,32 +145,43 @@
             padding: 1rem 2rem;
             font-size: 1.2rem;
             font-weight: 500;
-            border-radius: .5rem;
+            border-radius: 0.5rem;
             cursor: pointer;
             transition: background-color 0.3s ease;
 
             &:hover {
                 background-color: #c0392b;
             }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
         }
 
         .favoriteButton {
-            background-color: #f1c40f;
+            background-color: #fff;
             color: #ffffff;
             border: none;
             padding: 1rem;
             font-size: 1rem;
-            border-radius: .5rem;
+            border-radius: 0.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 3.5rem;
-            height: 3.5rem;
+            width: 4.7rem;
+            height: 4.7rem;
             transition: background-color 0.3s ease;
 
+            svg {
+                width: 3rem;
+                height: 3rem;
+                color: #333;
+            }
+
             &:hover {
-                background-color: #d4ac0d;
+                border: 0.1rem solid #dbdbdb;
             }
         }
     }

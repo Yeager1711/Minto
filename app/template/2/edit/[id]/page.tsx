@@ -691,6 +691,8 @@ function Template2Edit() {
                         </div>
                     </div>
                     <footer>
+                        <div className={styles.dotLeft}></div>
+                        <div className={styles.dotRight}></div>
                         <div className={styles.Save_the_date} data-aos="fade-right" data-aos-delay="400">
                             <span className={styles.save}>Save</span>
                             <span className={styles.the}>The</span>

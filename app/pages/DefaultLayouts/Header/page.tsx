@@ -10,14 +10,13 @@ const cx = classNames.bind(styles);
 const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Instruct', path: '/instruct' },
-    
 ];
 
 function Header() {
     const pathname = usePathname();
 
     return (
-        <aside className={cx('sidebar')}>
+        <aside className={cx('sidebar', { 'display-none': pathname.includes('/template') })}>
             <div className={styles.margin}>
                 <div className={cx('logo')}>⚡ Minto</div>
                 <ul className={cx('nav')}>

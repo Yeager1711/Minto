@@ -1,3 +1,7 @@
+.display-none {
+  display: none;
+}
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -6,7 +10,6 @@
   background: #fff;
   border-bottom: 0.1rem solid #dbdbdb;
   z-index: 1000;
-  display: none;
 }
 .sidebar .margin {
   max-width: 1200px;

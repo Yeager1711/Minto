@@ -279,7 +279,7 @@
   position: relative;
   z-index: 2;
   background: #fdfdfd;
-  padding: 0 2rem;
+  padding: 0;
 }
 .mau_2_container .mau_2 .story .Timing_Hook .tape {
   width: 16rem;
@@ -432,7 +432,7 @@
 .mau_2_container .mau_2 .story_bride .story_bride_wrapper .content {
   position: relative;
   max-width: 100%;
-  width: 100%;
+  width: 97%;
   height: 25rem;
   background: #fff;
   padding: 1rem;
@@ -517,7 +517,7 @@
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content {
   position: relative;
   max-width: 100%;
-  width: 100%;
+  width: 97%;
   height: 25rem;
   background: #fff;
   padding: 1rem;
@@ -836,30 +836,35 @@
 }
 .mau_2_container .mau_2 .photo_gallery {
   position: relative;
-  background: #fdf9f3;
-  padding: 2rem 1rem;
+  background: linear-gradient(180deg, #fffaf5 0%, #fdf9f3 100%);
+  padding: 3rem 1.5rem;
   overflow: hidden;
-  max-width: 50rem;
+  max-width: 44rem;
+  width: 95%;
   margin: 0 auto;
+  border-radius: 1.5rem;
 }
 .mau_2_container .mau_2 .photo_gallery .gallery_container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
   gap: 1.5rem;
+  align-items: start;
 }
 .mau_2_container .mau_2 .photo_gallery .gallery_item {
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 1.2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 .mau_2_container .mau_2 .photo_gallery .gallery_item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transform: scale(1.03);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
 }
 .mau_2_container .mau_2 .photo_gallery .gallery_item .card_content {
   position: relative;
   width: 100%;
+  background: #fff;
+  border-radius: 1.2rem;
+  overflow: hidden;
 }
 .mau_2_container .mau_2 .photo_gallery .gallery_item .card_image {
   width: 100%;
@@ -867,35 +872,83 @@
   -o-object-fit: cover;
      object-fit: cover;
   display: block;
+  transition: opacity 0.3s ease;
+}
+.mau_2_container .mau_2 .photo_gallery .gallery_item:hover .card_image {
+  opacity: 0.95;
 }
 .mau_2_container .mau_2 .photo_gallery .item_1 .card_content {
-  height: 50rem;
+  height: 38rem;
 }
 .mau_2_container .mau_2 .photo_gallery .item_2 .card_content {
-  height: 40rem;
+  height: 28rem;
 }
 .mau_2_container .mau_2 .photo_gallery .item_3 .card_content {
-  height: 35rem;
+  height: 32rem;
 }
 .mau_2_container .mau_2 .photo_gallery .item_4 .card_content {
-  height: 50rem;
+  height: 42rem;
 }
-@media (max-width: 768px) {
-  .mau_2_container .mau_2 .photo_gallery .gallery_container {
-    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+.mau_2_container .mau_2 .photo_gallery .item_4 {
+  margin-top: -10rem;
+}
+@media (max-width: 600px) {
+  .mau_2_container .mau_2 .photo_gallery {
+    max-width: 90%;
+    width: 90%;
+    padding: 2rem 1rem;
   }
-  .mau_2_container .mau_2 .photo_gallery .item_1 .card_content,
-  .mau_2_container .mau_2 .photo_gallery .item_2 .card_content,
-  .mau_2_container .mau_2 .photo_gallery .item_3 .card_content,
+  .mau_2_container .mau_2 .photo_gallery .gallery_container {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.5rem;
+  }
+  .mau_2_container .mau_2 .photo_gallery .gallery_item {
+    border-radius: 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  }
+  .mau_2_container .mau_2 .photo_gallery .gallery_item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+  .mau_2_container .mau_2 .photo_gallery .item_1 .card_content {
+    height: 28rem;
+  }
+  .mau_2_container .mau_2 .photo_gallery .item_2 .card_content {
+    height: 18rem;
+  }
+  .mau_2_container .mau_2 .photo_gallery .item_3 .card_content {
+    height: 22rem;
+  }
   .mau_2_container .mau_2 .photo_gallery .item_4 .card_content {
-    height: auto;
-    min-height: 20rem;
+    height: 32rem;
+  }
+  .mau_2_container .mau_2 .photo_gallery .item_4 {
+    margin-top: -10rem;
   }
 }
 .mau_2_container .mau_2 footer {
   position: relative;
   min-height: 50vh;
   background: #fdf9f3;
+  border-top: 0.2rem dashed #a11414;
+}
+.mau_2_container .mau_2 footer .dotLeft {
+  position: absolute;
+  top: -2.5rem;
+  left: -3.5rem;
+  width: 5rem;
+  height: 5rem;
+  background: #fff;
+  border-radius: 5rem;
+}
+.mau_2_container .mau_2 footer .dotRight {
+  position: absolute;
+  top: -2.5rem;
+  right: -3.5rem;
+  width: 5rem;
+  height: 5rem;
+  background: #fff;
+  border-radius: 5rem;
 }
 .mau_2_container .mau_2 footer .Save_the_date {
   position: absolute;

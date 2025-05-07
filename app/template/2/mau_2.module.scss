@@ -441,7 +441,7 @@
             position: relative;
             z-index: 2;
             background: #fdfdfd;
-            padding: 0 2rem;
+            padding: 0;
 
             .Timing_Hook {
                 .tape {
@@ -626,7 +626,7 @@
                 .content {
                     position: relative;
                     max-width: 100%;
-                    width: 100%;
+                    width: 98%;
                     height: 25rem;
                     background: #fff;
                     padding: 1rem;
@@ -730,7 +730,7 @@
                 .content {
                     position: relative;
                     max-width: 100%;
-                    width: 100%;
+                    width: 98%;
                     height: 25rem;
                     background: #fff;
                     padding: 1rem;
@@ -1110,32 +1110,37 @@
 
         .photo_gallery {
             position: relative;
-            background: #fdf9f3;
-            padding: 2rem 1rem;
+            background: linear-gradient(180deg, #fffaf5 0%, #fdf9f3 100%);
+            padding: 3rem 1.5rem;
             overflow: hidden;
-            max-width: 50rem; // Set maximum width for the entire interface
-            margin: 0 auto; // Center the gallery
+            max-width: 44rem;
+            width: 95%;
+            margin: 0 auto;
+            border-radius: 1.5rem;
 
             .gallery_container {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
                 gap: 1.5rem;
+                align-items: start;
             }
 
             .gallery_item {
-                border-radius: 1rem;
-                overflow: hidden;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border-radius: 1.2rem;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+                transition: transform 0.4s ease, box-shadow 0.4s ease;
 
                 &:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+                    transform: scale(1.03);
+                    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
                 }
 
                 .card_content {
                     position: relative;
                     width: 100%;
+                    background: #fff;
+                    border-radius: 1.2rem;
+                    overflow: hidden;
                 }
 
                 .card_image {
@@ -1143,37 +1148,74 @@
                     height: 100%;
                     object-fit: cover;
                     display: block;
+                    transition: opacity 0.3s ease;
+                }
+
+                &:hover .card_image {
+                    opacity: 0.95;
                 }
             }
 
-            // Custom heights based on your example
+            // Điều chỉnh chiều cao cố định
             .item_1 .card_content {
-                height: 50rem;
+                height: 38rem;
             }
 
             .item_2 .card_content {
-                height: 40rem;
+                height: 28rem;
             }
 
             .item_3 .card_content {
-                height: 35rem;
+                height: 32rem;
             }
 
             .item_4 .card_content {
-                height: 50rem;
+                height: 42rem;
             }
 
-            @media (max-width: 768px) {
+            .item_4 {
+                margin-top: -10rem;
+            }
+
+            @media (max-width: 600px) {
+                max-width: 90%; // Giảm max-width để vừa màn hình nhỏ
+                width: 90%; // Giảm width để vừa màn hình nhỏ
+                padding: 2rem 1rem; // Giảm padding cho gọn hơn
+
                 .gallery_container {
-                    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+                    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); // Giảm kích thước tối thiểu để giữ bố cục lưới
+                    gap: 1.5rem; // Giảm khoảng cách giữa các ảnh
                 }
 
-                .item_1 .card_content,
-                .item_2 .card_content,
-                .item_3 .card_content,
+                .gallery_item {
+                    border-radius: 1rem; // Giảm bo góc nhẹ
+                    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07); // Giảm bóng đổ
+
+                    &:hover {
+                        transform: scale(1.02); // Giảm hiệu ứng phóng to
+                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+                    }
+                }
+
+                // Giữ nguyên chiều cao cố định
+                .item_1 .card_content {
+                    height: 28rem;
+                }
+
+                .item_2 .card_content {
+                    height: 18rem;
+                }
+
+                .item_3 .card_content {
+                    height: 22rem;
+                }
+
                 .item_4 .card_content {
-                    height: auto; // Allow responsive scaling on small screens
-                    min-height: 20rem; // Minimum height for readability
+                    height: 32rem;
+                }
+
+                .item_4 {
+                    margin-top: -10rem; // Giữ nguyên margin-top
                 }
             }
         }
@@ -1182,6 +1224,27 @@
             position: relative;
             min-height: 50vh;
             background: #fdf9f3;
+            border-top: 0.2rem dashed #a11414;
+
+            .dotLeft {
+                position: absolute;
+                top: -2.5rem;
+                left: -3.5rem;
+                width: 5rem;
+                height: 5rem;
+                background: #fff;
+                border-radius: 5rem;
+            }
+
+            .dotRight {
+                position: absolute;
+                top: -2.5rem;
+                right: -3.5rem;
+                width: 5rem;
+                height: 5rem;
+                background: #fff;
+                border-radius: 5rem;
+            }
 
             .Save_the_date {
                 position: absolute;

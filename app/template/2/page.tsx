@@ -108,8 +108,6 @@ function Mau2InviteeName() {
         };
     }, []);
 
-
-
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
     }, []);
@@ -498,6 +496,8 @@ function Mau2InviteeName() {
                             </div>
                         </div>
                         <footer>
+                            <div className={styles.dotLeft}></div>
+                            <div className={styles.dotRight}></div>
                             <div className={styles.Save_the_date} data-aos="fade-right" data-aos-delay="400">
                                 <span className={styles.save}>Save</span>
                                 <span className={styles.the}>The</span>

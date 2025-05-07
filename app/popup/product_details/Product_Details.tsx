@@ -14,6 +14,7 @@ interface Product {
     link: string;
     price: number;
     description: string;
+    status: string;
 }
 
 // Define props for the Popup component
@@ -31,9 +32,8 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
 
     // Reset isClosing when product changes or popup opens
     useEffect(() => {
-        setIsClosing(false); // Reset closing state when product changes
+        setIsClosing(false);
         return () => {
-            // Cleanup any pending timeouts on unmount
             setIsClosing(false);
         };
     }, [product]);
@@ -43,9 +43,9 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         if (isClosing) {
             const timer = setTimeout(() => {
                 onClose();
-                setIsClosing(false); // Reset after closing
+                setIsClosing(false);
             }, 300);
-            return () => clearTimeout(timer); // Clear timeout on cleanup
+            return () => clearTimeout(timer);
         }
     }, [isClosing, onClose]);
 
@@ -86,6 +86,9 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
             .toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ';
 
+    const isReady = product.status === 'Sẵn sàng';
+    const statusClass = isReady ? styles.statusReady : styles.statusUpdating;
+
     return (
         <div className={styles.popupOverlay} onClick={handleOverlayClick}>
             <button className={styles.closeButton} onClick={handleClose}>
@@ -105,11 +108,11 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                     </div>
                     <div className={styles.infoSection}>
                         <p className={styles.price}>Giá cơ bản: {formattedPrice}</p>
-                        <p className={styles.price}>Tổng giá: {formattedTotalPrice}</p>
                         <div className={styles.description}>
                             {product.description.split('\n').map((line, index) => (
                                 <p key={index}>{line}</p>
                             ))}
+                            <p className={statusClass}>{product.status}</p> {/* Sửa lỗi class */}
                         </div>
                         <div className={styles.optionsSection}>
                             <div className={styles.paperOptions}>
@@ -129,7 +132,11 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                 </div>
                             </div>
                             <div className={styles.actionButtons}>
-                                <button className={styles.customizeButton} onClick={handleUseTemplate}>
+                                <button
+                                    className={styles.customizeButton}
+                                    onClick={handleUseTemplate}
+                                    disabled={!isReady}
+                                >
                                     Sử dụng mẫu này với giá {formattedTotalPrice}
                                 </button>
                                 <button className={styles.favoriteButton}>
