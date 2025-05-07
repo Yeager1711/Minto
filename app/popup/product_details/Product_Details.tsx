@@ -29,10 +29,23 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const [isClosing, setIsClosing] = useState(false);
     const [quantity, setQuantity] = useState<number>(1);
 
+    // Reset isClosing when product changes or popup opens
+    useEffect(() => {
+        setIsClosing(false); // Reset closing state when product changes
+        return () => {
+            // Cleanup any pending timeouts on unmount
+            setIsClosing(false);
+        };
+    }, [product]);
+
+    // Handle closing animation
     useEffect(() => {
         if (isClosing) {
-            const timer = setTimeout(onClose, 300);
-            return () => clearTimeout(timer);
+            const timer = setTimeout(() => {
+                onClose();
+                setIsClosing(false); // Reset after closing
+            }, 300);
+            return () => clearTimeout(timer); // Clear timeout on cleanup
         }
     }, [isClosing, onClose]);
 
@@ -46,12 +59,10 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
 
     const handleClose = () => {
         setIsClosing(true);
-        setTimeout(onClose, 300);
     };
 
     const handleUseTemplate = () => {
         const totalPrice = calculateTotalPrice();
-        console.log('Product ID:', product.id);
         router.push(`/template/${product.id}/edit/${product.id}?quantity=${quantity}&totalPrice=${totalPrice}`);
     };
 
