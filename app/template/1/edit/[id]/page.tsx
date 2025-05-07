@@ -54,6 +54,11 @@ const Template1Edit: React.FC = () => {
 
     const coupleImagesRef = useRef<HTMLDivElement>(null);
     const thumnailImagesRef = useRef<HTMLDivElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [selectedImage, setSelectedImage] = useState<{
+        type: 'banner' | 'groom' | 'bride' | 'couple' | 'thumnail';
+        index?: number;
+    } | null>(null);
 
     // Initialize weddingData with localStorage or default
     const [weddingDataState, setWeddingDataState] = useState<Template1WeddingData>(() => {
@@ -72,10 +77,80 @@ const Template1Edit: React.FC = () => {
 
     const handleInviteePopupClose = () => setShowInviteePopup(false);
 
+    // Handle image click to trigger file input
+    const handleImageClick = (type: 'banner' | 'groom' | 'bride' | 'couple' | 'thumnail', index?: number) => {
+        setSelectedImage({ type, index });
+        fileInputRef.current?.click();
+    };
+
+    // Handle file selection and update state
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file && selectedImage) {
+            // Validate file type and size
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const maxSizeInMB = 2; // 2MB limit to reduce Base64 size
+            if (!validTypes.includes(file.type)) {
+                alert('Vui lòng chọn file ảnh hợp lệ (JPEG, PNG, hoặc GIF).');
+                return;
+            }
+            if (file.size > maxSizeInMB * 1024 * 1024) {
+                alert(`Kích thước file vượt quá ${maxSizeInMB}MB.`);
+                return;
+            }
+
+            // Convert image to Base64
+            const reader = new FileReader();
+            reader.onload = () => {
+                const imageUrl = reader.result as string;
+
+                // Update state and save to localStorage
+                setWeddingDataState((prevState) => {
+                    const updatedData = { ...prevState };
+                    switch (selectedImage.type) {
+                        case 'banner':
+                            updatedData.banner.image = imageUrl;
+                            break;
+                        case 'groom':
+                            updatedData.couple.groom.image = imageUrl;
+                            break;
+                        case 'bride':
+                            updatedData.couple.bride.image = imageUrl;
+                            break;
+                        case 'couple':
+                            if (selectedImage.index !== undefined) {
+                                updatedData.coupleImages[selectedImage.index] = {
+                                    ...updatedData.coupleImages[selectedImage.index],
+                                    src: imageUrl,
+                                };
+                            }
+                            break;
+                        case 'thumnail':
+                            if (selectedImage.index !== undefined) {
+                                updatedData.thumnailImages[selectedImage.index] = {
+                                    ...updatedData.thumnailImages[selectedImage.index],
+                                    src: imageUrl,
+                                };
+                            }
+                            break;
+                    }
+                    // Save to localStorage
+                    localStorage.setItem('weddingData_template1', JSON.stringify(updatedData));
+                    return updatedData;
+                });
+            };
+            reader.readAsDataURL(file);
+
+            // Reset file input and selected image
+            event.target.value = '';
+            setSelectedImage(null);
+        }
+    };
+
     useEffect(() => {
         AOS.init();
 
-        // Handle couple images click
+        // Handle couple images click for centering
         const coupleImages = coupleImagesRef.current?.querySelectorAll(`.${styles.coupleImg}`);
         coupleImages?.forEach((img) => {
             const element = img as HTMLElement;
@@ -98,7 +173,7 @@ const Template1Edit: React.FC = () => {
             });
         });
 
-        // Handle thumbnail images click
+        // Handle thumbnail images click for centering
         const thumnailImages = thumnailImagesRef.current?.querySelectorAll(`.${styles.thumnailImg}`);
         thumnailImages?.forEach((img) => {
             const element = img as HTMLElement;
@@ -120,10 +195,26 @@ const Template1Edit: React.FC = () => {
 
     return (
         <div className={styles.bg}>
+            {/* Hidden file input for image selection */}
+            <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+            />
+
             <div className={styles.bannerImageHeader} data-aos="fade-up" data-aos-duration="1000">
-                <img src={weddingDataState.banner.image} alt="Wedding Banner" />
+                <img
+                    src={weddingDataState.banner.image}
+                    alt="Wedding Banner"
+                    onClick={() => handleImageClick('banner')}
+                    style={{ cursor: 'pointer' }}
+                />
                 <div className={styles.contentHeader}>
-                    <h3>{weddingDataState.couple.groom.name} & {weddingDataState.couple.bride.name}</h3>
+                    <h3>
+                        {weddingDataState.couple.groom.name} & {weddingDataState.couple.bride.name}
+                    </h3>
                 </div>
                 <div className={styles.infomation}>
                     <h2>{weddingDataState.invitation.title}</h2>
@@ -159,11 +250,21 @@ const Template1Edit: React.FC = () => {
                     <div className={styles.banner3} data-aos="zoom-in" data-aos-duration="1000">
                         <div className={styles.coupleInfo}>
                             <div className={styles.groom} data-aos="fade-right" data-aos-delay="300">
-                                <img src={weddingDataState.couple.groom.image} alt="Groom" />
+                                <img
+                                    src={weddingDataState.couple.groom.image}
+                                    alt="Groom"
+                                    onClick={() => handleImageClick('groom')}
+                                    style={{ cursor: 'pointer' }}
+                                />
                                 <h3>{weddingDataState.couple.groom.name}</h3>
                             </div>
                             <div className={styles.bride} data-aos="fade-left" data-aos-delay="300">
-                                <img src={weddingDataState.couple.bride.image} alt="Bride" />
+                                <img
+                                    src={weddingDataState.couple.bride.image}
+                                    alt="Bride"
+                                    onClick={() => handleImageClick('bride')}
+                                    style={{ cursor: 'pointer' }}
+                                />
                                 <h3>{weddingDataState.couple.bride.name}</h3>
                             </div>
                         </div>
@@ -184,6 +285,8 @@ const Template1Edit: React.FC = () => {
                                 className={clsx(styles.coupleImg, { [styles.centerImg]: img.isCenter })}
                                 data-aos="fade-up"
                                 data-aos-delay={(100 * (index + 1)).toString()}
+                                onClick={() => handleImageClick('couple', index)}
+                                style={{ cursor: 'pointer' }}
                             />
                         ))}
                     </div>
@@ -273,6 +376,8 @@ const Template1Edit: React.FC = () => {
                                     className={clsx(styles.thumnailImg, { [styles.centerImg]: img.isCenter })}
                                     data-aos="fade-up"
                                     data-aos-delay={(100 * (index + 1)).toString()}
+                                    onClick={() => handleImageClick('thumnail', index)}
+                                    style={{ cursor: 'pointer' }}
                                 />
                             ))}
                         </div>
@@ -282,8 +387,12 @@ const Template1Edit: React.FC = () => {
                         <div className={styles.dotLeft}></div>
                         <div className={styles.dotRight}></div>
                         <h1>Thanks You</h1>
-                        <span>Sự hiện diện của bạn là niềm vinh hạnh </span>
-                        <span style={{ display: 'block' }}>của chúng tôi</span>
+                        <span>
+                            Chúng tôi háo hức mong chờ đến chung vui trong ngày trọng đại của đời mình, một dấu mốc
+                            thiêng liêng và đáng nhớ. Sẽ thật trọn vẹn và ý nghĩa biết bao nếu có sự hiện diện cùng lời
+                            chúc phúc chân thành từ bạn trong
+                        </span>
+                        <span style={{ display: 'block' }}>khoảnh khắc đặc biệt ấy.</span>
                     </div>
                 </div>
             </div>

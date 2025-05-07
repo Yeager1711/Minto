@@ -20,7 +20,7 @@ const readyMadeProducts: Product[] = [
     {
         id: '1',
         name: 'Template 1',
-        image: '/images/m1/1.png',
+        image: '/images/m1/1.1.png',
         link: 'https://exquisite-tapioca-fae754.netlify.app/',
         price: 99000,
         description: 'Phong cách tối giản\nThanh lịch\nMàu sắc nhẹ nhàng\nDễ phối hợp\nHoàn hảo cho tiệc cưới hiện đại',

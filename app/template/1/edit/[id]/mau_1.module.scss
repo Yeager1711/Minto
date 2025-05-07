@@ -1,5 +1,5 @@
-/* components/mau_1.module.scss */
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400..700&family=Della+Respira&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100..400&display=swap');
+
 
 .bg {
     background: #a11414;
@@ -9,589 +9,591 @@
     width: 100%;
     margin: 0 auto; // Centers the container on larger screens
     padding-bottom: 2rem;
-    
-.dotLeft {
-    position: absolute;
-    top: -2.5rem;
-    left: -3.5rem;
-    width: 5rem;
-    height: 5rem;
-    background: #a11414;
-    border-radius: 5rem;
-}
 
-.dotRight {
-    position: absolute;
-    top: -2.5rem;
-    right: -3.5rem;
-    width: 5rem;
-    height: 5rem;
-    background: #a11414;
-    border-radius: 5rem;
-}
-.bannerImageHeader {
-    position: relative;
-    padding: 0;
-    margin: auto;
-    background: #a11414;
-
-    img {
-        width: 100%;
-        height: clamp(50vh, 70vh, 100vh);
-        object-fit: cover;
-        display: block;
-        border-bottom-left-radius: clamp(0.5rem, 2vw, 2rem);
-        border-bottom-right-radius: clamp(0.5rem, 2vw, 2rem);
-    }
-
-    .contentHeader {
+    .dotLeft {
         position: absolute;
-        padding: 0 1rem;
-        top: 13%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        width: 100%;
-
-        h3 {
-            font-size: clamp(5rem, 5rem, 7rem);
-            font-family: "Allura", cursive;
-            color: #333;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
+        top: -2.5rem;
+        left: -3.5rem;
+        width: 5rem;
+        height: 5rem;
+        background: #a11414;
+        border-radius: 5rem;
     }
 
-    .infomation {
+    .dotRight {
         position: absolute;
-        bottom: 10%;
-        right: clamp(3%, 5vw, 7%);
-        text-align: center;
-        color: #333;
-
-        h2 {
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            padding-bottom: clamp(0.5rem, 1vw, 1rem);
-            border-bottom: clamp(0.1rem, 0.2vw, 0.2rem) solid #333;
-            font-family: "Dancing Script", cursive;
-        }
-
-        .dateTime {
-            margin-top: clamp(1rem, 2vw, 2rem);
-            width: 100%;
-
-            span {
-                font-size: clamp(2rem, 4vw, 4rem);
-                font-weight: 550;
-                font-family: "Great Vibes", cursive;
-            }
-
-            .day {
-                text-align: center;
-                width: 100%;
-                margin-top: clamp(1rem, 2vw, 2rem);
-                font-size: clamp(2rem, 4vw, 4rem);
-                font-weight: 500;
-                padding-bottom: clamp(0.5rem, 1vw, 1rem);
-                border-bottom: clamp(0.1rem, 0.2vw, 0.2rem) solid #333;
-            }
-        }
-    }
-}
-
-.wrapper {
-    background: #a11414;
-    padding: 0 1rem;
-
-    .wrapperBanner {
-        background-color: #f8f1e9;
-        border-radius: clamp(0.5rem, 2vw, 2rem);
-        margin: clamp(2rem, 2vw, 2rem) clamp(0.3rem, 1vw, 1rem);
-        overflow: hidden;
-
-        .banner2 {
-            padding: clamp(0.5rem, 2vw, 2rem);
-            background-color: #f8f1e9;
-            text-align: center;
-
-            .loveQuote {
-                margin-bottom: clamp(1rem, 3vw, 3rem);
-                font-size: clamp(2rem, 2.5vw, 2.5rem);
-
-                h2 {
-                    font-size: clamp(1.8rem, 2.5vw, 2.5rem);
-                    font-family: "Dancing Script", cursive;
-                    color: #4a4a4a;
-                    line-height: 1.4;
-                    max-width: 90%;
-                    margin: 0 auto;
-                }
-            }
-
-            .familyInfo {
-                display: flex;
-                justify-content: center;
-                gap: clamp(1rem, 4vw, 4rem);
-
-                .groomFamily,
-                .brideFamily {
-                    flex: 1;
-                    max-width: min(25rem, 45%);
-                    padding: clamp(0.5rem, 2vw, 2rem);
-                    border-radius: clamp(0.5rem, 1vw, 1rem);
-
-                    h3 {
-                        font-size: clamp(1.4rem, 2vw, 2rem);
-                        color: #333;
-                        margin-bottom: clamp(0.5rem, 1vw, 1rem);
-                    }
-
-                    p {
-                        font-size: clamp(1.4rem, 1.6vw, 1.6rem);
-                        color: #555;
-                        margin: clamp(0.3rem, 0.5vw, 0.5rem) 0;
-                    }
-                }
-            }
-        }
-
-        .banner3 {
-            padding: clamp(0.5rem, 2vw, 1rem);
-            text-align: center;
-
-            .coupleInfo {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-
-                .groom,
-                .bride {
-                    flex: 1;
-                    max-width: min(25rem, 45%);
-                    text-align: center;
-
-                    img {
-                        width: 100%;
-                        max-width: 100%;
-                        height: 25rem;
-                        object-fit: cover;
-                        border-radius: clamp(0.5rem, 1.5vw, 1.5rem);
-                        margin-bottom: clamp(0.5rem, 1vw, 1rem);
-                        box-shadow: 0 4px 10px rgba(210, 73, 73, 0.2);
-                    }
-
-                    h3 {
-                        font-size: clamp(2.5rem, 3.5vw, 3.5rem);
-                        font-family: "Allura", cursive;
-                        color: #333;
-                    }
-                }
-            }
-        }
+        top: -2.5rem;
+        right: -3.5rem;
+        width: 5rem;
+        height: 5rem;
+        background: #a11414;
+        border-radius: 5rem;
     }
 
-    .banner4 {
+    .bannerImageHeader {
         position: relative;
-        text-align: center;
-        padding: clamp(0.5rem, 1vw, 1rem);
-        margin: clamp(0.5rem, 2vw, 2rem) clamp(0.3rem, 1vw, 1rem);
-        background: #fff;
-        border: 0.1rem solid #ddd;
-        border-radius: clamp(0.5rem, 2vw, 2rem);
+        padding: 0;
+        margin: auto;
+        background: #a11414;
+
+        img {
+            width: 100%;
+            height: clamp(50vh, 70vh, 100vh);
+            object-fit: cover;
+            display: block;
+            border-bottom-left-radius: clamp(0.5rem, 2vw, 2rem);
+            border-bottom-right-radius: clamp(0.5rem, 2vw, 2rem);
+        }
 
         .contentHeader {
-            margin-bottom: clamp(2rem, 5vw, 5rem);
+            position: absolute;
+            padding: 0 1rem;
+            top: 13%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
 
-            .invitationTitle {
+            h3 {
+                font-size: clamp(5rem, 5rem, 7rem);
                 font-family: "Allura", cursive;
-                font-size: clamp(2.5rem, 5vw, 5rem);
                 color: #333;
-                margin-bottom: clamp(0.3rem, 0.5vw, 0.5rem);
-            }
-
-            .eventTitle {
-                font-family: "Dancing Script", cursive;
-                font-size: clamp(1.2rem, 2vw, 2rem);
-                color: #333;
-                text-transform: uppercase;
-            }
-        }
-
-        .coupleImages {
-            display: flex;
-            justify-content: center;
-            margin-top: 2rem;
-            gap: clamp(2.3rem, 3vw, 8rem);
-            padding: 2rem 0;
-
-            .coupleImg {
-                width: min(30%, 42%);
-                object-fit: cover;
-                border-radius: clamp(0.3rem, 0.5vw, 0.5rem);
-                transform: scale(0.9);
-                cursor: pointer;
-                transition: transform 0.5s ease-in-out, order 0.5s ease-in-out;
-                
-                order: 0;
-            }
-
-            .centerImg {
-                transform: scale(1.25) !important;
-                order: 0 !important;
-                z-index: 10;
-            }
-
-            @media (min-width: 1024px) {
-                margin-top: 10rem;
+                font-weight: 600;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                text-transform: capitalize;
             }
         }
 
         .infomation {
-            margin: clamp(2rem, 5vw, 5rem) 0 0 0;
+            position: absolute;
+            bottom: 10%;
+            right: clamp(3%, 5vw, 7%);
+            text-align: center;
+            color: #333;
 
-            .eventDetails {
-                font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-                color: #333;
-                margin-bottom: clamp(0.8rem, 1.5vw, 1.5rem);
+            h2 {
+                font-weight: 500;
+                text-transform: uppercase;
+                font-size: clamp(1.5rem, 5vw, 2.5rem);
+                padding-bottom: clamp(0.5rem, 1vw, 1rem);
+                border-bottom: clamp(0.1rem, 0.2vw, 0.2rem) solid #333;
+                font-family: "Dancing Script", cursive;
             }
 
-            .eventTime {
-                font-size: clamp(1.2rem, 1.7vw, 1.7rem);
-                color: #333;
-                margin-bottom: clamp(0.8rem, 1.5vw, 1.5rem);
-            }
+            .dateTime {
+                margin-top: clamp(1rem, 2vw, 2rem);
+                width: 100%;
 
-            .dateContainer {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: clamp(0.5rem, 2vw, 2rem);
-                margin: clamp(1rem, 2vw, 2rem) 0 clamp(2rem, 4vw, 4rem) 0;
-
-                .time {
-                    font-weight: 600;
-                    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-                }
-
-                .column {
-                    .dayOfWeek {
-                        font-size: clamp(1.2rem, 2vw, 2rem);
-                        display: block;
-                        font-weight: 600;
-                        position: relative;
-
-                        &::before {
-                            content: '';
-                            position: absolute;
-                            top: clamp(2rem, 4vw, 4rem);
-                            left: 0;
-                            width: clamp(0.1rem, 0.2vw, 0.2rem);
-                            height: clamp(3rem, 6vw, 6rem);
-                            background: #333;
-                        }
-
-                        &::after {
-                            content: '';
-                            position: absolute;
-                            top: clamp(2rem, 4vw, 4rem);
-                            right: 0;
-                            width: clamp(0.1rem, 0.2vw, 0.2rem);
-                            height: clamp(3rem, 6vw, 6rem);
-                            background: #333;
-                        }
-                    }
-
-                    .month {
-                        font-size: clamp(1.5rem, 3vw, 3rem);
-                        display: block;
-                        font-weight: 600;
-                        color: #333;
-                    }
-                }
-
-                .year {
-                    font-family: "Great Vibes", cursive;
+                span {
                     font-size: clamp(2rem, 4vw, 4rem);
-                    font-weight: 600;
-                    color: #333;
+                    font-weight: 550;
+                    font-family: "Great Vibes", cursive;
                 }
 
                 .day {
-                    font-family: "Great Vibes", cursive;
-                    font-size: clamp(4rem, 7vw, 7rem);
-                    color: #333;
-                    font-weight: 600;
-                }
-            }
-
-            .lunarDate {
-                font-size: clamp(1.2rem, 1.8vw, 1.8rem);
-                color: #555;
-                margin-bottom: clamp(0.5rem, 1vw, 1rem);
-            }
-
-            .monthYear {
-                font-family: "Allura", cursive;
-                font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-                color: #333;
-            }
-        }
-
-        .calendar {
-            margin-top: clamp(0.5rem, 1vw, 1rem);
-            background: #f5f5f5;
-            padding: clamp(0.3rem, 1vw, 1rem);
-            border-radius: clamp(0.3rem, 0.5vw, 0.5rem);
-
-            h3 {
-                font-size: 2rem;
-                padding: 0 0 2rem 0;
-            }
-
-            .calendarHeader {
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                text-align: center;
-                font-family: "Dancing Script", cursive;
-                font-size: clamp(0.7rem, 1.1vw, 1.1rem);
-                color: #333;
-                margin-bottom: clamp(0.3rem, 0.5vw, 0.5rem);
-            }
-
-            .calendarBody {
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                text-align: center;
-                font-family: "Dancing Script", cursive;
-                font-size: clamp(0.8rem, 1.4vw, 1.4rem);
-                color: #333;
-
-                span {
-                    padding: clamp(0.5rem, 1.5vw, 1.5rem);
-                }
-
-                .highlight {
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: clamp(2rem, 3vw, 3rem);
-                    height: clamp(2rem, 3vw, 3rem);
-                    margin: 0 auto;
-                    color: #fff;
-                    font-size: clamp(1rem, 1.4vw, 1.4rem);
-                    font-family: "Dancing Script", cursive;
-                }
-
-                .highlightContent {
-                    position: relative;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 1;
-
-                    .heartIcon {
-                        position: absolute;
-                        font-size: clamp(2rem, 3vw, 3rem);
-                        color: red;
-                        z-index: 0;
-                    }
-
-                    span {
-                        position: relative;
-                        z-index: 1;
-                        font-family: "Allura", cursive;
-                        font-size: clamp(1.2rem, 1.7vw, 1.7rem);
-                        font-weight: 600;
-                        color: #fff;
-                    }
-                }
-            }
-        }
-
-        .location {
-            margin: 6rem 0 0 0;
-            border-top: 0.2rem dashed #a11414;
-            padding: 4rem 0 1rem 0;
-            text-align: center;
-            position: relative;
-
-            h4 {
-                font-family: "Allura", cursive;
-                font-size: 4rem;
-                position: relative;
-                text-align: center;
-                background: #fff;
-                padding: 0 clamp(1rem, 2vw, 2rem) 0 0;
-            }
-
-            .locationContent {
-                overflow: hidden;
-                margin: 2rem 0;
-                padding: 1rem;
-
-                h5 {
-                    font-family: "Allura", cursive;
-                    font-size: 2rem;
-                }
-
-                p {
-                    padding: 1rem;
-                    font-size: 1.25rem;
-                }
-
-                iframe {
-                    max-width: 100%;
-                    border-radius: 1rem;
+                    text-align: center;
                     width: 100%;
-                    height: 30rem;
+                    margin-top: clamp(1rem, 2vw, 2rem);
+                    font-size: clamp(2rem, 4vw, 4rem);
+                    font-weight: 500;
+                    padding-bottom: clamp(0.5rem, 1vw, 1rem);
+                    border-bottom: clamp(0.1rem, 0.2vw, 0.2rem) solid #333;
                 }
-            }
-        }
-
-        .thumnail {
-            margin: clamp(1rem, 2vw, 2rem) auto;
-            padding: clamp(0.5rem, 1vw, 1rem);
-            text-align: center;
-            border-top: 0.2rem dashed #a11414;
-            position: relative;
-
-            h4 {
-                font-family: "Allura", cursive;
-                font-size: 3rem;
-                color: #333;
-                margin-bottom: clamp(0.5rem, 1vw, 1rem);
-                padding: 2rem 0 2rem 0;
-            }
-
-            .thumnailImages {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: clamp(0.3rem, 0.8vw, 0.8rem);
-                max-width: 1200px;
-                margin: 0 auto;
-                position: relative;
-                padding: clamp(1rem, 2vw, 2rem);
-                margin-top: 2rem;
-
-                .thumnailImg {
-                    cursor: pointer;
-                    transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
-                    border-radius: clamp(0.5rem, 0.7vw, 0.7rem);
-                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-                    object-fit: cover;
-                    position: relative;
-                    z-index: 1;
-
-                    &:nth-child(1) {
-                        width: clamp(140px, 18vw, 180px);
-                        height: clamp(180px, 23vw, 230px);
-                        transform: translate(-10px, 10px) rotate(-7deg);
-                    }
-
-                    &:nth-child(2) {
-                        width: clamp(220px, 28vw, 260px);
-                        height: clamp(260px, 33vw, 310px);
-                        transform: translate(0, -20px) rotate(5deg);
-                        z-index: 2;
-                    }
-
-                    &:nth-child(3) {
-                        width: clamp(160px, 20vw, 200px);
-                        height: clamp(200px, 25vw, 250px);
-                        transform: translate(15px, 15px) rotate(-3deg);
-                    }
-
-                    &:nth-child(4) {
-                        width: clamp(180px, 22vw, 220px);
-                        height: clamp(220px, 27vw, 270px);
-                        transform: translate(-15px, -10px) rotate(8deg);
-                    }
-
-                    &:nth-child(5) {
-                        width: clamp(200px, 25vw, 240px);
-                        height: clamp(240px, 30vw, 290px);
-                        transform: translate(10px, 20px) rotate(-4deg);
-                    }
-
-                    &.centerImg {
-                        transform: scale(1.3) translate(0, 0) rotate(0deg);
-                        z-index: 20;
-                        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-                        border: 3px solid #ff4d4d;
-                        border-radius: clamp(0.7rem, 0.9vw, 0.9rem);
-                        filter: brightness(1.1);
-                    }
-
-                    &:hover:not(.centerImg) {
-                        transform: translate(0, -5px) rotate(0deg);
-                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                    }
-                }
-            }
-
-            @media screen and (max-width: 768px) {
-                .thumnailImages {
-                    gap: clamp(0.5rem, 1.5vw, 1rem);
-                    justify-content: space-between;
-
-                    .thumnailImg {
-                        width: calc(50% - clamp(0.5rem, 1.5vw, 1rem));
-                        height: clamp(150px, 40vw, 200px);
-                        transform: none;
-                        border-radius: clamp(0.3rem, 0.5vw, 0.5rem);
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                        margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
-
-                        &:nth-child(1),
-                        &:nth-child(2),
-                        &:nth-child(3),
-                        &:nth-child(4),
-                        &:nth-child(5) {
-                            width: calc(50% - clamp(0.5rem, 1.5vw, 1rem));
-                            height: clamp(150px, 40vw, 200px);
-                            transform: none;
-                            z-index: 1;
-                        }
-
-                        &.centerImg {
-                            transform: scale(1.2);
-                            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-                            border: 2px solid #ff4d4d;
-                            filter: brightness(1.1);
-                            z-index: 20;
-                        }
-
-                        &:hover:not(.centerImg) {
-                            transform: translateY(-5px);
-                            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-                        }
-                    }
-                }
-            }
-        }
-
-        .bestRegards {
-            margin: clamp(1rem, 2vw, 2rem) auto;
-            padding: clamp(0.5rem, 1vw, 1rem);
-            text-align: center;
-            border-top: 0.2rem dashed #a11414;
-            position: relative;
-            padding: 2rem 0;
-
-            h1 {
-                font-size: 3rem;
-                font-family: "Allura", cursive;
-            }
-
-            span {
-                font-family: "Dancing Script", cursive;
-                font-size: 2.3rem;
             }
         }
     }
-}
+
+    .wrapper {
+        background: #a11414;
+        padding: 0 1rem;
+
+        .wrapperBanner {
+            background-color: #f8f1e9;
+            border-radius: clamp(0.5rem, 2vw, 2rem);
+            margin: clamp(2rem, 2vw, 2rem) clamp(0.3rem, 1vw, 1rem);
+            overflow: hidden;
+
+            .banner2 {
+                padding: clamp(0.5rem, 2vw, 2rem);
+                background-color: #f8f1e9;
+                text-align: center;
+
+                .loveQuote {
+                    margin-bottom: clamp(1rem, 3vw, 3rem);
+                    font-size: clamp(2rem, 2.5vw, 2.5rem);
+
+                    h2 {
+                        font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+                        font-family: "Dancing Script", cursive;
+                        color: #4a4a4a;
+                        line-height: 1.4;
+                        max-width: 90%;
+                        margin: 0 auto;
+                    }
+                }
+
+                .familyInfo {
+                    display: flex;
+                    justify-content: center;
+                    gap: clamp(1rem, 4vw, 4rem);
+
+                    .groomFamily,
+                    .brideFamily {
+                        flex: 1;
+                        max-width: min(25rem, 45%);
+                        padding: 1 0;
+                        border-radius: clamp(0.5rem, 1vw, 1rem);
+
+                        h3 {
+                            font-size: clamp(1.4rem, 2vw, 2rem);
+                            color: #333;
+                            margin-bottom: clamp(0.5rem, 1vw, 1rem);
+                        }
+
+                        p {
+                            font-size: clamp(1.4rem, 1.6vw, 1.6rem);
+                            color: #555;
+                            padding: .7rem 0;
+                        }
+                    }
+                }
+            }
+
+            .banner3 {
+                padding: clamp(0.5rem, 2vw, 1rem);
+                text-align: center;
+
+                .coupleInfo {
+                    display: flex;
+                    justify-content: center;
+                    gap: 1.5rem;
+
+                    .groom,
+                    .bride {
+                        flex: 1;
+                        max-width: min(25rem, 45%);
+                        text-align: center;
+
+                        img {
+                            width: 100%;
+                            max-width: 100%;
+                            height: 25rem;
+                            object-fit: cover;
+                            border-radius: clamp(0.5rem, 1.5vw, 1.5rem);
+                            margin-bottom: clamp(0.5rem, 1vw, 1rem);
+                            box-shadow: 0 4px 10px rgba(210, 73, 73, 0.2);
+                        }
+
+                        h3 {
+                            font-size: clamp(2.5rem, 3.5vw, 3.5rem);
+                            font-family: "Allura", cursive;
+                            color: #333;
+                        }
+                    }
+                }
+            }
+        }
+
+        .banner4 {
+            position: relative;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin: clamp(0.5rem, 2vw, 2rem) clamp(0.3rem, 1vw, 1rem);
+            background: #fff;
+            border: 0.1rem solid #ddd;
+            border-radius: clamp(0.5rem, 2vw, 2rem);
+
+            .contentHeader {
+                margin-bottom: clamp(2rem, 5vw, 5rem);
+
+                .invitationTitle {
+                    font-family: "Allura", cursive;
+                    font-size: clamp(2.5rem, 5vw, 5rem);
+                    color: #333;
+                    margin-bottom: clamp(0.3rem, 0.5vw, 0.5rem);
+                }
+
+                .eventTitle {
+                    font-family: "Dancing Script", cursive;
+                    font-size: clamp(1.2rem, 2vw, 2rem);
+                    color: #333;
+                    text-transform: uppercase;
+                }
+            }
+
+            .coupleImages {
+                display: flex;
+                justify-content: center;
+                margin-top: 2rem;
+                gap: clamp(2.3rem, 2vw, 8rem);
+                padding: 2rem 0;
+
+                .coupleImg {
+                    width: min(30%, 42%);
+                    object-fit: cover;
+                    border-radius: clamp(0.3rem, 0.5vw, 0.5rem);
+                    transform: scale(0.9);
+                    cursor: pointer;
+                    transition: transform 0.5s ease-in-out, order 0.5s ease-in-out;
+
+                    order: 0;
+                }
+
+                .centerImg {
+                    transform: scale(1.4) !important;
+                    order: 0 !important;
+                    z-index: 10;
+                }
+
+                @media (min-width: 1024px) {
+                    margin-top: 4rem;
+                }
+            }
+
+            .infomation {
+                margin: clamp(2rem, 5vw, 5rem) 0 0 0;
+
+                .eventDetails {
+                    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+                    color: #333;
+                    margin-bottom: clamp(0.8rem, 1.5vw, 1.5rem);
+                }
+
+                .eventTime {
+                    font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+                    color: #333;
+                    margin-bottom: clamp(0.8rem, 1.5vw, 1.5rem);
+                }
+
+                .dateContainer {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: clamp(0.5rem, 2vw, 2rem);
+                    margin: clamp(1rem, 2vw, 2rem) 0 clamp(2rem, 4vw, 4rem) 0;
+
+                    .time {
+                        font-weight: 600;
+                        font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+                    }
+
+                    .column {
+                        .dayOfWeek {
+                            font-size: clamp(1.2rem, 2vw, 2rem);
+                            display: block;
+                            font-weight: 600;
+                            position: relative;
+
+                            &::before {
+                                content: '';
+                                position: absolute;
+                                top: clamp(2rem, 4vw, 4rem);
+                                left: 0;
+                                width: clamp(0.1rem, 0.2vw, 0.2rem);
+                                height: clamp(3rem, 6vw, 6rem);
+                                background: #333;
+                            }
+
+                            &::after {
+                                content: '';
+                                position: absolute;
+                                top: clamp(2rem, 4vw, 4rem);
+                                right: 0;
+                                width: clamp(0.1rem, 0.2vw, 0.2rem);
+                                height: clamp(3rem, 6vw, 6rem);
+                                background: #333;
+                            }
+                        }
+
+                        .month {
+                            font-size: clamp(1.5rem, 3vw, 3rem);
+                            display: block;
+                            font-weight: 600;
+                            color: #333;
+                        }
+                    }
+
+                    .year {
+                        font-family: "Great Vibes", cursive;
+                        font-size: clamp(2rem, 4vw, 4rem);
+                        font-weight: 600;
+                        color: #333;
+                    }
+
+                    .day {
+                        font-family: "Great Vibes", cursive;
+                        font-size: clamp(4rem, 7vw, 7rem);
+                        color: #333;
+                        font-weight: 600;
+                    }
+                }
+
+                .lunarDate {
+                    font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+                    color: #555;
+                    margin-bottom: clamp(0.5rem, 1vw, 1rem);
+                }
+
+                .monthYear {
+                    font-family: "Allura", cursive;
+                    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+                    color: #333;
+                }
+            }
+
+            .calendar {
+                margin-top: clamp(0.5rem, 1vw, 1rem);
+                background: #f5f5f5;
+                padding: clamp(0.3rem, 1vw, 1rem);
+                border-radius: clamp(0.3rem, 0.5vw, 0.5rem);
+
+                h3 {
+                    font-size: 2rem;
+                    padding: 0 0 2rem 0;
+                }
+
+                .calendarHeader {
+                    display: grid;
+                    grid-template-columns: repeat(7, 1fr);
+                    text-align: center;
+                    font-family: "Dancing Script", cursive;
+                    font-size: clamp(0.7rem, 1.1vw, 1.1rem);
+                    color: #333;
+                    margin-bottom: clamp(0.3rem, 0.5vw, 0.5rem);
+                }
+
+                .calendarBody {
+                    display: grid;
+                    grid-template-columns: repeat(7, 1fr);
+                    text-align: center;
+                    font-family: "Dancing Script", cursive;
+                    font-size: clamp(0.8rem, 1.4vw, 1.4rem);
+                    color: #333;
+
+                    span {
+                        padding: clamp(0.5rem, 1.5vw, 1.5rem);
+                    }
+
+                    .highlight {
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: clamp(2rem, 3vw, 3rem);
+                        height: clamp(2rem, 3vw, 3rem);
+                        margin: 0 auto;
+                        color: #fff;
+                        font-size: clamp(1rem, 1.4vw, 1.4rem);
+                        font-family: "Dancing Script", cursive;
+                    }
+
+                    .highlightContent {
+                        position: relative;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 1;
+
+                        .heartIcon {
+                            position: absolute;
+                            font-size: clamp(2rem, 3vw, 3rem);
+                            color: red;
+                            z-index: 0;
+                        }
+
+                        span {
+                            position: relative;
+                            z-index: 1;
+                            font-family: "Allura", cursive;
+                            font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+                            font-weight: 600;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+
+            .location {
+                margin: 6rem 0 0 0;
+                border-top: 0.2rem dashed #a11414;
+                padding: 4rem 0 1rem 0;
+                text-align: center;
+                position: relative;
+
+                h4 {
+                    font-family: "Allura", cursive;
+                    font-size: 4rem;
+                    position: relative;
+                    text-align: center;
+                    background: #fff;
+                    padding: 0 clamp(1rem, 2vw, 2rem) 0 0;
+                }
+
+                .locationContent {
+                    overflow: hidden;
+                    margin: 2rem 0;
+                    padding: 1rem;
+
+                    h5 {
+                        font-family: "Allura", cursive;
+                        font-size: 2rem;
+                    }
+
+                    p {
+                        padding: 1rem;
+                        font-size: 1.25rem;
+                    }
+
+                    iframe {
+                        max-width: 100%;
+                        border-radius: 1rem;
+                        width: 100%;
+                        height: 30rem;
+                    }
+                }
+            }
+
+            .thumnail {
+                margin: clamp(1rem, 2vw, 2rem) auto;
+                padding: clamp(0.5rem, 1vw, 1rem);
+                text-align: center;
+                border-top: 0.2rem dashed #a11414;
+                position: relative;
+
+                h4 {
+                    font-family: "Allura", cursive;
+                    font-size: 3rem;
+                    color: #333;
+                    margin-bottom: clamp(0.5rem, 1vw, 1rem);
+                    padding: 2rem 0 2rem 0;
+                }
+
+                .thumnailImages {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    gap: clamp(0.3rem, 0.8vw, 0.8rem);
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    position: relative;
+                    padding: clamp(1rem, 2vw, 2rem);
+                    margin-top: 2rem;
+
+                    .thumnailImg {
+                        cursor: pointer;
+                        transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+                        border-radius: clamp(0.5rem, 0.7vw, 0.7rem);
+                        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                        object-fit: cover;
+                        position: relative;
+                        z-index: 1;
+
+                        &:nth-child(1) {
+                            width: clamp(140px, 18vw, 180px);
+                            height: clamp(180px, 23vw, 230px);
+                            transform: translate(-10px, 10px) rotate(-7deg);
+                        }
+
+                        &:nth-child(2) {
+                            width: clamp(220px, 28vw, 260px);
+                            height: clamp(260px, 33vw, 310px);
+                            transform: translate(0, -20px) rotate(5deg);
+                            z-index: 2;
+                        }
+
+                        &:nth-child(3) {
+                            width: clamp(160px, 20vw, 200px);
+                            height: clamp(200px, 25vw, 250px);
+                            transform: translate(15px, 15px) rotate(-3deg);
+                        }
+
+                        &:nth-child(4) {
+                            width: clamp(180px, 22vw, 220px);
+                            height: clamp(220px, 27vw, 270px);
+                            transform: translate(-15px, -10px) rotate(8deg);
+                        }
+
+                        &:nth-child(5) {
+                            width: clamp(200px, 25vw, 240px);
+                            height: clamp(240px, 30vw, 290px);
+                            transform: translate(10px, 20px) rotate(-4deg);
+                        }
+
+                        &.centerImg {
+                            transform: scale(1.3) translate(0, 0) rotate(0deg);
+                            z-index: 20;
+                            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+                            border: 3px solid #ff4d4d;
+                            border-radius: clamp(0.7rem, 0.9vw, 0.9rem);
+                            filter: brightness(1.1);
+                        }
+
+                        &:hover:not(.centerImg) {
+                            transform: translate(0, -5px) rotate(0deg);
+                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                        }
+                    }
+                }
+
+                @media screen and (max-width: 768px) {
+                    .thumnailImages {
+                        gap: clamp(0.5rem, 1.5vw, 1rem);
+                        justify-content: space-between;
+
+                        .thumnailImg {
+                            width: calc(50% - clamp(0.5rem, 1.5vw, 1rem));
+                            height: clamp(150px, 40vw, 200px);
+                            transform: none;
+                            border-radius: clamp(0.3rem, 0.5vw, 0.5rem);
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+
+                            &:nth-child(1),
+                            &:nth-child(2),
+                            &:nth-child(3),
+                            &:nth-child(4),
+                            &:nth-child(5) {
+                                width: calc(50% - clamp(0.5rem, 1.5vw, 1rem));
+                                height: clamp(150px, 40vw, 200px);
+                                transform: none;
+                                z-index: 1;
+                            }
+
+                            &.centerImg {
+                                transform: scale(1.2);
+                                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+                                border: 2px solid #ff4d4d;
+                                filter: brightness(1.1);
+                                z-index: 20;
+                            }
+
+                            &:hover:not(.centerImg) {
+                                transform: translateY(-5px);
+                                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .bestRegards {
+                margin: clamp(1rem, 2vw, 2rem) auto;
+                padding: clamp(0.5rem, 1vw, 1rem);
+                text-align: center;
+                border-top: 0.2rem dashed #a11414;
+                position: relative;
+                padding: 2rem 0;
+
+                h1 {
+                    font-size: 3rem;
+                    font-family: "Allura", cursive;
+                }
+
+                span {
+                    font-family: "Dancing Script", cursive;
+                    font-size: 2.3rem;
+                }
+            }
+        }
+    }
 }
