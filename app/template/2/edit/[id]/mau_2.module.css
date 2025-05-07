@@ -298,14 +298,14 @@
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 6rem;
-  margin-left: 8rem;
+  margin: 2rem 0 0 8rem;
 }
 .mau_2_container .mau_2 .story .Timing_Hook .Timing_Hook__content h4 {
   color: #333;
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 4rem;
-  margin-left: 8rem;
+  margin: 2rem 0 0 8rem;
 }
 .mau_2_container .mau_2 .story .Timing_Hook .Timing_Hook__content h4 span {
   font-size: 3rem;
@@ -318,11 +318,12 @@
   text-align: center;
 }
 .mau_2_container .mau_2 .story .content_story {
+  margin-left: -2rem;
   border-radius: 1rem;
   padding: 2rem;
   max-width: 60rem;
   width: 100%;
-  transform: rotate(-8deg);
+  transform: rotate(-4deg);
   border: 0.2rem dashed #a11414;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
@@ -388,23 +389,26 @@
 }
 .mau_2_container .mau_2 .story_bride {
   margin: 5rem 0 0 0;
+  padding: 0 1.5rem;
 }
 .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
 }
 .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h3 {
   color: #333;
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 4rem;
+  margin: 0;
 }
 .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 {
   color: #333;
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 2.5rem;
+  margin: 0;
 }
 .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 span {
   font-size: 2.5rem;
@@ -415,7 +419,7 @@
   flex: 1 1 22rem;
 }
 .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h2 {
-  margin-top: 2rem;
+  margin: 2rem 0 0;
   margin-left: 0;
   font-size: 4rem;
   font-family: "Herr Von Muellerhoff", cursive;
@@ -462,6 +466,7 @@
 }
 .mau_2_container .mau_2 .story_groom {
   margin: 5rem 0 0 0;
+  padding: 0 1.5rem;
 }
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content {
   display: flex;
@@ -473,12 +478,14 @@
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 4rem;
+  margin: 0;
 }
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 {
   color: #333;
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 2.5rem;
+  margin: 0;
 }
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 span {
   font-size: 2.5rem;
@@ -489,7 +496,7 @@
   flex: 1 1 22rem;
 }
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h2 {
-  margin-top: 2rem;
+  margin: 2rem 0 0;
   margin-left: 0;
   font-size: 4rem;
   font-family: "Herr Von Muellerhoff", cursive;
