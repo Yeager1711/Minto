@@ -9,7 +9,7 @@ import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-const TemPlate1: React.FC = () => {
+const TemPlate1Invitee: React.FC = () => {
     const coupleImagesRef = useRef<HTMLDivElement>(null);
     const thumnailImagesRef = useRef<HTMLDivElement>(null);
 
@@ -223,8 +223,12 @@ const TemPlate1: React.FC = () => {
                         <div className={styles.dotLeft}></div>
                         <div className={styles.dotRight}></div>
                         <h1>Thanks You</h1>
-                        <span>Sự hiện diện của bạn là niềm vinh hạnh </span>
-                        <span style={{ display: 'block' }}>của chúng tôi</span>
+                        <span>
+                            Chúng tôi háo hức mong chờ đến chung vui trong ngày trọng đại của đời mình – một dấu mốc
+                            thiêng liêng và đáng nhớ. Sẽ thật trọn vẹn và ý nghĩa biết bao nếu có sự hiện diện cùng lời
+                            chúc phúc chân thành từ bạn trong
+                        </span>
+                        <span style={{ display: 'block' }}>khoảnh khắc đặc biệt ấy.</span>
                     </div>
                 </div>
             </div>
@@ -232,4 +236,4 @@ const TemPlate1: React.FC = () => {
     );
 };
 
-export default TemPlate1;
+export default TemPlate1Invitee;
