@@ -53,7 +53,7 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 text-align: center;
-                color: #333;
+                color: #544c46;
                 max-width: 45rem;
                 width: 90%;
                 height: auto;
@@ -67,11 +67,12 @@
                     font-family: "Della Respira", serif;
                     text-transform: uppercase;
                     font-size: clamp(2.8rem, 8vw, 4.2rem);
-                    color: #333;
+                    color: #544c46;
                     max-width: 100%;
                     margin: 0.5rem 0;
                     padding: 0;
                     text-align: center;
+                    margin-bottom: 1.5rem;
                 }
 
                 .bride_names {
@@ -79,11 +80,12 @@
                     font-family: "Della Respira", serif;
                     text-transform: uppercase;
                     font-size: clamp(2.8rem, 8vw, 4.2rem);
-                    color: #333;
+                    color: #544c46;
                     max-width: 100%;
                     margin: 0.5rem 0;
                     padding: 0;
                     text-align: center;
+                    margin-top: 1.5rem;
                 }
 
                 .invite_message {
@@ -743,7 +745,7 @@
                         margin-bottom: 2rem;
                         display: block;
                         margin-left: 16rem;
-                        
+
                         &:nth-child(1) {
                             max-width: 33rem;
                             height: 23rem;

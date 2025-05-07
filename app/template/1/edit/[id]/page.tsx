@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import EditControls from '../../../control/EditControl';
+import InviteePopup from 'app/popup/InviteePopup/InviteePopup';
 
 interface Template1WeddingData {
     banner: { image: string };
@@ -63,15 +64,45 @@ const Template1Edit: React.FC = () => {
     // Initialize weddingData with localStorage or default
     const [weddingDataState, setWeddingDataState] = useState<Template1WeddingData>(() => {
         const savedData = localStorage.getItem('weddingData_template1');
-        return savedData ? JSON.parse(savedData) : weddingData;
+        const parsedData = savedData ? JSON.parse(savedData) : weddingData;
+        // Đảm bảo highlightDay hợp lệ
+        const highlightDay = parseInt(parsedData.invitation.day, 10) || parsedData.calendar.highlightDay;
+        return {
+            ...parsedData,
+            calendar: {
+                ...parsedData.calendar,
+                highlightDay,
+            },
+        };
     });
 
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [showInviteePopup, setShowInviteePopup] = useState(false);
 
     const handleSaveEdit = (updatedData: Template1WeddingData) => {
-        setWeddingDataState(updatedData);
-        localStorage.setItem('weddingData_template1', JSON.stringify(updatedData));
+        // Kiểm tra và đồng bộ calendar.highlightDay với invitation.day
+        const dayNumber = parseInt(updatedData.invitation.day, 10);
+        if (isNaN(dayNumber) || dayNumber < 1 || dayNumber > 31) {
+            alert('Ngày cưới không hợp lệ. Vui lòng nhập số từ 1 đến 31.');
+            return;
+        }
+
+        // Cập nhật calendar.days nếu cần (đảm bảo chứa highlightDay)
+        const updatedDays = Array.from({ length: Math.max(31, dayNumber) }, (_, i) => i + 1);
+
+        const updatedDataWithHighlight = {
+            ...updatedData,
+            calendar: {
+                ...updatedData.calendar,
+                highlightDay: dayNumber,
+                days: updatedDays,
+            },
+        };
+
+        console.log('Saving updatedData:', updatedDataWithHighlight); // Debug
+
+        setWeddingDataState(updatedDataWithHighlight);
+        localStorage.setItem('weddingData_template1', JSON.stringify(updatedDataWithHighlight));
         setShowEditPopup(false);
     };
 
@@ -87,9 +118,8 @@ const Template1Edit: React.FC = () => {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file && selectedImage) {
-            // Validate file type and size
             const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            const maxSizeInMB = 2; // 2MB limit to reduce Base64 size
+            const maxSizeInMB = 2;
             if (!validTypes.includes(file.type)) {
                 alert('Vui lòng chọn file ảnh hợp lệ (JPEG, PNG, hoặc GIF).');
                 return;
@@ -99,12 +129,9 @@ const Template1Edit: React.FC = () => {
                 return;
             }
 
-            // Convert image to Base64
             const reader = new FileReader();
             reader.onload = () => {
                 const imageUrl = reader.result as string;
-
-                // Update state and save to localStorage
                 setWeddingDataState((prevState) => {
                     const updatedData = { ...prevState };
                     switch (selectedImage.type) {
@@ -134,14 +161,11 @@ const Template1Edit: React.FC = () => {
                             }
                             break;
                     }
-                    // Save to localStorage
                     localStorage.setItem('weddingData_template1', JSON.stringify(updatedData));
                     return updatedData;
                 });
             };
             reader.readAsDataURL(file);
-
-            // Reset file input and selected image
             event.target.value = '';
             setSelectedImage(null);
         }
@@ -149,8 +173,6 @@ const Template1Edit: React.FC = () => {
 
     useEffect(() => {
         AOS.init();
-
-        // Handle couple images click for centering
         const coupleImages = coupleImagesRef.current?.querySelectorAll(`.${styles.coupleImg}`);
         coupleImages?.forEach((img) => {
             const element = img as HTMLElement;
@@ -186,16 +208,25 @@ const Template1Edit: React.FC = () => {
             });
         });
 
-        // Cleanup event listeners
         return () => {
             coupleImages?.forEach((img) => img.removeEventListener('click', () => {}));
             thumnailImages?.forEach((img) => img.removeEventListener('click', () => {}));
         };
     }, []);
 
+    // Debug calendar data
+    useEffect(() => {
+        console.log('weddingDataState.calendar:', weddingDataState.calendar);
+        console.log('invitation.day:', weddingDataState.invitation.day);
+    }, [weddingDataState]);
+
+    // Kiểm tra dữ liệu trước khi render lịch
+    if (!weddingDataState.calendar || !weddingDataState.calendar.days || !weddingDataState.calendar.highlightDay) {
+        return <div>Đang tải dữ liệu lịch...</div>;
+    }
+
     return (
         <div className={styles.bg}>
-            {/* Hidden file input for image selection */}
             <input
                 type="file"
                 accept="image/*"
@@ -203,7 +234,6 @@ const Template1Edit: React.FC = () => {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
             />
-
             <div className={styles.bannerImageHeader} data-aos="fade-up" data-aos-duration="1000">
                 <img
                     src={weddingDataState.banner.image}
@@ -320,9 +350,11 @@ const Template1Edit: React.FC = () => {
                             {weddingDataState.calendar.days.map((day, index) => (
                                 <span
                                     key={index}
-                                    className={day === weddingDataState.calendar.highlightDay ? styles.highlight : ''}
+                                    className={
+                                        Number(day) === weddingDataState.calendar.highlightDay ? styles.highlight : ''
+                                    }
                                 >
-                                    {day === weddingDataState.calendar.highlightDay ? (
+                                    {Number(day) === weddingDataState.calendar.highlightDay ? (
                                         <span className={styles.highlightContent}>
                                             <FontAwesomeIcon icon={faHeart} className={styles.heartIcon} />
                                             <span>{day}</span>
@@ -409,6 +441,9 @@ const Template1Edit: React.FC = () => {
                 onInviteePopupClose={handleInviteePopupClose}
                 templateType="template1"
             />
+            {showInviteePopup && (
+                <InviteePopup quantity={quantity} totalPrice={totalPrice} onClose={handleInviteePopupClose} id={id} />
+            )}
         </div>
     );
 };
