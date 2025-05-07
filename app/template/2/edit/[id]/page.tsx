@@ -7,14 +7,13 @@ import styles from './mau_2.module.scss';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCirclePlay, faCirclePause, faEdit } from '@fortawesome/free-solid-svg-icons';
-import EditPopup from 'app/popup/EditPopup/EditPopup';
-import InviteePopup from 'app/popup/InviteePopup/InviteePopup';
+import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
+import EditControls from '../../../control/EditControl'; // Updated import path
 import { formatTime } from 'app/Ultils/formatTime';
 import Image from 'next/image';
 import { Suspense } from 'react';
 
-interface WeddingData {
+interface Template2WeddingData {
     bride: string;
     groom: string;
     weddingDate: string;
@@ -61,7 +60,7 @@ function Template2Edit() {
     console.log('Prop ID:', id);
 
     // Load initial data from localStorage or set default
-    const [weddingData, setWeddingData] = useState<WeddingData>(() => {
+    const [weddingData, setWeddingData] = useState<Template2WeddingData>(() => {
         const savedData = localStorage.getItem('weddingData');
         return savedData
             ? JSON.parse(savedData)
@@ -84,7 +83,7 @@ function Template2Edit() {
               };
     });
 
-    const [images, setImages] = useState(() => {
+    const [images, setImages] = useState<Images>(() => {
         const savedImages = localStorage.getItem('weddingImages');
         return savedImages
             ? JSON.parse(savedImages)
@@ -171,7 +170,7 @@ function Template2Edit() {
         AOS.init({ duration: 1000, once: true });
     }, []);
 
-    const handleSaveEdit = (updatedData: WeddingData) => {
+    const handleSaveEdit = (updatedData: Template2WeddingData) => {
         const newData = { ...weddingData, ...updatedData };
         setWeddingData(newData);
         localStorage.setItem('weddingData', JSON.stringify(newData));
@@ -387,22 +386,7 @@ function Template2Edit() {
                                     />
                                 </div>
                             </div>
-                        </div><div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
-                                <Image
-                                    src={images.brideImage}
-                                    alt=""
-                                    width={200}
-                                    height={200}
-                                    onClick={() => triggerFileInput('brideImage')}
-                                />
-                                <input
-                                    type="file"
-                                    ref={fileInputRefs.brideImage}
-                                    onChange={handleImageChange('brideImage')}
-                                    accept="image/*"
-                                    style={{ display: 'none' }}
-                                />
-                            </div>
+                        </div>
                     </div>
                     <div className={styles.story_bride}>
                         <div className={styles.story_bride_wrapper}>
@@ -727,29 +711,19 @@ function Template2Edit() {
                         </div>
                     </footer>
                 </div>
-                <div className={styles.buttonContainer}>
-                    <button className={styles.editButton} onClick={() => setShowEditPopup(true)}>
-                        <FontAwesomeIcon icon={faEdit} /> Chỉnh sửa thông tin
-                    </button>
-                    <button className={styles.nextButton} onClick={() => setShowInviteePopup(true)}>
-                        Tiếp tục
-                    </button>
-                </div>
-                {showEditPopup && (
-                    <EditPopup
-                        weddingData={weddingData}
-                        onSave={handleSaveEdit}
-                        onClose={() => setShowEditPopup(false)}
-                    />
-                )}
-                {showInviteePopup && (
-                    <InviteePopup
-                        quantity={quantity}
-                        totalPrice={totalPrice}
-                        onClose={handleInviteePopupClose}
-                        id={id}
-                    />
-                )}
+                <EditControls
+                    weddingData={weddingData}
+                    quantity={quantity}
+                    totalPrice={totalPrice}
+                    id={id}
+                    showEditPopup={showEditPopup}
+                    showInviteePopup={showInviteePopup}
+                    setShowEditPopup={setShowEditPopup}
+                    setShowInviteePopup={setShowInviteePopup}
+                    onSaveEdit={handleSaveEdit}
+                    onInviteePopupClose={handleInviteePopupClose}
+                    templateType="template2"
+                />
             </div>
         </Suspense>
     );

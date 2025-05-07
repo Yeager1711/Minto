@@ -1,6 +1,7 @@
-// components/WeddingInvitation.tsx
 'use client';
-import { useEffect, useRef } from 'react';
+
+import { useEffect, useRef, useState } from 'react';
+import { useParams, useSearchParams } from 'next/navigation';
 import weddingData from './weddingData_Mau1/weddingData';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -8,10 +9,68 @@ import styles from './mau_1.module.scss';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import EditControls from '../../../control/EditControl';
 
-const TemPlate1: React.FC = () => {
+interface Template1WeddingData {
+    banner: { image: string };
+    couple: {
+        names: string;
+        groom: { name: string; image: string };
+        bride: { name: string; image: string };
+    };
+    invitation: {
+        title: string;
+        subtitle: string;
+        day: string;
+        month: string;
+        year: string;
+        dayOfWeek: string;
+        time: string;
+        lunarDate: string;
+        monthYear: string;
+    };
+    loveQuote_1: string;
+    loveQuote_2: string;
+    familyInfo: {
+        groomFamily: { title: string; father: string; mother: string };
+        brideFamily: { title: string; father: string; mother: string };
+    };
+    eventDetails: string;
+    calendar: { month: string; days: (string | number)[]; highlightDay: number };
+    location: {
+        groomLocation: { name: string; address: string; mapEmbedUrl: string };
+        brideLocation: { name: string; address: string; mapEmbedUrl: string };
+    };
+    coupleImages: { src: string; alt: string; isCenter?: boolean }[];
+    thumnailImages: { src: string; alt: string; isCenter?: boolean }[];
+}
+
+const Template1Edit: React.FC = () => {
+    const params = useParams();
+    const searchParams = useSearchParams();
+    const id = params.id as string;
+    const quantity = parseInt(searchParams.get('quantity') || '1');
+    const totalPrice = parseInt(searchParams.get('totalPrice') || '0');
+
     const coupleImagesRef = useRef<HTMLDivElement>(null);
     const thumnailImagesRef = useRef<HTMLDivElement>(null);
+
+    // Initialize weddingData with localStorage or default
+    const [weddingDataState, setWeddingDataState] = useState<Template1WeddingData>(() => {
+        const savedData = localStorage.getItem('weddingData_template1');
+        return savedData ? JSON.parse(savedData) : weddingData;
+    });
+
+    const [showEditPopup, setShowEditPopup] = useState(false);
+    const [showInviteePopup, setShowInviteePopup] = useState(false);
+
+    const handleSaveEdit = (updatedData: Template1WeddingData) => {
+        setWeddingDataState(updatedData);
+        localStorage.setItem('weddingData_template1', JSON.stringify(updatedData));
+        setShowEditPopup(false);
+    };
+
+    const handleInviteePopupClose = () => setShowInviteePopup(false);
 
     useEffect(() => {
         AOS.init();
@@ -62,17 +121,17 @@ const TemPlate1: React.FC = () => {
     return (
         <div className={styles.bg}>
             <div className={styles.bannerImageHeader} data-aos="fade-up" data-aos-duration="1000">
-                <img src={weddingData.banner.image} alt="Wedding Banner" />
+                <img src={weddingDataState.banner.image} alt="Wedding Banner" />
                 <div className={styles.contentHeader}>
-                    <h3>{weddingData.couple.names}</h3>
+                    <h3>{weddingDataState.couple.groom.name} & {weddingDataState.couple.bride.name}</h3>
                 </div>
                 <div className={styles.infomation}>
-                    <h2>{weddingData.invitation.title}</h2>
+                    <h2>{weddingDataState.invitation.title}</h2>
                     <div className={styles.dateTime}>
-                        <span>{`${weddingData.invitation.dayOfWeek} - ${weddingData.invitation.time}`}</span>
+                        <span>{`${weddingDataState.invitation.dayOfWeek} - ${weddingDataState.invitation.time}`}</span>
                         <div
                             className={styles.day}
-                        >{`${weddingData.invitation.day}.${weddingData.invitation.month.replace('Tháng ', '')}.${weddingData.invitation.year}`}</div>
+                        >{`${weddingDataState.invitation.day}.${weddingDataState.invitation.month.replace('Tháng ', '')}.${weddingDataState.invitation.year}`}</div>
                     </div>
                 </div>
             </div>
@@ -81,31 +140,31 @@ const TemPlate1: React.FC = () => {
                 <div className={styles.wrapperBanner}>
                     <div className={styles.banner2} data-aos="fade-up" data-aos-duration="1200">
                         <div className={styles.loveQuote}>
-                            <h2>{`"${weddingData.loveQuote_1}"`}</h2>
-                            <h2>{`"${weddingData.loveQuote_2}"`}</h2>
+                            <h2>{`"${weddingDataState.loveQuote_1}"`}</h2>
+                            <h2>{`"${weddingDataState.loveQuote_2}"`}</h2>
                         </div>
                         <div className={styles.familyInfo}>
                             <div className={styles.groomFamily} data-aos="fade-right" data-aos-delay="200">
-                                <h3>{weddingData.familyInfo.groomFamily.title}</h3>
-                                <p>{`Ông: ${weddingData.familyInfo.groomFamily.father}`}</p>
-                                <p>{`Bà: ${weddingData.familyInfo.groomFamily.mother}`}</p>
+                                <h3>{weddingDataState.familyInfo.groomFamily.title}</h3>
+                                <p>{`Ông: ${weddingDataState.familyInfo.groomFamily.father}`}</p>
+                                <p>{`Bà: ${weddingDataState.familyInfo.groomFamily.mother}`}</p>
                             </div>
                             <div className={styles.brideFamily} data-aos="fade-left" data-aos-delay="200">
-                                <h3>{weddingData.familyInfo.brideFamily.title}</h3>
-                                <p>{`Ông: ${weddingData.familyInfo.brideFamily.father}`}</p>
-                                <p>{`Bà: ${weddingData.familyInfo.brideFamily.mother}`}</p>
+                                <h3>{weddingDataState.familyInfo.brideFamily.title}</h3>
+                                <p>{`Ông: ${weddingDataState.familyInfo.brideFamily.father}`}</p>
+                                <p>{`Bà: ${weddingDataState.familyInfo.brideFamily.mother}`}</p>
                             </div>
                         </div>
                     </div>
                     <div className={styles.banner3} data-aos="zoom-in" data-aos-duration="1000">
                         <div className={styles.coupleInfo}>
                             <div className={styles.groom} data-aos="fade-right" data-aos-delay="300">
-                                <img src={weddingData.couple.groom.image} alt="Groom" />
-                                <h3>{weddingData.couple.groom.name}</h3>
+                                <img src={weddingDataState.couple.groom.image} alt="Groom" />
+                                <h3>{weddingDataState.couple.groom.name}</h3>
                             </div>
                             <div className={styles.bride} data-aos="fade-left" data-aos-delay="300">
-                                <img src={weddingData.couple.bride.image} alt="Bride" />
-                                <h3>{weddingData.couple.bride.name}</h3>
+                                <img src={weddingDataState.couple.bride.image} alt="Bride" />
+                                <h3>{weddingDataState.couple.bride.name}</h3>
                             </div>
                         </div>
                     </div>
@@ -113,11 +172,11 @@ const TemPlate1: React.FC = () => {
 
                 <div className={styles.banner4} data-aos="fade-up" data-aos-duration="1000">
                     <div className={styles.contentHeader}>
-                        <h2 className={styles.invitationTitle}>{weddingData.invitation.title}</h2>
-                        <h3 className={styles.eventTitle}>{weddingData.invitation.subtitle}</h3>
+                        <h2 className={styles.invitationTitle}>{weddingDataState.invitation.title}</h2>
+                        <h3 className={styles.eventTitle}>{weddingDataState.invitation.subtitle}</h3>
                     </div>
                     <div className={styles.coupleImages} ref={coupleImagesRef}>
-                        {weddingData.coupleImages.map((img, index) => (
+                        {weddingDataState.coupleImages.map((img, index) => (
                             <img
                                 key={index}
                                 src={img.src}
@@ -129,22 +188,22 @@ const TemPlate1: React.FC = () => {
                         ))}
                     </div>
                     <div className={styles.infomation} data-aos="fade-up" data-aos-duration="1200">
-                        <p className={styles.eventDetails}>{weddingData.eventDetails}</p>
+                        <p className={styles.eventDetails}>{weddingDataState.eventDetails}</p>
                         <p className={styles.eventTime}>Vào Lúc</p>
                         <div className={styles.dateContainer}>
-                            <span className={styles.time}>{weddingData.invitation.time}</span>
+                            <span className={styles.time}>{weddingDataState.invitation.time}</span>
                             <div className={styles.column}>
-                                <span className={styles.dayOfWeek}>{weddingData.invitation.dayOfWeek}</span>
-                                <span className={styles.day}>{weddingData.invitation.day}</span>
-                                <span className={styles.month}>{weddingData.invitation.month}</span>
+                                <span className={styles.dayOfWeek}>{weddingDataState.invitation.dayOfWeek}</span>
+                                <span className={styles.day}>{weddingDataState.invitation.day}</span>
+                                <span className={styles.month}>{weddingDataState.invitation.month}</span>
                             </div>
-                            <span className={styles.year}>{weddingData.invitation.year}</span>
+                            <span className={styles.year}>{weddingDataState.invitation.year}</span>
                         </div>
-                        <p className={styles.lunarDate}>{`(${weddingData.invitation.lunarDate})`}</p>
-                        <h2 className={styles.monthYear}>{weddingData.invitation.monthYear}</h2>
+                        <p className={styles.lunarDate}>{`(${weddingDataState.invitation.lunarDate})`}</p>
+                        <h2 className={styles.monthYear}>{weddingDataState.invitation.monthYear}</h2>
                     </div>
                     <div className={styles.calendar} data-aos="zoom-in" data-aos-duration="1000">
-                        <h3>{weddingData.calendar.month}</h3>
+                        <h3>{weddingDataState.calendar.month}</h3>
                         <div className={styles.calendarHeader}>
                             <span>CN</span>
                             <span>T2</span>
@@ -155,12 +214,12 @@ const TemPlate1: React.FC = () => {
                             <span>T7</span>
                         </div>
                         <div className={styles.calendarBody}>
-                            {weddingData.calendar.days.map((day, index) => (
+                            {weddingDataState.calendar.days.map((day, index) => (
                                 <span
                                     key={index}
-                                    className={day === weddingData.calendar.highlightDay ? styles.highlight : ''}
+                                    className={day === weddingDataState.calendar.highlightDay ? styles.highlight : ''}
                                 >
-                                    {day === weddingData.calendar.highlightDay ? (
+                                    {day === weddingDataState.calendar.highlightDay ? (
                                         <span className={styles.highlightContent}>
                                             <FontAwesomeIcon icon={faHeart} className={styles.heartIcon} />
                                             <span>{day}</span>
@@ -178,25 +237,25 @@ const TemPlate1: React.FC = () => {
                         <div className={styles.dotRight}></div>
                         <h4>Địa điểm tổ chức</h4>
                         <div className={styles.locationContent}>
-                            <h5>{weddingData.location.groomLocation.name}</h5>
-                            <p>{weddingData.location.groomLocation.address}</p>
+                            <h5>{weddingDataState.location.groomLocation.name}</h5>
+                            <p>{weddingDataState.location.groomLocation.address}</p>
                             <iframe
                                 style={{ border: 0 }}
                                 allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                src={weddingData.location.groomLocation.mapEmbedUrl}
+                                src={weddingDataState.location.groomLocation.mapEmbedUrl}
                             ></iframe>
                         </div>
                         <div className={styles.locationContent}>
-                            <h5>{weddingData.location.brideLocation.name}</h5>
-                            <p>{weddingData.location.brideLocation.address}</p>
+                            <h5>{weddingDataState.location.brideLocation.name}</h5>
+                            <p>{weddingDataState.location.brideLocation.address}</p>
                             <iframe
                                 style={{ border: 0 }}
                                 allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                src={weddingData.location.brideLocation.mapEmbedUrl}
+                                src={weddingDataState.location.brideLocation.mapEmbedUrl}
                             ></iframe>
                         </div>
                     </div>
@@ -206,7 +265,7 @@ const TemPlate1: React.FC = () => {
                         <div className={styles.dotRight}></div>
                         <h4>Khoảnh khắc đáng nhớ</h4>
                         <div className={styles.thumnailImages} ref={thumnailImagesRef}>
-                            {weddingData.thumnailImages.map((img, index) => (
+                            {weddingDataState.thumnailImages.map((img, index) => (
                                 <img
                                     key={index}
                                     src={img.src}
@@ -228,8 +287,21 @@ const TemPlate1: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <EditControls
+                weddingData={weddingDataState}
+                quantity={quantity}
+                totalPrice={totalPrice}
+                id={id}
+                showEditPopup={showEditPopup}
+                showInviteePopup={showInviteePopup}
+                setShowEditPopup={setShowEditPopup}
+                setShowInviteePopup={setShowInviteePopup}
+                onSaveEdit={handleSaveEdit}
+                onInviteePopupClose={handleInviteePopupClose}
+                templateType="template1"
+            />
         </div>
     );
 };
 
-export default TemPlate1;
+export default Template1Edit;

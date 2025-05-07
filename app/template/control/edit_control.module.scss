@@ -1,0 +1,32 @@
+.buttonContainer {
+    position: fixed;
+    top: 5rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-inline: .5rem 1.5rem;
+    z-index: 9 !important;
+    display: flex;
+    gap: 1rem;
+
+
+    .editButton {
+        display: block;
+        padding: 1rem 3rem;
+        background: #fff;
+        border-radius: .5rem;
+        border: .1rem solid #dbdbdbdb;
+        width: 22rem;
+        font-size: 1.3rem;
+    }
+
+    .nextButton {
+        display: block;
+        padding: 1rem 3rem;
+        background: #516afa;
+        border-radius: .5rem;
+        color: #fff;
+        width: 14rem;
+        font-size: 1.3rem;
+    }
+
+}
