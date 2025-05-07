@@ -468,7 +468,7 @@
                         z-index: 3;
                         font-family: "Allura", cursive;
                         font-size: 4rem;
-                        margin: 2rem 0 0 8rem;
+                        margin: 0 0 0 8rem;
 
 
                         span {
@@ -577,17 +577,17 @@
                 .story_bride__content {
                     display: flex;
                     align-items: center;
-                    gap: 2rem;
+                    gap: 1rem;
 
                     .left {
-
+                        flex: 1 1 22rem;
 
                         h3 {
                             color: #333;
                             z-index: 3;
                             font-family: "Allura", cursive;
                             font-size: 4rem;
-
+                            margin: 0;
                         }
 
                         h4 {
@@ -595,6 +595,7 @@
                             z-index: 3;
                             font-family: "Allura", cursive;
                             font-size: 2.5rem;
+                            margin: 0;
 
 
                             span {
@@ -602,7 +603,6 @@
                                 font-family: "Allura", cursive;
                                 color: #bb9148;
                             }
-
 
                         }
                     }
@@ -640,8 +640,14 @@
                         display: block;
 
                         &:nth-child(1) {
-                            max-width: 16rem;
-                            width: 95%;
+                            max-width: 33rem;
+                            height: 23rem;
+                            width: 55%;
+                            overflow: auto;
+
+                            &::-webkit-scrollbar {
+                                display: none;
+                            }
                         }
                     }
 
@@ -654,8 +660,8 @@
                         z-index: 2;
 
                         img {
-                            width: 13rem;
-                            height: 15rem;
+                            width: 15rem;
+                            height: 23rem;
                             border-radius: 1rem;
                             object-fit: cover;
                             display: block;
@@ -675,15 +681,17 @@
                 .story_groom__content {
                     display: flex;
                     align-items: center;
-                    gap: 2rem;
+                    gap: 1rem;
 
                     .left {
+                        flex: 1 1 22rem;
+
                         h3 {
                             color: #333;
                             z-index: 3;
                             font-family: "Allura", cursive;
                             font-size: 4rem;
-
+                            margin: 0;
                         }
 
                         h4 {
@@ -691,6 +699,7 @@
                             z-index: 3;
                             font-family: "Allura", cursive;
                             font-size: 2.5rem;
+                            margin: 0;
 
 
                             span {
@@ -698,7 +707,6 @@
                                 font-family: "Allura", cursive;
                                 color: #bb9148;
                             }
-
 
                         }
                     }
@@ -711,8 +719,8 @@
                             margin-left: 0;
                             font-size: 4rem;
                             font-family: "Herr Von Muellerhoff", cursive;
-                            text-transform: capitalize;
                             font-weight: 600;
+                            text-transform: capitalize;
                         }
                     }
                 }
@@ -734,10 +742,17 @@
                         line-height: 1.6;
                         margin-bottom: 2rem;
                         display: block;
-
+                        margin-left: 16rem;
+                        
                         &:nth-child(1) {
-                            max-width: 16rem;
-                            width: 95%;
+                            max-width: 33rem;
+                            height: 23rem;
+                            width: 55%;
+                            overflow: auto;
+
+                            &::-webkit-scrollbar {
+                                display: none;
+                            }
                         }
                     }
 
@@ -750,8 +765,8 @@
                         z-index: 2;
 
                         img {
-                            width: 13rem;
-                            height: 15rem;
+                            width: 15rem;
+                            height: 23rem;
                             border-radius: 1rem;
                             object-fit: cover;
                             display: block;
