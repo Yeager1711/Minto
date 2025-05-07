@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import weddingData from './weddingData_Mau1/weddingData';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import styles from './mau_1.module.scss';
+import styles from './mau_1.module.css';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';

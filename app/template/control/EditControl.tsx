@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import EditPopup from 'app/popup/EditPopup/EditPopup';
 import InviteePopup from 'app/popup/InviteePopup/InviteePopup';
-import styles from './edit_control.module.scss';
+import styles from './edit_control.module.css';
 
 interface Template2WeddingData {
     bride: string;

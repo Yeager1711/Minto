@@ -1,5 +1,5 @@
 import 'normalize.css';
-import './GlobalStyles/GlobalStyles.scss';
+import './GlobalStyles/GlobalStyles.css';
 import Header from './pages/DefaultLayouts/Header/page';
 // import { ApiProvider } from './lib/apiConentext/ApiContext'; // Đảm bảo đường dẫn đúng
 import { ToastContainer } from 'react-toastify';

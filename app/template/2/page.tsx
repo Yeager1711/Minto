@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import styles from './mau_2.module.scss';
+import styles from './mau_2.module.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

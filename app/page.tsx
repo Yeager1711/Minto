@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import styles from './styles/home.module.scss';
+import styles from './styles/home.module.css';
 import Popup from './popup/product_details/Product_Details';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import styles from './EditPopup.module.scss';
+import styles from './EditPopup.module.css';
 
 interface Template2WeddingData {
     bride: string;
