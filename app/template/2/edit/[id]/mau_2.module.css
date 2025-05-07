@@ -1,4 +1,113 @@
-.mau_2 {
+@import url("https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400..700&family=Della+Respira&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100..400&display=swap");
+.mau_2_container .dynamic {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(51, 51, 51, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  width: 20rem;
+  height: 3.5rem;
+  z-index: 9999;
+  border-radius: 2rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  color: #fff;
+  cursor: pointer;
+}
+.mau_2_container .dynamic.expanded {
+  height: 20rem;
+  max-width: 50rem !important;
+  width: 30%;
+  border-radius: 1.5rem;
+}
+.mau_2_container .dynamic .dynamic_content {
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.mau_2_container .dynamic .dynamic_content .controls {
+  cursor: pointer;
+}
+.mau_2_container .dynamic .dynamic_content .playPauseIcon {
+  width: 2rem;
+  height: 2rem;
+  color: #fff;
+}
+.mau_2_container .dynamic .dynamic_content h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50rem;
+}
+.mau_2_container .dynamic .expanded_content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.mau_2_container .dynamic .expanded_content .album_art {
+  width: 100%;
+  height: 10rem;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.mau_2_container .dynamic .expanded_content .album_art img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.mau_2_container .dynamic .expanded_content .song_info {
+  text-align: center;
+}
+.mau_2_container .dynamic .expanded_content .song_info h4 {
+  margin: 0;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26rem;
+  font-weight: 600;
+}
+.mau_2_container .dynamic .expanded_content .song_info p {
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26rem;
+}
+.mau_2_container .dynamic .expanded_content .progress_bar {
+  width: 100%;
+  height: 0.3rem;
+  background: #555;
+  border-radius: 0.15rem;
+  overflow: hidden;
+}
+.mau_2_container .dynamic .expanded_content .progress_bar .progress {
+  width: 30%;
+  height: 100%;
+  background: #fff;
+  transition: width 0.1s linear;
+}
+@media (max-width: 768px) {
+  .mau_2_container .dynamic {
+    width: 18rem;
+  }
+  .mau_2_container .dynamic.expanded {
+    max-width: 50rem;
+    width: 90vw;
+  }
+}
+.mau_2_container .mau_2 {
   overflow: hidden;
   max-width: 55rem;
   width: 100%;
@@ -6,22 +115,22 @@
   background: #fdfcfd;
   padding-bottom: 2rem;
 }
-.mau_2 .mau_2__wrapper {
+.mau_2_container .mau_2 .mau_2__wrapper {
   position: relative;
   background: #fdfcfd;
 }
-.mau_2 .mau_2__wrapper .page_2 {
+.mau_2_container .mau_2 .mau_2__wrapper .page_2 {
   position: absolute;
   z-index: 1;
   top: -55%;
   right: -10%;
   transform: rotate(96deg);
 }
-.mau_2 .mau_2__wrapper .image_mau2 {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 {
   width: 100%;
   height: clamp(400px, 80vh, 80vh);
 }
-.mau_2 .mau_2__wrapper .image_mau2::before {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2::before {
   content: "";
   position: absolute;
   top: 0;
@@ -30,14 +139,14 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.4);
 }
-.mau_2 .mau_2__wrapper .image_mau2 img {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   display: block;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .Save_the_date {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .Save_the_date {
   position: absolute;
   top: 50%;
   left: 40%;
@@ -47,7 +156,7 @@
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   z-index: 5;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .Save_the_date span {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .Save_the_date span {
   display: block;
   font-family: "Great Vibes", cursive;
   font-size: 4rem;
@@ -55,38 +164,38 @@
   font-weight: 400;
   letter-spacing: 2px;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .Save_the_date span:nth-child(2) {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .Save_the_date span:nth-child(2) {
   font-size: 3rem;
   margin: 0.5rem 0;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .Save_the_date .save {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .Save_the_date .save {
   position: absolute;
   top: -6.5rem;
   left: -4rem;
   font-size: 7rem;
   z-index: 5;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .Save_the_date .the {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .Save_the_date .the {
   position: absolute;
   left: -9rem;
   z-index: 5;
   font-size: 5rem !important;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .Save_the_date .date {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .Save_the_date .date {
   font-size: 10rem;
   position: absolute;
   z-index: 5;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .Save_the_date .time {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .Save_the_date .time {
   position: absolute;
   left: -9rem;
   top: 7rem;
   font-size: 1.4rem;
   font-family: "Times New Roman", Times, serif;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .bride_groom {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .bride_groom {
   position: absolute;
-  top: 70%;
+  top: 68%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -94,23 +203,24 @@
   gap: 0.5rem;
   z-index: 2;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .bride_groom h3 {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .bride_groom h3 {
+  font-size: 1.5rem;
+  color: #fff;
+  text-shadow: -1px -1px 0 #555, 1px -1px 0 #555, -1px 1px 0 #555, 1px 1px 0 #555;
+  text-transform: capitalize;
+}
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .bride_groom span {
   font-size: 1.5rem;
   color: #fff;
   text-shadow: -1px -1px 0 #555, 1px -1px 0 #555, -1px 1px 0 #555, 1px 1px 0 #555;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .bride_groom span {
-  font-size: 1.5rem;
-  color: #fff;
-  text-shadow: -1px -1px 0 #555, 1px -1px 0 #555, -1px 1px 0 #555, 1px 1px 0 #555;
-}
-.mau_2 .mau_2__wrapper .image_mau2 .thumnails {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
 }
-.mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_1 {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_1 {
   position: absolute;
   top: 2%;
   left: -3%;
@@ -120,7 +230,7 @@
   z-index: 2;
   transform: rotate(-10deg);
 }
-.mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_2 {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_2 {
   position: absolute;
   top: 8%;
   right: 0;
@@ -130,17 +240,17 @@
   z-index: 2;
   transform: rotate(10deg);
 }
-.mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_3 {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_3 {
   position: absolute;
-  top: 65%;
-  left: -2%;
+  top: 72%;
+  left: 3%;
   width: 10rem;
   height: 13rem;
   border: 0.4rem solid #fff;
   z-index: 2;
   transform: rotate(14deg);
 }
-.mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_4 {
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_4 {
   position: absolute;
   bottom: 1%;
   right: 4%;
@@ -150,7 +260,7 @@
   transform: rotate(-3deg);
   z-index: 5;
 }
-.mau_2 .torn_page {
+.mau_2_container .mau_2 .torn_page {
   position: absolute;
   bottom: -28%;
   z-index: 1;
@@ -158,20 +268,20 @@
   width: 100%;
   overflow: hidden;
 }
-.mau_2 .torn_page img {
+.mau_2_container .mau_2 .torn_page img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   transform: rotate(-89deg);
 }
-.mau_2 .story {
+.mau_2_container .mau_2 .story {
   position: relative;
   z-index: 2;
   background: #fdfdfd;
   padding: 0 2rem;
 }
-.mau_2 .story .Timing_Hook .tape {
+.mau_2_container .mau_2 .story .Timing_Hook .tape {
   width: 16rem;
   height: 16rem;
   position: absolute;
@@ -179,35 +289,35 @@
   top: -7rem;
   transform: rotate(-141deg);
 }
-.mau_2 .story .Timing_Hook .Timing_Hook__content {
+.mau_2_container .mau_2 .story .Timing_Hook .Timing_Hook__content {
   z-index: 9;
   margin-bottom: 2rem;
 }
-.mau_2 .story .Timing_Hook .Timing_Hook__content h3 {
+.mau_2_container .mau_2 .story .Timing_Hook .Timing_Hook__content h3 {
   color: #333;
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 6rem;
   margin-left: 8rem;
 }
-.mau_2 .story .Timing_Hook .Timing_Hook__content h4 {
+.mau_2_container .mau_2 .story .Timing_Hook .Timing_Hook__content h4 {
   color: #333;
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 4rem;
   margin-left: 8rem;
 }
-.mau_2 .story .Timing_Hook .Timing_Hook__content h4 span {
+.mau_2_container .mau_2 .story .Timing_Hook .Timing_Hook__content h4 span {
   font-size: 3rem;
   font-family: "Allura", cursive;
   margin-left: 0;
   color: #bb9148;
 }
-.mau_2 .story .Timing_Hook .Timing_Hook__content p {
+.mau_2_container .mau_2 .story .Timing_Hook .Timing_Hook__content p {
   font-size: 1.4rem;
-  margin-left: 18rem;
+  text-align: center;
 }
-.mau_2 .story .content_story {
+.mau_2_container .mau_2 .story .content_story {
   border-radius: 1rem;
   padding: 2rem;
   max-width: 60rem;
@@ -216,128 +326,179 @@
   border: 0.2rem dashed #a11414;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
-.mau_2 .story .content_story .header_content {
+.mau_2_container .mau_2 .story .content_story .header_content {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
-.mau_2 .story .content_story .header_content .left {
+.mau_2_container .mau_2 .story .content_story .header_content .left {
   flex: 1 1;
   max-width: 50rem;
   height: 28rem;
   overflow: hidden;
   border-radius: 1rem;
 }
-.mau_2 .story .content_story .header_content .left img {
+.mau_2_container .mau_2 .story .content_story .header_content .left img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.mau_2 .story .content_story .header_content .right {
+.mau_2_container .mau_2 .story .content_story .header_content .right {
   flex: 1 1;
   background: #fff;
   padding: 1rem;
   max-width: 24rem;
   border-radius: 1rem;
 }
-.mau_2 .story .content_story .header_content .right span {
+.mau_2_container .mau_2 .story .content_story .header_content .right span {
   font-size: 1.3rem;
   line-height: 2;
 }
-.mau_2 .story .content_story .footer_content {
+.mau_2_container .mau_2 .story .content_story .footer_content {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 2rem;
 }
-.mau_2 .story .content_story .footer_content .left {
+.mau_2_container .mau_2 .story .content_story .footer_content .left {
   flex: 1 1;
   background: #fff;
   padding: 1rem;
   max-width: 24rem;
   border-radius: 1rem;
 }
-.mau_2 .story .content_story .footer_content .left span {
+.mau_2_container .mau_2 .story .content_story .footer_content .left span {
   font-size: 1.3rem;
   line-height: 2;
 }
-.mau_2 .story .content_story .footer_content .right {
+.mau_2_container .mau_2 .story .content_story .footer_content .right {
   flex: 1 1;
   max-width: 50rem;
   height: 28rem;
   overflow: hidden;
   border-radius: 1rem;
 }
-.mau_2 .story .content_story .footer_content .right img {
+.mau_2_container .mau_2 .story .content_story .footer_content .right img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.mau_2 .story_bride {
-  margin-top: 5rem;
-  min-height: 50vh;
-  padding: 0 2rem;
+.mau_2_container .mau_2 .story_bride {
+  margin: 5rem 0 0 0;
 }
-.mau_2 .story_bride .story_bride_wrapper {
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content {
   display: flex;
-  position: relative;
+  align-items: center;
+  gap: 2rem;
 }
-.mau_2 .story_bride .story_bride_wrapper .story_bride__content {
-  flex: 1 1;
-  width: 100%;
-  z-index: 9;
-  margin-bottom: 2rem;
-}
-.mau_2 .story_bride .story_bride_wrapper .story_bride__content h3 {
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h3 {
   color: #333;
   z-index: 3;
   font-family: "Allura", cursive;
   font-size: 4rem;
-  margin-left: 3rem;
 }
-.mau_2 .story_bride .story_bride_wrapper .story_bride__content h4 {
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 {
   color: #333;
   z-index: 3;
   font-family: "Allura", cursive;
-  font-size: 2rem;
-  margin-left: 5rem;
+  font-size: 2.5rem;
 }
-.mau_2 .story_bride .story_bride_wrapper .story_bride__content h4 span {
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 span {
   font-size: 2.5rem;
   font-family: "Allura", cursive;
-  margin-left: 0;
   color: #bb9148;
 }
-.mau_2 .story_bride .story_bride_wrapper .story_bride__content h2 {
-  margin-top: 4rem;
-  margin-left: 2rem;
-  font-size: 4.5rem;
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right {
+  flex: 1 1 22rem;
+}
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h2 {
+  margin-top: 2rem;
+  margin-left: 0;
+  font-size: 4rem;
   font-family: "Herr Von Muellerhoff", cursive;
   font-weight: 600;
+  text-transform: capitalize;
 }
-.mau_2 .story_bride .story_bride_wrapper .img_story__bride {
-  flex: 1 1;
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content {
+  position: relative;
+  max-width: 100%;
   width: 100%;
+  height: 25rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  z-index: 10;
+  z-index: 1;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content span {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  display: block;
+}
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content span:nth-child(1) {
+  max-width: 16rem;
+  width: 95%;
+}
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride {
+  position: absolute;
+  bottom: -2rem;
+  right: 1rem;
   overflow: hidden;
   border-radius: 1rem;
   z-index: 2;
-  margin-top: 3rem;
 }
-.mau_2 .story_bride .story_bride_wrapper .img_story__bride img {
-  width: 20rem;
-  height: 25rem;
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride img {
+  width: 13rem;
+  height: 15rem;
   border-radius: 1rem;
   -o-object-fit: cover;
      object-fit: cover;
+  display: block;
 }
-.mau_2 .story_bride .story_bride_wrapper .content {
-  position: absolute;
-  bottom: -15rem;
-  left: 0rem;
-  max-width: 37rem;
+.mau_2_container .mau_2 .story_groom {
+  margin: 5rem 0 0 0;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h3 {
+  color: #333;
+  z-index: 3;
+  font-family: "Allura", cursive;
+  font-size: 4rem;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 {
+  color: #333;
+  z-index: 3;
+  font-family: "Allura", cursive;
+  font-size: 2.5rem;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 span {
+  font-size: 2.5rem;
+  font-family: "Allura", cursive;
+  color: #bb9148;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right {
+  flex: 1 1 22rem;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h2 {
+  margin-top: 2rem;
+  margin-left: 0;
+  font-size: 4rem;
+  font-family: "Herr Von Muellerhoff", cursive;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content {
+  position: relative;
+  max-width: 100%;
   width: 100%;
   height: 25rem;
   background: #fff;
@@ -347,210 +508,148 @@
   z-index: 10;
   z-index: 1;
 }
-.mau_2 .story_bride .story_bride_wrapper .content span {
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content span {
   font-size: 1.3rem;
   line-height: 1.6;
   margin-bottom: 2rem;
   display: block;
 }
-.mau_2 .story_bride .story_bride_wrapper .content span:nth-child(1) {
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content span:nth-child(1) {
   max-width: 16rem;
   width: 95%;
 }
-.mau_2 .story_groom {
-  margin-top: 5rem;
-  min-height: 50vh;
-  padding: 0 2rem;
-}
-.mau_2 .story_groom .story_groom_wrapper {
-  display: flex;
-  position: relative;
-}
-.mau_2 .story_groom .story_groom_wrapper .story_groom__content {
-  flex: 1 1;
-  width: 100%;
-  z-index: 9;
-  margin-bottom: 2rem;
-}
-.mau_2 .story_groom .story_groom_wrapper .story_groom__content h3 {
-  color: #333;
-  z-index: 3;
-  font-family: "Allura", cursive;
-  font-size: 4rem;
-  margin-left: 3rem;
-}
-.mau_2 .story_groom .story_groom_wrapper .story_groom__content h4 {
-  color: #333;
-  z-index: 3;
-  font-family: "Allura", cursive;
-  font-size: 2rem;
-  margin-left: 5rem;
-}
-.mau_2 .story_groom .story_groom_wrapper .story_groom__content h4 span {
-  font-size: 2.5rem;
-  font-family: "Allura", cursive;
-  margin-left: 0;
-  color: #bb9148;
-}
-.mau_2 .story_groom .story_groom_wrapper .story_groom__content h2 {
-  margin-top: 2rem;
-  margin-left: 2rem;
-  font-size: 4rem;
-  font-family: "Herr Von Muellerhoff", cursive;
-  font-weight: 600;
-}
-.mau_2 .story_groom .story_groom_wrapper .content {
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__groom {
   position: absolute;
-  bottom: -12rem;
-  left: 0rem;
-  max-width: 50rem;
-  width: 95%;
-  height: 25rem;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  z-index: 1;
-}
-.mau_2 .story_groom .story_groom_wrapper .content span {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  display: block;
-}
-.mau_2 .story_groom .story_groom_wrapper .content span:nth-child(1) {
-  max-width: 17.5rem;
-}
-.mau_2 .story_groom .story_groom_wrapper .img_story__groom {
-  flex: 1 1;
-  width: 100%;
+  bottom: -2rem;
+  left: 1rem;
   overflow: hidden;
   border-radius: 1rem;
-  margin-left: 2rem;
   z-index: 2;
-  margin-top: 3rem;
 }
-.mau_2 .story_groom .story_groom_wrapper .img_story__groom img {
-  width: 20rem;
-  height: 25rem;
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__groom img {
+  width: 13rem;
+  height: 15rem;
   border-radius: 1rem;
   -o-object-fit: cover;
      object-fit: cover;
+  display: block;
 }
-.mau_2 .time_location {
+.mau_2_container .mau_2 .time_location {
   text-align: center;
   margin-top: 3rem;
   width: 100%;
   background: #fdf9f3;
   position: relative;
 }
-.mau_2 .time_location .wrapper {
+.mau_2_container .mau_2 .time_location .wrapper {
   padding: 7rem 1rem 3rem 1rem;
 }
-.mau_2 .time_location .wrapper .img_t1 {
+.mau_2_container .mau_2 .time_location .wrapper .img_t1 {
   position: absolute;
   top: 0;
   left: 4px;
   transform: rotate(88deg);
   z-index: 1;
 }
-.mau_2 .time_location .wrapper .img_t1 img {
+.mau_2_container .mau_2 .time_location .wrapper .img_t1 img {
   max-width: 10rem;
   z-index: 1;
 }
-.mau_2 .time_location .wrapper .img_t2 {
+.mau_2_container .mau_2 .time_location .wrapper .img_t2 {
   position: absolute;
   top: 0;
   right: 4px;
   transform: rotate(180deg);
   z-index: 1;
 }
-.mau_2 .time_location .wrapper .img_t2 img {
+.mau_2_container .mau_2 .time_location .wrapper .img_t2 img {
   max-width: 10rem;
   z-index: 1;
 }
-.mau_2 .time_location .wrapper .family_section {
+.mau_2_container .mau_2 .time_location .wrapper .family_section {
   margin-top: 5rem;
   padding: 2rem 0;
 }
-.mau_2 .time_location .wrapper .family_section .family_wrapper {
+.mau_2_container .mau_2 .time_location .wrapper .family_section .family_wrapper {
   display: flex;
   justify-content: space-around;
   gap: 2rem;
 }
-.mau_2 .time_location .wrapper .family_section .family_box {
+.mau_2_container .mau_2 .time_location .wrapper .family_section .family_box {
   padding: 2rem;
   border-radius: 1rem;
   width: 25rem;
   text-align: center;
 }
-.mau_2 .time_location .wrapper .family_section .family_box h4 {
+.mau_2_container .mau_2 .time_location .wrapper .family_section .family_box h4 {
   font-size: 2.5rem;
   color: #bb9148;
   margin-bottom: 1rem;
   font-family: "Allura", cursive;
 }
-.mau_2 .time_location .wrapper .family_section .family_box p {
+.mau_2_container .mau_2 .time_location .wrapper .family_section .family_box p {
   font-size: 1.3rem;
   margin: 0.3rem 0;
   color: #333;
 }
-.mau_2 .time_location .wrapper h3 {
+.mau_2_container .mau_2 .time_location .wrapper h3 {
   font-size: 1.5rem;
   text-transform: uppercase;
   z-index: 3;
 }
-.mau_2 .time_location .wrapper .flex {
+.mau_2_container .mau_2 .time_location .wrapper .flex {
   display: flex;
   margin: 2rem;
 }
-.mau_2 .time_location .wrapper .flex .flex_gap {
+.mau_2_container .mau_2 .time_location .wrapper .flex .flex_gap {
   margin: auto;
   display: flex;
   align-items: center;
   gap: 2rem;
 }
-.mau_2 .time_location .wrapper .flex .flex_gap div {
+.mau_2_container .mau_2 .time_location .wrapper .flex .flex_gap div {
   font-size: 3rem;
   font-family: "Allura", cursive;
   font-weight: 600;
+  text-transform: capitalize;
 }
-.mau_2 .time_location .wrapper .flex .flex_gap span {
+.mau_2_container .mau_2 .time_location .wrapper .flex .flex_gap span {
   font-size: 3rem;
   font-weight: 550;
   color: #a11414;
 }
-.mau_2 .time_location .wrapper .infomation {
+.mau_2_container .mau_2 .time_location .wrapper .infomation {
   margin: clamp(2rem, 5vw, 5rem) 0 0 0;
 }
-.mau_2 .time_location .wrapper .infomation .eventDetails {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .eventDetails {
   font-size: clamp(1.7rem, 2.5vw, 2.5rem);
   color: #333;
   margin-bottom: clamp(0.8rem, 1.5vw, 1.5rem);
 }
-.mau_2 .time_location .wrapper .infomation .eventTime {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .eventTime {
   font-size: clamp(1.5rem, 1.7vw, 1.7rem);
   color: #333;
   margin-bottom: clamp(0.8rem, 1.5vw, 1.5rem);
 }
-.mau_2 .time_location .wrapper .infomation .dateContainer {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .dateContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: clamp(0.5rem, 2vw, 2rem);
   margin: clamp(1rem, 2vw, 2rem) 0 clamp(2rem, 4vw, 4rem) 0;
 }
-.mau_2 .time_location .wrapper .infomation .dateContainer .time {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .dateContainer .time {
   font-weight: 600;
+  text-transform: capitalize;
   font-size: clamp(1.7rem, 2.5vw, 2.5rem);
 }
-.mau_2 .time_location .wrapper .infomation .dateContainer .column .dayOfWeek {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .dateContainer .column .dayOfWeek {
   font-size: clamp(1.7rem, 2vw, 2rem);
   display: block;
   font-weight: 600;
   position: relative;
 }
-.mau_2 .time_location .wrapper .infomation .dateContainer .column .dayOfWeek::before {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .dateContainer .column .dayOfWeek::before {
   content: "";
   position: absolute;
   top: clamp(2rem, 4vw, 4rem);
@@ -559,7 +658,7 @@
   height: clamp(4rem, 6vw, 6rem);
   background: #333;
 }
-.mau_2 .time_location .wrapper .infomation .dateContainer .column .dayOfWeek::after {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .dateContainer .column .dayOfWeek::after {
   content: "";
   position: absolute;
   top: clamp(2rem, 4vw, 4rem);
@@ -568,45 +667,45 @@
   height: clamp(4rem, 6vw, 6rem);
   background: #333;
 }
-.mau_2 .time_location .wrapper .infomation .dateContainer .column .month {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .dateContainer .column .month {
   font-size: clamp(1.7rem, 3vw, 3rem);
   display: block;
   font-weight: 600;
   color: #333;
 }
-.mau_2 .time_location .wrapper .infomation .dateContainer .year {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .dateContainer .year {
   font-family: "Great Vibes", cursive;
   font-size: clamp(2.5rem, 4vw, 4rem);
   font-weight: 600;
   color: #333;
 }
-.mau_2 .time_location .wrapper .infomation .dateContainer .day {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .dateContainer .day {
   font-family: "Great Vibes", cursive;
   font-size: clamp(5rem, 7vw, 7rem);
   color: #c45c0f;
   font-weight: 600;
 }
-.mau_2 .time_location .wrapper .infomation .lunarDate {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .lunarDate {
   font-size: clamp(1.7rem, 1.8vw, 1.8rem);
   color: #555;
   margin-bottom: clamp(0.5rem, 1vw, 1rem);
 }
-.mau_2 .time_location .wrapper .infomation .monthYear {
+.mau_2_container .mau_2 .time_location .wrapper .infomation .monthYear {
   font-family: "Allura", cursive;
   font-size: clamp(1.7rem, 2.5vw, 2.5rem);
   color: #333;
 }
-.mau_2 .time_location .wrapper .calendar {
+.mau_2_container .mau_2 .time_location .wrapper .calendar {
   margin-top: clamp(0.5rem, 1vw, 1rem);
   background: #fdf9f3;
   padding: clamp(0.5rem, 1vw, 1rem);
   border-radius: clamp(0.3rem, 0.5vw, 0.5rem);
 }
-.mau_2 .time_location .wrapper .calendar h3 {
+.mau_2_container .mau_2 .time_location .wrapper .calendar h3 {
   font-size: 2rem;
   padding: 0 0 2rem 0;
 }
-.mau_2 .time_location .wrapper .calendar .calendarHeader {
+.mau_2_container .mau_2 .time_location .wrapper .calendar .calendarHeader {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
@@ -615,7 +714,7 @@
   color: #333;
   margin-bottom: clamp(0.3rem, 0.5vw, 0.5rem);
 }
-.mau_2 .time_location .wrapper .calendar .calendarBody {
+.mau_2_container .mau_2 .time_location .wrapper .calendar .calendarBody {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
@@ -623,10 +722,10 @@
   font-size: clamp(0.8rem, 1.4vw, 1.4rem);
   color: #333;
 }
-.mau_2 .time_location .wrapper .calendar .calendarBody span {
+.mau_2_container .mau_2 .time_location .wrapper .calendar .calendarBody span {
   padding: clamp(0.5rem, 1.5vw, 1.5rem);
 }
-.mau_2 .time_location .wrapper .calendar .calendarBody .highlight {
+.mau_2_container .mau_2 .time_location .wrapper .calendar .calendarBody .highlight {
   position: relative;
   display: flex;
   align-items: center;
@@ -638,20 +737,20 @@
   font-size: clamp(1rem, 1.4vw, 1.4rem);
   font-family: "Dancing Script", cursive;
 }
-.mau_2 .time_location .wrapper .calendar .calendarBody .highlightContent {
+.mau_2_container .mau_2 .time_location .wrapper .calendar .calendarBody .highlightContent {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
 }
-.mau_2 .time_location .wrapper .calendar .calendarBody .highlightContent .heartIcon {
+.mau_2_container .mau_2 .time_location .wrapper .calendar .calendarBody .highlightContent .heartIcon {
   position: absolute;
   font-size: clamp(2rem, 3vw, 3rem);
   color: red;
   z-index: 0;
 }
-.mau_2 .time_location .wrapper .calendar .calendarBody .highlightContent span {
+.mau_2_container .mau_2 .time_location .wrapper .calendar .calendarBody .highlightContent span {
   position: relative;
   z-index: 1;
   font-family: "Allura", cursive;
@@ -659,14 +758,14 @@
   font-weight: 600;
   color: #fff;
 }
-.mau_2 .address {
+.mau_2_container .mau_2 .address {
   border-top: 0.2rem dashed #a11414;
   padding: 4rem 0 1rem 0;
   text-align: center;
   position: relative;
   background: #fdf9f3;
 }
-.mau_2 .address .dotLeft {
+.mau_2_container .mau_2 .address .dotLeft {
   position: absolute;
   top: -2.5rem;
   left: -3.5rem;
@@ -675,7 +774,7 @@
   background: #fff;
   border-radius: 5rem;
 }
-.mau_2 .address .dotRight {
+.mau_2_container .mau_2 .address .dotRight {
   position: absolute;
   top: -2.5rem;
   right: -3.5rem;
@@ -684,7 +783,7 @@
   background: #fff;
   border-radius: 5rem;
 }
-.mau_2 .address h4 {
+.mau_2_container .mau_2 .address h4 {
   font-family: "Allura", cursive;
   font-size: 4rem;
   position: relative;
@@ -692,45 +791,89 @@
   background: #fdf9f3;
   padding: 0 clamp(1rem, 2vw, 2rem) 0 0;
 }
-.mau_2 .address .addressContent {
+.mau_2_container .mau_2 .address .addressContent {
   overflow: hidden;
   margin: 2rem 0;
   padding: 1rem;
 }
-.mau_2 .address .addressContent h5 {
+.mau_2_container .mau_2 .address .addressContent h5 {
   font-family: "Allura", cursive;
   font-size: 2rem;
 }
-.mau_2 .address .addressContent p {
+.mau_2_container .mau_2 .address .addressContent p {
   padding: 1rem;
   font-size: 1.25rem;
 }
-.mau_2 .address .addressContent iframe {
+.mau_2_container .mau_2 .address .addressContent iframe {
   max-width: 100%;
   border-radius: 1rem;
   width: 100%;
   height: 30rem;
 }
-.mau_2 .flex_images {
+.mau_2_container .mau_2 .photo_gallery {
   position: relative;
   background: #fdf9f3;
+  padding: 2rem 1rem;
+  overflow: hidden;
+  max-width: 50rem;
+  margin: 0 auto;
 }
-.mau_2 .flex_images .flex_position {
-  display: flex;
-  gap: 1rem;
+.mau_2_container .mau_2 .photo_gallery .gallery_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
 }
-.mau_2 .flex_images .flex_position .box img {
+.mau_2_container .mau_2 .photo_gallery .gallery_item {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.mau_2_container .mau_2 .photo_gallery .gallery_item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.mau_2_container .mau_2 .photo_gallery .gallery_item .card_content {
+  position: relative;
+  width: 100%;
+}
+.mau_2_container .mau_2 .photo_gallery .gallery_item .card_image {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  display: block;
 }
-.mau_2 footer {
+.mau_2_container .mau_2 .photo_gallery .item_1 .card_content {
+  height: 50rem;
+}
+.mau_2_container .mau_2 .photo_gallery .item_2 .card_content {
+  height: 40rem;
+}
+.mau_2_container .mau_2 .photo_gallery .item_3 .card_content {
+  height: 35rem;
+}
+.mau_2_container .mau_2 .photo_gallery .item_4 .card_content {
+  height: 50rem;
+}
+@media (max-width: 768px) {
+  .mau_2_container .mau_2 .photo_gallery .gallery_container {
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  }
+  .mau_2_container .mau_2 .photo_gallery .item_1 .card_content,
+  .mau_2_container .mau_2 .photo_gallery .item_2 .card_content,
+  .mau_2_container .mau_2 .photo_gallery .item_3 .card_content,
+  .mau_2_container .mau_2 .photo_gallery .item_4 .card_content {
+    height: auto;
+    min-height: 20rem;
+  }
+}
+.mau_2_container .mau_2 footer {
   position: relative;
   min-height: 50vh;
   background: #fdf9f3;
 }
-.mau_2 footer .Save_the_date {
+.mau_2_container .mau_2 footer .Save_the_date {
   position: absolute;
   top: 30%;
   left: 40%;
@@ -740,7 +883,7 @@
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   z-index: 5;
 }
-.mau_2 footer .Save_the_date span {
+.mau_2_container .mau_2 footer .Save_the_date span {
   display: block;
   font-family: "Great Vibes", cursive;
   font-size: 4rem;
@@ -748,11 +891,11 @@
   font-weight: 400;
   letter-spacing: 2px;
 }
-.mau_2 footer .Save_the_date span:nth-child(2) {
+.mau_2_container .mau_2 footer .Save_the_date span:nth-child(2) {
   font-size: 3rem;
   margin: 0.5rem 0;
 }
-.mau_2 footer .Save_the_date .save {
+.mau_2_container .mau_2 footer .Save_the_date .save {
   position: absolute;
   top: -6.5rem;
   left: -4rem;
@@ -760,20 +903,20 @@
   z-index: 5;
   color: #c3800d;
 }
-.mau_2 footer .Save_the_date .the {
+.mau_2_container .mau_2 footer .Save_the_date .the {
   position: absolute;
   left: -9rem;
   z-index: 5;
   font-size: 5rem !important;
   color: #c3800d;
 }
-.mau_2 footer .Save_the_date .date {
+.mau_2_container .mau_2 footer .Save_the_date .date {
   font-size: 10rem;
   position: absolute;
   z-index: 5;
   color: #c3800d;
 }
-.mau_2 footer .Save_the_date .time {
+.mau_2_container .mau_2 footer .Save_the_date .time {
   position: absolute;
   left: -9rem;
   top: 7rem;
@@ -781,25 +924,27 @@
   color: #333;
   font-family: "Times New Roman", Times, serif;
 }
-.mau_2 footer .bride_groom {
+.mau_2_container .mau_2 footer .bride_groom {
   position: absolute;
   top: 53%;
-  left: 50%;
+  right: 50%;
+  width: 100%;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   z-index: 2;
+  display: none;
 }
-.mau_2 footer .bride_groom h3 {
+.mau_2_container .mau_2 footer .bride_groom h3 {
   font-size: 1.5rem;
   color: #333;
 }
-.mau_2 footer .bride_groom span {
+.mau_2_container .mau_2 footer .bride_groom span {
   font-size: 1.5rem;
   color: #333;
 }
-.mau_2 footer .content_foooter {
+.mau_2_container .mau_2 footer .content_foooter {
   position: absolute;
   top: 70%;
   left: 50%;
@@ -812,7 +957,14 @@
   max-width: 40rem;
   width: 95%;
 }
-.mau_2 footer .content_foooter span {
+.mau_2_container .mau_2 footer .content_foooter span {
   font-size: 1.3rem;
   line-height: 1.6;
+}
+.mau_2_container .clickableImage {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.mau_2_container .clickableImage:hover {
+  opacity: 0.8;
 }/*# sourceMappingURL=mau_2.module.css.map */

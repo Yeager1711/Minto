@@ -13,162 +13,328 @@
   animation: fadeIn 0.3s ease-out forwards;
   -webkit-backdrop-filter: blur(5px);
           backdrop-filter: blur(5px);
+  padding: 1rem;
 }
-.popupOverlay .popupContent {
+.popupOverlay.closing {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+.popupContent {
   background: white;
   padding: 2rem;
   border-radius: 0.8rem;
   position: relative;
-  max-width: 130rem;
-  text-align: center;
+  width: 100%;
+  max-width: 100rem;
+  max-height: 90vh;
+  overflow-y: auto;
   transform: scale(0.8);
   animation: scaleIn 0.3s ease-out forwards;
 }
-.popupOverlay .popupContent .popupTitle {
-  font-size: 2.4rem;
+.popupContent::-webkit-scrollbar {
+  display: none;
+}
+.popupContent.closing {
+  animation: scaleOut 0.3s ease-out forwards;
+}
+
+.popupHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.popupHeader .popupTitle {
+  font-size: 2rem;
   margin-bottom: 0.5rem;
 }
-.popupOverlay .popupContent .popupSubtitle {
-  font-size: 1.4rem;
+.popupHeader .popupSubtitle {
+  font-size: 1.2rem;
   color: #666;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
-.popupOverlay .popupContent .flex {
+.popupHeader a {
+  font-size: 1.2rem;
+  color: #6f42c1;
+  text-decoration: none;
+}
+.popupHeader a:hover {
+  text-decoration: underline;
+}
+
+.popupBody {
   display: flex;
+  flex-direction: row;
   gap: 2rem;
 }
-.popupOverlay .popupContent .flex .box_left .popupImageContainer {
-  margin-bottom: 1.5rem;
-  max-width: 100%;
-  width: 60rem;
-  overflow: hidden;
-  border-radius: 1rem;
-  border: 0.1rem solid #dbdbdb;
-  padding: 2rem;
-}
-.popupOverlay .popupContent .flex .box_left .popupImageContainer .popupImage {
-  width: 28rem;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 1rem;
-}
-.popupOverlay .popupContent .flex .box_left .thumbnailContainer {
+.popupBody .imageSection {
+  flex: 1;
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
 }
-.popupOverlay .popupContent .flex .box_left .thumbnailContainer .thumbnail {
-  width: 11rem;
-  height: 14rem;
+.popupBody .imageSection .popupImageContainer {
+  width: 100%;
+  max-width: 30rem;
+  border-radius: 1rem;
+  border: 0.1rem solid #dbdbdb;
+  padding: 1rem;
+  overflow: hidden;
+}
+.popupBody .imageSection .popupImageContainer .popupImage {
+  width: 100%;
+  height: auto;
   -o-object-fit: cover;
      object-fit: cover;
-  border-radius: 0.4rem;
-  border: 0.1rem solid #ddd;
+  border-radius: 0.5rem;
 }
-.popupOverlay .popupContent .paperOptions {
-  text-align: left;
-  margin-bottom: 2rem;
-  padding: 2rem;
-  width: 100%;
-}
-.popupOverlay .popupContent .paperOptions h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-.popupOverlay .popupContent .paperOptions span {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-.popupOverlay .popupContent .paperOptions .paperOption {
+.popupBody .infoSection {
+  padding: 20px;
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 2rem;
-  border: 0.1rem solid #dbdbdb;
-  padding: 2rem;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+.popupBody .price {
+  font-size: 2cap;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+.popupBody .description {
+  font-size: 1.4rem;
+  color: #34495e;
+  line-height: 1.6;
+}
+.popupBody .description p {
+  margin: 5px 0;
+}
+.popupBody .actionButtons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.popupBody .actionButtons .customizeButton {
+  background-color: #e74c3c;
+  color: #ffffff;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
   border-radius: 0.5rem;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: background-color 0.3s ease;
 }
-.popupOverlay .popupContent .paperOptions .paperOption input[type=radio] {
-  margin-top: 0.5rem;
+.popupBody .actionButtons .customizeButton:hover {
+  background-color: #c0392b;
 }
-.popupOverlay .popupContent .paperOptions .paperOption select {
-  font-size: 1.4rem;
-  width: 100%;
+.popupBody .actionButtons .favoriteButton {
+  background-color: #f1c40f;
+  color: #ffffff;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-}
-.popupOverlay .popupContent .paperOptions .paperOption select option {
-  cursor: pointer;
-  font-size: 1.4rem;
-}
-.popupOverlay .popupContent .paperOptions .paperOption div {
-  flex: 1;
-}
-.popupOverlay .popupContent .paperOptions .paperOption div strong {
-  display: block;
-  font-size: 1.4rem;
-}
-.popupOverlay .popupContent .paperOptions .paperOption div p {
-  font-size: 1.4rem;
-  color: #666;
-  margin: 1rem 0 0 0;
-  padding: 0.5rem 0;
-}
-.popupOverlay .popupContent .paperOptions .flex_control {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  transition: background-color 0.3s ease;
 }
-.popupOverlay .popupContent .paperOptions .flex_control .customizeButton {
-  flex: 5 1;
+.popupBody .actionButtons .favoriteButton:hover {
+  background-color: #d4ac0d;
+}
+@media (max-width: 768px) {
+  .popupBody .infoSection {
+    padding: 15px;
+  }
+  .popupBody .price {
+    font-size: 1.1rem;
+  }
+  .popupBody .description {
+    font-size: 0.9rem;
+  }
+  .popupBody .actionButtons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .popupBody .actionButtons .customizeButton {
+    width: 100%;
+    padding: 12px;
+  }
+  .popupBody .actionButtons .favoriteButton {
+    width: 100%;
+    height: auto;
+    padding: 12px;
+    justify-content: center;
+  }
+}
+.popupBody .optionsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.popupBody .optionsSection .paperOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.popupBody .optionsSection .paperOptions .paperOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border: 0.1rem solid #dbdbdb;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.popupBody .optionsSection .paperOptions .paperOption input[type=radio] {
+  margin-top: 0.3rem;
+}
+.popupBody .optionsSection .paperOptions .paperOption div {
+  flex: 1;
+}
+.popupBody .optionsSection .paperOptions .paperOption div strong {
+  display: block;
+  font-size: 1.2rem;
+}
+.popupBody .optionsSection .paperOptions .paperOption div p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0.5rem 0 0;
+}
+.popupBody .optionsSection .paperOptions .quantitySelector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.popupBody .optionsSection .paperOptions .quantitySelector span {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.popupBody .optionsSection .paperOptions .quantitySelector select {
+  font-size: 1.2rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #dbdbdb;
+  width: 100%;
+  cursor: pointer;
+}
+.popupBody .optionsSection .actionButtons {
+  display: flex;
+  gap: 1rem;
+}
+.popupBody .optionsSection .actionButtons .customizeButton {
+  flex: 3;
   background-color: #6f42c1;
   color: white;
-  padding: 1rem 2rem;
+  padding: 1rem;
   border: none;
   border-radius: 0.5rem;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  width: 100%;
   transition: background-color 0.3s;
 }
-.popupOverlay .popupContent .paperOptions .flex_control .customizeButton:hover {
+.popupBody .optionsSection .actionButtons .customizeButton:hover {
   background-color: #5a32a3;
 }
-.popupOverlay .popupContent .paperOptions .flex_control .favoriteButton {
-  flex: 1 1;
+.popupBody .optionsSection .actionButtons .favoriteButton {
+  flex: 1;
   border: 0.1rem solid #dbdbdb;
-  font-size: 2.5rem;
-  padding: 0.5rem 2rem;
+  padding: 1rem;
   border-radius: 0.5rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .closeButton {
   position: absolute;
-  top: -1rem;
-  right: -5rem;
+  top: 1rem;
+  right: 1rem;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
-  padding: 0.7rem 1.1rem;
+  padding: 0.5rem 0.8rem;
   border: none;
-  font-size: 2rem;
+  font-size: 1.5rem;
   cursor: pointer;
   color: #fff;
 }
 .closeButton:hover {
   background: rgba(0, 0, 0, 0.8);
-  transition: 0.3s linear;
+  transition: background-color 0.3s linear;
 }
 
+@media (max-width: 768px) {
+  .popupContent {
+    padding: 1.5rem;
+    max-width: 90vw;
+    max-height: 85vh;
+  }
+  .popupHeader .popupTitle {
+    font-size: 1.5rem;
+  }
+  .popupHeader .popupSubtitle {
+    font-size: 1rem;
+  }
+  .popupHeader a {
+    font-size: 1rem;
+  }
+  .popupBody {
+    flex-direction: column;
+  }
+  .popupBody .imageSection .popupImageContainer {
+    max-width: 100%;
+    padding: 0.5rem;
+  }
+  .popupBody .optionsSection .paperOption {
+    padding: 1rem;
+  }
+  .popupBody .optionsSection .paperOption div strong {
+    font-size: 1.1rem;
+  }
+  .popupBody .optionsSection .paperOption div p {
+    font-size: 0.9rem;
+  }
+  .popupBody .optionsSection .quantitySelector span {
+    font-size: 1.1rem;
+  }
+  .popupBody .optionsSection .quantitySelector select {
+    font-size: 1.1rem;
+    padding: 0.4rem;
+  }
+  .popupBody .optionsSection .actionButtons {
+    flex-direction: column;
+  }
+  .popupBody .optionsSection .actionButtons .customizeButton,
+  .popupBody .optionsSection .actionButtons .favoriteButton {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+  }
+  .closeButton {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 1.2rem;
+  }
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 @keyframes scaleIn {
@@ -179,5 +345,15 @@
   to {
     transform: scale(1);
     opacity: 1;
+  }
+}
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.8);
+    opacity: 0;
   }
 }/*# sourceMappingURL=product_details.module.css.map */
