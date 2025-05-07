@@ -116,6 +116,7 @@
 
         p {
             margin: 5px 0;
+            padding: .5rem;
         }
     }
 
@@ -197,7 +198,8 @@
         }
 
         .description {
-            font-size: 0.9rem;
+            font-size: 1.3rem;
+            padding: 1rem .5rem;
         }
 
         .actionButtons {
@@ -331,11 +333,11 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 60rem) {
     .popupContent {
         padding: 1.5rem;
         max-width: 90vw;
-        max-height: 85vh;
+        max-height: 75vh;
     }
 
     .popupHeader {
@@ -344,11 +346,11 @@
         }
 
         .popupSubtitle {
-            font-size: 1rem;
+            font-size: 1.3rem;
         }
 
         a {
-            font-size: 1rem;
+            font-size: 1.3rem;
         }
     }
 
@@ -378,13 +380,14 @@
             }
 
             .quantitySelector {
+                
                 span {
-                    font-size: 1.1rem;
+                    font-size: 1.3rem;
                 }
 
                 select {
                     font-size: 1.1rem;
-                    padding: 0.4rem;
+                    padding: 1.5rem;
                 }
             }
 
@@ -394,7 +397,7 @@
                 .customizeButton,
                 .favoriteButton {
                     width: 100%;
-                    padding: 0.8rem;
+                    padding: 1.5rem;
                     font-size: 1.1rem;
                 }
             }

@@ -107,6 +107,7 @@
 }
 .popupBody .description p {
   margin: 5px 0;
+  padding: 0.5rem;
 }
 .popupBody .statusReady {
   color: #28a745;
@@ -174,7 +175,8 @@
     font-size: 1.1rem;
   }
   .popupBody .description {
-    font-size: 0.9rem;
+    font-size: 1.3rem;
+    padding: 1rem 0.5rem;
   }
   .popupBody .actionButtons {
     flex-direction: column;
@@ -289,20 +291,20 @@
   transition: background-color 0.3s linear;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 60rem) {
   .popupContent {
     padding: 1.5rem;
     max-width: 90vw;
-    max-height: 85vh;
+    max-height: 75vh;
   }
   .popupHeader .popupTitle {
     font-size: 1.5rem;
   }
   .popupHeader .popupSubtitle {
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
   .popupHeader a {
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
   .popupBody {
     flex-direction: column;
@@ -321,11 +323,11 @@
     font-size: 0.9rem;
   }
   .popupBody .optionsSection .quantitySelector span {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
   .popupBody .optionsSection .quantitySelector select {
     font-size: 1.1rem;
-    padding: 0.4rem;
+    padding: 1.5rem;
   }
   .popupBody .optionsSection .actionButtons {
     flex-direction: column;
@@ -333,7 +335,7 @@
   .popupBody .optionsSection .actionButtons .customizeButton,
   .popupBody .optionsSection .actionButtons .favoriteButton {
     width: 100%;
-    padding: 0.8rem;
+    padding: 1.5rem;
     font-size: 1.1rem;
   }
   .closeButton {

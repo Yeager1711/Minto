@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './product_details.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+// import { faXmark, faStar } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 
 // Define the type for product data
@@ -98,7 +99,7 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                 <div className={styles.popupHeader}>
                     <h2 className={styles.popupTitle}>{product.name}</h2>
                     <p className={styles.popupSubtitle}>Invitation • Portrait • 105 x 148 mm</p>
-                    <a href={product.link}>Xem trực tiếp</a>
+                    {/* <a href={product.link}>Xem trực tiếp</a> */}
                 </div>
                 <div className={styles.popupBody}>
                     <div className={styles.imageSection}>
@@ -123,7 +124,7 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                         <option value="5 lời mời">5 lời mời</option>
                                         <option value="50 lời mời">50 lời mời</option>
                                         <option value="100 lời mời">100 lời mời</option>
-                                        <option value="150 lời mời">150 lời mời</option>
+                                        faStar          <option value="150 lời mời">150 lời mời</option>
                                         <option value="200 lời mời">200 lời mời</option>
                                         <option value="250 lời mời">250 lời mời</option>
                                         <option value="500 lời mời">500 lời mời</option>
@@ -139,9 +140,9 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                 >
                                     Sử dụng mẫu này với giá {formattedTotalPrice}
                                 </button>
-                                <button className={styles.favoriteButton}>
+                                {/* <button className={styles.favoriteButton}>
                                     <FontAwesomeIcon icon={faStar} />
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     </div>

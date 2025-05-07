@@ -191,7 +191,7 @@ const Home: React.FC = () => {
                 </div>
             </header>
 
-            <h1 className={styles.heading}>GM, Huỳnh Nam! 👋</h1>
+            <h1 className={styles.heading}>Hi, Everyone! 👋</h1>
 
             <div className={styles.layer_default}>
                 <h2>Mẫu thiết kế có sẵn</h2>
