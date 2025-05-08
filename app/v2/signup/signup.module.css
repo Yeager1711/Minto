@@ -1,0 +1,123 @@
+.signUpPopupOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999 !important;
+  display: flex;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+.signUpPopupOverlay.animateIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+.signUpPopupOverlay:not(.animateIn) {
+  animation: fadeOut 0.3s ease-in forwards;
+}
+.signUpPopupOverlay .signUpPopupContainer {
+  margin: auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  max-width: 50rem;
+  width: 85%;
+  transform-origin: center bottom;
+  animation: slideUpAndExpand 0.3s ease-out forwards;
+}
+.signUpPopupOverlay .signUpPopupContainer.animateContainerIn {
+  animation: slideUpAndExpand 0.3s ease-out forwards;
+}
+.signUpPopupOverlay .signUpPopupContainer:not(.animateContainerIn) {
+  animation: slideDownAndShrink 0.3s ease-in forwards;
+}
+.signUpPopupOverlay .signUpPopupContainer h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 2rem;
+}
+.signUpPopupOverlay .signUpPopupContainer .signUpPopupError {
+  color: red;
+  font-size: 1.3rem;
+}
+.signUpPopupOverlay .signUpPopupContainer form {
+  margin-top: 2rem;
+}
+.signUpPopupOverlay .signUpPopupContainer form .signUpPopupField {
+  position: relative;
+  padding: 1rem 1.5rem;
+  border: 0.1rem solid #dbdbdb;
+  margin-bottom: 4rem;
+  border-radius: 0.5rem;
+}
+.signUpPopupOverlay .signUpPopupContainer form .signUpPopupField .signUpPopupLabel {
+  position: absolute;
+  left: 1rem;
+  top: -1.2rem;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  font-size: 1.4rem;
+}
+.signUpPopupOverlay .signUpPopupContainer form .signUpPopupField .signUpPopupInput {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+}
+.signUpPopupOverlay .signUpPopupContainer form .signUpPopupActions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.signUpPopupOverlay .signUpPopupContainer form .signUpPopupActions .signUpPopupButton {
+  padding: 0.8rem 3rem;
+  font-size: 1.3rem;
+  color: #fff;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+.signUpPopupOverlay .signUpPopupContainer form .signUpPopupActions .signUpPopupButton.signUpPopupButtonCancel {
+  background: #dbdbdb;
+}
+.signUpPopupOverlay .signUpPopupContainer form .signUpPopupActions .signUpPopupButton.signUpPopupButtonSubmit {
+  background: #3b82f6;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes slideUpAndExpand {
+  from {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+@keyframes slideDownAndShrink {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+}/*# sourceMappingURL=signup.module.css.map */

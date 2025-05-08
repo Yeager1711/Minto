@@ -194,7 +194,7 @@
         }
 
         .price {
-            font-size: 1.1rem;
+            font-size: 1.5rem;
         }
 
         .description {
@@ -289,10 +289,10 @@
                 flex: 3;
                 background-color: #6f42c1;
                 color: white;
-                padding: 1rem;
+                padding: 1.5rem;
                 border: none;
                 border-radius: 0.5rem;
-                font-size: 1.2rem;
+                font-size: 1.4rem;
                 cursor: pointer;
                 transition: background-color 0.3s;
 
@@ -317,13 +317,13 @@
 
 .closeButton {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 2rem;
+    right: 2rem;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
-    padding: 0.5rem 0.8rem;
+    padding: 1rem 1.6rem;
     border: none;
-    font-size: 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
     color: #fff;
 
@@ -337,7 +337,7 @@
     .popupContent {
         padding: 1.5rem;
         max-width: 90vw;
-        max-height: 75vh;
+        max-height: 60vh;
     }
 
     .popupHeader {
@@ -370,7 +370,7 @@
 
                 div {
                     strong {
-                        font-size: 1.1rem;
+                        font-size: 1.3rem;
                     }
 
                     p {
@@ -386,7 +386,8 @@
                 }
 
                 select {
-                    font-size: 1.1rem;
+                    height: 5rem;
+                    font-size: 1.3rem;
                     padding: 1.5rem;
                 }
             }
@@ -398,17 +399,18 @@
                 .favoriteButton {
                     width: 100%;
                     padding: 1.5rem;
-                    font-size: 1.1rem;
+                    font-size: 1.4rem;
                 }
             }
         }
     }
 
     .closeButton {
-        top: 0.5rem;
-        right: 0.5rem;
-        padding: 0.4rem 0.7rem;
-        font-size: 1.2rem;
+        top: 1.5rem;
+        right: 1.5rem;
+        padding: 1rem 2rem;
+        font-size: 1.8rem;
+        border-radius: .5rem;
     }
 }
 

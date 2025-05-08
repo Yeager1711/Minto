@@ -1,0 +1,166 @@
+.loginPopupOverlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999 !important;
+    display: flex;
+    animation: fadeIn 0.3s ease-out forwards;
+
+    &.animateIn {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    &:not(.animateIn) {
+        animation: fadeOut 0.3s ease-in forwards;
+    }
+
+    .loginPopupContainer {
+        margin: auto;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        max-width: 50rem;
+        width: 85%;
+        transform-origin: center bottom;
+        animation: slideUpAndExpand 0.3s ease-out forwards;
+
+        &.animateContainerIn {
+            animation: slideUpAndExpand 0.3s ease-out forwards;
+        }
+
+        &:not(.animateContainerIn) {
+            animation: slideDownAndShrink 0.3s ease-in forwards;
+        }
+
+        h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 2rem;
+        }
+
+        .loginPopupError {
+            color: red;
+            font-size: 1.3rem;
+        }
+
+        form {
+            margin-top: 2rem;
+
+            .loginPopupField {
+                position: relative;
+                padding: 1rem 1.5rem;
+                border: 0.1rem solid #dbdbdb;
+                margin-bottom: 4rem;
+                border-radius: 0.5rem;
+
+                &:nth-child(2) {
+                    margin-bottom: 1rem;
+                }
+
+                .loginPopupLabel {
+                    position: absolute;
+                    left: 1rem;
+                    top: -1.2rem;
+                    padding: 0.5rem 1rem;
+                    background: #fff;
+                    font-size: 1.4rem;
+                }
+
+                .loginPopupInput {
+                    width: 100%;
+                    padding: 0.5rem;
+                    font-size: 1.4rem;
+                    border: none;
+                    outline: none;
+                }
+            }
+
+            .loginPopupActions {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+
+                .loginPopupButton {
+                    padding: 0.8rem 3rem;
+                    font-size: 1.3rem;
+                    color: #fff;
+                    border-radius: 0.5rem;
+                    border: none;
+                    cursor: pointer;
+
+                    &.loginPopupButtonCancel {
+                        background: #dbdbdb;
+                    }
+
+                    &.loginPopupButtonSubmit {
+                        // background: #3b82f6;
+                        background-color: #ff7d55;
+                    }
+                }
+            }
+        }
+
+        .registerLink {
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+            font-size: 1.3rem;
+
+            .registerLinkText {
+                color: #3b82f6;
+                cursor: pointer;
+                text-decoration: underline;
+
+                &:hover {
+                    color: #1d4ed8;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes slideUpAndExpand {
+    from {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDownAndShrink {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+}

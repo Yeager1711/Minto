@@ -13,7 +13,7 @@ interface Product {
     link: string;
     price: number;
     description: string;
-    status: string
+    status: string;
 }
 
 // Products for "Mẫu thiết kế có sẵn" (Ready-made designs)
@@ -25,7 +25,7 @@ const readyMadeProducts: Product[] = [
         link: 'https://exquisite-tapioca-fae754.netlify.app/',
         price: 99000,
         description: 'Phong cách tối giản\nThanh lịch\nMàu sắc nhẹ nhàng\nDễ phối hợp\nHoàn hảo cho tiệc cưới hiện đại',
-        status: 'Sẵn sàng'
+        status: 'Sẵn sàng',
     },
     {
         id: '2',
@@ -34,7 +34,7 @@ const readyMadeProducts: Product[] = [
         link: 'https://exquisite-tapioca-fae754.netlify.app/',
         price: 199000,
         description: 'Thiết kế đơn giản\nMàu sắc nhẹ nhàng\nThông tin cơ bản đầy đủ\nKết hợp dynamic music bottom',
-        status: 'Sẵn sàng'
+        status: 'Sẵn sàng',
     },
 ];
 
@@ -48,8 +48,8 @@ const proProducts: Product[] = [
         price: 129000,
         description:
             'Màu đỏ rực rỡ với hoa đào nổi bật.\nThiết kế hiện đại, sang trọng.\nLý tưởng cho cặp đôi yêu sự nổi bật.',
-        status: 'Đang được cập nhật'
-        },
+        status: 'Đang được cập nhật',
+    },
     {
         id: 'pro_2',
         name: 'Thiệp cưới màu nước tối giản',
@@ -57,7 +57,7 @@ const proProducts: Product[] = [
         link: 'https://exquisite-tapioca-fae754.netlify.app/',
         price: 109000,
         description: 'Phong cách màu nước mềm mại.\nTối giản nhưng đầy tinh tế.\nPhù hợp cho tiệc cưới ấm cúng.',
-        status: 'Đang được cập nhật'
+        status: 'Đang được cập nhật',
     },
     {
         id: 'pro_3',
@@ -66,7 +66,7 @@ const proProducts: Product[] = [
         link: 'https://exquisite-tapioca-fae754.netlify.app/',
         price: 119000,
         description: 'Sắc xanh và trắng dịu dàng.\nThiết kế mềm mại, thanh thoát.\nHoàn hảo cho lễ cưới ngoài trời.',
-        status: 'Đang được cập nhật'
+        status: 'Đang được cập nhật',
     },
     {
         id: 'pro_4',
@@ -76,8 +76,8 @@ const proProducts: Product[] = [
         price: 139000,
         description:
             'Kết hợp xanh dương và vàng ánh kim.\nThiết kế sang trọng, hiện đại.\nLý tưởng cho tiệc cưới cao cấp.',
-        status: 'Đang được cập nhật'
-        },
+        status: 'Đang được cập nhật',
+    },
     {
         id: 'pro_5',
         name: 'Thiệp cưới thanh lịch',
@@ -86,8 +86,8 @@ const proProducts: Product[] = [
         price: 99000,
         description:
             'Phong cách thanh lịch, tinh tế.\nMàu sắc trung tính, dễ phối hợp.\nPhù hợp cho mọi phong cách cưới.',
-        status: 'Đang được cập nhật'
-        },
+        status: 'Đang được cập nhật',
+    },
 ];
 
 // Define props type for the ProductCard component
@@ -160,53 +160,55 @@ const Home: React.FC = () => {
 
     return (
         <main className={styles.main}>
-            <header className={styles.header}>
-                <h1 className={styles.headerTitle}>Ý tưởng hôm nay của bạn là gì?</h1>
-                <div className={styles.headerButtons}>
-                    <button className={styles.headerButtonActive}>Templates thiệp cưới</button>
-                    <button className={styles.headerButton}>Templates tốt nghiệp</button>
-                    <button className={styles.headerButton}>Template sinh nhật</button>
+            <div className={styles.wrapper_main}>
+                <header className={styles.header}>
+                    <h1 className={styles.headerTitle}>Ý tưởng hôm nay của bạn là gì?</h1>
+                    <div className={styles.headerButtons}>
+                        <button className={styles.headerButtonActive}>Templates thiệp cưới</button>
+                        <button className={styles.headerButton}>Templates tốt nghiệp</button>
+                        <button className={styles.headerButton}>Template sinh nhật</button>
+                    </div>
+
+                    <div className={styles.wrapper_expend}>
+                        <div className={styles.searchBar}>
+                            <input
+                                type="text"
+                                placeholder="Search millions of templates"
+                                className={styles.searchInput}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyPress={handleKeyPress} // Xử lý khi nhấn Enter
+                            />
+                            <span className={styles.searchIcon} onClick={handleSearch}>
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </span>
+                        </div>
+                        <div className={styles.categories}>
+                            <button className={styles.categoryButton}>Thiệp cưới</button>
+                            <button className={styles.categoryButton}>Sinh nhật</button>
+                            <button className={styles.categoryButton}>Lễ tốt nghiệp</button>
+                            <button className={styles.categoryButton}>Sự kiện quan trọng</button>
+                        </div>
+                    </div>
+                </header>
+
+                <h1 className={styles.heading}>Hi, Everyone! 👋</h1>
+
+                <div className={styles.layer_default}>
+                    <h2>Mẫu thiết kế có sẵn</h2>
+                    <ProductList products={readyMadeProducts} onProductClick={handleProductClick} />
                 </div>
 
-                <div className={styles.wrapper_expend}>
-                    <div className={styles.searchBar}>
-                        <input
-                            type="text"
-                            placeholder="Search millions of templates"
-                            className={styles.searchInput}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyPress={handleKeyPress} // Xử lý khi nhấn Enter
-                        />
-                        <span className={styles.searchIcon} onClick={handleSearch}>
-                            <FontAwesomeIcon icon={faArrowRight} />
-                        </span>
-                    </div>
-                    <div className={styles.categories}>
-                        <button className={styles.categoryButton}>Thiệp cưới</button>
-                        <button className={styles.categoryButton}>Sinh nhật</button>
-                        <button className={styles.categoryButton}>Lễ tốt nghiệp</button>
-                        <button className={styles.categoryButton}>Sự kiện quan trọng</button>
-                    </div>
+                <div className={styles.layer_default}>
+                    <h2>Mẫu pro</h2>
+                    {isLoading ? (
+                        <div className={styles.loading}>Đang cập nhật</div>
+                    ) : filteredProProducts.length === 0 ? (
+                        <div className={styles.noResults}>Không tìm thấy kết quả</div>
+                    ) : (
+                        <ProductList products={filteredProProducts} onProductClick={handleProductClick} />
+                    )}
                 </div>
-            </header>
-
-            <h1 className={styles.heading}>Hi, Everyone! 👋</h1>
-
-            <div className={styles.layer_default}>
-                <h2>Mẫu thiết kế có sẵn</h2>
-                <ProductList products={readyMadeProducts} onProductClick={handleProductClick} />
-            </div>
-
-            <div className={styles.layer_default}>
-                <h2>Mẫu pro</h2>
-                {isLoading ? (
-                    <div className={styles.loading}>Đang cập nhật</div>
-                ) : filteredProProducts.length === 0 ? (
-                    <div className={styles.noResults}>Không tìm thấy kết quả</div>
-                ) : (
-                    <ProductList products={filteredProProducts} onProductClick={handleProductClick} />
-                )}
             </div>
             <Popup product={selectedProduct} onClose={handleClosePopup} />
         </main>

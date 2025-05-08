@@ -12,7 +12,7 @@
   z-index: 1000;
 
   .margin {
-    max-width: 1200px;
+    max-width: 140rem;
     margin: 0 auto;
     padding: 2rem;
     display: flex;
@@ -29,9 +29,11 @@
       display: flex;
       gap: 2rem;
       list-style: none;
+      align-items: center;
 
       li {
         margin: 0 2rem;
+
         a {
           text-decoration: none;
           color: #666;
@@ -47,6 +49,18 @@
         &.active a {
           color: #000;
           border-bottom: 2px solid #000;
+        }
+      }
+
+      .user {
+        padding: 1rem;
+        background: #dbdbdb;
+        border-radius: 5rem;
+        cursor: pointer;
+        
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
         }
       }
     }
