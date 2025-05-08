@@ -10,6 +10,14 @@ interface LoginPopupProps {
     onOpenRegister: () => void;
 }
 
+interface AxiosErrorResponse {
+    response?: {
+        data?: {
+            message?: string;
+        };
+    };
+}
+
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister }) => {
@@ -23,6 +31,9 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
         if (isOpen) {
             wasOpenedRef.current = true;
             setIsAnimatingOut(false);
+            setEmail('');
+            setPassword('');
+            setError('');
         } else if (wasOpenedRef.current && !isAnimatingOut) {
             setIsAnimatingOut(true);
             const timer = setTimeout(() => {
@@ -30,13 +41,14 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             }, 300);
             return () => clearTimeout(timer);
         }
-    }, [isOpen, isAnimatingOut]); // Added isAnimatingOut to dependency array
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!email || !password) {
-            setError('Please fill in all fields');
-            console.log(`Login failed with email: ${email}`);
+            setError('Vui lòng điền đầy đủ tất cả các trường');
+            console.log(`Đăng nhập thất bại với email: ${email}`);
             return;
         }
         setError('');
@@ -48,17 +60,17 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             if (response.status === 200) {
                 localStorage.setItem('accessToken', response.data.accessToken);
                 setError('');
-                console.log(`Login successful with email: ${email}`);
+                console.log(`Đăng nhập thành công với email: ${email}`);
                 onClose();
             }
         } catch (err: unknown) {
-            // Changed 'any' to 'unknown'
+            const axiosError = err as AxiosErrorResponse;
             const errorMessage =
-                err instanceof Error && 'response' in err
-                    ? (err as any).response?.data?.message // Type assertion for response
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
                     : 'Đăng nhập thất bại';
             setError(errorMessage);
-            console.log(`Login failed with email: ${email}`);
+            console.log(`Đăng nhập thất bại với email: ${email}`);
         }
     };
 
