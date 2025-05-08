@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import classNames from 'classnames/bind';
@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import LoginPopup from '../../../v2/login/Login';
 import SignUpPopup from '../../../v2/signup/SignUp';
+import UserPopup from '../../../popup/UserPopup/UserPopup'; // Import the new UserPopup component
 
 const cx = classNames.bind(styles);
 
@@ -21,6 +22,14 @@ function Header() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
     const [isNavBoxOpen, setIsNavBoxOpen] = useState(false);
+    const [isUserPopupOpen, setIsUserPopupOpen] = useState(false);
+    const [accessToken, setAccessToken] = useState(''); // Simulate access token
+
+    useEffect(() => {
+        // Simulate checking access token (replace with actual auth logic)
+        const token = localStorage.getItem('accessToken') || '';
+        setAccessToken(token);
+    }, []);
 
     const handleOpenRegister = () => {
         setIsLoginOpen(false);
@@ -32,7 +41,17 @@ function Header() {
     };
 
     const handleOpenLogin = () => {
-        setIsLoginOpen(true); // Đảm bảo luôn mở popup
+        if (!accessToken) {
+            setIsLoginOpen(true);
+        } else {
+            setIsUserPopupOpen(true);
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+        setAccessToken('');
+        setIsUserPopupOpen(false);
     };
 
     const displayedNavItem = pathname === '/' ? navItems[1] : navItems[0];
@@ -66,14 +85,25 @@ function Header() {
                         <div className={cx('user')} onClick={handleOpenLogin}>
                             <FontAwesomeIcon icon={faUser} />
                         </div>
+                        {accessToken && (
+                            <UserPopup
+                                isOpen={isUserPopupOpen}
+                                onClose={() => setIsUserPopupOpen(false)}
+                                onLogout={handleLogout}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
             <LoginPopup
-                key={`login-popup-${isLoginOpen}`} // Thêm key để buộc re-mount
+                key={`login-popup-${isLoginOpen}`}
                 isOpen={isLoginOpen}
                 onClose={() => setIsLoginOpen(false)}
                 onOpenRegister={handleOpenRegister}
+                onLoginSuccess={(token) => {
+                    setAccessToken(token);
+                    setIsLoginOpen(false);
+                }}
             />
             <SignUpPopup
                 isOpen={isRegisterOpen}

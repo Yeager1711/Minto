@@ -8,6 +8,7 @@ interface LoginPopupProps {
     isOpen: boolean;
     onClose: () => void;
     onOpenRegister: () => void;
+    onLoginSuccess: (token: string) => void; // Added prop with proper typing
 }
 
 interface AxiosErrorResponse {
@@ -20,7 +21,7 @@ interface AxiosErrorResponse {
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
-const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister }) => {
+const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister, onLoginSuccess }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -58,9 +59,11 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                 password,
             });
             if (response.status === 200) {
-                localStorage.setItem('accessToken', response.data.accessToken);
+                const token = response.data.accessToken;
+                localStorage.setItem('accessToken', token);
                 setError('');
                 console.log(`Đăng nhập thành công với email: ${email}`);
+                onLoginSuccess(token); // Call the onLoginSuccess callback with the token
                 onClose();
             }
         } catch (err: unknown) {

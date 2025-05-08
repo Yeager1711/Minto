@@ -1,0 +1,83 @@
+.user-popup {
+    position: fixed;
+    top: 10%;
+    right: 1rem;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transform: translateX(-100%);
+    /* Start from -100% on the right */
+    transition: transform 0.3s ease-in-out, right 0.3s ease-in-out;
+    z-index: 1001;
+    max-width: 30rem;
+    /* Updated to 50rem as requested */
+    width: 100%;
+
+    &.popup-open {
+        transform: translateX(0);
+        /* Move to the final position */
+        right: 14%;
+        /* Ensure it aligns to 1rem from the right */
+    }
+
+    .user-info {
+        margin-bottom: 1rem;
+        border-bottom: 0.1rem solid #dbdbdb;
+        padding-bottom: 1rem;
+
+        h3 {
+            font-size: 2rem;
+            padding-bottom: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #888;
+        }
+    }
+
+    .control {
+        border-bottom: 0.1rem solid #dbdbdb;
+        padding-bottom: 1rem;
+
+        a {
+            display: block;
+            padding: 1.5rem 1rem;
+            font-size: 1.4rem;
+            text-decoration: none;
+            margin: 0.5rem 0;
+
+            &:hover {
+                background: #dbdbdb;
+                border-radius: 1rem;
+            }
+        }
+    }
+
+    .logout-btn {
+        margin-top: 1rem;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #d32f2f;
+        width: 100%;
+
+        svg {
+            width: 1.9rem;
+            height: 1.9rem;
+        }
+
+        &:hover {
+            color: #b71c1c;
+        }
+    }
+}
