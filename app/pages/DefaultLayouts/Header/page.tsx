@@ -6,8 +6,8 @@ import classNames from 'classnames/bind';
 import styles from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import LoginPopup from '../../../v2/login/page';
-import SignUpPopup from '../../../v2/signup/page';
+import LoginPopup from '../../../v2/login/Login';
+import SignUpPopup from '../../../v2/signup/SignUp';
 
 const cx = classNames.bind(styles);
 
