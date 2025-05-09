@@ -77,9 +77,10 @@
 }
 .account_info .header_infoAccount .wrapper_left .list_invitions h4 {
   font-size: 2rem;
+  margin-bottom: 1rem;
 }
 .account_info .header_infoAccount .wrapper_left .list_invitions .list_item {
-  height: 20rem;
+  max-height: 20rem;
   overflow-y: scroll;
 }
 .account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table {

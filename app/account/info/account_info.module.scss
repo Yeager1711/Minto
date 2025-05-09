@@ -92,10 +92,11 @@
             .list_invitions {
                 h4 {
                     font-size: 2rem;
+                    margin-bottom: 1rem;
                 }
 
                 .list_item {
-                    height: 20rem;
+                    max-height: 20rem;
                     overflow-y: scroll;
 
                     .table {
