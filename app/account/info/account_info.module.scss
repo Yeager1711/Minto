@@ -1,0 +1,190 @@
+@media (max-width: 96rem) {
+    .account_info {
+        margin-top: 7rem !important;
+    }
+}
+
+.account_info {
+    max-width: 1400px;
+    width: 95%;
+    margin: auto;
+    margin-top: 9rem;
+
+    .header_infoAccount {
+        background: #fff;
+        padding: 2rem 1rem 2rem 2rem;
+        border-radius: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+
+        .wrapper_left {
+            flex: 1 1 70rem;
+            max-width: 70rem;
+            width: 100%;
+
+            .account_info__wrapper {
+                h3 {
+                    font-size: 3rem;
+                }
+
+                .box_item {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: space-between;
+                    border-top: 0.1rem solid #dbdbdb;
+                    width: 100%;
+                    padding: 1.5rem 0;
+
+                    &:nth-child(3) {
+                        border-bottom: 0.1rem solid #dbdbdb;
+                    }
+
+                    .box_flex {
+                        flex: 4 1;
+
+                        h2 {
+                            font-size: 1.8rem;
+                        }
+
+                        span {
+                            font-size: 1.4rem;
+                            color: #333;
+                        }
+
+                        // Style cho input khi chỉnh sửa
+                        .input {
+                            padding: 0.8rem 1rem;
+                            border: 0.1rem solid #dbdbdb;
+                            border-radius: 0.5rem;
+                            font-size: 1.4rem;
+                            width: 100%;
+                            max-width: 250px;
+                            margin-top: 0.5rem;
+
+                            &:focus {
+                                outline: none;
+                                border-color: #007bff;
+                                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                            }
+                        }
+                    }
+
+                    .box_right {
+                        padding: 1rem 1.5rem;
+                        border: 0.1rem solid #dbdbdb;
+                        border-radius: 1rem;
+                        font-size: 1.3rem;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: background-color 0.3s, color 0.3s;
+
+                        &:hover {
+                            background-color: #007bff;
+                            color: #fff;
+                            border-color: #007bff;
+                        }
+                    }
+                }
+            }
+
+            .list_invitions {
+                h4 {
+                    font-size: 2rem;
+                }
+
+                .list_item {
+                    height: 20rem;
+                    overflow-y: scroll;
+
+                    .table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 1rem;
+                        background: #fff;
+
+                        th,
+                        td {
+                            padding: 1rem;
+                            text-align: left;
+                            border-bottom: 0.1rem solid #dbdbdb;
+                        }
+
+                        th {
+                            background-color: #f5f5f5;
+                            font-size: 1.6rem;
+                            font-weight: 600;
+                            color: #333;
+                        }
+
+                        td {
+                            font-size: 1.4rem;
+                            color: #555;
+                        }
+
+                        tr:hover {
+                            background-color: #f9f9f9;
+                            transition: background-color 0.2s;
+                        }
+
+                        // Responsive
+                        @media (max-width: 768px) {
+                            display: block;
+                            overflow-x: auto;
+
+                            th,
+                            td {
+                                min-width: 120px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        .error {
+            color: #dc3545;
+            font-size: 1.4rem;
+            margin: 2rem;
+        }
+
+        .wrapper__right_template {
+            flex: 1 1 2cqw;
+            background: #fff;
+            border-radius: 1rem;
+            margin-top: 2rem;
+            width: 100%;
+            height: 52rem;
+            overflow-y: scroll;
+            padding-right: 1rem;
+
+            h4 {
+                font-size: 2rem;
+            }
+
+            .grid_template {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+                gap: 1.5rem;
+
+                .template_item {
+                    border: .1rem solid #dbdbdb;
+                    border-radius: 1rem;
+                    overflow: hidden;
+
+                    .image {
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+}
