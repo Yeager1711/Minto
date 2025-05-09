@@ -1,25 +1,14 @@
 'use client';
-
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import styles from './login.module.scss';
+import { useApi } from '../../lib/apiContext/apiContext'; // Import useApi
 
 interface LoginPopupProps {
     isOpen: boolean;
     onClose: () => void;
     onOpenRegister: () => void;
-    onLoginSuccess: (token: string) => void; // Added prop with proper typing
+    onLoginSuccess: (token: string) => void;
 }
-
-interface AxiosErrorResponse {
-    response?: {
-        data?: {
-            message?: string;
-        };
-    };
-}
-
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister, onLoginSuccess }) => {
     const [email, setEmail] = useState('');
@@ -27,6 +16,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
     const [error, setError] = useState('');
     const [isAnimatingOut, setIsAnimatingOut] = useState(false);
     const wasOpenedRef = useRef(false);
+    const { login } = useApi(); // Use the login method from context
 
     useEffect(() => {
         if (isOpen) {
@@ -42,8 +32,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             }, 300);
             return () => clearTimeout(timer);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isOpen]);
+    }, [isOpen, isAnimatingOut]); // Thêm isAnimatingOut vào mảng phụ thuộc
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -54,24 +43,13 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
         }
         setError('');
         try {
-            const response = await axios.post(`${apiUrl}/auth/login`, {
-                email,
-                password,
-            });
-            if (response.status === 200) {
-                const token = response.data.accessToken;
-                localStorage.setItem('accessToken', token);
-                setError('');
-                console.log(`Đăng nhập thành công với email: ${email}`);
-                onLoginSuccess(token); // Call the onLoginSuccess callback with the token
-                onClose();
-            }
+            const response = await login({ email, password });
+            console.log(`Đăng nhập thành công với email: ${email}`);
+            onLoginSuccess(response.accessToken);
+            onClose();
         } catch (err: unknown) {
-            const axiosError = err as AxiosErrorResponse;
-            const errorMessage =
-                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
-                    ? axiosError.response.data.message
-                    : 'Đăng nhập thất bại';
+            // Kiểm tra kiểu an toàn
+            const errorMessage = err instanceof Error ? err.message : 'Đăng nhập thất bại';
             setError(errorMessage);
             console.log(`Đăng nhập thất bại với email: ${email}`);
         }

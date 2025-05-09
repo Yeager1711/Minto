@@ -18,14 +18,14 @@
     &.popup-open {
         transform: translateX(0);
         /* Move to the final position */
-        right: 14%;
+        right: 3%;
         /* Ensure it aligns to 1rem from the right */
     }
 
     .user-info {
         margin-bottom: 1rem;
         border-bottom: 0.1rem solid #dbdbdb;
-        padding-bottom: 1rem;
+        padding: 1rem;
 
         h3 {
             font-size: 2rem;
@@ -37,6 +37,13 @@
             margin: 0;
             font-size: 1.2rem;
             color: #888;
+        }
+
+        &:hover {
+            cursor: pointer;
+            border-radius: 1rem;
+            transition: .3s linear;
+            background: #f1f1f1;
         }
     }
 
@@ -52,8 +59,8 @@
             margin: 0.5rem 0;
 
             &:hover {
-                background: #dbdbdb;
-                border-radius: 1rem;
+                background: #f1f1f1;
+                border-radius: .7rem;
             }
         }
     }
@@ -80,4 +87,16 @@
             color: #b71c1c;
         }
     }
+}
+
+@media (min-width: 1600px) {
+    .user-popup {
+        &.popup-open {
+            transform: translateX(0);
+            /* Move to the final position */
+            right: 13% !important;
+            /* Ensure it aligns to 1rem from the right */
+        }
+    }
+
 }

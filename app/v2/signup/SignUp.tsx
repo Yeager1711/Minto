@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import styles from './signup.module.scss';
+import { useApi } from '../../lib/apiContext/apiContext'; // Import useApi
 
 interface RegisterPopupProps {
     isOpen: boolean;
@@ -9,15 +9,6 @@ interface RegisterPopupProps {
     onSubmit: (data: { email: string; password: string; confirmPassword: string }) => void;
 }
 
-interface AxiosErrorResponse {
-    response?: {
-        data?: {
-            message?: string;
-        };
-    };
-}
-
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 const SignUpPopup: React.FC<RegisterPopupProps> = ({ isOpen, onClose, onSubmit }) => {
     const [email, setEmail] = useState('');
     const [fullName, setFullName] = useState('');
@@ -26,6 +17,7 @@ const SignUpPopup: React.FC<RegisterPopupProps> = ({ isOpen, onClose, onSubmit }
     const [error, setError] = useState('');
     const [isAnimatingOut, setIsAnimatingOut] = useState(false);
     const wasOpenedRef = useRef(false);
+    const { register } = useApi(); // Use the register method from context
 
     useEffect(() => {
         if (isOpen) {
@@ -43,8 +35,7 @@ const SignUpPopup: React.FC<RegisterPopupProps> = ({ isOpen, onClose, onSubmit }
             }, 300);
             return () => clearTimeout(timer);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isOpen]);
+    }, [isOpen, isAnimatingOut]); // Thêm isAnimatingOut vào mảng phụ thuộc
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -60,23 +51,12 @@ const SignUpPopup: React.FC<RegisterPopupProps> = ({ isOpen, onClose, onSubmit }
         }
 
         try {
-            const response = await axios.post(`${apiUrl}/auth/register`, {
-                full_name: fullName,
-                email,
-                password,
-                confirmPassword,
-            });
-
+            await register({ full_name: fullName, email, password, confirmPassword });
             onSubmit({ email, password, confirmPassword });
-
-            console.log('Đăng ký thành công:', response.data);
             onClose();
         } catch (err: unknown) {
-            const axiosError = err as AxiosErrorResponse;
-            const errorMessage =
-                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
-                    ? axiosError.response.data.message
-                    : 'Đã có lỗi xảy ra, vui lòng thử lại';
+            // Kiểm tra kiểu an toàn
+            const errorMessage = err instanceof Error ? err.message : 'Đăng ký thất bại';
             setError(errorMessage);
         }
     };

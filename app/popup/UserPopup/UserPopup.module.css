@@ -1,0 +1,88 @@
+.user-popup {
+  position: fixed;
+  top: 10%;
+  right: 1rem;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  /* Start from -100% on the right */
+  transition: transform 0.3s ease-in-out, right 0.3s ease-in-out;
+  z-index: 1001;
+  max-width: 30rem;
+  /* Updated to 50rem as requested */
+  width: 100%;
+}
+.user-popup.popup-open {
+  transform: translateX(0);
+  /* Move to the final position */
+  right: 3%;
+  /* Ensure it aligns to 1rem from the right */
+}
+.user-popup .user-info {
+  margin-bottom: 1rem;
+  border-bottom: 0.1rem solid #dbdbdb;
+  padding: 1rem;
+}
+.user-popup .user-info h3 {
+  font-size: 2rem;
+  padding-bottom: 0;
+  margin-bottom: 0.5rem;
+}
+.user-popup .user-info p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #888;
+}
+.user-popup .user-info:hover {
+  cursor: pointer;
+  border-radius: 1rem;
+  transition: 0.3s linear;
+  background: #f1f1f1;
+}
+.user-popup .control {
+  border-bottom: 0.1rem solid #dbdbdb;
+  padding-bottom: 1rem;
+}
+.user-popup .control a {
+  display: block;
+  padding: 1.5rem 1rem;
+  font-size: 1.4rem;
+  text-decoration: none;
+  margin: 0.5rem 0;
+}
+.user-popup .control a:hover {
+  background: #f1f1f1;
+  border-radius: 0.7rem;
+}
+.user-popup .logout-btn {
+  margin-top: 1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #d32f2f;
+  width: 100%;
+}
+.user-popup .logout-btn svg {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+.user-popup .logout-btn:hover {
+  color: #b71c1c;
+}
+
+@media (min-width: 1600px) {
+  .user-popup.popup-open {
+    transform: translateX(0);
+    /* Move to the final position */
+    right: 13% !important;
+    /* Ensure it aligns to 1rem from the right */
+  }
+}/*# sourceMappingURL=UserPopup.module.css.map */
