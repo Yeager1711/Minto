@@ -8,6 +8,8 @@
   width: 95%;
   margin: auto;
   margin-top: 9rem;
+  margin-bottom: 5rem;
+  /* app/components/account_info.module.css */
 }
 .account_info .header_infoAccount {
   background: #fff;
@@ -75,50 +77,6 @@
   color: #fff;
   border-color: #007bff;
 }
-.account_info .header_infoAccount .wrapper_left .list_invitions h4 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-.account_info .header_infoAccount .wrapper_left .list_invitions .list_item {
-  max-height: 20rem;
-  overflow-y: scroll;
-}
-.account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  background: #fff;
-}
-.account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table th,
-.account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 0.1rem solid #dbdbdb;
-}
-.account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table th {
-  background-color: #f5f5f5;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #333;
-}
-.account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table td {
-  font-size: 1.4rem;
-  color: #555;
-}
-.account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table tr:hover {
-  background-color: #f9f9f9;
-  transition: background-color 0.2s;
-}
-@media (max-width: 768px) {
-  .account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table {
-    display: block;
-    overflow-x: auto;
-  }
-  .account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table th,
-  .account_info .header_infoAccount .wrapper_left .list_invitions .list_item .table td {
-    min-width: 120px;
-  }
-}
 .account_info .header_infoAccount .error {
   color: #dc3545;
   font-size: 1.4rem;
@@ -152,4 +110,133 @@
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+.account_info .list_orders h4 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.account_info .list_orders .list_item {
+  max-height: 20rem;
+  overflow-y: scroll;
+}
+.account_info .list_orders .list_item .table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #fff;
+}
+.account_info .list_orders .list_item .table th, .account_info .list_orders .list_item .table td {
+  padding: 2rem 1.5rem;
+  text-align: left;
+  border-bottom: 0.1rem solid #dbdbdb;
+}
+.account_info .list_orders .list_item .table th {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+.account_info .list_orders .list_item .table td {
+  font-size: 1.2rem;
+  color: #555;
+}
+.account_info .list_orders .list_item .table tr:hover {
+  background-color: #f9f9f9;
+  transition: background-color 0.2s;
+}
+@media (max-width: 768px) {
+  .account_info .list_orders .list_item .table {
+    display: block;
+    overflow-x: auto;
+  }
+  .account_info .list_orders .list_item .table th, .account_info .list_orders .list_item .table td {
+    min-width: 120px;
+  }
+  .account_info .list_orders .list_item .table thead {
+    display: none;
+  }
+  .account_info .list_orders .list_item .table tbody {
+    display: block;
+  }
+  .account_info .list_orders .list_item .table tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+    border: 0.1rem solid #dbdbdb;
+    border-radius: 1rem;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.05);
+  }
+  .account_info .list_orders .list_item .table tr:hover {
+    background-color: transparent;
+  }
+  .account_info .list_orders .list_item .table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: none;
+    font-size: 1.4rem;
+    color: #333;
+  }
+  .account_info .list_orders .list_item .table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+    margin-right: 1rem;
+  }
+  .account_info .list_orders .list_item .table td:last-child {
+    color: #dc3545;
+    font-weight: 600;
+  }
+}
+.account_info .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.account_info .modal_content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 110rem;
+  width: 100%;
+  max-height: 80%;
+  overflow-y: auto;
+}
+.account_info .modal_content h3 {
+  font-size: 2rem;
+}
+.account_info .guest_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.account_info .guest_table th,
+.account_info .guest_table td {
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  text-align: left;
+  font-size: 1.3rem;
+}
+.account_info .guest_table th {
+  background-color: #f2f2f2;
+}
+.account_info .close_button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.account_info .close_button:hover {
+  background-color: #0056b3;
 }/*# sourceMappingURL=account_info.module.css.map */

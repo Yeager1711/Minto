@@ -41,16 +41,117 @@ interface UserProfile {
     };
 }
 
+interface CreateCategoryData {
+    category_name: string;
+}
+
+interface CreateCategoryResponse {
+    statusCode: number;
+    message: string;
+    data: {
+        category_id: number;
+        category_name: string;
+    };
+}
+
+interface Category {
+    category_id: number;
+    category_name: string;
+}
+
+interface CreateTemplateData {
+    template_id?: number;
+    name: string;
+    description?: string;
+    price: number;
+    category_id: number;
+    status: string;
+    image: File;
+}
+
+// Thêm giao diện CreateTemplateResponse
+interface CreateTemplateResponse {
+    template_id: number;
+    name: string;
+    description?: string;
+    image_url: string;
+    price: string;
+    category_id: number;
+    status: string;
+    message?: string; // Tùy chọn, nếu API trả về thông báo
+}
+
+interface TemplateResponse {
+    card_id: number;
+    template: {
+        template_id: number;
+        name: string;
+        image_url: string;
+        price: string;
+        payments: {
+            amount: string;
+            payment_date: string;
+            status: string;
+            payment_method: string;
+        }[];
+        guests: {
+            guest_id: number;
+            invitation_id: number;
+            full_name: string;
+            sharedLinks: {
+                link_id: number;
+                guest_id: number;
+                share_url: string;
+                created_at: string;
+                expires_at: string;
+            }[];
+        }[];
+    };
+}
+
+interface Template {
+    template_id: number;
+    name: string;
+    description?: string;
+    image_url: string;
+    price: number;
+    status: string;
+    category: Category;
+}
+
+interface SaveCardData {
+    templateId: number;
+    weddingData: any;
+    weddingImages: { file: File; position: string }[];
+    inviteeNames: string[];
+    totalPrice: number;
+}
+
+interface SaveCardResponse {
+    card_id: number;
+    user_id: number;
+    template_id: number;
+    created_at: string;
+    status: string;
+    custom_data: any;
+}
+
 interface ApiContextType {
     accessToken: string | null;
     login: (data: LoginData) => Promise<LoginResponse>;
     register: (data: RegisterData) => Promise<void>;
     getUserProfile: () => Promise<UserProfile>;
+    createCategory: (data: CreateCategoryData) => Promise<CreateCategoryResponse>;
+    getCategories: () => Promise<Category[]>;
+    createTemplate: (data: CreateTemplateData) => Promise<CreateTemplateResponse>;
+    getTemplates: () => Promise<Template[]>;
+    saveCard: (data: SaveCardData) => Promise<SaveCardResponse>;
+    getUserTemplates: () => Promise<TemplateResponse[]>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
 
-const apiUrl = 'https://e806-2402-800-6392-7ec8-7568-a720-bf51-7428.ngrok-free.app';
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -98,6 +199,9 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     const getUserProfile = async (): Promise<UserProfile> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
         try {
             const response = await axios.get(`${apiUrl}/users/profile`, {
                 headers: {
@@ -105,11 +209,8 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                     'ngrok-skip-browser-warning': 'true',
                 },
             });
-            console.log('Response headers:', response.headers);
-            console.log('Response data:', response.data);
             return response.data;
         } catch (err: unknown) {
-            console.error('Error fetching user profile:', err);
             const axiosError = err as AxiosErrorResponse;
             const errorMessage =
                 axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
@@ -120,11 +221,190 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
+    const createCategory = async (data: CreateCategoryData): Promise<CreateCategoryResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.post(`${apiUrl}/categories/add-template`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            toast.success(response.data.message || 'Danh mục đã được tạo thành công');
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Lỗi khi tạo danh mục, vui lòng thử lại';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
+    const getCategories = async (): Promise<Category[]> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.get(`${apiUrl}/categories/getCategories`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            return response.data.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể lấy danh sách danh mục';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
+    const createTemplate = async (data: CreateTemplateData): Promise<CreateTemplateResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const formData = new FormData();
+            if (data.template_id !== undefined) {
+                formData.append('template_id', data.template_id.toString());
+            }
+            formData.append('name', data.name);
+            if (data.description) {
+                formData.append('description', data.description);
+            }
+            formData.append('price', data.price.toString());
+            formData.append('category_id', data.category_id.toString());
+            formData.append('status', data.status);
+            formData.append('image', data.image);
+
+            console.log('FormData:', Array.from(formData.entries()));
+
+            const response = await axios.post(`${apiUrl}/templates/add-template`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Lỗi khi tạo mẫu thiệp';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
+    const getTemplates = async (): Promise<Template[]> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.get(`${apiUrl}/templates/getTemplate`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            return response.data.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể lấy danh sách mẫu thiệp';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
+    const saveCard = async (data: SaveCardData): Promise<SaveCardResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            console.log('Dữ liệu nhận được trong saveCard:', data);
+
+            const formData = new FormData();
+            formData.append('templateId', data.templateId.toString());
+            formData.append('weddingData', JSON.stringify(data.weddingData));
+            formData.append('inviteeNames', JSON.stringify(data.inviteeNames));
+            formData.append('totalPrice', data.totalPrice.toString());
+
+            data.weddingImages.forEach((image, index) => {
+                formData.append('weddingImages', image.file);
+                formData.append(`positions[${index}]`, image.position);
+            });
+
+            console.log('FormData:', Array.from(formData.entries()));
+            console.log('Header Authorization:', `Bearer ${accessToken}`);
+
+            const response = await axios.post(`${apiUrl}/cards/save-card`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log('Phản hồi từ saveCard:', response.data);
+            toast.success('Lưu thiệp thành công');
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Lỗi khi lưu thiệp, vui lòng thử lại';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
+    const getUserTemplates = async (): Promise<TemplateResponse[]> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.get(`${apiUrl}/cards/user-templates`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể lấy danh sách template';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
     const value = {
         accessToken,
         login,
         register,
         getUserProfile,
+        createCategory,
+        getCategories,
+        createTemplate,
+        getTemplates,
+        saveCard,
+        getUserTemplates,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

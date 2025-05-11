@@ -9,6 +9,7 @@
     width: 95%;
     margin: auto;
     margin-top: 9rem;
+    margin-bottom: 5rem;
 
     .header_infoAccount {
         background: #fff;
@@ -88,62 +89,7 @@
                     }
                 }
             }
-
-            .list_invitions {
-                h4 {
-                    font-size: 2rem;
-                    margin-bottom: 1rem;
-                }
-
-                .list_item {
-                    max-height: 20rem;
-                    overflow-y: scroll;
-
-                    .table {
-                        width: 100%;
-                        border-collapse: collapse;
-                        margin-top: 1rem;
-                        background: #fff;
-
-                        th,
-                        td {
-                            padding: 1rem;
-                            text-align: left;
-                            border-bottom: 0.1rem solid #dbdbdb;
-                        }
-
-                        th {
-                            background-color: #f5f5f5;
-                            font-size: 1.6rem;
-                            font-weight: 600;
-                            color: #333;
-                        }
-
-                        td {
-                            font-size: 1.4rem;
-                            color: #555;
-                        }
-
-                        tr:hover {
-                            background-color: #f9f9f9;
-                            transition: background-color 0.2s;
-                        }
-
-                        // Responsive
-                        @media (max-width: 768px) {
-                            display: block;
-                            overflow-x: auto;
-
-                            th,
-                            td {
-                                min-width: 120px;
-                            }
-                        }
-                    }
-                }
-            }
         }
-
 
         .error {
             color: #dc3545;
@@ -171,7 +117,7 @@
                 gap: 1.5rem;
 
                 .template_item {
-                    border: .1rem solid #dbdbdb;
+                    border: 0.1rem solid #dbdbdb;
                     border-radius: 1rem;
                     overflow: hidden;
 
@@ -187,5 +133,162 @@
         }
     }
 
+    .list_orders {
+        h4 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
 
+        .list_item {
+            max-height: 20rem;
+            overflow-y: scroll;
+
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 1rem;
+                background: #fff;
+
+                & th,
+                & td {
+                    padding: 2rem 1.5rem;
+                    text-align: left;
+                    border-bottom: 0.1rem solid #dbdbdb;
+                }
+
+                & th {
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                    color: #333;
+                }
+
+                & td {
+                    font-size: 1.2rem;
+                    color: #555;
+                }
+
+                & tr:hover {
+                    background-color: #f9f9f9;
+                    transition: background-color 0.2s;
+                }
+
+                // Responsive for tablet and mobile (below 768px)
+                @media (max-width: 768px) {
+                    display: block;
+                    overflow-x: auto;
+
+                    & th,
+                    & td {
+                        min-width: 120px;
+                    }
+
+                    & thead {
+                        display: none; // Hide table header on mobile
+                    }
+
+                    & tbody {
+                        display: block; // Ensure tbody is block for stacking
+                    }
+
+                    & tr {
+                        display: flex; // Use flexbox for card layout
+                        flex-direction: column; // Stack items vertically
+                        margin-bottom: 1.5rem; // Space between cards
+                        border: 0.1rem solid #dbdbdb; // Border for card effect
+                        border-radius: 1rem; // Rounded corners
+                        padding: 1rem; // Inner padding
+                        background: #fff; // Background for card
+                        box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.05); // Subtle shadow for depth
+
+                        &:hover {
+                            background-color: transparent; // Remove hover effect on mobile
+                        }
+                    }
+
+                    & td {
+                        display: flex; // Flex for label-value pair
+                        justify-content: space-between; // Space between label and value
+                        padding: 1.5rem 0; // Padding for each row
+                        border-bottom: none; // Remove bottom border
+                        font-size: 1.4rem; // Adjust font size for readability
+                        color: #333; // Darker text for values
+
+                        // Add labels using pseudo-elements
+                        &::before {
+                            content: attr(data-label); // Use data-label for headers
+                            font-weight: 600; // Bold label
+                            color: #555; // Slightly lighter text for labels
+                            margin-right: 1rem; // Space between label and value
+                        }
+
+                        // Special styling for "Trạng thái" (status) to match the image
+                        &:last-child {
+                            color: #dc3545; // Red color for status (like "Tạm dừng")
+                            font-weight: 600; // Bold status text
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /* app/components/account_info.module.css */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal_content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 110rem;
+        width: 100%;
+        max-height: 80%;
+        overflow-y: auto;
+
+        h3 {
+            font-size: 2rem;
+        }
+    }
+
+    .guest_table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .guest_table th,
+    .guest_table td {
+        border: 1px solid #ddd;
+        padding: 1.5rem;
+        text-align: left;
+        font-size: 1.3rem;
+    }
+
+    .guest_table th {
+        background-color: #f2f2f2;
+    }
+
+    .close_button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .close_button:hover {
+        background-color: #0056b3;
+    }
 }

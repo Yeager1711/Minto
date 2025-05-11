@@ -123,7 +123,7 @@
 }
 .main .wrapper_main .layer_default .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -140,4 +140,5 @@
   height: 28rem;
   -o-object-fit: cover;
      object-fit: cover;
+  transform: scale(0.9);
 }/*# sourceMappingURL=home.module.css.map */

@@ -6,20 +6,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import * as XLSX from 'xlsx';
+import { useApi } from 'app/lib/apiContext/apiContext';
 
-// Define props for the InviteePopup component
 interface InviteePopupProps {
     quantity: number;
     totalPrice: number;
     onClose: () => void;
     id: string;
+    weddingImages: { file: File; position: string }[];
 }
 
-const InviteePopup: React.FC<InviteePopupProps> = ({ quantity, totalPrice, onClose, id }) => {
+const InviteePopup: React.FC<InviteePopupProps> = ({ quantity, totalPrice, onClose, id, weddingImages }) => {
+    const { saveCard } = useApi();
     const [isClosing, setIsClosing] = useState(false);
     const [inviteeNames, setInviteeNames] = useState<string[]>(Array(quantity).fill(''));
     const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
     const [confirmationClosing, setConfirmationClosing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
@@ -52,12 +55,33 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ quantity, totalPrice, onClo
         setInviteeNames(updatedNames);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (inviteeNames.some((name) => name.trim() === '')) {
             alert('Vui lòng nhập đầy đủ tên của tất cả người được mời.');
             return;
         }
-        setShowConfirmationPopup(true);
+
+        setIsLoading(true);
+        try {
+            const weddingData = JSON.parse(localStorage.getItem('weddingData') || '{}');
+
+            console.log('WeddingImages to send:', weddingImages);
+
+            await saveCard({
+                templateId: parseInt(id),
+                weddingData,
+                weddingImages: weddingImages.length > 0 ? weddingImages : [],
+                inviteeNames,
+                totalPrice, // Thêm totalPrice vào payload
+            });
+
+            localStorage.removeItem('weddingData');
+            setShowConfirmationPopup(true);
+        } catch (error) {
+            console.error('Lỗi khi lưu thiệp:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const exportToExcel = () => {
@@ -106,8 +130,8 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ quantity, totalPrice, onClo
                             ))}
                         </div>
                         <div className={styles.actionButtons}>
-                            <button className={styles.customizeButton} onClick={handleSubmit}>
-                                Thanh toán
+                            <button className={styles.customizeButton} onClick={handleSubmit} disabled={isLoading}>
+                                {isLoading ? 'Đang xử lý...' : 'Thanh toán'}
                             </button>
                         </div>
                     </div>
@@ -124,8 +148,8 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ quantity, totalPrice, onClo
                         onAnimationEnd={handleConfirmationCloseAnimationEnd}
                     >
                         <div className={styles.popupHeader}>
-                            <h2 className={styles.popupTitle}>Danh sách người được mời</h2>
-                            <p className={styles.popupSubtitle}>Dưới đây là danh sách tên và link mời:</p>
+                            <h2 className={styles.popupTitle}>Danh sách khách mời</h2>
+                            <p className={styles.popupSubtitle}>Dưới đây là danh sách tên khách mời và link mời:</p>
                         </div>
                         <div className={styles.popupBody}>
                             <div className={styles.namesList}>

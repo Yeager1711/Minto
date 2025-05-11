@@ -1,0 +1,234 @@
+.addProducts {
+  max-width: 140rem;
+  width: 95%;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  margin: auto;
+  margin-top: 9rem;
+}
+.addProducts .addProductHeader h4 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+.addProducts .addProductHeader .boxInput {
+  padding: 1.4rem;
+  border: 0.1rem solid #dbdbdb;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 50rem;
+  width: 95%;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+.addProducts .addProductHeader .boxInput input {
+  font-size: 16px;
+  width: 90%;
+  border: none;
+  outline: none;
+}
+.addProducts .addProductHeader .boxInput input::-moz-placeholder {
+  font-size: 1.3rem;
+  color: #999;
+}
+.addProducts .addProductHeader .boxInput input::placeholder {
+  font-size: 1.3rem;
+  color: #999;
+}
+.addProducts .addProductHeader .boxInput .btnCreate {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #ff7d55;
+  padding: 0 2rem;
+  color: #fff;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 0 1rem 1rem 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.addProducts .addProductHeader .boxInput .btnCreate:hover {
+  background: #ff6a3c;
+}
+.addProducts .addProductHeader .addProductWrapper {
+  margin-top: 3rem;
+}
+.addProducts .addProductHeader .addProductWrapper .flex {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .image {
+  flex: 1;
+  max-width: 40rem;
+  min-width: 30rem;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .image input[type=file] {
+  width: 100%;
+  padding: 1rem;
+  border: 0.1rem solid #dbdbdb;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .image .preview {
+  margin-top: 2.5rem;
+  max-width: 25rem;
+  width: 100%;
+  border: 0.1rem solid #dbdbdb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin: 2rem auto;
+  display: flex;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .image .preview img {
+  width: 25rem;
+  height: auto;
+  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right {
+  flex: 2;
+  min-width: 40rem;
+  width: 100%;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup {
+  margin-bottom: 2rem;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup label {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup input,
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea,
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  border: 0.1rem solid #dbdbdb;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  transition: border-color 0.3s;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup input:focus,
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea:focus,
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select:focus {
+  outline: none;
+  border-color: #ff7d55;
+  box-shadow: 0 0 5px rgba(255, 125, 85, 0.3);
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.5em;
+  padding-right: 3rem;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit {
+  padding: 1.2rem 2.5rem;
+  background: #ff7d55;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit:hover {
+  background: #ff6a3c;
+}
+@media (max-width: 1024px) {
+  .addProducts {
+    padding: 1.5rem;
+  }
+  .addProducts .addProductHeader .boxInput {
+    max-width: 100%;
+    width: 100%;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex {
+    gap: 2rem;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex .image {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex .right {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .addProducts {
+    margin-top: 6rem;
+    padding: 1rem;
+  }
+  .addProducts .addProductHeader .boxInput {
+    padding: 1rem;
+    width: 100%;
+  }
+  .addProducts .addProductHeader .addProductWrapper {
+    margin-top: 2rem;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex .image {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex .right {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup {
+    margin-bottom: 1.5rem;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup input,
+  .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea,
+  .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select {
+    font-size: 1.2rem;
+    padding: 1rem 1.2rem;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit {
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+  }
+}
+@media (max-width: 640px) {
+  .addProducts .addProductHeader .boxInput {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 0.8rem;
+  }
+  .addProducts .addProductHeader .boxInput input {
+    width: 100%;
+    padding: 1rem;
+  }
+  .addProducts .addProductHeader .boxInput .btnCreate {
+    position: static;
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+  .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup label {
+    font-size: 1.2rem;
+  }
+}/*# sourceMappingURL=add_product.module.css.map */

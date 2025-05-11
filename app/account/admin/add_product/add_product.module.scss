@@ -1,0 +1,279 @@
+.addProducts {
+    max-width: 140rem;
+    width: 95%;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    margin: auto;
+    margin-top: 9rem;
+
+    .addProductHeader {
+        h4 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .boxInput {
+            padding: 1.4rem;
+            border: 0.1rem solid #dbdbdb;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 50rem;
+            width: 95%;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+
+            input {
+                font-size: 16px;
+                width: 90%;
+                border: none;
+                outline: none;
+
+                &::placeholder {
+                    font-size: 1.3rem;
+                    color: #999;
+                }
+            }
+
+            .btnCreate {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                background: #ff7d55;
+                padding: 0 2rem;
+                color: #fff;
+                font-size: 1.4rem;
+                border: none;
+                border-radius: 0 1rem 1rem 0;
+                cursor: pointer;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background: #ff6a3c;
+                }
+            }
+        }
+
+        .addProductWrapper {
+            margin-top: 3rem;
+
+            .flex {
+                display: flex;
+                gap: 3rem;
+                flex-wrap: wrap;
+
+                .image {
+                    flex: 1;
+                    max-width: 40rem;
+                    min-width: 30rem;
+
+                    input[type="file"] {
+                        width: 100%;
+                        padding: 1rem;
+                        border: 0.1rem solid #dbdbdb;
+                        border-radius: 0.5rem;
+                        font-size: 1.4rem;
+                        cursor: pointer;
+                    }
+
+                    .preview {
+                        margin-top: 2.5rem;
+                        max-width: 25rem;
+                        width: 100%;
+                        border: 0.1rem solid #dbdbdb;
+                        border-radius: 0.5rem;
+                        overflow: hidden;
+                        margin: 2rem auto;
+                        display: flex;
+
+                        img {
+                            width: 25rem;
+                            height: auto;
+                            display: block;
+                            object-fit: cover;
+                        }
+                    }
+                }
+
+                .right {
+                    flex: 2;
+                    min-width: 40rem;
+                    width: 100%;
+
+                    .formGroup {
+                        margin-bottom: 2rem;
+
+                        label {
+                            display: block;
+                            font-size: 1.4rem;
+                            font-weight: 500;
+                            color: #333;
+                            margin-bottom: 0.5rem;
+                        }
+
+                        input,
+                        textarea,
+                        select {
+                            width: 100%;
+                            padding: 1.2rem 1.5rem;
+                            border: 0.1rem solid #dbdbdb;
+                            border-radius: 0.5rem;
+                            font-size: 1.4rem;
+                            transition: border-color 0.3s;
+
+                            &:focus {
+                                outline: none;
+                                border-color: #ff7d55;
+                                box-shadow: 0 0 5px rgba(255, 125, 85, 0.3);
+                            }
+                        }
+
+                        textarea {
+                            min-height: 120px;
+                            resize: vertical;
+                        }
+
+                        select {
+                            appearance: none;
+                            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+                            background-repeat: no-repeat;
+                            background-position: right 1rem center;
+                            background-size: 1.5em;
+                            padding-right: 3rem;
+                        }
+
+                        .btnSubmit {
+                            padding: 1.2rem 2.5rem;
+                            background: #ff7d55;
+                            color: #fff;
+                            border: none;
+                            border-radius: 0.5rem;
+                            font-size: 1.4rem;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: background-color 0.3s;
+
+                            &:hover {
+                                background: #ff6a3c;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Responsive Design
+    @media (max-width: 1024px) {
+        padding: 1.5rem;
+
+        .addProductHeader {
+            .boxInput {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .addProductWrapper {
+                .flex {
+                    gap: 2rem;
+
+                    .image {
+                        max-width: 100%;
+                        min-width: 100%;
+                    }
+
+                    .right {
+                        min-width: 100%;
+                        max-width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        margin-top: 6rem;
+        padding: 1rem;
+
+        .addProductHeader {
+            .boxInput {
+                padding: 1rem;
+                width: 100%;
+            }
+
+            .addProductWrapper {
+                margin-top: 2rem;
+
+                .flex {
+                    flex-direction: column;
+                    gap: 1.5rem;
+
+                    .image {
+                        max-width: 100%;
+                        min-width: 100%;
+                    }
+
+                    .right {
+                        min-width: 100%;
+                        max-width: 100%;
+
+                        .formGroup {
+                            margin-bottom: 1.5rem;
+
+                            input,
+                            textarea,
+                            select {
+                                font-size: 1.2rem;
+                                padding: 1rem 1.2rem;
+                            }
+
+                            .btnSubmit {
+                                font-size: 1.2rem;
+                                padding: 1rem 2rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 640px) {
+        .addProductHeader {
+            .boxInput {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+                padding: 0.8rem;
+
+                input {
+                    width: 100%;
+                    padding: 1rem;
+                }
+
+                .btnCreate {
+                    position: static;
+                    width: 100%;
+                    border-radius: 0.5rem;
+                }
+            }
+
+            .addProductWrapper {
+                .flex {
+                    .right {
+                        .formGroup {
+                            label {
+                                font-size: 1.2rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

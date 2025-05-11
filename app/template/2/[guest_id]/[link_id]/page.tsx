@@ -1,8 +1,7 @@
 'use client';
-
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import styles from './mau_2.module.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -10,69 +9,198 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { formatTime } from 'app/Ultils/formatTime';
 import { Suspense } from 'react';
+import axios from 'axios';
 
 export const dynamic = 'force-dynamic';
 
-function InviteeNameContent() {
-    const searchParams = useSearchParams();
-    const inviteeName = searchParams.get('inviteeName') || 'bạn';
-    const decodedInviteeName = decodeURIComponent(inviteeName);
-    return decodedInviteeName;
+interface Images {
+    [key: string]: { url: string; position?: string };
+    mainImage: { url: string; position?: string };
+    thumbnail1: { url: string; position?: string };
+    thumbnail2: { url: string; position?: string };
+    thumbnail3: { url: string; position?: string };
+    thumbnail4: { url: string; position?: string };
+    storyImage1: { url: string; position?: string };
+    storyImage2: { url: string; position?: string };
+    brideImage: { url: string; position?: string };
+    groomImage: { url: string; position?: string };
+    galleryImage1: { url: string; position?: string };
+    galleryImage2: { url: string; position?: string };
+    galleryImage3: { url: string; position?: string };
+    galleryImage4: { url: string; position?: string };
+}
+
+interface WeddingData {
+    bride: string;
+    groom: string;
+    weddingDate: string;
+    weddingTime: string;
+    weddingDayOfWeek: string;
+    familyGroom: { father: string; mother: string };
+    familyBride: { father: string; mother: string };
+    brideStory: string;
+    groomStory: string;
+    groomAddress: string;
+    brideAddress: string;
+    groomMapUrl: string;
+    brideMapUrl: string;
+}
+
+interface Guest {
+    guest_id: number;
+    invitation_id: number;
+    full_name: string;
+    sharedLinks: {
+        link_id: number;
+        guest_id: number;
+        share_url: string;
+        created_at: string;
+        expires_at: string;
+    }[];
+}
+
+interface Card {
+    card_id: number;
+    created_at: string;
+    status: string;
+    custom_data: {
+        weddingData: WeddingData;
+        weddingImages: { url: string; position: string }[];
+    };
+    template: {
+        template_id: number;
+        name: string;
+        description: string;
+        image_url: string;
+        price: string;
+        status: string;
+    };
+    thumbnails: { thumbnail_id: number; image_url: string; position: string; description: string }[];
+    invitations: {
+        invitation_id: number;
+        groom_name: string;
+        bride_name: string;
+        wedding_date: string;
+        venue: string;
+        story_groom: string;
+        story_bride: string;
+        custom_image: string;
+    }[];
+}
+
+interface ApiResponse {
+    guest: Guest;
+    card: Card;
+}
+
+function InviteeNameContent({ fullName }: { fullName: string }) {
+    return <span>{fullName || 'bạn'}</span>;
 }
 
 function Mau2InviteeName() {
+    const pathname = usePathname();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isIntroOpen, setIsIntroOpen] = useState(true);
+    const [weddingData, setWeddingData] = useState<WeddingData | null>(null);
+    const [images, setImages] = useState<Images>({} as Images);
+    const [guestName, setGuestName] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    // Khởi tạo weddingData và images với giá trị mặc định
-    const [weddingData, setWeddingData] = useState({
-        bride: 'Hải Vân',
-        groom: 'Kim Thành',
-        weddingDate: '17/11/2025',
-        weddingTime: '00:00',
-        weddingDayOfWeek: 'Thứ 2',
-        familyGroom: { father: 'Nguyễn Văn A', mother: 'Trần Thị B' },
-        familyBride: { father: 'Lê Văn C', mother: 'Phạm Thị D' },
-        brideStory: '',
-        groomStory: '',
-        groomAddress: 'PJ3X+GH8, KDC 13E, Đô thị mới Nam Thành Phố, Ấp 5, Bình Chánh, Hồ Chí Minh, Việt Nam',
-        brideAddress: 'PJ3X+GH8, KDC 13E, Đô thị mới Nam Thành Phố, Ấp 5, Bình Chánh, Hồ Chí Minh, Việt Nam',
-        groomMapUrl:
-            'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4650.377567444314!2d106.64545227570262!3d10.703125960540111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175311ad90bd4bb%3A0xf92c25e13e35ed88!2sChung%20c%C6%B0%20Saigon%20Intela!5e1!3m2!1svi!2s!4v1746350188243!5m2!1svi!2s',
-        brideMapUrl:
-            'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4650.377567444314!2d106.64545227570262!3d10.703125960540111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175311ad90bd4bb%3A0xf92c25e13e35ed88!2sChung%20c%C6%B0%20Saigon%20Intela!5e1!3m2!1svi!2s!4v1746350188243!5m2!1svi!2s',
-    });
+    const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
-    const [images, setImages] = useState({
-        mainImage: '/images/m2/8.jpg',
-        thumbnail1: '/images/m2/2.jpg',
-        thumbnail2: '/images/m2/3.jpg',
-        thumbnail3: '/images/m2/5.jpg',
-        thumbnail4: '/images/m2/6.jpg',
-        storyImage1: '/images/m2/1.jpg',
-        storyImage2: '/images/m2/2.jpg',
-        brideImage: '/images/m2/3.jpg',
-        groomImage: '/images/m2/4.jpg',
-        galleryImage1: '/images/m2/6.jpg',
-        galleryImage2: '/images/m2/7.jpg',
-        galleryImage3: '/images/m2/9.jpg',
-        galleryImage4: '/images/m2/10.jpg',
-    });
-
-    // Load data from localStorage after mount
+    // Lấy dữ liệu từ API
     useEffect(() => {
-        const savedData = localStorage.getItem('weddingData');
-        if (savedData) {
-            setWeddingData(JSON.parse(savedData));
-        }
+        const fetchGuestAndCard = async () => {
+            try {
+                if (!apiUrl) {
+                    throw new Error('API base URL is not defined in environment variables');
+                }
 
-        const savedImages = localStorage.getItem('weddingImages');
-        if (savedImages) {
-            setImages(JSON.parse(savedImages));
-        }
-    }, []);
+                const parts = pathname.split('/').filter(Boolean);
+                const template_id = parts[1];
+                const guest_id = parts[2];
+                const invitation_id = parts[3];
+
+                if (!template_id || !guest_id || !invitation_id) {
+                    throw new Error(
+                        `Thiếu tham số: template_id=${template_id}, guest_id=${guest_id}, invitation_id=${invitation_id}`
+                    );
+                }
+
+                const response = await axios.get<ApiResponse>(
+                    `${apiUrl}/cards/guest/${template_id}/${guest_id}/${invitation_id}`,
+                    {
+                        headers: {
+                            'ngrok-skip-browser-warning': 'true',
+                        },
+                    }
+                );
+
+                const { guest, card } = response.data;
+                setWeddingData(card.custom_data.weddingData);
+                setGuestName(guest.full_name);
+
+                const newImages: Images = {} as Images; // Initialize as empty object
+                card.custom_data.weddingImages.forEach((img: { url: string; position: string }) => {
+                    let key: keyof Images;
+                    switch (img.position) {
+                        case 'main':
+                            key = 'mainImage';
+                            break;
+                        case 'thumbnail1':
+                            key = 'thumbnail1';
+                            break;
+                        case 'thumbnail2':
+                            key = 'thumbnail2';
+                            break;
+                        case 'thumbnail3':
+                            key = 'thumbnail3';
+                            break;
+                        case 'thumbnail4':
+                            key = 'thumbnail4';
+                            break;
+                        case 'story1':
+                            key = 'storyImage1';
+                            break;
+                        case 'story2':
+                            key = 'storyImage2';
+                            break;
+                        case 'bride':
+                            key = 'brideImage';
+                            break;
+                        case 'groom':
+                            key = 'groomImage';
+                            break;
+                        case 'gallery1':
+                            key = 'galleryImage1';
+                            break;
+                        case 'gallery2':
+                            key = 'galleryImage2';
+                            break;
+                        case 'gallery3':
+                            key = 'galleryImage3';
+                            break;
+                        case 'gallery4':
+                            key = 'galleryImage4';
+                            break;
+                        default:
+                            key = 'mainImage'; // Fallback (should not happen with valid data)
+                    }
+                    newImages[key] = { url: `${apiUrl}${img.url}`, position: img.position };
+                });
+                setImages(newImages);
+                console.log('Images after setting:', newImages); // Debug to verify exact keys
+            } catch (err: unknown) {
+                const errorMessage = err instanceof Error ? err.message : 'Không thể tải dữ liệu thiệp cưới';
+                setError(errorMessage);
+                console.error('Error fetching data:', err);
+            }
+        };
+
+        fetchGuestAndCard();
+    }, [pathname]);
 
     const toggleExpand = () => setIsExpanded(!isExpanded);
 
@@ -87,6 +215,8 @@ function Mau2InviteeName() {
         }
     };
 
+    const handleIntroClick = () => setIsIntroOpen(false);
+
     useEffect(() => {
         const handleScroll = () => {
             if (isExpanded) {
@@ -96,8 +226,6 @@ function Mau2InviteeName() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [isExpanded]);
-
-    const handleIntroClick = () => setIsIntroOpen(false);
 
     useEffect(() => {
         return () => {
@@ -112,6 +240,14 @@ function Mau2InviteeName() {
         AOS.init({ duration: 1000, once: true });
     }, []);
 
+    if (error) {
+        return <div className={styles.error}>Lỗi: {error}</div>;
+    }
+
+    if (!weddingData || Object.keys(images).length === 0) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <div className={styles.mau_2_container}>
@@ -125,7 +261,7 @@ function Mau2InviteeName() {
                             <h1 className={styles.groom_names}>{weddingData.groom}</h1>
                             <h1 className={styles.bride_names}>{weddingData.bride}</h1>
                             <h2 className={styles.invite_message}>
-                                Kính mời: <InviteeNameContent />
+                                Kính mời: <InviteeNameContent fullName={guestName} />
                             </h2>
                         </div>
                     </div>
@@ -149,7 +285,14 @@ function Mau2InviteeName() {
                     {isExpanded && (
                         <div className={styles.expanded_content}>
                             <div className={styles.album_art}>
-                                <img src={images.mainImage} alt="Album Art" />
+                                {images.mainImage && (
+                                    <img
+                                        src={images.mainImage.url}
+                                        alt="Album Art"
+                                        onError={(e) => console.log('Error loading mainImage:', e.currentTarget.src)}
+                                    />
+                                )}
+                                {/* ảnh main */}
                             </div>
                             <div className={styles.song_info}>
                                 <h4>Bài này không để đi diễn</h4>
@@ -168,7 +311,14 @@ function Mau2InviteeName() {
                             <img src="/images/m2/page2.png" alt="" />
                         </div>
                         <div className={styles.image_mau2}>
-                            <img src={images.mainImage} alt="" />
+                            {images.mainImage && (
+                                <img
+                                    src={images.mainImage.url}
+                                    alt=""
+                                    onError={(e) => console.log('Error loading mainImage:', e.currentTarget.src)}
+                                />
+                            )}
+                            {/* ảnh main */}
                             <div className={styles.Save_the_date} data-aos="fade-right" data-aos-delay="400">
                                 <span className={styles.save}>Save</span>
                                 <span className={styles.the}>The</span>
@@ -181,34 +331,50 @@ function Mau2InviteeName() {
                                 <h3>{weddingData.bride}</h3>
                             </div>
                             <div className={styles.thumnails}>
-                                <img
-                                    src={images.thumbnail1}
-                                    alt=""
-                                    className={styles.thumnailImages_1}
-                                    data-aos="fade-up"
-                                    data-aos-delay="200"
-                                />
-                                <img
-                                    src={images.thumbnail2}
-                                    alt=""
-                                    className={styles.thumnailImages_2}
-                                    data-aos="fade-right"
-                                    data-aos-delay="600"
-                                />
-                                <img
-                                    src={images.thumbnail3}
-                                    alt=""
-                                    className={styles.thumnailImages_3}
-                                    data-aos="fade-left"
-                                    data-aos-delay="600"
-                                />
-                                <img
-                                    src={images.thumbnail4}
-                                    alt=""
-                                    className={styles.thumnailImages_4}
-                                    data-aos="fade-up"
-                                    data-aos-delay="800"
-                                />
+                                {images.thumbnail1 && (
+                                    <img
+                                        src={images.thumbnail1.url}
+                                        alt="Thumbnail 1"
+                                        className={styles.thumnailImages_1}
+                                        data-aos="fade-up"
+                                        data-aos-delay="200"
+                                        onError={(e) => console.log('Error loading thumbnail1:', e.currentTarget.src)}
+                                    />
+                                )}
+                                {/* ảnh position thumbnail1 */}
+                                {images.thumbnail2 && (
+                                    <img
+                                        src={images.thumbnail2.url}
+                                        alt="Thumbnail 2"
+                                        className={styles.thumnailImages_2}
+                                        data-aos="fade-right"
+                                        data-aos-delay="600"
+                                        onError={(e) => console.log('Error loading thumbnail2:', e.currentTarget.src)}
+                                    />
+                                )}
+                                {/* ảnh position thumbnail2 */}
+                                {images.thumbnail3 && (
+                                    <img
+                                        src={images.thumbnail3.url}
+                                        alt="Thumbnail 3"
+                                        className={styles.thumnailImages_3}
+                                        data-aos="fade-left"
+                                        data-aos-delay="600"
+                                        onError={(e) => console.log('Error loading thumbnail3:', e.currentTarget.src)}
+                                    />
+                                )}
+                                {/* ảnh position thumbnail3 */}
+                                {images.thumbnail4 && (
+                                    <img
+                                        src={images.thumbnail4.url}
+                                        alt="Thumbnail 4"
+                                        className={styles.thumnailImages_4}
+                                        data-aos="fade-up"
+                                        data-aos-delay="800"
+                                        onError={(e) => console.log('Error loading thumbnail4:', e.currentTarget.src)}
+                                    />
+                                )}
+                                {/* ảnh position thumbnail4 */}
                             </div>
                         </div>
                     </div>
@@ -229,7 +395,16 @@ function Mau2InviteeName() {
                         <div className={styles.content_story}>
                             <div className={styles.header_content}>
                                 <div className={styles.left} data-aos="fade-right" data-aos-delay="600">
-                                    <img src={images.storyImage1} alt="" />
+                                    {images.storyImage1 && (
+                                        <img
+                                            src={images.storyImage1.url}
+                                            alt=""
+                                            onError={(e) =>
+                                                console.log('Error loading storyImage1:', e.currentTarget.src)
+                                            }
+                                        />
+                                    )}
+                                    {/* ảnh position story1 */}
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="800">
                                     <span>
@@ -249,11 +424,19 @@ function Mau2InviteeName() {
                                     </span>
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="1200">
-                                    <img src={images.storyImage2} alt="" />
+                                    {images.storyImage2 && (
+                                        <img
+                                            src={images.storyImage2.url}
+                                            alt=""
+                                            onError={(e) =>
+                                                console.log('Error loading storyImage2:', e.currentTarget.src)
+                                            }
+                                        />
+                                    )}
+                                    {/* ảnh position story2 */}
                                 </div>
                             </div>
                         </div>
-
                         <div className={styles.story_bride}>
                             <div className={styles.story_bride_wrapper}>
                                 <div className={styles.story_bride__content} data-aos="zoom-in" data-aos-delay="400">
@@ -263,22 +446,27 @@ function Mau2InviteeName() {
                                             <span>Của</span> Cô Dâu
                                         </h4>
                                     </div>
-
                                     <div className={styles.right}>
                                         <h2>{weddingData.bride}</h2>
                                     </div>
                                 </div>
-
                                 <div className={styles.content} data-aos="fade-up" data-aos-delay="800">
-                                    <span>{weddingData.brideStory}</span>
-
+                                    <span>{weddingData.brideStory || 'Chưa có câu chuyện cô dâu.'}</span>
                                     <div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
-                                        <img src={images.brideImage} alt="" />
+                                        {images.brideImage && (
+                                            <img
+                                                src={images.brideImage.url}
+                                                alt=""
+                                                onError={(e) =>
+                                                    console.log('Error loading brideImage:', e.currentTarget.src)
+                                                }
+                                            />
+                                        )}
+                                        {/* ảnh position bride */}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div className={styles.story_groom} data-aos="fade-up" data-aos-delay="200">
                             <div className={styles.story_groom_wrapper}>
                                 <div className={styles.story_groom__content} data-aos="zoom-in" data-aos-delay="400">
@@ -293,15 +481,22 @@ function Mau2InviteeName() {
                                     </div>
                                 </div>
                                 <div className={styles.content} data-aos="fade-up" data-aos-delay="600">
-                                    <span>{weddingData.groomStory}</span>
-
+                                    <span>{weddingData.groomStory || 'Chưa có câu chuyện chú rể.'}</span>
                                     <div className={styles.img_story__groom} data-aos="fade-left" data-aos-delay="800">
-                                        <img src={images.groomImage} alt="" />
+                                        {images.groomImage && (
+                                            <img
+                                                src={images.groomImage.url}
+                                                alt=""
+                                                onError={(e) =>
+                                                    console.log('Error loading groomImage:', e.currentTarget.src)
+                                                }
+                                            />
+                                        )}
+                                        {/* ảnh position groom */}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div className={styles.time_location}>
                             <div className={styles.wrapper}>
                                 <h3>Tới dự buổi tiệc mừng Lễ thành hôn</h3>
@@ -447,11 +642,17 @@ function Mau2InviteeName() {
                                     data-aos-delay="200"
                                 >
                                     <div className={styles.card_content}>
-                                        <img
-                                            src={images.galleryImage1}
-                                            alt="Wedding Photo 1"
-                                            className={styles.card_image}
-                                        />
+                                        {images.galleryImage1 && (
+                                            <img
+                                                src={images.galleryImage1.url}
+                                                alt="Wedding Photo 1"
+                                                className={styles.card_image}
+                                                onError={(e) =>
+                                                    console.log('Error loading galleryImage1:', e.currentTarget.src)
+                                                }
+                                            />
+                                        )}
+                                        {/* ảnh position gallery1 */}
                                     </div>
                                 </div>
                                 <div
@@ -460,11 +661,17 @@ function Mau2InviteeName() {
                                     data-aos-delay="400"
                                 >
                                     <div className={styles.card_content}>
-                                        <img
-                                            src={images.galleryImage2}
-                                            alt="Wedding Photo 2"
-                                            className={styles.card_image}
-                                        />
+                                        {images.galleryImage2 && (
+                                            <img
+                                                src={images.galleryImage2.url}
+                                                alt="Wedding Photo 2"
+                                                className={styles.card_image}
+                                                onError={(e) =>
+                                                    console.log('Error loading galleryImage2:', e.currentTarget.src)
+                                                }
+                                            />
+                                        )}
+                                        {/* ảnh position gallery2 */}
                                     </div>
                                 </div>
                                 <div
@@ -473,11 +680,17 @@ function Mau2InviteeName() {
                                     data-aos-delay="600"
                                 >
                                     <div className={styles.card_content}>
-                                        <img
-                                            src={images.galleryImage3}
-                                            alt="Wedding Photo 3"
-                                            className={styles.card_image}
-                                        />
+                                        {images.galleryImage3 && (
+                                            <img
+                                                src={images.galleryImage3.url}
+                                                alt="Wedding Photo 3"
+                                                className={styles.card_image}
+                                                onError={(e) =>
+                                                    console.log('Error loading galleryImage3:', e.currentTarget.src)
+                                                }
+                                            />
+                                        )}
+                                        {/* ảnh position gallery3 */}
                                     </div>
                                 </div>
                                 <div
@@ -486,11 +699,17 @@ function Mau2InviteeName() {
                                     data-aos-delay="800"
                                 >
                                     <div className={styles.card_content}>
-                                        <img
-                                            src={images.galleryImage4}
-                                            alt="Wedding Photo 4"
-                                            className={styles.card_image}
-                                        />
+                                        {images.galleryImage4 && (
+                                            <img
+                                                src={images.galleryImage4.url}
+                                                alt="Wedding Photo 4"
+                                                className={styles.card_image}
+                                                onError={(e) =>
+                                                    console.log('Error loading galleryImage4:', e.currentTarget.src)
+                                                }
+                                            />
+                                        )}
+                                        {/* ảnh position gallery4 */}
                                     </div>
                                 </div>
                             </div>
@@ -511,10 +730,10 @@ function Mau2InviteeName() {
                             </div>
                             <div className={styles.content_foooter}>
                                 <span data-aos="fade-up" data-aos-duration="1000">
-                                    Chúng tôi háo hức mong chờ <InviteeNameContent /> đến chung vui trong ngày trọng đại
-                                    của đời mình – một dấu mốc thiêng liêng và đáng nhớ. Sẽ thật trọn vẹn và ý nghĩa
-                                    biết bao nếu có sự hiện diện cùng lời chúc phúc chân thành từ bạn trong khoảnh khắc
-                                    đặc biệt ấy.
+                                    Chúng tôi háo hức mong chờ <InviteeNameContent fullName={guestName} /> đến chung vui
+                                    trong ngày trọng đại của đời mình – một dấu mốc thiêng liêng và đáng nhớ. Sẽ thật
+                                    trọn vẹn và ý nghĩa biết bao nếu có sự hiện diện cùng lời chúc phúc chân thành từ
+                                    bạn trong khoảnh khắc đặc biệt ấy.
                                 </span>
                             </div>
                         </footer>

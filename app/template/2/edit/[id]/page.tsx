@@ -1,5 +1,4 @@
 'use client';
-
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
@@ -8,7 +7,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
-import EditControls from '../../../control/EditControl'; // Updated import path
+import EditControls from '../../../control/EditControl';
 import { formatTime } from 'app/Ultils/formatTime';
 import Image from 'next/image';
 import { Suspense } from 'react';
@@ -30,19 +29,19 @@ interface Template2WeddingData {
 }
 
 interface Images {
-    mainImage: string;
-    thumbnail1: string;
-    thumbnail2: string;
-    thumbnail3: string;
-    thumbnail4: string;
-    storyImage1: string;
-    storyImage2: string;
-    brideImage: string;
-    groomImage: string;
-    galleryImage1: string;
-    galleryImage2: string;
-    galleryImage3: string;
-    galleryImage4: string;
+    mainImage: { url: string; position?: string };
+    thumbnail1: { url: string; position?: string };
+    thumbnail2: { url: string; position?: string };
+    thumbnail3: { url: string; position?: string };
+    thumbnail4: { url: string; position?: string };
+    storyImage1: { url: string; position?: string };
+    storyImage2: { url: string; position?: string };
+    brideImage: { url: string; position?: string };
+    groomImage: { url: string; position?: string };
+    galleryImage1: { url: string; position?: string };
+    galleryImage2: { url: string; position?: string };
+    galleryImage3: { url: string; position?: string };
+    galleryImage4: { url: string; position?: string };
 }
 
 function Template2Edit() {
@@ -51,15 +50,29 @@ function Template2Edit() {
     const searchParams = useSearchParams();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [showInviteePopup, setShowInviteePopup] = useState(false);
     const quantity = parseInt(searchParams.get('quantity') || '1');
     const totalPrice = parseInt(searchParams.get('totalPrice') || '0');
 
-    console.log('Prop ID:', id);
+    const defaultImages: Images = {
+        mainImage: { url: '/images/m2/8.jpg', position: 'main' },
+        thumbnail1: { url: '/images/m2/2.jpg', position: 'thumbnail1' },
+        thumbnail2: { url: '/images/m2/3.jpg', position: 'thumbnail2' },
+        thumbnail3: { url: '/images/m2/5.jpg', position: 'thumbnail3' },
+        thumbnail4: { url: '/images/m2/6.jpg', position: 'thumbnail4' },
+        storyImage1: { url: '/images/m2/1.jpg', position: 'story1' },
+        storyImage2: { url: '/images/m2/2.jpg', position: 'story2' },
+        brideImage: { url: '/images/m2/3.jpg', position: 'bride' },
+        groomImage: { url: '/images/m2/4.jpg', position: 'groom' },
+        galleryImage1: { url: '/images/m2/6.jpg', position: 'gallery1' },
+        galleryImage2: { url: '/images/m2/7.jpg', position: 'gallery2' },
+        galleryImage3: { url: '/images/m2/9.jpg', position: 'gallery3' },
+        galleryImage4: { url: '/images/m2/10.jpg', position: 'gallery4' },
+    };
 
-    // Load initial data from localStorage or set default
     const [weddingData, setWeddingData] = useState<Template2WeddingData>(() => {
         const savedData = localStorage.getItem('weddingData');
         return savedData
@@ -85,24 +98,33 @@ function Template2Edit() {
 
     const [images, setImages] = useState<Images>(() => {
         const savedImages = localStorage.getItem('weddingImages');
-        return savedImages
-            ? JSON.parse(savedImages)
-            : {
-                  mainImage: '/images/m2/8.jpg',
-                  thumbnail1: '/images/m2/2.jpg',
-                  thumbnail2: '/images/m2/3.jpg',
-                  thumbnail3: '/images/m2/5.jpg',
-                  thumbnail4: '/images/m2/6.jpg',
-                  storyImage1: '/images/m2/1.jpg',
-                  storyImage2: '/images/m2/2.jpg',
-                  brideImage: '/images/m2/3.jpg',
-                  groomImage: '/images/m2/4.jpg',
-                  galleryImage1: '/images/m2/6.jpg',
-                  galleryImage2: '/images/m2/7.jpg',
-                  galleryImage3: '/images/m2/9.jpg',
-                  galleryImage4: '/images/m2/10.jpg',
-              };
+        if (savedImages) {
+            try {
+                const parsedImages = JSON.parse(savedImages);
+                return {
+                    mainImage: parsedImages.mainImage || defaultImages.mainImage,
+                    thumbnail1: parsedImages.thumbnail1 || defaultImages.thumbnail1,
+                    thumbnail2: parsedImages.thumbnail2 || defaultImages.thumbnail2,
+                    thumbnail3: parsedImages.thumbnail3 || defaultImages.thumbnail3,
+                    thumbnail4: parsedImages.thumbnail4 || defaultImages.thumbnail4,
+                    storyImage1: parsedImages.storyImage1 || defaultImages.storyImage1,
+                    storyImage2: parsedImages.storyImage2 || defaultImages.storyImage2,
+                    brideImage: parsedImages.brideImage || defaultImages.brideImage,
+                    groomImage: parsedImages.groomImage || defaultImages.groomImage,
+                    galleryImage1: parsedImages.galleryImage1 || defaultImages.galleryImage1,
+                    galleryImage2: parsedImages.galleryImage2 || defaultImages.galleryImage2,
+                    galleryImage3: parsedImages.galleryImage3 || defaultImages.galleryImage3,
+                    galleryImage4: parsedImages.galleryImage4 || defaultImages.galleryImage4,
+                };
+            } catch (e) {
+                console.error('Failed to parse weddingImages from localStorage:', e);
+                return defaultImages;
+            }
+        }
+        return defaultImages;
     });
+
+    const [imageFiles, setImageFiles] = useState<{ file: File; position: string }[]>([]);
 
     const fileInputRefs = {
         mainImage: useRef<HTMLInputElement>(null),
@@ -133,13 +155,18 @@ function Template2Edit() {
         }
     };
 
-    const handleImageChange = (key: keyof Images) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = (key: keyof Images, position: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            setImageFiles((prev) => {
+                const updatedFiles = prev.filter((item) => item.position !== position);
+                return [...updatedFiles, { file, position }];
+            });
+
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImages((prev: Images) => {
-                    const newImages = { ...prev, [key]: reader.result as string };
+                    const newImages = { ...prev, [key]: { url: reader.result as string, position } };
                     localStorage.setItem('weddingImages', JSON.stringify(newImages));
                     return newImages;
                 });
@@ -148,7 +175,7 @@ function Template2Edit() {
         }
     };
 
-    const triggerFileInput = (key: keyof typeof fileInputRefs) => fileInputRefs[key].current?.click();
+    const triggerFileInput = (key: keyof typeof fileInputRefs, position: string) => fileInputRefs[key].current?.click();
 
     useEffect(() => {
         const handleScroll = () => isExpanded && setIsExpanded(false);
@@ -168,6 +195,7 @@ function Template2Edit() {
 
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
+        setIsLoading(false);
     }, []);
 
     const handleSaveEdit = (updatedData: Template2WeddingData) => {
@@ -178,6 +206,10 @@ function Template2Edit() {
     };
 
     const handleInviteePopupClose = () => setShowInviteePopup(false);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
@@ -201,7 +233,12 @@ function Template2Edit() {
                     {isExpanded && (
                         <div className={styles.expanded_content}>
                             <div className={styles.album_art}>
-                                <Image src={images.mainImage} alt="Album Art" width={300} height={300} />
+                                <Image
+                                    src={images.mainImage?.url || defaultImages.mainImage.url}
+                                    alt="Album Art"
+                                    width={300}
+                                    height={300}
+                                />
                             </div>
                             <div className={styles.song_info}>
                                 <h4>Bài này không để đi diễn</h4>
@@ -221,14 +258,19 @@ function Template2Edit() {
                             <Image src="/images/m2/page2.png" alt="" width={600} height={800} />
                         </div>
                         <div className={styles.image_mau2}>
-                            <Image src={images.mainImage} alt="" width={600} height={400} />
+                            <Image
+                                src={images.mainImage?.url || defaultImages.mainImage.url}
+                                alt=""
+                                width={600}
+                                height={400}
+                            />
                             <div
                                 className={styles.Save_the_date}
                                 data-aos="fade-right"
                                 data-aos-delay="400"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    triggerFileInput('mainImage');
+                                    triggerFileInput('mainImage', 'main');
                                 }}
                             >
                                 <span className={styles.save}>Save</span>
@@ -239,7 +281,7 @@ function Template2Edit() {
                             <input
                                 type="file"
                                 ref={fileInputRefs.mainImage}
-                                onChange={handleImageChange('mainImage')}
+                                onChange={handleImageChange('mainImage', 'main')}
                                 accept="image/*"
                                 style={{ display: 'none' }}
                             />
@@ -250,70 +292,70 @@ function Template2Edit() {
                             </div>
                             <div className={styles.thumnails}>
                                 <Image
-                                    src={images.thumbnail1}
+                                    src={images.thumbnail1?.url || defaultImages.thumbnail1.url}
                                     alt=""
                                     width={150}
                                     height={150}
                                     className={styles.thumnailImages_1}
                                     data-aos="fade-up"
                                     data-aos-delay="200"
-                                    onClick={() => triggerFileInput('thumbnail1')}
+                                    onClick={() => triggerFileInput('thumbnail1', 'thumbnail1')}
                                 />
                                 <input
                                     type="file"
                                     ref={fileInputRefs.thumbnail1}
-                                    onChange={handleImageChange('thumbnail1')}
+                                    onChange={handleImageChange('thumbnail1', 'thumbnail1')}
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                 />
                                 <Image
-                                    src={images.thumbnail2}
+                                    src={images.thumbnail2?.url || defaultImages.thumbnail2.url}
                                     alt=""
                                     width={150}
                                     height={150}
                                     className={styles.thumnailImages_2}
                                     data-aos="fade-right"
                                     data-aos-delay="600"
-                                    onClick={() => triggerFileInput('thumbnail2')}
+                                    onClick={() => triggerFileInput('thumbnail2', 'thumbnail2')}
                                 />
                                 <input
                                     type="file"
                                     ref={fileInputRefs.thumbnail2}
-                                    onChange={handleImageChange('thumbnail2')}
+                                    onChange={handleImageChange('thumbnail2', 'thumbnail2')}
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                 />
                                 <Image
-                                    src={images.thumbnail3}
+                                    src={images.thumbnail3?.url || defaultImages.thumbnail3.url}
                                     alt=""
                                     width={150}
                                     height={150}
                                     className={styles.thumnailImages_3}
                                     data-aos="fade-left"
                                     data-aos-delay="600"
-                                    onClick={() => triggerFileInput('thumbnail3')}
+                                    onClick={() => triggerFileInput('thumbnail3', 'thumbnail3')}
                                 />
                                 <input
                                     type="file"
                                     ref={fileInputRefs.thumbnail3}
-                                    onChange={handleImageChange('thumbnail3')}
+                                    onChange={handleImageChange('thumbnail3', 'thumbnail3')}
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                 />
                                 <Image
-                                    src={images.thumbnail4}
+                                    src={images.thumbnail4?.url || defaultImages.thumbnail4.url}
                                     alt=""
                                     width={150}
                                     height={150}
                                     className={styles.thumnailImages_4}
                                     data-aos="fade-up"
                                     data-aos-delay="800"
-                                    onClick={() => triggerFileInput('thumbnail4')}
+                                    onClick={() => triggerFileInput('thumbnail4', 'thumbnail4')}
                                 />
                                 <input
                                     type="file"
                                     ref={fileInputRefs.thumbnail4}
-                                    onChange={handleImageChange('thumbnail4')}
+                                    onChange={handleImageChange('thumbnail4', 'thumbnail4')}
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                 />
@@ -331,23 +373,23 @@ function Template2Edit() {
                                 <h4>
                                     <span>Của</span> Chúng mình
                                 </h4>
-                                <p>2020 - 2025</p>
+                                <p>202ව: 2020 - 2025</p>
                             </div>
                         </div>
                         <div className={styles.content_story}>
                             <div className={styles.header_content}>
                                 <div className={styles.left} data-aos="fade-right" data-aos-delay="600">
                                     <Image
-                                        src={images.storyImage1}
+                                        src={images.storyImage1?.url || defaultImages.storyImage1.url}
                                         alt=""
                                         width={200}
                                         height={200}
-                                        onClick={() => triggerFileInput('storyImage1')}
+                                        onClick={() => triggerFileInput('storyImage1', 'story1')}
                                     />
                                     <input
                                         type="file"
                                         ref={fileInputRefs.storyImage1}
-                                        onChange={handleImageChange('storyImage1')}
+                                        onChange={handleImageChange('storyImage1', 'story1')}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -371,16 +413,16 @@ function Template2Edit() {
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="1200">
                                     <Image
-                                        src={images.storyImage2}
+                                        src={images.storyImage2?.url || defaultImages.storyImage2.url}
                                         alt=""
                                         width={200}
                                         height={200}
-                                        onClick={() => triggerFileInput('storyImage2')}
+                                        onClick={() => triggerFileInput('storyImage2', 'story2')}
                                     />
                                     <input
                                         type="file"
                                         ref={fileInputRefs.storyImage2}
-                                        onChange={handleImageChange('storyImage2')}
+                                        onChange={handleImageChange('storyImage2', 'story2')}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -401,22 +443,20 @@ function Template2Edit() {
                                     <h2>{weddingData.bride}</h2>
                                 </div>
                             </div>
-
                             <div className={styles.content} data-aos="fade-up" data-aos-delay="800">
                                 <span>{weddingData.brideStory}</span>
-
                                 <div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
                                     <Image
-                                        src={images.brideImage}
+                                        src={images.brideImage?.url || defaultImages.brideImage.url}
                                         alt=""
                                         width={200}
                                         height={200}
-                                        onClick={() => triggerFileInput('brideImage')}
+                                        onClick={() => triggerFileInput('brideImage', 'bride')}
                                     />
                                     <input
                                         type="file"
                                         ref={fileInputRefs.brideImage}
-                                        onChange={handleImageChange('brideImage')}
+                                        onChange={handleImageChange('brideImage', 'bride')}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -439,19 +479,18 @@ function Template2Edit() {
                             </div>
                             <div className={styles.content} data-aos="fade-up" data-aos-delay="600">
                                 <span>{weddingData.groomStory}</span>
-
                                 <div className={styles.img_story__groom} data-aos="fade-left" data-aos-delay="800">
                                     <Image
-                                        src={images.groomImage}
+                                        src={images.groomImage?.url || defaultImages.groomImage.url}
                                         alt=""
                                         width={200}
                                         height={200}
-                                        onClick={() => triggerFileInput('groomImage')}
+                                        onClick={() => triggerFileInput('groomImage', 'groom')}
                                     />
                                     <input
                                         type="file"
                                         ref={fileInputRefs.groomImage}
-                                        onChange={handleImageChange('groomImage')}
+                                        onChange={handleImageChange('groomImage', 'groom')}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -603,17 +642,17 @@ function Template2Edit() {
                             >
                                 <div className={styles.card_content}>
                                     <Image
-                                        src={images.galleryImage1}
+                                        src={images.galleryImage1?.url || defaultImages.galleryImage1.url}
                                         alt="Wedding Photo 1"
                                         width={300}
                                         height={300}
                                         className={styles.card_image}
-                                        onClick={() => triggerFileInput('galleryImage1')}
+                                        onClick={() => triggerFileInput('galleryImage1', 'gallery1')}
                                     />
                                     <input
                                         type="file"
                                         ref={fileInputRefs.galleryImage1}
-                                        onChange={handleImageChange('galleryImage1')}
+                                        onChange={handleImageChange('galleryImage1', 'gallery1')}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -626,17 +665,17 @@ function Template2Edit() {
                             >
                                 <div className={styles.card_content}>
                                     <Image
-                                        src={images.galleryImage2}
+                                        src={images.galleryImage2?.url || defaultImages.galleryImage2.url}
                                         alt="Wedding Photo 2"
                                         width={300}
                                         height={300}
                                         className={styles.card_image}
-                                        onClick={() => triggerFileInput('galleryImage2')}
+                                        onClick={() => triggerFileInput('galleryImage2', 'gallery2')}
                                     />
                                     <input
                                         type="file"
                                         ref={fileInputRefs.galleryImage2}
-                                        onChange={handleImageChange('galleryImage2')}
+                                        onChange={handleImageChange('galleryImage2', 'gallery2')}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -649,17 +688,17 @@ function Template2Edit() {
                             >
                                 <div className={styles.card_content}>
                                     <Image
-                                        src={images.galleryImage3}
+                                        src={images.galleryImage3?.url || defaultImages.galleryImage3.url}
                                         alt="Wedding Photo 3"
                                         width={300}
                                         height={300}
                                         className={styles.card_image}
-                                        onClick={() => triggerFileInput('galleryImage3')}
+                                        onClick={() => triggerFileInput('galleryImage3', 'gallery3')}
                                     />
                                     <input
                                         type="file"
                                         ref={fileInputRefs.galleryImage3}
-                                        onChange={handleImageChange('galleryImage3')}
+                                        onChange={handleImageChange('galleryImage3', 'gallery3')}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -672,17 +711,17 @@ function Template2Edit() {
                             >
                                 <div className={styles.card_content}>
                                     <Image
-                                        src={images.galleryImage4}
+                                        src={images.galleryImage4?.url || defaultImages.galleryImage4.url}
                                         alt="Wedding Photo 4"
                                         width={300}
                                         height={300}
                                         className={styles.card_image}
-                                        onClick={() => triggerFileInput('galleryImage4')}
+                                        onClick={() => triggerFileInput('galleryImage4', 'gallery4')}
                                     />
                                     <input
                                         type="file"
                                         ref={fileInputRefs.galleryImage4}
-                                        onChange={handleImageChange('galleryImage4')}
+                                        onChange={handleImageChange('galleryImage4', 'gallery4')}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -725,6 +764,7 @@ function Template2Edit() {
                     onSaveEdit={handleSaveEdit}
                     onInviteePopupClose={handleInviteePopupClose}
                     templateType="template2"
+                    weddingImages={imageFiles}
                 />
             </div>
         </Suspense>

@@ -1,37 +1,37 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import styles from './product_details.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-// import { faXmark, faStar } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 
-// Define the type for product data
-interface Product {
-    id: string;
+interface Template {
+    template_id: number;
     name: string;
-    image: string;
-    link: string;
+    image_url: string;
     price: number;
-    description: string;
+    description?: string;
     status: string;
+    link?: string;
+    category: {
+        category_id: number;
+        category_name: string;
+    };
 }
 
-// Define props for the Popup component
 interface PopupProps {
-    product: Product | null;
+    product: Template | null;
     onClose: () => void;
 }
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const router = useRouter();
     const [isClosing, setIsClosing] = useState(false);
     const [quantity, setQuantity] = useState<number>(1);
 
-    // Reset isClosing when product changes or popup opens
     useEffect(() => {
         setIsClosing(false);
         return () => {
@@ -39,7 +39,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         };
     }, [product]);
 
-    // Handle closing animation
     useEffect(() => {
         if (isClosing) {
             const timer = setTimeout(() => {
@@ -64,7 +63,9 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
 
     const handleUseTemplate = () => {
         const totalPrice = calculateTotalPrice();
-        router.push(`/template/${product.id}/edit/${product.id}?quantity=${quantity}&totalPrice=${totalPrice}`);
+        router.push(
+            `/template/${product.template_id}/edit/${product.template_id}?quantity=${quantity}&totalPrice=${totalPrice}`
+        );
     };
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -99,21 +100,26 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                 <div className={styles.popupHeader}>
                     <h2 className={styles.popupTitle}>{product.name}</h2>
                     <p className={styles.popupSubtitle}>Invitation • Portrait • 105 x 148 mm</p>
-                    {/* <a href={product.link}>Xem trực tiếp</a> */}
+                    {product.link && <a href={product.link}>Xem trực tiếp</a>}
                 </div>
                 <div className={styles.popupBody}>
                     <div className={styles.imageSection}>
                         <div className={styles.popupImageContainer}>
-                            <img src={product.image} alt={product.name} className={styles.popupImage} />
+                            <img
+                                src={`${apiUrl}/${product.image_url}`}
+                                alt={product.name}
+                                className={styles.popupImage}
+                                onError={(e) => (e.currentTarget.src = '/images/fallback.png')} // Fallback image
+                            />
                         </div>
                     </div>
                     <div className={styles.infoSection}>
                         <p className={styles.price}>Giá cơ bản: {formattedPrice}</p>
                         <div className={styles.description}>
-                            {product.description.split('\n').map((line, index) => (
-                                <p key={index}>{line}</p>
-                            ))}
-                            <p className={statusClass}>{product.status}</p> {/* Sửa lỗi class */}
+                            {product.description?.split('\n').map((line, index) => <p key={index}>{line}</p>) || (
+                                <p>Không có mô tả</p>
+                            )}
+                            <p className={statusClass}>{product.status}</p>
                         </div>
                         <div className={styles.optionsSection}>
                             <div className={styles.paperOptions}>
@@ -121,10 +127,10 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                     <span>Số lượng:</span>
                                     <select name="quantity" id="quantity" onChange={handleQuantityChange}>
                                         <option value="1 lời mời">1 lời mời</option>
-                                        <option value="5 lời mời">5 lời mời</option>
+                                        <option value="3 lời mời">3 lời mời</option>
                                         <option value="50 lời mời">50 lời mời</option>
                                         <option value="100 lời mời">100 lời mời</option>
-                                        faStar          <option value="150 lời mời">150 lời mời</option>
+                                        <option value="150 lời mời">150 lời mời</option>
                                         <option value="200 lời mời">200 lời mời</option>
                                         <option value="250 lời mời">250 lời mời</option>
                                         <option value="500 lời mời">500 lời mời</option>
@@ -140,9 +146,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                 >
                                     Sử dụng mẫu này với giá {formattedTotalPrice}
                                 </button>
-                                {/* <button className={styles.favoriteButton}>
-                                    <FontAwesomeIcon icon={faStar} />
-                                </button> */}
                             </div>
                         </div>
                     </div>
