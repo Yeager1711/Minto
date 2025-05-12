@@ -1,4 +1,3 @@
-// EditControls.tsx
 'use client';
 
 import React from 'react';
@@ -22,6 +21,9 @@ interface Template2WeddingData {
     brideAddress: string;
     groomMapUrl: string;
     brideMapUrl: string;
+    invitation: {
+        lunarDate: string; // Added for consistency with Template1WeddingData
+    };
 }
 
 interface Template1WeddingData {
@@ -70,7 +72,7 @@ interface EditControlsProps<T extends Template1WeddingData | Template2WeddingDat
     onSaveEdit: (updatedData: T) => void;
     onInviteePopupClose: () => void;
     templateType: 'template1' | 'template2';
-    weddingImages?: { file: File; position: string }[]; // Add weddingImages prop
+    weddingImages?: { file: File; position: string }[];
 }
 
 const EditControls = <T extends Template1WeddingData | Template2WeddingData>({
@@ -85,7 +87,7 @@ const EditControls = <T extends Template1WeddingData | Template2WeddingData>({
     onSaveEdit,
     onInviteePopupClose,
     templateType,
-    weddingImages = [], // Default to empty array
+    weddingImages = [],
 }: EditControlsProps<T>) => {
     return (
         <>

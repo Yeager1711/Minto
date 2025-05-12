@@ -656,4 +656,3 @@ const EditPopup = <T extends Template1WeddingData | Template2WeddingData>({
 };
 
 export default EditPopup;
-

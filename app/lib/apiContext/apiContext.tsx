@@ -136,6 +136,56 @@ interface SaveCardResponse {
     custom_data: any;
 }
 
+// Interface cho Guest và Card từ Mau2InviteeName
+interface Guest {
+    guest_id: number;
+    invitation_id: number;
+    full_name: string;
+    sharedLinks: {
+        link_id: number;
+        guest_id: number;
+        share_url: string;
+        created_at: string;
+        expires_at: string;
+    }[];
+}
+
+interface Card {
+    card_id: number;
+    created_at: string;
+    status: string;
+    custom_data: {
+        weddingData: any;
+        weddingImages: { url: string; position: string }[];
+    };
+    template: {
+        template_id: number;
+        name: string;
+        description: string;
+        image_url: string;
+        price: string;
+        status: string;
+    };
+    thumbnails: { thumbnail_id: number; image_url: string; position: string; description: string }[];
+    invitations: {
+        invitation_id: number;
+        groom_name: string;
+        bride_name: string;
+        wedding_date: string;
+        venue_groom: string;
+        venue_bride: string;
+        lunar_day: string;
+        story_groom: string;
+        story_bride: string;
+        custom_image: string;
+    }[];
+}
+
+interface ApiResponse {
+    guest: Guest;
+    card: Card;
+}
+
 interface ApiContextType {
     accessToken: string | null;
     login: (data: LoginData) => Promise<LoginResponse>;
@@ -147,6 +197,7 @@ interface ApiContextType {
     getTemplates: () => Promise<Template[]>;
     saveCard: (data: SaveCardData) => Promise<SaveCardResponse>;
     getUserTemplates: () => Promise<TemplateResponse[]>;
+    getGuestAndCard: (template_id: string, guest_id: string, invitation_id: string) => Promise<ApiResponse>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
@@ -394,6 +445,43 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
+    // Thêm hàm getGuestAndCard
+    const getGuestAndCard = async (
+        template_id: string,
+        guest_id: string,
+        invitation_id: string
+    ): Promise<ApiResponse> => {
+        try {
+            if (!apiUrl) {
+                throw new Error('API base URL is not defined in environment variables');
+            }
+
+            if (!template_id || !guest_id || !invitation_id) {
+                throw new Error(
+                    `Thiếu tham số: template_id=${template_id}, guest_id=${guest_id}, invitation_id=${invitation_id}`
+                );
+            }
+
+            const response = await axios.get<ApiResponse>(
+                `${apiUrl}/cards/guest/${template_id}/${guest_id}/${invitation_id}`,
+                {
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true',
+                    },
+                }
+            );
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể tải dữ liệu thiệp cưới';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
     const value = {
         accessToken,
         login,
@@ -405,6 +493,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         getTemplates,
         saveCard,
         getUserTemplates,
+        getGuestAndCard,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

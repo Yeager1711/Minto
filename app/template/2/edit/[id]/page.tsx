@@ -7,7 +7,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
-import EditControls from '../../../control/EditControl';
+import EditControls from '../../../EditControl/EditControl';
 import { formatTime } from 'app/Ultils/formatTime';
 import Image from 'next/image';
 import { Suspense } from 'react';
@@ -174,6 +174,9 @@ function Template2Edit() {
                 });
             };
             reader.readAsDataURL(file);
+        } else {
+            // Xử lý trường hợp người dùng hủy chọn file
+            setImageFiles((prev) => prev.filter((item) => item.position !== position));
         }
     };
 

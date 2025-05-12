@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { formatTime } from 'app/Ultils/formatTime';
 import { Suspense } from 'react';
-import axios from 'axios';
+import { useApi } from 'app/lib/apiContext/apiContext'; // Import useApi từ ApiContext
 
 export const dynamic = 'force-dynamic';
 
@@ -104,6 +104,7 @@ function InviteeNameContent({ fullName }: { fullName: string }) {
 
 function Mau2InviteeName() {
     const pathname = usePathname();
+    const { getGuestAndCard } = useApi(); // Sử dụng useApi để lấy getGuestAndCard
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isIntroOpen, setIsIntroOpen] = useState(true);
@@ -115,35 +116,17 @@ function Mau2InviteeName() {
 
     const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
-    // Lấy dữ liệu từ API
+    // Lấy dữ liệu từ API sử dụng ApiContext
     useEffect(() => {
         const fetchGuestAndCard = async () => {
             try {
-                if (!apiUrl) {
-                    throw new Error('API base URL is not defined in environment variables');
-                }
-
                 const parts = pathname.split('/').filter(Boolean);
                 const template_id = parts[1];
                 const guest_id = parts[2];
                 const invitation_id = parts[3];
 
-                if (!template_id || !guest_id || !invitation_id) {
-                    throw new Error(
-                        `Thiếu tham số: template_id=${template_id}, guest_id=${guest_id}, invitation_id=${invitation_id}`
-                    );
-                }
+                const { guest, card } = await getGuestAndCard(template_id, guest_id, invitation_id);
 
-                const response = await axios.get<ApiResponse>(
-                    `${apiUrl}/cards/guest/${template_id}/${guest_id}/${invitation_id}`,
-                    {
-                        headers: {
-                            'ngrok-skip-browser-warning': 'true',
-                        },
-                    }
-                );
-
-                const { guest, card } = response.data;
                 const updatedWeddingData = {
                     ...card.custom_data.weddingData,
                     lunar_day: card.invitations[0]?.lunar_day || 'Chưa xác định',
@@ -211,7 +194,7 @@ function Mau2InviteeName() {
         };
 
         fetchGuestAndCard();
-    }, [pathname]);
+    }, [pathname, getGuestAndCard]);
 
     const toggleExpand = () => setIsExpanded(!isExpanded);
 

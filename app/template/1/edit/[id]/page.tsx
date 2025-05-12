@@ -9,8 +9,9 @@ import styles from './mau_1.module.css';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import EditControls from '../../../control/EditControl';
+import EditControls from '../../../EditControl/EditControl';
 import InviteePopup from 'app/popup/InviteePopup/InviteePopup';
+import { useApi } from 'app/lib/apiContext/apiContext';
 
 interface Template1WeddingData {
     banner: { image: string };
@@ -37,7 +38,7 @@ interface Template1WeddingData {
         brideFamily: { title: string; father: string; mother: string };
     };
     eventDetails: string;
-    calendar: { month: string; days: (string | number)[]; highlightDay: number };
+    calendar: { month: string; days: (string | number)[]; highlightDay: number }; // Removed year field
     location: {
         groomLocation: { name: string; address: string; mapEmbedUrl: string };
         brideLocation: { name: string; address: string; mapEmbedUrl: string };
@@ -60,37 +61,115 @@ const Template1Edit: React.FC = () => {
         type: 'banner' | 'groom' | 'bride' | 'couple' | 'thumnail';
         index?: number;
     } | null>(null);
+    const [weddingImages, setWeddingImages] = useState<{ file: File; position: string }[]>([]);
+    const [inviteeNames, setInviteeNames] = useState<string[]>([]);
 
-    // Initialize weddingData with localStorage or default
+    const api = useApi();
+
     const [weddingDataState, setWeddingDataState] = useState<Template1WeddingData>(() => {
         const savedData = localStorage.getItem('weddingData_template1');
-        const parsedData = savedData ? JSON.parse(savedData) : weddingData;
-        // Đảm bảo highlightDay hợp lệ
-        const highlightDay = parseInt(parsedData.invitation.day, 10) || parsedData.calendar.highlightDay;
-        return {
+        let parsedData: any;
+
+        try {
+            parsedData = savedData ? JSON.parse(savedData) : weddingData;
+        } catch (error) {
+            console.error('Lỗi khi parse localStorage:', error);
+            parsedData = weddingData;
+        }
+
+        // Transform highlightDay to number and handle calendar.days
+        const mergedData: Template1WeddingData = {
+            ...weddingData,
             ...parsedData,
+            invitation: {
+                ...weddingData.invitation,
+                ...parsedData.invitation,
+                lunarDate: parsedData.invitation?.lunarDate || weddingData.invitation.lunarDate,
+            },
             calendar: {
-                ...parsedData.calendar,
-                highlightDay,
+                month: parsedData.calendar?.month || weddingData.calendar.month,
+                days: (parsedData.calendar?.days || weddingData.calendar.days).map((day: string) =>
+                    day === '' ? '' : parseInt(day, 10)
+                ) as (string | number)[], // Convert days to numbers where possible
+                highlightDay: parseInt(parsedData.calendar?.highlightDay || weddingData.calendar.highlightDay, 10),
             },
         };
+
+        console.log('Khởi tạo weddingDataState:', mergedData);
+        return mergedData;
     });
 
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [showInviteePopup, setShowInviteePopup] = useState(false);
 
+    const base64ToFile = (base64: string, filename: string): File => {
+        const arr = base64.split(',');
+        const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/png';
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+    };
+
+    useEffect(() => {
+        const newWeddingImages: { file: File; position: string }[] = [];
+
+        if (weddingDataState.banner.image.startsWith('data:image')) {
+            newWeddingImages.push({
+                file: base64ToFile(weddingDataState.banner.image, 'banner.png'),
+                position: 'banner',
+            });
+        }
+
+        if (weddingDataState.couple.groom.image.startsWith('data:image')) {
+            newWeddingImages.push({
+                file: base64ToFile(weddingDataState.couple.groom.image, 'groom.png'),
+                position: 'groom',
+            });
+        }
+
+        if (weddingDataState.couple.bride.image.startsWith('data:image')) {
+            newWeddingImages.push({
+                file: base64ToFile(weddingDataState.couple.bride.image, 'bride.png'),
+                position: 'bride',
+            });
+        }
+
+        weddingDataState.coupleImages.forEach((img, index) => {
+            if (img.src.startsWith('data:image')) {
+                newWeddingImages.push({
+                    file: base64ToFile(img.src, `couple_${index}.png`),
+                    position: `couple_${index}`,
+                });
+            }
+        });
+
+        weddingDataState.thumnailImages.forEach((img, index) => {
+            if (img.src.startsWith('data:image')) {
+                newWeddingImages.push({
+                    file: base64ToFile(img.src, `thumnail_${index}.png`),
+                    position: `thumnail_${index}`,
+                });
+            }
+        });
+
+        setWeddingImages(newWeddingImages);
+    }, [weddingDataState]);
+
     const handleSaveEdit = (updatedData: Template1WeddingData) => {
-        // Kiểm tra và đồng bộ calendar.highlightDay với invitation.day
         const dayNumber = parseInt(updatedData.invitation.day, 10);
         if (isNaN(dayNumber) || dayNumber < 1 || dayNumber > 31) {
             alert('Ngày cưới không hợp lệ. Vui lòng nhập số từ 1 đến 31.');
             return;
         }
 
-        // Cập nhật calendar.days nếu cần (đảm bảo chứa highlightDay)
         const updatedDays = Array.from({ length: Math.max(31, dayNumber) }, (_, i) => i + 1);
 
         const updatedDataWithHighlight = {
+            ...weddingDataState,
             ...updatedData,
             calendar: {
                 ...updatedData.calendar,
@@ -99,22 +178,22 @@ const Template1Edit: React.FC = () => {
             },
         };
 
-        console.log('Saving updatedData:', updatedDataWithHighlight); // Debug
-
+        console.log('Dữ liệu trước khi lưu:', updatedDataWithHighlight);
         setWeddingDataState(updatedDataWithHighlight);
         localStorage.setItem('weddingData_template1', JSON.stringify(updatedDataWithHighlight));
+        console.log('Dữ liệu trong localStorage sau khi lưu:', localStorage.getItem('weddingData_template1'));
         setShowEditPopup(false);
     };
 
-    const handleInviteePopupClose = () => setShowInviteePopup(false);
+    const handleInviteePopupClose = () => {
+        setShowInviteePopup(false);
+    };
 
-    // Handle image click to trigger file input
     const handleImageClick = (type: 'banner' | 'groom' | 'bride' | 'couple' | 'thumnail', index?: number) => {
         setSelectedImage({ type, index });
         fileInputRef.current?.click();
     };
 
-    // Handle file selection and update state
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file && selectedImage) {
@@ -171,6 +250,38 @@ const Template1Edit: React.FC = () => {
         }
     };
 
+    const handleSaveCard = async () => {
+        try {
+            // Create FormData object to match the API expectation
+            const formData = new FormData();
+            formData.append('templateId', parseInt(id).toString());
+            formData.append('weddingData', JSON.stringify(weddingDataState));
+            formData.append('inviteeNames', JSON.stringify(inviteeNames));
+            formData.append('totalPrice', totalPrice.toString());
+
+            // Append weddingImages with their positions
+            weddingImages.forEach((image, index) => {
+                formData.append('weddingImages', image.file);
+            });
+            if (weddingImages.length > 0) {
+                formData.append('positions', JSON.stringify(weddingImages.map((img) => img.position)));
+            }
+
+            // Log the FormData for debugging
+            console.log('Dữ liệu gửi lên saveCard:', Array.from(formData.entries()));
+
+            // Call saveCard with FormData
+            const response = await api.saveCard(formData);
+            console.log('Card saved:', response);
+
+            // Clear localStorage after successful save
+            localStorage.removeItem('weddingData_template1');
+            localStorage.removeItem('weddingImages');
+        } catch (error) {
+            console.error('Lỗi khi lưu card:', error);
+        }
+    };
+
     useEffect(() => {
         AOS.init();
         const coupleImages = coupleImagesRef.current?.querySelectorAll(`.${styles.coupleImg}`);
@@ -195,7 +306,6 @@ const Template1Edit: React.FC = () => {
             });
         });
 
-        // Handle thumbnail images click for centering
         const thumnailImages = thumnailImagesRef.current?.querySelectorAll(`.${styles.thumnailImg}`);
         thumnailImages?.forEach((img) => {
             const element = img as HTMLElement;
@@ -214,13 +324,12 @@ const Template1Edit: React.FC = () => {
         };
     }, []);
 
-    // Debug calendar data
     useEffect(() => {
         console.log('weddingDataState.calendar:', weddingDataState.calendar);
         console.log('invitation.day:', weddingDataState.invitation.day);
+        console.log('invitation.lunarDate:', weddingDataState.invitation.lunarDate);
     }, [weddingDataState]);
 
-    // Kiểm tra dữ liệu trước khi render lịch
     if (!weddingDataState.calendar || !weddingDataState.calendar.days || !weddingDataState.calendar.highlightDay) {
         return <div>Đang tải dữ liệu lịch...</div>;
     }
@@ -332,7 +441,11 @@ const Template1Edit: React.FC = () => {
                             </div>
                             <span className={styles.year}>{weddingDataState.invitation.year}</span>
                         </div>
-                        <p className={styles.lunarDate}>{`(${weddingDataState.invitation.lunarDate})`}</p>
+                        <p className={styles.lunarDate}>
+                            {weddingDataState.invitation.lunarDate
+                                ? `(${weddingDataState.invitation.lunarDate})`
+                                : '(Chưa có ngày âm lịch)'}
+                        </p>
                         <h2 className={styles.monthYear}>{weddingDataState.invitation.monthYear}</h2>
                     </div>
                     <div className={styles.calendar} data-aos="zoom-in" data-aos-duration="1000">
@@ -440,9 +553,18 @@ const Template1Edit: React.FC = () => {
                 onSaveEdit={handleSaveEdit}
                 onInviteePopupClose={handleInviteePopupClose}
                 templateType="template1"
+                onSaveCard={handleSaveCard}
             />
             {showInviteePopup && (
-                <InviteePopup quantity={quantity} totalPrice={totalPrice} onClose={handleInviteePopupClose} id={id} />
+                <InviteePopup
+                    quantity={quantity}
+                    totalPrice={totalPrice}
+                    onClose={handleInviteePopupClose}
+                    id={id}
+                    weddingImages={weddingImages}
+                    setInviteeNames={setInviteeNames}
+                    weddingData={weddingDataState}
+                />
             )}
         </div>
     );
