@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import styles from './mau_2.module.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -36,6 +36,7 @@ interface WeddingData {
     weddingDate: string;
     weddingTime: string;
     weddingDayOfWeek: string;
+    lunar_day: string;
     familyGroom: { father: string; mother: string };
     familyBride: { father: string; mother: string };
     brideStory: string;
@@ -44,6 +45,8 @@ interface WeddingData {
     brideAddress: string;
     groomMapUrl: string;
     brideMapUrl: string;
+    venue_groom: string;
+    venue_bride: string;
 }
 
 interface Guest {
@@ -81,7 +84,9 @@ interface Card {
         groom_name: string;
         bride_name: string;
         wedding_date: string;
-        venue: string;
+        venue_groom: string;
+        venue_bride: string;
+        lunar_day: string;
         story_groom: string;
         story_bride: string;
         custom_image: string;
@@ -139,10 +144,16 @@ function Mau2InviteeName() {
                 );
 
                 const { guest, card } = response.data;
-                setWeddingData(card.custom_data.weddingData);
+                const updatedWeddingData = {
+                    ...card.custom_data.weddingData,
+                    lunar_day: card.invitations[0]?.lunar_day || 'Chưa xác định',
+                    venue_groom: card.invitations[0]?.venue_groom || 'Chưa xác định',
+                    venue_bride: card.invitations[0]?.venue_bride || 'Chưa xác định',
+                };
+                setWeddingData(updatedWeddingData);
                 setGuestName(guest.full_name);
 
-                const newImages: Images = {} as Images; // Initialize as empty object
+                const newImages: Images = {} as Images;
                 card.custom_data.weddingImages.forEach((img: { url: string; position: string }) => {
                     let key: keyof Images;
                     switch (img.position) {
@@ -186,12 +197,12 @@ function Mau2InviteeName() {
                             key = 'galleryImage4';
                             break;
                         default:
-                            key = 'mainImage'; // Fallback (should not happen with valid data)
+                            key = 'mainImage';
                     }
                     newImages[key] = { url: `${apiUrl}${img.url}`, position: img.position };
                 });
                 setImages(newImages);
-                console.log('Images after setting:', newImages); // Debug to verify exact keys
+                console.log('Images after setting:', newImages);
             } catch (err: unknown) {
                 const errorMessage = err instanceof Error ? err.message : 'Không thể tải dữ liệu thiệp cưới';
                 setError(errorMessage);
@@ -292,7 +303,6 @@ function Mau2InviteeName() {
                                         onError={(e) => console.log('Error loading mainImage:', e.currentTarget.src)}
                                     />
                                 )}
-                                {/* ảnh main */}
                             </div>
                             <div className={styles.song_info}>
                                 <h4>Bài này không để đi diễn</h4>
@@ -318,7 +328,6 @@ function Mau2InviteeName() {
                                     onError={(e) => console.log('Error loading mainImage:', e.currentTarget.src)}
                                 />
                             )}
-                            {/* ảnh main */}
                             <div className={styles.Save_the_date} data-aos="fade-right" data-aos-delay="400">
                                 <span className={styles.save}>Save</span>
                                 <span className={styles.the}>The</span>
@@ -341,7 +350,6 @@ function Mau2InviteeName() {
                                         onError={(e) => console.log('Error loading thumbnail1:', e.currentTarget.src)}
                                     />
                                 )}
-                                {/* ảnh position thumbnail1 */}
                                 {images.thumbnail2 && (
                                     <img
                                         src={images.thumbnail2.url}
@@ -352,7 +360,6 @@ function Mau2InviteeName() {
                                         onError={(e) => console.log('Error loading thumbnail2:', e.currentTarget.src)}
                                     />
                                 )}
-                                {/* ảnh position thumbnail2 */}
                                 {images.thumbnail3 && (
                                     <img
                                         src={images.thumbnail3.url}
@@ -363,7 +370,6 @@ function Mau2InviteeName() {
                                         onError={(e) => console.log('Error loading thumbnail3:', e.currentTarget.src)}
                                     />
                                 )}
-                                {/* ảnh position thumbnail3 */}
                                 {images.thumbnail4 && (
                                     <img
                                         src={images.thumbnail4.url}
@@ -374,7 +380,6 @@ function Mau2InviteeName() {
                                         onError={(e) => console.log('Error loading thumbnail4:', e.currentTarget.src)}
                                     />
                                 )}
-                                {/* ảnh position thumbnail4 */}
                             </div>
                         </div>
                     </div>
@@ -389,7 +394,6 @@ function Mau2InviteeName() {
                                 <h4>
                                     <span>Của</span> Chúng mình
                                 </h4>
-                                <p>2020 - 2025</p>
                             </div>
                         </div>
                         <div className={styles.content_story}>
@@ -404,7 +408,6 @@ function Mau2InviteeName() {
                                             }
                                         />
                                     )}
-                                    {/* ảnh position story1 */}
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="800">
                                     <span>
@@ -433,7 +436,6 @@ function Mau2InviteeName() {
                                             }
                                         />
                                     )}
-                                    {/* ảnh position story2 */}
                                 </div>
                             </div>
                         </div>
@@ -462,7 +464,6 @@ function Mau2InviteeName() {
                                                 }
                                             />
                                         )}
-                                        {/* ảnh position bride */}
                                     </div>
                                 </div>
                             </div>
@@ -492,7 +493,6 @@ function Mau2InviteeName() {
                                                 }
                                             />
                                         )}
-                                        {/* ảnh position groom */}
                                     </div>
                                 </div>
                             </div>
@@ -544,6 +544,9 @@ function Mau2InviteeName() {
                                         </div>
                                         <span className={styles.year}>{weddingData.weddingDate.split('/')[2]}</span>
                                     </div>
+                                </div>
+                                <div className={styles.Lunar_day} data-aos="fade-up" data-aos-delay="200">
+                                    (Tức Ngày {weddingData.lunar_day})
                                 </div>
                                 <div className={styles.calendar} data-aos="zoom-in" data-aos-duration="1000">
                                     <h3>
@@ -599,9 +602,9 @@ function Mau2InviteeName() {
                             <h4>Địa điểm tổ chức</h4>
                             <div className={styles.addressContent}>
                                 <h5>Nhà Trai</h5>
-                                {weddingData.groomAddress && weddingData.groomMapUrl ? (
-                                    <>
-                                        <p>{weddingData.groomAddress}</p>
+                                {weddingData.venue_groom && weddingData.groomMapUrl ? (
+                                    <div className={styles.venueDetails}>
+                                        <p className={styles.venueText}>{weddingData.venue_groom}</p>
                                         <iframe
                                             src={weddingData.groomMapUrl}
                                             width="600"
@@ -610,16 +613,16 @@ function Mau2InviteeName() {
                                             loading="lazy"
                                             referrerPolicy="no-referrer-when-downgrade"
                                         ></iframe>
-                                    </>
+                                    </div>
                                 ) : (
-                                    <p>Địa điểm của chú rể chưa cập nhật</p>
+                                    <p className={styles.venueText}>Địa điểm của chú rể chưa cập nhật</p>
                                 )}
                             </div>
                             <div className={styles.addressContent}>
                                 <h5>Nhà Gái</h5>
-                                {weddingData.brideAddress && weddingData.brideMapUrl ? (
-                                    <>
-                                        <p>{weddingData.brideAddress}</p>
+                                {weddingData.venue_bride && weddingData.brideMapUrl ? (
+                                    <div className={styles.venueDetails}>
+                                        <p className={styles.venueText}>{weddingData.venue_bride}</p>
                                         <iframe
                                             src={weddingData.brideMapUrl}
                                             width="600"
@@ -628,9 +631,9 @@ function Mau2InviteeName() {
                                             loading="lazy"
                                             referrerPolicy="no-referrer-when-downgrade"
                                         ></iframe>
-                                    </>
+                                    </div>
                                 ) : (
-                                    <p>Địa điểm của cô dâu chưa cập nhật</p>
+                                    <p className={styles.venueText}>Địa điểm của cô dâu chưa cập nhật</p>
                                 )}
                             </div>
                         </div>
@@ -652,7 +655,6 @@ function Mau2InviteeName() {
                                                 }
                                             />
                                         )}
-                                        {/* ảnh position gallery1 */}
                                     </div>
                                 </div>
                                 <div
@@ -671,7 +673,6 @@ function Mau2InviteeName() {
                                                 }
                                             />
                                         )}
-                                        {/* ảnh position gallery2 */}
                                     </div>
                                 </div>
                                 <div
@@ -690,7 +691,6 @@ function Mau2InviteeName() {
                                                 }
                                             />
                                         )}
-                                        {/* ảnh position gallery3 */}
                                     </div>
                                 </div>
                                 <div
@@ -709,7 +709,6 @@ function Mau2InviteeName() {
                                                 }
                                             />
                                         )}
-                                        {/* ảnh position gallery4 */}
                                     </div>
                                 </div>
                             </div>

@@ -18,6 +18,7 @@ interface Template2WeddingData {
     weddingDate: string;
     weddingTime: string;
     weddingDayOfWeek: string;
+    lunarDay: string; // Thêm trường lunarDay
     familyGroom: { father: string; mother: string };
     familyBride: { father: string; mother: string };
     brideStory: string;
@@ -83,6 +84,7 @@ function Template2Edit() {
                   weddingDate: '17/11/2025',
                   weddingTime: '00:00',
                   weddingDayOfWeek: 'Thứ 2',
+                  lunarDay: '18/09/Ất Tỵ', // Thêm giá trị mặc định cho lunarDay
                   familyGroom: { father: 'Nguyễn Văn A', mother: 'Trần Thị B' },
                   familyBride: { father: 'Lê Văn C', mother: 'Phạm Thị D' },
                   brideStory: '',
@@ -373,7 +375,6 @@ function Template2Edit() {
                                 <h4>
                                     <span>Của</span> Chúng mình
                                 </h4>
-                                <p>202ව: 2020 - 2025</p>
                             </div>
                         </div>
                         <div className={styles.content_story}>
@@ -544,6 +545,8 @@ function Template2Edit() {
                                     <span className={styles.year}>{weddingData.weddingDate.split('/')[2]}</span>
                                 </div>
                             </div>
+                            <div className={styles.Lunar_day}>(Tức Ngày {weddingData.lunarDay})</div>{' '}
+                            {/* Hiển thị lunarDay từ weddingData */}
                             <div className={styles.calendar} data-aos="zoom-in" data-aos-duration="1000">
                                 <h3>
                                     Tháng {weddingData.weddingDate.split('/')[1]}{' '}

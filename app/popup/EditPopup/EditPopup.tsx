@@ -9,6 +9,7 @@ interface Template2WeddingData {
     weddingDate: string;
     weddingTime: string;
     weddingDayOfWeek: string;
+    lunarDay: string; // Thêm trường lunarDay
     familyGroom: { father: string; mother: string };
     familyBride: { father: string; mother: string };
     brideStory: string;
@@ -480,6 +481,20 @@ const EditPopup = <T extends Template1WeddingData | Template2WeddingData>({
                             />
                         </label>
                         <label>
+                            Ngày âm lịch:
+                            <input
+                                type="text"
+                                value={(formData as Template2WeddingData).lunarDay}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        lunarDay: e.target.value,
+                                    } as T)
+                                }
+                                placeholder="Ví dụ: 18/09/Ất Tỵ"
+                            />
+                        </label>
+                        <label>
                             Ông nhà trai:
                             <input
                                 type="text"
@@ -641,3 +656,4 @@ const EditPopup = <T extends Template1WeddingData | Template2WeddingData>({
 };
 
 export default EditPopup;
+

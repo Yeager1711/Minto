@@ -830,6 +830,13 @@
   font-size: clamp(1.7rem, 2.5vw, 2.5rem);
   color: #333;
 }
+.mau_2_container .mau_2 .time_location .wrapper .Lunar_day {
+  font-family: "Allura", cursive;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  color: #333;
+  font-weight: 600;
+  color: #a11414;
+}
 .mau_2_container .mau_2 .time_location .wrapper .calendar {
   margin-top: clamp(0.5rem, 1vw, 1rem);
   background: #fdf9f3;

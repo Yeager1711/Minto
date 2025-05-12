@@ -236,8 +236,6 @@ function AccountInfo() {
                             <thead>
                                 <tr>
                                     <th>Template</th>
-                                    <th>Mã khách mời</th>
-                                    <th>Mã lời mời</th>
                                     <th>Tên khách mời</th>
                                     <th>Link chia sẻ</th>
                                     <th>Ngày tạo</th>
@@ -251,8 +249,6 @@ function AccountInfo() {
                                         return (
                                             <tr key={link.link_id}>
                                                 <td>{selectedGuests.templateName}</td>
-                                                <td>{guest.guest_id}</td>
-                                                <td>{guest.invitation_id}</td>
                                                 <td>{guest.full_name}</td>
                                                 <td>
                                                     <a style={{color: '#007bff'}} href={newShareUrl} target="_blank" rel="noopener noreferrer">

@@ -334,7 +334,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             throw new Error('Vui lòng đăng nhập');
         }
         try {
-            console.log('Dữ liệu nhận được trong saveCard:', data);
+            console.log('Dữ liệu nhận được trong saveCard:', data); // Kiểm tra weddingData
 
             const formData = new FormData();
             formData.append('templateId', data.templateId.toString());
