@@ -7,12 +7,40 @@ import EditPopup from 'app/popup/EditPopup/EditPopup';
 import InviteePopup from 'app/popup/InviteePopup/InviteePopup';
 import styles from './edit_control.module.css';
 
-interface Template2WeddingData {
+// Define a minimal base interface for wedding data
+interface BaseWeddingData {
+    bride?: string; // Optional to allow flexibility
+    groom?: string;
+    weddingDate?: string;
+    weddingTime?: string;
+    weddingDayOfWeek?: string;
+    lunarDay?: string;
+    familyGroom?: { father: string; mother: string };
+    familyBride?: { father: string; mother: string };
+    brideStory?: string;
+    groomStory?: string;
+    groomAddress?: string;
+    brideAddress?: string;
+    groomMapUrl?: string;
+    brideMapUrl?: string;
+    invitation?: {
+        day?: string;
+        month?: string;
+        year?: string;
+        dayOfWeek?: string;
+        time?: string;
+        lunarDate?: string;
+    };
+}
+
+// Define Template2WeddingData to match Template2Edit
+interface Template2WeddingData extends BaseWeddingData {
     bride: string;
     groom: string;
     weddingDate: string;
     weddingTime: string;
     weddingDayOfWeek: string;
+    lunarDay: string;
     familyGroom: { father: string; mother: string };
     familyBride: { father: string; mother: string };
     brideStory: string;
@@ -21,46 +49,10 @@ interface Template2WeddingData {
     brideAddress: string;
     groomMapUrl: string;
     brideMapUrl: string;
-    invitation: {
-        lunarDate: string; // Added for consistency with Template1WeddingData
-    };
 }
 
-interface Template1WeddingData {
-    banner: { image: string };
-    couple: {
-        names: string;
-        groom: { name: string; image: string };
-        bride: { name: string; image: string };
-    };
-    invitation: {
-        title: string;
-        subtitle: string;
-        day: string;
-        month: string;
-        year: string;
-        dayOfWeek: string;
-        time: string;
-        lunarDate: string;
-        monthYear: string;
-    };
-    loveQuote_1: string;
-    loveQuote_2: string;
-    familyInfo: {
-        groomFamily: { title: string; father: string; mother: string };
-        brideFamily: { title: string; father: string; mother: string };
-    };
-    eventDetails: string;
-    calendar: { month: string; days: (string | number)[]; highlightDay: number };
-    location: {
-        groomLocation: { name: string; address: string; mapEmbedUrl: string };
-        brideLocation: { name: string; address: string; mapEmbedUrl: string };
-    };
-    coupleImages: { src: string; alt: string; isCenter?: boolean }[];
-    thumnailImages: { src: string; alt: string; isCenter?: boolean }[];
-}
-
-interface EditControlsProps<T extends Template1WeddingData | Template2WeddingData> {
+// Interface for EditControls props
+interface EditControlsProps<T extends BaseWeddingData> {
     weddingData: T;
     quantity: number;
     totalPrice: number;
@@ -75,7 +67,7 @@ interface EditControlsProps<T extends Template1WeddingData | Template2WeddingDat
     weddingImages?: { file: File; position: string }[];
 }
 
-const EditControls = <T extends Template1WeddingData | Template2WeddingData>({
+const EditControls = <T extends BaseWeddingData>({
     weddingData,
     quantity,
     totalPrice,

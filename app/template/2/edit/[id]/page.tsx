@@ -18,7 +18,7 @@ interface Template2WeddingData {
     weddingDate: string;
     weddingTime: string;
     weddingDayOfWeek: string;
-    lunarDay: string; // Thêm trường lunarDay
+    lunarDay: string; // Added to match EditPopup
     familyGroom: { father: string; mother: string };
     familyBride: { father: string; mother: string };
     brideStory: string;
@@ -84,7 +84,7 @@ function Template2Edit() {
                   weddingDate: '17/11/2025',
                   weddingTime: '00:00',
                   weddingDayOfWeek: 'Thứ 2',
-                  lunarDay: '18/09/Ất Tỵ', // Thêm giá trị mặc định cho lunarDay
+                  lunarDay: '18/09/Ất Tỵ', // Added default value
                   familyGroom: { father: 'Nguyễn Văn A', mother: 'Trần Thị B' },
                   familyBride: { father: 'Lê Văn C', mother: 'Phạm Thị D' },
                   brideStory: '',
@@ -175,7 +175,6 @@ function Template2Edit() {
             };
             reader.readAsDataURL(file);
         } else {
-            // Xử lý trường hợp người dùng hủy chọn file
             setImageFiles((prev) => prev.filter((item) => item.position !== position));
         }
     };
@@ -203,8 +202,8 @@ function Template2Edit() {
         setIsLoading(false);
     }, []);
 
-    const handleSaveEdit = (updatedData: Template2WeddingData) => {
-        const newData = { ...weddingData, ...updatedData };
+    const handleSaveEdit = (updatedData: Template2WeddingData ) => {
+        const newData = { ...weddingData, ...updatedData } as Template2WeddingData; // Cast to Template2WeddingData since this is Template2Edit
         setWeddingData(newData);
         localStorage.setItem('weddingData', JSON.stringify(newData));
         setShowEditPopup(false);
@@ -548,8 +547,7 @@ function Template2Edit() {
                                     <span className={styles.year}>{weddingData.weddingDate.split('/')[2]}</span>
                                 </div>
                             </div>
-                            <div className={styles.Lunar_day}>(Tức Ngày {weddingData.lunarDay})</div>{' '}
-                            {/* Hiển thị lunarDay từ weddingData */}
+                            <div className={styles.Lunar_day}>(Tức Ngày {weddingData.lunarDay})</div>
                             <div className={styles.calendar} data-aos="zoom-in" data-aos-duration="1000">
                                 <h3>
                                     Tháng {weddingData.weddingDate.split('/')[1]}{' '}
