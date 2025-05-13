@@ -76,6 +76,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ quantity, totalPrice, onClo
             });
 
             localStorage.removeItem('weddingData');
+            localStorage.removeItem('weddingImages')
             setShowConfirmationPopup(true);
         } catch (error) {
             console.error('Lỗi khi lưu thiệp:', error);

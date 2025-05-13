@@ -43,8 +43,6 @@ interface WeddingData {
         lunarDate: string;
         monthYear: string;
     };
-    loveQuote_1: string;
-    loveQuote_2: string;
     familyInfo: {
         groomFamily: FamilyMember;
         brideFamily: FamilyMember;
@@ -90,8 +88,6 @@ const weddingData: WeddingData = {
         lunarDate: 'Tức Ngày 18 Tháng 09 Năm Ất Tỵ',
         monthYear: 'Tháng 11 2025',
     },
-    loveQuote_1: 'Hôn nhân là chuyện cả đời',
-    loveQuote_2: 'Yêu người vừa ý, cưới người mình thương, ...',
     familyInfo: {
         groomFamily: {
             title: 'Nhà Trai',

@@ -370,8 +370,8 @@ const Template1Edit: React.FC = () => {
                 <div className={styles.wrapperBanner}>
                     <div className={styles.banner2} data-aos="fade-up" data-aos-duration="1200">
                         <div className={styles.loveQuote}>
-                            <h2>{`"${weddingDataState.loveQuote_1}"`}</h2>
-                            <h2>{`"${weddingDataState.loveQuote_2}"`}</h2>
+                            <h2>Hôn nhân là chuyện cả đời</h2>
+                            <h2>Yêu người vừa ý, cưới người mình thương, ...</h2>
                         </div>
                         <div className={styles.familyInfo}>
                             <div className={styles.groomFamily} data-aos="fade-right" data-aos-delay="200">
