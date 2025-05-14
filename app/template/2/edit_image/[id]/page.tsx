@@ -6,28 +6,12 @@ import styles from './mau_2.module.scss';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
-import EditControls from '../../../EditControl/EditControl';
+import { faHeart, faCirclePlay, faCirclePause, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { formatTime } from 'app/Ultils/formatTime';
 import Image from 'next/image';
 import { Suspense } from 'react';
-
-interface Template2WeddingData {
-    bride: string;
-    groom: string;
-    weddingDate: string;
-    weddingTime: string;
-    weddingDayOfWeek: string;
-    lunarDay: string; // Added to match EditPopup
-    familyGroom: { father: string; mother: string };
-    familyBride: { father: string; mother: string };
-    brideStory: string;
-    groomStory: string;
-    groomAddress: string;
-    brideAddress: string;
-    groomMapUrl: string;
-    brideMapUrl: string;
-}
+import { TemplateWeddingData } from 'app/edit/template/[templateId]/EditTemplate'; // Import the shared interface
+import ButtonDown from 'app/template/buttonDown/page';
 
 interface Images {
     mainImage: { url: string; position?: string };
@@ -47,17 +31,34 @@ interface Images {
 
 function Template2Edit() {
     const params = useParams();
-    const id = params.id as string;
+    const templateId = params.id as string;
     const searchParams = useSearchParams();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [showEditPopup, setShowEditPopup] = useState(false);
-    const [showInviteePopup, setShowInviteePopup] = useState(false);
     const quantity = parseInt(searchParams.get('quantity') || '1');
-    const totalPrice = parseInt(searchParams.get('totalPrice') || '0');
+    const totalPrice = searchParams.get('totalPrice') || '0';
 
+    // Default wedding data (minimal, used only if localStorage is empty)
+    const defaultWeddingData: TemplateWeddingData = {
+        bride: '',
+        groom: '',
+        weddingDate: '',
+        weddingTime: '',
+        weddingDayOfWeek: '',
+        lunarDay: '',
+        familyGroom: { father: '', mother: '' },
+        familyBride: { father: '', mother: '' },
+        brideStory: '',
+        groomStory: '',
+        groomAddress: '',
+        brideAddress: '',
+        groomMapUrl: '',
+        brideMapUrl: '',
+    };
+
+    // Default images
     const defaultImages: Images = {
         mainImage: { url: '/images/m2/8.jpg', position: 'main' },
         thumbnail1: { url: '/images/m2/2.jpg', position: 'thumbnail1' },
@@ -74,32 +75,15 @@ function Template2Edit() {
         galleryImage4: { url: '/images/m2/10.jpg', position: 'gallery4' },
     };
 
-    const [weddingData, setWeddingData] = useState<Template2WeddingData>(() => {
-        const savedData = localStorage.getItem('weddingData');
-        return savedData
-            ? JSON.parse(savedData)
-            : {
-                  bride: 'Hải Vân',
-                  groom: 'Kim Thành',
-                  weddingDate: '17/11/2025',
-                  weddingTime: '00:00',
-                  weddingDayOfWeek: 'Thứ 2',
-                  lunarDay: '18/09/Ất Tỵ', // Added default value
-                  familyGroom: { father: 'Nguyễn Văn A', mother: 'Trần Thị B' },
-                  familyBride: { father: 'Lê Văn C', mother: 'Phạm Thị D' },
-                  brideStory: '',
-                  groomStory: '',
-                  groomAddress: 'PJ3X+GH8, KDC 13E, Đô thị mới Nam Thành Phố, Ấp 5, Bình Chánh, Hồ Chí Minh, Việt Nam',
-                  brideAddress: 'PJ3X+GH8, KDC 13E, Đô thị mới Nam Thành Phố, Ấp 5, Bình Chánh, Hồ Chí Minh, Việt Nam',
-                  groomMapUrl:
-                      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4650.377567444314!2d106.64545227570262!3d10.703125960540111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175311ad90bd4bb%3A0xf92c25e13e35ed88!2sChung%20c%C6%B0%20Saigon%20Intela!5e1!3m2!1svi!2s!4v1746350188243!5m2!1svi!2s',
-                  brideMapUrl:
-                      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4650.377567444314!2d106.64545227570262!3d10.703125960540111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175311ad90bd4bb%3A0xf92c25e13e35ed88!2sChung%20c%C6%B0%20Saigon%20Intela!5e1!3m2!1svi!2s!4v1746350188243!5m2!1svi!2s',
-              };
+    // Load wedding data from localStorage
+    const [weddingData, setWeddingData] = useState<TemplateWeddingData>(() => {
+        const savedData = typeof window !== 'undefined' ? localStorage.getItem(`WeddingData${templateId}`) : null;
+        return savedData ? JSON.parse(savedData) : defaultWeddingData;
     });
 
+    // Load images from localStorage with templateId-specific key
     const [images, setImages] = useState<Images>(() => {
-        const savedImages = localStorage.getItem('weddingImages');
+        const savedImages = typeof window !== 'undefined' ? localStorage.getItem(`weddingImages${templateId}`) : null;
         if (savedImages) {
             try {
                 const parsedImages = JSON.parse(savedImages);
@@ -160,21 +144,32 @@ function Template2Edit() {
     const handleImageChange = (key: keyof Images, position: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            // Update imageFiles state for ButtonDown component
             setImageFiles((prev) => {
                 const updatedFiles = prev.filter((item) => item.position !== position);
                 return [...updatedFiles, { file, position }];
             });
 
+            // Read file and update images state
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImages((prev: Images) => {
                     const newImages = { ...prev, [key]: { url: reader.result as string, position } };
-                    localStorage.setItem('weddingImages', JSON.stringify(newImages));
+                    try {
+                        // Save to localStorage
+                        localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(newImages));
+                    } catch (e) {
+                        console.error('Failed to save weddingImages to localStorage:', e);
+                    }
                     return newImages;
                 });
             };
+            reader.onerror = () => {
+                console.error('Failed to read file:', file.name);
+            };
             reader.readAsDataURL(file);
         } else {
+            // Remove file from imageFiles if no file is selected
             setImageFiles((prev) => prev.filter((item) => item.position !== position));
         }
     };
@@ -202,15 +197,6 @@ function Template2Edit() {
         setIsLoading(false);
     }, []);
 
-    const handleSaveEdit = (updatedData: Template2WeddingData ) => {
-        const newData = { ...weddingData, ...updatedData } as Template2WeddingData; // Cast to Template2WeddingData since this is Template2Edit
-        setWeddingData(newData);
-        localStorage.setItem('weddingData', JSON.stringify(newData));
-        setShowEditPopup(false);
-    };
-
-    const handleInviteePopupClose = () => setShowInviteePopup(false);
-
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -218,6 +204,13 @@ function Template2Edit() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <div className={styles.mau_2_container}>
+                <ButtonDown
+                    templateId={templateId}
+                    quantity={quantity}
+                    totalPrice={totalPrice} // Pass totalPrice as string
+                    weddingImages={imageFiles} // Pass imageFiles as weddingImages
+                />
+
                 <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
                     <div className={styles.dynamic_content}>
                         <div
@@ -280,7 +273,7 @@ function Template2Edit() {
                                 <span className={styles.save}>Save</span>
                                 <span className={styles.the}>The</span>
                                 <span className={styles.date}>Date</span>
-                                <span className={styles.time}>{weddingData.weddingDate}</span>
+                                <span className={styles.time}>{weddingData.weddingDate || 'Chưa cập nhật'}</span>
                             </div>
                             <input
                                 type="file"
@@ -290,9 +283,9 @@ function Template2Edit() {
                                 style={{ display: 'none' }}
                             />
                             <div className={styles.bride_groom} data-aos="fade-up" data-aos-delay="600">
-                                <h3>{weddingData.groom}</h3>
+                                <h3>{weddingData.groom || 'Chú rể'}</h3>
                                 <span>&</span>
-                                <h3>{weddingData.bride}</h3>
+                                <h3>{weddingData.bride || 'Cô dâu'}</h3>
                             </div>
                             <div className={styles.thumnails}>
                                 <Image
@@ -399,19 +392,16 @@ function Template2Edit() {
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="800">
                                     <span>
-                                        Trong một thị trấn nhỏ dọc bờ biển, {weddingData.groom} – chàng họa sĩ trẻ, tình
-                                        cờ gặp {weddingData.bride} – cô gái bán sách cũ, khi cô đánh rơi một quyển sách
-                                        trên con dốc gió lộng. Anh nhặt lên, trao lại, và họ nhìn nhau
+                                        {weddingData.brideStory ||
+                                            `Trong một thị trấn nhỏ dọc bờ biển, ${weddingData.groom || 'chú rể'} – chàng họa sĩ trẻ, tình cờ gặp ${weddingData.bride || 'cô dâu'} – cô gái bán sách cũ, khi cô đánh rơi một quyển sách trên con dốc gió lộng. Anh nhặt lên, trao lại, và họ nhìn nhau.`}
                                     </span>
                                 </div>
                             </div>
                             <div className={styles.footer_content}>
                                 <div className={styles.left} data-aos="fade-right" data-aos-delay="1000">
                                     <span>
-                                        Tình yêu giữa {weddingData.groom} và {weddingData.bride} bắt đầu bằng một bản
-                                        nhạc cũ vang lên trong quán cà phê ven biển. Cô ngồi ở góc quán, lặng lẽ đọc
-                                        sách, còn anh vừa bước vào đã sững người khi nghe giai điệu quen thuộc – bài hát
-                                        mẹ anh thường bật những ngày mưa.
+                                        {weddingData.groomStory ||
+                                            `Tình yêu giữa ${weddingData.groom || 'chú rể'} và ${weddingData.bride || 'cô dâu'} bắt đầu bằng một bản nhạc cũ vang lên trong quán cà phê ven biển. Cô ngồi ở góc quán, lặng lẽ đọc sách, còn anh vừa bước vào đã sững người khi nghe giai điệu quen thuộc – bài hát mẹ anh thường bật những ngày mưa.`}
                                     </span>
                                 </div>
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="1200">
@@ -443,11 +433,11 @@ function Template2Edit() {
                                     </h4>
                                 </div>
                                 <div className={styles.right}>
-                                    <h2>{weddingData.bride}</h2>
+                                    <h2>{weddingData.bride || 'Cô dâu'}</h2>
                                 </div>
                             </div>
                             <div className={styles.content} data-aos="fade-up" data-aos-delay="800">
-                                <span>{weddingData.brideStory}</span>
+                                <span>{weddingData.brideStory || 'Chưa cập nhật câu chuyện cô dâu'}</span>
                                 <div className={styles.img_story__bride} data-aos="fade-left" data-aos-delay="600">
                                     <Image
                                         src={images.brideImage?.url || defaultImages.brideImage.url}
@@ -477,11 +467,11 @@ function Template2Edit() {
                                     </h4>
                                 </div>
                                 <div className={styles.right}>
-                                    <h2>{weddingData.groom}</h2>
+                                    <h2>{weddingData.groom || 'Chú rể'}</h2>
                                 </div>
                             </div>
                             <div className={styles.content} data-aos="fade-up" data-aos-delay="600">
-                                <span>{weddingData.groomStory}</span>
+                                <span>{weddingData.groomStory || 'Chưa cập nhật câu chuyện chú rể'}</span>
                                 <div className={styles.img_story__groom} data-aos="fade-left" data-aos-delay="800">
                                     <Image
                                         src={images.groomImage?.url || defaultImages.groomImage.url}
@@ -515,43 +505,54 @@ function Template2Edit() {
                                 <div className={styles.family_wrapper}>
                                     <div className={styles.family_box}>
                                         <h4>Nhà Trai</h4>
-                                        <p>Ông: {weddingData.familyGroom.father}</p>
-                                        <p>Bà: {weddingData.familyGroom.mother}</p>
+                                        <p>Ông: {weddingData.familyGroom.father || 'Chưa cập nhật'}</p>
+                                        <p>Bà: {weddingData.familyGroom.mother || 'Chưa cập nhật'}</p>
                                     </div>
                                     <div className={styles.family_box}>
                                         <h4>Nhà Gái</h4>
-                                        <p>Ông: {weddingData.familyBride.father}</p>
-                                        <p>Bà: {weddingData.familyBride.mother}</p>
+                                        <p>Ông: {weddingData.familyBride.father || 'Chưa cập nhật'}</p>
+                                        <p>Bà: {weddingData.familyBride.mother || 'Chưa cập nhật'}</p>
                                     </div>
                                 </div>
                             </div>
                             <div className={styles.flex}>
                                 <div className={styles.flex_gap}>
-                                    <div>{weddingData.groom}</div>
+                                    <div>{weddingData.groom || 'Chú rể'}</div>
                                     <span>囍</span>
-                                    <div>{weddingData.bride}</div>
+                                    <div>{weddingData.bride || 'Cô dâu'}</div>
                                 </div>
                             </div>
                             <div className={styles.infomation} data-aos="fade-up" data-aos-duration="1200">
                                 <p className={styles.eventDetails}>TIỆC MỪNG VU QUY</p>
                                 <p className={styles.eventTime}>Vào Lúc</p>
                                 <div className={styles.dateContainer}>
-                                    <span className={styles.time}>{weddingData.weddingDayOfWeek}</span>
+                                    <span className={styles.time}>
+                                        {weddingData.weddingDayOfWeek || 'Chưa cập nhật'}
+                                    </span>
                                     <div className={styles.column}>
-                                        <span className={styles.dayOfWeek}>{formatTime(weddingData.weddingTime)}</span>
-                                        <span className={styles.day}>{weddingData.weddingDate.split('/')[0]}</span>
+                                        <span className={styles.dayOfWeek}>
+                                            {weddingData.weddingTime
+                                                ? formatTime(weddingData.weddingTime)
+                                                : 'Chưa cập nhật'}
+                                        </span>
+                                        <span className={styles.day}>
+                                            {weddingData.weddingDate ? weddingData.weddingDate.split('/')[0] : '??'}
+                                        </span>
                                         <span className={styles.month}>
-                                            Tháng {weddingData.weddingDate.split('/')[1]}
+                                            Tháng{' '}
+                                            {weddingData.weddingDate ? weddingData.weddingDate.split('/')[1] : '??'}
                                         </span>
                                     </div>
-                                    <span className={styles.year}>{weddingData.weddingDate.split('/')[2]}</span>
+                                    <span className={styles.year}>
+                                        {weddingData.weddingDate ? weddingData.weddingDate.split('/')[2] : '????'}
+                                    </span>
                                 </div>
                             </div>
-                            <div className={styles.Lunar_day}>(Tức Ngày {weddingData.lunarDay})</div>
+                            <div className={styles.Lunar_day}>(Tức Ngày {weddingData.lunarDay || 'Chưa cập nhật'})</div>
                             <div className={styles.calendar} data-aos="zoom-in" data-aos-duration="1000">
                                 <h3>
-                                    Tháng {weddingData.weddingDate.split('/')[1]}{' '}
-                                    {weddingData.weddingDate.split('/')[2]}
+                                    Tháng {weddingData.weddingDate ? weddingData.weddingDate.split('/')[1] : '??'}{' '}
+                                    {weddingData.weddingDate ? weddingData.weddingDate.split('/')[2] : '????'}
                                 </h3>
                                 <div className={styles.calendarHeader}>
                                     <span>CN</span>
@@ -572,13 +573,13 @@ function Template2Edit() {
                                                     key={index}
                                                     className={
                                                         parseInt(day) ===
-                                                        parseInt(weddingData.weddingDate.split('/')[0])
+                                                        parseInt(weddingData.weddingDate?.split('/')[0] || '0')
                                                             ? styles.highlight
                                                             : ''
                                                     }
                                                 >
                                                     {parseInt(day) ===
-                                                    parseInt(weddingData.weddingDate.split('/')[0]) ? (
+                                                    parseInt(weddingData.weddingDate?.split('/')[0] || '0') ? (
                                                         <span className={styles.highlightContent}>
                                                             <FontAwesomeIcon
                                                                 icon={faHeart}
@@ -740,12 +741,12 @@ function Template2Edit() {
                             <span className={styles.save}>Save</span>
                             <span className={styles.the}>The</span>
                             <span className={styles.date}>Date</span>
-                            <span className={styles.time}>{weddingData.weddingDate}</span>
+                            <span className={styles.time}>{weddingData.weddingDate || 'Chưa cập nhật'}</span>
                         </div>
                         <div className={styles.bride_groom} data-aos="fade-up" data-aos-delay="600">
-                            <h3>{weddingData.bride}</h3>
+                            <h3>{weddingData.bride || 'Cô dâu'}</h3>
                             <span>&</span>
-                            <h3>{weddingData.groom}</h3>
+                            <h3>{weddingData.groom || 'Chú rể'}</h3>
                         </div>
                         <div className={styles.content_foooter}>
                             <span data-aos="fade-up" data-aos-duration="1000">
@@ -756,20 +757,6 @@ function Template2Edit() {
                         </div>
                     </footer>
                 </div>
-                <EditControls
-                    weddingData={weddingData}
-                    quantity={quantity}
-                    totalPrice={totalPrice}
-                    id={id}
-                    showEditPopup={showEditPopup}
-                    showInviteePopup={showInviteePopup}
-                    setShowEditPopup={setShowEditPopup}
-                    setShowInviteePopup={setShowInviteePopup}
-                    onSaveEdit={handleSaveEdit}
-                    onInviteePopupClose={handleInviteePopupClose}
-                    templateType="template2"
-                    weddingImages={imageFiles}
-                />
             </div>
         </Suspense>
     );

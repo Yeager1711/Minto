@@ -62,31 +62,33 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     };
 
     const handleUseTemplate = () => {
-        const totalPrice = calculateTotalPrice();
-        router.push(
-            `/template/${product.template_id}/edit/${product.template_id}?quantity=${quantity}&totalPrice=${totalPrice}`
-        );
+        // Định dạng totalPrice cho URL (224.000.00)
+        const formattedPriceForUrl = totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        router.push(`/edit/template/${product.template_id}?quantity=${quantity}`);
     };
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;
-        const quantityValue = parseInt(selectedValue.split(' ')[0]) || 1;
+        const quantityValue = Math.max(1, parseInt(selectedValue.split(' ')[0]) || 1);
         setQuantity(quantityValue);
     };
 
     const calculateTotalPrice = () => {
-        let totalPrice = product.price;
-        if (quantity > 5) {
+        const basePrice = Number(product.price);
+        let totalPrice = basePrice;
+        if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST)) {
             totalPrice += quantity * priceCardDefault;
         }
         return totalPrice;
     };
 
-    const formattedPrice = product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ';
-    const formattedTotalPrice =
-        calculateTotalPrice()
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ';
+    const formatPrice = (price: number) => {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ';
+    };
+
+    const totalPrice = calculateTotalPrice();
+    const formattedPrice = formatPrice(totalPrice); // Dùng để hiển thị (có "vnđ")
+    const formattedTotalPrice = formattedPrice; // Đồng bộ
 
     const isReady = product.status === 'Sẵn sàng';
     const statusClass = isReady ? styles.statusReady : styles.statusUpdating;
@@ -109,12 +111,12 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                 src={`${apiUrl}/${product.image_url}`}
                                 alt={product.name}
                                 className={styles.popupImage}
-                                onError={(e) => (e.currentTarget.src = '/images/fallback.png')} // Fallback image
+                                onError={(e) => (e.currentTarget.src = '/images/fallback.png')}
                             />
                         </div>
                     </div>
                     <div className={styles.infoSection}>
-                        <p className={styles.price}>Giá cơ bản: {formattedPrice}</p>
+                        <p className={styles.price}>Giá: {formattedPrice}</p>
                         <div className={styles.description}>
                             {product.description?.split('\n').map((line, index) => <p key={index}>{line}</p>) || (
                                 <p>Không có mô tả</p>

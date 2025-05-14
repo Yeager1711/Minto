@@ -17,31 +17,41 @@ interface Template2WeddingData {
     brideAddress: string;
     groomMapUrl: string;
     brideMapUrl: string;
-    weddingDate: string; // Only weddingDate is stored
+    weddingDate: string;
 }
 
 interface Template1WeddingData {
+    banner: { image: string };
     couple: {
         names: string;
         groom: { name: string; image: string };
         bride: { name: string; image: string };
     };
     invitation: {
+        title: string;
+        subtitle: string;
         day: string;
         month: string;
         year: string;
         dayOfWeek: string;
         time: string;
         lunarDate: string;
+        monthYear: string;
     };
+    loveQuote_1: string;
+    loveQuote_2: string;
     familyInfo: {
-        groomFamily: { father: string; mother: string };
-        brideFamily: { father: string; mother: string };
+        groomFamily: { title: string; father: string; mother: string };
+        brideFamily: { title: string; father: string; mother: string };
     };
+    eventDetails: string;
+    calendar: { month: string; days: (string | number)[]; highlightDay: number };
     location: {
-        groomLocation: { address: string; mapEmbedUrl: string };
-        brideLocation: { address: string; mapEmbedUrl: string };
+        groomLocation: { name: string; address: string; mapEmbedUrl: string };
+        brideLocation: { name: string; address: string; mapEmbedUrl: string };
     };
+    coupleImages: { src: string; alt: string; isCenter?: boolean }[];
+    thumnailImages: { src: string; alt: string; isCenter?: boolean }[];
 }
 
 interface EditPopupProps<T extends Template1WeddingData | Template2WeddingData> {
@@ -57,7 +67,7 @@ interface FieldConfig {
     placeholder: string;
     type?: string;
     transform?: (value: string) => string;
-    validate?: (value: string) => string | null; // Validation function returning error message or null
+    validate?: (value: string) => string | null;
 }
 
 const EditPopup = <T extends Template1WeddingData | Template2WeddingData>({
@@ -66,7 +76,6 @@ const EditPopup = <T extends Template1WeddingData | Template2WeddingData>({
     onClose,
     templateType,
 }: EditPopupProps<T>) => {
-    // Initialize formData with weddingData, splitting weddingDate for template2
     const initializeFormData = (data: T): T => {
         if (templateType === 'template2') {
             const weddingDate = (data as Template2WeddingData).weddingDate || '17/11/2025';
@@ -119,12 +128,46 @@ const EditPopup = <T extends Template1WeddingData | Template2WeddingData>({
             return updated as T;
         });
 
-        // Validate the field after updating the value
         validateField(path, value, validateFn);
     };
 
+    // Hàm chuẩn hóa dữ liệu weddingData cho template1
+    const standardizeWeddingData = (data: Template1WeddingData) => {
+        const groom = data.couple.groom.name;
+        const bride = data.couple.bride.name;
+        const day = data.invitation.day;
+        const month = data.invitation.month.replace('Tháng ', '');
+        const year = data.invitation.year;
+        const weddingDate = `${day}/${month}/${year}`;
+        const groomAddress = data.location.groomLocation.address;
+        const brideAddress = data.location.brideLocation.address;
+        const lunarDay = data.invitation.lunarDate;
+
+        return {
+            groom,
+            bride,
+            weddingDate,
+            groomAddress,
+            brideAddress,
+            lunarDay,
+            groomImage: data.couple.groom.image,
+            brideImage: data.couple.bride.image,
+            bannerImage: data.banner.image,
+            coupleImages: data.coupleImages,
+            thumnailImages: data.thumnailImages,
+            invitation: data.invitation,
+            loveQuote_1: data.loveQuote_1,
+            loveQuote_2: data.loveQuote_2,
+            familyInfo: data.familyInfo,
+            calendar: {
+                month: data.calendar.month,
+                highlightDay: data.calendar.highlightDay,
+            },
+            location: data.location,
+        };
+    };
+
     const handleSave = () => {
-        // Validate all fields before saving
         const validationErrors: { [key: string]: string } = {};
         commonFields.forEach(({ path, validate }) => {
             if (validate) {
@@ -151,7 +194,7 @@ const EditPopup = <T extends Template1WeddingData | Template2WeddingData>({
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
-            return; // Don't save if there are validation errors
+            return;
         }
 
         let updatedData: T;
@@ -161,10 +204,18 @@ const EditPopup = <T extends Template1WeddingData | Template2WeddingData>({
             updatedData = {
                 ...formData,
                 weddingDate,
-                invitation: undefined as any, // Remove temporary invitation field
+                invitation: undefined as any,
             } as T;
         } else {
             updatedData = formData;
+        }
+
+        const storageKey = templateType === 'template1' ? 'weddingData_template1' : 'weddingData_template2';
+        if (templateType === 'template1') {
+            const standardizedData = standardizeWeddingData(updatedData as Template1WeddingData);
+            localStorage.setItem(storageKey, JSON.stringify(standardizedData));
+        } else {
+            localStorage.setItem(storageKey, JSON.stringify(updatedData));
         }
 
         onSave(updatedData);

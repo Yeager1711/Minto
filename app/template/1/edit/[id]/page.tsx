@@ -38,7 +38,7 @@ interface Template1WeddingData {
         brideFamily: { title: string; father: string; mother: string };
     };
     eventDetails: string;
-    calendar: { month: string; days: (string | number)[]; highlightDay: number }; // Removed year field
+    calendar: { month: string; days: (string | number)[]; highlightDay: number };
     location: {
         groomLocation: { name: string; address: string; mapEmbedUrl: string };
         brideLocation: { name: string; address: string; mapEmbedUrl: string };
@@ -61,7 +61,21 @@ const Template1Edit: React.FC = () => {
         type: 'banner' | 'groom' | 'bride' | 'couple' | 'thumnail';
         index?: number;
     } | null>(null);
-    const [weddingImages, setWeddingImages] = useState<{ file: File; position: string }[]>([]);
+    const [weddingImages, setWeddingImages] = useState<{ file: File; position: string }[]>(() => {
+        const savedImages = localStorage.getItem('weddingImages_t1');
+        if (savedImages) {
+            try {
+                const parsedImages = JSON.parse(savedImages);
+                return parsedImages.map((img: { file: string; position: string }) => ({
+                    file: new File([], img.file),
+                    position: img.position,
+                }));
+            } catch (error) {
+                console.error('Lỗi khi parse weddingImages_t1:', error);
+            }
+        }
+        return [];
+    });
     const [inviteeNames, setInviteeNames] = useState<string[]>([]);
 
     const api = useApi();
@@ -77,7 +91,6 @@ const Template1Edit: React.FC = () => {
             parsedData = weddingData;
         }
 
-        // Transform highlightDay to number and handle calendar.days
         const mergedData: Template1WeddingData = {
             ...weddingData,
             ...parsedData,
@@ -90,7 +103,7 @@ const Template1Edit: React.FC = () => {
                 month: parsedData.calendar?.month || weddingData.calendar.month,
                 days: (parsedData.calendar?.days || weddingData.calendar.days).map((day: string) =>
                     day === '' ? '' : parseInt(day, 10)
-                ) as (string | number)[], // Convert days to numbers where possible
+                ) as (string | number)[],
                 highlightDay: parseInt(parsedData.calendar?.highlightDay || weddingData.calendar.highlightDay, 10),
             },
         };
@@ -159,6 +172,42 @@ const Template1Edit: React.FC = () => {
         setWeddingImages(newWeddingImages);
     }, [weddingDataState]);
 
+    // Hàm chuẩn hóa dữ liệu weddingData
+    const standardizeWeddingData = (data: Template1WeddingData) => {
+        const groom = data.couple.groom.name;
+        const bride = data.couple.bride.name;
+        const day = data.invitation.day;
+        const month = data.invitation.month.replace('Tháng ', '');
+        const year = data.invitation.year;
+        const weddingDate = `${day}/${month}/${year}`;
+        const groomAddress = data.location.groomLocation.address;
+        const brideAddress = data.location.brideLocation.address;
+        const lunarDay = data.invitation.lunarDate;
+
+        return {
+            groom,
+            bride,
+            weddingDate,
+            groomAddress,
+            brideAddress,
+            lunarDay,
+            groomImage: data.couple.groom.image,
+            brideImage: data.couple.bride.image,
+            bannerImage: data.banner.image,
+            coupleImages: data.coupleImages,
+            thumnailImages: data.thumnailImages,
+            invitation: data.invitation,
+            loveQuote_1: data.loveQuote_1,
+            loveQuote_2: data.loveQuote_2,
+            familyInfo: data.familyInfo,
+            calendar: {
+                month: data.calendar.month,
+                highlightDay: data.calendar.highlightDay,
+            },
+            location: data.location,
+        };
+    };
+
     const handleSaveEdit = (updatedData: Template1WeddingData) => {
         const dayNumber = parseInt(updatedData.invitation.day, 10);
         if (isNaN(dayNumber) || dayNumber < 1 || dayNumber > 31) {
@@ -166,21 +215,20 @@ const Template1Edit: React.FC = () => {
             return;
         }
 
-        const updatedDays = Array.from({ length: Math.max(31, dayNumber) }, (_, i) => i + 1);
-
         const updatedDataWithHighlight = {
-            ...weddingDataState,
             ...updatedData,
             calendar: {
                 ...updatedData.calendar,
                 highlightDay: dayNumber,
-                days: updatedDays,
             },
         };
 
+        // Chuẩn hóa dữ liệu trước khi lưu vào localStorage
+        const standardizedData = standardizeWeddingData(updatedDataWithHighlight);
+
         console.log('Dữ liệu trước khi lưu:', updatedDataWithHighlight);
         setWeddingDataState(updatedDataWithHighlight);
-        localStorage.setItem('weddingData_template1', JSON.stringify(updatedDataWithHighlight));
+        localStorage.setItem('weddingData_template1', JSON.stringify(standardizedData));
         console.log('Dữ liệu trong localStorage sau khi lưu:', localStorage.getItem('weddingData_template1'));
         setShowEditPopup(false);
     };
@@ -213,15 +261,19 @@ const Template1Edit: React.FC = () => {
                 const imageUrl = reader.result as string;
                 setWeddingDataState((prevState) => {
                     const updatedData = { ...prevState };
+                    let position = '';
                     switch (selectedImage.type) {
                         case 'banner':
                             updatedData.banner.image = imageUrl;
+                            position = 'banner';
                             break;
                         case 'groom':
                             updatedData.couple.groom.image = imageUrl;
+                            position = 'groom';
                             break;
                         case 'bride':
                             updatedData.couple.bride.image = imageUrl;
+                            position = 'bride';
                             break;
                         case 'couple':
                             if (selectedImage.index !== undefined) {
@@ -229,6 +281,7 @@ const Template1Edit: React.FC = () => {
                                     ...updatedData.coupleImages[selectedImage.index],
                                     src: imageUrl,
                                 };
+                                position = `couple_${selectedImage.index}`;
                             }
                             break;
                         case 'thumnail':
@@ -237,10 +290,31 @@ const Template1Edit: React.FC = () => {
                                     ...updatedData.thumnailImages[selectedImage.index],
                                     src: imageUrl,
                                 };
+                                position = `thumnail_${selectedImage.index}`;
                             }
                             break;
                     }
-                    localStorage.setItem('weddingData_template1', JSON.stringify(updatedData));
+
+                    // Cập nhật weddingImages và lưu vào localStorage
+                    const updatedWeddingImages = [
+                        ...weddingImages.filter((img) => img.position !== position),
+                        { file, position },
+                    ];
+                    setWeddingImages(updatedWeddingImages);
+                    localStorage.setItem(
+                        'weddingImages_t1',
+                        JSON.stringify(
+                            updatedWeddingImages.map((img) => ({
+                                file: img.file.name,
+                                position: img.position,
+                            }))
+                        )
+                    );
+
+                    // Chuẩn hóa dữ liệu trước khi lưu vào localStorage
+                    const standardizedData = standardizeWeddingData(updatedData);
+                    localStorage.setItem('weddingData_template1', JSON.stringify(standardizedData));
+
                     return updatedData;
                 });
             };
@@ -252,14 +326,15 @@ const Template1Edit: React.FC = () => {
 
     const handleSaveCard = async () => {
         try {
-            // Create FormData object to match the API expectation
+            // Chuẩn hóa dữ liệu trước khi gửi lên API
+            const standardizedData = standardizeWeddingData(weddingDataState);
+
             const formData = new FormData();
             formData.append('templateId', parseInt(id).toString());
-            formData.append('weddingData', JSON.stringify(weddingDataState));
+            formData.append('weddingData', JSON.stringify(standardizedData));
             formData.append('inviteeNames', JSON.stringify(inviteeNames));
             formData.append('totalPrice', totalPrice.toString());
 
-            // Append weddingImages with their positions
             weddingImages.forEach((image, index) => {
                 formData.append('weddingImages', image.file);
             });
@@ -267,16 +342,12 @@ const Template1Edit: React.FC = () => {
                 formData.append('positions', JSON.stringify(weddingImages.map((img) => img.position)));
             }
 
-            // Log the FormData for debugging
             console.log('Dữ liệu gửi lên saveCard:', Array.from(formData.entries()));
-
-            // Call saveCard with FormData
             const response = await api.saveCard(formData);
             console.log('Card saved:', response);
 
-            // Clear localStorage after successful save
             localStorage.removeItem('weddingData_template1');
-            localStorage.removeItem('weddingImages');
+            localStorage.removeItem('weddingImages_t1');
         } catch (error) {
             console.error('Lỗi khi lưu card:', error);
         }

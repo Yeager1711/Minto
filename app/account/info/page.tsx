@@ -33,6 +33,7 @@ interface Template {
     name: string;
     price: string;
     payment_date: string;
+    payment_amount: string;
     status: string;
     guests: Guest[];
     template_id: number; // Thêm template_id để lưu ID của template
@@ -79,6 +80,9 @@ function AccountInfo() {
                     card_id: item.card_id,
                     name: item.template.name,
                     price: `${parseFloat(item.template.price).toLocaleString('vi-VN')} VNĐ`,
+                    payment_amount: item.template.payments[0]?.amount
+                        ? `${parseFloat(item.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
+                        : 'Chưa có',
                     payment_date: item.template.payments[0]?.payment_date
                         ? new Date(item.template.payments[0].payment_date).toLocaleDateString('vi-VN')
                         : 'Chưa có',
@@ -90,7 +94,7 @@ function AccountInfo() {
                     template_id: item.template.template_id,
                 }));
 
-                console.log("log formattedTemplates", formattedTemplates);
+                console.log('log formattedTemplates', formattedTemplates);
                 setTemplates(formattedTemplates);
                 setError('');
             } catch (err: unknown) {
@@ -198,7 +202,8 @@ function AccountInfo() {
                         <thead>
                             <tr>
                                 <th>Tên template</th>
-                                <th>Giá</th>
+                                <th>Giá template</th>
+                                <th>Giá thanh toán</th>
                                 <th>Ngày thanh toán</th>
                                 <th>Trạng thái</th>
                                 <th>Danh sách link mời</th>
@@ -209,11 +214,17 @@ function AccountInfo() {
                                 <tr key={template.card_id}>
                                     <td data-label="Tên template">{template.name}</td>
                                     <td data-label="Giá">{template.price}</td>
+                                    <td data-label="Số tiền thanh toán">{template.payment_amount}</td>
                                     <td data-label="Ngày thanh toán">{template.payment_date}</td>
                                     <td data-label="Trạng thái">{template.status}</td>
                                     <td data-label="Danh sách link mời">
                                         <button
-                                        style={{padding: '1rem', background: '#007bff', color: '#fff', borderRadius: '.5rem'}}
+                                            style={{
+                                                padding: '1rem',
+                                                background: '#007bff',
+                                                color: '#fff',
+                                                borderRadius: '.5rem',
+                                            }}
                                             onClick={() =>
                                                 handleShowGuests(template.guests, template.name, template.template_id)
                                             }
@@ -251,8 +262,13 @@ function AccountInfo() {
                                                 <td>{selectedGuests.templateName}</td>
                                                 <td>{guest.full_name}</td>
                                                 <td>
-                                                    <a style={{color: '#007bff'}} href={newShareUrl} target="_blank" rel="noopener noreferrer">
-                                                       Link chia sẻ
+                                                    <a
+                                                        style={{ color: '#007bff' }}
+                                                        href={newShareUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        Link chia sẻ
                                                     </a>
                                                 </td>
                                                 <td>{new Date(link.created_at).toLocaleDateString('vi-VN')}</td>

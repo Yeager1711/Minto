@@ -679,7 +679,7 @@
 .mau_2_container .mau_2 .time_location .wrapper .img_t1 {
   position: absolute;
   top: 0;
-  left: 4px;
+  left: 1px;
   transform: rotate(88deg);
   z-index: 1;
 }
@@ -690,7 +690,7 @@
 .mau_2_container .mau_2 .time_location .wrapper .img_t2 {
   position: absolute;
   top: 0;
-  right: 4px;
+  right: 1px;
   transform: rotate(180deg);
   z-index: 1;
 }
