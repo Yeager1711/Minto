@@ -24,6 +24,7 @@
         transform: translateY(-30px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -35,6 +36,7 @@
         transform: translateY(0);
         opacity: 1;
     }
+
     to {
         transform: translateY(-30px);
         opacity: 0;
@@ -78,11 +80,7 @@
     }
 }
 
-.popupBody {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
+
 
 .inviteeSection {
     display: flex;
@@ -126,9 +124,10 @@
     display: flex;
     justify-content: center;
     gap: 15px;
+    margin-top: 2rem;
 
     .customizeButton {
-        background: #3b82f6;
+        background: #daae83;
         color: #ffffff;
         padding: 1rem 3.5rem;
         border: none;

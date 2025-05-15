@@ -251,7 +251,7 @@
 }
 .popupBody .optionsSection .actionButtons .customizeButton {
   flex: 3;
-  background-color: #6f42c1;
+  background-color: #daae83;
   color: white;
   padding: 1.5rem;
   border: none;
@@ -261,7 +261,7 @@
   transition: background-color 0.3s;
 }
 .popupBody .optionsSection .actionButtons .customizeButton:hover {
-  background-color: #5a32a3;
+  background-color: #e1a364;
 }
 .popupBody .optionsSection .actionButtons .favoriteButton {
   flex: 1;

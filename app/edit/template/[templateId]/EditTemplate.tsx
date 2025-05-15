@@ -131,9 +131,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
 
         localStorage.setItem(`WeddingData${templateId}`, JSON.stringify(formData));
         // Include quantity and totalPrice in the router.push
-        router.push(
-            `/template/${templateId}/edit_image/${templateId}?quantity=${quantity}`
-        );
+        router.push(`/template/${templateId}/edit_image/${templateId}?quantity=${quantity}`);
     };
 
     const handleCancel = () => {
@@ -169,7 +167,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         {
             label: 'Ngày trong tuần',
             path: ['weddingDayOfWeek'],
-            placeholder: 'Ví dụ: Thứ Hai',
+            placeholder: 'Ví dụ: Thứ 2',
             validate: (value) => (value.trim() ? null : 'Ngày trong tuần không được để trống'),
         },
         {
@@ -258,9 +256,9 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
 
     return (
         <div className={styles.editTemplateContainer}>
-            <h1>Chỉnh sửa thông tin mẫu {templateId || 'Không xác định'}</h1>
             {templateIdError && <div className={styles.error}>{templateIdError}</div>}
             <div className={styles.formContainer}>
+                <h1>Chỉnh sửa thông tin mẫu {templateId || 'Không xác định'}</h1>
                 {fields.map(({ label, path, placeholder, type = 'text', transform, validate }) => (
                     <label key={label} className={styles.formField}>
                         <span className={styles.label}>{label}:</span>

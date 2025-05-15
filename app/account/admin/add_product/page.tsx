@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import Image from 'next/image'; // Import Next.js Image component
 import styles from './add_product.module.css';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
@@ -41,9 +42,7 @@ const AddProduct: React.FC = () => {
             try {
                 const data = await getCategories();
                 setCategories(data);
-            } catch (error) {
-                // Error handled in getCategories
-            }
+            } catch {}
         };
         if (accessToken) fetchCategories();
     }, [accessToken, getCategories]);
@@ -100,13 +99,14 @@ const AddProduct: React.FC = () => {
             setCategoryName('');
             const updatedCategories = await getCategories();
             setCategories(updatedCategories);
-        } catch (error) {
+        } catch {
             // Error handled in createCategory
         } finally {
             setIsLoading(false);
         }
     };
 
+    // Handle add template button click
     // Handle add template button click
     const handleAddTemplate = async () => {
         if (!templateData.name.trim()) {
@@ -168,8 +168,10 @@ const AddProduct: React.FC = () => {
             setTemplateData({ templateId: '', name: '', description: '', price: '', categoryId: '', status: '' });
             setImageFile(null);
             setPreviewImage(null);
-        } catch (error: any) {
-            toast.error(error.message || 'Lỗi khi tạo mẫu thiệp');
+        } catch (error: unknown) {
+            // Type guard to check if error is an Error instance
+            const errorMessage = error instanceof Error ? error.message : 'Lỗi khi tạo mẫu thiệp';
+            toast.error(errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -198,7 +200,13 @@ const AddProduct: React.FC = () => {
                             <input type="file" accept="image/*" onChange={handleImageChange} />
                             {previewImage && (
                                 <div className={styles.preview}>
-                                    <img src={previewImage} alt="Preview" />
+                                    <Image
+                                        src={previewImage}
+                                        alt="Preview"
+                                        width={200} // Set appropriate width
+                                        height={200} // Set appropriate height
+                                        style={{ objectFit: 'contain' }}
+                                    />
                                 </div>
                             )}
                         </div>

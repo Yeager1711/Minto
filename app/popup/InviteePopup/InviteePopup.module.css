@@ -72,12 +72,6 @@
   font-weight: 400;
 }
 
-.popupBody {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
 .inviteeSection {
   display: flex;
   flex-direction: column;
@@ -119,9 +113,10 @@
   display: flex;
   justify-content: center;
   gap: 15px;
+  margin-top: 2rem;
 }
 .actionButtons .customizeButton {
-  background: #3b82f6;
+  background: #daae83;
   color: #ffffff;
   padding: 1rem 3.5rem;
   border: none;

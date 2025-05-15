@@ -30,14 +30,22 @@ interface Guest {
 
 interface Template {
     card_id: number;
-    name: string;
-    price: string;
-    payment_date: string;
-    payment_amount: string;
-    status: string;
-    guests: Guest[];
-    template_id: number; // Thêm template_id để lưu ID của template
+    template: {
+        template_id: number;
+        name: string;
+        image_url: string;
+        price: string;
+        payments: {
+            amount: string;
+            payment_date: string;
+            status: string;
+            payment_method: string;
+        }[];
+        guests: Guest[];
+    };
 }
+
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 function AccountInfo() {
     const { getUserProfile, getUserTemplates } = useApi();
@@ -76,24 +84,17 @@ function AccountInfo() {
             try {
                 const templateData = await getUserTemplates();
                 console.log('Template data: ', templateData);
-                const formattedTemplates = templateData.map((item) => ({
+                const formattedTemplates = templateData.map((item: Template) => ({
                     card_id: item.card_id,
-                    name: item.template.name,
-                    price: `${parseFloat(item.template.price).toLocaleString('vi-VN')} VNĐ`,
-                    payment_amount: item.template.payments[0]?.amount
-                        ? `${parseFloat(item.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
-                        : 'Chưa có',
-                    payment_date: item.template.payments[0]?.payment_date
-                        ? new Date(item.template.payments[0].payment_date).toLocaleDateString('vi-VN')
-                        : 'Chưa có',
-                    status:
-                        item.template.payments[0]?.status === 'completed'
-                            ? 'Hoàn tất'
-                            : item.template.payments[0]?.status || 'Chưa thanh toán',
-                    guests: item.template.guests,
-                    template_id: item.template.template_id,
+                    template: {
+                        template_id: item.template.template_id,
+                        name: item.template.name,
+                        image_url: item.template.image_url,
+                        price: item.template.price,
+                        payments: item.template.payments,
+                        guests: item.template.guests,
+                    },
                 }));
-
                 console.log('log formattedTemplates', formattedTemplates);
                 setTemplates(formattedTemplates);
                 setError('');
@@ -186,7 +187,13 @@ function AccountInfo() {
                         {templates.map((template) => (
                             <div key={template.card_id} className={styles.template_item}>
                                 <div className={styles.image}>
-                                    <img src="/images/m2/m2.png" alt={template.name} />
+                                    <img
+                                        src={`${apiUrl}/${template.template.image_url}`}
+                                        alt={template.template.name}
+                                        onError={(e) => {
+                                            e.currentTarget.src = '/placeholder.png'; // Hình ảnh mặc định nếu lỗi
+                                        }}
+                                    />
                                 </div>
                             </div>
                         ))}
@@ -212,11 +219,27 @@ function AccountInfo() {
                         <tbody>
                             {templates.map((template) => (
                                 <tr key={template.card_id}>
-                                    <td data-label="Tên template">{template.name}</td>
-                                    <td data-label="Giá">{template.price}</td>
-                                    <td data-label="Số tiền thanh toán">{template.payment_amount}</td>
-                                    <td data-label="Ngày thanh toán">{template.payment_date}</td>
-                                    <td data-label="Trạng thái">{template.status}</td>
+                                    <td data-label="Tên template">{template.template.name}</td>
+                                    <td data-label="Giá">
+                                        {parseFloat(template.template.price).toLocaleString('vi-VN')} VNĐ
+                                    </td>
+                                    <td data-label="Số tiền thanh toán">
+                                        {template.template.payments[0]?.amount
+                                            ? `${parseFloat(template.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
+                                            : 'Chưa có'}
+                                    </td>
+                                    <td data-label="Ngày thanh toán">
+                                        {template.template.payments[0]?.payment_date
+                                            ? new Date(template.template.payments[0].payment_date).toLocaleDateString(
+                                                  'vi-VN'
+                                              )
+                                            : 'Chưa có'}
+                                    </td>
+                                    <td data-label="Trạng thái">
+                                        {template.template.payments[0]?.status === 'completed'
+                                            ? 'Hoàn tất'
+                                            : template.template.payments[0]?.status || 'Chưa thanh toán'}
+                                    </td>
                                     <td data-label="Danh sách link mời">
                                         <button
                                             style={{
@@ -226,7 +249,11 @@ function AccountInfo() {
                                                 borderRadius: '.5rem',
                                             }}
                                             onClick={() =>
-                                                handleShowGuests(template.guests, template.name, template.template_id)
+                                                handleShowGuests(
+                                                    template.template.guests,
+                                                    template.template.name,
+                                                    template.template.template_id
+                                                )
                                             }
                                         >
                                             Danh sách
@@ -249,8 +276,6 @@ function AccountInfo() {
                                     <th>Template</th>
                                     <th>Tên khách mời</th>
                                     <th>Link chia sẻ</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Ngày hết hạn</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -271,8 +296,6 @@ function AccountInfo() {
                                                         Link chia sẻ
                                                     </a>
                                                 </td>
-                                                <td>{new Date(link.created_at).toLocaleDateString('vi-VN')}</td>
-                                                <td>{new Date(link.expires_at).toLocaleDateString('vi-VN')}</td>
                                             </tr>
                                         );
                                     })

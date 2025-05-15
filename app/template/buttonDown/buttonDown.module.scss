@@ -3,7 +3,7 @@
     top: -1rem;
     left: 50%;
     transform: translateX(-50%);
-    background: #fff;
+    background: linear-gradient(to bottom, rgb(218, 174, 131), rgba(240, 221, 200, 1));
     backdrop-filter: blur(10px);
     width: 55rem;
     z-index: 999999;
@@ -14,7 +14,7 @@
     align-items: center;
     border-bottom-left-radius: 50rem;
     border-bottom-right-radius: 50rem;
-    height: 4rem;
+    height: 5rem;
 }
 
 .control_navigation.expanded {
@@ -27,7 +27,7 @@
 
 .btn_dropdown {
     padding: 2rem;
-    font-size: 2rem;
+    font-size: 3rem;
     transition: transform 0.5s ease-in-out;
     cursor: pointer;
     margin: 0 auto;

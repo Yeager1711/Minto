@@ -1,12 +1,12 @@
 .main {
   padding: 2rem 2%;
   min-height: 100vh;
-  margin: 6.5rem auto 2rem auto;
+  margin: 8.5rem auto 2rem auto;
 }
 .main .wrapper_main {
   max-width: 1400px;
   margin: auto;
-  background: #fff;
+  background: linear-gradient(to bottom, rgb(227, 207, 187), rgb(247, 247, 247));
   padding: 2rem;
   border-radius: 1rem;
 }

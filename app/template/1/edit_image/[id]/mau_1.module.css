@@ -65,13 +65,13 @@
   text-align: center;
   color: #d5b173;
 }
-.bg .bannerImageHeader .infomation h2 {
-  font-weight: 500;
+.bg .bannerImageHeader .infomation h3 {
+  font-weight: bold;
   text-transform: uppercase;
   font-size: clamp(1.5rem, 5vw, 2.5rem);
   padding-bottom: clamp(0.5rem, 1vw, 1rem);
   border-bottom: clamp(0.1rem, 0.2vw, 0.2rem) solid #333;
-  font-family: "Dancing Script", cursive;
+  font-family: "Allura", cursive;
 }
 .bg .bannerImageHeader .infomation .dateTime {
   margin-top: clamp(1rem, 2vw, 2rem);

@@ -196,7 +196,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 onAnimationEnd={handleCloseAnimationEnd}
             >
                 <div className={styles.popupHeader}>
-                    <h2 className={styles.popupTitle}>Nhập tên người được mời</h2>
+                    <h2 className={styles.popupTitle}>Nhập Tên Khách Mời</h2>
                     <p className={styles.popupSubtitle}>
                         Số lượng: {quantity} lời mời • Tổng giá: {formattedTotalPrice}
                     </p>
@@ -241,34 +241,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                             <h2 className={styles.popupTitle}>Danh sách khách mời</h2>
                             <p className={styles.popupSubtitle}>Dưới đây là danh sách tên khách mời và link mời:</p>
                         </div>
-                        <div className={styles.popupBody}>
-                            <div className={styles.namesList}>
-                                {inviteeNames.map((name, index) => (
-                                    <div key={index} className={styles.nameItem}>
-                                        <span>{name}</span>
-                                        <Link
-                                            href={{
-                                                pathname: `/template/${id}`,
-                                                query: { inviteeName: encodeURIComponent(name) },
-                                            }}
-                                            className={styles.nameLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            /template/{id}/{name}
-                                        </Link>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className={styles.actionButtons}>
-                                <button className={styles.customizeButton} onClick={exportToExcel}>
-                                    Lưu danh sách
-                                </button>
-                                <button className={styles.customizeButton} onClick={() => setConfirmationClosing(true)}>
-                                    Đóng
-                                </button>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
             )}
