@@ -64,7 +64,7 @@ function Template1Invitee() {
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     // const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL || 'http://localhost:10000';
-    const apiUrl = 'http://localhost:10000';
+    const apiUrl = 'https://minto-sver.onrender.com';
 
     useEffect(() => {
         const fetchGuestAndCard = async () => {

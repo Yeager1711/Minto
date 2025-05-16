@@ -65,7 +65,7 @@ function Mau2InviteeName() {
     const [error, setError] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    const apiUrl = 'http://localhost:10000';
+    const apiUrl = 'https://minto-sver.onrender.com';
 
     useEffect(() => {
         const fetchGuestAndCard = async () => {

@@ -235,7 +235,6 @@ interface ApiContextType {
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
 
-// const apiUrl = 'http://localhost:10000';
 const apiUrl = 'https://minto-sver.onrender.com';
 
 export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
