@@ -45,8 +45,8 @@ interface Template {
     };
 }
 
-// const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-const apiUrl = 'https://minto-sver.onrender.com';
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+// const apiUrl = 'https://minto-sver.onrender.com';
 
 function AccountInfo() {
     const { getUserProfile, getUserTemplates } = useApi();

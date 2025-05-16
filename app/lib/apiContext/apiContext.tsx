@@ -235,7 +235,8 @@ interface ApiContextType {
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
 
-const apiUrl = 'https://minto-sver.onrender.com';
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+// const apiUrl = 'https://minto-sver.onrender.com';
 
 export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);

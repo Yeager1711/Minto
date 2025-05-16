@@ -33,8 +33,8 @@ interface ProductListProps {
     onProductClick: (template: Template) => void;
 }
 
-// const apiUrl = 'http://localhost:10000';
-const apiUrl = 'https://minto-sver.onrender.com';
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+// const apiUrl = 'https://minto-sver.onrender.com';
 
 const ProductCard: React.FC<ProductCardProps> = ({ name, image, onClick }) => (
     <div className={styles.card_product} onClick={onClick}>
