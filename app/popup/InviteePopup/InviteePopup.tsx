@@ -14,7 +14,8 @@ interface InviteePopupProps {
 }
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
-const apiUrl = 'http://localhost:10000';
+// const apiUrl = 'http://localhost:10000';
+const apiUrl = 'https://minto-sver.onrender.com';
 
 const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClose, id, weddingImages }) => {
     const { saveCard } = useApi();
