@@ -25,7 +25,8 @@ interface PopupProps {
 }
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+// const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+const apiUrl = 'http://localhost:10000';
 
 const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const router = useRouter();
@@ -63,7 +64,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
 
     const handleUseTemplate = () => {
         // Định dạng totalPrice cho URL (224.000.00)
-        const formattedPriceForUrl = totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         router.push(`/edit/template/${product.template_id}?quantity=${quantity}`);
     };
 

@@ -45,7 +45,8 @@ interface Template {
     };
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+// const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+const apiUrl = 'http://localhost:10000';
 
 function AccountInfo() {
     const { getUserProfile, getUserTemplates } = useApi();

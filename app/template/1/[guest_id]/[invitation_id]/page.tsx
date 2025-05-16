@@ -45,57 +45,8 @@ interface WeddingData {
     venue_bride: string;
 }
 
-interface Guest {
-    guest_id: number;
-    invitation_id: number;
-    full_name: string;
-    sharedLinks: {
-        link_id: number;
-        guest_id: number;
-        share_url: string;
-        created_at: string;
-        expires_at: string;
-    }[];
-}
-
-interface Card {
-    card_id: number;
-    created_at: string;
-    status: string;
-    custom_data: {
-        weddingData: WeddingData;
-        weddingImages: { url: string; position: string }[];
-    };
-    template: {
-        template_id: number;
-        name: string;
-        description: string;
-        image_url: string;
-        price: string;
-        status: string;
-    };
-    thumbnails: { thumbnail_id: number; image_url: string; position: string; description: string }[];
-    invitations: {
-        invitation_id: number;
-        groom_name: string;
-        bride_name: string;
-        wedding_date: string;
-        venue_groom: string;
-        venue_bride: string;
-        lunar_day: string;
-        story_groom: string;
-        story_bride: string;
-        custom_image: string;
-    }[];
-}
-
-interface ApiResponse {
-    guest: Guest;
-    card: Card;
-}
-
 function InviteeNameContent({ fullName }: { fullName: string }) {
-    return <span style={{textTransform: 'capitalize', fontWeight: '600'}}>{fullName || 'bạn'}</span>;
+    return <span style={{ textTransform: 'capitalize', fontWeight: '600' }}>{fullName || 'bạn'}</span>;
 }
 
 function Template1Invitee() {
@@ -112,7 +63,8 @@ function Template1Invitee() {
     const [error, setError] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL || 'http://localhost:5000';
+    // const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL || 'http://localhost:10000';
+    const apiUrl = 'http://localhost:10000';
 
     useEffect(() => {
         const fetchGuestAndCard = async () => {
@@ -128,12 +80,26 @@ function Template1Invitee() {
 
                 const { guest, card } = await getGuestAndCard(template_id, guest_id, invitation_id);
 
-                const updatedWeddingData = {
-                    ...card.custom_data.weddingData,
+                const weddingData = card.custom_data.weddingData as Partial<WeddingData> | undefined;
+                const updatedWeddingData: WeddingData = {
+                    bride: weddingData?.bride || 'Chưa xác định',
+                    groom: weddingData?.groom || 'Chưa xác định',
+                    weddingDate: weddingData?.weddingDate || 'Chưa xác định',
+                    weddingTime: weddingData?.weddingTime || 'Chưa xác định',
+                    weddingDayOfWeek: weddingData?.weddingDayOfWeek || 'Chưa xác định',
                     lunarDay: card.invitations[0]?.lunar_day || 'Chưa xác định',
+                    familyGroom: weddingData?.familyGroom || { father: 'Chưa xác định', mother: 'Chưa xác định' },
+                    familyBride: weddingData?.familyBride || { father: 'Chưa xác định', mother: 'Chưa xác định' },
+                    brideStory: weddingData?.brideStory || 'Chưa xác định',
+                    groomStory: weddingData?.groomStory || 'Chưa xác định',
+                    groomAddress: weddingData?.groomAddress || 'Chưa xác định',
+                    brideAddress: weddingData?.brideAddress || 'Chưa xác định',
+                    groomMapUrl: weddingData?.groomMapUrl || '',
+                    brideMapUrl: weddingData?.brideMapUrl || '',
                     venue_groom: card.invitations[0]?.venue_groom || 'Chưa xác định',
                     venue_bride: card.invitations[0]?.venue_bride || 'Chưa xác định',
                 };
+                setWeddingData(updatedWeddingData);
                 setWeddingData(updatedWeddingData);
                 setGuestName(guest.full_name);
 
@@ -313,7 +279,7 @@ function Template1Invitee() {
                             <div className={styles.song_info}>
                                 <h4>Tỏ Tình</h4>
                                 <p>
-                                   {weddingData.groom} x {weddingData.bride} Wedding
+                                    {weddingData.groom} x {weddingData.bride} Wedding
                                 </p>
                             </div>
                             <div className={styles.progress_bar}>
@@ -345,8 +311,8 @@ function Template1Invitee() {
                         <div className={styles.wrapperBanner}>
                             <div className={styles.banner2} data-aos="fade-up" data-aos-duration="1200">
                                 <div className={styles.loveQuote}>
-                                    <h2>"Hôn nhân là chuyện cả đời,"</h2>
-                                    <h2>"Yêu người vừa ý, cưới người mình thương, ..."</h2>
+                                    <h2>Hôn nhân là chuyện cả đời,</h2>
+                                    <h2>Yêu người vừa ý, cưới người mình thương, ...</h2>
                                 </div>
                                 <div className={styles.familyInfo}>
                                     <div className={styles.groomFamily} data-aos="fade-right" data-aos-delay="200">

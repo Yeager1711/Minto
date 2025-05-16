@@ -6,12 +6,12 @@ import styles from './mau_2.module.scss';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCirclePlay, faCirclePause, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { formatTime } from 'app/Ultils/formatTime';
 import Image from 'next/image';
 import { Suspense } from 'react';
-import { TemplateWeddingData } from 'app/edit/template/[templateId]/EditTemplate'; // Import the shared interface
-import ButtonDown from 'app/template/buttonDown/page';
+import { TemplateWeddingData } from 'app/edit/template/[templateId]/EditTemplate';
+import ButtonDown from 'app/template/buttonDown/ButtonDown';
 
 interface Images {
     mainImage: { url: string; position?: string };
@@ -38,9 +38,7 @@ function Template2Edit() {
     const [isLoading, setIsLoading] = useState(true);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const quantity = parseInt(searchParams.get('quantity') || '1');
-    const totalPrice = searchParams.get('totalPrice') || '0';
 
-    // Default wedding data (minimal, used only if localStorage is empty)
     const defaultWeddingData: TemplateWeddingData = {
         bride: '',
         groom: '',
@@ -58,7 +56,6 @@ function Template2Edit() {
         brideMapUrl: '',
     };
 
-    // Default images
     const defaultImages: Images = {
         mainImage: { url: '/images/m2/8.jpg', position: 'main' },
         thumbnail1: { url: '/images/m2/2.jpg', position: 'thumbnail1' },
@@ -75,13 +72,11 @@ function Template2Edit() {
         galleryImage4: { url: '/images/m2/10.jpg', position: 'gallery4' },
     };
 
-    // Load wedding data from localStorage
-    const [weddingData, setWeddingData] = useState<TemplateWeddingData>(() => {
+    const [weddingData] = useState<TemplateWeddingData>(() => {
         const savedData = typeof window !== 'undefined' ? localStorage.getItem(`WeddingData${templateId}`) : null;
         return savedData ? JSON.parse(savedData) : defaultWeddingData;
     });
 
-    // Load images from localStorage with templateId-specific key
     const [images, setImages] = useState<Images>(() => {
         const savedImages = typeof window !== 'undefined' ? localStorage.getItem(`weddingImages${templateId}`) : null;
         if (savedImages) {
@@ -144,19 +139,16 @@ function Template2Edit() {
     const handleImageChange = (key: keyof Images, position: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            // Update imageFiles state for ButtonDown component
             setImageFiles((prev) => {
                 const updatedFiles = prev.filter((item) => item.position !== position);
                 return [...updatedFiles, { file, position }];
             });
 
-            // Read file and update images state
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImages((prev: Images) => {
                     const newImages = { ...prev, [key]: { url: reader.result as string, position } };
                     try {
-                        // Save to localStorage
                         localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(newImages));
                     } catch (e) {
                         console.error('Failed to save weddingImages to localStorage:', e);
@@ -169,12 +161,11 @@ function Template2Edit() {
             };
             reader.readAsDataURL(file);
         } else {
-            // Remove file from imageFiles if no file is selected
             setImageFiles((prev) => prev.filter((item) => item.position !== position));
         }
     };
 
-    const triggerFileInput = (key: keyof typeof fileInputRefs, position: string) => fileInputRefs[key].current?.click();
+    const triggerFileInput = (key: keyof typeof fileInputRefs) => fileInputRefs[key].current?.click();
 
     useEffect(() => {
         const handleScroll = () => isExpanded && setIsExpanded(false);
@@ -204,12 +195,7 @@ function Template2Edit() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <div className={styles.mau_2_container}>
-                <ButtonDown
-                    templateId={templateId}
-                    quantity={quantity}
-                    totalPrice={totalPrice} // Pass totalPrice as string
-                    weddingImages={imageFiles} // Pass imageFiles as weddingImages
-                />
+                <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
 
                 <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
                     <div className={styles.dynamic_content}>
@@ -267,7 +253,7 @@ function Template2Edit() {
                                 data-aos-delay="400"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    triggerFileInput('mainImage', 'main');
+                                    triggerFileInput('mainImage');
                                 }}
                             >
                                 <span className={styles.save}>Save</span>
@@ -296,7 +282,7 @@ function Template2Edit() {
                                     className={styles.thumnailImages_1}
                                     data-aos="fade-up"
                                     data-aos-delay="200"
-                                    onClick={() => triggerFileInput('thumbnail1', 'thumbnail1')}
+                                    onClick={() => triggerFileInput('thumbnail1')}
                                 />
                                 <input
                                     type="file"
@@ -313,7 +299,7 @@ function Template2Edit() {
                                     className={styles.thumnailImages_2}
                                     data-aos="fade-right"
                                     data-aos-delay="600"
-                                    onClick={() => triggerFileInput('thumbnail2', 'thumbnail2')}
+                                    onClick={() => triggerFileInput('thumbnail2')}
                                 />
                                 <input
                                     type="file"
@@ -330,7 +316,7 @@ function Template2Edit() {
                                     className={styles.thumnailImages_3}
                                     data-aos="fade-left"
                                     data-aos-delay="600"
-                                    onClick={() => triggerFileInput('thumbnail3', 'thumbnail3')}
+                                    onClick={() => triggerFileInput('thumbnail3')}
                                 />
                                 <input
                                     type="file"
@@ -347,7 +333,7 @@ function Template2Edit() {
                                     className={styles.thumnailImages_4}
                                     data-aos="fade-up"
                                     data-aos-delay="800"
-                                    onClick={() => triggerFileInput('thumbnail4', 'thumbnail4')}
+                                    onClick={() => triggerFileInput('thumbnail4')}
                                 />
                                 <input
                                     type="file"
@@ -380,7 +366,7 @@ function Template2Edit() {
                                         alt=""
                                         width={200}
                                         height={200}
-                                        onClick={() => triggerFileInput('storyImage1', 'story1')}
+                                        onClick={() => triggerFileInput('storyImage1')}
                                     />
                                     <input
                                         type="file"
@@ -407,10 +393,12 @@ function Template2Edit() {
                                 <div className={styles.right} data-aos="fade-left" data-aos-delay="1200">
                                     <Image
                                         src={images.storyImage2?.url || defaultImages.storyImage2.url}
+                                        data-aos="fade-left"
+                                        data-aos-delay="1200"
                                         alt=""
                                         width={200}
                                         height={200}
-                                        onClick={() => triggerFileInput('storyImage2', 'story2')}
+                                        onClick={() => triggerFileInput('storyImage2')}
                                     />
                                     <input
                                         type="file"
@@ -444,7 +432,7 @@ function Template2Edit() {
                                         alt=""
                                         width={200}
                                         height={200}
-                                        onClick={() => triggerFileInput('brideImage', 'bride')}
+                                        onClick={() => triggerFileInput('brideImage')}
                                     />
                                     <input
                                         type="file"
@@ -478,7 +466,7 @@ function Template2Edit() {
                                         alt=""
                                         width={200}
                                         height={200}
-                                        onClick={() => triggerFileInput('groomImage', 'groom')}
+                                        onClick={() => triggerFileInput('groomImage')}
                                     />
                                     <input
                                         type="file"
@@ -652,7 +640,7 @@ function Template2Edit() {
                                         width={300}
                                         height={300}
                                         className={styles.card_image}
-                                        onClick={() => triggerFileInput('galleryImage1', 'gallery1')}
+                                        onClick={() => triggerFileInput('galleryImage1')}
                                     />
                                     <input
                                         type="file"
@@ -675,7 +663,7 @@ function Template2Edit() {
                                         width={300}
                                         height={300}
                                         className={styles.card_image}
-                                        onClick={() => triggerFileInput('galleryImage2', 'gallery2')}
+                                        onClick={() => triggerFileInput('galleryImage2')}
                                     />
                                     <input
                                         type="file"
@@ -698,7 +686,7 @@ function Template2Edit() {
                                         width={300}
                                         height={300}
                                         className={styles.card_image}
-                                        onClick={() => triggerFileInput('galleryImage3', 'gallery3')}
+                                        onClick={() => triggerFileInput('galleryImage3')}
                                     />
                                     <input
                                         type="file"
@@ -721,7 +709,7 @@ function Template2Edit() {
                                         width={300}
                                         height={300}
                                         className={styles.card_image}
-                                        onClick={() => triggerFileInput('galleryImage4', 'gallery4')}
+                                        onClick={() => triggerFileInput('galleryImage4')}
                                     />
                                     <input
                                         type="file"
