@@ -392,13 +392,9 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     const getTemplates = async (): Promise<Template[]> => {
-        if (!accessToken) {
-            throw new Error('Vui lòng đăng nhập');
-        }
         try {
             const response = await axios.get(`${apiUrl}/templates/getTemplate`, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
                     'ngrok-skip-browser-warning': 'true',
                 },
             });
