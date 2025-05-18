@@ -45,7 +45,7 @@ interface Template {
     };
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+// const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 // const apiUrl = 'https://minto-sver.onrender.com';
 
 function AccountInfo() {
@@ -189,7 +189,7 @@ function AccountInfo() {
                             <div key={template.card_id} className={styles.template_item}>
                                 <div className={styles.image}>
                                     <img
-                                        src={`${apiUrl}/${template.template.image_url}`}
+                                        src={`data:image/png;base64,${template.template.image_url}`}
                                         alt={template.template.name}
                                         onError={(e) => {
                                             e.currentTarget.src = '/placeholder.png'; // Hình ảnh mặc định nếu lỗi

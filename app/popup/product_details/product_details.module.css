@@ -295,7 +295,7 @@
   .popupContent {
     padding: 1.5rem;
     max-width: 90vw;
-    max-height: 60vh;
+    max-height: 75vh;
   }
   .popupHeader .popupTitle {
     font-size: 1.5rem;
