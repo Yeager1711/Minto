@@ -5,7 +5,8 @@
     transform: translateX(-50%);
     background: linear-gradient(to bottom, rgb(218, 174, 131), rgba(240, 221, 200, 1));
     backdrop-filter: blur(10px);
-    width: 55rem;
+    max-width: 55rem;
+    width: 100%;
     z-index: 999999;
     border-radius: 0.5rem;
     transition: all .5s ease-in-out;
@@ -47,8 +48,8 @@
     /* Start slightly above */
     animation: slideIn 1.5s ease-in-out forwards;
     /* Fade and slide in */
-    padding: 1rem;
-    /* Add spacing around popup */
+    padding: 2rem;
+
 }
 
 @keyframes slideIn {
