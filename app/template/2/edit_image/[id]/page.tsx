@@ -326,8 +326,8 @@ function Template2Edit() {
                                 className={styles.Save_the_date}
                                 data-aos="fade-right"
                                 data-aos-delay="400"
-                                onClick={() => triggerFileInput('mainImage')} // Updated to trigger file input
-                                style={{ cursor: 'pointer' }} // Visual cue for clickability
+                                onClick={() => triggerFileInput('mainImage')}
+                                style={{ cursor: 'pointer' }}
                             >
                                 <span className={styles.save}>Save</span>
                                 <span className={styles.the}>The</span>

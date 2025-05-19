@@ -65,8 +65,6 @@ function Mau2InviteeName() {
     const [error, setError] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    // const apiUrl = 'https://minto-sver.onrender.com';
-    const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
     useEffect(() => {
         const fetchGuestAndCard = async () => {
@@ -150,7 +148,7 @@ function Mau2InviteeName() {
                         default:
                             key = 'mainImage';
                     }
-                    newImages[key] = { url: `${apiUrl}${img.url}`, position: img.position };
+                    newImages[key] = { url: `${img.url}`, position: img.position };
                 });
                 setImages(newImages);
                 console.log('Images after setting:', newImages);

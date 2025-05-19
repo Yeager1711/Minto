@@ -229,18 +229,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
 
             {showConfirmationPopup && (
                 <div className={styles.popupOverlay} onClick={handleConfirmationOverlayClick}>
-                    <button className={styles.closeButton} onClick={() => setConfirmationClosing(true)}>
+                    <button className={styles.closeButton} onClick={() => setConfirmationClosing(true)} style={{display: 'none'}}>
                         <FontAwesomeIcon icon={faXmark} />
                     </button>
-                    <div
-                        className={`${styles.popupContent} ${confirmationClosing ? styles.closing : ''}`}
-                        onAnimationEnd={handleConfirmationCloseAnimationEnd}
-                    >
-                        <div className={styles.popupHeader}>
-                            <h2 className={styles.popupTitle}>Danh sách khách mời</h2>
-                            <p className={styles.popupSubtitle}>Dưới đây là danh sách tên khách mời và link mời:</p>
-                        </div>
-                    </div>
                 </div>
             )}
         </>
