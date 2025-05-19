@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import styles from './styles/home.module.css';
 import Popup from './popup/product_details/Product_Details';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +7,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import Notifications from './Notifications/Notifications';
 
 interface Template {
     template_id: number;
@@ -72,7 +72,7 @@ const HeadingSkeleton: React.FC = () => (
 
 const CategorySkeleton: React.FC = () => (
     <div className={styles.categories}>
-        {Array(4)
+        {Array(3)
             .fill(0)
             .map((_, index) => (
                 <div key={index} className={styles.category_button_skeleton}></div>
@@ -271,23 +271,7 @@ const Home: React.FC = () => {
 
                 {isLoading ? <HeadingSkeleton /> : <h1 className={styles.heading}>Hi, {userName}! 👋</h1>}
 
-                <div className={styles.notifications}>
-                    <div className={styles.wrapper_notifications}>
-                        <div className={styles.box}>
-                            <h3>
-                                Giảm giá 20% cho tài khoản mới tại{' '}
-                                <Link href="/" className={styles.link}>
-                                    Minto
-                                </Link>
-                            </h3>
-                            <div className={styles.box_item}>
-                                <span className={styles.item}> Áp dụng cho toàn bộ template</span>
-                                <span className={styles.item}>Không áp dụng đồng thời với các mã khuyến mãi khác</span>
-                                <span className={styles.item}>Ưu đãi chỉ áp dụng trong 7 ngày kể từ ngày đăng ký</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Notifications />
 
                 <div className={styles.layer_default}>
                     {isLoading ? (
