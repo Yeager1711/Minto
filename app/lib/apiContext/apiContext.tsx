@@ -5,7 +5,14 @@ import { toast } from 'react-toastify';
 import { isTokenExpired } from 'app/Ultils/check_TokenExpired/isTokenExpired';
 import axios from 'axios';
 
-// Define WeddingData interface to replace any
+// Define ImageKitAuthParams interface
+interface ImageKitAuthParams {
+    token: string;
+    expire: number;
+    signature: string;
+}
+
+// Define WeddingData interface
 interface WeddingData {
     banner?: { image: string };
     couple?: {
@@ -155,8 +162,8 @@ interface Template {
 
 interface SaveCardData {
     templateId: number;
-    weddingData: WeddingData; // Replace any with WeddingData
-    weddingImages: { file: File; position: string }[];
+    weddingData: WeddingData;
+    weddingImages: { position: string; url: string }[];
     inviteeNames: string[];
     totalPrice: number;
 }
@@ -167,7 +174,7 @@ interface SaveCardResponse {
     template_id: number;
     created_at: string;
     status: string;
-    custom_data: WeddingData; // Replace any with WeddingData
+    custom_data: WeddingData;
 }
 
 interface Guest {
@@ -188,7 +195,7 @@ interface Card {
     created_at: string;
     status: string;
     custom_data: {
-        weddingData: WeddingData; // Replace any with WeddingData
+        weddingData: WeddingData;
         weddingImages: { url: string; position: string }[];
     };
     template: {
@@ -231,12 +238,12 @@ interface ApiContextType {
     saveCard: (data: SaveCardData) => Promise<SaveCardResponse>;
     getUserTemplates: () => Promise<TemplateResponse[]>;
     getGuestAndCard: (template_id: string, guest_id: string, invitation_id: string) => Promise<ApiResponse>;
+    fetchAuthParams: () => Promise<ImageKitAuthParams>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-// const apiUrl = 'https://minto-sver.onrender.com';
 
 export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -249,6 +256,25 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
         setIsReady(true);
     }, []);
+
+    const fetchAuthParams = async (): Promise<ImageKitAuthParams> => {
+        try {
+            const response = await axios.get(`${apiUrl}/imagekit/auth`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            const data = response.data;
+            if (!data.token || !data.expire || !data.signature) {
+                throw new Error('Thông số xác thực ImageKit không hợp lệ');
+            }
+            return data;
+        } catch (error) {
+            console.error('Lỗi khi lấy thông số xác thực ImageKit:', error);
+            showToastError('Không thể kết nối với ImageKit. Vui lòng thử lại.');
+            throw error;
+        }
+    };
 
     const login = async (data: LoginData): Promise<LoginResponse> => {
         try {
@@ -417,25 +443,21 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         try {
             console.log('Dữ liệu nhận được trong saveCard:', data);
 
-            const formData = new FormData();
-            formData.append('templateId', data.templateId.toString());
-            formData.append('weddingData', JSON.stringify(data.weddingData));
-            formData.append('inviteeNames', JSON.stringify(data.inviteeNames));
-            formData.append('totalPrice', data.totalPrice.toString());
+            const preparedData = {
+                templateId: data.templateId,
+                weddingData: data.weddingData,
+                weddingImages: data.weddingImages,
+                inviteeNames: data.inviteeNames,
+                totalPrice: data.totalPrice,
+            };
 
-            data.weddingImages.forEach((image, index) => {
-                formData.append('weddingImages', image.file);
-                formData.append(`positions[${index}]`, image.position);
-            });
+            console.log('Dữ liệu gửi đi:', preparedData);
 
-            console.log('FormData:', Array.from(formData.entries()));
-            console.log('Header Authorization:', `Bearer ${accessToken}`);
-
-            const response = await axios.post(`${apiUrl}/cards/save-card`, formData, {
+            const response = await axios.post(`${apiUrl}/cards/save-card`, preparedData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'ngrok-skip-browser-warning': 'true',
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             });
             console.log('Phản hồi từ saveCard:', response.data);
@@ -523,6 +545,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         saveCard,
         getUserTemplates,
         getGuestAndCard,
+        fetchAuthParams,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

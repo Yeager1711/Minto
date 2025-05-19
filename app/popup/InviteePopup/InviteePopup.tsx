@@ -5,6 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';
 
+// Định nghĩa interface cho dữ liệu ảnh
+interface ImageData {
+    url: string;
+    position: string;
+    fileName?: string;
+}
+
+interface WeddingImages {
+    [key: string]: ImageData;
+}
+
 interface InviteePopupProps {
     templateId: string;
     quantity: number;
@@ -14,7 +25,6 @@ interface InviteePopupProps {
 }
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
-// const apiUrl = 'https://minto-sver.onrender.com';
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClose, id, weddingImages }) => {
@@ -133,18 +143,34 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
         setIsLoading(true);
         try {
             const weddingData = JSON.parse(localStorage.getItem(`WeddingData${id}`) || '{}');
+            const imagesRaw = localStorage.getItem(`weddingImages${id}`);
+            const images: WeddingImages = imagesRaw ? JSON.parse(imagesRaw) : {};
 
-            await saveCard({
+            // Lấy tất cả weddingImages từ images trong localStorage
+            const weddingImagesData = Object.values(images).map((imageData) => ({
+                position: imageData.position,
+                url: imageData.url || '',
+            }));
+
+            console.log('Dữ liệu images từ localStorage:', images);
+            console.log('weddingImages (from props):', weddingImages);
+            console.log('weddingImagesData:', weddingImagesData);
+
+            const response = await saveCard({
                 templateId: parseInt(templateId),
                 weddingData,
-                weddingImages: weddingImages.length > 0 ? weddingImages : [],
+                weddingImages: weddingImagesData,
                 inviteeNames,
                 totalPrice: calculatedTotalPrice,
             });
 
-            // localStorage.removeItem(`WeddingData${id}`);
-            localStorage.removeItem(`weddingImages${id}`);
-            setShowConfirmationPopup(true);
+            if (response && response.card_id) {
+                // localStorage.removeItem(`WeddingData${id}`);
+                localStorage.removeItem(`weddingImages${id}`);
+                setShowConfirmationPopup(true);
+            } else {
+                throw new Error('Lưu thiệp không thành công');
+            }
         } catch (error) {
             console.error('Lỗi khi lưu thiệp:', error);
             alert('Lỗi khi lưu thiệp. Vui lòng thử lại.');
@@ -228,38 +254,30 @@ export default InviteePopup;
 // import styles from './InviteePopup.module.css';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faXmark } from '@fortawesome/free-solid-svg-icons';
-// import * as XLSX from 'xlsx';
 // import { useApi } from 'app/lib/apiContext/apiContext';
 
 // interface InviteePopupProps {
 //     templateId: string;
 //     quantity: number;
-//     totalPrice: string;
 //     onClose: () => void;
 //     id: string;
 //     weddingImages: { file: File; position: string }[];
 // }
 
 // const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
-// const apiUrl = 'http://localhost:10000';
+// // const apiUrl = 'https://minto-sver.onrender.com';
+// const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
-// const InviteePopup: React.FC<InviteePopupProps> = ({
-//     templateId,
-//     quantity,
-//     totalPrice: _totalPrice,
-//     onClose,
-//     id,
-//     weddingImages,
-// }) => {
+// const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClose, id, weddingImages }) => {
 //     const { saveCard } = useApi();
-//     const [isClosing, setIsClosing] = useState(false);
+//     const [isClosing] = useState(false);
 //     const [inviteeNames, setInviteeNames] = useState<string[]>(Array(quantity).fill(''));
 //     const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
 //     const [confirmationClosing, setConfirmationClosing] = useState(false);
 //     const [isLoading, setIsLoading] = useState(false);
 //     const [templatePrice, setTemplatePrice] = useState<number | null>(null);
 //     const [error, setError] = useState<string | null>(null);
-//     const [isLoadingPrice, setIsLoadingPrice] = useState(true); // Thêm trạng thái tải
+//     const [isLoadingPrice, setIsLoadingPrice] = useState(true);
 
 //     // Kiểm tra apiUrl
 //     useEffect(() => {
@@ -372,7 +390,7 @@ export default InviteePopup;
 //                 weddingData,
 //                 weddingImages: weddingImages.length > 0 ? weddingImages : [],
 //                 inviteeNames,
-//                 totalPrice: calculatedTotalPrice, // Sử dụng giá đã tính
+//                 totalPrice: calculatedTotalPrice,
 //             });
 
 //             // localStorage.removeItem(`WeddingData${id}`);
@@ -447,7 +465,6 @@ export default InviteePopup;
 //                             <h2 className={styles.popupTitle}>Danh sách khách mời</h2>
 //                             <p className={styles.popupSubtitle}>Dưới đây là danh sách tên khách mời và link mời:</p>
 //                         </div>
-
 //                     </div>
 //                 </div>
 //             )}
