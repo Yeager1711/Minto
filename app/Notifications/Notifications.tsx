@@ -1,14 +1,23 @@
+// app/Notifications/Notifications.tsx
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay } from 'swiper/modules';
+import dynamic from 'next/dynamic';
 import styles from './Notifications.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
+// Dynamically import Swiper components to avoid SSR issues
+const Swiper = dynamic(() => import('swiper/react').then((mod) => mod.Swiper), { ssr: false });
+const SwiperSlide = dynamic(() => import('swiper/react').then((mod) => mod.SwiperSlide), { ssr: false });
+
+// Import Swiper modules
+import { Navigation, Autoplay } from 'swiper/modules';
+
 // Import Swiper core styles
 import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
 
 interface Notification {
     id: number;
