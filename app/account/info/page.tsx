@@ -1,5 +1,6 @@
+// app/components/account_info.tsx
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './account_info.module.css';
 import { useApi } from 'app/lib/apiContext/apiContext';
 
@@ -45,13 +46,11 @@ interface Template {
     };
 }
 
-// const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-// const apiUrl = 'https://minto-sver.onrender.com';
-
 function AccountInfo() {
     const { getUserProfile, getUserTemplates } = useApi();
     const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [editedFullName, setEditedFullName] = useState('');
     const [templates, setTemplates] = useState<Template[]>([]);
@@ -63,28 +62,17 @@ function AccountInfo() {
     } | null>(null);
 
     useEffect(() => {
-        const fetchUserProfile = async () => {
+        const fetchData = async () => {
+            setIsLoading(true);
             try {
-                const userData = await getUserProfile();
-                console.log('User data: ', userData);
+                const [userData, templateData] = await Promise.all([getUserProfile(), getUserTemplates()]);
+
+                // Handle user profile
                 setUser(userData);
                 setEditedFullName(userData.full_name);
                 setError('');
-            } catch (err: unknown) {
-                let errorMessage = 'Không thể lấy thông tin người dùng';
-                if (err instanceof Error) {
-                    errorMessage = err.message;
-                } else if (typeof err === 'object' && err !== null && 'message' in err) {
-                    errorMessage = (err as { message: string }).message;
-                }
-                setError(errorMessage);
-            }
-        };
 
-        const fetchUserTemplates = async () => {
-            try {
-                const templateData = await getUserTemplates();
-                console.log('Template data: ', templateData);
+                // Handle templates
                 const formattedTemplates = templateData.map((item: Template) => ({
                     card_id: item.card_id,
                     template: {
@@ -96,22 +84,22 @@ function AccountInfo() {
                         guests: item.template.guests,
                     },
                 }));
-                console.log('log formattedTemplates', formattedTemplates);
                 setTemplates(formattedTemplates);
                 setError('');
             } catch (err: unknown) {
-                let errorMessage = 'Không thể lấy danh sách template';
+                let errorMessage = 'Không thể lấy dữ liệu';
                 if (err instanceof Error) {
                     errorMessage = err.message;
                 } else if (typeof err === 'object' && err !== null && 'message' in err) {
                     errorMessage = (err as { message: string }).message;
                 }
                 setError(errorMessage);
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        fetchUserProfile();
-        fetchUserTemplates();
+        fetchData();
     }, [getUserProfile, getUserTemplates]);
 
     const handleEdit = () => {
@@ -143,6 +131,25 @@ function AccountInfo() {
 
                         {error ? (
                             <p className={styles.error}>Lỗi: {error}</p>
+                        ) : isLoading ? (
+                            <div className={styles.skeleton_wrapper}>
+                                <div className={styles.box_item}>
+                                    <div className={styles.box_flex}>
+                                        <h2>Họ và tên</h2>
+                                        <div className={`${styles.skeleton} ${styles.skeleton_text}`}></div>
+                                    </div>
+                                    <div className={styles.box_right}>
+                                        <div className={`${styles.skeleton} ${styles.skeleton_button}`}></div>
+                                    </div>
+                                </div>
+                                <div className={styles.box_item}>
+                                    <div className={styles.box_flex}>
+                                        <h2>Địa chỉ Email</h2>
+                                        <div className={`${styles.skeleton} ${styles.skeleton_text}`}></div>
+                                    </div>
+                                    <div className={styles.right}></div>
+                                </div>
+                            </div>
                         ) : user ? (
                             <>
                                 <div className={styles.box_item}>
@@ -182,23 +189,33 @@ function AccountInfo() {
                 </div>
 
                 <div className={styles.wrapper__right_template}>
-                    <h4>Mẫu template</h4>
+                    <h4>Mẫu template đã sử dụng</h4>
 
-                    <div className={styles.grid_template}>
-                        {templates.map((template) => (
-                            <div key={template.card_id} className={styles.template_item}>
-                                <div className={styles.image}>
-                                    <img
-                                        src={`data:image/png;base64,${template.template.image_url}`}
-                                        alt={template.template.name}
-                                        onError={(e) => {
-                                            e.currentTarget.src = '/placeholder.png'; // Hình ảnh mặc định nếu lỗi
-                                        }}
-                                    />
+                    {isLoading ? (
+                        <div className={styles.grid_template}>
+                            {Array.from({ length: 3 }).map((_, index) => (
+                                <div key={index} className={styles.template_item}>
+                                    <div className={`${styles.skeleton} ${styles.skeleton_image}`}></div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className={styles.grid_template}>
+                            {templates.map((template) => (
+                                <div key={template.card_id} className={styles.template_item}>
+                                    <div className={styles.image}>
+                                        <img
+                                            src={`data:image/png;base64,${template.template.image_url}`}
+                                            alt={template.template.name}
+                                            onError={(e) => {
+                                                e.currentTarget.src = '/placeholder.png';
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -218,50 +235,60 @@ function AccountInfo() {
                             </tr>
                         </thead>
                         <tbody>
-                            {templates.map((template) => (
-                                <tr key={template.card_id}>
-                                    <td data-label="Tên template">{template.template.name}</td>
-                                    <td data-label="Giá">
-                                        {parseFloat(template.template.price).toLocaleString('vi-VN')} VNĐ
-                                    </td>
-                                    <td data-label="Số tiền thanh toán">
-                                        {template.template.payments[0]?.amount
-                                            ? `${parseFloat(template.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
-                                            : 'Chưa có'}
-                                    </td>
-                                    <td data-label="Ngày thanh toán">
-                                        {template.template.payments[0]?.payment_date
-                                            ? new Date(template.template.payments[0].payment_date).toLocaleDateString(
-                                                  'vi-VN'
-                                              )
-                                            : 'Chưa có'}
-                                    </td>
-                                    <td data-label="Trạng thái">
-                                        {template.template.payments[0]?.status === 'completed'
-                                            ? 'Hoàn tất'
-                                            : template.template.payments[0]?.status || 'Chưa thanh toán'}
-                                    </td>
-                                    <td data-label="Danh sách link mời">
-                                        <button
-                                            style={{
-                                                padding: '1rem',
-                                                background: '#007bff',
-                                                color: '#fff',
-                                                borderRadius: '.5rem',
-                                            }}
-                                            onClick={() =>
-                                                handleShowGuests(
-                                                    template.template.guests,
-                                                    template.template.name,
-                                                    template.template.template_id
-                                                )
-                                            }
-                                        >
-                                            Danh sách
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                            {isLoading
+                                ? Array.from({ length: 3 }).map((_, rowIndex) => (
+                                      <tr key={rowIndex}>
+                                          {Array.from({ length: 6 }).map((_, cellIndex) => (
+                                              <td key={cellIndex}>
+                                                  <div className={`${styles.skeleton} ${styles.skeleton_cell}`}></div>
+                                              </td>
+                                          ))}
+                                      </tr>
+                                  ))
+                                : templates.map((template) => (
+                                      <tr key={template.card_id}>
+                                          <td data-label="Tên template">{template.template.name}</td>
+                                          <td data-label="Giá">
+                                              {parseFloat(template.template.price).toLocaleString('vi-VN')} VNĐ
+                                          </td>
+                                          <td data-label="Số tiền thanh toán">
+                                              {template.template.payments[0]?.amount
+                                                  ? `${parseFloat(template.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
+                                                  : 'Chưa có'}
+                                          </td>
+                                          <td data-label="Ngày thanh toán">
+                                              {template.template.payments[0]?.payment_date
+                                                  ? new Date(
+                                                        template.template.payments[0].payment_date
+                                                    ).toLocaleDateString('vi-VN')
+                                                  : 'Chưa có'}
+                                          </td>
+                                          <td data-label="Trạng thái">
+                                              {template.template.payments[0]?.status === 'completed'
+                                                  ? 'Hoàn tất'
+                                                  : template.template.payments[0]?.status || 'Chưa thanh toán'}
+                                          </td>
+                                          <td data-label="Danh sách link mời">
+                                              <button
+                                                  style={{
+                                                      padding: '1rem',
+                                                      background: '#007bff',
+                                                      color: '#fff',
+                                                      borderRadius: '.5rem',
+                                                  }}
+                                                  onClick={() =>
+                                                      handleShowGuests(
+                                                          template.template.guests,
+                                                          template.template.name,
+                                                          template.template.template_id
+                                                      )
+                                                  }
+                                              >
+                                                  Danh sách
+                                              </button>
+                                          </td>
+                                      </tr>
+                                  ))}
                         </tbody>
                     </table>
                 </div>

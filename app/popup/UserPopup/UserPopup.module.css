@@ -8,18 +8,14 @@
   padding: 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transform: translateX(-100%);
-  /* Start from -100% on the right */
   transition: transform 0.3s ease-in-out, right 0.3s ease-in-out;
   z-index: 1001;
   max-width: 30rem;
-  /* Updated to 50rem as requested */
   width: 100%;
 }
 .user-popup.popup-open {
   transform: translateX(0);
-  /* Move to the final position */
   right: 3%;
-  /* Ensure it aligns to 1rem from the right */
 }
 .user-popup .user-info {
   margin-bottom: 1rem;
@@ -46,14 +42,19 @@
   border-bottom: 0.1rem solid #dbdbdb;
   padding-bottom: 1rem;
 }
-.user-popup .control a {
+.user-popup .control button {
   display: block;
   padding: 1.5rem 1rem;
   font-size: 1.4rem;
   text-decoration: none;
   margin: 0.5rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
-.user-popup .control a:hover {
+.user-popup .control button:hover {
   background: #f1f1f1;
   border-radius: 0.7rem;
 }
@@ -77,12 +78,39 @@
 .user-popup .logout-btn:hover {
   color: #b71c1c;
 }
-
+.user-popup .error {
+  font-size: 1.4rem;
+  color: #d32f2f;
+  padding: 1rem;
+}
+.user-popup .skeleton {
+  background: #e0e0e0;
+  border-radius: 0.5rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.user-popup .skeleton_text {
+  width: 200px;
+  height: 2rem;
+  margin-bottom: 0.5rem;
+}
+.user-popup .skeleton_email {
+  width: 150px;
+  height: 1.2rem;
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @media (min-width: 1600px) {
   .user-popup.popup-open {
     transform: translateX(0);
-    /* Move to the final position */
     right: 13% !important;
-    /* Ensure it aligns to 1rem from the right */
   }
 }/*# sourceMappingURL=UserPopup.module.css.map */
