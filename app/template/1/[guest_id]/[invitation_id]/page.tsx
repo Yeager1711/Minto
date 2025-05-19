@@ -63,9 +63,6 @@ function Template1Invitee() {
     const [error, setError] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-    // const apiUrl = 'https://minto-sver.onrender.com';
-
     useEffect(() => {
         const fetchGuestAndCard = async () => {
             try {
@@ -90,8 +87,8 @@ function Template1Invitee() {
                     lunarDay: card.invitations[0]?.lunar_day || 'Chưa xác định',
                     familyGroom: weddingData?.familyGroom || { father: 'Chưa xác định', mother: 'Chưa xác định' },
                     familyBride: weddingData?.familyBride || { father: 'Chưa xác định', mother: 'Chưa xác định' },
-                    brideStory: weddingData?.brideStory || 'Chưa xác định',
-                    groomStory: weddingData?.groomStory || 'Chưa xác định',
+                    brideStory: weddingData?.brideStory || '',
+                    groomStory: weddingData?.groomStory || '',
                     groomAddress: weddingData?.groomAddress || 'Chưa xác định',
                     brideAddress: weddingData?.brideAddress || 'Chưa xác định',
                     groomMapUrl: weddingData?.groomMapUrl || '',
@@ -141,7 +138,7 @@ function Template1Invitee() {
                             key = 'banner';
                     }
                     newImages[key] = {
-                        url: img.url.startsWith('http') ? img.url : `${apiUrl}${img.url}`,
+                        url: img.url.startsWith('http') ? img.url : `${img.url}`,
                         position: img.position,
                     };
                 });
@@ -374,7 +371,7 @@ function Template1Invitee() {
                                 )}
                             </div>
                             <div className={styles.infomation} data-aos="fade-up" data-aos-duration="1200">
-                                <p className={styles.eventDetails}>
+                                <p className={styles.eventDetails} style={{display: 'none'}}>
                                     {weddingData.groomStory || weddingData.brideStory || ''}
                                 </p>
                                 <p className={styles.eventTime}>Vào Lúc</p>

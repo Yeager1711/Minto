@@ -12,27 +12,31 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 import { TemplateWeddingData } from 'app/edit/template/[templateId]/EditTemplate';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
+import imagekit from 'app/lib/imagekit/imagekit';
+import { useApi } from '../../../../lib/apiContext/apiContext'; // Import useApi
+import { showToastError } from 'app/Ultils/toast';
 
 interface Images {
-    mainImage: { url: string; position?: string };
-    thumbnail1: { url: string; position?: string };
-    thumbnail2: { url: string; position?: string };
-    thumbnail3: { url: string; position?: string };
-    thumbnail4: { url: string; position?: string };
-    storyImage1: { url: string; position?: string };
-    storyImage2: { url: string; position?: string };
-    brideImage: { url: string; position?: string };
-    groomImage: { url: string; position?: string };
-    galleryImage1: { url: string; position?: string };
-    galleryImage2: { url: string; position?: string };
-    galleryImage3: { url: string; position?: string };
-    galleryImage4: { url: string; position?: string };
+    mainImage: { url: string; position: string; fileName?: string };
+    thumbnail1: { url: string; position: string; fileName?: string };
+    thumbnail2: { url: string; position: string; fileName?: string };
+    thumbnail3: { url: string; position: string; fileName?: string };
+    thumbnail4: { url: string; position: string; fileName?: string };
+    storyImage1: { url: string; position: string; fileName?: string };
+    storyImage2: { url: string; position: string; fileName?: string };
+    brideImage: { url: string; position: string; fileName?: string };
+    groomImage: { url: string; position: string; fileName?: string };
+    galleryImage1: { url: string; position: string; fileName?: string };
+    galleryImage2: { url: string; position: string; fileName?: string };
+    galleryImage3: { url: string; position: string; fileName?: string };
+    galleryImage4: { url: string; position: string; fileName?: string };
 }
 
 function Template2Edit() {
     const params = useParams();
     const templateId = params.id as string;
     const searchParams = useSearchParams();
+    const { fetchAuthParams } = useApi(); // Use ApiContext
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -136,33 +140,87 @@ function Template2Edit() {
         }
     };
 
-    const handleImageChange = (key: keyof Images, position: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = async (key: keyof Images, position: string, e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            setImageFiles((prev) => {
-                const updatedFiles = prev.filter((item) => item.position !== position);
-                return [...updatedFiles, { file, position }];
+        if (!file) {
+            setImageFiles((prev) => prev.filter((item) => item.position !== position));
+            setImages((prev) => {
+                const newImages = {
+                    ...prev,
+                    [key]: { url: defaultImages[key].url, position, fileName: undefined },
+                };
+                try {
+                    localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(newImages));
+                } catch (e) {
+                    console.error('Lỗi khi lưu weddingImages vào localStorage:', e);
+                }
+                return newImages;
+            });
+            e.target.value = '';
+            return;
+        }
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            showToastError('Vui lòng chọn file ảnh hợp lệ (JPEG, PNG, hoặc GIF).');
+            e.target.value = '';
+            return;
+        }
+
+        let authParams;
+        try {
+            authParams = await fetchAuthParams(); // Use fetchAuthParams from ApiContext
+        } catch {
+            showToastError('Không thể kết nối với ImageKit. Vui lòng thử lại.');
+            e.target.value = '';
+            return;
+        }
+
+        try {
+            const timestamp = Date.now();
+            const standardizedFileName = `${timestamp}-${key}.jpg`;
+            const currentDate = new Date();
+            const dateFolder = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+            const folderPath = `/wedding_${templateId}/${dateFolder}`; // Add date subfolder
+
+            const uploadResponse = await imagekit.upload({
+                file,
+                fileName: standardizedFileName,
+                folder: folderPath,
+                token: authParams.token,
+                expire: authParams.expire,
+                signature: authParams.signature,
             });
 
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImages((prev: Images) => {
-                    const newImages = { ...prev, [key]: { url: reader.result as string, position } };
-                    try {
-                        localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(newImages));
-                    } catch (e) {
-                        console.error('Failed to save weddingImages to localStorage:', e);
-                    }
-                    return newImages;
-                });
-            };
-            reader.onerror = () => {
-                console.error('Failed to read file:', file.name);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            setImageFiles((prev) => prev.filter((item) => item.position !== position));
+            if (!uploadResponse.url) {
+                throw new Error('Tải ảnh lên ImageKit thất bại: Không nhận được URL');
+            }
+
+            const standardizedFile = new File([file], standardizedFileName, { type: 'image/jpeg' });
+            setImageFiles((prev) => {
+                const updatedFiles = prev.filter((item) => item.position !== position);
+                return [...updatedFiles, { file: standardizedFile, position }];
+            });
+
+            setImages((prev: Images) => {
+                const newImages = {
+                    ...prev,
+                    [key]: { url: uploadResponse.url, position, fileName: standardizedFileName },
+                };
+                try {
+                    localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(newImages));
+                } catch (e) {
+                    console.error('Lỗi khi lưu weddingImages vào localStorage:', e);
+                }
+                return newImages;
+            });
+        } catch {
+            showToastError('Lỗi khi tải ảnh lên ImageKit. Vui lòng thử lại.');
+            console.error('Lỗi khi tải ảnh lên ImageKit:', key, position);
         }
+        e.target.value = '';
     };
 
     const triggerFileInput = (key: keyof typeof fileInputRefs) => fileInputRefs[key].current?.click();
@@ -221,6 +279,14 @@ function Template2Edit() {
                                     alt="Album Art"
                                     width={300}
                                     height={300}
+                                    onClick={() => triggerFileInput('mainImage')}
+                                />
+                                <input
+                                    type="file"
+                                    ref={fileInputRefs.mainImage}
+                                    onChange={(e) => handleImageChange('mainImage', 'main', e)}
+                                    accept="image/*"
+                                    style={{ display: 'none' }}
                                 />
                             </div>
                             <div className={styles.song_info}>
@@ -243,31 +309,31 @@ function Template2Edit() {
                         <div className={styles.image_mau2}>
                             <Image
                                 src={images.mainImage?.url || defaultImages.mainImage.url}
-                                alt=""
+                                alt="Main Image"
                                 width={600}
                                 height={400}
+                                onClick={() => triggerFileInput('mainImage')}
+                                style={{ cursor: 'pointer' }} // Visual cue for image click
+                            />
+                            <input
+                                type="file"
+                                ref={fileInputRefs.mainImage}
+                                onChange={(e) => handleImageChange('mainImage', 'main', e)}
+                                accept="image/*"
+                                style={{ display: 'none' }}
                             />
                             <div
                                 className={styles.Save_the_date}
                                 data-aos="fade-right"
                                 data-aos-delay="400"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    triggerFileInput('mainImage');
-                                }}
+                                onClick={() => triggerFileInput('mainImage')} // Updated to trigger file input
+                                style={{ cursor: 'pointer' }} // Visual cue for clickability
                             >
                                 <span className={styles.save}>Save</span>
                                 <span className={styles.the}>The</span>
                                 <span className={styles.date}>Date</span>
                                 <span className={styles.time}>{weddingData.weddingDate || 'Chưa cập nhật'}</span>
                             </div>
-                            <input
-                                type="file"
-                                ref={fileInputRefs.mainImage}
-                                onChange={handleImageChange('mainImage', 'main')}
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                            />
                             <div className={styles.bride_groom} data-aos="fade-up" data-aos-delay="600">
                                 <h3>{weddingData.groom || 'Chú rể'}</h3>
                                 <span>&</span>
@@ -287,7 +353,7 @@ function Template2Edit() {
                                 <input
                                     type="file"
                                     ref={fileInputRefs.thumbnail1}
-                                    onChange={handleImageChange('thumbnail1', 'thumbnail1')}
+                                    onChange={(e) => handleImageChange('thumbnail1', 'thumbnail1', e)}
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                 />
@@ -304,7 +370,7 @@ function Template2Edit() {
                                 <input
                                     type="file"
                                     ref={fileInputRefs.thumbnail2}
-                                    onChange={handleImageChange('thumbnail2', 'thumbnail2')}
+                                    onChange={(e) => handleImageChange('thumbnail2', 'thumbnail2', e)}
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                 />
@@ -321,7 +387,7 @@ function Template2Edit() {
                                 <input
                                     type="file"
                                     ref={fileInputRefs.thumbnail3}
-                                    onChange={handleImageChange('thumbnail3', 'thumbnail3')}
+                                    onChange={(e) => handleImageChange('thumbnail3', 'thumbnail3', e)}
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                 />
@@ -338,7 +404,7 @@ function Template2Edit() {
                                 <input
                                     type="file"
                                     ref={fileInputRefs.thumbnail4}
-                                    onChange={handleImageChange('thumbnail4', 'thumbnail4')}
+                                    onChange={(e) => handleImageChange('thumbnail4', 'thumbnail4', e)}
                                     accept="image/*"
                                     style={{ display: 'none' }}
                                 />
@@ -371,7 +437,7 @@ function Template2Edit() {
                                     <input
                                         type="file"
                                         ref={fileInputRefs.storyImage1}
-                                        onChange={handleImageChange('storyImage1', 'story1')}
+                                        onChange={(e) => handleImageChange('storyImage1', 'story1', e)}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -403,7 +469,7 @@ function Template2Edit() {
                                     <input
                                         type="file"
                                         ref={fileInputRefs.storyImage2}
-                                        onChange={handleImageChange('storyImage2', 'story2')}
+                                        onChange={(e) => handleImageChange('storyImage2', 'story2', e)}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -437,7 +503,7 @@ function Template2Edit() {
                                     <input
                                         type="file"
                                         ref={fileInputRefs.brideImage}
-                                        onChange={handleImageChange('brideImage', 'bride')}
+                                        onChange={(e) => handleImageChange('brideImage', 'bride', e)}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -471,7 +537,7 @@ function Template2Edit() {
                                     <input
                                         type="file"
                                         ref={fileInputRefs.groomImage}
-                                        onChange={handleImageChange('groomImage', 'groom')}
+                                        onChange={(e) => handleImageChange('groomImage', 'groom', e)}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -645,7 +711,7 @@ function Template2Edit() {
                                     <input
                                         type="file"
                                         ref={fileInputRefs.galleryImage1}
-                                        onChange={handleImageChange('galleryImage1', 'gallery1')}
+                                        onChange={(e) => handleImageChange('galleryImage1', 'gallery1', e)}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -668,7 +734,7 @@ function Template2Edit() {
                                     <input
                                         type="file"
                                         ref={fileInputRefs.galleryImage2}
-                                        onChange={handleImageChange('galleryImage2', 'gallery2')}
+                                        onChange={(e) => handleImageChange('galleryImage2', 'gallery2', e)}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -691,7 +757,7 @@ function Template2Edit() {
                                     <input
                                         type="file"
                                         ref={fileInputRefs.galleryImage3}
-                                        onChange={handleImageChange('galleryImage3', 'gallery3')}
+                                        onChange={(e) => handleImageChange('galleryImage3', 'gallery3', e)}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />
@@ -714,7 +780,7 @@ function Template2Edit() {
                                     <input
                                         type="file"
                                         ref={fileInputRefs.galleryImage4}
-                                        onChange={handleImageChange('galleryImage4', 'gallery4')}
+                                        onChange={(e) => handleImageChange('galleryImage4', 'gallery4', e)}
                                         accept="image/*"
                                         style={{ display: 'none' }}
                                     />

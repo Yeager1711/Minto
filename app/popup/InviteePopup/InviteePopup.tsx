@@ -166,7 +166,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
 
             if (response && response.card_id) {
                 // localStorage.removeItem(`WeddingData${id}`);
-                localStorage.removeItem(`weddingImages${id}`);
+                // localStorage.removeItem(`weddingImages${id}`);
                 setShowConfirmationPopup(true);
             } else {
                 throw new Error('Lưu thiệp không thành công');
