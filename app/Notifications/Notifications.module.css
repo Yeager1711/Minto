@@ -1,8 +1,12 @@
+.swiper-pagination.swiper-pagination-bullets-dynamic.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal {
+  margin-bottom: -3rem;
+}
+
 .notifications {
-  margin: 2rem 0;
+  margin: 0;
   position: relative;
 }
-.notifications .control {
+.notifications .navigation {
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -11,24 +15,31 @@
   right: 0;
   top: -4rem;
 }
-.notifications .control .prev,
-.notifications .control .next {
+.notifications .navigation .prev_button,
+.notifications .navigation .next_button {
   padding: 0.8rem 1rem;
   background: #fff;
   border: 0.1rem solid #dbdbdb;
   border-radius: 5rem;
   cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 99 !important;
+}
+.notifications .navigation .prev_button:hover,
+.notifications .navigation .next_button:hover {
+  background: #f5f5ff;
+}
+.notifications .navigation .prev_button.swiper-button-disabled,
+.notifications .navigation .next_button.swiper-button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 .notifications .wrapper_notifications {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 255, 0.9));
-  padding: 2rem 0;
   border-radius: 1rem;
+  padding: 0 0 3rem 0;
+  /* Style cho pagination */
 }
 .notifications .wrapper_notifications .box {
-  flex: 1 1;
   padding: 1.5rem 1rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 255, 0.9));
   border-radius: 1rem;
@@ -37,7 +48,6 @@
   transition: all 0.3s ease;
   height: 14rem;
   overflow: auto;
-  margin-right: 1.5rem;
 }
 .notifications .wrapper_notifications .box:hover {
   box-shadow: 0 6px 16px rgba(136, 136, 232, 0.15);
@@ -85,4 +95,23 @@
   padding: 0.8rem 0;
   font-size: 1.2rem;
   color: rgba(102, 102, 102, 0.9);
+}
+.notifications .wrapper_notifications .swiper-pagination {
+  position: absolute;
+  bottom: 1rem;
+  text-align: center;
+}
+.notifications .wrapper_notifications .swiper-pagination-bullet {
+  background: rgba(136, 136, 232, 0.8);
+  opacity: 0.4;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  transition: all 0.3s ease;
+}
+.notifications .wrapper_notifications .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: rgb(136, 136, 232);
+  width: 10px;
+  height: 10px;
 }/*# sourceMappingURL=Notifications.module.css.map */

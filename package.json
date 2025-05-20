@@ -45,7 +45,7 @@
     "react-toastify": "^10.0.6",
     "recharts": "^2.15.3",
     "sass": "^1.80.6",
-    "swiper": "^11.2.6",
+    "swiper": "^11.2.7",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

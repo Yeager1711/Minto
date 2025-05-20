@@ -1,22 +1,16 @@
-// app/Notifications/Notifications.tsx
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import styles from './Notifications.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-// Dynamically import Swiper components to avoid SSR issues
-const Swiper = dynamic(() => import('swiper/react').then((mod) => mod.Swiper), { ssr: false });
-const SwiperSlide = dynamic(() => import('swiper/react').then((mod) => mod.SwiperSlide), { ssr: false });
-
-// Import Swiper modules
-import { Navigation, Autoplay } from 'swiper/modules';
-
-// Import Swiper core styles
+// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 
 interface Notification {
@@ -78,36 +72,27 @@ const notifications: Notification[] = [
 const Notifications: React.FC = () => {
     return (
         <div className={styles.notifications}>
-            <div className={styles.control}>
-                <div className={`${styles.prev} swiper-button-prev-custom`}>
-                    <FontAwesomeIcon icon={faChevronLeft} />
-                </div>
-                <div className={`${styles.next} swiper-button-next-custom`}>
-                    <FontAwesomeIcon icon={faChevronRight} />
-                </div>
-            </div>
-
             <Swiper
-                modules={[Navigation, Autoplay]}
-                spaceBetween={15}
-                slidesPerView={2}
+                modules={[Navigation, Pagination, Autoplay]}
+                spaceBetween={0}
+                slidesPerView={1}
                 navigation={{
-                    prevEl: '.swiper-button-prev-custom',
-                    nextEl: '.swiper-button-next-custom',
+                    prevEl: `.${styles.prev_button}`,
+                    nextEl: `.${styles.next_button}`,
+                }}
+                pagination={{
+                    dynamicBullets: true,
+                    clickable: true,
                 }}
                 autoplay={{
-                    delay: 3000,
-                    disableOnInteraction: false,
+                    delay: 5000, // 5 giây
+                    disableOnInteraction: false, // Tiếp tục autoplay sau khi người dùng tương tác
                 }}
                 loop={true}
                 breakpoints={{
-                    0: {
-                        slidesPerView: 1,
-                        spaceBetween: 15,
-                    },
                     768: {
                         slidesPerView: 2,
-                        spaceBetween: 15,
+                        spaceBetween: 20,
                     },
                 }}
                 className={styles.wrapper_notifications}
@@ -140,6 +125,14 @@ const Notifications: React.FC = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
+            <div className={styles.navigation}>
+                <button className={styles.prev_button}>
+                    <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+                <button className={styles.next_button}>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                </button>
+            </div>
         </div>
     );
 };
