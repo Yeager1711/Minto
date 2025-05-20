@@ -63,6 +63,11 @@
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
+                min-width: 30rem;
+                /* Giới hạn chiều rộng tối đa là 30rem */
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
 
                 .link {
                     color: rgba(136, 136, 232, 0.9);

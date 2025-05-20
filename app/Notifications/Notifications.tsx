@@ -28,7 +28,7 @@ const notifications: Notification[] = [
         id: 1,
         title: (
             <>
-                Trãi nghiệm miễn phí với các template có sẵn của{' '}
+                Trãi nghiệm miễn phí với template của{' '}
                 <Link href="/" className={styles.link}>
                     Minto
                 </Link>
