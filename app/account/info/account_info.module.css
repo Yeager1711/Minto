@@ -1,54 +1,73 @@
 @media (max-width: 96rem) {
   .account_info {
-    margin-top: 7rem !important;
+    margin-top: -3rem !important;
   }
 }
 .account_info {
-  max-width: 1400px;
+  width: 100%;
+  max-width: 100%;
+  background-image: url("/images/banner/banner_profile.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  background-blend-mode: multiply;
+  opacity: 1;
+  margin: 0 auto;
+}
+@media (max-width: 1200px) {
+  .account_info {
+    background-size: 1200px;
+    background-position: 70% -11%;
+  }
+}
+.account_info .wrapper {
+  max-width: 120rem;
   width: 95%;
   margin: auto;
-  margin-top: 9rem;
   margin-bottom: 5rem;
+  margin-top: 8.3rem;
 }
-.account_info .header_infoAccount {
-  background: #fff;
+.account_info .wrapper .header_infoAccount {
   padding: 2rem 1rem 2rem 2rem;
   border-radius: 1rem;
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 2rem;
+  min-height: 50vh;
 }
-.account_info .header_infoAccount .wrapper_left {
-  flex: 1 1 70rem;
+.account_info .wrapper .header_infoAccount .wrapper_left {
+  flex: 1 1 28rem;
   max-width: 70rem;
   width: 100%;
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper h3 {
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper h3 {
   font-size: 3rem;
+  font-weight: 400;
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item {
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  border-top: 0.1rem solid #dbdbdb;
   width: 100%;
-  padding: 1.5rem 0;
+  position: relative;
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item:nth-child(3) {
-  border-bottom: 0.1rem solid #dbdbdb;
-}
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex {
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex {
   flex: 4 1;
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex h2 {
-  font-size: 1.8rem;
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex h2 {
+  font-size: 2.5rem;
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex span {
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex span {
+  position: absolute;
+  top: -1.3rem;
   font-size: 1.4rem;
-  color: #333;
+  color: #999;
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex .input {
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex .input {
   padding: 0.8rem 1rem;
   border: 0.1rem solid #dbdbdb;
   border-radius: 0.5rem;
@@ -57,12 +76,12 @@
   max-width: 250px;
   margin-top: 0.5rem;
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex .input:focus {
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex .input:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_right {
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_right {
   padding: 1rem 1.5rem;
   border: 0.1rem solid #dbdbdb;
   border-radius: 1rem;
@@ -71,87 +90,91 @@
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
-.account_info .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_right:hover {
+.account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_right:hover {
   background-color: #007bff;
   color: #fff;
   border-color: #007bff;
 }
-.account_info .header_infoAccount .error {
+.account_info .wrapper .header_infoAccount .error {
   color: #dc3545;
   font-size: 1.4rem;
   margin: 2rem;
 }
-.account_info .header_infoAccount .wrapper__right_template {
-  flex: 1 1 2cqw;
+.account_info .wrapper .header_infoAccount .wrapper__right_template {
+  flex: 1 1 30rem;
   background: #fff;
-  border-radius: 1rem;
-  margin-top: 2rem;
+  border-radius: 2rem;
   width: 100%;
-  height: 52rem;
+  height: 32rem;
   overflow-y: scroll;
   padding-right: 1rem;
+  padding: 0 2rem 2rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
-.account_info .header_infoAccount .wrapper__right_template h4 {
+.account_info .wrapper .header_infoAccount .wrapper__right_template::-webkit-scrollbar {
+  display: none;
+}
+.account_info .wrapper .header_infoAccount .wrapper__right_template h4 {
   font-size: 2rem;
 }
-.account_info .header_infoAccount .wrapper__right_template .grid_template {
+.account_info .wrapper .header_infoAccount .wrapper__right_template .grid_template {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   gap: 1.5rem;
 }
-.account_info .header_infoAccount .wrapper__right_template .grid_template .template_item {
+.account_info .wrapper .header_infoAccount .wrapper__right_template .grid_template .template_item {
   border: 0.1rem solid #dbdbdb;
   border-radius: 1rem;
   overflow: hidden;
 }
-.account_info .header_infoAccount .wrapper__right_template .grid_template .template_item .image {
-  height: 30rem;
+.account_info .wrapper .header_infoAccount .wrapper__right_template .grid_template .template_item .image {
+  height: 17.5rem;
   padding: 1.5rem;
 }
-.account_info .header_infoAccount .wrapper__right_template .grid_template .template_item .image img {
+.account_info .wrapper .header_infoAccount .wrapper__right_template .grid_template .template_item .image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.account_info .list_orders {
+.account_info .wrapper .list_orders {
   background: #fff;
   padding: 1rem;
   border-radius: 1rem;
   margin-top: 2rem;
   height: 45rem;
 }
-.account_info .list_orders h4 {
+.account_info .wrapper .list_orders h4 {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
-.account_info .list_orders .list_item {
+.account_info .wrapper .list_orders .list_item {
   max-height: 40rem;
   overflow-y: scroll;
 }
-.account_info .list_orders .list_item .table {
+.account_info .wrapper .list_orders .list_item .table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
   background: #fff;
   border: none;
 }
-.account_info .list_orders .list_item .table th,
-.account_info .list_orders .list_item .table td {
+.account_info .wrapper .list_orders .list_item .table th,
+.account_info .wrapper .list_orders .list_item .table td {
   padding: 2rem 1.5rem;
   text-align: left;
   border-bottom: 0.1rem solid #dbdbdb;
 }
-.account_info .list_orders .list_item .table th {
+.account_info .wrapper .list_orders .list_item .table th {
   font-size: 1.4rem;
   font-weight: 600;
   color: #333;
 }
-.account_info .list_orders .list_item .table td {
+.account_info .wrapper .list_orders .list_item .table td {
   font-size: 1.2rem;
   color: #555;
 }
-.account_info .list_orders .list_item .table tr:hover {
+.account_info .wrapper .list_orders .list_item .table tr:hover {
   background-color: #f9f9f9;
   transition: background-color 0.2s;
 }

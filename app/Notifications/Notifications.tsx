@@ -36,7 +36,7 @@ const notifications: Notification[] = [
         ),
         period: {
             from: '01/05/2025',
-            to: '30/06/2025',
+            to: '29/06/2025',
         },
         items: ['Áp dụng cho toàn bộ Template'],
     },
@@ -44,7 +44,7 @@ const notifications: Notification[] = [
         id: 2,
         title: 'Thực hiện làm mới dữ liệu free',
         period: {
-            from: '01/07/2025',
+            from: '30/06/2025',
         },
         items: ['Hệ thống sẽ reset toàn bộ dữ liệu', 'Các bản mẫu đã tạo trước kia không còn được áp dụng'],
     },

@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.css';
 import Popup from './popup/product_details/Product_Details';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faHeadset } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 import Notifications from './Notifications/Notifications';
+import Countdown from './func/countDown/page';
 
 interface Template {
     template_id: number;
@@ -26,6 +27,18 @@ interface Template {
 interface Category {
     category_id: number;
     category_name: string;
+}
+
+interface UserProfile {
+    user_id: number;
+    full_name: string;
+    email: string;
+    phone: string | null;
+    address: string | null;
+    role: {
+        role_id: number;
+        name: string;
+    };
 }
 
 interface ProductCardProps {
@@ -109,16 +122,19 @@ const Home: React.FC = () => {
     const [filteredTemplates, setFilteredTemplates] = useState<Template[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
-    const [userName, setUserName] = useState<string>('Everyone');
+    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false);
 
-    // Fetch initial data
+    const toggleSupportPopup = () => {
+        setIsSupportOpen((prev) => !prev);
+    };
+
     useEffect(() => {
         const fetchInitialData = async () => {
             setIsLoading(true);
             try {
                 const fetchedCategories = await getCategories();
-                // Sort categories to ensure "Thiệp cưới" is always first
                 const sortedCategories = fetchedCategories.sort((a: Category, b: Category) => {
                     if (a.category_name === 'Thiệp cưới') return -1;
                     if (b.category_name === 'Thiệp cưới') return 1;
@@ -126,8 +142,8 @@ const Home: React.FC = () => {
                 });
                 setCategories(sortedCategories);
 
-                const userProfile = await getUserProfile();
-                setUserName(userProfile.full_name || 'Everyone');
+                const userProfileData = await getUserProfile();
+                setUserProfile(userProfileData);
 
                 const templates = await getTemplates();
                 setAllTemplates(templates);
@@ -141,7 +157,6 @@ const Home: React.FC = () => {
         fetchInitialData();
     }, [getTemplates, getCategories, getUserProfile]);
 
-    // Handle search with category filtering
     const handleSearch = async () => {
         setIsLoading(true);
         try {
@@ -166,7 +181,6 @@ const Home: React.FC = () => {
         }
     };
 
-    // Handle category button click to filter templates
     const handleCategoryClick = (categoryId: number) => {
         setSelectedCategoryId(categoryId);
         const filtered = allTemplates.filter((template) => template.category.category_id === categoryId);
@@ -174,7 +188,6 @@ const Home: React.FC = () => {
         setSearchQuery('');
     };
 
-    // Reset to show all templates
     const handleShowAll = () => {
         setSelectedCategoryId(null);
         setFilteredTemplates(allTemplates);
@@ -195,7 +208,6 @@ const Home: React.FC = () => {
         }
     };
 
-    // Group templates by category for display, ensuring "Thiệp cưới" is first
     const groupedTemplates = categories.reduce(
         (acc, category) => {
             const templatesInCategory = filteredTemplates.filter(
@@ -209,7 +221,6 @@ const Home: React.FC = () => {
         {} as Record<string, Template[]>
     );
 
-    // Convert groupedTemplates to an array and sort to ensure "Thiệp cưới" is first
     const sortedGroupedTemplates = Object.entries(groupedTemplates).sort(([a], [b]) => {
         if (a === 'Thiệp cưới') return -1;
         if (b === 'Thiệp cưới') return 1;
@@ -269,7 +280,11 @@ const Home: React.FC = () => {
                     </div>
                 </header>
 
-                {isLoading ? <HeadingSkeleton /> : <h1 className={styles.heading}>Hi, {userName}! 👋</h1>}
+                {isLoading ? (
+                    <HeadingSkeleton />
+                ) : (
+                    <h1 className={styles.heading}>Hi, {userProfile?.full_name || 'Everyone'}! 👋</h1>
+                )}
 
                 <Notifications />
 
@@ -293,6 +308,39 @@ const Home: React.FC = () => {
                             </div>
                         ))
                     )}
+                </div>
+
+                <Countdown />
+
+                <div className={styles.support} onClick={toggleSupportPopup}>
+                    <FontAwesomeIcon icon={faHeadset} />
+                </div>
+
+                <div className={`${styles.wrapper_support} ${isSupportOpen ? styles.active : ''}`}>
+                    <div className={styles.box}>
+                        <label htmlFor="user_id">Mã khách hàng</label>
+                        <input type="text" id="user_id" value={userProfile?.user_id || ''} disabled />
+                    </div>
+
+                    <div className={styles.box}>
+                        <label htmlFor="full_name">Tên khách hàng</label>
+                        <input type="text" id="full_name" value={userProfile?.full_name || ''} disabled />
+                    </div>
+
+                    <div className={styles.box}>
+                        <label htmlFor="phone">Số điện thoại</label>
+                        <input type="text" id="phone" value={userProfile?.phone ?? 'Chưa cập nhật'} disabled />
+                    </div>
+
+                    <div className={styles.box}>
+                        <select name="issue" id="issue">
+                            <option value="">Lỗi đơn hàng thanh toán trạng thái chưa hoàn thành</option>
+                            <option value="">Lỗi hệ thống khi thêm thông tin</option>
+                            <option value="">Lỗi hệ thống khi thêm ảnh</option>
+                        </select>
+                    </div>
+
+                    <div className={styles.submit_button}>Gửi yêu cầu</div>
                 </div>
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}

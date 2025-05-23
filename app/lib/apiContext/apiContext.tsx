@@ -139,13 +139,7 @@ interface TemplateResponse {
             guest_id: number;
             invitation_id: number;
             full_name: string;
-            sharedLinks: {
-                link_id: number;
-                guest_id: number;
-                share_url: string;
-                created_at: string;
-                expires_at: string;
-            }[];
+            card_id: number; // Thêm card_id
         }[];
     };
 }
@@ -181,13 +175,7 @@ interface Guest {
     guest_id: number;
     invitation_id: number;
     full_name: string;
-    sharedLinks: {
-        link_id: number;
-        guest_id: number;
-        share_url: string;
-        created_at: string;
-        expires_at: string;
-    }[];
+    card_id: number; // Đảm bảo khớp với TemplateResponse.guests
 }
 
 interface Card {
@@ -206,7 +194,7 @@ interface Card {
         price: string;
         status: string;
     };
-    thumbnails: { thumbnail_id: number; image_url: string; position: string; description: string }[];
+    thumbnails: { thumbnail_id: number; image_url: string; position: string; description: string; card_id: number }[];
     invitations: {
         invitation_id: number;
         groom_name: string;
@@ -237,7 +225,12 @@ interface ApiContextType {
     getTemplates: () => Promise<Template[]>;
     saveCard: (data: SaveCardData) => Promise<SaveCardResponse>;
     getUserTemplates: () => Promise<TemplateResponse[]>;
-    getGuestAndCard: (template_id: string, guest_id: string, invitation_id: string) => Promise<ApiResponse>;
+    getGuestAndCard: (
+        template_id: string,
+        guest_id: string,
+        invitation_id: string,
+        card_id: string
+    ) => Promise<ApiResponse>;
     fetchAuthParams: () => Promise<ImageKitAuthParams>;
 }
 
@@ -500,21 +493,22 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const getGuestAndCard = async (
         template_id: string,
         guest_id: string,
-        invitation_id: string
+        invitation_id: string,
+        card_id: string
     ): Promise<ApiResponse> => {
         try {
             if (!apiUrl) {
                 throw new Error('API base URL is not defined in environment variables');
             }
 
-            if (!template_id || !guest_id || !invitation_id) {
+            if (!template_id || !guest_id || !invitation_id || !card_id) {
                 throw new Error(
-                    `Thiếu tham số: template_id=${template_id}, guest_id=${guest_id}, invitation_id=${invitation_id}`
+                    `Thiếu tham số: template_id=${template_id}, guest_id=${guest_id}, invitation_id=${invitation_id}, card_id=${card_id}`
                 );
             }
 
             const response = await axios.get<ApiResponse>(
-                `${apiUrl}/cards/guest/${template_id}/${guest_id}/${invitation_id}`,
+                `${apiUrl}/cards/${template_id}/${guest_id}/${invitation_id}/${card_id}`,
                 {
                     headers: {
                         'ngrok-skip-browser-warning': 'true',

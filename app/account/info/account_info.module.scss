@@ -1,134 +1,209 @@
 // app/components/account_info.module.scss
 @media (max-width: 96rem) {
     .account_info {
-        margin-top: 7rem !important;
+        margin-top: -3rem !important;
     }
 }
 
 .account_info {
-    max-width: 1400px;
-    width: 95%;
-    margin: auto;
-    margin-top: 9rem;
-    margin-bottom: 5rem;
+    width: 100%;
+    max-width: 100%;
+    background-image: url('/images/banner/banner_profile.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    background-blend-mode: multiply;
+    opacity: 1;
+    margin: 0 auto;
 
-    .header_infoAccount {
-        background: #fff;
-        padding: 2rem 1rem 2rem 2rem;
-        border-radius: 1rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
+    @media (max-width: 1200px) {
+        background-size: 1200px;
+        background-position: 70% -11%;
+    }
 
-        .wrapper_left {
-            flex: 1 1 70rem;
-            max-width: 70rem;
-            width: 100%;
+    .wrapper {
+        max-width: 120rem;
+        width: 95%;
+        margin: auto;
+        margin-bottom: 5rem;
+        margin-top: 8.3rem;
 
-            .account_info__wrapper {
-                h3 {
-                    font-size: 3rem;
-                }
 
-                .box_item {
-                    display: flex;
-                    flex-wrap: wrap;
-                    align-items: center;
-                    justify-content: space-between;
-                    border-top: 0.1rem solid #dbdbdb;
-                    width: 100%;
-                    padding: 1.5rem 0;
+        .header_infoAccount {
+            padding: 2rem 1rem 2rem 2rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            min-height: 50vh;
 
-                    &:nth-child(3) {
-                        border-bottom: 0.1rem solid #dbdbdb;
+            .wrapper_left {
+                flex: 1 1 28rem;
+                max-width: 70rem;
+                width: 100%;
+
+                .account_info__wrapper {
+                    h3 {
+                        font-size: 3rem;
+                        font-weight: 400;
                     }
 
-                    .box_flex {
-                        flex: 4 1;
+                    .box_item {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: 100%;
+                        position: relative;
 
-                        h2 {
-                            font-size: 1.8rem;
+                        .box_flex {
+                            flex: 4 1;
+
+                            h2 {
+                                font-size: 2.5rem;
+                            }
+
+                            span {
+                                position: absolute;
+                                top: -1.3rem;
+                                font-size: 1.4rem;
+                                color: #999;
+                            }
+
+                            .input {
+                                padding: 0.8rem 1rem;
+                                border: 0.1rem solid #dbdbdb;
+                                border-radius: 0.5rem;
+                                font-size: 1.4rem;
+                                width: 100%;
+                                max-width: 250px;
+                                margin-top: 0.5rem;
+
+                                &:focus {
+                                    outline: none;
+                                    border-color: #007bff;
+                                    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                                }
+                            }
                         }
 
-                        span {
-                            font-size: 1.4rem;
-                            color: #333;
-                        }
-
-                        .input {
-                            padding: 0.8rem 1rem;
+                        .box_right {
+                            padding: 1rem 1.5rem;
                             border: 0.1rem solid #dbdbdb;
-                            border-radius: 0.5rem;
-                            font-size: 1.4rem;
-                            width: 100%;
-                            max-width: 250px;
-                            margin-top: 0.5rem;
+                            border-radius: 1rem;
+                            font-size: 1.3rem;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: background-color 0.3s, color 0.3s;
 
-                            &:focus {
-                                outline: none;
+                            &:hover {
+                                background-color: #007bff;
+                                color: #fff;
                                 border-color: #007bff;
-                                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
                             }
                         }
                     }
+                }
+            }
 
-                    .box_right {
-                        padding: 1rem 1.5rem;
+            .error {
+                color: #dc3545;
+                font-size: 1.4rem;
+                margin: 2rem;
+            }
+
+            .wrapper__right_template {
+                flex: 1 1 30rem;
+                background: #fff;
+                border-radius: 2rem;
+                width: 100%;
+                height: 32rem;
+                overflow-y: scroll;
+                padding-right: 1rem;
+                padding: 0 2rem 2rem;
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                h4 {
+                    font-size: 2rem;
+                }
+
+                .grid_template {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+                    gap: 1.5rem;
+
+                    .template_item {
                         border: 0.1rem solid #dbdbdb;
                         border-radius: 1rem;
-                        font-size: 1.3rem;
-                        font-weight: 500;
-                        cursor: pointer;
-                        transition: background-color 0.3s, color 0.3s;
+                        overflow: hidden;
 
-                        &:hover {
-                            background-color: #007bff;
-                            color: #fff;
-                            border-color: #007bff;
+                        .image {
+                            height: 17.5rem;
+                            padding: 1.5rem;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
                         }
                     }
                 }
             }
         }
 
-        .error {
-            color: #dc3545;
-            font-size: 1.4rem;
-            margin: 2rem;
-        }
-
-        .wrapper__right_template {
-            flex: 1 1 2cqw;
+        .list_orders {
             background: #fff;
+            padding: 1rem;
             border-radius: 1rem;
             margin-top: 2rem;
-            width: 100%;
-            height: 52rem;
-            overflow-y: scroll;
-            padding-right: 1rem;
+            height: 45rem;
 
             h4 {
                 font-size: 2rem;
+                margin-bottom: 1rem;
             }
 
-            .grid_template {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-                gap: 1.5rem;
+            .list_item {
+                max-height: 40rem;
+                overflow-y: scroll;
 
-                .template_item {
-                    border: 0.1rem solid #dbdbdb;
-                    border-radius: 1rem;
-                    overflow: hidden;
+                .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 1rem;
+                    background: #fff;
+                    border: none;
 
-                    .image {
-                        height: 30rem;
-                        padding: 1.5rem;
+                    th,
+                    td {
+                        padding: 2rem 1.5rem;
+                        text-align: left;
+                        border-bottom: 0.1rem solid #dbdbdb;
+                    }
 
-                        img {
-                            width: 100%;
-                            height: 100%;
-                            object-fit: cover;
+                    th {
+                        font-size: 1.4rem;
+                        font-weight: 600;
+                        color: #333;
+                    }
+
+                    td {
+                        font-size: 1.2rem;
+                        color: #555;
+                    }
+
+                    tr {
+                        &:hover {
+                            background-color: #f9f9f9;
+                            transition: background-color 0.2s;
                         }
                     }
                 }
@@ -136,56 +211,9 @@
         }
     }
 
-    .list_orders {
-        background: #fff;
-        padding: 1rem;
-        border-radius: 1rem;
-        margin-top: 2rem;
-        height: 45rem;
 
-        h4 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
 
-        .list_item {
-            max-height: 40rem;
-            overflow-y: scroll;
 
-            .table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 1rem;
-                background: #fff;
-                border: none;
-
-                th,
-                td {
-                    padding: 2rem 1.5rem;
-                    text-align: left;
-                    border-bottom: 0.1rem solid #dbdbdb;
-                }
-
-                th {
-                    font-size: 1.4rem;
-                    font-weight: 600;
-                    color: #333;
-                }
-
-                td {
-                    font-size: 1.2rem;
-                    color: #555;
-                }
-
-                tr {
-                    &:hover {
-                        background-color: #f9f9f9;
-                        transition: background-color 0.2s;
-                    }
-                }
-            }
-        }
-    }
 
     .modal {
         position: fixed;

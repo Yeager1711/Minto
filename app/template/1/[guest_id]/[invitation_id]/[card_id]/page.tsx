@@ -13,17 +13,17 @@ import { useApi } from 'app/lib/apiContext/apiContext';
 export const dynamic = 'force-dynamic';
 
 interface Images {
-    [key: string]: { url: string; position?: string };
-    banner: { url: string; position?: string };
-    groom: { url: string; position?: string };
-    bride: { url: string; position?: string };
-    couple_0: { url: string; position?: string };
-    couple_1: { url: string; position?: string };
-    couple_2: { url: string; position?: string };
-    thumnail_0: { url: string; position?: string };
-    thumnail_1: { url: string; position?: string };
-    thumnail_2: { url: string; position?: string };
-    thumnail_3: { url: string; position?: string };
+    [key: string]: { url: string; position?: string; };
+    banner: { url: string; position?: string; };
+    groom: { url: string; position?: string; };
+    bride: { url: string; position?: string; };
+    couple_0: { url: string; position?: string; };
+    couple_1: { url: string; position?: string; };
+    couple_2: { url: string; position?: string; };
+    thumnail_0: { url: string; position?: string; };
+    thumnail_1: { url: string; position?: string; };
+    thumnail_2: { url: string; position?: string; };
+    thumnail_3: { url: string; position?: string; };
 }
 
 interface WeddingData {
@@ -70,12 +70,13 @@ function Template1Invitee() {
                 const template_id = parts[1];
                 const guest_id = parts[2];
                 const invitation_id = parts[3];
+                const card_id = parts[4];
 
-                if (!template_id || !guest_id || !invitation_id) {
+                if (!template_id || !guest_id || !invitation_id || !card_id) {
                     throw new Error('Thiếu tham số trong URL');
                 }
 
-                const { guest, card } = await getGuestAndCard(template_id, guest_id, invitation_id);
+                const { guest, card } = await getGuestAndCard(template_id, guest_id, invitation_id, card_id);
 
                 const weddingData = card.custom_data.weddingData as Partial<WeddingData> | undefined;
                 const updatedWeddingData: WeddingData = {
@@ -97,50 +98,55 @@ function Template1Invitee() {
                     venue_bride: card.invitations[0]?.venue_bride || 'Chưa xác định',
                 };
                 setWeddingData(updatedWeddingData);
-                setWeddingData(updatedWeddingData);
                 setGuestName(guest.full_name);
 
+                // Sử dụng thumbnails để tạo images, đảm bảo khớp card_id
                 const newImages: Images = {} as Images;
-                card.custom_data.weddingImages.forEach((img: { url: string; position: string }) => {
-                    let key: keyof Images;
-                    switch (img.position) {
-                        case 'banner':
-                            key = 'banner';
-                            break;
-                        case 'groom':
-                            key = 'groom';
-                            break;
-                        case 'bride':
-                            key = 'bride';
-                            break;
-                        case 'couple_0':
-                            key = 'couple_0';
-                            break;
-                        case 'couple_1':
-                            key = 'couple_1';
-                            break;
-                        case 'couple_2':
-                            key = 'couple_2';
-                            break;
-                        case 'thumnail_0':
-                            key = 'thumnail_0';
-                            break;
-                        case 'thumnail_1':
-                            key = 'thumnail_1';
-                            break;
-                        case 'thumnail_2':
-                            key = 'thumnail_2';
-                            break;
-                        case 'thumnail_3':
-                            key = 'thumnail_3';
-                            break;
-                        default:
-                            key = 'banner';
+                card.thumbnails.forEach((thumbnail: { image_url: string; position: string; card_id: number }) => {
+                    // Chỉ sử dụng hình ảnh nếu card_id khớp
+                    if (thumbnail.card_id === card.card_id) {
+                        let key: keyof Images;
+                        switch (thumbnail.position) {
+                            case 'banner':
+                                key = 'banner';
+                                break;
+                            case 'groom':
+                                key = 'groom';
+                                break;
+                            case 'bride':
+                                key = 'bride';
+                                break;
+                            case 'couple_0':
+                                key = 'couple_0';
+                                break;
+                            case 'couple_1':
+                                key = 'couple_1';
+                                break;
+                            case 'couple_2':
+                                key = 'couple_2';
+                                break;
+                            case 'thumnail_0':
+                                key = 'thumnail_0';
+                                break;
+                            case 'thumnail_1':
+                                key = 'thumnail_1';
+                                break;
+                            case 'thumnail_2':
+                                key = 'thumnail_2';
+                                break;
+                            case 'thumnail_3':
+                                key = 'thumnail_3';
+                                break;
+                            default:
+                                key = 'banner';
+                        }
+                        newImages[key] = {
+                            url: thumbnail.image_url.startsWith('http')
+                                ? thumbnail.image_url
+                                : `${thumbnail.image_url}`,
+                            position: thumbnail.position,
+                        };
                     }
-                    newImages[key] = {
-                        url: img.url.startsWith('http') ? img.url : `${img.url}`,
-                        position: img.position,
-                    };
                 });
                 setImages(newImages);
             } catch (err: unknown) {
@@ -371,7 +377,7 @@ function Template1Invitee() {
                                 )}
                             </div>
                             <div className={styles.infomation} data-aos="fade-up" data-aos-duration="1200">
-                                <p className={styles.eventDetails} style={{display: 'none'}}>
+                                <p className={styles.eventDetails} style={{ display: 'none' }}>
                                     {weddingData.groomStory || weddingData.brideStory || ''}
                                 </p>
                                 <p className={styles.eventTime}>Vào Lúc</p>
@@ -443,7 +449,7 @@ function Template1Invitee() {
                                 <div className={styles.dotRight}></div>
                                 <h4>Địa điểm tổ chức</h4>
                                 <div className={styles.locationContent}>
-                                    <h5>Nhà Trai -{weddingData.venue_groom}</h5>
+                                    <h5>Nhà Trai - {weddingData.venue_groom}</h5>
                                     {weddingData.venue_groom && weddingData.groomMapUrl ? (
                                         <div className={styles.venueDetails}>
                                             <iframe
