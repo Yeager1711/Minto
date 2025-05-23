@@ -1,13 +1,13 @@
 .popupContent {
   background: #ffffff;
   border-radius: 12px;
-  max-width: 45rem;
-  width: 70%;
+  max-width: 50rem;
+  width: 76%;
   max-height: 85vh;
   overflow-y: auto;
-  animation: InviteePopup_slideIn__K8zeO 0.3s ease-out;
+  animation: InviteePopup_InviteePopup_slideIn__K8zeO__Y4ZAN 0.3s ease-out;
   position: relative;
-  padding: 30px;
+  padding: 3rem 2rem;
   border: 1px solid rgba(0, 0, 0, 0.05);
   position: fixed;
   top: 50%;
@@ -119,13 +119,14 @@
 .actionButtons .customizeButton {
   background: #daae83;
   color: #ffffff;
-  padding: 1rem 3.5rem;
+  padding: 1rem;
   border: none;
   border-radius: 6px;
   font-size: 1.4rem;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s ease;
+  width: 100%;
 }
 .actionButtons .customizeButton:hover {
   background: #2563eb;
