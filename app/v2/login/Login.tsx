@@ -15,8 +15,9 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); 
     const wasOpenedRef = useRef(false);
-    const { login } = useApi(); // Use the login method from context
+    const { login } = useApi();
 
     useEffect(() => {
         if (isOpen) {
@@ -42,6 +43,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             return;
         }
         setError('');
+        setIsLoading(true); // Bật trạng thái đang tải
         try {
             const response = await login({ email, password });
             console.log(`Đăng nhập thành công với email: ${email}`);
@@ -52,6 +54,8 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             const errorMessage = err instanceof Error ? err.message : 'Đăng nhập thất bại';
             setError(errorMessage);
             console.log(`Đăng nhập thất bại với email: ${email}`);
+        } finally {
+            setIsLoading(false); // Tắt trạng thái đang tải
         }
     };
 
@@ -116,8 +120,12 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                         >
                             Thoát
                         </button>
-                        <button type="submit" className={`${styles.loginPopupButton} ${styles.loginPopupButtonSubmit}`}>
-                            Đăng nhập
+                        <button
+                            type="submit"
+                            className={`${styles.loginPopupButton} ${styles.loginPopupButtonSubmit}`}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Đang đăng nhập' : 'Đăng nhập'}
                         </button>
                     </div>
                 </form>

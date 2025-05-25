@@ -1,0 +1,441 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  overflow-y: auto;
+  padding: 1.5rem;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+.modal.modal-exit {
+  animation: fadeOut 0.4s ease-out forwards;
+}
+.modal .modalContent {
+  background: #ffffff;
+  border-radius: 1.2rem;
+  max-width: 85rem;
+  width: 90%;
+  max-height: 85vh;
+  margin: 2rem auto;
+  overflow-y: auto;
+  position: relative;
+  padding: 2.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.modal .modalContent.modalContent-exit {
+  animation: scaleOut 0.4s ease-out forwards;
+}
+.modal .modalContent::-webkit-scrollbar {
+  display: none;
+}
+.modal .modalContent .closeButton {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2.7rem;
+  font-weight: 300;
+  cursor: pointer;
+  color: #444;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0.2rem 1rem;
+}
+.modal .modalContent .closeButton:hover {
+  color: #fff;
+  transform: scale(1.1);
+  background: #dbdbdb;
+  border-radius: 5rem;
+}
+.modal .modalContent .closeButton:focus {
+  outline: 2px solid #ff7d55;
+  outline-offset: 2px;
+}
+.modal .addProducts {
+  width: 100%;
+  padding: 0;
+}
+.modal .addProducts .addProductHeader h4 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #222;
+  line-height: 1.3;
+  margin-top: 0;
+}
+.modal .addProducts .addProductHeader .boxInput {
+  padding: 1.2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  max-width: 50rem;
+  position: relative;
+  background: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+.modal .addProducts .addProductHeader .boxInput:focus-within {
+  border-color: #ff7d55;
+  box-shadow: 0 0 8px rgba(255, 125, 85, 0.2);
+}
+.modal .addProducts .addProductHeader .boxInput input {
+  font-size: 1.5rem;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #333;
+}
+.modal .addProducts .addProductHeader .boxInput input::-moz-placeholder {
+  font-size: 1.4rem;
+  color: #aaa;
+}
+.modal .addProducts .addProductHeader .boxInput input::placeholder {
+  font-size: 1.4rem;
+  color: #aaa;
+}
+.modal .addProducts .addProductHeader .boxInput .btnCreate {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #ff7d55;
+  padding: 0 2.5rem;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 0 0.8rem 0.8rem 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.modal .addProducts .addProductHeader .boxInput .btnCreate:hover {
+  background: #ff6a3c;
+  transform: translateY(-1px);
+}
+.modal .addProducts .addProductHeader .boxInput .btnCreate:focus {
+  outline: 2px solid #ff6a3c;
+  outline-offset: 2px;
+}
+.modal .addProducts .addProductHeader .boxInput .btnCreate:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+.modal .addProducts .addProductHeader .addProductWrapper {
+  margin-top: 2.5rem;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image {
+  flex: 1;
+  max-width: 35rem;
+  min-width: 28rem;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image input[type=file] {
+  width: 100%;
+  padding: 1.2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  background: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image input[type=file]:hover {
+  border-color: #ff7d55;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image input[type=file]:focus {
+  border-color: #ff7d55;
+  box-shadow: 0 0 8px rgba(255, 125, 85, 0.2);
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image .preview {
+  margin-top: 2rem;
+  max-width: 22rem;
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  margin: 1.5rem auto;
+  display: flex;
+  justify-content: center;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image .preview img {
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right {
+  flex: 1;
+  max-width: 50rem;
+  width: 100%;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup {
+  margin-bottom: 1.8rem;
+  width: 100%;
+  max-width: 50rem;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup label {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 0.6rem;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup input,
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea,
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select {
+  width: 100%;
+  padding: 1.2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  background: #f9f9f9;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup input:focus,
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea:focus,
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select:focus {
+  outline: none;
+  border-color: #ff7d55;
+  box-shadow: 0 0 8px rgba(255, 125, 85, 0.2);
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20' stroke='%23777'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.2rem center;
+  background-size: 1.4em;
+  padding-right: 3.5rem;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit {
+  padding: 1.2rem 3rem;
+  background: #ff7d55;
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit:hover {
+  background: #ff6a3c;
+  transform: translateY(-1px);
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit:focus {
+  outline: 2px solid #ff6a3c;
+  outline-offset: 2px;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+@media (max-width: 1024px) {
+  .modal .addProducts .modalContent {
+    max-width: 95%;
+    padding: 2rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader h4 {
+    font-size: 1.8rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput {
+    max-width: 100%;
+    width: 100%;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex {
+    gap: 2rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .modal .addProducts .modal {
+    padding: 1rem;
+  }
+  .modal .addProducts .modalContent {
+    max-width: 98%;
+    padding: 1.5rem;
+    max-height: 90vh;
+  }
+  .modal .addProducts .addProducts .addProductHeader h4 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput {
+    padding: 1rem;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput input {
+    font-size: 1.4rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput input::-moz-placeholder {
+    font-size: 1.3rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput input::placeholder {
+    font-size: 1.3rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput .btnCreate {
+    padding: 0 2rem;
+    font-size: 1.4rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper {
+    margin-top: 2rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image input[type=file] {
+    font-size: 1.3rem;
+    padding: 1rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .preview {
+    max-width: 20rem;
+    margin: 1.5rem auto;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .preview img {
+    max-width: 20rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup {
+    margin-bottom: 1.5rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup label {
+    font-size: 1.4rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup input,
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea,
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select {
+    font-size: 1.3rem;
+    padding: 1rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit {
+    font-size: 1.4rem;
+    padding: 1rem 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .modal .addProducts .modal {
+    padding: 0.5rem;
+  }
+  .modal .addProducts .modalContent {
+    max-width: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader h4 {
+    font-size: 1.5rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 0.8rem;
+    border-radius: 0.6rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.3rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput input::-moz-placeholder {
+    font-size: 1.2rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput input::placeholder {
+    font-size: 1.2rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .boxInput .btnCreate {
+    position: static;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.6rem;
+    font-size: 1.3rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup label {
+    font-size: 1.3rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup input,
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup textarea,
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup select {
+    font-size: 1.2rem;
+    padding: 0.8rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup .btnSubmit {
+    font-size: 1.3rem;
+    padding: 0.8rem 1.5rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+}/*# sourceMappingURL=add_product.module.css.map */

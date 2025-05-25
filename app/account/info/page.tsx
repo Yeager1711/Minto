@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './account_info.module.scss';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import Countdown from 'app/func/countDown/page';
-
+import { useRouter } from 'next/navigation';
 interface UserProfile {
     user_id: number;
     full_name: string;
@@ -41,7 +41,7 @@ interface Template {
 }
 
 function AccountInfo() {
-    const { getUserProfile, getUserTemplates } = useApi();
+    const { getUserProfile, getUserTemplates, accessToken } = useApi();
     const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
@@ -55,7 +55,14 @@ function AccountInfo() {
         template_id: number;
     } | null>(null);
 
+    const router = useRouter();
+
     useEffect(() => {
+        if (!accessToken) {
+            router.push('/');
+            return;
+        }
+
         const fetchData = async () => {
             setIsLoading(true);
             try {
@@ -86,8 +93,9 @@ function AccountInfo() {
                 setIsLoading(false);
             }
         };
+
         fetchData();
-    }, [getUserProfile, getUserTemplates]);
+    }, [accessToken, getUserProfile, getUserTemplates, router]);
 
     const handleEdit = () => setIsEditing(true);
     const handleSave = () => {
@@ -116,7 +124,9 @@ function AccountInfo() {
                 <div className={styles.header_infoAccount}>
                     <div className={styles.wrapper_left}>
                         <div className={styles.account_info__wrapper}>
-                            <h3>Chào mừng bạn đến với <strong>Minto</strong></h3>
+                            <h3>
+                                Chào mừng bạn đến với <strong>Minto</strong>
+                            </h3>
                             {error ? (
                                 <p className={styles.error}>Lỗi: {error}</p>
                             ) : isLoading ? (
@@ -142,7 +152,6 @@ function AccountInfo() {
                                 <>
                                     <div className={styles.box_item}>
                                         <div className={styles.box_flex}>
-                                            
                                             {isEditing ? (
                                                 <input
                                                     type="text"

@@ -246,6 +246,9 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const token = localStorage.getItem('accessToken');
         if (token && !isTokenExpired(token)) {
             setAccessToken(token);
+        } else {
+            setAccessToken(null);
+            localStorage.removeItem('accessToken');
         }
         setIsReady(true);
     }, []);
@@ -350,13 +353,9 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     const getCategories = async (): Promise<Category[]> => {
-        if (!accessToken) {
-            throw new Error('Vui lòng đăng nhập');
-        }
         try {
             const response = await axios.get(`${apiUrl}/categories/getCategories`, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
                     'ngrok-skip-browser-warning': 'true',
                 },
             });

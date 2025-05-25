@@ -87,6 +87,10 @@
 .loginPopupOverlay .loginPopupContainer form .loginPopupActions .loginPopupButton.loginPopupButtonSubmit {
   background-color: #ff7d55;
 }
+.loginPopupOverlay .loginPopupContainer form .loginPopupActions .loginPopupButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .loginPopupOverlay .loginPopupContainer .registerLink {
   margin-top: 1rem;
   margin-bottom: 3rem;

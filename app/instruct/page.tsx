@@ -103,6 +103,34 @@ function Instruct() {
                                 <Image src="/intruct/6.png" alt="" width={500} height={300} unoptimized />
                             </div>
                         </div>
+
+                        <div className={styles.instruct_use}>
+                            <h4>Bước 7:</h4>
+                            <span>
+                                Tiếp đó, tại trang <strong>QR thanh toán</strong>. Bạn có thể quét mã trực tiếp để thực hiện thanh
+                                toán.
+                            </span>
+                            <span>
+                                Hoặc sử dụng trên thiết bị di động, kéo xuống phần bên dưới, tìm{' '}
+                                <strong>Ngân hàng mà bạn đang sử dụng để thanh toán</strong>
+                            </span>
+                            <div className={styles.image}>
+                                <Image src="/intruct/6.1.png" alt="" width={500} height={300} unoptimized />
+                            </div>
+                        </div>
+
+                        <div className={styles.instruct_use}>
+                            <h4>Bước 8:</h4>
+                            <span>
+                                Sau thi thực hiện quét mã thanh toán. Hệ thống sẽ chuyển hướng bạn đến trang{' '}
+                                <strong>Thanh toán thành công</strong>. Tại đây, bạn thực hiện nhấn nút{' '}
+                                <strong>Hoàn thành</strong> để hệ thống lưu lại thông tin thiệp cũng như là hình ảnh của
+                                bạn chọn trước đó,
+                            </span>
+                            <div className={styles.image}>
+                                <Image src="/intruct/6.2.png" alt="" width={500} height={300} unoptimized />
+                            </div>
+                        </div>
                     </div>
 
                     <div id="guest-list" className={styles.section} data-aos="fade-up">

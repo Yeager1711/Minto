@@ -81,7 +81,11 @@ const UserPopup: React.FC<UserPopupProps> = ({ isOpen, onClose, onLogout }) => {
     if (!isOpen) return null;
 
     const handleAccountInfo = () => {
-        router.push('/account/info');
+        if (user?.role.name === 'admin') {
+            router.push('/admin/dashboard');
+        } else {
+            router.push('/account/info');
+        }
         onClose();
     };
 
@@ -111,7 +115,7 @@ const UserPopup: React.FC<UserPopupProps> = ({ isOpen, onClose, onLogout }) => {
             )}
             <div className={styles.control}>
                 <button onClick={() => handleNavigation('/account/templates')}>Template đã chọn</button>
-                <button onClick={() => handleNavigation('/account/payments')}>Lịch sử thanh toán</button>
+                <button onClick={() => handleNavigation('/account/PaymentHistory')}>Lịch sử thanh toán</button>
                 <button onClick={() => handleNavigation('/account/invites')}>Danh sách mời</button>
             </div>
             <button className={cx('logout-btn')} onClick={onLogout}>

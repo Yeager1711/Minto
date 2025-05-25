@@ -96,8 +96,12 @@
                     }
 
                     &.loginPopupButtonSubmit {
-                        // background: #3b82f6;
                         background-color: #ff7d55;
+                    }
+
+                    &:disabled {
+                        opacity: 0.5;
+                        cursor: not-allowed;
                     }
                 }
             }

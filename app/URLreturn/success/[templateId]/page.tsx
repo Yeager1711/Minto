@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import styles from './success.module.css';
+import { showToastSuccess } from 'app/Ultils/toast';
 
 const SuccessPage: React.FC = () => {
     const router = useRouter();
@@ -11,7 +12,6 @@ const SuccessPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [isCompleted, setIsCompleted] = useState(false);
 
-    // Lấy template_id từ path (ví dụ: /URLreturn/success/1 -> template_id = 1)
     const templateId = pathname.split('/').pop();
     console.log('templateId', templateId);
 
@@ -21,7 +21,7 @@ const SuccessPage: React.FC = () => {
 
         const orderCode = searchParams.get('orderCode');
         const status = searchParams.get('status');
-        const id = searchParams.get('id'); // ID từ URL: bed09bfb4bbe498f849668e8de8dfd5a
+        const id = searchParams.get('id');
 
         // Kiểm tra dữ liệu cần thiết
         if (status !== 'PAID' || !orderCode || !id || !templateId) {
@@ -88,11 +88,11 @@ const SuccessPage: React.FC = () => {
 
             setIsCompleted(true);
             setIsLoading(false);
-            alert('Lưu thiệp thành công!');
-            router.push('/dashboard');
+            showToastSuccess('Lưu thiệp thành công!');
+            router.push('/account/info');
         } catch (err) {
             console.error('Lỗi khi lưu thiệp:', err);
-            setError('Không thể lưu thiệp. Vui lòng thử lại.');
+            setError('Không tìm thấy đơn hàng đã thanh toán');
             setIsLoading(false);
         }
     };

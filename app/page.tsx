@@ -115,7 +115,7 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
 );
 
 const Home: React.FC = () => {
-    const { getTemplates, getCategories, getUserProfile } = useApi();
+    const { getTemplates, getCategories, getUserProfile, accessToken } = useApi();
     const [selectedProduct, setSelectedProduct] = useState<Template | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [allTemplates, setAllTemplates] = useState<Template[]>([]);
@@ -130,8 +130,9 @@ const Home: React.FC = () => {
         setIsSupportOpen((prev) => !prev);
     };
 
+    // Fetch categories and templates
     useEffect(() => {
-        const fetchInitialData = async () => {
+        const fetchTemplatesAndCategories = async () => {
             setIsLoading(true);
             try {
                 const fetchedCategories = await getCategories();
@@ -142,20 +143,34 @@ const Home: React.FC = () => {
                 });
                 setCategories(sortedCategories);
 
-                const userProfileData = await getUserProfile();
-                setUserProfile(userProfileData);
-
                 const templates = await getTemplates();
                 setAllTemplates(templates);
                 setFilteredTemplates(templates);
             } catch {
-                toast.error('Không thể tải dữ liệu ban đầu');
+                toast.error('Không thể tải danh mục hoặc mẫu thiệp');
             } finally {
                 setIsLoading(false);
             }
         };
-        fetchInitialData();
-    }, [getTemplates, getCategories, getUserProfile]);
+        fetchTemplatesAndCategories();
+    }, [getTemplates, getCategories]);
+
+    // Fetch user profile
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            if(!accessToken) {
+                setUserProfile(null);
+                return;
+            }
+            try {
+                const userProfileData = await getUserProfile();
+                setUserProfile(userProfileData);
+            } catch {
+                toast.error('Không thể tải hồ sơ người dùng');
+            }
+        };
+        fetchUserProfile();
+    }, [getUserProfile]);
 
     const handleSearch = async () => {
         setIsLoading(true);

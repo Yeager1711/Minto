@@ -1,0 +1,316 @@
+@charset "UTF-8";
+
+.paymentHistory {
+    padding: 11rem 2rem 2rem;
+    /* Tăng padding-top để tránh header che */
+    background-color: #f9fafb;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.orderSection {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+}
+
+.sectionTitle {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.orderList {
+    overflow-x: auto;
+}
+
+.orderTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.3rem;
+    color: #4a4a4a;
+
+    th,
+    td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #333;
+        white-space: nowrap;
+    }
+
+    td {
+        background: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+        /* Điều chỉnh max-width tùy ý */
+    }
+
+    tr:hover {
+        background: #f9fafb;
+    }
+}
+
+.guestButton {
+    padding: 0.6rem 1.2rem;
+    background: #60a5fa;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+        background: #3b82f6;
+    }
+
+    &:disabled {
+        background: #d1d5db;
+        cursor: not-allowed;
+    }
+}
+
+.guestPanel {
+    width: 0;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    animation: expandPanel 0.3s ease forwards;
+}
+
+@keyframes expandPanel {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 60rem;
+    }
+}
+
+.guestPanelHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.guestPanelTitle {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+}
+
+.closeButton {
+    padding: 0.5rem 1rem;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+        background: #dc2626;
+    }
+}
+
+.noGuests {
+    padding: 1.5rem;
+    font-size: 1.3rem;
+    color: #6b7280;
+}
+
+.guestTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.3rem;
+    color: #4a4a4a;
+    margin: 1rem 0;
+
+    th,
+    td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #333;
+        white-space: nowrap;
+    }
+
+    td {
+        background: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+        /* Điều chỉnh max-width tùy ý */
+    }
+
+    tr:hover {
+        background: #f9fafb;
+    }
+}
+
+.guestLink {
+    color: #60a5fa;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: #3b82f6;
+    }
+}
+
+.linkUnavailable {
+    color: #f87171;
+}
+
+.error {
+    color: #ef4444;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.skeleton {
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.skeletonCell {
+    height: 1.5rem;
+    width: 80%;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .paymentHistory {
+        padding: 5rem 1rem 1rem;
+        /* Giảm padding trên mobile */
+    }
+
+    .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .orderSection {
+        padding: 1rem;
+    }
+
+    .orderTable,
+    .guestTable {
+        display: block;
+
+        thead {
+            display: none;
+            /* Ẩn header trên mobile */
+        }
+
+        tbody,
+        tr {
+            display: block;
+        }
+
+        tr {
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            max-width: 100%;
+            /* Bỏ giới hạn max-width trên mobile */
+            text-overflow: unset;
+            /* Bỏ ellipsis trên mobile để hiển thị đầy đủ */
+            white-space: normal;
+            /* Cho phép xuống dòng */
+            border-bottom: 1px solid #f1f5f9;
+
+            &:before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #333;
+                flex: 1;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        .guestButton {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    .guestPanel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        animation: none;
+        /* Bỏ animation mở rộng */
+        border-radius: 0;
+        box-shadow: none;
+        overflow-y: auto;
+    }
+
+    .guestPanelHeader {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 1001;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .guestTable {
+        margin: 0;
+    }
+}

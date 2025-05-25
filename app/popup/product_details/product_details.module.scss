@@ -22,7 +22,7 @@
 .popupContent {
     background: white;
     padding: 2rem;
-    border-radius: 0.8rem;
+    border-radius: 2rem;
     position: relative;
     width: 100%;
     max-width: 100rem;
@@ -47,12 +47,6 @@
     .popupTitle {
         font-size: 2rem;
         margin-bottom: 0.5rem;
-    }
-
-    .popupSubtitle {
-        font-size: 1.2rem;
-        color: #666;
-        margin-bottom: 1rem;
     }
 
     a {

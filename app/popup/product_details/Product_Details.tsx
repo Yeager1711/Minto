@@ -101,7 +101,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
             <div className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}>
                 <div className={styles.popupHeader}>
                     <h2 className={styles.popupTitle}>{product.name}</h2>
-                    <p className={styles.popupSubtitle}>Invitation • Portrait • 105 x 148 mm</p>
                     {product.link && <a href={product.link}>Xem trực tiếp</a>}
                 </div>
                 <div className={styles.popupBody}>
