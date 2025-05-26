@@ -66,6 +66,8 @@ interface ChartData {
     }[];
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+
 // Fetch statistics function
 const fetchStatistics = async (startDate: string, endDate: string): Promise<ApiData> => {
     const accessToken = localStorage.getItem('accessToken');
@@ -73,7 +75,7 @@ const fetchStatistics = async (startDate: string, endDate: string): Promise<ApiD
         throw new Error('Không tìm thấy accessToken trong localStorage');
     }
 
-    const response = await fetch(`http://localhost:5000/payos/statistics?startDate=${startDate}&endDate=${endDate}`, {
+    const response = await fetch(`${apiUrl}/payos/statistics?startDate=${startDate}&endDate=${endDate}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
