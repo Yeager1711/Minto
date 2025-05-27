@@ -537,7 +537,7 @@ const Dashboard: React.FC = () => {
                                     {isLoading ? <Skeleton type="small" /> : <p>{apiData?.totalTemplates ?? 0}</p>}
                                 </div>
                                 <div className={styles.client}>
-                                    <h4>Template được sử dụng</h4>
+                                    <h4>Template sử dụng</h4>
                                     {isLoading ? (
                                         <Skeleton type="small" />
                                     ) : (
@@ -548,11 +548,6 @@ const Dashboard: React.FC = () => {
 
                             <div className={styles.Most_used_model} data-aos="fade-left" data-aos-delay="400">
                                 <h3>Mẫu được sử dụng nhiều nhất</h3>
-                                {isLoading ? (
-                                    <Skeleton type="text" />
-                                ) : (
-                                    <p>{`${mostUsedTemplate.name} (${mostUsedTemplate.percentage}%)`}</p>
-                                )}
                                 <FontAwesomeIcon
                                     icon={faChartSimple}
                                     style={{ cursor: 'pointer' }}

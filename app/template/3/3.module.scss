@@ -1,0 +1,502 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;700&family=Della+Respira&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100;200;300;400&display=swap');
+
+/* --- Variables (Dalat Inspired) --- */
+$color-main-light: #F8F5EE; // Vàng kem / Trắng ngà - Nền chính
+$color-accent-pink: #F7CAC9; // Hồng Pastel / Hồng Phấn - Điểm nhấn ngọt ngào
+$color-accent-mint: #C9E4DE; // Xanh Mint - Điểm nhấn tươi mới
+$color-text-dark: #4A4A4A; // Xám đậm - Chữ chính
+$color-text-light: #FFFFFF; // Trắng - Chữ trên nền tối
+$color-gold-details: #B8860B; // Vàng đồng - Chi tiết sang trọng
+
+// Fonts
+$font-heading-primary: 'Herr Von Muellerhoff', cursive; // For couple names
+$font-heading-secondary: 'Dancing Script', cursive; // For invites, sub-headings
+$font-body: 'Playwrite AU SA', sans-serif; // For main content
+$font-accent: 'Great Vibes', cursive; // For section titles
+$font-signature: 'Allura', cursive; // For final signature
+
+/* --- Global Styles --- */
+
+
+.weddingContainer {
+    font-family: $font-body;
+    color: $color-text-dark;
+    background-color: $color-main-light;
+    /* Nền của "thiệp" */
+    line-height: 1.6;
+    width: 50rem;
+    max-width: 95%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+    border-radius: 15px;
+    overflow: hidden;
+    // Dùng flexbox để tự động mở rộng theo nội dung và căn giữa theo chiều dọc nếu cần
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Section Base Styles and Animations --- */
+.section {
+    padding: 80px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    position: relative;
+    overflow: hidden;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sectionTitle {
+    font-family: $font-accent;
+    font-size: 3.2em;
+    /* Nhẹ nhàng hơn chút */
+    color: $color-gold-details;
+    /* Vàng đồng cho tiêu đề */
+    margin-bottom: 50px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
+
+    .visible & {
+        animation: scaleIn 1s ease-out forwards;
+    }
+}
+
+/* --- Intro Section --- */
+.introSection {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, $color-accent-pink, $color-accent-mint);
+    /* Gradient nhẹ nhàng */
+    color: $color-text-light;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 100px;
+    /* Thêm padding dưới nếu intro quá ngắn */
+
+    .decorativeBg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('/images/floral-pattern.png') no-repeat center center / cover;
+        opacity: 0.15;
+        z-index: -1;
+    }
+
+    .introContent {
+        z-index: 2;
+
+        .introText {
+            font-family: $font-heading-secondary;
+            font-size: 2.2em;
+            /* Nhẹ nhàng hơn */
+            margin-bottom: 10px;
+
+            .visible & {
+                animation: fadeIn 1.5s ease-out forwards;
+            }
+        }
+
+        .coupleNames {
+            font-family: $font-heading-primary;
+            font-size: 6em;
+            line-height: 1;
+            margin: 20px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+
+            .groomName,
+            .brideName {
+                display: block;
+
+                .visible & {
+                    animation: slideInLeft 1.5s ease-out forwards;
+                }
+            }
+
+            .brideName {
+                .visible & {
+                    animation: slideInRight 1.5s ease-out forwards;
+                }
+            }
+
+            .andSymbol {
+                font-size: 0.5em;
+                vertical-align: super;
+                margin: 0 10px;
+
+                .visible & {
+                    animation: fadeIn 2s ease-out forwards;
+                    animation-delay: 0.5s;
+                }
+            }
+        }
+
+        .invitePhrase,
+        .date {
+            font-family: $font-heading-secondary;
+            font-size: 1.6em;
+            /* Nhẹ nhàng hơn */
+            margin-top: 15px;
+
+            .visible & {
+                animation: fadeIn 2s ease-out forwards;
+                animation-delay: 1s;
+            }
+        }
+    }
+}
+
+/* --- Gallery Section --- */
+.gallerySection {
+    background-color: $color-main-light;
+    padding: 50px 0;
+
+    .gallerySlider {
+        position: relative;
+        width: 90%;
+        max-width: 900px;
+        height: 500px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        background-color: $color-text-light;
+
+        .visible & {
+            animation: fadeInScale 1.5s ease-out forwards;
+        }
+    }
+
+    .sliderInner {
+        display: flex;
+        height: 100%;
+        transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .slideItem {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+
+        .slideImage {
+            filter: brightness(0.98);
+            /* Giảm độ sáng nhẹ */
+            transition: transform 0.5s ease-in-out;
+
+            &:hover {
+                transform: scale(1.03);
+                /* Zoom nhẹ hơn */
+            }
+        }
+    }
+
+    .sliderDots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+
+        .dot {
+            width: 10px;
+            /* Nhỏ hơn */
+            height: 10px;
+            /* Nhỏ hơn */
+            border-radius: 50%;
+            background-color: rgba($color-text-dark, 0.2);
+            /* Mờ hơn */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+
+            &.active {
+                background-color: $color-accent-pink;
+                /* Màu chấm active */
+                transform: scale(1.2);
+            }
+
+            &:hover {
+                background-color: $color-accent-pink;
+            }
+        }
+    }
+}
+
+/* --- Wedding Info & Family Sections --- */
+.weddingInfoSection,
+.familySection {
+    background-color: $color-main-light; // Nền vàng kem
+    margin: 30px auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    max-width: 1000px;
+
+    .weddingDetails,
+    .familyInfoGrid {
+        /* Đổi tên class cho family info để dùng grid */
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 30px;
+        padding: 20px;
+
+        .visible & {
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+
+        // Family Info Grid
+        &.familyInfoGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .detailBlock,
+        .familyBlock {
+            flex: 1;
+            min-width: 280px;
+            background-color: lighten($color-accent-mint, 5%); // Nền xanh mint nhẹ cho khối
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            color: $color-text-dark;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            }
+
+            h3 {
+                font-family: $font-heading-secondary;
+                color: $color-gold-details;
+                /* Tiêu đề khối vàng đồng */
+                font-size: 1.7em;
+                margin-bottom: 15px;
+            }
+
+            p {
+                font-family: $font-body;
+                font-size: 1.05em;
+                line-height: 1.6;
+                margin-bottom: 8px;
+
+                &.address {
+                    font-weight: 300; // Nhẹ nhàng hơn cho địa chỉ
+                }
+            }
+
+            .mapButton {
+                display: inline-block;
+                margin-top: 15px;
+                padding: 10px 20px;
+                background-color: $color-accent-pink;
+                /* Nút màu hồng pastel */
+                color: $color-text-light;
+                text-decoration: none;
+                border-radius: 25px;
+                /* Nút bo tròn */
+                font-family: $font-body;
+                font-weight: 400;
+                /* Nhẹ nhàng hơn */
+                transition: background-color 0.3s ease, transform 0.3s ease;
+
+                &:hover {
+                    background-color: darken($color-accent-pink, 8%);
+                    transform: translateY(-2px);
+                }
+            }
+        }
+    }
+}
+
+/* --- Final Section --- */
+.finalSection {
+    background-color: $color-main-light;
+    padding-bottom: 100px;
+
+    .thankYouText {
+        font-family: $font-heading-secondary;
+        font-size: 2em;
+        margin-top: 50px;
+        color: $color-gold-details;
+
+        .visible & {
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+    }
+
+    .signature {
+        font-family: $font-signature;
+        font-size: 3.2em;
+        margin-top: 20px;
+        color: $color-gold-details;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
+
+        .visible & {
+            animation: fadeInScale 1.5s ease-out forwards;
+            animation-delay: 1s;
+        }
+    }
+}
+
+
+/* --- Keyframe Animations --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .weddingContainer {
+        width: 95%;
+        margin: 1rem 0;
+    }
+
+    .section {
+        padding: 50px 15px;
+    }
+
+    .introSection {
+        .introContent {
+            .coupleNames {
+                font-size: 4em;
+            }
+
+            .introText,
+            .invitePhrase,
+            .date {
+                font-size: 1.3em;
+            }
+        }
+    }
+
+    .sectionTitle {
+        font-size: 2.2em;
+        margin-bottom: 30px;
+    }
+
+    .gallerySection {
+        .gallerySlider {
+            height: 350px;
+            width: 95%;
+        }
+    }
+
+    .weddingInfoSection,
+    .familySection {
+
+        .weddingDetails,
+        .familyInfoGrid {
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .detailBlock,
+        .familyBlock {
+            width: 90%;
+            padding: 20px;
+        }
+    }
+
+    .thankYouText {
+        font-size: 1.8em;
+    }
+
+    .signature {
+        font-size: 2.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    .introSection {
+        .introContent {
+            .coupleNames {
+                font-size: 3em;
+            }
+
+            .introText,
+            .invitePhrase,
+            .date {
+                font-size: 1em;
+            }
+        }
+    }
+
+    .sectionTitle {
+        font-size: 1.8em;
+    }
+
+    .gallerySection {
+        .gallerySlider {
+            height: 250px;
+        }
+    }
+}

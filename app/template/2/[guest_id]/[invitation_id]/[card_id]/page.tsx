@@ -283,10 +283,13 @@ function Mau2InviteeName() {
                 </div>
                 <div className={`${styles.mau_2} ${isIntroOpen ? styles.content_hidden : styles.content_visible}`}>
                     <div className={styles.mau_2__wrapper}>
-                        <div className={styles.page_2}>
-                            <img src="/images/m2/page2.png" alt="" />
-                        </div>
                         <div className={styles.image_mau2}>
+                            <div className={styles.page_2}>
+                                <img src="/images/m2/page2.png" alt="" />
+                            </div>
+                            <div className={styles.torn_page}>
+                                <img src="/images/m2/page.png" alt="" />
+                            </div>
                             {images.mainImage && (
                                 <img
                                     src={images.mainImage.url}
@@ -349,9 +352,7 @@ function Mau2InviteeName() {
                             </div>
                         </div>
                     </div>
-                    <div className={styles.torn_page}>
-                        <img src="/images/m2/page.png" alt="" />
-                    </div>
+
                     <div className={styles.story} data-aos="fade-up" data-aos-delay="200">
                         <div className={styles.Timing_Hook}>
                             <img src="/images/m2/tape.png" alt="" className={styles.tape} />

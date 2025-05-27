@@ -303,10 +303,14 @@ function Template2Edit() {
 
                 <div className={styles.mau_2}>
                     <div className={styles.mau_2__wrapper}>
-                        <div className={styles.page_2}>
-                            <Image src="/images/m2/page2.png" alt="" width={600} height={800} />
-                        </div>
                         <div className={styles.image_mau2}>
+                            <div className={styles.page_2}>
+                                <Image src="/images/m2/page2.png" alt="" width={600} height={800} />
+                            </div>
+
+                            <div className={styles.torn_page}>
+                                <Image src="/images/m2/page.png" alt="" width={600} height={800} />
+                            </div>
                             <Image
                                 src={images.mainImage?.url || defaultImages.mainImage.url}
                                 alt="Main Image"
@@ -411,9 +415,7 @@ function Template2Edit() {
                             </div>
                         </div>
                     </div>
-                    <div className={styles.torn_page}>
-                        <Image src="/images/m2/page.png" alt="" width={600} height={800} />
-                    </div>
+
                     <div className={styles.story} data-aos="fade-up" data-aos-delay="200">
                         <div className={styles.Timing_Hook}>
                             <Image src="/images/m2/tape.png" alt="" className={styles.tape} width={100} height={100} />
@@ -585,9 +587,7 @@ function Template2Edit() {
                                     </span>
                                     <div className={styles.column}>
                                         <span className={styles.dayOfWeek}>
-                                            {weddingData.weddingTime
-                                                ? formatTime(weddingData.weddingTime)
-                                                : 'Chưa cập nhật'}
+                                            {weddingData.weddingTime ? weddingData.weddingTime : 'Chưa cập nhật'}
                                         </span>
                                         <span className={styles.day}>
                                             {weddingData.weddingDate ? weddingData.weddingDate.split('/')[0] : '??'}

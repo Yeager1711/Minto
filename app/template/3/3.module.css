@@ -1,0 +1,466 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;700&family=Della+Respira&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100;200;300;400&display=swap");
+/* --- Variables (Dalat Inspired) --- */
+/* --- Global Styles --- */
+.weddingContainer {
+  font-family: "Playwrite AU SA", sans-serif;
+  color: #4A4A4A;
+  background-color: #F8F5EE;
+  /* Nền của "thiệp" */
+  line-height: 1.6;
+  width: 50rem;
+  max-width: 95%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Section Base Styles and Animations --- */
+.section {
+  padding: 80px 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sectionTitle {
+  font-family: "Great Vibes", cursive;
+  font-size: 3.2em;
+  /* Nhẹ nhàng hơn chút */
+  color: #B8860B;
+  /* Vàng đồng cho tiêu đề */
+  margin-bottom: 50px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
+}
+.visible .sectionTitle {
+  animation: scaleIn 1s ease-out forwards;
+}
+
+/* --- Intro Section --- */
+.introSection {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #F7CAC9, #C9E4DE);
+  /* Gradient nhẹ nhàng */
+  color: #FFFFFF;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 100px;
+  /* Thêm padding dưới nếu intro quá ngắn */
+}
+.introSection .decorativeBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/images/floral-pattern.png") no-repeat center center/cover;
+  opacity: 0.15;
+  z-index: -1;
+}
+.introSection .introContent {
+  z-index: 2;
+}
+.introSection .introContent .introText {
+  font-family: "Dancing Script", cursive;
+  font-size: 2.2em;
+  /* Nhẹ nhàng hơn */
+  margin-bottom: 10px;
+}
+.visible .introSection .introContent .introText {
+  animation: fadeIn 1.5s ease-out forwards;
+}
+.introSection .introContent .coupleNames {
+  font-family: "Herr Von Muellerhoff", cursive;
+  font-size: 6em;
+  line-height: 1;
+  margin: 20px 0;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.introSection .introContent .coupleNames .groomName,
+.introSection .introContent .coupleNames .brideName {
+  display: block;
+}
+.visible .introSection .introContent .coupleNames .groomName,
+.visible .introSection .introContent .coupleNames .brideName {
+  animation: slideInLeft 1.5s ease-out forwards;
+}
+.visible .introSection .introContent .coupleNames .brideName {
+  animation: slideInRight 1.5s ease-out forwards;
+}
+.introSection .introContent .coupleNames .andSymbol {
+  font-size: 0.5em;
+  vertical-align: super;
+  margin: 0 10px;
+}
+.visible .introSection .introContent .coupleNames .andSymbol {
+  animation: fadeIn 2s ease-out forwards;
+  animation-delay: 0.5s;
+}
+.introSection .introContent .invitePhrase,
+.introSection .introContent .date {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.6em;
+  /* Nhẹ nhàng hơn */
+  margin-top: 15px;
+}
+.visible .introSection .introContent .invitePhrase,
+.visible .introSection .introContent .date {
+  animation: fadeIn 2s ease-out forwards;
+  animation-delay: 1s;
+}
+
+/* --- Gallery Section --- */
+.gallerySection {
+  background-color: #F8F5EE;
+  padding: 50px 0;
+}
+.gallerySection .gallerySlider {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  height: 500px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  background-color: #FFFFFF;
+}
+.visible .gallerySection .gallerySlider {
+  animation: fadeInScale 1.5s ease-out forwards;
+}
+.gallerySection .sliderInner {
+  display: flex;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.gallerySection .slideItem {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.gallerySection .slideItem .slideImage {
+  filter: brightness(0.98);
+  /* Giảm độ sáng nhẹ */
+  transition: transform 0.5s ease-in-out;
+}
+.gallerySection .slideItem .slideImage:hover {
+  transform: scale(1.03);
+  /* Zoom nhẹ hơn */
+}
+.gallerySection .sliderDots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+.gallerySection .sliderDots .dot {
+  width: 10px;
+  /* Nhỏ hơn */
+  height: 10px;
+  /* Nhỏ hơn */
+  border-radius: 50%;
+  background-color: rgba(74, 74, 74, 0.2);
+  /* Mờ hơn */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.gallerySection .sliderDots .dot.active {
+  background-color: #F7CAC9;
+  /* Màu chấm active */
+  transform: scale(1.2);
+}
+.gallerySection .sliderDots .dot:hover {
+  background-color: #F7CAC9;
+}
+
+/* --- Wedding Info & Family Sections --- */
+.weddingInfoSection,
+.familySection {
+  background-color: #F8F5EE;
+  margin: 30px auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+  max-width: 1000px;
+}
+.weddingInfoSection .weddingDetails,
+.weddingInfoSection .familyInfoGrid,
+.familySection .weddingDetails,
+.familySection .familyInfoGrid {
+  /* Đổi tên class cho family info để dùng grid */
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 20px;
+}
+.visible .weddingInfoSection .weddingDetails,
+.visible .weddingInfoSection .familyInfoGrid,
+.visible .familySection .weddingDetails,
+.visible .familySection .familyInfoGrid {
+  animation: fadeIn 1.5s ease-out forwards;
+  animation-delay: 0.3s;
+}
+.weddingInfoSection .weddingDetails.familyInfoGrid,
+.weddingInfoSection .familyInfoGrid.familyInfoGrid,
+.familySection .weddingDetails.familyInfoGrid,
+.familySection .familyInfoGrid.familyInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+.weddingInfoSection .weddingDetails .detailBlock,
+.weddingInfoSection .weddingDetails .familyBlock,
+.weddingInfoSection .familyInfoGrid .detailBlock,
+.weddingInfoSection .familyInfoGrid .familyBlock,
+.familySection .weddingDetails .detailBlock,
+.familySection .weddingDetails .familyBlock,
+.familySection .familyInfoGrid .detailBlock,
+.familySection .familyInfoGrid .familyBlock {
+  flex: 1;
+  min-width: 280px;
+  background-color: #daede8;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  color: #4A4A4A;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.weddingInfoSection .weddingDetails .detailBlock:hover,
+.weddingInfoSection .weddingDetails .familyBlock:hover,
+.weddingInfoSection .familyInfoGrid .detailBlock:hover,
+.weddingInfoSection .familyInfoGrid .familyBlock:hover,
+.familySection .weddingDetails .detailBlock:hover,
+.familySection .weddingDetails .familyBlock:hover,
+.familySection .familyInfoGrid .detailBlock:hover,
+.familySection .familyInfoGrid .familyBlock:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+.weddingInfoSection .weddingDetails .detailBlock h3,
+.weddingInfoSection .weddingDetails .familyBlock h3,
+.weddingInfoSection .familyInfoGrid .detailBlock h3,
+.weddingInfoSection .familyInfoGrid .familyBlock h3,
+.familySection .weddingDetails .detailBlock h3,
+.familySection .weddingDetails .familyBlock h3,
+.familySection .familyInfoGrid .detailBlock h3,
+.familySection .familyInfoGrid .familyBlock h3 {
+  font-family: "Dancing Script", cursive;
+  color: #B8860B;
+  /* Tiêu đề khối vàng đồng */
+  font-size: 1.7em;
+  margin-bottom: 15px;
+}
+.weddingInfoSection .weddingDetails .detailBlock p,
+.weddingInfoSection .weddingDetails .familyBlock p,
+.weddingInfoSection .familyInfoGrid .detailBlock p,
+.weddingInfoSection .familyInfoGrid .familyBlock p,
+.familySection .weddingDetails .detailBlock p,
+.familySection .weddingDetails .familyBlock p,
+.familySection .familyInfoGrid .detailBlock p,
+.familySection .familyInfoGrid .familyBlock p {
+  font-family: "Playwrite AU SA", sans-serif;
+  font-size: 1.05em;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.weddingInfoSection .weddingDetails .detailBlock p.address,
+.weddingInfoSection .weddingDetails .familyBlock p.address,
+.weddingInfoSection .familyInfoGrid .detailBlock p.address,
+.weddingInfoSection .familyInfoGrid .familyBlock p.address,
+.familySection .weddingDetails .detailBlock p.address,
+.familySection .weddingDetails .familyBlock p.address,
+.familySection .familyInfoGrid .detailBlock p.address,
+.familySection .familyInfoGrid .familyBlock p.address {
+  font-weight: 300;
+}
+.weddingInfoSection .weddingDetails .detailBlock .mapButton,
+.weddingInfoSection .weddingDetails .familyBlock .mapButton,
+.weddingInfoSection .familyInfoGrid .detailBlock .mapButton,
+.weddingInfoSection .familyInfoGrid .familyBlock .mapButton,
+.familySection .weddingDetails .detailBlock .mapButton,
+.familySection .weddingDetails .familyBlock .mapButton,
+.familySection .familyInfoGrid .detailBlock .mapButton,
+.familySection .familyInfoGrid .familyBlock .mapButton {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #F7CAC9;
+  /* Nút màu hồng pastel */
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 25px;
+  /* Nút bo tròn */
+  font-family: "Playwrite AU SA", sans-serif;
+  font-weight: 400;
+  /* Nhẹ nhàng hơn */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.weddingInfoSection .weddingDetails .detailBlock .mapButton:hover,
+.weddingInfoSection .weddingDetails .familyBlock .mapButton:hover,
+.weddingInfoSection .familyInfoGrid .detailBlock .mapButton:hover,
+.weddingInfoSection .familyInfoGrid .familyBlock .mapButton:hover,
+.familySection .weddingDetails .detailBlock .mapButton:hover,
+.familySection .weddingDetails .familyBlock .mapButton:hover,
+.familySection .familyInfoGrid .detailBlock .mapButton:hover,
+.familySection .familyInfoGrid .familyBlock .mapButton:hover {
+  background-color: #f2a7a5;
+  transform: translateY(-2px);
+}
+
+/* --- Final Section --- */
+.finalSection {
+  background-color: #F8F5EE;
+  padding-bottom: 100px;
+}
+.finalSection .thankYouText {
+  font-family: "Dancing Script", cursive;
+  font-size: 2em;
+  margin-top: 50px;
+  color: #B8860B;
+}
+.visible .finalSection .thankYouText {
+  animation: fadeIn 1.5s ease-out forwards;
+  animation-delay: 0.5s;
+}
+.finalSection .signature {
+  font-family: "Allura", cursive;
+  font-size: 3.2em;
+  margin-top: 20px;
+  color: #B8860B;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
+}
+.visible .finalSection .signature {
+  animation: fadeInScale 1.5s ease-out forwards;
+  animation-delay: 1s;
+}
+
+/* --- Keyframe Animations --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slideInRight {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .weddingContainer {
+    width: 95%;
+    margin: 1rem 0;
+  }
+  .section {
+    padding: 50px 15px;
+  }
+  .introSection .introContent .coupleNames {
+    font-size: 4em;
+  }
+  .introSection .introContent .introText,
+  .introSection .introContent .invitePhrase,
+  .introSection .introContent .date {
+    font-size: 1.3em;
+  }
+  .sectionTitle {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+  }
+  .gallerySection .gallerySlider {
+    height: 350px;
+    width: 95%;
+  }
+  .weddingInfoSection .weddingDetails,
+  .weddingInfoSection .familyInfoGrid,
+  .familySection .weddingDetails,
+  .familySection .familyInfoGrid {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .weddingInfoSection .detailBlock,
+  .weddingInfoSection .familyBlock,
+  .familySection .detailBlock,
+  .familySection .familyBlock {
+    width: 90%;
+    padding: 20px;
+  }
+  .thankYouText {
+    font-size: 1.8em;
+  }
+  .signature {
+    font-size: 2.5em;
+  }
+}
+@media (max-width: 480px) {
+  .introSection .introContent .coupleNames {
+    font-size: 3em;
+  }
+  .introSection .introContent .introText,
+  .introSection .introContent .invitePhrase,
+  .introSection .introContent .date {
+    font-size: 1em;
+  }
+  .sectionTitle {
+    font-size: 1.8em;
+  }
+  .gallerySection .gallerySlider {
+    height: 250px;
+  }
+}/*# sourceMappingURL=3.module.css.map */
