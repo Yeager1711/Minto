@@ -7,7 +7,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
-import { formatTime } from 'app/Ultils/formatTime';
 import Image from 'next/image';
 import { Suspense } from 'react';
 import { TemplateWeddingData } from 'app/edit/template/[templateId]/EditTemplate';
