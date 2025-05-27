@@ -166,6 +166,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
         } catch (error) {
             console.error('Lỗi khi xử lý thanh toán:', error);
             alert('Lỗi khi xử lý thanh toán. Vui lòng thử lại.');
+           window.location.reload()
         } finally {
             setIsLoading(false);
         }
