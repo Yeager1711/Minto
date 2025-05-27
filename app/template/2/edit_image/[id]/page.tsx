@@ -12,7 +12,7 @@ import { Suspense } from 'react';
 import { TemplateWeddingData } from 'app/edit/template/[templateId]/EditTemplate';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
 import imagekit from 'app/lib/imagekit/imagekit';
-import { useApi } from '../../../../lib/apiContext/apiContext'; // Import useApi
+import { useApi } from '../../../../lib/apiContext/apiContext'; 
 import { showToastError } from 'app/Ultils/toast';
 
 interface Images {

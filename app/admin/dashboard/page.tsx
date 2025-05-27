@@ -202,19 +202,19 @@ const Dashboard: React.FC = () => {
         setLastRequestTime(Date.now());
     };
 
-    const mostUsedTemplate = React.useMemo(() => {
-        if (!apiData || apiData.templateUsage.length === 0) {
-            return { name: 'Không có dữ liệu', percentage: 0 };
-        }
+    // const mostUsedTemplate = React.useMemo(() => {
+    //     if (!apiData || apiData.templateUsage.length === 0) {
+    //         return { name: 'Không có dữ liệu', percentage: 0 };
+    //     }
 
-        const totalUsage = apiData.templateUsage.reduce((sum, template) => sum + template.usageCount, 0);
-        const mostUsed = apiData.templateUsage.reduce((max, template) =>
-            template.usageCount > max.usageCount ? template : max
-        );
-        const percentage = totalUsage > 0 ? (mostUsed.usageCount / totalUsage) * 100 : 0;
+    //     const totalUsage = apiData.templateUsage.reduce((sum, template) => sum + template.usageCount, 0);
+    //     const mostUsed = apiData.templateUsage.reduce((max, template) =>
+    //         template.usageCount > max.usageCount ? template : max
+    //     );
+    //     const percentage = totalUsage > 0 ? (mostUsed.usageCount / totalUsage) * 100 : 0;
 
-        return { name: mostUsed.templateName, percentage: percentage.toFixed(2) };
-    }, [apiData]);
+    //     return { name: mostUsed.templateName, percentage: percentage.toFixed(2) };
+    // }, [apiData]);
 
     const orderChartData: ChartData = React.useMemo(() => {
         if (!apiData) {
