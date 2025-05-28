@@ -335,6 +335,45 @@
     flex: 100%;
   }
 }
+.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section {
+  padding: 1rem;
+  background: #fff;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .date_section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 0.5rem;
+  max-width: 25rem;
+  width: 100%;
+  margin: auto;
+  font-size: 1.4rem;
+}
+.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .date_section__header svg {
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .flex_date_section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .flex_date_section .date span {
+  display: block;
+  text-align: center;
+  height: 1.8rem;
+  font-size: 1.3rem;
+  padding: 1rem 0.5rem;
+}
+.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .flex_date_section .date:nth-child(2) {
+  background: grey;
+  border-radius: 1rem;
+  color: #fff;
+}
 .dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .Revenue_box {
   background: rgba(255, 255, 255, 0.9);
   padding: 1.5rem;

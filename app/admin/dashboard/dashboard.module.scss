@@ -156,6 +156,8 @@
                 }
             }
 
+
+
             .wrapper_header {
                 display: flex;
                 gap: 1.5rem;
@@ -324,6 +326,55 @@
 
                     @media (max-width: 768px) {
                         flex: 100%;
+                    }
+
+                    .date_section {
+                        padding: 1rem;
+                        background: #fff;
+                        border-radius: 1rem;
+                        margin-bottom: 1rem;
+
+                        .date_section__header {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            text-align: center;
+                            padding: .5rem;
+                            max-width: 25rem;
+                            width: 100%;
+                            margin: auto;
+
+                            font-size: 1.4rem;
+
+                            svg {
+                                font-size: 1.8rem;
+                                cursor: pointer;
+                            }
+                        }
+
+                        .flex_date_section {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            margin-top: 3rem;
+
+                            .date {
+                                span {
+                                    display: block;
+                                    text-align: center;
+                                    height: 1.8rem;
+                                    font-size: 1.3rem;
+                                    padding: 1rem .5rem;
+
+                                }
+
+                                &:nth-child(2) {
+                                    background: grey;
+                                    border-radius: 1rem;
+                                    color: #fff;
+                                }
+                            }
+                        }
                     }
 
                     .Revenue_box {

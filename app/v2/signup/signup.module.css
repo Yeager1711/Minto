@@ -8,6 +8,7 @@
   z-index: 9999 !important;
   display: flex;
   animation: fadeIn 0.3s ease-out forwards;
+  min-height: 100vh;
 }
 .signUpPopupOverlay.animateIn {
   animation: fadeIn 0.3s ease-out forwards;

@@ -24,6 +24,8 @@ import {
     faCommentDots,
     faEdit,
     faPlus,
+    faChevronLeft,
+    faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './dashboard.module.css';
 import AddProduct from '../popup/add_template/addTemplates';
@@ -201,20 +203,6 @@ const Dashboard: React.FC = () => {
         setChartType((prev) => (prev === 'bar' ? 'polar' : 'bar'));
         setLastRequestTime(Date.now());
     };
-
-    // const mostUsedTemplate = React.useMemo(() => {
-    //     if (!apiData || apiData.templateUsage.length === 0) {
-    //         return { name: 'Không có dữ liệu', percentage: 0 };
-    //     }
-
-    //     const totalUsage = apiData.templateUsage.reduce((sum, template) => sum + template.usageCount, 0);
-    //     const mostUsed = apiData.templateUsage.reduce((max, template) =>
-    //         template.usageCount > max.usageCount ? template : max
-    //     );
-    //     const percentage = totalUsage > 0 ? (mostUsed.usageCount / totalUsage) * 100 : 0;
-
-    //     return { name: mostUsed.templateName, percentage: percentage.toFixed(2) };
-    // }, [apiData]);
 
     const orderChartData: ChartData = React.useMemo(() => {
         if (!apiData) {
@@ -518,6 +506,44 @@ const Dashboard: React.FC = () => {
                             </div>
                         </div>
                         <div className={styles.header__right}>
+                            <div className={styles.date_section}>
+                                <div className={styles.date_section__header}>
+                                    <FontAwesomeIcon icon={faChevronLeft} />
+                                    <span>May 27</span>
+                                    <FontAwesomeIcon icon={faChevronRight} />
+                                </div>
+
+                                <div className={styles.flex_date_section}>
+                                    <div className={styles.date}>
+                                        <span>Mon</span>
+                                        <span>26</span>
+                                    </div>
+
+                                    <div className={styles.date}>
+                                        <span>Tue</span>
+                                        <span>27</span> {/*  ngày hiện tại hôm nay là ngày 27/5/2025 */}
+                                    </div>
+
+                                    <div className={styles.date}>
+                                        <span>Wed</span>
+                                        <span>28</span>
+                                    </div>
+
+                                    <div className={styles.date}>
+                                        <span>Thu</span>
+                                        <span>29</span>
+                                    </div>
+                                    <div className={styles.date}>
+                                        <span>Fri</span>
+                                        <span>30</span>
+                                    </div>
+                                    <div className={styles.date}>
+                                        <span>Sat</span>
+                                        <span>31</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className={styles.Revenue_box} data-aos="fade-left">
                                 <h3>Doanh thu</h3>
                                 <div className={styles.chart}>

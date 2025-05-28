@@ -5,9 +5,10 @@
     left: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
-    z-index: 9999 !important;
+    z-index: 999999 !important;
     display: flex;
     animation: fadeIn 0.3s ease-out forwards;
+    min-height: 100vh;
 
     &.animateIn {
         animation: fadeIn 0.3s ease-out forwards;

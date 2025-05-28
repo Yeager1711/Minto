@@ -7,7 +7,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
-import { formatTime } from 'app/Ultils/formatTime';
 import { Suspense } from 'react';
 import { useApi } from 'app/lib/apiContext/apiContext';
 
@@ -216,6 +215,12 @@ function Mau2InviteeName() {
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
     }, []);
+
+    const formatTimeToHourMinute = (time: string) => {
+        if (!time || !time.includes(':')) return time; // Trả về nguyên gốc nếu không hợp lệ
+        const [hours, minutes] = time.split(':');
+        return `${hours}h${minutes}`;
+    };
 
     if (error) {
         return <div className={styles.error}>Lỗi: {error}</div>;
@@ -502,7 +507,7 @@ function Mau2InviteeName() {
                                         <span className={styles.time}>{weddingData.weddingDayOfWeek}</span>
                                         <div className={styles.column}>
                                             <span className={styles.dayOfWeek}>
-                                                {formatTime(weddingData.weddingTime)}
+                                                {formatTimeToHourMinute(weddingData.weddingTime)}
                                             </span>
                                             <span className={styles.day}>{weddingData.weddingDate.split('/')[0]}</span>
                                             <span className={styles.month}>

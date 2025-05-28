@@ -135,7 +135,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
                 const uploadResult = await uploadResponse.json();
                 if (uploadResult.success && uploadResult.data) {
                     // Giả sử API trả về danh sách URL và position
-                    uploadedImageUrls.push(...uploadResult.data); // Ví dụ: [{ url: "https://...", position: "main" }, ...]
+                    uploadedImageUrls.push(...uploadResult.data); 
                 } else {
                     throw new Error(uploadResult.message || 'Không thể upload hình ảnh');
                 }
