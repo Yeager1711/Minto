@@ -1,8 +1,10 @@
 'use client';
+
 import * as React from 'react';
 import {
     Chart as ChartJS,
     BarElement,
+    LineElement,
     PointElement,
     LinearScale,
     Title,
@@ -11,9 +13,9 @@ import {
     CategoryScale,
     ArcElement,
     RadialLinearScale,
-    TooltipItem, // Add this import
+    TooltipItem,
 } from 'chart.js';
-import { Bar, PolarArea } from 'react-chartjs-2';
+import { Bar, PolarArea, Line } from 'react-chartjs-2';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,6 +36,7 @@ import Skeleton from './Skeleton';
 // Register ChartJS components
 ChartJS.register(
     BarElement,
+    LineElement,
     PointElement,
     LinearScale,
     Title,
@@ -45,30 +48,68 @@ ChartJS.register(
 );
 
 // Interfaces
+interface DailyRevenue {
+    date: string;
+    totalAmount: number;
+}
+
+interface Revenue {
+    dailyRevenue: DailyRevenue[];
+    totalRevenue: number;
+}
+
+interface Payment {
+    paymentId: number;
+    paymentDate: string;
+    amount: number;
+}
+
+interface Template {
+    templateId: number;
+    templateName: string;
+}
+
+interface TemplateUsage extends Template {
+    usageCount: number;
+}
+
 interface ApiData {
-    revenue: {
-        dailyRevenue: { date: string; totalAmount: number }[];
-        totalRevenue: number;
-    };
+    revenue: Revenue;
     totalCanceledOrders: number;
-    completedPayments: { paymentId: number; paymentDate: string; amount: number }[];
-    canceledPayments?: { paymentId: number; paymentDate: string; amount: number }[];
+    completedPayments: Payment[];
+    canceledPayments?: Payment[];
     totalTemplates: number;
-    templateUsage: { templateId: number; templateName: string; usageCount: number }[];
-    allTemplates: { templateId: number; templateName: string }[];
+    templateUsage: TemplateUsage[];
+    allTemplates: Template[];
+}
+
+interface Dataset {
+    label: string;
+    data: number[];
+    backgroundColor: string | string[];
+    borderColor?: string;
+    borderRadius?: number;
+    fill?: boolean;
+    tension?: number;
 }
 
 interface ChartData {
     labels: string[];
-    datasets: {
-        label: string;
-        data: number[];
-        backgroundColor: string | string[];
-        borderRadius?: number | number[];
-    }[];
+    datasets: Dataset[];
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+interface WeekDay {
+    day: string;
+    date: number;
+    isCurrent: boolean;
+    fullDate: string;
+}
+
+const apiUrl: string | undefined = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+
+if (!apiUrl) {
+    throw new Error('NEXT_PUBLIC_APP_API_BASE_URL is not defined');
+}
 
 // Fetch statistics function
 const fetchStatistics = async (startDate: string, endDate: string): Promise<ApiData> => {
@@ -118,6 +159,50 @@ const getGreeting = (): string => {
     return 'Good Evening';
 };
 
+// Get month name from month number (0-based)
+const getMonthName = (month: number): string => {
+    const months: string[] = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ];
+    return months[month];
+};
+
+// Get day name from day number (0-based, Sunday = 0)
+const getDayName = (day: number): string => {
+    const days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    return days[day];
+};
+
+// Get days of the current week
+const getWeekDays = (baseDate: Date): WeekDay[] => {
+    const days: WeekDay[] = [];
+    const startOfWeek = new Date(baseDate);
+    startOfWeek.setDate(baseDate.getDate() - baseDate.getDay()); // Set to Sunday of the current week
+
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(startOfWeek);
+        date.setDate(startOfWeek.getDate() + i);
+        days.push({
+            day: getDayName(date.getDay()),
+            date: date.getDate(),
+            isCurrent: date.toDateString() === new Date().toDateString(),
+            fullDate: date.toISOString().split('T')[0],
+        });
+    }
+    return days;
+};
+
 const Dashboard: React.FC = () => {
     const [apiData, setApiData] = React.useState<ApiData | null>(null);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -127,7 +212,9 @@ const Dashboard: React.FC = () => {
     const [isAddProductOpen, setIsAddProductOpen] = React.useState<boolean>(false);
     const [serverStatus, setServerStatus] = React.useState<string>('sleeping');
     const [lastRequestTime, setLastRequestTime] = React.useState<number>(Date.now());
-    const [onlineSince, setOnlineSince] = React.useState<number | null>(null); // Thêm state để lưu thời gian chuyển sang online
+    const [onlineSince, setOnlineSince] = React.useState<number | null>(null);
+    const [currentDate, setCurrentDate] = React.useState<Date>(new Date());
+    const [selectedDate, setSelectedDate] = React.useState<string>(new Date().toISOString().split('T')[0]);
 
     React.useEffect(() => {
         AOS.init({
@@ -141,32 +228,34 @@ const Dashboard: React.FC = () => {
         const startDate = new Date();
         startDate.setDate(endDate.getDate() - 7);
 
-        const fetchData = async () => {
+        const fetchData = async (): Promise<void> => {
             try {
                 setIsLoading(true);
                 setServerStatus('rebuilding...');
                 setLastRequestTime(Date.now());
 
-                const data = await fetchStatistics(
+                const data: ApiData = await fetchStatistics(
                     startDate.toISOString().split('T')[0],
                     endDate.toISOString().split('T')[0]
                 );
                 setApiData(data);
                 setServerStatus('online');
-                setOnlineSince(Date.now()); // Lưu thời gian chuyển sang online
+                setOnlineSince(Date.now());
                 console.log('API Data:', data);
             } catch (error: unknown) {
                 const errorMessage = error instanceof Error ? error.message : 'Đã xảy ra lỗi khi tải dữ liệu';
                 console.error('Lỗi khi lấy dữ liệu:', error);
                 setError(errorMessage);
                 setServerStatus('sleeping');
-                setOnlineSince(null); // Reset onlineSince nếu có lỗi
+                setOnlineSince(null);
             } finally {
                 setIsLoading(false);
             }
         };
 
         fetchData();
+        const interval = setInterval(fetchData, 60000); // Cập nhật dữ liệu mỗi phút
+        return () => clearInterval(interval);
     }, []);
 
     React.useEffect(() => {
@@ -177,30 +266,26 @@ const Dashboard: React.FC = () => {
     }, []);
 
     React.useEffect(() => {
-        const checkServerStatus = () => {
+        const checkServerStatus = (): void => {
             const now = Date.now();
 
-            // Kiểm tra trạng thái không hoạt động chỉ khi serverStatus là "online"
-            if (serverStatus === 'online' && onlineSince) {
-                const timeSinceOnline = (now - onlineSince) / 1000; // Thời gian kể từ khi online (giây)
+            if (serverStatus === 'online' && onlineSince !== null) {
+                const timeSinceOnline = (now - onlineSince) / 1000;
+                const inactivityTime = (now - lastRequestTime) / 1000;
 
-                // Kiểm tra thời gian không hoạt động kể từ lastRequestTime
-                const inactivityTime = (now - lastRequestTime) / 1000; // Thời gian không có request (giây)
-
-                // Chuyển sang "sleeping" nếu đã online ít nhất 1 phút VÀ không có request trong 1 phút
                 if (timeSinceOnline >= 60 && inactivityTime >= 60) {
                     setServerStatus('sleeping');
-                    setOnlineSince(null); // Reset onlineSince khi chuyển sang sleeping
+                    setOnlineSince(null);
                 }
             }
         };
 
-        const interval = setInterval(checkServerStatus, 10000); // Kiểm tra mỗi 10 giây
+        const interval = setInterval(checkServerStatus, 10000);
         return () => clearInterval(interval);
     }, [lastRequestTime, serverStatus, onlineSince]);
 
-    const toggleChartType = () => {
-        setChartType((prev) => (prev === 'bar' ? 'polar' : 'bar'));
+    const toggleChartType = (): void => {
+        setChartType((prev: 'bar' | 'polar') => (prev === 'bar' ? 'polar' : 'bar'));
         setLastRequestTime(Date.now());
     };
 
@@ -209,31 +294,35 @@ const Dashboard: React.FC = () => {
             return { labels: [], datasets: [] };
         }
 
-        const last7Days = getLast7Days(new Date());
+        const last7Days: string[] = getLast7Days(new Date());
         const completedOrdersByDate: { [key: string]: number } = {};
         const canceledOrdersByDate: { [key: string]: number } = {};
 
-        last7Days.forEach((date) => {
+        last7Days.forEach((date: string) => {
             completedOrdersByDate[date] = 0;
             canceledOrdersByDate[date] = 0;
         });
 
-        apiData.completedPayments.forEach((payment) => {
-            const date = payment.paymentDate.split('T')[0];
+        apiData.completedPayments.forEach((payment: Payment) => {
+            const date: string = payment.paymentDate.split('T')[0];
             if (completedOrdersByDate[date] !== undefined) {
                 completedOrdersByDate[date]++;
             }
         });
 
         if (apiData.canceledPayments && apiData.canceledPayments.length > 0) {
-            apiData.canceledPayments.forEach((payment) => {
-                const date = payment.paymentDate.split('T')[0];
+            apiData.canceledPayments.forEach((payment: Payment) => {
+                const date: string = payment.paymentDate.split('T')[0];
                 if (canceledOrdersByDate[date] !== undefined) {
                     canceledOrdersByDate[date]++;
                 }
             });
         } else if (apiData.totalCanceledOrders > 0) {
-            canceledOrdersByDate['2025-05-24'] = apiData.totalCanceledOrders;
+            const canceledPerDay: number = Math.floor(apiData.totalCanceledOrders / 7);
+            last7Days.forEach((date: string) => {
+                canceledOrdersByDate[date] = canceledPerDay;
+            });
+            canceledOrdersByDate[last7Days[0]] += apiData.totalCanceledOrders % 7;
         }
 
         const chartData: ChartData = {
@@ -241,31 +330,37 @@ const Dashboard: React.FC = () => {
             datasets: [
                 {
                     label: 'Đơn hàng hoàn tất',
-                    data: last7Days.map((date) => completedOrdersByDate[date]),
-                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                    data: last7Days.map((date: string) => completedOrdersByDate[date]),
+                    backgroundColor: last7Days.map((date: string) =>
+                        date === selectedDate ? 'rgba(54, 162, 235, 0.8)' : 'rgba(54, 162, 235, 0.2)'
+                    ),
                     borderRadius: 6,
                 },
                 {
                     label: 'Đơn hàng bị hủy',
-                    data: last7Days.map((date) => canceledOrdersByDate[date]),
-                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    data: last7Days.map((date: string) => canceledOrdersByDate[date]),
+                    backgroundColor: last7Days.map((date: string) =>
+                        date === selectedDate ? 'rgba(255, 99, 132, 0.6)' : 'rgba(255, 99, 132, 0.1)'
+                    ),
                     borderRadius: 6,
                 },
             ],
         };
 
-        console.log('Order Chart Data:', chartData);
         return chartData;
-    }, [apiData]);
+    }, [apiData, selectedDate]);
 
     const templateChartData: ChartData = React.useMemo(() => {
         if (!apiData || apiData.templateUsage.length === 0) {
             return { labels: [], datasets: [] };
         }
 
-        const totalUsage = apiData.templateUsage.reduce((sum, template) => sum + template.usageCount, 0);
-        const labels = apiData.templateUsage.map((template) => template.templateName);
-        const data = apiData.templateUsage.map((template) =>
+        const totalUsage: number = apiData.templateUsage.reduce(
+            (sum: number, template: TemplateUsage) => sum + template.usageCount,
+            0
+        );
+        const labels: string[] = apiData.templateUsage.map((template: TemplateUsage) => template.templateName);
+        const data: number[] = apiData.templateUsage.map((template: TemplateUsage) =>
             totalUsage > 0 ? (template.usageCount / totalUsage) * 100 : 0
         );
 
@@ -286,7 +381,6 @@ const Dashboard: React.FC = () => {
             ],
         };
 
-        console.log('Template Chart Data:', chartData);
         return chartData;
     }, [apiData]);
 
@@ -295,56 +389,96 @@ const Dashboard: React.FC = () => {
             return { labels: [], datasets: [] };
         }
 
-        const last7Days = getLast7Days(new Date());
-        const revenueByDate: { [key: string]: number } = {};
+        const last7Days: string[] = getLast7Days(new Date());
+        const totalRevenueByDate: { [key: string]: number } = {};
+        const realRevenueByDate: { [key: string]: number } = {};
+        const virtualRevenueByDate: { [key: string]: number } = {};
 
-        last7Days.forEach((date) => {
-            revenueByDate[date] = 0;
+        last7Days.forEach((date: string) => {
+            totalRevenueByDate[date] = 0;
+            realRevenueByDate[date] = 0;
+            virtualRevenueByDate[date] = 0;
         });
 
-        apiData.revenue.dailyRevenue.forEach((revenue) => {
-            const date = revenue.date.split('T')[0];
-            if (revenueByDate[date] !== undefined) {
-                revenueByDate[date] = revenue.totalAmount;
+        // Calculate real revenue from completedPayments
+        apiData.completedPayments.forEach((payment: Payment) => {
+            const date: string = payment.paymentDate.split('T')[0];
+            if (realRevenueByDate[date] !== undefined) {
+                realRevenueByDate[date] += payment.amount;
+                totalRevenueByDate[date] += payment.amount;
             }
         });
+
+        // Calculate virtual revenue from canceledPayments
+        if (apiData.canceledPayments && apiData.canceledPayments.length > 0) {
+            apiData.canceledPayments.forEach((payment: Payment) => {
+                const date: string = payment.paymentDate.split('T')[0];
+                if (virtualRevenueByDate[date] !== undefined) {
+                    virtualRevenueByDate[date] += payment.amount;
+                    totalRevenueByDate[date] += payment.amount;
+                }
+            });
+        } else if (apiData.totalCanceledOrders > 0) {
+            // Fallback to totalCanceledOrders with assumed amount
+            const virtualPerDay: number = Math.floor(apiData.totalCanceledOrders / 7) * 99000;
+            last7Days.forEach((date: string) => {
+                virtualRevenueByDate[date] = virtualPerDay;
+                totalRevenueByDate[date] += virtualPerDay;
+            });
+            virtualRevenueByDate[last7Days[0]] += (apiData.totalCanceledOrders % 7) * 99000;
+            totalRevenueByDate[last7Days[0]] += (apiData.totalCanceledOrders % 7) * 99000;
+        }
 
         const chartData: ChartData = {
             labels: last7Days,
             datasets: [
                 {
-                    label: 'Doanh thu (VNĐ)',
-                    data: last7Days.map((date) => revenueByDate[date]),
-                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
-                    borderRadius: 5,
+                    label: 'Tổng doanh thu',
+                    data: last7Days.map((date: string) => totalRevenueByDate[date]),
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    tension: 0.4,
+                },
+                {
+                    label: 'Doanh thu thật',
+                    data: last7Days.map((date: string) => realRevenueByDate[date]),
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                    tension: 0.4,
+                },
+                {
+                    label: 'Doanh thu ảo',
+                    data: last7Days.map((date: string) => virtualRevenueByDate[date]),
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true,
+                    tension: 0.4,
                 },
             ],
         };
 
         return chartData;
-    }, [apiData]);
+    }, [apiData, selectedDate]);
 
     const chartOptions = {
         responsive: true,
         plugins: {
-            legend: {
-                display: true,
-            },
+            legend: { display: true },
             title: {
                 display: true,
-                text: chartType === 'bar' ? 'Trạng thái đơn hàng' : 'Tỷ lệ sử dụng Template (%)',
+                text: chartType === 'bar' ? 'Trạng thái đơn hàng 7 ngày' : 'Tỷ lệ sử dụng Template (%)',
             },
             tooltip: {
                 callbacks: {
-                    label: (context: TooltipItem<'bar' | 'polarArea'>) => {
+                    label: (context: TooltipItem<'bar' | 'polarArea'>): string => {
                         if (context.dataset.label) {
                             if (chartType === 'polar') {
-                                // Safely convert parsed to number via unknown
                                 const value = context.parsed as unknown as number;
                                 return `${context.dataset.label}: ${value.toFixed(2)}%`;
                             }
-                            // For bar, access the y value
-                            const value = (context.parsed as unknown as { y: number }).y;
+                            const value = (context.parsed as { y: number }).y;
                             return `${context.dataset.label}: ${value}`;
                         }
                         return 'No label available';
@@ -352,35 +486,20 @@ const Dashboard: React.FC = () => {
                 },
             },
         },
-        scales:
-            chartType === 'bar'
-                ? {
-                      y: {
-                          beginAtZero: true,
-                          ticks: {
-                              stepSize: 1,
-                          },
-                      },
-                  }
-                : undefined,
+        scales: chartType === 'bar' ? { y: { beginAtZero: true, ticks: { stepSize: 1 } } } : undefined,
     };
 
     const revenueChartOptions = {
         responsive: true,
         plugins: {
-            legend: {
-                display: false,
-            },
-            title: {
-                display: true,
-                text: 'Doanh thu 7 ngày qua',
-            },
+            legend: { display: true },
+            title: { display: true, text: 'Doanh thu 7 ngày qua' },
         },
         scales: {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    callback: (tickValue: string | number) =>
+                    callback: (tickValue: string | number): string =>
                         typeof tickValue === 'number' ? `${tickValue.toLocaleString()} VNĐ` : tickValue,
                 },
             },
@@ -395,6 +514,31 @@ const Dashboard: React.FC = () => {
     const closeAddProductPopup = (): void => {
         setIsAddProductOpen(false);
     };
+
+    const handlePrevMonth = (): void => {
+        const newDate = new Date(currentDate);
+        newDate.setMonth(newDate.getMonth() - 1);
+        setCurrentDate(newDate);
+        setLastRequestTime(Date.now());
+    };
+
+    const handleNextMonth = (): void => {
+        const newDate = new Date(currentDate);
+        newDate.setMonth(newDate.getMonth() + 1);
+        setCurrentDate(newDate);
+        setLastRequestTime(Date.now());
+    };
+
+    const handleDateSelect = (fullDate: string): void => {
+        setSelectedDate(fullDate);
+        setLastRequestTime(Date.now());
+    };
+
+    const formatHeaderDate = (date: Date): string => {
+        return `${getMonthName(date.getMonth())} ${date.getFullYear()}`;
+    };
+
+    const weekDays: WeekDay[] = getWeekDays(currentDate);
 
     return (
         <div className={styles.dashboard}>
@@ -458,14 +602,14 @@ const Dashboard: React.FC = () => {
                                     <div className={styles.list_of_responses}>
                                         {isLoading ? (
                                             <>
-                                                {Array.from({ length: 3 }).map((_, index) => (
+                                                {Array.from({ length: 3 }).map((_, index: number) => (
                                                     <div key={index} className={styles.response_item}>
                                                         <Skeleton type="box" />
                                                     </div>
                                                 ))}
                                             </>
                                         ) : apiData && apiData.completedPayments.length > 0 ? (
-                                            apiData.completedPayments.slice(0, 5).map((payment) => (
+                                            apiData.completedPayments.slice(0, 5).map((payment: Payment) => (
                                                 <div key={payment.paymentId} className={styles.response_item}>
                                                     <span>
                                                         Success {payment.paymentId} -{' '}
@@ -489,13 +633,12 @@ const Dashboard: React.FC = () => {
                                         <p style={{ color: 'red' }}>{apiData?.totalCanceledOrders ?? 0}</p>
                                     )}
                                     <h3>Server status</h3>
-
                                     <p
                                         style={{
                                             color:
                                                 serverStatus === 'online'
                                                     ? 'green'
-                                                    : serverStatus === 'rebuilding... '
+                                                    : serverStatus === 'rebuilding...'
                                                       ? 'orange'
                                                       : 'gray',
                                         }}
@@ -508,39 +651,24 @@ const Dashboard: React.FC = () => {
                         <div className={styles.header__right}>
                             <div className={styles.date_section}>
                                 <div className={styles.date_section__header}>
-                                    <FontAwesomeIcon icon={faChevronLeft} />
-                                    <span>May 27</span>
-                                    <FontAwesomeIcon icon={faChevronRight} />
+                                    <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevMonth} />
+                                    <span>{formatHeaderDate(currentDate)}</span>
+                                    <FontAwesomeIcon icon={faChevronRight} onClick={handleNextMonth} />
                                 </div>
 
                                 <div className={styles.flex_date_section}>
-                                    <div className={styles.date}>
-                                        <span>Mon</span>
-                                        <span>26</span>
-                                    </div>
-
-                                    <div className={styles.date}>
-                                        <span>Tue</span>
-                                        <span>27</span> {/*  ngày hiện tại hôm nay là ngày 27/5/2025 */}
-                                    </div>
-
-                                    <div className={styles.date}>
-                                        <span>Wed</span>
-                                        <span>28</span>
-                                    </div>
-
-                                    <div className={styles.date}>
-                                        <span>Thu</span>
-                                        <span>29</span>
-                                    </div>
-                                    <div className={styles.date}>
-                                        <span>Fri</span>
-                                        <span>30</span>
-                                    </div>
-                                    <div className={styles.date}>
-                                        <span>Sat</span>
-                                        <span>31</span>
-                                    </div>
+                                    {weekDays.map((day: WeekDay, index: number) => (
+                                        <div
+                                            key={index}
+                                            className={`${styles.date} ${day.isCurrent ? styles.currentDate : ''} ${
+                                                day.fullDate === selectedDate ? styles.selectedDate : ''
+                                            }`}
+                                            onClick={() => handleDateSelect(day.fullDate)}
+                                        >
+                                            <span>{day.day}</span>
+                                            <span>{day.date}</span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
 
@@ -550,7 +678,7 @@ const Dashboard: React.FC = () => {
                                     {isLoading ? (
                                         <Skeleton type="chart" />
                                     ) : apiData ? (
-                                        <Bar data={revenueChartData} options={revenueChartOptions} />
+                                        <Line data={revenueChartData} options={revenueChartOptions} />
                                     ) : (
                                         <p>Không có dữ liệu để hiển thị</p>
                                     )}
@@ -567,7 +695,12 @@ const Dashboard: React.FC = () => {
                                     {isLoading ? (
                                         <Skeleton type="small" />
                                     ) : (
-                                        <p>{apiData?.templateUsage.reduce((sum, t) => sum + t.usageCount, 0) ?? 0}</p>
+                                        <p>
+                                            {apiData?.templateUsage.reduce(
+                                                (sum: number, t: TemplateUsage) => sum + t.usageCount,
+                                                0
+                                            ) ?? 0}
+                                        </p>
                                     )}
                                 </div>
                             </div>
@@ -587,14 +720,14 @@ const Dashboard: React.FC = () => {
                                 <div className={styles.template_wrapper_item}>
                                     {isLoading ? (
                                         <>
-                                            {Array.from({ length: 3 }).map((_, index) => (
+                                            {Array.from({ length: 3 }).map((_, index: number) => (
                                                 <span key={index} className={styles.template_item}>
                                                     <Skeleton type="small" />
                                                 </span>
                                             ))}
                                         </>
                                     ) : apiData && apiData.allTemplates.length > 0 ? (
-                                        apiData.allTemplates.map((template) => (
+                                        apiData.allTemplates.map((template: Template) => (
                                             <span key={template.templateId} className={styles.template_item}>
                                                 {template.templateName}
                                             </span>

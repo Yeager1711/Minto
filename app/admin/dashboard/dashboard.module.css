@@ -360,19 +360,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 .dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .flex_date_section .date span {
   display: block;
   text-align: center;
-  height: 1.8rem;
   font-size: 1.3rem;
   padding: 1rem 0.5rem;
+  cursor: pointer;
 }
-.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .flex_date_section .date:nth-child(2) {
-  background: grey;
+.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .flex_date_section .currentDate {
+  background-color: grey;
   border-radius: 1rem;
-  color: #fff;
+  padding: 0.5rem;
+  color: #fff !important;
+  font-weight: 660;
+}
+.dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .date_section .flex_date_section .selectedDate {
+  background-color: #b4d9f7;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  color: #333;
+  font-weight: 660;
 }
 .dashboard .dashboard_wrapper .main_content .wrapper_header .header__right .Revenue_box {
   background: rgba(255, 255, 255, 0.9);
