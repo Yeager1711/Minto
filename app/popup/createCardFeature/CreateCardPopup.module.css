@@ -1,0 +1,341 @@
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999 !important;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  -webkit-backdrop-filter: blur(1.5rem);
+          backdrop-filter: blur(1.5rem);
+  /* Responsive styles */
+}
+.popupOverlay.animateIn {
+  opacity: 1;
+}
+.popupOverlay .popupContainer {
+  width: 100%;
+  max-width: 90rem;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease-in-out;
+}
+.popupOverlay .popupContainer.animateContainerIn {
+  transform: scale(1);
+}
+.popupOverlay .popupContainer .wrapper {
+  height: 60rem;
+  overflow: auto;
+  background: rgba(245, 242, 233, 0.5);
+  padding: 2rem;
+  border-radius: 2rem;
+}
+.popupOverlay .popupContainer .wrapper::-webkit-scrollbar {
+  display: none;
+}
+.popupOverlay .popupContainer .wrapper .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.popupOverlay .popupContainer .wrapper .header .brand {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+.popupOverlay .popupContainer .wrapper .header .closeButton {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popupOverlay .popupContainer .wrapper .header .closeButton:hover {
+  color: #000;
+}
+.popupOverlay .popupContainer .wrapper .title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+.popupOverlay .popupContainer .wrapper .content {
+  display: flex;
+  gap: 2rem;
+}
+.popupOverlay .popupContainer .wrapper .content .left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.popupOverlay .popupContainer .wrapper .content .left .description h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+.popupOverlay .popupContainer .wrapper .content .left .description p {
+  font-size: 1.4rem;
+  color: #333;
+  line-height: 1.6;
+}
+.popupOverlay .popupContainer .wrapper .content .left .form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.popupOverlay .popupContainer .wrapper .content .left .form .error {
+  color: #ff4d4d;
+  font-size: 1.2rem;
+  text-align: center;
+}
+.popupOverlay .popupContainer .wrapper .content .left .form .inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.popupOverlay .popupContainer .wrapper .content .left .form .inputWrapper .inputField {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.popupOverlay .popupContainer .wrapper .content .left .form .inputWrapper .inputField .input {
+  width: 100%;
+  padding: 1.5rem 1.5rem 1.5rem 4rem;
+  border: none;
+  border-radius: 1rem;
+  background: #fff;
+  font-size: 16px;
+  color: #333;
+  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+}
+.popupOverlay .popupContainer .wrapper .content .left .form .inputWrapper .inputField .input:focus {
+  outline: none;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+.popupOverlay .popupContainer .wrapper .content .left .form .inputWrapper .inputField .input[type=text] {
+  background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>') no-repeat 0.625rem center;
+  background-size: 1.8rem;
+}
+.popupOverlay .popupContainer .wrapper .content .left .form .inputWrapper .inputField select.input {
+  background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat 0.625rem center;
+  background-size: 1.8rem;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  padding-right: 4rem;
+}
+.popupOverlay .popupContainer .wrapper .content .right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popupOverlay .popupContainer .wrapper .content .right .bank_card {
+  height: 20rem;
+  max-width: 45rem;
+  width: 100%;
+  background: linear-gradient(135deg, #111111, #1a1a1a, #222222);
+  border-radius: 1rem;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.popupOverlay .popupContainer .wrapper .content .right .bank_card::before {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  right: 15%;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: #f50e41;
+  z-index: 2;
+}
+.popupOverlay .popupContainer .wrapper .content .right .bank_card::after {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  right: 7%;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: #f39f2f;
+  z-index: 2;
+}
+.popupOverlay .popupContainer .wrapper .content .right .bank_card h2 {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  z-index: 2;
+  font-size: 2rem;
+  color: #fff;
+}
+.popupOverlay .popupContainer .wrapper .content .right .bank_card h3,
+.popupOverlay .popupContainer .wrapper .content .right .bank_card .bankLogo {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 2;
+  font-size: 1.3rem;
+  color: #fff;
+  border-radius: 1rem;
+}
+.popupOverlay .popupContainer .wrapper .content .right .bank_card h4 {
+  position: absolute;
+  bottom: 1rem;
+  left: 2rem;
+  z-index: 2;
+  font-size: 1.5rem;
+  color: #fff;
+}
+.popupOverlay .popupContainer .wrapper .footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.popupOverlay .popupContainer .wrapper .footer .submitButton {
+  align-self: center;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  max-width: 20rem;
+  width: 100%;
+  height: 4rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popupOverlay .popupContainer .wrapper .footer .submitButton svg {
+  margin-left: 0.5rem;
+}
+.popupOverlay .popupContainer .wrapper .footer .submitButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+@media (max-width: 768px) {
+  .popupOverlay .popupContainer {
+    max-width: 90%;
+  }
+  .popupOverlay .content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .popupOverlay .content .left,
+  .popupOverlay .content .right {
+    flex: none;
+    width: 100%;
+  }
+  .popupOverlay .content .right .bank_card {
+    max-width: 100%;
+    height: 18rem;
+  }
+  .popupOverlay .content .right .bank_card h2 {
+    font-size: 1.8rem;
+  }
+  .popupOverlay .content .right .bank_card h3 {
+    font-size: 1.2rem;
+  }
+  .popupOverlay .content .right .bank_card h4 {
+    font-size: 1.4rem;
+  }
+  .popupOverlay .title {
+    font-size: 2rem;
+  }
+  .popupOverlay .header .brand {
+    font-size: 1.8rem;
+  }
+  .popupOverlay .header .closeButton {
+    font-size: 1.8rem;
+  }
+  .popupOverlay .description h3 {
+    font-size: 1.6rem;
+  }
+  .popupOverlay .description p {
+    font-size: 1.3rem;
+  }
+  .popupOverlay .form .inputWrapper .inputField .input {
+    font-size: 14px;
+    padding: 1.2rem 1.2rem 1.2rem 3.5rem;
+    background-size: 1.6rem;
+  }
+  .popupOverlay .form .inputWrapper .inputField select.input {
+    padding-right: 3.5rem;
+  }
+  .popupOverlay .footer .submitButton {
+    max-width: 15rem;
+    height: 3.5rem;
+    font-size: 1.3rem;
+  }
+}
+@media (max-width: 480px) {
+  .popupOverlay .popupContainer {
+    max-width: 95%;
+    padding: 1rem;
+  }
+  .popupOverlay .wrapper {
+    padding: 1.5rem;
+  }
+  .popupOverlay .title {
+    font-size: 1.8rem;
+  }
+  .popupOverlay .header .brand {
+    font-size: 1.6rem;
+  }
+  .popupOverlay .header .closeButton {
+    font-size: 1.6rem;
+  }
+  .popupOverlay .content {
+    gap: 1rem;
+  }
+  .popupOverlay .content .right .bank_card {
+    height: 16rem;
+  }
+  .popupOverlay .content .right .bank_card h2 {
+    font-size: 1.6rem;
+  }
+  .popupOverlay .content .right .bank_card h3 {
+    font-size: 1.1rem;
+  }
+  .popupOverlay .content .right .bank_card h4 {
+    font-size: 1.3rem;
+  }
+  .popupOverlay .content .right .bank_card::before, .popupOverlay .content .right .bank_card::after {
+    width: 4rem;
+    height: 4rem;
+  }
+  .popupOverlay .description h3 {
+    font-size: 1.4rem;
+  }
+  .popupOverlay .description p {
+    font-size: 1.2rem;
+  }
+  .popupOverlay .form .inputWrapper .inputField .input {
+    font-size: 13px;
+    padding: 1rem 1rem 1rem 3rem;
+    background-size: 1.4rem;
+  }
+  .popupOverlay .form .inputWrapper .inputField select.input {
+    padding-right: 3rem;
+  }
+  .popupOverlay .form .footer .submitButton {
+    max-width: 12rem;
+    height: 3rem;
+    font-size: 1.2rem;
+  }
+}/*# sourceMappingURL=CreateCardPopup.module.css.map */
