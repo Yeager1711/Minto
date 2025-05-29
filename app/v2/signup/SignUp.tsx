@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './signup.module.scss';
-import { useApi } from '../../lib/apiContext/apiContext'; // Import useApi
+import { useApi } from '../../lib/apiContext/apiContext';
 
 interface RegisterPopupProps {
     isOpen: boolean;
@@ -17,7 +17,7 @@ const SignUpPopup: React.FC<RegisterPopupProps> = ({ isOpen, onClose, onSubmit }
     const [error, setError] = useState('');
     const [isAnimatingOut, setIsAnimatingOut] = useState(false);
     const wasOpenedRef = useRef(false);
-    const { register } = useApi(); // Use the register method from context
+    const { register } = useApi();
 
     useEffect(() => {
         if (isOpen) {
@@ -28,14 +28,14 @@ const SignUpPopup: React.FC<RegisterPopupProps> = ({ isOpen, onClose, onSubmit }
             setPassword('');
             setConfirmPassword('');
             setError('');
-        } else if (wasOpenedRef.current && !isAnimatingOut) {
+        } else if (wasOpenedRef.current) {
             setIsAnimatingOut(true);
             const timer = setTimeout(() => {
                 setIsAnimatingOut(false);
             }, 300);
             return () => clearTimeout(timer);
         }
-    }, [isOpen, isAnimatingOut]); // Thêm isAnimatingOut vào mảng phụ thuộc
+    }, [isOpen]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,7 +55,6 @@ const SignUpPopup: React.FC<RegisterPopupProps> = ({ isOpen, onClose, onSubmit }
             onSubmit({ email, password, confirmPassword });
             onClose();
         } catch (err: unknown) {
-            // Kiểm tra kiểu an toàn
             const errorMessage = err instanceof Error ? err.message : 'Đăng ký thất bại';
             setError(errorMessage);
         }

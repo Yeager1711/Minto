@@ -1,144 +1,167 @@
 .loginPopupOverlay {
   position: fixed;
   top: 0;
-  right: 0;
   left: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 999999 !important;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  /* Fallback for browsers without backdrop-filter support */
   display: flex;
-  animation: fadeIn 0.3s ease-out forwards;
-  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999 !important;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  -webkit-backdrop-filter: blur(1.5rem);
+          backdrop-filter: blur(1.5rem);
 }
 .loginPopupOverlay.animateIn {
-  animation: fadeIn 0.3s ease-out forwards;
-}
-.loginPopupOverlay:not(.animateIn) {
-  animation: fadeOut 0.3s ease-in forwards;
+  opacity: 1;
 }
 .loginPopupOverlay .loginPopupContainer {
-  margin: auto;
-  background: #fff;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  max-width: 50rem;
-  width: 85%;
-  transform-origin: center bottom;
-  animation: slideUpAndExpand 0.3s ease-out forwards;
+  width: 95%;
+  max-width: 45rem;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease-in-out;
 }
 .loginPopupOverlay .loginPopupContainer.animateContainerIn {
-  animation: slideUpAndExpand 0.3s ease-out forwards;
+  transform: scale(1);
 }
-.loginPopupOverlay .loginPopupContainer:not(.animateContainerIn) {
-  animation: slideDownAndShrink 0.3s ease-in forwards;
+.loginPopupOverlay .loginPopupContainer .wrapper_header {
+  background: rgba(245, 242, 233, 0.5);
+  padding: 2rem;
+  border-radius: 2rem;
 }
-.loginPopupOverlay .loginPopupContainer h2 {
-  margin: 0;
-  padding: 0;
-  font-size: 2rem;
-}
-.loginPopupOverlay .loginPopupContainer .loginPopupError {
-  color: red;
-  font-size: 1.3rem;
-}
-.loginPopupOverlay .loginPopupContainer form {
-  margin-top: 2rem;
-}
-.loginPopupOverlay .loginPopupContainer form .loginPopupField {
-  position: relative;
-  padding: 1rem 1.5rem;
-  border: 0.1rem solid #dbdbdb;
-  margin-bottom: 4rem;
-  border-radius: 0.5rem;
-}
-.loginPopupOverlay .loginPopupContainer form .loginPopupField:nth-child(2) {
-  margin-bottom: 1rem;
-}
-.loginPopupOverlay .loginPopupContainer form .loginPopupField .loginPopupLabel {
-  position: absolute;
-  left: 1rem;
-  top: -1.2rem;
-  padding: 0.5rem 1rem;
-  background: #fff;
-  font-size: 1.4rem;
-}
-.loginPopupOverlay .loginPopupContainer form .loginPopupField .loginPopupInput {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1.4rem;
-  border: none;
-  outline: none;
-}
-.loginPopupOverlay .loginPopupContainer form .loginPopupActions {
+.loginPopupOverlay .loginPopupContainer .wrapper_header .header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 2rem;
+  margin-bottom: 5rem;
 }
-.loginPopupOverlay .loginPopupContainer form .loginPopupActions .loginPopupButton {
-  padding: 0.8rem 3rem;
-  font-size: 1.3rem;
-  color: #fff;
-  border-radius: 0.5rem;
+.loginPopupOverlay .loginPopupContainer .wrapper_header .header .brand {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .header .signUpButton {
+  background: none;
   border: none;
-  cursor: pointer;
-}
-.loginPopupOverlay .loginPopupContainer form .loginPopupActions .loginPopupButton.loginPopupButtonCancel {
-  background: #dbdbdb;
-}
-.loginPopupOverlay .loginPopupContainer form .loginPopupActions .loginPopupButton.loginPopupButtonSubmit {
-  background-color: #ff7d55;
-}
-.loginPopupOverlay .loginPopupContainer form .loginPopupActions .loginPopupButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.loginPopupOverlay .loginPopupContainer .registerLink {
-  margin-top: 1rem;
-  margin-bottom: 3rem;
-  font-size: 1.3rem;
-}
-.loginPopupOverlay .loginPopupContainer .registerLink .registerLinkText {
-  color: #3b82f6;
+  color: #333;
+  font-size: 1.6rem;
   cursor: pointer;
   text-decoration: underline;
 }
-.loginPopupOverlay .loginPopupContainer .registerLink .registerLinkText:hover {
-  color: #1d4ed8;
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .loginError {
+  color: #ff4d4d;
+  font-size: 1.2rem;
+  text-align: center;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput {
+  width: 100%;
+  padding: 1.5rem 1.5rem 1.5rem 4rem;
+  border: none;
+  border-radius: 1rem;
+  background: #fff;
+  font-size: 16px;
+  color: #333;
+  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput:focus {
+  outline: none;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=email] {
+  background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 12.713l11.99-7.163A2 2 0 0022 4H2a2 2 0 00-1.99 1.55L12 12.713zM12 14.287L0 7.163V18a2 2 0 002 2h20a2 2 0 002-2V7.163l-12 7.124z"/></svg>') no-repeat 0.625rem center;
+  background-size: 1.8rem;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=password] {
+  background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 17a2 2 0 01-2-2 2 2 0 012-2 2 2 0 012 2 2 2 0 01-2 2zm6-9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8a2 2 0 012-2h1V7a5 5 0 0110 0v3h1zm-6-5a3 3 0 00-3 3v3h6V7a3 3 0 00-3-3z"/></svg>') no-repeat 0.625rem center;
+  background-size: 1.8rem;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap-reverse;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer span {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  width: 100%;
+  text-align: center;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer .loginSubmit {
+  align-self: center;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  max-width: 20rem;
+  width: 100%;
+  text-align: end;
+  height: 4rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer .loginSubmit svg {
+  margin-left: 0.5rem;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer .loginSubmit:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.newSection {
+  background: #000;
+  color: #fff;
+  border-radius: 0.9375rem;
+  padding: 0.9375rem;
+  margin-top: 1.25rem;
+  text-align: center;
 }
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+.newSection h3 {
+  font-size: 0.875rem;
+  margin-bottom: 0.3125rem;
 }
-@keyframes slideUpAndExpand {
-  from {
-    transform: translateY(100vh) scale(0);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+.newSection h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.625rem;
 }
-@keyframes slideDownAndShrink {
-  from {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(100vh) scale(0);
-    opacity: 0;
-  }
+
+.discoverButton {
+  background: none;
+  border: 0.0625rem solid #fff;
+  border-radius: 1.5625rem;
+  color: #fff;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  cursor: pointer;
 }/*# sourceMappingURL=login.module.css.map */

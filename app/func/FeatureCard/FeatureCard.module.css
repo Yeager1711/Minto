@@ -1,0 +1,99 @@
+.card {
+  padding: 2rem;
+  margin: 1.5rem 0;
+}
+.card:hover {
+  transform: translateY(-0.3125rem);
+}
+.card .card_wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+.card .card_wrapper .card_left {
+  flex: 1;
+}
+.card .card_wrapper .card_left h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+.card .card_wrapper .card_left span {
+  display: block;
+  font-size: 1.3rem;
+  color: #34495e;
+  line-height: 1.5;
+  padding: 0.5rem 0;
+}
+.card .card_wrapper .card_right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card .card_wrapper .card_right .bank_card {
+  height: 20rem;
+  max-width: 38rem;
+  width: 95%;
+  background: #111;
+  border-radius: 1rem;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.card .card_wrapper .card_right .bank_card::before {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  right: 15%;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: #f50e41;
+  z-index: 2;
+}
+.card .card_wrapper .card_right .bank_card::after {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  right: 7%;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: #f39f2f;
+  z-index: 2;
+}
+.card .card_wrapper .card_right .bank_card h2 {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  z-index: 2;
+  font-size: 2rem;
+  color: #fff;
+}
+.card .card_wrapper .card_right .bank_card h3 {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 2;
+  font-size: 1.3rem;
+  color: #fff;
+}
+.card .card_wrapper .card_right .bank_card h4 {
+  position: absolute;
+  bottom: 1rem;
+  left: 2rem;
+  z-index: 2;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+@media (max-width: 48rem) {
+  .card_wrapper {
+    flex-direction: column;
+  }
+  .card_wrapper .card_right {
+    margin-top: 1.25rem;
+  }
+}/*# sourceMappingURL=FeatureCard.module.css.map */

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import LoginPopup from '../../../v2/login/Login';
 import SignUpPopup from '../../../v2/signup/SignUp';
-import UserPopup from '../../../popup/UserPopup/UserPopup'; // Import the new UserPopup component
+import UserPopup from '../../../popup/UserPopup/UserPopup';
 
 const cx = classNames.bind(styles);
 
@@ -23,10 +23,9 @@ function Header() {
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
     const [isNavBoxOpen, setIsNavBoxOpen] = useState(false);
     const [isUserPopupOpen, setIsUserPopupOpen] = useState(false);
-    const [accessToken, setAccessToken] = useState(''); // Simulate access token
+    const [accessToken, setAccessToken] = useState('');
 
     useEffect(() => {
-        // Simulate checking access token (replace with actual auth logic)
         const token = localStorage.getItem('accessToken') || '';
         setAccessToken(token);
     }, []);
@@ -36,13 +35,19 @@ function Header() {
         setIsRegisterOpen(true);
     };
 
+    const handleOpenLoginFromRegister = () => {
+        setIsRegisterOpen(false);
+        setIsLoginOpen(true); // Mở lại LoginPopup khi đóng SignUpPopup
+    };
+
     const toggleNavBox = () => {
         setIsNavBoxOpen(!isNavBoxOpen);
     };
 
     const handleOpenLogin = () => {
+        console.log('handleOpenLogin called', { accessToken, isLoginOpen });
         if (!accessToken) {
-            setIsLoginOpen(true);
+            setIsLoginOpen(true); // Luôn đặt isLoginOpen thành true
         } else {
             setIsUserPopupOpen(true);
         }
@@ -96,7 +101,6 @@ function Header() {
                 </div>
             </div>
             <LoginPopup
-                key={`login-popup-${isLoginOpen}`}
                 isOpen={isLoginOpen}
                 onClose={() => setIsLoginOpen(false)}
                 onOpenRegister={handleOpenRegister}
@@ -107,7 +111,7 @@ function Header() {
             />
             <SignUpPopup
                 isOpen={isRegisterOpen}
-                onClose={() => setIsRegisterOpen(false)}
+                onClose={handleOpenLoginFromRegister} // Mở lại LoginPopup khi đóng
                 onSubmit={(data) => console.log('Register data:', data)}
             />
         </aside>

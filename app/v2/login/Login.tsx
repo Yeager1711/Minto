@@ -1,7 +1,9 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './login.module.scss';
-import { useApi } from '../../lib/apiContext/apiContext'; // Import useApi
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useApi } from '../../lib/apiContext/apiContext';
 
 interface LoginPopupProps {
     isOpen: boolean;
@@ -15,7 +17,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isAnimatingOut, setIsAnimatingOut] = useState(false);
-    const [isLoading, setIsLoading] = useState(false); 
+    const [isLoading, setIsLoading] = useState(false);
     const wasOpenedRef = useRef(false);
     const { login } = useApi();
 
@@ -26,36 +28,32 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             setEmail('');
             setPassword('');
             setError('');
-        } else if (wasOpenedRef.current && !isAnimatingOut) {
+        } else if (wasOpenedRef.current) {
             setIsAnimatingOut(true);
             const timer = setTimeout(() => {
                 setIsAnimatingOut(false);
             }, 300);
             return () => clearTimeout(timer);
         }
-    }, [isOpen, isAnimatingOut]); // Thêm isAnimatingOut vào mảng phụ thuộc
+    }, [isOpen]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!email || !password) {
             setError('Vui lòng điền đầy đủ tất cả các trường');
-            console.log(`Đăng nhập thất bại với email: ${email}`);
             return;
         }
         setError('');
-        setIsLoading(true); // Bật trạng thái đang tải
+        setIsLoading(true);
         try {
             const response = await login({ email, password });
-            console.log(`Đăng nhập thành công với email: ${email}`);
             onLoginSuccess(response.accessToken);
             onClose();
         } catch (err: unknown) {
-            // Kiểm tra kiểu an toàn
             const errorMessage = err instanceof Error ? err.message : 'Đăng nhập thất bại';
             setError(errorMessage);
-            console.log(`Đăng nhập thất bại với email: ${email}`);
         } finally {
-            setIsLoading(false); // Tắt trạng thái đang tải
+            setIsLoading(false);
         }
     };
 
@@ -75,60 +73,65 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             <div
                 className={`${styles.loginPopupContainer} ${isOpen && !isAnimatingOut ? styles.animateContainerIn : ''}`}
             >
-                <h2 className={styles.loginPopupTitle}>Đăng nhập tài khoản</h2>
-                {error && <p className={styles.loginPopupError}>{error}</p>}
-                <form onSubmit={handleSubmit}>
-                    <div className={styles.loginPopupField}>
-                        <label className={styles.loginPopupLabel} htmlFor="email">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className={styles.loginPopupInput}
-                            required
-                        />
-                    </div>
-                    <div className={styles.loginPopupField}>
-                        <label className={styles.loginPopupLabel} htmlFor="password">
-                            Mật khẩu
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={styles.loginPopupInput}
-                            required
-                        />
-                    </div>
-
-                    <p className={styles.registerLink}>
-                        Nếu chưa có tài khoản,{' '}
-                        <span onClick={onOpenRegister} className={styles.registerLinkText}>
+                <div className={styles.wrapper_header}>
+                    <div className={styles.header}>
+                        <span className={styles.brand}>Minto</span>
+                        <button
+                            className={styles.signUpButton}
+                            onClick={() => {
+                                onClose();
+                                onOpenRegister();
+                            }}
+                        >
                             Đăng ký
-                        </span>
-                    </p>
-
-                    <div className={styles.loginPopupActions}>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className={`${styles.loginPopupButton} ${styles.loginPopupButtonCancel}`}
-                        >
-                            Thoát
-                        </button>
-                        <button
-                            type="submit"
-                            className={`${styles.loginPopupButton} ${styles.loginPopupButtonSubmit}`}
-                            disabled={isLoading}
-                        >
-                            {isLoading ? 'Đang đăng nhập' : 'Đăng nhập'}
                         </button>
                     </div>
-                </form>
+                    <h2 className={styles.loginTitle}>Đăng nhập</h2>
+                    <form onSubmit={handleSubmit} className={styles.loginForm}>
+                        {error && <p className={styles.loginError}>{error}</p>}
+                        <div className={styles.inputWrapper}>
+                            <div className={styles.inputField}>
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className={styles.loginInput}
+                                    required
+                                />
+                            </div>
+                            <div className={styles.inputField}>
+                                <input
+                                    type="password"
+                                    placeholder="Mật khẩu"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className={styles.loginInput}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.flex_footer}>
+                            <span>
+                                Nếu bạn chưa có tài khoản, hãy thực hiện <strong>Đăng ký</strong>
+                            </span>
+                            <button type="submit" className={styles.loginSubmit} disabled={isLoading}>
+                                {isLoading ? (
+                                    'Đang đăng nhập'
+                                ) : (
+                                    <>
+                                        Đăng nhập <FontAwesomeIcon icon={faChevronRight} />
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div className={styles.newSection}>
+                    <h3>New in</h3>
+                    <h2>C.Lab Joints</h2>
+                    <button className={styles.discoverButton}>Discover</button>
+                </div>
             </div>
         </div>
     );

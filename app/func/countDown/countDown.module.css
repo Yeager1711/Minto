@@ -90,7 +90,7 @@
 @media screen and (max-width: 600px) {
   .countdown_container {
     padding: 1.5rem;
-    margin: 2rem 0;
+    margin: 3rem 0;
     border-radius: 8px;
     transform: perspective(800px) rotateX(3deg);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.2);
@@ -177,7 +177,7 @@
 @media screen and (min-width: 1025px) {
   .countdown_container {
     padding: 2rem;
-    margin: 2rem 0;
+    margin: 3rem 0;
     transform: perspective(1000px) rotateX(5deg);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.3);
   }

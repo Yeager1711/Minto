@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import Notifications from './Notifications/Notifications';
 import Countdown from './func/countDown/page';
+import FeatureCard from './func/FeatureCard/page';
 
 interface Template {
     template_id: number;
@@ -158,7 +159,7 @@ const Home: React.FC = () => {
     // Fetch user profile
     useEffect(() => {
         const fetchUserProfile = async () => {
-            if(!accessToken) {
+            if (!accessToken) {
                 setUserProfile(null);
                 return;
             }
@@ -327,6 +328,8 @@ const Home: React.FC = () => {
 
                 <Countdown />
 
+                {/* Card payment */}
+                <FeatureCard />
                 <div className={styles.support} onClick={toggleSupportPopup}>
                     <FontAwesomeIcon icon={faHeadset} />
                 </div>

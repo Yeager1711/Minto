@@ -63,7 +63,7 @@
 }
 .account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_flex span {
   position: absolute;
-  top: -1.3rem;
+  top: 0rem;
   font-size: 1.4rem;
   color: #999;
 }
@@ -245,8 +245,8 @@
   margin-top: 0.5rem;
 }
 .account_info .skeleton_button {
-  width: 100px;
-  height: 3.2rem;
+  width: 3rem;
+  height: 1rem;
 }
 .account_info .skeleton_image {
   width: 100%;
