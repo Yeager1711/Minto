@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .loginPopupOverlay {
   position: fixed;
   top: 0;
@@ -5,7 +6,6 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  /* Fallback for browsers without backdrop-filter support */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,9 +96,25 @@
   background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 12.713l11.99-7.163A2 2 0 0022 4H2a2 2 0 00-1.99 1.55L12 12.713zM12 14.287L0 7.163V18a2 2 0 002 2h20a2 2 0 002-2V7.163l-12 7.124z"/></svg>') no-repeat 0.625rem center;
   background-size: 1.8rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=password] {
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=password], .loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=text] {
   background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 17a2 2 0 01-2-2 2 2 0 012-2 2 2 0 012 2 2 2 0 01-2 2zm6-9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8a2 2 0 012-2h1V7a5 5 0 0110 0v3h1zm-6-5a3 3 0 00-3 3v3h6V7a3 3 0 00-3-3z"/></svg>') no-repeat 0.625rem center;
   background-size: 1.8rem;
+  padding-right: 4rem;
+  /* Để chừa chỗ cho nút con mắt */
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .eyeButton {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: #666;
+}
+.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .eyeButton:hover {
+  color: #333;
 }
 .loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer {
   display: flex;
@@ -108,9 +124,10 @@
   margin-top: 2rem;
 }
 .loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer span {
+  margin: auto;
   margin-top: 1rem;
   font-size: 1.4rem;
-  width: 100%;
+  width: 90%;
   text-align: center;
 }
 .loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer .loginSubmit {
@@ -142,12 +159,12 @@
   background: #000;
   color: #fff;
   border-radius: 0.9375rem;
-  padding: 0.9375rem;
-  margin-top: 1.25rem;
+  padding: 1rem;
+  margin-top: 1.5rem;
   text-align: center;
 }
 .newSection h3 {
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   margin-bottom: 0.3125rem;
 }
 .newSection h2 {
@@ -157,11 +174,12 @@
 }
 
 .discoverButton {
+  margin-top: 1rem;
   background: none;
-  border: 0.0625rem solid #fff;
+  border: 0.1rem solid #fff;
   border-radius: 1.5625rem;
   color: #fff;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.875rem;
+  padding: 0.7rem 2rem;
+  font-size: 1.3rem;
   cursor: pointer;
 }/*# sourceMappingURL=login.module.css.map */

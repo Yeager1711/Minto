@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './login.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from '../../lib/apiContext/apiContext';
 
 interface LoginPopupProps {
@@ -18,6 +18,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
     const [error, setError] = useState('');
     const [isAnimatingOut, setIsAnimatingOut] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const wasOpenedRef = useRef(false);
     const { login } = useApi();
 
@@ -28,6 +29,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             setEmail('');
             setPassword('');
             setError('');
+            setShowPassword(false);
         } else if (wasOpenedRef.current) {
             setIsAnimatingOut(true);
             const timer = setTimeout(() => {
@@ -75,7 +77,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             >
                 <div className={styles.wrapper_header}>
                     <div className={styles.header}>
-                        <span className={styles.brand}>Minto</span>
+                        <span className={styles.brand}>⚡ Minto</span>
                         <button
                             className={styles.signUpButton}
                             onClick={() => {
@@ -102,18 +104,33 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                             </div>
                             <div className={styles.inputField}>
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     placeholder="Mật khẩu"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     className={styles.loginInput}
                                     required
                                 />
+                                <button
+                                    type="button"
+                                    className={styles.eyeButton}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                                </button>
                             </div>
                         </div>
                         <div className={styles.flex_footer}>
                             <span>
-                                Nếu bạn chưa có tài khoản, hãy thực hiện <strong>Đăng ký</strong>
+                                Nếu bạn chưa có tài khoản, hãy thực hiện{' '}
+                                <strong
+                                    onClick={() => {
+                                        onClose();
+                                        onOpenRegister();
+                                    }}
+                                >
+                                    Đăng ký
+                                </strong>
                             </span>
                             <button type="submit" className={styles.loginSubmit} disabled={isLoading}>
                                 {isLoading ? (
@@ -128,9 +145,9 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                     </form>
                 </div>
                 <div className={styles.newSection}>
-                    <h3>New in</h3>
-                    <h2>C.Lab Joints</h2>
-                    <button className={styles.discoverButton}>Discover</button>
+                    <h3>Khám phá Minto</h3>
+                    <h2></h2>
+                    <button className={styles.discoverButton}>Bắt đầu ngay</button>
                 </div>
             </div>
         </div>

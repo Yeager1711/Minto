@@ -1,99 +1,178 @@
-.signUpPopupOverlay {
+.loginPopupOverlay {
     position: fixed;
     top: 0;
-    right: 0;
     left: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 9999 !important;
     display: flex;
-    animation: fadeIn 0.3s ease-out forwards;
-    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999999 !important;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    backdrop-filter: blur(1.5rem);
 
     &.animateIn {
-        animation: fadeIn 0.3s ease-out forwards;
+        opacity: 1;
     }
 
-    &:not(.animateIn) {
-        animation: fadeOut 0.3s ease-in forwards;
-    }
-
-    .signUpPopupContainer {
-        margin: auto;
-        background: #fff;
-        padding: 2rem;
-        border-radius: 0.5rem;
-        max-width: 50rem;
-        width: 85%;
-        transform-origin: center bottom;
-        animation: slideUpAndExpand 0.3s ease-out forwards;
+    .loginPopupContainer {
+        width: 95%;
+        max-width: 45rem;
+        position: relative;
+        transform: scale(0.9);
+        transition: transform 0.3s ease-in-out;
 
         &.animateContainerIn {
-            animation: slideUpAndExpand 0.3s ease-out forwards;
+            transform: scale(1);
         }
 
-        &:not(.animateContainerIn) {
-            animation: slideDownAndShrink 0.3s ease-in forwards;
-        }
+        .wrapper_header {
+            background: rgb(245, 242, 233, 0.5);
+            padding: 2rem;
+            border-radius: 2rem;
 
-        h2 {
-            margin: 0;
-            padding: 0;
-            font-size: 2rem;
-        }
-
-        .signUpPopupError {
-            color: red;
-            font-size: 1.3rem;
-        }
-
-        form {
-            margin-top: 2rem;
-
-            .signUpPopupField {
-                position: relative;
-                padding: 1rem 1.5rem;
-                border: 0.1rem solid #dbdbdb;
-                margin-bottom: 4rem;
-                border-radius: 0.5rem;
-
-                .signUpPopupLabel {
-                    position: absolute;
-                    left: 1rem;
-                    top: -1.2rem;
-                    padding: 0.5rem 1rem;
-                    background: #fff;
-                    font-size: 1.4rem;
-                }
-
-                .signUpPopupInput {
-                    width: 100%;
-                    padding: 0.5rem;
-                    font-size: 1.4rem;
-                    border: none;
-                    outline: none;
-                }
-            }
-
-            .signUpPopupActions {
+            .header {
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
-                gap: 2rem;
+                margin-bottom: 5rem;
 
-                .signUpPopupButton {
-                    padding: 0.8rem 3rem;
-                    font-size: 1.3rem;
-                    color: #fff;
-                    border-radius: 0.5rem;
+                .brand {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: #333;
+                }
+
+                .signUpButton {
+                    background: none;
                     border: none;
+                    color: #333;
+                    font-size: 1.6rem;
                     cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
 
-                    &.signUpPopupButtonCancel {
-                        background: #dbdbdb;
+            .loginTitle {
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+
+            .loginForm {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .loginError {
+                    color: #ff4d4d;
+                    font-size: 1.2rem;
+                    text-align: center;
+                }
+
+                .inputWrapper {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
+
+                    .inputField {
+                        position: relative;
+                        margin-bottom: 1rem;
+
+                        .loginInput {
+                            width: 100%;
+                            padding: 1.5rem 1.5rem 1.5rem 4rem;
+                            border: none;
+                            border-radius: 1rem;
+                            background: #fff;
+                            font-size: 16px;
+                            color: #333;
+                            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+
+                            &:focus {
+                                outline: none;
+                                box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+                            }
+
+                            &[type="email"] {
+                                background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 12.713l11.99-7.163A2 2 0 0022 4H2a2 2 0 00-1.99 1.55L12 12.713zM12 14.287L0 7.163V18a2 2 0 002 2h20a2 2 0 002-2V7.163l-12 7.124z"/></svg>') no-repeat 0.625rem center;
+                                background-size: 1.8rem;
+                            }
+
+                            &[type="password"],
+                            &[type="text"] {
+                                background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 17a2 2 0 01-2-2 2 2 0 012-2 2 2 0 012 2 2 2 0 01-2 2zm6-9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8a2 2 0 012-2h1V7a5 5 0 0110 0v3h1zm-6-5a3 3 0 00-3 3v3h6V7a3 3 0 00-3-3z"/></svg>') no-repeat 0.625rem center;
+                                background-size: 1.8rem;
+                                padding-right: 4rem;
+                                /* Để chừa chỗ cho nút con mắt */
+                            }
+
+                            &[type="text"] {
+                                background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>') no-repeat 0.625rem center;
+                                background-size: 1.8rem;
+                            }
+                        }
+
+                        .eyeButton {
+                            position: absolute;
+                            right: 1rem;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                            font-size: 1.6rem;
+                            color: #666;
+
+                            &:hover {
+                                color: #333;
+                            }
+                        }
+                    }
+                }
+
+                .flex_footer {
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap-reverse;
+                    gap: 1rem;
+                    margin-top: 2rem;
+
+                    span {
+                        margin-top: 1rem;
+                        font-size: 1.4rem;
+                        width: 100%;
+                        text-align: center;
                     }
 
-                    &.signUpPopupButtonSubmit {
-                        background: #3b82f6;
+                    .loginSubmit {
+                        align-self: center;
+                        background: #000;
+                        color: #fff;
+                        border: none;
+                        border-radius: 1rem;
+                        max-width: 20rem;
+                        width: 100%;
+                        height: 4rem;
+                        font-size: 1.4rem;
+                        cursor: pointer;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin: auto;
+
+                        svg {
+                            margin-left: 0.5rem;
+                        }
+
+                        &:disabled {
+                            background: #ccc;
+                            cursor: not-allowed;
+                        }
                     }
                 }
             }
@@ -101,46 +180,33 @@
     }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
+.newSection {
+    background: #000;
+    color: #fff;
+    border-radius: 0.9375rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    text-align: center;
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.3125rem;
     }
 
-    to {
-        opacity: 1;
+    h2 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 0.625rem;
     }
 }
 
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-@keyframes slideUpAndExpand {
-    from {
-        transform: translateY(100vh) scale(0);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes slideDownAndShrink {
-    from {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-
-    to {
-        transform: translateY(100vh) scale(0);
-        opacity: 0;
-    }
+.discoverButton {
+    margin-top: 1rem;
+    background: none;
+    border: .1rem solid #fff;
+    border-radius: 1.5625rem;
+    color: #fff;
+    padding: .7rem 2rem;
+    font-size: 1.3remrem;
+    cursor: pointer;
 }
