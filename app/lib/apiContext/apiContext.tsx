@@ -237,7 +237,7 @@ interface ApiContextType {
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-console.log("api:", apiUrl);
+// console.log("api:", apiUrl);
 
 export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
