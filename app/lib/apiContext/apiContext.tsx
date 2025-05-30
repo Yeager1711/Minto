@@ -232,6 +232,7 @@ interface ApiContextType {
         card_id: string
     ) => Promise<ApiResponse>;
     fetchAuthParams: () => Promise<ImageKitAuthParams>;
+    updateUserName: (fullName: string) => Promise<UserProfile>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
@@ -527,6 +528,35 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
+    const updateUserName = async (fullName: string): Promise<UserProfile> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.patch(
+                `${apiUrl}/users/profile/name`,
+                { full_name: fullName },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'ngrok-skip-browser-warning': 'true',
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            toast.success('Cập nhật tên thành công');
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể cập nhật tên';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
     const value = {
         accessToken,
         login,
@@ -540,6 +570,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         getUserTemplates,
         getGuestAndCard,
         fetchAuthParams,
+        updateUserName,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

@@ -4,6 +4,7 @@ import styles from './account_info.module.scss';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import Countdown from 'app/func/countDown/page';
 import { useRouter } from 'next/navigation';
+
 interface UserProfile {
     user_id: number;
     full_name: string;
@@ -41,7 +42,7 @@ interface Template {
 }
 
 function AccountInfo() {
-    const { getUserProfile, getUserTemplates, accessToken } = useApi();
+    const { getUserProfile, getUserTemplates, accessToken, updateUserName } = useApi();
     const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
@@ -98,9 +99,19 @@ function AccountInfo() {
     }, [accessToken, getUserProfile, getUserTemplates, router]);
 
     const handleEdit = () => setIsEditing(true);
-    const handleSave = () => {
-        setIsEditing(false);
-        setUser((prev) => (prev ? { ...prev, full_name: editedFullName } : prev));
+
+    const handleSave = async () => {
+        try {
+            const updatedUser = await updateUserName(editedFullName);
+            setUser(updatedUser);
+            setIsEditing(false);
+        } catch (err: unknown) {
+            let errorMessage = 'Không thể cập nhật tên';
+            if (err instanceof Error) errorMessage = err.message;
+            else if (typeof err === 'object' && err !== null && 'message' in err)
+                errorMessage = (err as { message: string }).message;
+            setError(errorMessage);
+        }
     };
 
     const handleShowGuests = (guests: Guest[], templateName: string, template_id: number) => {
