@@ -29,8 +29,6 @@
   transform: scale(1);
 }
 .popupOverlay .popupContainer .wrapper {
-  height: 60rem;
-  overflow: auto;
   background: rgba(245, 242, 233, 0.5);
   padding: 2rem;
   border-radius: 2rem;
@@ -200,6 +198,37 @@
   z-index: 2;
   font-size: 1.5rem;
   color: #fff;
+}
+.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .qrCode {
+  max-width: 200px;
+  max-height: 200px;
+  width: 100%;
+  height: auto;
+}
+.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .qrButton,
+.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .backButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .qrButton:hover,
+.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .backButton:hover {
+  background-color: #0056b3;
 }
 .popupOverlay .popupContainer .wrapper .footer {
   display: flex;
