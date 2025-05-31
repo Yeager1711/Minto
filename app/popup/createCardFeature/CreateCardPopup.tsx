@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
-import styles from './CreateCardPopup.module.scss';
+import styles from './CreateCardPopup.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faXmark, faQrcode, faDownload } from '@fortawesome/free-solid-svg-icons';
 

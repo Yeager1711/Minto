@@ -236,8 +236,6 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  right: 0;
-  bottom: 0;
   transform: translate(-50%, -50%);
 }
 .popupOverlay .popupContainer .wrapper .content .right .qrImage {
