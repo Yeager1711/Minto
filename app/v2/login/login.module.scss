@@ -130,6 +130,42 @@
                     }
                 }
 
+                .googleLoginWrapper {
+                    display: flex;
+                    justify-content: center;
+                    margin: 1rem 0;
+                }
+
+                .googleLoginButton {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                    width: 100%;
+                    max-width: 300px;
+
+                    &:hover {
+                        background-color: #f8f8f8;
+                    }
+
+                    &:disabled {
+                        opacity: 0.6;
+                        cursor: not-allowed;
+                    }
+                }
+
+                .googleLogo {
+                    width: 20px;
+                    height: 20px;
+                }
+
                 .flex_footer {
                     display: flex;
                     align-items: center;

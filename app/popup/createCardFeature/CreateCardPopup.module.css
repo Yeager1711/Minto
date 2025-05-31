@@ -32,6 +32,8 @@
   background: rgba(245, 242, 233, 0.5);
   padding: 2rem;
   border-radius: 2rem;
+  height: 64rem;
+  overflow-y: scroll;
 }
 .popupOverlay .popupContainer .wrapper::-webkit-scrollbar {
   display: none;
@@ -72,6 +74,7 @@
 .popupOverlay .popupContainer .wrapper .content {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 .popupOverlay .popupContainer .wrapper .content .left {
   flex: 1;
@@ -141,9 +144,13 @@
   justify-content: center;
   align-items: center;
 }
+.popupOverlay .popupContainer .wrapper .content .right .bankCardWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 .popupOverlay .popupContainer .wrapper .content .right .bank_card {
   height: 20rem;
-  max-width: 45rem;
   width: 100%;
   background: linear-gradient(135deg, #111111, #1a1a1a, #222222);
   border-radius: 1rem;
@@ -173,6 +180,21 @@
   background: #f39f2f;
   z-index: 2;
 }
+.popupOverlay .popupContainer .wrapper .content .right .bank_card .qr_icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2rem;
+  z-index: 2;
+  font-size: 4rem;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.popupOverlay .popupContainer .wrapper .content .right .bank_card .qr_icon.visible {
+  opacity: 1;
+}
 .popupOverlay .popupContainer .wrapper .content .right .bank_card h2 {
   position: absolute;
   top: 1rem;
@@ -191,6 +213,9 @@
   color: #fff;
   border-radius: 1rem;
 }
+.popupOverlay .popupContainer .wrapper .content .right .bank_card .bankLogo {
+  right: 0 !important;
+}
 .popupOverlay .popupContainer .wrapper .content .right .bank_card h4 {
   position: absolute;
   bottom: 1rem;
@@ -199,36 +224,54 @@
   font-size: 1.5rem;
   color: #fff;
 }
-.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer {
+.popupOverlay .popupContainer .wrapper .content .right .qrDisplay {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-}
-.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .qrCode {
-  max-width: 200px;
-  max-height: 200px;
+  height: 20rem;
+  max-width: 45rem;
   width: 100%;
-  height: auto;
+  border-radius: 1rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+  transform: translate(-50%, -50%);
 }
-.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .qrButton,
-.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .backButton {
-  background-color: #007bff;
+.popupOverlay .popupContainer .wrapper .content .right .qrImage {
+  width: 28rem;
+  height: 28rem;
+  margin-bottom: 10px;
+  border-radius: 1rem;
+}
+.popupOverlay .popupContainer .wrapper .content .right .qrActions {
+  display: flex;
+  gap: 1rem;
+}
+.popupOverlay .popupContainer .wrapper .content .right .closeQrButton,
+.popupOverlay .popupContainer .wrapper .content .right .downloadQrButton {
+  background: #ff4444;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 0.7rem 2rem;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  margin-top: 10px;
+  font-size: 1.3rem;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }
-.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .qrButton:hover,
-.popupOverlay .popupContainer .wrapper .content .right .qrCodeContainer .backButton:hover {
-  background-color: #0056b3;
+.popupOverlay .popupContainer .wrapper .content .right .closeQrButton:hover,
+.popupOverlay .popupContainer .wrapper .content .right .downloadQrButton:hover {
+  background: #cc0000;
+}
+.popupOverlay .popupContainer .wrapper .content .right .downloadQrButton {
+  background: #007bff;
+}
+.popupOverlay .popupContainer .wrapper .content .right .downloadQrButton:hover {
+  background: #0056b3;
 }
 .popupOverlay .popupContainer .wrapper .footer {
   display: flex;
@@ -270,18 +313,26 @@
     flex: none;
     width: 100%;
   }
-  .popupOverlay .content .right .bank_card {
+  .popupOverlay .content .right .bank_card,
+  .popupOverlay .content .right .qrDisplay {
     max-width: 100%;
     height: 18rem;
   }
-  .popupOverlay .content .right .bank_card h2 {
+  .popupOverlay .content .right .bank_card h2,
+  .popupOverlay .content .right .qrDisplay h2 {
     font-size: 1.8rem;
   }
-  .popupOverlay .content .right .bank_card h3 {
+  .popupOverlay .content .right .bank_card h3,
+  .popupOverlay .content .right .qrDisplay h3 {
     font-size: 1.2rem;
   }
-  .popupOverlay .content .right .bank_card h4 {
+  .popupOverlay .content .right .bank_card h4,
+  .popupOverlay .content .right .qrDisplay h4 {
     font-size: 1.4rem;
+  }
+  .popupOverlay .content .right .qrImage {
+    width: 180px;
+    height: 180px;
   }
   .popupOverlay .title {
     font-size: 2rem;
@@ -332,21 +383,31 @@
   .popupOverlay .content {
     gap: 1rem;
   }
-  .popupOverlay .content .right .bank_card {
+  .popupOverlay .content .right .bank_card,
+  .popupOverlay .content .right .qrDisplay {
     height: 16rem;
   }
-  .popupOverlay .content .right .bank_card h2 {
+  .popupOverlay .content .right .bank_card h2,
+  .popupOverlay .content .right .qrDisplay h2 {
     font-size: 1.6rem;
   }
-  .popupOverlay .content .right .bank_card h3 {
+  .popupOverlay .content .right .bank_card h3,
+  .popupOverlay .content .right .qrDisplay h3 {
     font-size: 1.1rem;
   }
-  .popupOverlay .content .right .bank_card h4 {
+  .popupOverlay .content .right .bank_card h4,
+  .popupOverlay .content .right .qrDisplay h4 {
     font-size: 1.3rem;
   }
-  .popupOverlay .content .right .bank_card::before, .popupOverlay .content .right .bank_card::after {
+  .popupOverlay .content .right .bank_card::before, .popupOverlay .content .right .bank_card::after,
+  .popupOverlay .content .right .qrDisplay::before,
+  .popupOverlay .content .right .qrDisplay::after {
     width: 4rem;
     height: 4rem;
+  }
+  .popupOverlay .content .right .qrImage {
+    width: 160px;
+    height: 160px;
   }
   .popupOverlay .description h3 {
     font-size: 1.4rem;

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 import styles from './CreateCardPopup.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faXmark, faQrcode } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faXmark, faQrcode, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 interface CreateCardPopupProps {
     isOpen: boolean;
@@ -16,6 +16,8 @@ interface Bank {
     name: string;
     logo?: string;
     bin?: string;
+    short_name?: string;
+    code?: string;
 }
 
 interface BankApiResponse {
@@ -30,8 +32,10 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
     const [isAnimatingOut, setIsAnimatingOut] = useState<boolean>(false);
     const [banks, setBanks] = useState<Bank[]>([]);
     const [isLoadingBanks, setIsLoadingBanks] = useState<boolean>(false);
+    const [isVerifying, setIsVerifying] = useState<boolean>(false);
     const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
-    const [showQrCode, setShowQrCode] = useState<boolean>(false);
+    const [showQr, setShowQr] = useState<boolean>(false);
+    const [isQrCreated, setIsQrCreated] = useState<boolean>(false); // Trạng thái để kiểm tra QR đã tạo
     const wasOpenedRef = useRef<boolean>(false);
 
     useEffect(() => {
@@ -39,7 +43,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
             setIsLoadingBanks(true);
             const fetchBanks = async () => {
                 try {
-                    const response = await fetch('https://api.vietqr.io/v2/banks', {
+                    const response = await fetch('https://api.vietqr.io/v1/banks', {
                         headers: {
                             'Content-Type': 'application/json',
                         },
@@ -48,7 +52,12 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                         throw new Error(`Lỗi tải danh sách ngân hàng: ${response.status}`);
                     }
                     const data: BankApiResponse = await response.json();
-                    setBanks([{ id: '', name: 'Chọn ngân hàng', logo: '', bin: '' }, ...data.data]);
+                    const enhancedBanks = data.data.map((bank) => ({
+                        ...bank,
+                        short_name: bank.short_name || bank.code || bank.bin || 'UNKNOWN',
+                    }));
+                    console.log('Banks Data:', enhancedBanks);
+                    setBanks([{ id: '', name: 'Chọn ngân hàng', logo: '', bin: '', short_name: '' }, ...enhancedBanks]);
                 } catch (err: unknown) {
                     const errorMessage = err instanceof Error ? err.message : 'Không thể tải danh sách ngân hàng';
                     setError(errorMessage);
@@ -69,76 +78,66 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
             setAccountHolder('');
             setError('');
             setQrCodeUrl(null);
-            setShowQrCode(false);
+            setShowQr(false);
+            setIsQrCreated(false); // Reset trạng thái khi mở lại popup
         } else if (wasOpenedRef.current) {
             setIsAnimatingOut(true);
             const timer = setTimeout(() => {
                 setIsAnimatingOut(false);
+                wasOpenedRef.current = false;
             }, 300);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
 
-    const validateInputs = () => {
-        if (!bank) return 'Vui lòng chọn ngân hàng';
-        if (!accountNumber || accountNumber.length < 6) return 'Số tài khoản không hợp lệ';
-        if (!accountHolder || accountHolder.length < 3) return 'Tên chủ tài khoản không hợp lệ';
-        return '';
+    const generateQRCode = async (bankBin: string | undefined, accountNumber: string, accountHolder: string) => {
+        const selectedBank = banks.find((b) => b.id === bank);
+        const bankShortName = selectedBank?.short_name || 'UNKNOWN';
+
+        if (bankShortName === 'UNKNOWN' && bank) {
+            throw new Error(`Ngân hàng ${selectedBank?.name} hiện không được hỗ trợ để tạo mã QR`);
+        }
+
+        const qrString = `https://qr.sepay.vn/img?acc=${encodeURIComponent(accountNumber)}&bank=${encodeURIComponent(bankShortName)}&amount=0&des=${encodeURIComponent(`Thanh toán cho ${accountHolder}`)}&template=TEM&download=DOWNLOAD`;
+        console.log('Generated QR URL:', qrString);
+        setQrCodeUrl(qrString);
+        return qrString;
     };
 
     const handleCreateCardClick = async () => {
+        setError('');
         const validationError = validateInputs();
         if (validationError) {
             setError(validationError);
             return;
         }
 
+        setIsVerifying(true);
         try {
             const selectedBank = banks.find((b) => b.id === bank);
-            if (!selectedBank?.bin) {
-                setError('Ngân hàng không hợp lệ hoặc thiếu mã bin (ACQID)');
-                return;
-            }
-
-            const response = await fetch('https://api.vietqr.io/v2/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Thêm API key nếu cần: 'x-api-key': 'YOUR_API_KEY',
-                },
-                body: JSON.stringify({
-                    acqId: selectedBank.bin, // Thêm acqId để khắc phục lỗi "Missing ACQID!"
-                    accountNo: accountNumber,
-                    bankCode: selectedBank.bin,
-                    accountName: accountHolder.trim(),
-                    amount: 0,
-                    memo: 'Thanh toán qua VietQR'.slice(0, 19), // Giới hạn 19 ký tự
-                }),
+            const qrUrl = await generateQRCode(selectedBank?.bin, accountNumber, accountHolder);
+            onSubmit({
+                bank: bank || 'Không chọn ngân hàng',
+                accountNumber,
+                accountHolder,
+                qrCodeUrl: qrUrl,
             });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.desc || `Lỗi API: ${response.status}`);
-            }
-
-            const data = await response.json();
-            if (data.code === '00' && data.data?.qrDataURL) {
-                setQrCodeUrl(data.data.qrDataURL);
-                onSubmit({ bank, accountNumber, accountHolder, qrCodeUrl: data.data.qrDataURL });
-            } else {
-                setError(data.desc || 'Không thể tạo mã QR. Vui lòng thử lại.');
-            }
+            setIsQrCreated(true); // Đặt trạng thái QR đã tạo
         } catch (err: unknown) {
-            const errorMessage =
-                err instanceof Error
-                    ? err.message.includes('400')
-                        ? 'Thông tin tài khoản, ngân hàng hoặc ACQID không hợp lệ'
-                        : err.message.includes('429')
-                          ? 'Quá nhiều yêu cầu. Vui lòng thử lại sau.'
-                          : err.message
-                    : 'Lỗi hệ thống khi tạo mã QR. Vui lòng thử lại sau.';
+            const errorMessage = err instanceof Error ? err.message : 'Lỗi khi tạo mã QR. Vui lòng thử lại.';
             setError(errorMessage);
+        } finally {
+            setIsVerifying(false);
         }
+    };
+
+    const validateInputs = () => {
+        if (!accountNumber || accountNumber.length < 6 || accountNumber.length > 20) {
+            return 'Số tài khoản phải có từ 6 đến 20 chữ số';
+        }
+        if (!accountHolder || accountHolder.length < 3) return 'Tên chủ tài khoản không hợp lệ';
+        if (/[^A-Za-z\s]/.test(accountHolder)) return 'Tên chủ tài khoản chỉ được chứa chữ cái và khoảng trắng';
+        return '';
     };
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -176,7 +175,25 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
             <span style={{ fontSize: '16px' }}>{name}</span>
         </div>
     );
+
     const selectedBank = banks.find((b) => b.id === bank);
+
+    const toggleQrDisplay = () => {
+        if (qrCodeUrl) {
+            setShowQr(!showQr);
+        }
+    };
+
+    const handleDownloadQr = () => {
+        if (qrCodeUrl) {
+            const link = document.createElement('a');
+            link.href = qrCodeUrl;
+            link.download = 'qr-code.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    };
 
     if (!isOpen && !isAnimatingOut) return null;
 
@@ -207,7 +224,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                                 <div className={styles.inputWrapper}>
                                     <div className={styles.inputField}>
                                         {isLoadingBanks ? (
-                                            <div className={styles.input}>Đang tải ngân hàng...</div>
+                                            <div className={styles.input}>Đang tải danh sách ngân hàng...</div>
                                         ) : (
                                             <Select
                                                 options={banks}
@@ -218,8 +235,8 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                                                 formatOptionLabel={formatOptionLabel}
                                                 className={styles.reactSelect}
                                                 classNamePrefix="react-select"
-                                                placeholder="Chọn ngân hàng"
-                                                isDisabled={isLoadingBanks}
+                                                placeholder="Chọn ngân hàng (không bắt buộc)"
+                                                isDisabled={isLoadingBanks || isVerifying}
                                                 styles={{
                                                     control: (base) => ({
                                                         ...base,
@@ -261,6 +278,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                                             }
                                             className={styles.input}
                                             required
+                                            disabled={isVerifying}
                                         />
                                     </div>
                                     <div className={styles.inputField}>
@@ -271,54 +289,63 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                                             onChange={(e) => setAccountHolder(e.target.value.toUpperCase())}
                                             className={styles.input}
                                             required
+                                            disabled={isVerifying}
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className={styles.right}>
-                            {showQrCode && qrCodeUrl ? (
-                                <div className={styles.qrCodeContainer}>
-                                    <img src={qrCodeUrl} alt="Mã QR thanh toán" className={styles.qrCode} />
-                                    <button
-                                        className={styles.backButton}
-                                        onClick={() => setShowQrCode(false)}
-                                        style={{ marginTop: '10px' }}
-                                    >
-                                        Quay lại thẻ
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className={styles.bank_card}>
-                                    {selectedBank?.logo && bank ? (
-                                        <img
-                                            src={selectedBank.logo}
-                                            alt={`${selectedBank.name} logo`}
-                                            className={styles.bankLogo}
-                                            style={{ maxWidth: '100px', maxHeight: '50px' }}
+                            <div className={styles.bankCardWrapper}>
+                                {!showQr ? (
+                                    <div className={styles.bank_card}>
+                                        {selectedBank?.logo && bank ? (
+                                            <img
+                                                src={selectedBank.logo}
+                                                alt={`${selectedBank.name} logo`}
+                                                className={styles.bankLogo}
+                                                style={{ maxWidth: '13rem', maxHeight: '50px' }}
+                                            />
+                                        ) : (
+                                            <h3>{bank ? selectedBank?.name : 'Minto Feature'}</h3>
+                                        )}
+                                        <FontAwesomeIcon
+                                            className={`${styles.qr_icon} ${qrCodeUrl ? styles.visible : ''}`}
+                                            icon={faQrcode}
+                                            onClick={toggleQrDisplay}
                                         />
-                                    ) : (
-                                        <h3>{bank ? selectedBank?.name : 'Minto Feature'}</h3>
-                                    )}
-                                    <h2>{accountNumber ? formatAccountNumber(accountNumber) : 'XXX XXX XXX'}</h2>
-                                    <h4>{accountHolder || 'CLIENT NAME'}</h4>
-                                    {qrCodeUrl && (
-                                        <button
-                                            className={styles.qrButton}
-                                            onClick={() => setShowQrCode(true)}
-                                            style={{ marginTop: '10px' }}
-                                        >
-                                            <FontAwesomeIcon icon={faQrcode} /> Xem mã QR
-                                        </button>
-                                    )}
-                                </div>
-                            )}
+                                        <h2>{accountNumber ? formatAccountNumber(accountNumber) : 'XXX XXX XXX'}</h2>
+                                        <h4>{accountHolder || 'CLIENT NAME'}</h4>
+                                    </div>
+                                ) : (
+                                    qrCodeUrl && (
+                                        <div className={styles.qrDisplay}>
+                                            <img src={qrCodeUrl} alt="Mã QR thanh toán" className={styles.qrImage} />
+                                            <div className={styles.qrActions}>
+                                                <button className={styles.downloadQrButton} onClick={handleDownloadQr}>
+                                                    <FontAwesomeIcon icon={faDownload} /> Lưu QR
+                                                </button>
+                                                <button className={styles.closeQrButton} onClick={toggleQrDisplay}>
+                                                    Đóng
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className={styles.footer}>
-                        <button type="submit" className={styles.submitButton} onClick={handleCreateCardClick}>
-                            Tạo thẻ <FontAwesomeIcon icon={faArrowRight} />
-                        </button>
+                        {!isQrCreated && ( // Ẩn nút khi QR đã tạo
+                            <button
+                                type="submit"
+                                className={styles.submitButton}
+                                onClick={handleCreateCardClick}
+                                disabled={isVerifying || isLoadingBanks}
+                            >
+                                {isVerifying ? 'Đang xử lý...' : 'Tạo thẻ'} <FontAwesomeIcon icon={faArrowRight} />
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
