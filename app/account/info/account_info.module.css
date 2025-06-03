@@ -100,38 +100,49 @@
   font-size: 1.4rem;
   margin: 2rem;
 }
-.account_info .wrapper .header_infoAccount .wrapper__right_template {
+.account_info .wrapper .header_infoAccount .right {
   flex: 1 1 30rem;
+  width: 100%;
+}
+.account_info .wrapper .header_infoAccount .right .wrapper__right_template {
+  position: relative;
   background: #fff;
   border-radius: 2rem;
-  width: 100%;
   height: 32rem;
   overflow-y: scroll;
   padding-right: 1rem;
   padding: 0 2rem 2rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
-.account_info .wrapper .header_infoAccount .wrapper__right_template::-webkit-scrollbar {
+.account_info .wrapper .header_infoAccount .right .wrapper__right_template::-webkit-scrollbar {
   display: none;
 }
-.account_info .wrapper .header_infoAccount .wrapper__right_template h4 {
+.account_info .wrapper .header_infoAccount .right .wrapper__right_template .icon_QR {
+  position: absolute;
+  top: 2.5rem;
+  right: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+}
+.account_info .wrapper .header_infoAccount .right .wrapper__right_template h4 {
   font-size: 2rem;
 }
-.account_info .wrapper .header_infoAccount .wrapper__right_template .grid_template {
+.account_info .wrapper .header_infoAccount .right .wrapper__right_template .grid_template {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   gap: 1.5rem;
 }
-.account_info .wrapper .header_infoAccount .wrapper__right_template .grid_template .template_item {
+.account_info .wrapper .header_infoAccount .right .wrapper__right_template .grid_template .template_item {
   border: 0.1rem solid #dbdbdb;
   border-radius: 1rem;
   overflow: hidden;
 }
-.account_info .wrapper .header_infoAccount .wrapper__right_template .grid_template .template_item .image {
+.account_info .wrapper .header_infoAccount .right .wrapper__right_template .grid_template .template_item .image {
   height: 17.5rem;
   padding: 1.5rem;
 }
-.account_info .wrapper .header_infoAccount .wrapper__right_template .grid_template .template_item .image img {
+.account_info .wrapper .header_infoAccount .right .wrapper__right_template .grid_template .template_item .image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;

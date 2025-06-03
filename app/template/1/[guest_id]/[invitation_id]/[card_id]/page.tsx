@@ -9,21 +9,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { Suspense } from 'react';
 import { useApi } from 'app/lib/apiContext/apiContext';
+import InvitionsQR from 'app/popup/invitionsQR/invitionsQR';
 
 export const dynamic = 'force-dynamic';
 
 interface Images {
-    [key: string]: { url: string; position?: string; };
-    banner: { url: string; position?: string; };
-    groom: { url: string; position?: string; };
-    bride: { url: string; position?: string; };
-    couple_0: { url: string; position?: string; };
-    couple_1: { url: string; position?: string; };
-    couple_2: { url: string; position?: string; };
-    thumnail_0: { url: string; position?: string; };
-    thumnail_1: { url: string; position?: string; };
-    thumnail_2: { url: string; position?: string; };
-    thumnail_3: { url: string; position?: string; };
+    [key: string]: { url: string; position?: string };
+    banner: { url: string; position?: string };
+    groom: { url: string; position?: string };
+    bride: { url: string; position?: string };
+    couple_0: { url: string; position?: string };
+    couple_1: { url: string; position?: string };
+    couple_2: { url: string; position?: string };
+    thumnail_0: { url: string; position?: string };
+    thumnail_1: { url: string; position?: string };
+    thumnail_2: { url: string; position?: string };
+    thumnail_3: { url: string; position?: string };
 }
 
 interface WeddingData {
@@ -62,6 +63,7 @@ function Template1Invitee() {
     const [guestName, setGuestName] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [userId, setUserId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchGuestAndCard = async () => {
@@ -99,6 +101,7 @@ function Template1Invitee() {
                 };
                 setWeddingData(updatedWeddingData);
                 setGuestName(guest.full_name);
+                setUserId(card.user_id);
 
                 // Sử dụng thumbnails để tạo images, đảm bảo khớp card_id
                 const newImages: Images = {} as Images;
@@ -531,7 +534,10 @@ function Template1Invitee() {
                             <footer className={styles.bestRegards}>
                                 <div className={styles.dotLeft}></div>
                                 <div className={styles.dotRight}></div>
+                                <InvitionsQR userId={userId!} />
+
                                 <h1>Thanks You</h1>
+
                                 <span>
                                     Chúng tôi háo hức mong chờ <InviteeNameContent fullName={guestName} /> đến chung vui
                                     trong ngày trọng đại của đời mình – một dấu mốc thiêng liêng và đáng nhớ. Sẽ thật

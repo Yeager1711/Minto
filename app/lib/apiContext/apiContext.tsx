@@ -139,7 +139,7 @@ interface TemplateResponse {
             guest_id: number;
             invitation_id: number;
             full_name: string;
-            card_id: number; // Thêm card_id
+            card_id: number;
         }[];
     };
 }
@@ -175,10 +175,11 @@ interface Guest {
     guest_id: number;
     invitation_id: number;
     full_name: string;
-    card_id: number; // Đảm bảo khớp với TemplateResponse.guests
+    card_id: number;
 }
 
 interface Card {
+    user_id: number;
     card_id: number;
     created_at: string;
     status: string;
@@ -214,6 +215,23 @@ interface ApiResponse {
     card: Card;
 }
 
+interface QrData {
+    bank: string;
+    accountNumber: string;
+    accountHolder: string;
+    qrCodeUrl: string;
+}
+
+interface QrResponse {
+    qrId: number;
+    bank: string;
+    accountNumber: string;
+    accountHolder: string;
+    qrCodeUrl: string;
+    createdAt: Date;
+    status: string;
+}
+
 interface ApiContextType {
     accessToken: string | null;
     login: (data: LoginData) => Promise<LoginResponse>;
@@ -233,12 +251,15 @@ interface ApiContextType {
     ) => Promise<ApiResponse>;
     fetchAuthParams: () => Promise<ImageKitAuthParams>;
     updateUserName: (fullName: string) => Promise<UserProfile>;
+    createQr: (data: QrData) => Promise<QrResponse>;
+    getUserQr: () => Promise<QrResponse>;
+    getUserQrPublic: (userId: number) => Promise<QrResponse>;
+    updateQrStatus: (qrId: number, status: 'ACTIVE' | 'SUCCESS') => Promise<QrResponse>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-// console.log("api:", apiUrl);
 
 export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -557,6 +578,107 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
+    const createQr = async (data: QrData): Promise<QrResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.post(`${apiUrl}/qr/create`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                    'Content-Type': 'application/json',
+                },
+            });
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Lỗi khi tạo QR, vui lòng thử lại';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
+    const getUserQr = async (): Promise<QrResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.get(`${apiUrl}/qr/my-qrs`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            const qrList = response.data;
+            if (!Array.isArray(qrList) || qrList.length === 0) {
+                throw new Error('Không tìm thấy mã QR');
+            }
+            return qrList[0]; // Trả về QR đầu tiên (vì mỗi user chỉ có 1 QR)
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : '';
+            throw new Error(errorMessage);
+        }
+    };
+
+    const getUserQrPublic = async (userId: number): Promise<QrResponse> => {
+        try {
+            const response = await axios.get(`${apiUrl}/qr/public/qrs/${userId}`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            const qrList = response.data;
+            if (!Array.isArray(qrList) || qrList.length === 0) {
+                throw new Error('Không tìm thấy mã QR');
+            }
+            return qrList[0];
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : '';
+
+            throw new Error(errorMessage);
+        }
+    };
+
+    const updateQrStatus = async (qrId: number, status: 'ACTIVE' | 'SUCCESS'): Promise<QrResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.patch(
+                `${apiUrl}/qr/${qrId}/status`,
+                { status },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'ngrok-skip-browser-warning': 'true',
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Lỗi khi cập nhật trạng thái QR, vui lòng thử lại';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
     const value = {
         accessToken,
         login,
@@ -571,6 +693,10 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         getGuestAndCard,
         fetchAuthParams,
         updateUserName,
+        createQr,
+        getUserQr,
+        getUserQrPublic,
+        updateQrStatus,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

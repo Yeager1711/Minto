@@ -30,7 +30,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             setPassword('');
             setError('');
             setShowPassword(false);
-        } else if (wasOpenedRef.current) {
+        } else if (wasOpenedRef.current && !isAnimatingOut) {
             setIsAnimatingOut(true);
             const timer = setTimeout(() => {
                 setIsAnimatingOut(false);

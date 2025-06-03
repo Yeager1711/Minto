@@ -57,6 +57,7 @@ function Template2Edit() {
         brideAddress: '',
         groomMapUrl: '',
         brideMapUrl: '',
+        
     };
 
     const defaultImages: Images = {

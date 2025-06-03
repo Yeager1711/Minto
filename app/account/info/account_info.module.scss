@@ -115,48 +115,64 @@
                 margin: 2rem;
             }
 
-            .wrapper__right_template {
+            .right {
                 flex: 1 1 30rem;
-                background: #fff;
-                border-radius: 2rem;
                 width: 100%;
-                height: 32rem;
-                overflow-y: scroll;
-                padding-right: 1rem;
-                padding: 0 2rem 2rem;
-                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 
-                &::-webkit-scrollbar {
-                    display: none;
-                }
+                .wrapper__right_template {
+                    position: relative;
+                    background: #fff;
+                    border-radius: 2rem;
+                    height: 32rem;
+                    overflow-y: scroll;
+                    padding-right: 1rem;
+                    padding: 0 2rem 2rem;
+                    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 
-                h4 {
-                    font-size: 2rem;
-                }
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
 
-                .grid_template {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-                    gap: 1.5rem;
+                    .icon_QR{
+                        position: absolute;
+                        top: 2.5rem;
+                        right: 2rem;
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        cursor: pointer;
+                    }
 
-                    .template_item {
-                        border: 0.1rem solid #dbdbdb;
-                        border-radius: 1rem;
-                        overflow: hidden;
+                    h4 {
+                        font-size: 2rem;
+                    }
 
-                        .image {
-                            height: 17.5rem;
-                            padding: 1.5rem;
+                    .grid_template {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+                        gap: 1.5rem;
 
-                            img {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
+                        .template_item {
+                            border: 0.1rem solid #dbdbdb;
+                            border-radius: 1rem;
+                            overflow: hidden;
+
+                            .image {
+                                height: 17.5rem;
+                                padding: 1.5rem;
+
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                }
                             }
                         }
                     }
                 }
+
+               
             }
+
         }
 
         .list_orders {

@@ -4,6 +4,9 @@ import styles from './account_info.module.scss';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import Countdown from 'app/func/countDown/page';
 import { useRouter } from 'next/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQrcode } from '@fortawesome/free-solid-svg-icons';
+import QRPopup from '../../popup/QR_created/QR_created';
 
 interface UserProfile {
     user_id: number;
@@ -41,8 +44,19 @@ interface Template {
     };
 }
 
+// Define QrResponse interface
+interface QrResponse {
+    qrId: number;
+    bank: string;
+    accountNumber: string;
+    accountHolder: string;
+    qrCodeUrl: string;
+    createdAt: Date;
+    status: string;
+}
+
 function AccountInfo() {
-    const { getUserProfile, getUserTemplates, accessToken, updateUserName } = useApi();
+    const { getUserProfile, getUserTemplates, accessToken, updateUserName, getUserQr } = useApi();
     const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
@@ -55,6 +69,8 @@ function AccountInfo() {
         templateName: string;
         template_id: number;
     } | null>(null);
+    const [showQrPopup, setShowQrPopup] = useState(false);
+    const [qrData, setQrData] = useState<QrResponse | null>(null);
 
     const router = useRouter();
 
@@ -119,9 +135,28 @@ function AccountInfo() {
         setShowGuestsModal(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseGuestsModal = () => {
         setShowGuestsModal(false);
         setSelectedGuests(null);
+    };
+
+    const handleShowQrPopup = async () => {
+        try {
+            const qrData = await getUserQr();
+            setQrData(qrData);
+            setShowQrPopup(true);
+        } catch (err: unknown) {
+            let errorMessage = 'Bạn chưa tạo thẻ, hoặc lỗi không thể lấy mã QR';
+            if (err instanceof Error) errorMessage = err.message;
+            else if (typeof err === 'object' && err !== null && 'message' in err)
+                errorMessage = (err as { message: string }).message;
+            setError(errorMessage);
+        }
+    };
+
+    const handleCloseQrPopup = () => {
+        setShowQrPopup(false);
+        setQrData(null);
     };
 
     const getImageSrc = (imageUrl: string) =>
@@ -195,33 +230,36 @@ function AccountInfo() {
                             <Countdown />
                         </div>
                     </div>
-                    <div className={styles.wrapper__right_template}>
-                        <h4>Mẫu template đã sử dụng</h4>
-                        {isLoading ? (
-                            <div className={styles.grid_template}>
-                                {Array.from({ length: 3 }).map((_, index) => (
-                                    <div key={index} className={styles.template_item}>
-                                        <div className={`${styles.skeleton} ${styles.skeleton_image}`}></div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : templates.length === 0 ? (
-                            <p>Chưa có template nào được sử dụng.</p>
-                        ) : (
-                            <div className={styles.grid_template}>
-                                {templates.map((template) => (
-                                    <div key={template.card_id} className={styles.template_item}>
-                                        <div className={styles.image}>
-                                            <img
-                                                src={getImageSrc(template.template.image_url)}
-                                                alt={template.template.name}
-                                                onError={(e) => (e.currentTarget.src = '/placeholder.png')}
-                                            />
+                    <div className={styles.right}>
+                        <div className={styles.wrapper__right_template}>
+                            <FontAwesomeIcon className={styles.icon_QR} icon={faQrcode} onClick={handleShowQrPopup} />
+                            <h4>Mẫu template đã sử dụng</h4>
+                            {isLoading ? (
+                                <div className={styles.grid_template}>
+                                    {Array.from({ length: 3 }).map((_, index) => (
+                                        <div key={index} className={styles.template_item}>
+                                            <div className={`${styles.skeleton} ${styles.skeleton_image}`}></div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                                    ))}
+                                </div>
+                            ) : templates.length === 0 ? (
+                                <p>Chưa có template nào được sử dụng.</p>
+                            ) : (
+                                <div className={styles.grid_template}>
+                                    {templates.map((template) => (
+                                        <div key={template.card_id} className={styles.template_item}>
+                                            <div className={styles.image}>
+                                                <img
+                                                    src={getImageSrc(template.template.image_url)}
+                                                    alt={template.template.name}
+                                                    onError={(e) => (e.currentTarget.src = '/placeholder.png')}
+                                                />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -350,12 +388,14 @@ function AccountInfo() {
                                 </tbody>
                             </table>
                         )}
-                        <button className={styles.close_button} onClick={handleCloseModal}>
+                        <button className={styles.close_button} onClick={handleCloseGuestsModal}>
                             Đóng
                         </button>
                     </div>
                 </div>
             )}
+
+            <QRPopup isOpen={showQrPopup} onClose={handleCloseQrPopup} qrData={qrData} />
         </div>
     );
 }

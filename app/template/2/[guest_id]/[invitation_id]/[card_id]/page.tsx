@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { Suspense } from 'react';
 import { useApi } from 'app/lib/apiContext/apiContext';
+import InvitionsQR from 'app/popup/invitionsQR/invitionsQR';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,6 +64,7 @@ function Mau2InviteeName() {
     const [guestName, setGuestName] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [userId, setUserId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchGuestAndCard = async () => {
@@ -100,7 +102,7 @@ function Mau2InviteeName() {
                 };
                 setWeddingData(updatedWeddingData);
                 setGuestName(guest.full_name);
-
+                setUserId(card.user_id);
                 // Sử dụng thumbnails để tạo images, đảm bảo khớp card_id
                 const newImages: Images = {} as Images;
                 card.thumbnails.forEach(
@@ -685,20 +687,24 @@ function Mau2InviteeName() {
                                 </div>
                             </div>
                         </div>
+
+                        <InvitionsQR userId={userId!} />
+
                         <footer>
-                            <div className={styles.dotLeft}></div>
-                            <div className={styles.dotRight}></div>
-                            <div className={styles.Save_the_date} data-aos="fade-right" data-aos-delay="400">
-                                <span className={styles.save}>Save</span>
-                                <span className={styles.the}>The</span>
-                                <span className={styles.date}>Date</span>
-                                <span className={styles.time}>{weddingData.weddingDate}</span>
-                            </div>
-                            <div className={styles.bride_groom} data-aos="fade-up" data-aos-delay="600">
-                                <h3>{weddingData.bride}</h3>
-                                <span>&</span>
-                                <h3>{weddingData.groom}</h3>
-                            </div>
+                                <div className={styles.dotLeft}></div>
+                                <div className={styles.dotRight}></div>
+                                <div className={styles.Save_the_date} data-aos="fade-right" data-aos-delay="400">
+                                    <span className={styles.save}>Save</span>
+                                    <span className={styles.the}>The</span>
+                                    <span className={styles.date}>Date</span>
+                                    <span className={styles.time}>{weddingData.weddingDate}</span>
+                                </div>
+                                <div className={styles.bride_groom} data-aos="fade-up" data-aos-delay="600">
+                                    <h3>{weddingData.bride}</h3>
+                                    <span>&</span>
+                                    <h3>{weddingData.groom}</h3>
+                                </div>
+
                             <div className={styles.content_foooter}>
                                 <span data-aos="fade-up" data-aos-duration="1000">
                                     Chúng tôi háo hức mong chờ <InviteeNameContent fullName={guestName} /> đến chung vui
