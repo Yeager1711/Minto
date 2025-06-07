@@ -8,7 +8,7 @@ import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 import Notifications from './Notifications/Notifications';
-import Countdown from './func/countDown/page';
+// import Countdown from './func/countDown/page';
 import FeatureCard from './func/FeatureCard/page';
 
 interface Template {
@@ -326,7 +326,7 @@ const Home: React.FC = () => {
                     )}
                 </div>
 
-                <Countdown />
+                {/* <Countdown /> */}
 
                 {/* Card payment */}
                 <FeatureCard />

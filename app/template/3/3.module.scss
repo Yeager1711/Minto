@@ -1,502 +1,748 @@
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;700&family=Della+Respira&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100;200;300;400&display=swap');
-
-/* --- Variables (Dalat Inspired) --- */
-$color-main-light: #F8F5EE; // Vàng kem / Trắng ngà - Nền chính
-$color-accent-pink: #F7CAC9; // Hồng Pastel / Hồng Phấn - Điểm nhấn ngọt ngào
-$color-accent-mint: #C9E4DE; // Xanh Mint - Điểm nhấn tươi mới
-$color-text-dark: #4A4A4A; // Xám đậm - Chữ chính
-$color-text-light: #FFFFFF; // Trắng - Chữ trên nền tối
-$color-gold-details: #B8860B; // Vàng đồng - Chi tiết sang trọng
-
-// Fonts
-$font-heading-primary: 'Herr Von Muellerhoff', cursive; // For couple names
-$font-heading-secondary: 'Dancing Script', cursive; // For invites, sub-headings
-$font-body: 'Playwrite AU SA', sans-serif; // For main content
-$font-accent: 'Great Vibes', cursive; // For section titles
-$font-signature: 'Allura', cursive; // For final signature
-
-/* --- Global Styles --- */
-
-
-.weddingContainer {
-    font-family: $font-body;
-    color: $color-text-dark;
-    background-color: $color-main-light;
-    /* Nền của "thiệp" */
-    line-height: 1.6;
-    width: 50rem;
-    max-width: 95%;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    margin: 2rem 0;
-    border-radius: 15px;
-    overflow: hidden;
-    // Dùng flexbox để tự động mở rộng theo nội dung và căn giữa theo chiều dọc nếu cần
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- Section Base Styles and Animations --- */
-.section {
-    padding: 80px 20px;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 1s ease-out, transform 1s ease-out;
-    position: relative;
-    overflow: hidden;
-
-    &.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.sectionTitle {
-    font-family: $font-accent;
-    font-size: 3.2em;
-    /* Nhẹ nhàng hơn chút */
-    color: $color-gold-details;
-    /* Vàng đồng cho tiêu đề */
-    margin-bottom: 50px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
-
-    .visible & {
-        animation: scaleIn 1s ease-out forwards;
-    }
-}
-
-/* --- Intro Section --- */
-.introSection {
+.template3 {
+    max-width: 55rem;
+    width: 100%;
+    margin: auto;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom, $color-accent-pink, $color-accent-mint);
-    /* Gradient nhẹ nhàng */
-    color: $color-text-light;
+    background: #640606;
     position: relative;
-    z-index: 1;
-    padding-bottom: 100px;
-    /* Thêm padding dưới nếu intro quá ngắn */
+    overflow: hidden;
 
-    .decorativeBg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('/images/floral-pattern.png') no-repeat center center / cover;
-        opacity: 0.15;
-        z-index: -1;
-    }
-
-    .introContent {
-        z-index: 2;
-
-        .introText {
-            font-family: $font-heading-secondary;
-            font-size: 2.2em;
-            /* Nhẹ nhàng hơn */
-            margin-bottom: 10px;
-
-            .visible & {
-                animation: fadeIn 1.5s ease-out forwards;
-            }
-        }
-
-        .coupleNames {
-            font-family: $font-heading-primary;
-            font-size: 6em;
-            line-height: 1;
-            margin: 20px 0;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-
-            .groomName,
-            .brideName {
-                display: block;
-
-                .visible & {
-                    animation: slideInLeft 1.5s ease-out forwards;
-                }
-            }
-
-            .brideName {
-                .visible & {
-                    animation: slideInRight 1.5s ease-out forwards;
-                }
-            }
-
-            .andSymbol {
-                font-size: 0.5em;
-                vertical-align: super;
-                margin: 0 10px;
-
-                .visible & {
-                    animation: fadeIn 2s ease-out forwards;
-                    animation-delay: 0.5s;
-                }
-            }
-        }
-
-        .invitePhrase,
-        .date {
-            font-family: $font-heading-secondary;
-            font-size: 1.6em;
-            /* Nhẹ nhàng hơn */
-            margin-top: 15px;
-
-            .visible & {
-                animation: fadeIn 2s ease-out forwards;
-                animation-delay: 1s;
-            }
-        }
-    }
-}
-
-/* --- Gallery Section --- */
-.gallerySection {
-    background-color: $color-main-light;
-    padding: 50px 0;
-
-    .gallerySlider {
+    .intro_invition {
+        min-height: 100vh;
         position: relative;
-        width: 90%;
-        max-width: 900px;
-        height: 500px;
-        margin: 0 auto;
-        overflow: hidden;
-        border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        background-color: $color-text-light;
 
-        .visible & {
-            animation: fadeInScale 1.5s ease-out forwards;
+        .wrapper {
+            padding: 15rem 0;
+            text-align: center;
+            z-index: 2 !important;
+            height: 100%;
+
+            .image_psb__TL {
+                position: absolute;
+                top: 0;
+                left: 0;
+                max-width: 25rem;
+                z-index: 1;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    z-index: 1;
+                }
+            }
+
+            .image_psb__BR {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                max-width: 13rem;
+                z-index: 1;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transform: rotate(180deg);
+                    z-index: 1;
+                }
+            }
+
+            .text {
+                font-size: 2rem;
+                color: #fff;
+                text-transform: uppercase;
+            }
+
+            .mar {
+                position: absolute;
+                top: 48%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                padding: 1rem;
+
+                .groom_name,
+                .bride_name {
+                    font-size: 6rem;
+                    font-family: "Allura", cursive;
+                    color: #ffff;
+                    font-weight: 400;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                    text-transform: capitalize;
+                }
+
+                .and {
+                    text-align: center;
+                    font-size: 5rem;
+                    font-family: "Allura", cursive;
+                    color: #fff;
+                    font-weight: 500;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                    text-transform: capitalize;
+                }
+
+                .groom_name {
+                    text-align: left;
+                }
+
+                .bride_name {
+                    text-align: right;
+                }
+            }
+
+            .box_dateTime {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                display: flex;
+                width: 100%;
+
+                .dateTime {
+                    flex: 1 1 12rem;
+                    height: 100%;
+                    border-right: 0.2rem solid #fff;
+                    max-width: 20rem;
+                    width: 100%;
+                    height: 17rem;
+                    padding: 0 1rem;
+
+                    span {
+                        display: block;
+                        color: #fff;
+                        padding: 1rem;
+                        text-transform: uppercase;
+                    }
+
+                    .day {
+                        font-size: 2.5rem;
+                        border-bottom: 0.1rem solid #c38e32;
+                    }
+
+                    .month {
+                        font-size: 2rem;
+                        border-bottom: 0.1rem solid #c38e32;
+                    }
+
+                    .year {
+                        font-size: 2.5rem;
+                    }
+                }
+
+                .inviton_name {
+                    flex: 1 1 32rem;
+                    width: 100%;
+                    text-align: left;
+                    padding-left: 2rem;
+                    color: #fff;
+
+                    .invition {
+                        font-size: 3rem;
+                        font-family: "Allura", cursive;
+                    }
+
+                    .name {
+                        font-size: 4rem;
+                        font-family: "Allura", cursive;
+                        margin: 0;
+                        font-weight: 400;
+                    }
+                }
+            }
         }
     }
 
-    .sliderInner {
-        display: flex;
-        height: 100%;
-        transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .slideItem {
-        min-width: 100%;
-        height: 100%;
+    .header {
         position: relative;
-        overflow: hidden;
+        padding-bottom: 3rem;
 
-        .slideImage {
-            filter: brightness(0.98);
-            /* Giảm độ sáng nhẹ */
-            transition: transform 0.5s ease-in-out;
+        .flower_left {
+            position: absolute;
+            top: -4px;
+            left: -1rem;
 
-            &:hover {
-                transform: scale(1.03);
-                /* Zoom nhẹ hơn */
+            img {
+                transform: rotate(-270deg);
+                width: 12rem;
             }
+        }
+
+        .flower_right {
+            position: absolute;
+            top: -.4rem;
+            right: 0;
+
+            img {
+                transform: rotate(180deg);
+                width: 12rem;
+            }
+        }
+
+        .header_content {
+            width: 100%;
+            text-align: center;
+            padding: 4rem 0 0;
+            color: #fff;
+
+            h4 {
+                font-size: 5rem;
+                font-family: "Allura", cursive;
+                color: #fff;
+                font-weight: 600;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                text-transform: capitalize;
+                margin: 3rem auto;
+            }
+
+            .groom_bride {
+                margin: 1rem 0;
+
+                h3 {
+                    font-size: 3.5rem;
+                    font-family: "Allura", cursive;
+                    color: #fff;
+                    font-weight: 600;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                    text-transform: capitalize;
+                }
+            }
+
+            .invitation_details {
+                margin: 1rem 0;
+                font-family: "Montserrat", sans-serif;
+                text-transform: uppercase;
+
+                p {
+                    margin: 0.5rem 0;
+                    font-size: 1rem;
+                    color: #fff;
+                    letter-spacing: 1px;
+                }
+
+                .date_time {
+                    display: flex;
+                    justify-content: center;
+                    gap: 1rem;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+
+                    span {
+                        display: inline-block;
+                    }
+                }
+
+                .year {
+                    font-size: 2rem;
+                    font-weight: 600;
+                    color: #c38e32;
+                }
+
+                .location {
+                    margin-top: 1rem;
+
+                    p {
+                        font-size: 0.9rem;
+                        color: #999;
+                    }
+                }
+            }
+
+            .imageMain {
+                max-width: 45rem;
+                width: 90%;
+                margin: 2rem auto;
+                aspect-ratio: 3 / 4;
+                border-radius: 50% / 40%;
+                padding: 10px;
+                background: white; // viền trắng ngoài
+                position: relative;
+                box-shadow: 0 0 0 1px #ccc; // viền xám nhạt bên ngoài
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    border: 1px solid #ccc;
+                    border-radius: 50% / 40%;
+                    z-index: 1;
+                    pointer-events: none;
+                }
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50% / 40%;
+                    display: block;
+                    position: relative;
+                    z-index: 2;
+                }
+            }
+
         }
     }
 
-    .sliderDots {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        z-index: 10;
+    .info_groom_bride {
+        padding: 3rem 1rem;
+        background: #fff;
+        margin: 3rem 1rem;
+        border-radius: 1rem;
 
-        .dot {
-            width: 10px;
-            /* Nhỏ hơn */
-            height: 10px;
-            /* Nhỏ hơn */
-            border-radius: 50%;
-            background-color: rgba($color-text-dark, 0.2);
-            /* Mờ hơn */
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+        .info_wrapper {
+            display: flex;
 
-            &.active {
-                background-color: $color-accent-pink;
-                /* Màu chấm active */
-                transform: scale(1.2);
+            .info__groom {
+                flex: 1 1;
+                padding: 0;
+                color: #640606;
+                border-right: 0.1rem solid #325851;
+                font-size: 1.5rem;
+                text-transform: capitalize;
+                text-align: center;
+                font-family: "Alegreya", serif;
+
+                .location {
+                    font-size: 1.4rem !important;
+                }
             }
 
-            &:hover {
-                background-color: $color-accent-pink;
+            .info__bride {
+                flex: 1 1;
+                padding: 0;
+                color: #640606;
+                border-left: 0.1rem solid #325851;
+                font-size: 1.5rem;
+                text-transform: capitalize;
+                font-weight: 400;
+                text-align: center;
+                font-family: "Alegreya", serif;
+
+                .location {
+                    font-size: 1.4rem !important;
+                }
             }
         }
-    }
-}
 
-/* --- Wedding Info & Family Sections --- */
-.weddingInfoSection,
-.familySection {
-    background-color: $color-main-light; // Nền vàng kem
-    margin: 30px auto;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
-    max-width: 1000px;
+        .mar {
+            margin: 3rem 0;
+            padding: 1rem;
 
-    .weddingDetails,
-    .familyInfoGrid {
-        /* Đổi tên class cho family info để dùng grid */
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 30px;
-        padding: 20px;
-
-        .visible & {
-            animation: fadeIn 1.5s ease-out forwards;
-            animation-delay: 0.3s;
-        }
-
-        // Family Info Grid
-        &.familyInfoGrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .detailBlock,
-        .familyBlock {
-            flex: 1;
-            min-width: 280px;
-            background-color: lighten($color-accent-mint, 5%); // Nền xanh mint nhẹ cho khối
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-            color: $color-text-dark;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-            &:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            .groom_name,
+            .bride_name {
+                font-size: 6rem;
+                font-family: "Allura", cursive;
+                color: #333;
+                font-weight: 400;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                text-transform: capitalize;
             }
+
+            .and {
+                text-align: center;
+                font-size: 5rem;
+                font-family: "Allura", cursive;
+                color: #333;
+                font-weight: 500;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                text-transform: capitalize;
+            }
+
+            .groom_name {
+                text-align: left;
+            }
+
+            .bride_name {
+                text-align: right;
+            }
+        }
+
+        .best_regards {
+            text-align: center;
+            font-size: 2rem;
+            color: #c38e32;
+            text-transform: capitalize;
+            font-weight: 400;
+            font-family: "Alegreya", serif;
+            margin-top: 3rem;
+        }
+
+        .text {
+            font-size: 1.5rem;
+            text-align: center;
+            text-transform: uppercase;
+            margin: 1rem 0;
+            color: #c38e32;
+        }
+
+        .flex_image {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 0;
+
+            .image_1,
+            .image_2,
+            .image_3 {
+                max-width: 25rem;
+                border-radius: 0.5rem;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 0.5rem;
+                    overflow: hidden;
+                }
+            }
+
+            .image_1 {
+                transform: scale(.9);
+            }
+
+            .image_2 {
+                transform: scale(1);
+            }
+
+            .image_3 {
+                transform: scale(.9);
+            }
+        }
+
+        .specifically {
+            text-align: center;
+            padding: 1.5rem 0;
+
+            .time_specifically {
+                padding: 1rem 0;
+                font-size: 1.6rem;
+
+                span {
+                    padding: 0 0.2rem;
+                    font-weight: 550;
+                }
+
+                .day_specifically {
+                    margin-left: 0.5rem;
+                    border-left: 0.2rem solid #333;
+                    padding-left: 0.5rem;
+                }
+            }
+
+            .date_specifically {
+                padding: 1.2rem 0;
+                border-top: 0.2rem solid #325851;
+                border-bottom: 0.2rem solid #325851;
+                max-width: 20rem;
+                width: 100%;
+                margin: auto;
+                font-size: 2.5rem;
+                font-weight: 600;
+            }
+
+            .dateLunar_specifically {
+                padding: 1.5rem 0;
+                font-size: 1.6rem;
+            }
+
+            .calendar {
+                width: 88%;
+                max-width: 600px;
+                margin: 2.5rem auto;
+                padding: 2rem;
+                background: linear-gradient(135deg, rgba(255, 245, 247, 0.5), rgba(240, 235, 255, 0.5));
+                border-radius: 1.5rem;
+                position: relative;
+                overflow: hidden;
+                z-index: 2;
+
+                .calendarBackground {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    z-index: 0;
+                }
+
+                /* Subtle overlay for readability */
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.6);
+                    z-index: 1;
+                }
+
+                .calendarHeader {
+                    position: relative;
+                    z-index: 1;
+                    text-align: center;
+                    font-size: 2.8rem;
+                    font-family: 'Great Vibes', cursive;
+                    font-weight: 600;
+                    color: #cfcfcf;
+                    margin-bottom: 1.8rem;
+                    text-transform: capitalize;
+                    letter-spacing: 2px;
+                }
+
+                .calendarGrid {
+                    position: relative;
+                    z-index: 1;
+                    display: grid;
+                    grid-template-columns: repeat(7, 1fr);
+                    gap: 0.5rem;
+                    text-align: center;
+                }
+
+                .calendarDayHeader {
+                    font-size: 1.2rem;
+                    font-family: 'Lora', serif;
+                    color: #d6a884;
+                    padding: 0.6rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    border-bottom: 1px solid rgba(139, 94, 60, 0.3);
+                }
+
+                .calendarDay {
+                    font-size: 1.4rem;
+                    font-family: 'Lora', serif;
+                    color: #d6a884;
+                    padding: 0.8rem;
+                    border-radius: 0.5rem;
+                    transition: all 0.3s ease;
+                    cursor: default;
+                }
+            }
+
+            .selectedDay {
+                color: #fff !important;
+                font-weight: 600;
+                position: relative;
+
+                .heartIcon {
+                    position: absolute;
+                    top: 10%;
+                    left: 25%;
+                    transform: translate(-50%, -50%);
+                    font-size: 2.8rem;
+                    color: #9f1212;
+                    animation: heartbeat 1.8s ease-in-out infinite;
+                    z-index: -1;
+                }
+            }
+
+            .calendarEmpty {
+                background: transparent;
+            }
+
+            /* Heartbeat animation for the heart icon */
+            @keyframes heartbeat {
+                0% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+
+                50% {
+                    transform: scale(1.3);
+                    opacity: 0.8;
+                }
+
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+        }
+
+        .locations {
+            .organization_location_groom {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                align-items: center;
+
+                .text_organization__location {
+                    flex: 1 1 16rem;
+                    width: 100%;
+                    text-align: center;
+
+                    h4 {
+                        font-size: 1.7rem;
+                    }
+
+                    span {
+                        font-size: 1.4rem;
+                    }
+                }
+
+                .map_organization__location {
+                    flex: 2 1 32rem;
+
+                    iframe {
+                        border: none;
+                        border-radius: 1rem;
+                        overflow: hidden;
+                        width: 100%;
+                    }
+                }
+            }
+
+            .organization_location_bride {
+                margin-top: 2rem;
+                display: flex;
+                flex-wrap: wrap-reverse;
+                gap: 1rem;
+                align-items: center;
+
+                .text_organization__location {
+                    flex: 1 1 16rem;
+                    width: 100%;
+                    text-align: center;
+
+                    h4 {
+                        font-size: 1.7rem;
+                    }
+
+                    span {
+                        font-size: 1.4rem;
+                    }
+                }
+
+                .map_organization__location {
+                    flex: 2 1 32rem;
+
+                    iframe {
+                        border: none;
+                        width: 100%;
+                        border-radius: 1rem;
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
+
+        .album_story {
+            padding: 2rem 0;
 
             h3 {
-                font-family: $font-heading-secondary;
-                color: $color-gold-details;
-                /* Tiêu đề khối vàng đồng */
-                font-size: 1.7em;
-                margin-bottom: 15px;
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                font-family: "Allura", cursive;
+
             }
 
-            p {
-                font-family: $font-body;
-                font-size: 1.05em;
-                line-height: 1.6;
-                margin-bottom: 8px;
+            .wrapper_album {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                grid-auto-rows: 150px;
+                gap: 10px;
 
-                &.address {
-                    font-weight: 300; // Nhẹ nhàng hơn cho địa chỉ
+                div {
+                    overflow: hidden;
+                    border-radius: 12px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition: transform 0.3s ease;
+
+                        &:hover {
+                            transform: scale(1.05);
+                        }
+                    }
+                }
+
+                // Layout bất đối xứng
+                div:nth-child(1) {
+                    grid-column: span 4;
+                    grid-row: span 2;
+                }
+
+                div:nth-child(2) {
+                    grid-column: span 2;
+                    grid-row: span 1;
+                }
+
+                div:nth-child(3) {
+                    grid-column: span 2;
+                    grid-row: span 1;
+                }
+
+                div:nth-child(4) {
+                    grid-column: span 3;
+                    grid-row: span 2;
+                }
+
+                div:nth-child(5) {
+                    grid-column: span 3;
+                    grid-row: span 1;
+                }
+
+                div:nth-child(6) {
+                    grid-column: span 3;
+                    grid-row: span 1;
                 }
             }
+        }
+    }
 
-            .mapButton {
-                display: inline-block;
-                margin-top: 15px;
-                padding: 10px 20px;
-                background-color: $color-accent-pink;
-                /* Nút màu hồng pastel */
-                color: $color-text-light;
-                text-decoration: none;
-                border-radius: 25px;
-                /* Nút bo tròn */
-                font-family: $font-body;
-                font-weight: 400;
-                /* Nhẹ nhàng hơn */
-                transition: background-color 0.3s ease, transform 0.3s ease;
+    .footer_thanks {
+        .image_footer {
+            position: relative;
+            overflow: hidden;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
 
-                &:hover {
-                    background-color: darken($color-accent-pink, 8%);
-                    transform: translateY(-2px);
+            img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .content {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                color: #fff;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                padding: 2rem 1rem;
+
+                span {
+                    font-size: 4rem;
+                    font-family: 'Great Vibes', cursive;
+
+                }
+
+                h3 {
+                    font-size: 2.8rem;
+                    font-family: 'Great Vibes', cursive;
+                    margin: 1rem 0;
                 }
             }
         }
     }
 }
 
-/* --- Final Section --- */
-.finalSection {
-    background-color: $color-main-light;
-    padding-bottom: 100px;
-
-    .thankYouText {
-        font-family: $font-heading-secondary;
-        font-size: 2em;
-        margin-top: 50px;
-        color: $color-gold-details;
-
-        .visible & {
-            animation: fadeIn 1.5s ease-out forwards;
-            animation-delay: 0.5s;
-        }
-    }
-
-    .signature {
-        font-family: $font-signature;
-        font-size: 3.2em;
-        margin-top: 20px;
-        color: $color-gold-details;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
-
-        .visible & {
-            animation: fadeInScale 1.5s ease-out forwards;
-            animation-delay: 1s;
-        }
-    }
-}
-
-
-/* --- Keyframe Animations --- */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideInLeft {
-    from {
-        transform: translateX(-100px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideInRight {
-    from {
-        transform: translateX(100px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes scaleIn {
-    from {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-
-    to {
-        opacity: 1;
+@keyframes pulse {
+    0% {
         transform: scale(1);
     }
-}
 
-/* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
-    .weddingContainer {
-        width: 95%;
-        margin: 1rem 0;
+    50% {
+        transform: scale(1.3);
     }
 
-    .section {
-        padding: 50px 15px;
-    }
-
-    .introSection {
-        .introContent {
-            .coupleNames {
-                font-size: 4em;
-            }
-
-            .introText,
-            .invitePhrase,
-            .date {
-                font-size: 1.3em;
-            }
-        }
-    }
-
-    .sectionTitle {
-        font-size: 2.2em;
-        margin-bottom: 30px;
-    }
-
-    .gallerySection {
-        .gallerySlider {
-            height: 350px;
-            width: 95%;
-        }
-    }
-
-    .weddingInfoSection,
-    .familySection {
-
-        .weddingDetails,
-        .familyInfoGrid {
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .detailBlock,
-        .familyBlock {
-            width: 90%;
-            padding: 20px;
-        }
-    }
-
-    .thankYouText {
-        font-size: 1.8em;
-    }
-
-    .signature {
-        font-size: 2.5em;
-    }
-}
-
-@media (max-width: 480px) {
-    .introSection {
-        .introContent {
-            .coupleNames {
-                font-size: 3em;
-            }
-
-            .introText,
-            .invitePhrase,
-            .date {
-                font-size: 1em;
-            }
-        }
-    }
-
-    .sectionTitle {
-        font-size: 1.8em;
-    }
-
-    .gallerySection {
-        .gallerySlider {
-            height: 250px;
-        }
+    100% {
+        transform: scale(1);
     }
 }

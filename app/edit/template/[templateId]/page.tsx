@@ -17,7 +17,7 @@ const defaultWeddingData: TemplateWeddingData = {
     brideAddress: '',
     groomMapUrl: '',
     brideMapUrl: '',
-    weddingDate: '',
+    weddingDate: null,
 };
 
 export default function EditTemplatePage() {

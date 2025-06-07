@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .swiper-pagination.swiper-pagination-bullets-dynamic.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal {
   margin-bottom: -3rem;
 }
@@ -55,7 +54,7 @@
   transform: translateY(-2px);
 }
 .notifications .wrapper_notifications .box h3 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: rgba(51, 51, 51, 0.9);
   margin: 0 0 1rem 0;
@@ -63,7 +62,6 @@
   align-items: center;
   gap: 0.5rem;
   min-width: 30rem;
-  /* Giới hạn chiều rộng tối đa là 30rem */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

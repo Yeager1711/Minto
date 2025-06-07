@@ -20,13 +20,13 @@
 }
 
 .popupContent {
-    background: white;
+    // background: #c1c1c3;
+    background:#fff;
     padding: 2rem;
     border-radius: 2rem;
     position: relative;
     width: 100%;
-    max-width: 100rem;
-    max-height: 90vh;
+    max-width: 40rem;
     overflow-y: auto;
     transform: scale(0.8);
     animation: scaleIn 0.3s ease-out forwards;
@@ -61,9 +61,6 @@
 }
 
 .popupBody {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
 
     .imageSection {
         flex: 1;
@@ -73,16 +70,15 @@
         .popupImageContainer {
             width: 100%;
             max-width: 30rem;
-            border-radius: 1rem;
-            border: 0.1rem solid #dbdbdb;
+            border-radius: 2rem;
             padding: 1rem;
             overflow: hidden;
 
             .popupImage {
                 width: 100%;
-                height: auto;
+                height: 40rem;
+                border-radius: 2rem;
                 object-fit: cover;
-                border-radius: 0.5rem;
             }
         }
     }
@@ -92,7 +88,6 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-        background-color: #ffffff;
         border-radius: 8px;
     }
 
@@ -130,56 +125,48 @@
 
     .actionButtons {
         display: flex;
-        gap: 1rem;
         align-items: center;
+        gap: .5rem;
 
         .customizeButton {
-            background-color: #e74c3c;
-            color: #ffffff;
+            flex: 4;
+            background-color: #333;
+            color: white;
+            padding: 1.5rem;
             border: none;
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            font-weight: 500;
-            border-radius: 0.5rem;
+            border-radius: 5rem;
+            font-size: 1.4rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
+            position: relative;
 
-            &:hover {
-                background-color: #c0392b;
+            &::disable {
+                background: #888;
             }
 
-            &:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-            }
+            // &::before {
+            //     content: "";
+            //     position: absolute;
+            //     right: -2.5rem;
+            //     top: 50%;
+            //     transform: translate(-50%, -50%);
+            //     width: 2rem;
+            //     height: 2rem;
+            //     background: #333;
+            // }
         }
 
-        .favoriteButton {
-            background-color: #fff;
-            color: #ffffff;
-            border: none;
-            padding: 1rem;
-            font-size: 1rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 4.7rem;
-            height: 4.7rem;
-            transition: background-color 0.3s ease;
-
-            svg {
-                width: 3rem;
-                height: 3rem;
-                color: #333;
-            }
-
-            &:hover {
-                border: 0.1rem solid #dbdbdb;
-            }
+        .icon {
+            flex: 1;
+            padding: 1.5rem;
+            background-color: #333;
+            font-size: 2rem;
+            border-radius: 50%;
+            color: #fff;
         }
     }
+
+
 
     // Responsive design
     @media (max-width: 768px) {
@@ -275,37 +262,7 @@
             }
         }
 
-        .actionButtons {
-            display: flex;
-            gap: 1rem;
 
-            .customizeButton {
-                flex: 3;
-                background-color: #daae83;
-                color: white;
-                padding: 1.5rem;
-                border: none;
-                border-radius: 0.5rem;
-                font-size: 1.4rem;
-                cursor: pointer;
-                transition: background-color 0.3s;
-
-                &:hover {
-                    background-color: #e1a364;
-                }
-            }
-
-            .favoriteButton {
-                flex: 1;
-                border: 0.1rem solid #dbdbdb;
-                padding: 1rem;
-                border-radius: 0.5rem;
-                font-size: 1.2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
     }
 }
 
@@ -330,8 +287,8 @@
 @media (max-width: 60rem) {
     .popupContent {
         padding: 1.5rem;
-        max-width: 90vw;
-        max-height: 75vh;
+        max-width: 40rem;
+        max-height: 78vh;
     }
 
     .popupHeader {
@@ -374,7 +331,7 @@
             }
 
             .quantitySelector {
-                
+
                 span {
                     font-size: 1.3rem;
                 }

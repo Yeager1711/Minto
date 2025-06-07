@@ -1,466 +1,639 @@
-@charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;700&family=Della+Respira&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100;200;300;400&display=swap");
-/* --- Variables (Dalat Inspired) --- */
-/* --- Global Styles --- */
-.weddingContainer {
-  font-family: "Playwrite AU SA", sans-serif;
-  color: #4A4A4A;
-  background-color: #F8F5EE;
-  /* Nền của "thiệp" */
-  line-height: 1.6;
-  width: 50rem;
-  max-width: 95%;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  margin: 2rem 0;
-  border-radius: 15px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* --- Section Base Styles and Animations --- */
-.section {
-  padding: 80px 20px;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1s ease-out, transform 1s ease-out;
-  position: relative;
-  overflow: hidden;
-}
-.section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.sectionTitle {
-  font-family: "Great Vibes", cursive;
-  font-size: 3.2em;
-  /* Nhẹ nhàng hơn chút */
-  color: #B8860B;
-  /* Vàng đồng cho tiêu đề */
-  margin-bottom: 50px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
-}
-.visible .sectionTitle {
-  animation: scaleIn 1s ease-out forwards;
-}
-
-/* --- Intro Section --- */
-.introSection {
+.template3 {
+  max-width: 55rem;
+  width: 100%;
+  margin: auto;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(to bottom, #F7CAC9, #C9E4DE);
-  /* Gradient nhẹ nhàng */
-  color: #FFFFFF;
+  background: #640606;
   position: relative;
-  z-index: 1;
-  padding-bottom: 100px;
-  /* Thêm padding dưới nếu intro quá ngắn */
+  overflow: hidden;
 }
-.introSection .decorativeBg {
+.template3 .intro_invition {
+  min-height: 100vh;
+  position: relative;
+}
+.template3 .intro_invition .wrapper {
+  padding: 15rem 0;
+  text-align: center;
+  z-index: 2 !important;
+  height: 100%;
+}
+.template3 .intro_invition .wrapper .image_psb__TL {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 25rem;
+  z-index: 1;
+}
+.template3 .intro_invition .wrapper .image_psb__TL img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  z-index: 1;
+}
+.template3 .intro_invition .wrapper .image_psb__BR {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  max-width: 13rem;
+  z-index: 1;
+}
+.template3 .intro_invition .wrapper .image_psb__BR img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transform: rotate(180deg);
+  z-index: 1;
+}
+.template3 .intro_invition .wrapper .text {
+  font-size: 2rem;
+  color: #fff;
+  text-transform: uppercase;
+}
+.template3 .intro_invition .wrapper .mar {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  padding: 1rem;
+}
+.template3 .intro_invition .wrapper .mar .groom_name,
+.template3 .intro_invition .wrapper .mar .bride_name {
+  font-size: 6rem;
+  font-family: "Allura", cursive;
+  color: white;
+  font-weight: 400;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-transform: capitalize;
+}
+.template3 .intro_invition .wrapper .mar .and {
+  text-align: center;
+  font-size: 5rem;
+  font-family: "Allura", cursive;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-transform: capitalize;
+}
+.template3 .intro_invition .wrapper .mar .groom_name {
+  text-align: left;
+}
+.template3 .intro_invition .wrapper .mar .bride_name {
+  text-align: right;
+}
+.template3 .intro_invition .wrapper .box_dateTime {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+}
+.template3 .intro_invition .wrapper .box_dateTime .dateTime {
+  flex: 1 1 12rem;
+  height: 100%;
+  border-right: 0.2rem solid #fff;
+  max-width: 20rem;
+  width: 100%;
+  height: 17rem;
+  padding: 0 1rem;
+}
+.template3 .intro_invition .wrapper .box_dateTime .dateTime span {
+  display: block;
+  color: #fff;
+  padding: 1rem;
+  text-transform: uppercase;
+}
+.template3 .intro_invition .wrapper .box_dateTime .dateTime .day {
+  font-size: 2.5rem;
+  border-bottom: 0.1rem solid #c38e32;
+}
+.template3 .intro_invition .wrapper .box_dateTime .dateTime .month {
+  font-size: 2rem;
+  border-bottom: 0.1rem solid #c38e32;
+}
+.template3 .intro_invition .wrapper .box_dateTime .dateTime .year {
+  font-size: 2.5rem;
+}
+.template3 .intro_invition .wrapper .box_dateTime .inviton_name {
+  flex: 1 1 32rem;
+  width: 100%;
+  text-align: left;
+  padding-left: 2rem;
+  color: #fff;
+}
+.template3 .intro_invition .wrapper .box_dateTime .inviton_name .invition {
+  font-size: 3rem;
+  font-family: "Allura", cursive;
+}
+.template3 .intro_invition .wrapper .box_dateTime .inviton_name .name {
+  font-size: 4rem;
+  font-family: "Allura", cursive;
+  margin: 0;
+  font-weight: 400;
+}
+.template3 .header {
+  position: relative;
+  padding-bottom: 3rem;
+}
+.template3 .header .flower_left {
+  position: absolute;
+  top: -4px;
+  left: -1rem;
+}
+.template3 .header .flower_left img {
+  transform: rotate(-270deg);
+  width: 12rem;
+}
+.template3 .header .flower_right {
+  position: absolute;
+  top: -0.4rem;
+  right: 0;
+}
+.template3 .header .flower_right img {
+  transform: rotate(180deg);
+  width: 12rem;
+}
+.template3 .header .header_content {
+  width: 100%;
+  text-align: center;
+  padding: 4rem 0 0;
+  color: #fff;
+}
+.template3 .header .header_content h4 {
+  font-size: 5rem;
+  font-family: "Allura", cursive;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-transform: capitalize;
+  margin: 3rem auto;
+}
+.template3 .header .header_content .groom_bride {
+  margin: 1rem 0;
+}
+.template3 .header .header_content .groom_bride h3 {
+  font-size: 3.5rem;
+  font-family: "Allura", cursive;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-transform: capitalize;
+}
+.template3 .header .header_content .invitation_details {
+  margin: 1rem 0;
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+}
+.template3 .header .header_content .invitation_details p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.template3 .header .header_content .invitation_details .date_time {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.template3 .header .header_content .invitation_details .date_time span {
+  display: inline-block;
+}
+.template3 .header .header_content .invitation_details .year {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #c38e32;
+}
+.template3 .header .header_content .invitation_details .location {
+  margin-top: 1rem;
+}
+.template3 .header .header_content .invitation_details .location p {
+  font-size: 0.9rem;
+  color: #999;
+}
+.template3 .header .header_content .imageMain {
+  max-width: 45rem;
+  width: 90%;
+  margin: 2rem auto;
+  aspect-ratio: 3/4;
+  border-radius: 50%/40%;
+  padding: 10px;
+  background: white;
+  position: relative;
+  box-shadow: 0 0 0 1px #ccc;
+}
+.template3 .header .header_content .imageMain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid #ccc;
+  border-radius: 50%/40%;
+  z-index: 1;
+  pointer-events: none;
+}
+.template3 .header .header_content .imageMain img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%/40%;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+.template3 .info_groom_bride {
+  padding: 3rem 1rem;
+  background: #fff;
+  margin: 3rem 1rem;
+  border-radius: 1rem;
+}
+.template3 .info_groom_bride .info_wrapper {
+  display: flex;
+}
+.template3 .info_groom_bride .info_wrapper .info__groom {
+  flex: 1 1;
+  padding: 0;
+  color: #640606;
+  border-right: 0.1rem solid #325851;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  text-align: center;
+  font-family: "Alegreya", serif;
+}
+.template3 .info_groom_bride .info_wrapper .info__groom .location {
+  font-size: 1.4rem !important;
+}
+.template3 .info_groom_bride .info_wrapper .info__bride {
+  flex: 1 1;
+  padding: 0;
+  color: #640606;
+  border-left: 0.1rem solid #325851;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  font-weight: 400;
+  text-align: center;
+  font-family: "Alegreya", serif;
+}
+.template3 .info_groom_bride .info_wrapper .info__bride .location {
+  font-size: 1.4rem !important;
+}
+.template3 .info_groom_bride .mar {
+  margin: 3rem 0;
+  padding: 1rem;
+}
+.template3 .info_groom_bride .mar .groom_name,
+.template3 .info_groom_bride .mar .bride_name {
+  font-size: 6rem;
+  font-family: "Allura", cursive;
+  color: #333;
+  font-weight: 400;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-transform: capitalize;
+}
+.template3 .info_groom_bride .mar .and {
+  text-align: center;
+  font-size: 5rem;
+  font-family: "Allura", cursive;
+  color: #333;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-transform: capitalize;
+}
+.template3 .info_groom_bride .mar .groom_name {
+  text-align: left;
+}
+.template3 .info_groom_bride .mar .bride_name {
+  text-align: right;
+}
+.template3 .info_groom_bride .best_regards {
+  text-align: center;
+  font-size: 2rem;
+  color: #c38e32;
+  text-transform: capitalize;
+  font-weight: 400;
+  font-family: "Alegreya", serif;
+  margin-top: 3rem;
+}
+.template3 .info_groom_bride .text {
+  font-size: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  color: #c38e32;
+}
+.template3 .info_groom_bride .flex_image {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+}
+.template3 .info_groom_bride .flex_image .image_1,
+.template3 .info_groom_bride .flex_image .image_2,
+.template3 .info_groom_bride .flex_image .image_3 {
+  max-width: 25rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.template3 .info_groom_bride .flex_image .image_1 img,
+.template3 .info_groom_bride .flex_image .image_2 img,
+.template3 .info_groom_bride .flex_image .image_3 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.template3 .info_groom_bride .flex_image .image_1 {
+  transform: scale(0.9);
+}
+.template3 .info_groom_bride .flex_image .image_2 {
+  transform: scale(1);
+}
+.template3 .info_groom_bride .flex_image .image_3 {
+  transform: scale(0.9);
+}
+.template3 .info_groom_bride .specifically {
+  text-align: center;
+  padding: 1.5rem 0;
+  /* Heartbeat animation for the heart icon */
+}
+.template3 .info_groom_bride .specifically .time_specifically {
+  padding: 1rem 0;
+  font-size: 1.6rem;
+}
+.template3 .info_groom_bride .specifically .time_specifically span {
+  padding: 0 0.2rem;
+  font-weight: 550;
+}
+.template3 .info_groom_bride .specifically .time_specifically .day_specifically {
+  margin-left: 0.5rem;
+  border-left: 0.2rem solid #333;
+  padding-left: 0.5rem;
+}
+.template3 .info_groom_bride .specifically .date_specifically {
+  padding: 1.2rem 0;
+  border-top: 0.2rem solid #325851;
+  border-bottom: 0.2rem solid #325851;
+  max-width: 20rem;
+  width: 100%;
+  margin: auto;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+.template3 .info_groom_bride .specifically .dateLunar_specifically {
+  padding: 1.5rem 0;
+  font-size: 1.6rem;
+}
+.template3 .info_groom_bride .specifically .calendar {
+  width: 88%;
+  max-width: 600px;
+  margin: 2.5rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 245, 247, 0.5), rgba(240, 235, 255, 0.5));
+  border-radius: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  /* Subtle overlay for readability */
+}
+.template3 .info_groom_bride .specifically .calendar .calendarBackground {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("/images/floral-pattern.png") no-repeat center center/cover;
-  opacity: 0.15;
+  -o-object-fit: cover;
+     object-fit: cover;
+  z-index: 0;
+}
+.template3 .info_groom_bride .specifically .calendar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+.template3 .info_groom_bride .specifically .calendar .calendarHeader {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  font-size: 2.8rem;
+  font-family: "Great Vibes", cursive;
+  font-weight: 600;
+  color: #cfcfcf;
+  margin-bottom: 1.8rem;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+}
+.template3 .info_groom_bride .specifically .calendar .calendarGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+}
+.template3 .info_groom_bride .specifically .calendar .calendarDayHeader {
+  font-size: 1.2rem;
+  font-family: "Lora", serif;
+  color: #d6a884;
+  padding: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(139, 94, 60, 0.3);
+}
+.template3 .info_groom_bride .specifically .calendar .calendarDay {
+  font-size: 1.4rem;
+  font-family: "Lora", serif;
+  color: #d6a884;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.template3 .info_groom_bride .specifically .selectedDay {
+  color: #fff !important;
+  font-weight: 600;
+  position: relative;
+}
+.template3 .info_groom_bride .specifically .selectedDay .heartIcon {
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  font-size: 2.8rem;
+  color: #9f1212;
+  animation: heartbeat 1.8s ease-in-out infinite;
   z-index: -1;
 }
-.introSection .introContent {
-  z-index: 2;
+.template3 .info_groom_bride .specifically .calendarEmpty {
+  background: transparent;
 }
-.introSection .introContent .introText {
-  font-family: "Dancing Script", cursive;
-  font-size: 2.2em;
-  /* Nhẹ nhàng hơn */
-  margin-bottom: 10px;
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
-.visible .introSection .introContent .introText {
-  animation: fadeIn 1.5s ease-out forwards;
-}
-.introSection .introContent .coupleNames {
-  font-family: "Herr Von Muellerhoff", cursive;
-  font-size: 6em;
-  line-height: 1;
-  margin: 20px 0;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-}
-.introSection .introContent .coupleNames .groomName,
-.introSection .introContent .coupleNames .brideName {
-  display: block;
-}
-.visible .introSection .introContent .coupleNames .groomName,
-.visible .introSection .introContent .coupleNames .brideName {
-  animation: slideInLeft 1.5s ease-out forwards;
-}
-.visible .introSection .introContent .coupleNames .brideName {
-  animation: slideInRight 1.5s ease-out forwards;
-}
-.introSection .introContent .coupleNames .andSymbol {
-  font-size: 0.5em;
-  vertical-align: super;
-  margin: 0 10px;
-}
-.visible .introSection .introContent .coupleNames .andSymbol {
-  animation: fadeIn 2s ease-out forwards;
-  animation-delay: 0.5s;
-}
-.introSection .introContent .invitePhrase,
-.introSection .introContent .date {
-  font-family: "Dancing Script", cursive;
-  font-size: 1.6em;
-  /* Nhẹ nhàng hơn */
-  margin-top: 15px;
-}
-.visible .introSection .introContent .invitePhrase,
-.visible .introSection .introContent .date {
-  animation: fadeIn 2s ease-out forwards;
-  animation-delay: 1s;
-}
-
-/* --- Gallery Section --- */
-.gallerySection {
-  background-color: #F8F5EE;
-  padding: 50px 0;
-}
-.gallerySection .gallerySlider {
-  position: relative;
-  width: 90%;
-  max-width: 900px;
-  height: 500px;
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  background-color: #FFFFFF;
-}
-.visible .gallerySection .gallerySlider {
-  animation: fadeInScale 1.5s ease-out forwards;
-}
-.gallerySection .sliderInner {
+.template3 .info_groom_bride .locations .organization_location_groom {
   display: flex;
-  height: 100%;
-  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.gallerySection .slideItem {
-  min-width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-}
-.gallerySection .slideItem .slideImage {
-  filter: brightness(0.98);
-  /* Giảm độ sáng nhẹ */
-  transition: transform 0.5s ease-in-out;
-}
-.gallerySection .slideItem .slideImage:hover {
-  transform: scale(1.03);
-  /* Zoom nhẹ hơn */
-}
-.gallerySection .sliderDots {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 10;
-}
-.gallerySection .sliderDots .dot {
-  width: 10px;
-  /* Nhỏ hơn */
-  height: 10px;
-  /* Nhỏ hơn */
-  border-radius: 50%;
-  background-color: rgba(74, 74, 74, 0.2);
-  /* Mờ hơn */
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-.gallerySection .sliderDots .dot.active {
-  background-color: #F7CAC9;
-  /* Màu chấm active */
-  transform: scale(1.2);
-}
-.gallerySection .sliderDots .dot:hover {
-  background-color: #F7CAC9;
-}
-
-/* --- Wedding Info & Family Sections --- */
-.weddingInfoSection,
-.familySection {
-  background-color: #F8F5EE;
-  margin: 30px auto;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
-  max-width: 1000px;
-}
-.weddingInfoSection .weddingDetails,
-.weddingInfoSection .familyInfoGrid,
-.familySection .weddingDetails,
-.familySection .familyInfoGrid {
-  /* Đổi tên class cho family info để dùng grid */
-  display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
-  gap: 30px;
-  padding: 20px;
+  gap: 1rem;
+  align-items: center;
 }
-.visible .weddingInfoSection .weddingDetails,
-.visible .weddingInfoSection .familyInfoGrid,
-.visible .familySection .weddingDetails,
-.visible .familySection .familyInfoGrid {
-  animation: fadeIn 1.5s ease-out forwards;
-  animation-delay: 0.3s;
+.template3 .info_groom_bride .locations .organization_location_groom .text_organization__location {
+  flex: 1 1 16rem;
+  width: 100%;
+  text-align: center;
 }
-.weddingInfoSection .weddingDetails.familyInfoGrid,
-.weddingInfoSection .familyInfoGrid.familyInfoGrid,
-.familySection .weddingDetails.familyInfoGrid,
-.familySection .familyInfoGrid.familyInfoGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
+.template3 .info_groom_bride .locations .organization_location_groom .text_organization__location h4 {
+  font-size: 1.7rem;
 }
-.weddingInfoSection .weddingDetails .detailBlock,
-.weddingInfoSection .weddingDetails .familyBlock,
-.weddingInfoSection .familyInfoGrid .detailBlock,
-.weddingInfoSection .familyInfoGrid .familyBlock,
-.familySection .weddingDetails .detailBlock,
-.familySection .weddingDetails .familyBlock,
-.familySection .familyInfoGrid .detailBlock,
-.familySection .familyInfoGrid .familyBlock {
-  flex: 1;
-  min-width: 280px;
-  background-color: #daede8;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-  color: #4A4A4A;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.template3 .info_groom_bride .locations .organization_location_groom .text_organization__location span {
+  font-size: 1.4rem;
 }
-.weddingInfoSection .weddingDetails .detailBlock:hover,
-.weddingInfoSection .weddingDetails .familyBlock:hover,
-.weddingInfoSection .familyInfoGrid .detailBlock:hover,
-.weddingInfoSection .familyInfoGrid .familyBlock:hover,
-.familySection .weddingDetails .detailBlock:hover,
-.familySection .weddingDetails .familyBlock:hover,
-.familySection .familyInfoGrid .detailBlock:hover,
-.familySection .familyInfoGrid .familyBlock:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+.template3 .info_groom_bride .locations .organization_location_groom .map_organization__location {
+  flex: 2 1 32rem;
 }
-.weddingInfoSection .weddingDetails .detailBlock h3,
-.weddingInfoSection .weddingDetails .familyBlock h3,
-.weddingInfoSection .familyInfoGrid .detailBlock h3,
-.weddingInfoSection .familyInfoGrid .familyBlock h3,
-.familySection .weddingDetails .detailBlock h3,
-.familySection .weddingDetails .familyBlock h3,
-.familySection .familyInfoGrid .detailBlock h3,
-.familySection .familyInfoGrid .familyBlock h3 {
-  font-family: "Dancing Script", cursive;
-  color: #B8860B;
-  /* Tiêu đề khối vàng đồng */
-  font-size: 1.7em;
-  margin-bottom: 15px;
+.template3 .info_groom_bride .locations .organization_location_groom .map_organization__location iframe {
+  border: none;
+  border-radius: 1rem;
+  overflow: hidden;
+  width: 100%;
 }
-.weddingInfoSection .weddingDetails .detailBlock p,
-.weddingInfoSection .weddingDetails .familyBlock p,
-.weddingInfoSection .familyInfoGrid .detailBlock p,
-.weddingInfoSection .familyInfoGrid .familyBlock p,
-.familySection .weddingDetails .detailBlock p,
-.familySection .weddingDetails .familyBlock p,
-.familySection .familyInfoGrid .detailBlock p,
-.familySection .familyInfoGrid .familyBlock p {
-  font-family: "Playwrite AU SA", sans-serif;
-  font-size: 1.05em;
-  line-height: 1.6;
-  margin-bottom: 8px;
+.template3 .info_groom_bride .locations .organization_location_bride {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  gap: 1rem;
+  align-items: center;
 }
-.weddingInfoSection .weddingDetails .detailBlock p.address,
-.weddingInfoSection .weddingDetails .familyBlock p.address,
-.weddingInfoSection .familyInfoGrid .detailBlock p.address,
-.weddingInfoSection .familyInfoGrid .familyBlock p.address,
-.familySection .weddingDetails .detailBlock p.address,
-.familySection .weddingDetails .familyBlock p.address,
-.familySection .familyInfoGrid .detailBlock p.address,
-.familySection .familyInfoGrid .familyBlock p.address {
-  font-weight: 300;
+.template3 .info_groom_bride .locations .organization_location_bride .text_organization__location {
+  flex: 1 1 16rem;
+  width: 100%;
+  text-align: center;
 }
-.weddingInfoSection .weddingDetails .detailBlock .mapButton,
-.weddingInfoSection .weddingDetails .familyBlock .mapButton,
-.weddingInfoSection .familyInfoGrid .detailBlock .mapButton,
-.weddingInfoSection .familyInfoGrid .familyBlock .mapButton,
-.familySection .weddingDetails .detailBlock .mapButton,
-.familySection .weddingDetails .familyBlock .mapButton,
-.familySection .familyInfoGrid .detailBlock .mapButton,
-.familySection .familyInfoGrid .familyBlock .mapButton {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: #F7CAC9;
-  /* Nút màu hồng pastel */
-  color: #FFFFFF;
-  text-decoration: none;
-  border-radius: 25px;
-  /* Nút bo tròn */
-  font-family: "Playwrite AU SA", sans-serif;
-  font-weight: 400;
-  /* Nhẹ nhàng hơn */
-  transition: background-color 0.3s ease, transform 0.3s ease;
+.template3 .info_groom_bride .locations .organization_location_bride .text_organization__location h4 {
+  font-size: 1.7rem;
 }
-.weddingInfoSection .weddingDetails .detailBlock .mapButton:hover,
-.weddingInfoSection .weddingDetails .familyBlock .mapButton:hover,
-.weddingInfoSection .familyInfoGrid .detailBlock .mapButton:hover,
-.weddingInfoSection .familyInfoGrid .familyBlock .mapButton:hover,
-.familySection .weddingDetails .detailBlock .mapButton:hover,
-.familySection .weddingDetails .familyBlock .mapButton:hover,
-.familySection .familyInfoGrid .detailBlock .mapButton:hover,
-.familySection .familyInfoGrid .familyBlock .mapButton:hover {
-  background-color: #f2a7a5;
-  transform: translateY(-2px);
+.template3 .info_groom_bride .locations .organization_location_bride .text_organization__location span {
+  font-size: 1.4rem;
 }
-
-/* --- Final Section --- */
-.finalSection {
-  background-color: #F8F5EE;
-  padding-bottom: 100px;
+.template3 .info_groom_bride .locations .organization_location_bride .map_organization__location {
+  flex: 2 1 32rem;
 }
-.finalSection .thankYouText {
-  font-family: "Dancing Script", cursive;
-  font-size: 2em;
-  margin-top: 50px;
-  color: #B8860B;
+.template3 .info_groom_bride .locations .organization_location_bride .map_organization__location iframe {
+  border: none;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
 }
-.visible .finalSection .thankYouText {
-  animation: fadeIn 1.5s ease-out forwards;
-  animation-delay: 0.5s;
+.template3 .info_groom_bride .album_story {
+  padding: 2rem 0;
 }
-.finalSection .signature {
+.template3 .info_groom_bride .album_story h3 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
   font-family: "Allura", cursive;
-  font-size: 3.2em;
-  margin-top: 20px;
-  color: #B8860B;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
 }
-.visible .finalSection .signature {
-  animation: fadeInScale 1.5s ease-out forwards;
-  animation-delay: 1s;
+.template3 .info_groom_bride .album_story .wrapper_album {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 150px;
+  gap: 10px;
+}
+.template3 .info_groom_bride .album_story .wrapper_album div {
+  overflow: hidden;
+  border-radius: 12px;
+}
+.template3 .info_groom_bride .album_story .wrapper_album div img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.template3 .info_groom_bride .album_story .wrapper_album div img:hover {
+  transform: scale(1.05);
+}
+.template3 .info_groom_bride .album_story .wrapper_album div:nth-child(1) {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+.template3 .info_groom_bride .album_story .wrapper_album div:nth-child(2) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+.template3 .info_groom_bride .album_story .wrapper_album div:nth-child(3) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+.template3 .info_groom_bride .album_story .wrapper_album div:nth-child(4) {
+  grid-column: span 3;
+  grid-row: span 2;
+}
+.template3 .info_groom_bride .album_story .wrapper_album div:nth-child(5) {
+  grid-column: span 3;
+  grid-row: span 1;
+}
+.template3 .info_groom_bride .album_story .wrapper_album div:nth-child(6) {
+  grid-column: span 3;
+  grid-row: span 1;
+}
+.template3 .footer_thanks .image_footer {
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+.template3 .footer_thanks .image_footer img {
+  width: 100%;
+  height: 100%;
+}
+.template3 .footer_thanks .image_footer .content {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  color: #fff;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2rem 1rem;
+}
+.template3 .footer_thanks .image_footer .content span {
+  font-size: 4rem;
+  font-family: "Great Vibes", cursive;
+}
+.template3 .footer_thanks .image_footer .content h3 {
+  font-size: 2.8rem;
+  font-family: "Great Vibes", cursive;
+  margin: 1rem 0;
 }
 
-/* --- Keyframe Animations --- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-@keyframes slideInRight {
-  from {
-    transform: translateX(100px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-@keyframes scaleIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
+@keyframes pulse {
+  0% {
     transform: scale(1);
   }
-}
-/* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
-  .weddingContainer {
-    width: 95%;
-    margin: 1rem 0;
+  50% {
+    transform: scale(1.3);
   }
-  .section {
-    padding: 50px 15px;
-  }
-  .introSection .introContent .coupleNames {
-    font-size: 4em;
-  }
-  .introSection .introContent .introText,
-  .introSection .introContent .invitePhrase,
-  .introSection .introContent .date {
-    font-size: 1.3em;
-  }
-  .sectionTitle {
-    font-size: 2.2em;
-    margin-bottom: 30px;
-  }
-  .gallerySection .gallerySlider {
-    height: 350px;
-    width: 95%;
-  }
-  .weddingInfoSection .weddingDetails,
-  .weddingInfoSection .familyInfoGrid,
-  .familySection .weddingDetails,
-  .familySection .familyInfoGrid {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  .weddingInfoSection .detailBlock,
-  .weddingInfoSection .familyBlock,
-  .familySection .detailBlock,
-  .familySection .familyBlock {
-    width: 90%;
-    padding: 20px;
-  }
-  .thankYouText {
-    font-size: 1.8em;
-  }
-  .signature {
-    font-size: 2.5em;
-  }
-}
-@media (max-width: 480px) {
-  .introSection .introContent .coupleNames {
-    font-size: 3em;
-  }
-  .introSection .introContent .introText,
-  .introSection .introContent .invitePhrase,
-  .introSection .introContent .date {
-    font-size: 1em;
-  }
-  .sectionTitle {
-    font-size: 1.8em;
-  }
-  .gallerySection .gallerySlider {
-    height: 250px;
+  100% {
+    transform: scale(1);
   }
 }/*# sourceMappingURL=3.module.css.map */

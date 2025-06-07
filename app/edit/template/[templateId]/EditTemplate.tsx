@@ -22,7 +22,7 @@ export interface TemplateWeddingData {
     brideAddress: string;
     groomMapUrl: string;
     brideMapUrl: string;
-    weddingDate: string;
+    weddingDate: Date | null;
 }
 
 interface EditTemplateProps {
@@ -34,7 +34,7 @@ interface FieldConfig {
     label: string;
     path: string[];
     placeholder: string;
-    type?: string;
+    type?: 'text' | 'time' | 'textarea' | 'date';
     transform?: (value: string) => string;
     validate?: (value: string) => string | null;
 }
@@ -43,7 +43,39 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
     const router = useRouter();
     const searchParams = useSearchParams();
     const { getUserQr, updateQrStatus } = useApi();
-    const [formData, setFormData] = useState<TemplateWeddingData>(weddingData);
+
+    // Hàm phụ để parse chuỗi ngày thành Date hoặc null
+    const parseWeddingDate = (dateStr: string | Date | null): Date | null => {
+        if (typeof dateStr === 'string' && dateStr.trim()) {
+            const [day, month, year] = dateStr.split('/').map(Number);
+            const date = new Date(year, month - 1, day);
+            return isNaN(date.getTime()) ? null : date;
+        }
+        return null;
+    };
+
+    // Format Date object to dd/mm/yyyy
+    const formatDateToDDMMYYYY = (date: Date | null): string => {
+        if (!date) return '';
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    // Format Date object to yyyy-mm-dd for input type="date"
+    const formatDateToInput = (date: Date | null): string => {
+        if (!date) return '';
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const [formData, setFormData] = useState<TemplateWeddingData>({
+        ...weddingData,
+        weddingDate: parseWeddingDate(weddingData.weddingDate),
+    });
     const [receiveDonation, setReceiveDonation] = useState<boolean>(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [templateIdError, setTemplateIdError] = useState<string>('');
@@ -85,7 +117,10 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
     }, [templateId, getUserQr]);
 
     useEffect(() => {
-        setFormData(weddingData);
+        setFormData({
+            ...weddingData,
+            weddingDate: parseWeddingDate(weddingData.weddingDate),
+        });
         setErrors({});
     }, [weddingData]);
 
@@ -97,7 +132,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         }
     }, [templateId]);
 
-    const extractMapUrl = (input: string) => {
+    const extractMapUrl = (input: string): string => {
         const urlMatch = input.match(/src="([^"]+)"/);
         return urlMatch ? urlMatch[1] : input;
     };
@@ -122,13 +157,33 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         }
     };
 
-    const handleChange = (path: string[], value: string, validateFn?: (value: string) => string | null) => {
+    const handleChange = (path: string[], value: string | Date, validateFn?: (value: string) => string | null) => {
+        if (path[0] === 'weddingDate' && typeof value === 'string') {
+            const [year, month, day] = value.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+            if (isNaN(date.getTime())) {
+                setFormData((prev) => ({
+                    ...prev,
+                    weddingDate: null,
+                }));
+                validateField(path, '', validateFn);
+                return;
+            }
+            setFormData((prev) => ({
+                ...prev,
+                weddingDate: date,
+            }));
+            const formattedDate = formatDateToDDMMYYYY(date);
+            validateField(path, formattedDate, validateFn);
+            return;
+        }
+
         const shouldCapitalize =
             !path.includes('groomMapUrl') &&
             !path.includes('brideMapUrl') &&
             !path.includes('weddingTime') &&
             !path.includes('weddingDate');
-        const transformedValue = shouldCapitalize ? capitalize(value) : value;
+        const transformedValue = shouldCapitalize && typeof value === 'string' ? capitalize(value) : value;
 
         setFormData((prev) => {
             const updated: TemplateWeddingData = { ...prev };
@@ -142,7 +197,9 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             return updated;
         });
 
-        validateField(path, transformedValue, validateFn);
+        if (validateFn && typeof transformedValue === 'string') {
+            validateField(path, transformedValue, validateFn);
+        }
     };
 
     const handleToggle = async () => {
@@ -173,7 +230,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         }
     };
 
-    const getNestedValue = (obj: TemplateWeddingData, path: string[]): string => {
+    const getNestedValue = (obj: TemplateWeddingData, path: string[]): string | Date | null => {
         const value = path.reduce(
             (current: Record<string, unknown>, key) => {
                 if (current && typeof current === 'object' && key in current) {
@@ -183,7 +240,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             },
             obj as unknown as Record<string, unknown>
         );
-        return typeof value === 'string' ? value : '';
+        return typeof value === 'string' || value instanceof Date || value === null ? value : '';
     };
 
     const handleSave = () => {
@@ -197,7 +254,13 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         fields.forEach(({ path, validate }) => {
             if (validate) {
                 const value = getNestedValue(formData, path);
-                const error = validate(value);
+                let formattedValue = '';
+                if (path[0] === 'weddingDate' && value instanceof Date) {
+                    formattedValue = formatDateToDDMMYYYY(value);
+                } else if (typeof value === 'string') {
+                    formattedValue = value;
+                }
+                const error = validate(formattedValue);
                 if (error) {
                     validationErrors[path.join('.')] = error;
                 }
@@ -210,7 +273,12 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             return;
         }
 
-        localStorage.setItem(`WeddingData${templateId}`, JSON.stringify(formData));
+        const saveData = {
+            ...formData,
+            weddingDate: formData.weddingDate ? formatDateToDDMMYYYY(formData.weddingDate) : '',
+        };
+
+        localStorage.setItem(`WeddingData${templateId}`, JSON.stringify(saveData));
         router.push(`/template/${templateId}/edit_image/${templateId}?quantity=${quantity}`);
     };
 
@@ -234,8 +302,10 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         {
             label: 'Ngày cưới',
             path: ['weddingDate'],
-            placeholder: 'Ví dụ: 17/11/2025',
+            placeholder: 'dd/mm/yyyy',
+            type: 'date',
             validate: (value: string) => {
+                if (!value) return 'Ngày cưới không được để trống';
                 const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
                 if (!regex.test(value)) return 'Định dạng ngày phải là DD/MM/YYYY';
                 const [day, month, year] = value.split('/').map(Number);
@@ -365,17 +435,28 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
                         <span className={styles.label}>{label}:</span>
                         {type === 'textarea' ? (
                             <textarea
-                                value={getNestedValue(formData, path)}
+                                value={getNestedValue(formData, path) as string}
                                 onChange={(e) =>
                                     handleChange(path, transform ? transform(e.target.value) : e.target.value, validate)
                                 }
                                 placeholder={placeholder}
                                 className={styles.textarea}
                             />
+                        ) : type === 'date' ? (
+                            <div className={styles.dateFieldContainer}>
+                                <input
+                                    type="date"
+                                    value={formatDateToInput(getNestedValue(formData, path) as Date | null)}
+                                    onChange={(e) => handleChange(path, e.target.value, validate)}
+                                    placeholder={placeholder}
+                                    className={`${styles.input} ${styles.dateInput}`}
+                                />
+                               
+                            </div>
                         ) : (
                             <input
                                 type={type}
-                                value={getNestedValue(formData, path)}
+                                value={getNestedValue(formData, path) as string}
                                 onChange={(e) =>
                                     handleChange(path, transform ? transform(e.target.value) : e.target.value, validate)
                                 }
@@ -390,7 +471,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
                     <button onClick={handleCancel} className={styles.cancelButton}>
                         Hủy
                     </button>
-                    <button onClick={() => handleSave()} disabled={hasErrors} className={styles.saveButton}>
+                    <button onClick={handleSave} disabled={hasErrors} className={styles.saveButton}>
                         Lưu
                     </button>
                 </div>

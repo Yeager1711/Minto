@@ -15,26 +15,19 @@ const FeatureCard: React.FC = () => {
     };
 
     return (
-        <div className={styles.card}>
-            <div className={styles.card_wrapper}>
-                <div className={styles.card_left}>
+        <div className={styles.Feature_Card}>
+            <div className={styles.box} onClick={handleOpenCreateCard}>
+                <div className={styles.content}>
                     <h3>Khám phá tính năng nhận HỶ qua QR</h3>
-                    <span>Dễ dàng tạo thẻ thanh toán với mã QR tích hợp sẵn.</span>
-                    <span>Khách mời có thể gửi lời chúc từ xa một cách tiện lợi.</span>
-                    <span>Tích hợp nhanh chóng, giao diện thân thiện, phù hợp với mọi dịp lễ.</span>
-                    <span>Hỗ trợ đa nền tảng, đảm bảo trải nghiệm mượt mà cho tất cả người dùng.</span>
-                    <div className={styles.btn_createCard} onClick={handleOpenCreateCard}>
-                        Tạo thẻ
-                    </div>
+                    <span>Dễ dàng tạo thanh toán với mã QR tích hợp.</span>
+                    <span>Khách mời có thể gửi lời chúc từ xa.</span>
+                    <span>Tích hợp nhanh chóng, giao diện thân thiện.</span>
+                    <span>Hỗ trợ đa nền tảng, đảm bảo trải nghiệm mượt mà.</span>
+                   
                 </div>
-                <div className={styles.card_right}>
-                    <div className={styles.bank_card}>
-                        <h3>Minto Feature</h3>
-                        <h2>xxx xxx xxx</h2>
-                        <h4>Client Name</h4>
-                    </div>
-                </div>
+                <video src="/videos/intro_card.mp4" autoPlay muted loop className={styles.fullScreenVideo} />
             </div>
+
             <CreateCardPopup
                 isOpen={isCreateCardOpen}
                 onClose={handleCloseCreateCard}

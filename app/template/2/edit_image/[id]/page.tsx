@@ -12,7 +12,7 @@ import { Suspense } from 'react';
 import { TemplateWeddingData } from 'app/edit/template/[templateId]/EditTemplate';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
 import imagekit from 'app/lib/imagekit/imagekit';
-import { useApi } from '../../../../lib/apiContext/apiContext'; 
+import { useApi } from '../../../../lib/apiContext/apiContext';
 import { showToastError } from 'app/Ultils/toast';
 
 interface Images {
@@ -35,17 +35,36 @@ function Template2Edit() {
     const params = useParams();
     const templateId = params.id as string;
     const searchParams = useSearchParams();
-    const { fetchAuthParams } = useApi(); // Use ApiContext
+    const { fetchAuthParams } = useApi();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const quantity = parseInt(searchParams.get('quantity') || '1');
 
+    // Parse weddingDate from localStorage string to Date | null
+    const parseWeddingDate = (dateStr: string | Date | null): Date | null => {
+        if (typeof dateStr === 'string' && dateStr.trim()) {
+            const [day, month, year] = dateStr.split('/').map(Number);
+            const date = new Date(year, month - 1, day);
+            return isNaN(date.getTime()) ? null : date;
+        }
+        return null;
+    };
+
+    // Format Date to DD/MM/YYYY
+    const formatDateToDDMMYYYY = (date: Date | null): string => {
+        if (!date) return 'Chưa cập nhật';
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     const defaultWeddingData: TemplateWeddingData = {
         bride: '',
         groom: '',
-        weddingDate: '',
+        weddingDate: null,
         weddingTime: '',
         weddingDayOfWeek: '',
         lunarDay: '',
@@ -57,7 +76,6 @@ function Template2Edit() {
         brideAddress: '',
         groomMapUrl: '',
         brideMapUrl: '',
-        
     };
 
     const defaultImages: Images = {
@@ -78,7 +96,14 @@ function Template2Edit() {
 
     const [weddingData] = useState<TemplateWeddingData>(() => {
         const savedData = typeof window !== 'undefined' ? localStorage.getItem(`WeddingData${templateId}`) : null;
-        return savedData ? JSON.parse(savedData) : defaultWeddingData;
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            return {
+                ...parsedData,
+                weddingDate: parseWeddingDate(parsedData.weddingDate),
+            };
+        }
+        return defaultWeddingData;
     });
 
     const [images, setImages] = useState<Images>(() => {
@@ -169,7 +194,7 @@ function Template2Edit() {
 
         let authParams;
         try {
-            authParams = await fetchAuthParams(); // Use fetchAuthParams from ApiContext
+            authParams = await fetchAuthParams();
         } catch {
             showToastError('Không thể kết nối với ImageKit. Vui lòng thử lại.');
             e.target.value = '';
@@ -183,7 +208,7 @@ function Template2Edit() {
             const dateFolder = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
                 .toString()
                 .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
-            const folderPath = `/wedding_${templateId}/${dateFolder}`; // Add date subfolder
+            const folderPath = `/wedding_${templateId}/${dateFolder}`;
 
             const uploadResponse = await imagekit.upload({
                 file,
@@ -254,7 +279,6 @@ function Template2Edit() {
         <Suspense fallback={<div>Loading...</div>}>
             <div className={styles.mau_2_container}>
                 <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
-
                 <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
                     <div className={styles.dynamic_content}>
                         <div
@@ -307,7 +331,6 @@ function Template2Edit() {
                             <div className={styles.page_2}>
                                 <Image src="/images/m2/page2.png" alt="" width={600} height={800} />
                             </div>
-
                             <div className={styles.torn_page}>
                                 <Image src="/images/m2/page.png" alt="" width={600} height={800} />
                             </div>
@@ -317,7 +340,7 @@ function Template2Edit() {
                                 width={600}
                                 height={400}
                                 onClick={() => triggerFileInput('mainImage')}
-                                style={{ cursor: 'pointer' }} // Visual cue for image click
+                                style={{ cursor: 'pointer' }}
                             />
                             <input
                                 type="file"
@@ -336,7 +359,7 @@ function Template2Edit() {
                                 <span className={styles.save}>Save</span>
                                 <span className={styles.the}>The</span>
                                 <span className={styles.date}>Date</span>
-                                <span className={styles.time}>{weddingData.weddingDate || 'Chưa cập nhật'}</span>
+                                <span className={styles.time}>{formatDateToDDMMYYYY(weddingData.weddingDate)}</span>
                             </div>
                             <div className={styles.bride_groom} data-aos="fade-up" data-aos-delay="600">
                                 <h3>{weddingData.groom || 'Chú rể'}</h3>
@@ -590,23 +613,34 @@ function Template2Edit() {
                                             {weddingData.weddingTime ? weddingData.weddingTime : 'Chưa cập nhật'}
                                         </span>
                                         <span className={styles.day}>
-                                            {weddingData.weddingDate ? weddingData.weddingDate.split('/')[0] : '??'}
+                                            {weddingData.weddingDate
+                                                ? weddingData.weddingDate.getDate().toString()
+                                                : '??'}
                                         </span>
                                         <span className={styles.month}>
                                             Tháng{' '}
-                                            {weddingData.weddingDate ? weddingData.weddingDate.split('/')[1] : '??'}
+                                            {weddingData.weddingDate
+                                                ? (weddingData.weddingDate.getMonth() + 1).toString()
+                                                : '??'}
                                         </span>
                                     </div>
                                     <span className={styles.year}>
-                                        {weddingData.weddingDate ? weddingData.weddingDate.split('/')[2] : '????'}
+                                        {weddingData.weddingDate
+                                            ? weddingData.weddingDate.getFullYear().toString()
+                                            : '????'}
                                     </span>
                                 </div>
                             </div>
                             <div className={styles.Lunar_day}>(Tức Ngày {weddingData.lunarDay || 'Chưa cập nhật'})</div>
                             <div className={styles.calendar} data-aos="zoom-in" data-aos-duration="1000">
                                 <h3>
-                                    Tháng {weddingData.weddingDate ? weddingData.weddingDate.split('/')[1] : '??'}{' '}
-                                    {weddingData.weddingDate ? weddingData.weddingDate.split('/')[2] : '????'}
+                                    Tháng{' '}
+                                    {weddingData.weddingDate
+                                        ? (weddingData.weddingDate.getMonth() + 1).toString()
+                                        : '??'}{' '}
+                                    {weddingData.weddingDate
+                                        ? weddingData.weddingDate.getFullYear().toString()
+                                        : '????'}
                                 </h3>
                                 <div className={styles.calendarHeader}>
                                     <span>CN</span>
@@ -618,22 +652,33 @@ function Template2Edit() {
                                     <span>T7</span>
                                 </div>
                                 <div className={styles.calendarBody}>
-                                    {Array(42)
-                                        .fill('')
-                                        .map((_, index) => {
-                                            const day = index < 6 ? '' : (index - 5).toString();
-                                            return (
-                                                <span
-                                                    key={index}
-                                                    className={
-                                                        parseInt(day) ===
-                                                        parseInt(weddingData.weddingDate?.split('/')[0] || '0')
-                                                            ? styles.highlight
-                                                            : ''
-                                                    }
-                                                >
-                                                    {parseInt(day) ===
-                                                    parseInt(weddingData.weddingDate?.split('/')[0] || '0') ? (
+                                    {(() => {
+                                        if (!weddingData.weddingDate) {
+                                            return Array(42)
+                                                .fill('')
+                                                .map((_, index) => (
+                                                    <span key={index}>{index < 6 ? '' : (index - 5).toString()}</span>
+                                                ));
+                                        }
+                                        const firstDay = new Date(
+                                            weddingData.weddingDate.getFullYear(),
+                                            weddingData.weddingDate.getMonth(),
+                                            1
+                                        ).getDay();
+                                        const daysInMonth = new Date(
+                                            weddingData.weddingDate.getFullYear(),
+                                            weddingData.weddingDate.getMonth() + 1,
+                                            0
+                                        ).getDate();
+                                        const cells = [];
+                                        for (let i = 0; i < firstDay; i++) {
+                                            cells.push(<span key={`empty-${i}`} className={styles.empty}></span>);
+                                        }
+                                        for (let day = 1; day <= daysInMonth; day++) {
+                                            const isWeddingDay = day === weddingData.weddingDate.getDate();
+                                            cells.push(
+                                                <span key={day} className={isWeddingDay ? styles.highlight : ''}>
+                                                    {isWeddingDay ? (
                                                         <span className={styles.highlightContent}>
                                                             <FontAwesomeIcon
                                                                 icon={faHeart}
@@ -646,7 +691,9 @@ function Template2Edit() {
                                                     )}
                                                 </span>
                                             );
-                                        })}
+                                        }
+                                        return cells;
+                                    })()}
                                 </div>
                             </div>
                         </div>
@@ -795,7 +842,7 @@ function Template2Edit() {
                             <span className={styles.save}>Save</span>
                             <span className={styles.the}>The</span>
                             <span className={styles.date}>Date</span>
-                            <span className={styles.time}>{weddingData.weddingDate || 'Chưa cập nhật'}</span>
+                            <span className={styles.time}>{formatDateToDDMMYYYY(weddingData.weddingDate)}</span>
                         </div>
                         <div className={styles.bride_groom} data-aos="fade-up" data-aos-delay="600">
                             <h3>{weddingData.bride || 'Cô dâu'}</h3>

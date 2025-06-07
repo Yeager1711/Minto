@@ -219,7 +219,7 @@
 }
 .main .wrapper_main .layer_default .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
 }

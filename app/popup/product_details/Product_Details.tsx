@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './product_details.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark} from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 
 interface Template {
@@ -25,8 +25,6 @@ interface PopupProps {
 }
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
-// const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-// const apiUrl = 'https://minto-sver.onrender.com';
 
 const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const router = useRouter();
@@ -145,8 +143,10 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                     onClick={handleUseTemplate}
                                     disabled={!isReady}
                                 >
-                                    Sử dụng mẫu này với giá {formattedTotalPrice}
+                                    Sử dụng với giá {formattedTotalPrice}
                                 </button>
+
+                          
                             </div>
                         </div>
                     </div>

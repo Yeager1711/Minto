@@ -85,14 +85,14 @@ const Notifications: React.FC = () => {
                     clickable: true,
                 }}
                 autoplay={{
-                    delay: 5000, // 5 giây
+                    delay: 50000000, // 5 giây
                     disableOnInteraction: false, // Tiếp tục autoplay sau khi người dùng tương tác
                 }}
                 loop={true}
                 breakpoints={{
                     768: {
                         slidesPerView: 2,
-                        spaceBetween: 20,
+                        spaceBetween: 0,
                     },
                 }}
                 className={styles.wrapper_notifications}
