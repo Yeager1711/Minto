@@ -41,7 +41,7 @@ const InvitionsQR: React.FC<InvitionsQRProps> = ({ userId }) => {
     }
 
     if (!qrData) {
-        return <div>Lỗi: Không tìm thấy mã QR</div>;
+        return null
     }
 
     if (qrData.status !== 'ACTIVE') {
