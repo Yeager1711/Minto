@@ -53,7 +53,7 @@ function Template3Edit() {
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
+        return `${day}.${month}.${year}`;
     };
 
     // Format Day of Week
@@ -66,12 +66,12 @@ function Template3Edit() {
     const defaultWeddingData: TemplateWeddingData = {
         bride: '',
         groom: '',
-        weddingDate: new Date(2025, 5, 6), // June 6, 2025
+        weddingDate: new Date(2025, 5, 6), // June 6, 2025,
         weddingTime: '11:30 AM',
         weddingDayOfWeek: 'FRIDAY',
         lunarDay: '11 Tháng 05, Năm Ất Tỵ',
-        familyGroom: { father: 'Huỳnh Văn A', mother: 'Trần thị B' },
-        familyBride: { father: 'Huỳnh Văn C', mother: 'Trần thị D' },
+        familyGroom: { father: 'Huỳnh Văn A', mother: 'Trần Thị B' },
+        familyBride: { father: 'Huỳnh Văn C', mother: 'Trần Thị D' },
         brideStory: '',
         groomStory: '',
         groomAddress: 'Thành phố Thủ Đức, TP. HCM',
@@ -81,17 +81,17 @@ function Template3Edit() {
     };
 
     const defaultImages: Images = {
-        mainImage: { url: '/images/m3/3.jpg', position: 'main' },
-        flexImage1: { url: '/images/m3/3.jpg', position: 'flex1' },
-        flexImage2: { url: '/images/m3/3.jpg', position: 'flex2' },
-        flexImage3: { url: '/images/m3/3.jpg', position: 'flex3' },
-        galleryImage1: { url: '/images/m3/3.jpg', position: 'gallery1' },
-        galleryImage2: { url: '/images/m3/3.jpg', position: 'gallery2' },
-        galleryImage3: { url: '/images/m3/3.jpg', position: 'gallery3' },
-        galleryImage4: { url: '/images/m3/3.jpg', position: 'gallery4' },
-        galleryImage5: { url: '/images/m3/3.jpg', position: 'gallery5' },
-        galleryImage6: { url: '/images/m3/3.jpg', position: 'gallery6' },
-        footerImage: { url: '/images/m3/3.jpg', position: 'footer' },
+        mainImage: { url: '', position: 'main' },
+        flexImage1: { url: '', position: 'flex1' },
+        flexImage2: { url: '', position: 'flex2' },
+        flexImage3: { url: '', position: 'flex3' },
+        galleryImage1: { url: '', position: 'gallery1' },
+        galleryImage2: { url: '', position: 'gallery2' },
+        galleryImage3: { url: '', position: 'gallery3' },
+        galleryImage4: { url: '', position: 'gallery4' },
+        galleryImage5: { url: '', position: 'gallery5' },
+        galleryImage6: { url: '', position: 'gallery6' },
+        footerImage: { url: '', position: 'footer' },
     };
 
     const [weddingData] = useState<TemplateWeddingData>(() => {
@@ -263,11 +263,12 @@ function Template3Edit() {
                         </h4>
                         <div className={styles.imageMain} data-aos="fade-up" data-aos-delay="600">
                             <Image
-                                src={images.mainImage?.url || defaultImages.mainImage.url}
-                                alt="Couple"
+                                src={images.mainImage.url || '/placeholder.png'}
+                                alt="Chọn ảnh"
                                 width={300}
                                 height={300}
                                 onClick={() => triggerFileInput('mainImage')}
+                                className={images.mainImage.url ? '' : styles.imagePlaceholder}
                                 style={{ cursor: 'pointer' }}
                             />
                             <input
@@ -288,13 +289,13 @@ function Template3Edit() {
                             <p className={styles.date_time}>
                                 <span>{formatDayOfWeek(weddingData.weddingDate)}</span>
                                 <span>{formatDateToDDMMYYYY(weddingData.weddingDate)}</span>
-                                <span>{weddingData.weddingTime}</span>
+                                <span>AT {weddingData.weddingTime}</span>
                             </p>
                             <p className={styles.year}>
                                 {weddingData.weddingDate ? weddingData.weddingDate.getFullYear() : '2025'}
                             </p>
                             <div className={styles.location}>
-                                <p>{weddingData.groomAddress}</p>
+                                <p style={{display: 'none'}}>{weddingData.groomAddress}</p>
                             </div>
                         </div>
                     </div>
@@ -323,18 +324,19 @@ function Template3Edit() {
                     <div className={styles.best_regards} data-aos="fade-up" data-aos-delay="400">
                         Trân trọng kính mời
                     </div>
-                    <div className={styles.text} data-aos="fade-up" data-aos-delay="200">
+                    <div className={styles.text} data-aos="fade-up" data-aos-delay="500">
                         Đến dự buổi tiệc chung vui cùng gia đình chúng tôi
                     </div>
 
                     <div className={styles.flex_image} data-aos="fade-up" data-aos-delay="600">
                         <div className={styles.image_1}>
                             <Image
-                                src={images.flexImage1?.url || defaultImages.flexImage1.url}
-                                alt="Flex image 1"
+                                src={images.flexImage1.url || '/placeholder.png'}
+                                alt="Chọn ảnh"
                                 width={150}
                                 height={150}
                                 onClick={() => triggerFileInput('flexImage1')}
+                                className={images.flexImage1.url ? '' : styles.imagePlaceholder}
                                 style={{ cursor: 'pointer' }}
                             />
                             <input
@@ -347,11 +349,12 @@ function Template3Edit() {
                         </div>
                         <div className={styles.image_2}>
                             <Image
-                                src={images.flexImage2?.url || defaultImages.flexImage2.url}
-                                alt="Flex image 2"
+                                src={images.flexImage2.url || '/placeholder.png'}
+                                alt="Chọn ảnh"
                                 width={150}
                                 height={150}
                                 onClick={() => triggerFileInput('flexImage2')}
+                                className={images.flexImage2.url ? '' : styles.imagePlaceholder}
                                 style={{ cursor: 'pointer' }}
                             />
                             <input
@@ -364,11 +367,12 @@ function Template3Edit() {
                         </div>
                         <div className={styles.image_3}>
                             <Image
-                                src={images.flexImage3?.url || defaultImages.flexImage3.url}
-                                alt="Flex image 3"
+                                src={images.flexImage3.url || '/placeholder.png'}
+                                alt="Chọn ảnh"
                                 width={150}
                                 height={150}
                                 onClick={() => triggerFileInput('flexImage3')}
+                                className={images.flexImage3.url ? '' : styles.imagePlaceholder}
                                 style={{ cursor: 'pointer' }}
                             />
                             <input
@@ -390,9 +394,9 @@ function Template3Edit() {
                         <div className={styles.dateLunar_specifically}>(Tức ngày {weddingData.lunarDay})</div>
                         <div className={styles.calendar}>
                             <Image
-                                src={images.mainImage?.url || defaultImages.mainImage.url}
-                                alt="Calendar Background"
-                                className={styles.calendarBackground}
+                                src={images.mainImage.url || '/placeholder.png'}
+                                alt="Chọn ảnh"
+                                className={`${styles.calendarBackground} ${images.mainImage.url ? '' : styles.imagePlaceholder}`}
                                 width={300}
                                 height={300}
                             />
@@ -465,11 +469,12 @@ function Template3Edit() {
                         <div className={styles.wrapper_album}>
                             <div data-aos="fade-left" data-aos-delay="300">
                                 <Image
-                                    src={images.galleryImage1?.url || defaultImages.galleryImage1.url}
-                                    alt="Wedding moment 1"
+                                    src={images.galleryImage1.url || '/placeholder.png'}
+                                    alt="Chọn ảnh"
                                     width={200}
                                     height={200}
                                     onClick={() => triggerFileInput('galleryImage1')}
+                                    className={images.galleryImage1.url ? '' : styles.imagePlaceholder}
                                     style={{ cursor: 'pointer' }}
                                 />
                                 <input
@@ -482,11 +487,12 @@ function Template3Edit() {
                             </div>
                             <div data-aos="fade-right" data-aos-delay="400">
                                 <Image
-                                    src={images.galleryImage2?.url || defaultImages.galleryImage2.url}
-                                    alt="Wedding moment 2"
+                                    src={images.galleryImage2.url || '/placeholder.png'}
+                                    alt="Chọn ảnh"
                                     width={200}
                                     height={200}
                                     onClick={() => triggerFileInput('galleryImage2')}
+                                    className={images.galleryImage2.url ? '' : styles.imagePlaceholder}
                                     style={{ cursor: 'pointer' }}
                                 />
                                 <input
@@ -499,11 +505,12 @@ function Template3Edit() {
                             </div>
                             <div data-aos="fade-right" data-aos-delay="500">
                                 <Image
-                                    src={images.galleryImage3?.url || defaultImages.galleryImage3.url}
-                                    alt="Wedding moment 3"
+                                    src={images.galleryImage3.url || '/placeholder.png'}
+                                    alt="Chọn ảnh"
                                     width={200}
                                     height={200}
                                     onClick={() => triggerFileInput('galleryImage3')}
+                                    className={images.galleryImage3.url ? '' : styles.imagePlaceholder}
                                     style={{ cursor: 'pointer' }}
                                 />
                                 <input
@@ -516,11 +523,12 @@ function Template3Edit() {
                             </div>
                             <div data-aos="fade-left" data-aos-delay="600">
                                 <Image
-                                    src={images.galleryImage4?.url || defaultImages.galleryImage4.url}
-                                    alt="Wedding moment 4"
+                                    src={images.galleryImage4.url || '/placeholder.png'}
+                                    alt="Chọn ảnh"
                                     width={200}
                                     height={200}
                                     onClick={() => triggerFileInput('galleryImage4')}
+                                    className={images.galleryImage4.url ? '' : styles.imagePlaceholder}
                                     style={{ cursor: 'pointer' }}
                                 />
                                 <input
@@ -533,11 +541,12 @@ function Template3Edit() {
                             </div>
                             <div data-aos="fade-up" data-aos-delay="700">
                                 <Image
-                                    src={images.galleryImage5?.url || defaultImages.galleryImage5.url}
-                                    alt="Wedding moment 5"
+                                    src={images.galleryImage5.url || '/placeholder.png'}
+                                    alt="Chọn ảnh"
                                     width={200}
                                     height={200}
                                     onClick={() => triggerFileInput('galleryImage5')}
+                                    className={images.galleryImage5.url ? '' : styles.imagePlaceholder}
                                     style={{ cursor: 'pointer' }}
                                 />
                                 <input
@@ -550,11 +559,12 @@ function Template3Edit() {
                             </div>
                             <div data-aos="fade-up" data-aos-delay="700">
                                 <Image
-                                    src={images.galleryImage6?.url || defaultImages.galleryImage6.url}
-                                    alt="Wedding moment 6"
+                                    src={images.galleryImage6.url || '/placeholder.png'}
+                                    alt="Chọn ảnh"
                                     width={200}
                                     height={200}
                                     onClick={() => triggerFileInput('galleryImage6')}
+                                    className={images.galleryImage6.url ? '' : styles.imagePlaceholder}
                                     style={{ cursor: 'pointer' }}
                                 />
                                 <input
@@ -567,28 +577,33 @@ function Template3Edit() {
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className={styles.footer_thanks}>
-                    <div className={styles.image_footer}>
-                        <Image
-                            src={images.footerImage?.url || defaultImages.footerImage.url}
-                            alt="Footer image"
-                            width={300}
-                            height={300}
-                            onClick={() => triggerFileInput('footerImage')}
-                            style={{ cursor: 'pointer' }}
-                        />
-                        <input
-                            type="file"
-                            ref={fileInputRefs.footerImage}
-                            onChange={(e) => handleImageChange('footerImage', 'footer', e)}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
-                        <div className={styles.content}>
-                            <span>Rất hân hạnh được đón tiếp</span>
-                            <h3>Thanks You</h3>
+                    <div className={styles.footer_thanks}>
+                        <div className={styles.image_footer} data-aos="fade-up" data-aos-delay="300">
+                            <Image
+                                src={images.footerImage.url || '/placeholder.png'}
+                                alt="Chọn ảnh"
+                                width={300}
+                                height={300}
+                                onClick={() => triggerFileInput('footerImage')}
+                                className={images.footerImage.url ? '' : styles.imagePlaceholder}
+                                style={{ cursor: 'pointer' }}
+                            />
+                            <input
+                                type="file"
+                                ref={fileInputRefs.footerImage}
+                                onChange={(e) => handleImageChange('footerImage', 'footer', e)}
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                            />
+                            <div className={styles.content}>
+                                <span data-aos="fade-left" data-aos-delay="600">
+                                    Rất hân hạnh được đón tiếp
+                                </span>
+                                <h3 data-aos="fade-right" data-aos-delay="900">
+                                    Thanks You
+                                </h3>
+                            </div>
                         </div>
                     </div>
                 </div>

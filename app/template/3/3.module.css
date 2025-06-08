@@ -8,8 +8,32 @@
   overflow: hidden;
 }
 .template3 .intro_invition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s ease;
+  z-index: 99 !important;
   min-height: 100vh;
-  position: relative;
+  max-width: 55rem;
+  width: 100%;
+  margin: auto;
+  background: #640606;
+}
+.template3 .intro_invition.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+.template3 .intro_invition.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
 }
 .template3 .intro_invition .wrapper {
   padding: 15rem 0;
@@ -50,6 +74,10 @@
   font-size: 2rem;
   color: #fff;
   text-transform: uppercase;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .template3 .intro_invition .wrapper .mar {
   position: absolute;
@@ -133,27 +161,144 @@
   margin: 0;
   font-weight: 400;
 }
+.template3 .dynamic {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(51, 51, 51, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  width: 20rem;
+  height: 3.5rem;
+  z-index: 9999;
+  border-radius: 2rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  color: #fff;
+  cursor: pointer;
+  z-index: 98;
+}
+.template3 .dynamic.expanded {
+  height: 25rem;
+  max-width: 50rem !important;
+  width: 30%;
+  border-radius: 1.5rem;
+}
+.template3 .dynamic .dynamic_content {
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.template3 .dynamic .dynamic_content .controls {
+  cursor: pointer;
+}
+.template3 .dynamic .dynamic_content .playPauseIcon {
+  width: 2rem;
+  height: 2rem;
+  color: #fff;
+}
+.template3 .dynamic .dynamic_content h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50rem;
+}
+.template3 .dynamic .expanded_content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.template3 .dynamic .expanded_content .album_art {
+  width: 100%;
+  height: 15rem;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.template3 .dynamic .expanded_content .album_art img {
+  width: 100%;
+  height: 27rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.template3 .dynamic .expanded_content .song_info {
+  text-align: center;
+}
+.template3 .dynamic .expanded_content .song_info h4 {
+  margin: 0;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26rem;
+  font-weight: 600;
+}
+.template3 .dynamic .expanded_content .song_info p {
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26rem;
+}
+.template3 .dynamic .expanded_content .progress_bar {
+  width: 100%;
+  height: 0.3rem;
+  background: #555;
+  border-radius: 0.15rem;
+  overflow: hidden;
+}
+.template3 .dynamic .expanded_content .progress_bar .progress {
+  width: 30%;
+  height: 100%;
+  background: #fff;
+  transition: width 0.1s linear;
+}
+@media (max-width: 768px) {
+  .template3 .dynamic {
+    width: 18rem;
+  }
+  .template3 .dynamic.expanded {
+    max-width: 50rem;
+    width: 90vw;
+  }
+}
 .template3 .header {
   position: relative;
   padding-bottom: 3rem;
 }
 .template3 .header .flower_left {
   position: absolute;
-  top: -4px;
+  top: -0.6rem;
   left: -1rem;
 }
 .template3 .header .flower_left img {
   transform: rotate(-270deg);
-  width: 12rem;
+  width: 25rem;
+  height: 25rem;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .template3 .header .flower_right {
   position: absolute;
-  top: -0.4rem;
-  right: 0;
+  top: 0;
+  right: -1rem;
 }
 .template3 .header .flower_right img {
   transform: rotate(180deg);
-  width: 12rem;
+  width: 25rem;
+  height: 25rem;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .template3 .header .header_content {
   width: 100%;
@@ -327,14 +472,16 @@
 .template3 .info_groom_bride .flex_image {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.3rem;
   padding: 1.5rem 0;
+  margin: 2.5rem 0 0 0;
 }
 .template3 .info_groom_bride .flex_image .image_1,
 .template3 .info_groom_bride .flex_image .image_2,
 .template3 .info_groom_bride .flex_image .image_3 {
   max-width: 25rem;
   border-radius: 0.5rem;
+  width: 100%;
   overflow: hidden;
 }
 .template3 .info_groom_bride .flex_image .image_1 img,
@@ -351,7 +498,7 @@
   transform: scale(0.9);
 }
 .template3 .info_groom_bride .flex_image .image_2 {
-  transform: scale(1);
+  transform: scale(1.2);
 }
 .template3 .info_groom_bride .flex_image .image_3 {
   transform: scale(0.9);
@@ -636,4 +783,17 @@
   100% {
     transform: scale(1);
   }
+}
+.imagePlaceholder {
+  border: 2px dashed #ccc;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.2rem;
+  text-align: center;
+  cursor: pointer;
+  width: auto;
+  height: auto;
 }/*# sourceMappingURL=3.module.css.map */
