@@ -486,7 +486,7 @@ function Template3InviteeName() {
                                 data-aos-delay="200"
                             >
                                 <div className={styles.text_organization__location}>
-                                    <h4>Địa điểm tổ chức nhà trai - {weddingData.venue_groom}</h4>
+                                    <h4>Địa điểm tổ chức nhà trai </h4>
                                     <span>{weddingData.groomAddress || 'Địa điểm nhà trai chưa cập nhật'}</span>
                                 </div>
                                 <div className={styles.map_organization__location}>
@@ -525,7 +525,7 @@ function Template3InviteeName() {
                                     )}
                                 </div>
                                 <div className={styles.text_organization__location}>
-                                    <h4>Địa điểm tổ chức nhà gái - {weddingData.venue_bride}</h4>
+                                    <h4>Địa điểm tổ chức nhà gái </h4>
                                     <span>{weddingData.brideAddress || 'Địa điểm nhà gái chưa cập nhật'}</span>
                                 </div>
                             </div>
