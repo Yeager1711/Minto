@@ -232,6 +232,16 @@ interface QrResponse {
     status: string;
 }
 
+interface SubmitErrorResponse {
+    message: string;
+    feedback?: {
+        feedback_id: number;
+        error_message: string;
+        submitted_at: string;
+        status: string;
+    };
+}
+
 interface ApiContextType {
     accessToken: string | null;
     login: (data: LoginData) => Promise<LoginResponse>;
@@ -255,6 +265,7 @@ interface ApiContextType {
     getUserQr: () => Promise<QrResponse>;
     getUserQrPublic: (userId: number) => Promise<QrResponse>;
     updateQrStatus: (qrId: number, status: 'ACTIVE' | 'SUCCESS') => Promise<QrResponse>;
+    submitPostError: (errorMessage: string) => Promise<SubmitErrorResponse>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
@@ -679,6 +690,33 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
+    const submitPostError = async (errorMessage: string): Promise<SubmitErrorResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.post(
+                `${apiUrl}/error-feedback/submit`,
+                { errorMessage },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'ngrok-skip-browser-warning': 'true',
+                    },
+                }
+            );
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể gửi phản hồi';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
     const value = {
         accessToken,
         login,
@@ -697,6 +735,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         getUserQr,
         getUserQrPublic,
         updateQrStatus,
+        submitPostError,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

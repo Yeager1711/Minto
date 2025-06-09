@@ -47,8 +47,12 @@
             border-left: 5px solid rgba(136, 136, 232, 0.8);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
-            height: 14rem;
+            height: 15rem;
             overflow: auto;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
 
             &:hover {
                 box-shadow: 0 6px 16px rgba(136, 136, 232, 0.15);

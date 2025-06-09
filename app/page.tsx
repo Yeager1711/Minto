@@ -3,13 +3,13 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.css';
 import Popup from './popup/product_details/Product_Details';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faHeadset } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 import Notifications from './Notifications/Notifications';
-// import Countdown from './func/countDown/page';
 import FeatureCard from './func/FeatureCard/page';
+import SupportError from 'app/SupportError/SupportError';
 
 interface Template {
     template_id: number;
@@ -131,7 +131,6 @@ const Home: React.FC = () => {
         setIsSupportOpen((prev) => !prev);
     };
 
-    // Fetch categories and templates
     useEffect(() => {
         const fetchTemplatesAndCategories = async () => {
             setIsLoading(true);
@@ -156,7 +155,6 @@ const Home: React.FC = () => {
         fetchTemplatesAndCategories();
     }, [getTemplates, getCategories]);
 
-    // Fetch user profile
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (!accessToken) {
@@ -326,40 +324,8 @@ const Home: React.FC = () => {
                     )}
                 </div>
 
-                {/* <Countdown /> */}
-
-                {/* Card payment */}
                 <FeatureCard />
-                <div className={styles.support} onClick={toggleSupportPopup}>
-                    <FontAwesomeIcon icon={faHeadset} />
-                </div>
-
-                <div className={`${styles.wrapper_support} ${isSupportOpen ? styles.active : ''}`}>
-                    <div className={styles.box}>
-                        <label htmlFor="user_id">Mã khách hàng</label>
-                        <input type="text" id="user_id" value={userProfile?.user_id || ''} disabled />
-                    </div>
-
-                    <div className={styles.box}>
-                        <label htmlFor="full_name">Tên khách hàng</label>
-                        <input type="text" id="full_name" value={userProfile?.full_name || ''} disabled />
-                    </div>
-
-                    <div className={styles.box}>
-                        <label htmlFor="phone">Số điện thoại</label>
-                        <input type="text" id="phone" value={userProfile?.phone ?? 'Chưa cập nhật'} disabled />
-                    </div>
-
-                    <div className={styles.box}>
-                        <select name="issue" id="issue">
-                            <option value="">Lỗi đơn hàng thanh toán trạng thái chưa hoàn thành</option>
-                            <option value="">Lỗi hệ thống khi thêm thông tin</option>
-                            <option value="">Lỗi hệ thống khi thêm ảnh</option>
-                        </select>
-                    </div>
-
-                    <div className={styles.submit_button}>Gửi yêu cầu</div>
-                </div>
+                <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupportPopup} />
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}
         </main>

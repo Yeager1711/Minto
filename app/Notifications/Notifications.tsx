@@ -26,30 +26,18 @@ interface Notification {
 const notifications: Notification[] = [
     {
         id: 1,
-        title: (
-            <>
-                Trãi nghiệm miễn phí với template của{' '}
-                <Link href="/" className={styles.link}>
-                    Minto
-                </Link>
-            </>
-        ),
+        title: 'Ra mắt tính năng tạo thẻ nhận Hỷ',
         period: {
-            from: '01/05/2025',
-            to: '29/06/2025',
+            from: '01/06/2025',
         },
-        items: ['Áp dụng cho toàn bộ Template'],
+        items: [
+            'Cho phép tạo QR nhận Hỷ bằng tài khoản ngân hàng cá nhân',
+            'Mỗi tài khoản được tạo tối đa 1 QR để nhận Hỷ',
+            'Áp dụng trực tiếp trong quá trình "Nhập thông tin thiệp" và nhận trức tiếp tại: Thiệp đã được tạo !',
+        ],
     },
     {
         id: 2,
-        title: 'Thực hiện làm mới dữ liệu free',
-        period: {
-            from: '30/06/2025',
-        },
-        items: ['Hệ thống sẽ reset toàn bộ dữ liệu', 'Các bản mẫu đã tạo trước kia không còn được áp dụng'],
-    },
-    {
-        id: 3,
         title: (
             <>
                 Giảm giá 20% cho tài khoản mới tại{' '}
