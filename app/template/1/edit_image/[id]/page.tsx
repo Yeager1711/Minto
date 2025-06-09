@@ -11,7 +11,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { showToastError } from 'app/Ultils/toast';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
 import imagekit from 'app/lib/imagekit/imagekit';
-import { useApi } from '../../../../lib/apiContext/apiContext'; // Import useApi
+import { useApi } from '../../../../lib/apiContext/apiContext';
 
 interface Template1WeddingData {
     banner: { image: string };
@@ -76,6 +76,28 @@ interface Images {
     thumnail_2: { url: string; position: string; fileName?: string };
     thumnail_3: { url: string; position: string; fileName?: string };
 }
+
+// Function to generate Google Maps embed URL from coordinates in (latitude,longitude) format
+const getMapEmbedUrlFromCoords = (coords: string): string => {
+    if (!coords) return '';
+
+    // Match coordinates in the format (latitude,longitude)
+    const match = coords.match(/^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/);
+    if (!match) return '';
+
+    const lat = parseFloat(match[1]);
+    const lng = parseFloat(match[3]);
+    if (isNaN(lat) || isNaN(lng)) return '';
+
+    const apiMapKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+    if (!apiMapKey) {
+        console.error('Google Maps API key is missing');
+        return '';
+    }
+
+    // Construct a simpler Embed API URL with a pin at the coordinates
+    return `https://www.google.com/maps/embed/v1/place?key=${apiMapKey}&q=${lat},${lng}&zoom=15`;
+};
 
 // Function to generate calendar data
 const generateCalendarData = (weddingDate: string, monthDisplay: string) => {
@@ -157,7 +179,7 @@ const defaultImages: Images = {
 const Template1Edit: React.FC = () => {
     const params = useParams();
     const searchParams = useSearchParams();
-    const { fetchAuthParams } = useApi(); // Use ApiContext
+    const { fetchAuthParams } = useApi();
     const id = params.id as string;
     const quantity = parseInt(searchParams.get('quantity') || '1');
 
@@ -338,7 +360,7 @@ const Template1Edit: React.FC = () => {
 
         let authParams;
         try {
-            authParams = await fetchAuthParams(); // Use fetchAuthParams from ApiContext
+            authParams = await fetchAuthParams();
         } catch {
             showToastError('Không thể kết nối với ImageKit. Vui lòng thử lại.');
             return;
@@ -348,12 +370,12 @@ const Template1Edit: React.FC = () => {
             const standardizedFileName = `${timestamp}-${key}.jpg`;
             const currentDate = new Date();
             const dateFolder = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
-            const folderPath = `/wedding_${id}/${dateFolder}`; // Add date subfolder
+            const folderPath = `/wedding_${id}/${dateFolder}`;
 
             const uploadResponse = await imagekit.upload({
                 file,
                 fileName: standardizedFileName,
-                folder: folderPath, // Updated folder path
+                folder: folderPath,
                 token: authParams.token,
                 expire: authParams.expire,
                 signature: authParams.signature,
@@ -527,7 +549,6 @@ const Template1Edit: React.FC = () => {
         };
     }, []);
 
-    // JSX interface
     return (
         <div className={styles.bg}>
             <ButtonDown templateId={id} quantity={quantity} weddingImages={imageFiles} />
@@ -719,30 +740,38 @@ const Template1Edit: React.FC = () => {
                         <div className={styles.dotRight}></div>
                         <h4>Địa điểm tổ chức</h4>
                         <div className={styles.locationContent}>
-                            <h5>
-                                {weddingDataState.location.groomLocation.name}{' '}
-                                {weddingDataState.location.groomLocation.address}
-                            </h5>
-                            <iframe
-                                style={{ border: 0 }}
-                                allowFullScreen
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                src={weddingDataState.location.groomLocation.mapEmbedUrl}
-                            />
+                            <h5>{weddingDataState.location.groomLocation.name}</h5>
+                            <p>
+                                {weddingDataState.location.groomLocation.address || 'Địa điểm nhà trai chưa cập nhật'}
+                            </p>
+                            {weddingDataState.location.groomLocation.mapEmbedUrl ? (
+                                <iframe
+                                    src={getMapEmbedUrlFromCoords(weddingDataState.location.groomLocation.mapEmbedUrl)}
+                                    width="300"
+                                    height="200"
+                                    style={{ border: 0 }}
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
+                            ) : (
+                                <p>Lỗi tải bản đồ nhà trai. Vui lòng kiểm tra tọa độ.</p>
+                            )}
                         </div>
                         <div className={styles.locationContent}>
-                            <h5>
-                                {weddingDataState.location.brideLocation.name}{' '}
-                                {weddingDataState.location.brideLocation.address}
-                            </h5>
-                            <iframe
-                                style={{ border: 0 }}
-                                allowFullScreen
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                src={weddingDataState.location.brideLocation.mapEmbedUrl}
-                            />
+                            <h5>{weddingDataState.location.brideLocation.name}</h5>
+                            {weddingDataState.location.brideLocation.mapEmbedUrl ? (
+                                <iframe
+                                    src={getMapEmbedUrlFromCoords(weddingDataState.location.brideLocation.mapEmbedUrl)}
+                                    width="300"
+                                    height="200"
+                                    style={{ border: 0 }}
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
+                            ) : (
+                                <p>Lỗi tải bản đồ nhà gái. Vui lòng kiểm tra tọa độ.</p>
+                            )}
+                            <p>{weddingDataState.location.brideLocation.address || 'Địa điểm nhà gái chưa cập nhật'}</p>
                         </div>
                     </div>
 

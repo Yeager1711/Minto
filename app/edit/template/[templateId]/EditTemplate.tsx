@@ -20,8 +20,8 @@ export interface TemplateWeddingData {
     groomStory: string;
     groomAddress: string;
     brideAddress: string;
-    groomMapUrl: string;
-    brideMapUrl: string;
+    groomMapUrl: string; // Now a coordinate string, e.g., "(10.3503377,106.1526945)"
+    brideMapUrl: string; // Now a coordinate string
     weddingDate: Date | null;
 }
 
@@ -44,7 +44,6 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
     const searchParams = useSearchParams();
     const { getUserQr, updateQrStatus } = useApi();
 
-    // Hàm phụ để parse chuỗi ngày thành Date hoặc null
     const parseWeddingDate = (dateStr: string | Date | null): Date | null => {
         if (typeof dateStr === 'string' && dateStr.trim()) {
             const [day, month, year] = dateStr.split('/').map(Number);
@@ -54,7 +53,6 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         return null;
     };
 
-    // Format Date object to dd/mm/yyyy
     const formatDateToDDMMYYYY = (date: Date | null): string => {
         if (!date) return '';
         const day = date.getDate().toString().padStart(2, '0');
@@ -63,7 +61,6 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         return `${day}/${month}/${year}`;
     };
 
-    // Format Date object to yyyy-mm-dd for input type="date"
     const formatDateToInput = (date: Date | null): string => {
         if (!date) return '';
         const year = date.getFullYear();
@@ -107,7 +104,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             } catch (error) {
                 console.error('Lỗi khi lấy trạng thái QR:', error);
                 setHasQrCode(false);
-                setApiError('Bạn chưa mã QR cho phép nhận tiền Hỷ qua QR');
+                setApiError('Bạn chưa có mã QR cho phép nhận tiền Hỷ qua QR');
             }
         };
 
@@ -131,11 +128,6 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             setTemplateIdError('');
         }
     }, [templateId]);
-
-    const extractMapUrl = (input: string): string => {
-        const urlMatch = input.match(/src="([^"]+)"/);
-        return urlMatch ? urlMatch[1] : input;
-    };
 
     const capitalize = (value: string): string => {
         if (!value.trim()) return value;
@@ -364,11 +356,21 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             validate: (value: string) => (value.trim() ? null : 'Địa chỉ nhà trai không được để trống'),
         },
         {
-            label: 'Đường dẫn Google Maps nhà trai',
+            label: 'Tọa độ Google Maps nhà trai',
             path: ['groomMapUrl'],
-            placeholder: 'Ví dụ: https://www.google.com/maps/embed?pb=!1m18...',
-            transform: extractMapUrl,
-            validate: (value: string) => (value.trim() ? null : 'Đường dẫn Google Maps nhà trai không được để trống'),
+            placeholder: 'Ví dụ: (10.3503377,106.1526945)',
+            validate: (value: string) => {
+                if (!value.trim()) return 'Tọa độ nhà trai không được để trống';
+                const regex = /^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/;
+                if (!regex.test(value))
+                    return 'Tọa độ phải có định dạng: (vĩ độ,kinh độ), ví dụ: (10.3503377,106.1526945)';
+                const coords = value.match(/-?\d+(\.\d+)?/g);
+                if (!coords || coords.length !== 2) return 'Tọa độ không hợp lệ';
+                const [lat, lng] = coords.map(Number);
+                if (lat < -90 || lat > 90) return 'Vĩ độ phải nằm trong khoảng -90 đến 90';
+                if (lng < -180 || lng > 180) return 'Kinh độ phải nằm trong khoảng -180 đến 180';
+                return null;
+            },
         },
         {
             label: 'Địa chỉ nhà gái',
@@ -377,11 +379,21 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             validate: (value: string) => (value.trim() ? null : 'Địa chỉ nhà gái không được để trống'),
         },
         {
-            label: 'Đường dẫn Google Maps nhà gái',
+            label: 'Tọa độ Google Maps nhà gái',
             path: ['brideMapUrl'],
-            placeholder: 'Ví dụ: https://www.google.com/maps/embed?pb=!1m18...',
-            transform: extractMapUrl,
-            validate: (value: string) => (value.trim() ? null : 'Đường dẫn Google Maps nhà gái không được để trống'),
+            placeholder: 'Ví dụ: (10.3503377,106.1526945)',
+            validate: (value: string) => {
+                if (!value.trim()) return 'Tọa độ nhà gái không được để trống';
+                const regex = /^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/;
+                if (!regex.test(value))
+                    return 'Tọa độ phải có định dạng: (vĩ độ,kinh độ), ví dụ: (10.3503377,106.1526945)';
+                const coords = value.match(/-?\d+(\.\d+)?/g);
+                if (!coords || coords.length !== 2) return 'Tọa độ không hợp lệ';
+                const [lat, lng] = coords.map(Number);
+                if (lat < -90 || lat > 90) return 'Vĩ độ phải nằm trong khoảng -90 đến 90';
+                if (lng < -180 || lng > 180) return 'Kinh độ phải nằm trong khoảng -180 đến 180';
+                return null;
+            },
         },
         {
             label: 'Câu chuyện cô dâu',
@@ -430,15 +442,13 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
                     </div>
                 )}
 
-                {fields.map(({ label, path, placeholder, type = 'text', transform, validate }) => (
+                {fields.map(({ label, path, placeholder, type = 'text', validate }) => (
                     <label key={label} className={styles.formField}>
                         <span className={styles.label}>{label}:</span>
                         {type === 'textarea' ? (
                             <textarea
                                 value={getNestedValue(formData, path) as string}
-                                onChange={(e) =>
-                                    handleChange(path, transform ? transform(e.target.value) : e.target.value, validate)
-                                }
+                                onChange={(e) => handleChange(path, e.target.value, validate)}
                                 placeholder={placeholder}
                                 className={styles.textarea}
                             />
@@ -451,15 +461,12 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
                                     placeholder={placeholder}
                                     className={`${styles.input} ${styles.dateInput}`}
                                 />
-                               
                             </div>
                         ) : (
                             <input
                                 type={type}
                                 value={getNestedValue(formData, path) as string}
-                                onChange={(e) =>
-                                    handleChange(path, transform ? transform(e.target.value) : e.target.value, validate)
-                                }
+                                onChange={(e) => handleChange(path, e.target.value, validate)}
                                 placeholder={placeholder}
                                 className={styles.input}
                             />

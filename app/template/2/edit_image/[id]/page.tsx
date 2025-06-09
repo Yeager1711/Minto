@@ -61,6 +61,28 @@ function Template2Edit() {
         return `${day}/${month}/${year}`;
     };
 
+    // Function to generate Google Maps embed URL from coordinates in (latitude,longitude) format
+    const getMapEmbedUrlFromCoords = (coords: string): string => {
+        if (!coords) return '';
+
+        // Match coordinates in the format (latitude,longitude)
+        const match = coords.match(/^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/);
+        if (!match) return '';
+
+        const lat = parseFloat(match[1]);
+        const lng = parseFloat(match[3]);
+        if (isNaN(lat) || isNaN(lng)) return '';
+
+        const apiMapKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+        if (!apiMapKey) {
+            console.error('Google Maps API key is missing');
+            return '';
+        }
+
+        // Construct a simpler Embed API URL with a pin at the coordinates
+        return `https://www.google.com/maps/embed/v1/place?key=${apiMapKey}&q=${lat},${lng}&zoom=15`;
+    };
+
     const defaultWeddingData: TemplateWeddingData = {
         bride: '',
         groom: '',
@@ -698,45 +720,47 @@ function Template2Edit() {
                             </div>
                         </div>
                     </div>
-                    <div className={styles.address} data-aos="fade-up" data-aos-duration="1000">
+                    <div className={styles.address} data-aos="fade-up" data-aos-delay="800">
                         <div className={styles.dotLeft}></div>
                         <div className={styles.dotRight}></div>
                         <h4>Địa điểm tổ chức</h4>
                         <div className={styles.addressContent}>
-                            <h5>Nhà Trai</h5>
-                            {weddingData.groomAddress && weddingData.groomMapUrl ? (
-                                <>
-                                    <p>{weddingData.groomAddress}</p>
+                            <div className={styles.text_organization__location}>
+                                <h5>Nhà Trai</h5>
+                                <span>{weddingData.groomAddress || 'Địa điểm của chú rể chưa cập nhật'}</span>
+                            </div>
+                            <div className={styles.map_organization__location}>
+                                {weddingData.groomMapUrl ? (
                                     <iframe
-                                        src={weddingData.groomMapUrl}
-                                        width="600"
-                                        height="450"
-                                        style={{ border: 0 }}
+                                        src={getMapEmbedUrlFromCoords(weddingData.groomMapUrl)}
+                                        width="300"
+                                        height="200"
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
                                     ></iframe>
-                                </>
-                            ) : (
-                                <p>Địa điểm của chú rể chưa cập nhật</p>
-                            )}
+                                ) : (
+                                    <div>Lỗi tải bản đồ nhà trai. Vui lòng kiểm tra tọa độ.</div>
+                                )}
+                            </div>
                         </div>
                         <div className={styles.addressContent}>
-                            <h5>Nhà Gái</h5>
-                            {weddingData.brideAddress && weddingData.brideMapUrl ? (
-                                <>
-                                    <p>{weddingData.brideAddress}</p>
+                            <div className={styles.map_organization__location}>
+                                {weddingData.brideMapUrl ? (
                                     <iframe
-                                        src={weddingData.brideMapUrl}
-                                        width="600"
-                                        height="450"
-                                        style={{ border: 0 }}
+                                        src={getMapEmbedUrlFromCoords(weddingData.brideMapUrl)}
+                                        width="300"
+                                        height="200"
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
                                     ></iframe>
-                                </>
-                            ) : (
-                                <p>Địa điểm của cô dâu chưa cập nhật</p>
-                            )}
+                                ) : (
+                                    <div>Lỗi tải bản đồ nhà gái. Vui lòng kiểm tra tọa độ.</div>
+                                )}
+                            </div>
+                            <div className={styles.text_organization__location}>
+                                <h5>Nhà Gái</h5>
+                                <span>{weddingData.brideAddress || 'Địa điểm của cô dâu chưa cập nhật'}</span>
+                            </div>
                         </div>
                     </div>
                     <div className={styles.photo_gallery}>

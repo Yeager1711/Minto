@@ -50,6 +50,28 @@ function InviteeNameContent({ fullName }: { fullName: string }) {
     return <span style={{ textTransform: 'capitalize', fontWeight: '600' }}>{fullName || 'bạn'}</span>;
 }
 
+// Function to generate Google Maps embed URL from coordinates in (latitude,longitude) format
+const getMapEmbedUrlFromCoords = (coords: string): string => {
+    if (!coords) return '';
+
+    // Match coordinates in the format (latitude,longitude)
+    const match = coords.match(/^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/);
+    if (!match) return '';
+
+    const lat = parseFloat(match[1]);
+    const lng = parseFloat(match[3]);
+    if (isNaN(lat) || isNaN(lng)) return '';
+
+    const apiMapKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+    if (!apiMapKey) {
+        console.error('Google Maps API key is missing');
+        return '';
+    }
+
+    // Construct a simpler Embed API URL with a pin at the coordinates
+    return `https://www.google.com/maps/embed/v1/place?key=${apiMapKey}&q=${lat},${lng}&zoom=15`;
+};
+
 function Template1Invitee() {
     const pathname = usePathname();
     const { getGuestAndCard } = useApi();
@@ -453,39 +475,35 @@ function Template1Invitee() {
                                 <h4>Địa điểm tổ chức</h4>
                                 <div className={styles.locationContent}>
                                     <h5>Nhà Trai - {weddingData.venue_groom}</h5>
-                                    {weddingData.venue_groom && weddingData.groomMapUrl ? (
-                                        <div className={styles.venueDetails}>
-                                            <iframe
-                                                src={weddingData.groomMapUrl}
-                                                width="600"
-                                                height="450"
-                                                style={{ border: 0 }}
-                                                allowFullScreen
-                                                loading="lazy"
-                                                referrerPolicy="no-referrer-when-downgrade"
-                                            />
-                                        </div>
+                                    <p>{weddingData.groomAddress || 'Địa điểm nhà trai chưa cập nhật'}</p>
+                                    {weddingData.groomMapUrl ? (
+                                        <iframe
+                                            src={getMapEmbedUrlFromCoords(weddingData.groomMapUrl)}
+                                            width="300"
+                                            height="200"
+                                            style={{ border: 0 }}
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
                                     ) : (
-                                        <p>Địa điểm của chú rể chưa cập nhật</p>
+                                        <p>Lỗi tải bản đồ nhà trai. Vui lòng kiểm tra tọa độ.</p>
                                     )}
                                 </div>
                                 <div className={styles.locationContent}>
                                     <h5>Nhà Gái - {weddingData.venue_bride}</h5>
-                                    {weddingData.venue_bride && weddingData.brideMapUrl ? (
-                                        <div className={styles.venueDetails}>
-                                            <iframe
-                                                src={weddingData.brideMapUrl}
-                                                width="600"
-                                                height="450"
-                                                style={{ border: 0 }}
-                                                allowFullScreen
-                                                loading="lazy"
-                                                referrerPolicy="no-referrer-when-downgrade"
-                                            />
-                                        </div>
+                                    {weddingData.brideMapUrl ? (
+                                        <iframe
+                                            src={getMapEmbedUrlFromCoords(weddingData.brideMapUrl)}
+                                            width="300"
+                                            height="200"
+                                            style={{ border: 0 }}
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
                                     ) : (
-                                        <p>Địa điểm của cô dâu chưa cập nhật</p>
+                                        <p>Lỗi tải bản đồ nhà gái. Vui lòng kiểm tra tọa độ.</p>
                                     )}
+                                    <p>{weddingData.brideAddress || 'Địa điểm nhà gái chưa cập nhật'}</p>
                                 </div>
                             </div>
                             <div className={styles.thumnail} data-aos="fade-up" data-aos-duration="1000">
@@ -535,9 +553,7 @@ function Template1Invitee() {
                                 <div className={styles.dotLeft}></div>
                                 <div className={styles.dotRight}></div>
                                 <InvitionsQR userId={userId!} />
-
                                 <h1>Thanks You</h1>
-
                                 <span>
                                     Chúng tôi háo hức mong chờ <InviteeNameContent fullName={guestName} /> đến chung vui
                                     trong ngày trọng đại của đời mình – một dấu mốc thiêng liêng và đáng nhớ. Sẽ thật

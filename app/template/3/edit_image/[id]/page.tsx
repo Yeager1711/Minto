@@ -63,10 +63,32 @@ function Template3Edit() {
         return days[date.getDay()];
     };
 
+    // Function to generate Google Maps embed URL from coordinates in (latitude,longitude) format
+    const getMapEmbedUrlFromCoords = (coords: string): string => {
+        if (!coords) return '';
+
+        // Match coordinates in the format (latitude,longitude)
+        const match = coords.match(/^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/);
+        if (!match) return '';
+
+        const lat = parseFloat(match[1]);
+        const lng = parseFloat(match[3]);
+        if (isNaN(lat) || isNaN(lng)) return '';
+
+        const apiMapKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+        if (!apiMapKey) {
+            console.error('Google Maps API key is missing');
+            return '';
+        }
+
+        // Construct a simpler Embed API URL with a pin at the coordinates
+        return `https://www.google.com/maps/embed/v1/place?key=${apiMapKey}&q=${lat},${lng}&zoom=15`;
+    };
+
     const defaultWeddingData: TemplateWeddingData = {
         bride: '',
         groom: '',
-        weddingDate: new Date(2025, 5, 6), // June 6, 2025,
+        weddingDate: new Date(2025, 5, 6),
         weddingTime: '11:30 AM',
         weddingDayOfWeek: 'FRIDAY',
         lunarDay: '11 Tháng 05, Năm Ất Tỵ',
@@ -76,32 +98,25 @@ function Template3Edit() {
         groomStory: '',
         groomAddress: 'Thành phố Thủ Đức, TP. HCM',
         brideAddress: 'Thành phố Thủ Đức, TP. HCM',
-        groomMapUrl: '',
-        brideMapUrl: '',
+        groomMapUrl: '(10.7769,106.7009)', // Default coordinates for Thủ Đức
+        brideMapUrl: '(10.7769,106.7009)',
     };
 
-    const defaultImages: Images = {
-        mainImage: { url: '', position: 'main' },
-        flexImage1: { url: '', position: 'flex1' },
-        flexImage2: { url: '', position: 'flex2' },
-        flexImage3: { url: '', position: 'flex3' },
-        galleryImage1: { url: '', position: 'gallery1' },
-        galleryImage2: { url: '', position: 'gallery2' },
-        galleryImage3: { url: '', position: 'gallery3' },
-        galleryImage4: { url: '', position: 'gallery4' },
-        galleryImage5: { url: '', position: 'gallery5' },
-        galleryImage6: { url: '', position: 'gallery6' },
-        footerImage: { url: '', position: 'footer' },
-    };
-
-    const [weddingData] = useState<TemplateWeddingData>(() => {
+    const [weddingData, setWeddingData] = useState<TemplateWeddingData>(() => {
         const savedData = typeof window !== 'undefined' ? localStorage.getItem(`WeddingData${templateId}`) : null;
         if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            return {
-                ...parsedData,
-                weddingDate: parseWeddingDate(parsedData.weddingDate),
-            };
+            try {
+                const parsedData = JSON.parse(savedData);
+                return {
+                    ...parsedData,
+                    weddingDate: parseWeddingDate(parsedData.weddingDate),
+                    groomMapUrl: parsedData.groomMapUrl || defaultWeddingData.groomMapUrl,
+                    brideMapUrl: parsedData.brideMapUrl || defaultWeddingData.brideMapUrl,
+                };
+            } catch (e) {
+                console.error('Failed to parse WeddingData from localStorage:', e);
+                return defaultWeddingData;
+            }
         }
         return defaultWeddingData;
     });
@@ -131,6 +146,20 @@ function Template3Edit() {
         }
         return defaultImages;
     });
+
+    const defaultImages: Images = {
+        mainImage: { url: '', position: 'main' },
+        flexImage1: { url: '', position: 'flex1' },
+        flexImage2: { url: '', position: 'flex2' },
+        flexImage3: { url: '', position: 'flex3' },
+        galleryImage1: { url: '', position: 'gallery1' },
+        galleryImage2: { url: '', position: 'gallery2' },
+        galleryImage3: { url: '', position: 'gallery3' },
+        galleryImage4: { url: '', position: 'gallery4' },
+        galleryImage5: { url: '', position: 'gallery5' },
+        galleryImage6: { url: '', position: 'gallery6' },
+        footerImage: { url: '', position: 'footer' },
+    };
 
     const fileInputRefs = {
         mainImage: useRef<HTMLInputElement>(null),
@@ -233,11 +262,28 @@ function Template3Edit() {
 
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
+        setWeddingData((prev) => {
+            const updatedData = { ...prev };
+            try {
+                localStorage.setItem(
+                    `WeddingData${templateId}`,
+                    JSON.stringify({
+                        ...updatedData,
+                        weddingDate: updatedData.weddingDate
+                            ? `${updatedData.weddingDate.getDate()}/${updatedData.weddingDate.getMonth() + 1}/${updatedData.weddingDate.getFullYear()}`
+                            : null,
+                    })
+                );
+            } catch (e) {
+                console.error('Lỗi khi lưu weddingData vào localStorage:', e);
+            }
+            return updatedData;
+        });
         setIsLoading(false);
-    }, []);
+    }, [templateId]);
 
     // Generate calendar data
-    const weddingDate = weddingData.weddingDate || new Date(2025, 5, 6); // Default to June 6, 2025
+    const weddingDate = weddingData.weddingDate || new Date(2025, 5, 6);
     const daysInMonth = new Date(weddingDate.getFullYear(), weddingDate.getMonth() + 1, 0).getDate();
     const firstDayOfMonth = new Date(weddingDate.getFullYear(), weddingDate.getMonth(), 1).getDay();
     const daysInMonthArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
@@ -295,7 +341,7 @@ function Template3Edit() {
                                 {weddingData.weddingDate ? weddingData.weddingDate.getFullYear() : '2025'}
                             </p>
                             <div className={styles.location}>
-                                <p style={{display: 'none'}}>{weddingData.groomAddress}</p>
+                                <p style={{ display: 'none' }}>{weddingData.groomAddress}</p>
                             </div>
                         </div>
                     </div>
@@ -435,25 +481,33 @@ function Template3Edit() {
                                 <span>{weddingData.groomAddress}</span>
                             </div>
                             <div className={styles.map_organization__location}>
-                                <iframe
-                                    src={weddingData.groomMapUrl}
-                                    width="300"
-                                    height="200"
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                ></iframe>
+                                {weddingData.groomMapUrl ? (
+                                    <iframe
+                                        src={getMapEmbedUrlFromCoords(weddingData.groomMapUrl)}
+                                        width="300"
+                                        height="200"
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                    ></iframe>
+                                ) : (
+                                    <div>Lỗi tải bản đồ nhà trai. Vui lòng kiểm tra tọa độ.</div>
+                                )}
                             </div>
                         </div>
 
                         <div className={styles.organization_location_bride} data-aos="fade-left" data-aos-delay="300">
                             <div className={styles.map_organization__location}>
-                                <iframe
-                                    src={weddingData.brideMapUrl}
-                                    width="300"
-                                    height="200"
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                ></iframe>
+                                {weddingData.brideMapUrl ? (
+                                    <iframe
+                                        src={getMapEmbedUrlFromCoords(weddingData.brideMapUrl)}
+                                        width="300"
+                                        height="200"
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                    ></iframe>
+                                ) : (
+                                    <div>Lỗi tải bản đồ nhà gái. Vui lòng kiểm tra tọa độ.</div>
+                                )}
                             </div>
                             <div className={styles.text_organization__location}>
                                 <h4>Địa điểm tổ chức nhà gái</h4>

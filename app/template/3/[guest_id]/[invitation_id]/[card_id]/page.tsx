@@ -49,6 +49,28 @@ function InviteeNameContent({ fullName }: { fullName: string }) {
     return <span>{fullName || 'bạn'}</span>;
 }
 
+// Function to generate Google Maps embed URL from coordinates in (latitude,longitude) format
+const getMapEmbedUrlFromCoords = (coords: string): string => {
+    if (!coords) return '';
+
+    // Match coordinates in the format (latitude,longitude)
+    const match = coords.match(/^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/);
+    if (!match) return '';
+
+    const lat = parseFloat(match[1]);
+    const lng = parseFloat(match[3]);
+    if (isNaN(lat) || isNaN(lng)) return '';
+
+    const apiMapKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+    if (!apiMapKey) {
+        console.error('Google Maps API key is missing');
+        return '';
+    }
+
+    // Construct a simpler Embed API URL with a pin at the coordinates
+    return `https://www.google.com/maps/embed/v1/place?key=${apiMapKey}&q=${lat},${lng}&zoom=15`;
+};
+
 function Template3InviteeName() {
     const pathname = usePathname();
     const { getGuestAndCard } = useApi();
@@ -365,8 +387,8 @@ function Template3InviteeName() {
                                 </p>
                                 <p className={styles.year}>{weddingData.weddingDate.split('/')[2]}</p>
                                 <div className={styles.location}>
-                                    <p style={{display: 'none'}}>{weddingData.venue_groom}</p>
-                                    <p style={{display: 'none'}}>{weddingData.groomAddress}</p>
+                                    <p style={{ display: 'none' }}>{weddingData.venue_groom}</p>
+                                    <p style={{ display: 'none' }}>{weddingData.groomAddress}</p>
                                 </div>
                             </div>
                         </div>
@@ -464,17 +486,22 @@ function Template3InviteeName() {
                                 data-aos-delay="200"
                             >
                                 <div className={styles.text_organization__location}>
-                                    <h4>Địa điểm tổ chức nhà trai</h4>
-                                    <span>{weddingData.venue_groom}</span>
+                                    <h4>Địa điểm tổ chức nhà trai - {weddingData.venue_groom}</h4>
+                                    <span>{weddingData.groomAddress || 'Địa điểm nhà trai chưa cập nhật'}</span>
                                 </div>
                                 <div className={styles.map_organization__location}>
-                                    <iframe
-                                        src={weddingData.groomMapUrl}
-                                        width="300"
-                                        height="200"
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                    ></iframe>
+                                    {weddingData.groomMapUrl ? (
+                                        <iframe
+                                            src={getMapEmbedUrlFromCoords(weddingData.groomMapUrl)}
+                                            width="300"
+                                            height="200"
+                                            style={{ border: 0 }}
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                                    ) : (
+                                        <p>Lỗi tải bản đồ nhà trai. Vui lòng kiểm tra tọa độ.</p>
+                                    )}
                                 </div>
                             </div>
 
@@ -484,17 +511,22 @@ function Template3InviteeName() {
                                 data-aos-delay="300"
                             >
                                 <div className={styles.map_organization__location}>
-                                    <iframe
-                                        src={weddingData.brideMapUrl}
-                                        width="300"
-                                        height="200"
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                    ></iframe>
+                                    {weddingData.brideMapUrl ? (
+                                        <iframe
+                                            src={getMapEmbedUrlFromCoords(weddingData.brideMapUrl)}
+                                            width="300"
+                                            height="200"
+                                            style={{ border: 0 }}
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                        ></iframe>
+                                    ) : (
+                                        <p>Lỗi tải bản đồ nhà gái. Vui lòng kiểm tra tọa độ.</p>
+                                    )}
                                 </div>
                                 <div className={styles.text_organization__location}>
-                                    <h4>Địa điểm tổ chức nhà gái</h4>
-                                    <span>{weddingData.venue_bride}</span>
+                                    <h4>Địa điểm tổ chức nhà gái - {weddingData.venue_bride}</h4>
+                                    <span>{weddingData.brideAddress || 'Địa điểm nhà gái chưa cập nhật'}</span>
                                 </div>
                             </div>
                         </div>
@@ -535,7 +567,7 @@ function Template3InviteeName() {
                                 <span data-aos="fade-left" data-aos-delay="600">
                                     Rất hân hạnh được đón tiếp
                                 </span>
-                                <h3 data-aos="fade-right" data-aos-delay="900">
+                                <h3 data-aos="fade-right" data-aos-delay="700">
                                     Thanks You
                                 </h3>
                             </div>
