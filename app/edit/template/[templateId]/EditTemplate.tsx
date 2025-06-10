@@ -313,7 +313,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             validate: (value: string) => (value.trim() ? null : 'Ngày trong tuần không được để trống'),
         },
         {
-            label: 'Giờ cưới',
+            label: 'Giờ tham dự',
             path: ['weddingTime'],
             type: 'time',
             placeholder: 'Ví dụ: 18:00',

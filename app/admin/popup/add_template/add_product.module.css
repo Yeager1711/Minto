@@ -19,7 +19,7 @@
 .modal .modalContent {
   background: #ffffff;
   border-radius: 1.2rem;
-  max-width: 85rem;
+  max-width: 100rem;
   width: 90%;
   max-height: 85vh;
   margin: 2rem auto;
@@ -135,51 +135,76 @@
 }
 .modal .addProducts .addProductHeader .addProductWrapper .flex {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   flex-wrap: wrap;
 }
 .modal .addProducts .addProductHeader .addProductWrapper .flex .image {
-  flex: 1;
-  max-width: 35rem;
-  min-width: 28rem;
+  flex: 1 1 32rem;
+  max-width: 30rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 2rem;
+  background: #f0f0f0;
+  padding: 0;
+  transition: border-color 0.3s ease;
+  overflow: hidden;
+  margin: auto;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image:hover {
+  border-color: #ff7d55;
+  cursor: pointer;
 }
 .modal .addProducts .addProductHeader .addProductWrapper .flex .image input[type=file] {
-  width: 100%;
-  padding: 1.2rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 0.6rem;
-  font-size: 1.4rem;
+  display: none;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea {
+  text-align: center;
+  color: #666;
+  padding: 10rem 2rem;
   cursor: pointer;
-  background: #f9f9f9;
-  transition: border-color 0.3s ease;
 }
-.modal .addProducts .addProductHeader .addProductWrapper .flex .image input[type=file]:hover {
-  border-color: #ff7d55;
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea .uploadIcon {
+  font-size: 2rem;
+  color: #999;
+  margin-bottom: 1rem;
 }
-.modal .addProducts .addProductHeader .addProductWrapper .flex .image input[type=file]:focus {
-  border-color: #ff7d55;
-  box-shadow: 0 0 8px rgba(255, 125, 85, 0.2);
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea p {
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea p.mainText {
+  font-weight: 500;
+  color: #444;
+}
+.modal .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea p.fileInfo {
+  font-size: 1.2rem;
+  color: #888;
 }
 .modal .addProducts .addProductHeader .addProductWrapper .flex .image .preview {
-  margin-top: 2rem;
-  max-width: 22rem;
   width: 100%;
-  border: 1px solid #e0e0e0;
-  border-radius: 0.6rem;
+  height: auto;
+  margin: 0;
+  border: none;
+  border-radius: 0.8rem;
   overflow: hidden;
-  margin: 1.5rem auto;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .modal .addProducts .addProductHeader .addProductWrapper .flex .image .preview img {
   width: 100%;
-  max-width: 22rem;
   height: auto;
   -o-object-fit: cover;
      object-fit: cover;
+  border-radius: 0.8rem;
 }
 .modal .addProducts .addProductHeader .addProductWrapper .flex .right {
-  flex: 1;
+  flex: 1 1 32rem;
   max-width: 50rem;
   width: 100%;
 }
@@ -318,17 +343,26 @@
   .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image {
     max-width: 100%;
     min-width: 100%;
+    padding: 1.5rem;
   }
-  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image input[type=file] {
-    font-size: 1.3rem;
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea {
     padding: 1rem;
   }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea p {
+    font-size: 1.3rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea p.fileInfo {
+    font-size: 1.1rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea .uploadIcon {
+    font-size: 2.2rem;
+  }
   .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .preview {
-    max-width: 20rem;
-    margin: 1.5rem auto;
+    max-width: 100%;
+    height: auto;
   }
   .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .preview img {
-    max-width: 20rem;
+    max-width: 100%;
   }
   .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right {
     min-width: 100%;
@@ -387,6 +421,28 @@
     padding: 1rem;
     border-radius: 0.6rem;
     font-size: 1.3rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image {
+    padding: 1rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea {
+    padding: 1rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea p {
+    font-size: 1.2rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea p.fileInfo {
+    font-size: 1rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .uploadArea .uploadIcon {
+    font-size: 2rem;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .preview {
+    max-width: 100%;
+    height: auto;
+  }
+  .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .image .preview img {
+    max-width: 100%;
   }
   .modal .addProducts .addProducts .addProductHeader .addProductWrapper .flex .right .formGroup label {
     font-size: 1.3rem;

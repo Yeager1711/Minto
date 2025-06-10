@@ -24,6 +24,7 @@
         width: 100%;
         margin: auto;
         background: #640606;
+        cursor: grab;
 
 
         &.visible {
@@ -38,7 +39,6 @@
             transform: scale(1.1);
         }
 
-
         .wrapper {
             padding: 15rem 0;
             text-align: center;
@@ -51,6 +51,12 @@
                 left: 0;
                 max-width: 25rem;
                 z-index: 1;
+                opacity: 1;
+                transition: opacity 0.3s ease;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
 
                 img {
                     width: 100%;
@@ -66,6 +72,12 @@
                 right: 0;
                 max-width: 13rem;
                 z-index: 1;
+                opacity: 1;
+                transition: opacity 0.3s ease;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
 
                 img {
                     width: 100%;
@@ -84,6 +96,12 @@
                 top: 15%;
                 left: 50%;
                 transform: translate(-50%, -50%);
+                opacity: 1;
+                transition: opacity 0.3s ease;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
             }
 
             .mar {
@@ -93,6 +111,12 @@
                 transform: translate(-50%, -50%);
                 width: 90%;
                 padding: 1rem;
+                opacity: 1;
+                transition: opacity 0.3s ease;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
 
                 .groom_name,
                 .bride_name {
@@ -102,6 +126,12 @@
                     font-weight: 400;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                     text-transform: capitalize;
+                    opacity: 1;
+                    transition: opacity 0.3s ease;
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
                 }
 
                 .and {
@@ -112,14 +142,32 @@
                     font-weight: 500;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                     text-transform: capitalize;
+                    opacity: 1;
+                    transition: opacity 0.3s ease;
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
                 }
 
                 .groom_name {
                     text-align: left;
+                    opacity: 1;
+                    transition: opacity 0.3s ease;
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
                 }
 
                 .bride_name {
                     text-align: right;
+                    opacity: 1;
+                    transition: opacity 0.3s ease;
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
                 }
             }
 
@@ -129,6 +177,12 @@
                 left: 0;
                 display: flex;
                 width: 100%;
+                opacity: 1;
+                transition: opacity 0.3s ease;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
 
                 .dateTime {
                     flex: 1 1 12rem;
@@ -138,6 +192,12 @@
                     width: 100%;
                     height: 17rem;
                     padding: 0 1rem;
+                    opacity: 1;
+                    transition: opacity 0.3s ease;
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
 
                     span {
                         display: block;
@@ -149,15 +209,33 @@
                     .day {
                         font-size: 2.5rem;
                         border-bottom: 0.1rem solid #c38e32;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                        user-select: none;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
                     }
 
                     .month {
                         font-size: 2rem;
                         border-bottom: 0.1rem solid #c38e32;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                        user-select: none;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
                     }
 
                     .year {
                         font-size: 2.5rem;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                        user-select: none;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
                     }
                 }
 
@@ -171,6 +249,12 @@
                     .invition {
                         font-size: 3rem;
                         font-family: "Allura", cursive;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                        user-select: none;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
                     }
 
                     .name {
@@ -178,10 +262,79 @@
                         font-family: "Allura", cursive;
                         margin: 0;
                         font-weight: 400;
+                        opacity: 1;
+                        transition: opacity 0.3s ease;
+                        user-select: none;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
                     }
                 }
             }
         }
+
+        .swipe_up {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+            color: #ccc;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, .02);
+
+            .wrapper_swipeUp {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+                position: absolute;
+                top: 5%;
+
+                .chevron {
+                    color: #fff;
+                    opacity: 0;
+                    animation: swipeUpFade 1.2s infinite;
+
+                    // Chevron đầu tiên - delay để nó mờ sau
+                    &:first-child {
+                        animation-delay: 0.4s;
+                    }
+
+                    // Chevron thứ hai - hiện đậm trước
+                    &:last-child {
+                        animation-delay: 0s;
+                    }
+                }
+            }
+        }
+
+        @keyframes swipeUpFade {
+            100% {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            30% {
+                opacity: 0.5;
+                transform: translateY(-3px);
+            }
+
+            0% {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+        }
+
     }
 
     .dynamic {

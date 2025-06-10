@@ -242,6 +242,22 @@ interface SubmitErrorResponse {
     };
 }
 
+interface ErrorFeedbackResponse {
+    feedbacks: {
+        feedback_id: number;
+        error_message: string;
+        submitted_at: string;
+        status: string;
+        resolved_at: string | null;
+        resolution_notes: string | null;
+        user: {
+            user_id: number;
+            full_name: string;
+            email: string;
+        };
+    }[];
+}
+
 interface ApiContextType {
     accessToken: string | null;
     login: (data: LoginData) => Promise<LoginResponse>;
@@ -266,6 +282,8 @@ interface ApiContextType {
     getUserQrPublic: (userId: number) => Promise<QrResponse>;
     updateQrStatus: (qrId: number, status: 'ACTIVE' | 'SUCCESS') => Promise<QrResponse>;
     submitPostError: (errorMessage: string) => Promise<SubmitErrorResponse>;
+    getAllErrorFeedback: () => Promise<ErrorFeedbackResponse>;
+    updateErrorFeedbackStatus: (feedbackId: number, status: string, resolutionNotes?: string) => Promise<void>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
@@ -717,6 +735,55 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
+    const getAllErrorFeedback = async (): Promise<ErrorFeedbackResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.get(`${apiUrl}/error-feedback/all-error-feedback`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể lấy danh sách phản hồi lỗi';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
+    const updateErrorFeedbackStatus = async (feedbackId: number, status: string, resolutionNotes?: string) => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            await axios.patch(
+                `${apiUrl}/error-feedback/${feedbackId}`,
+                { status, resolutionNotes },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'ngrok-skip-browser-warning': 'true',
+                    },
+                }
+            );
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể cập nhật trạng thái phản hồi';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
     const value = {
         accessToken,
         login,
@@ -736,6 +803,8 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         getUserQrPublic,
         updateQrStatus,
         submitPostError,
+        getAllErrorFeedback,
+        updateErrorFeedbackStatus,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

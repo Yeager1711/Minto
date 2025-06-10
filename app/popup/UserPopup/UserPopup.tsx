@@ -116,7 +116,9 @@ const UserPopup: React.FC<UserPopupProps> = ({ isOpen, onClose, onLogout }) => {
             <div className={styles.control}>
                 <button onClick={() => handleNavigation('/account/templates')}>Template đã chọn</button>
                 <button onClick={() => handleNavigation('/account/PaymentHistory')}>Lịch sử thanh toán</button>
-                <button onClick={() => handleNavigation('/account/invites')}>Danh sách mời</button>
+                {user?.role.name === 'customer' && (
+                    <button onClick={() => handleNavigation('/account/invites')}>Phản hồi</button>
+                )}
             </div>
             <button className={cx('logout-btn')} onClick={onLogout}>
                 <FontAwesomeIcon icon={faSignOutAlt} /> Logout

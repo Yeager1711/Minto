@@ -1,4 +1,3 @@
-// add_product.tsx
 'use client';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
@@ -6,6 +5,8 @@ import Image from 'next/image';
 import styles from './add_product.module.css';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 interface Category {
     category_id: number;
@@ -183,7 +184,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
         <div className={styles.modal}>
             <div className={styles.modalContent}>
                 <button className={styles.closeButton} onClick={onClose}>
-                    &times;
+                    ×
                 </button>
                 <div className={styles.addProducts}>
                     <div className={styles.addProductHeader}>
@@ -204,15 +205,26 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
                             <h4>Thêm sản phẩm</h4>
                             <div className={styles.flex}>
                                 <div className={styles.image}>
-                                    <input type="file" accept="image/*" onChange={handleImageChange} />
+                                    <input type="file" accept="image/*" id="imageUpload" onChange={handleImageChange} />
+                                    {!previewImage && (
+                                        <label htmlFor="imageUpload" className={styles.uploadArea}>
+                                            <FontAwesomeIcon icon={faUpload} className={styles.uploadIcon} />
+                                            <p className={styles.mainText}>Chọn ảnh để tải lên ngày hôm nay</p>
+                                            <p className={styles.fileInfo}>
+                                                Bạn nên dùng tập tin .jpg, .png đã lược gọn có kích thước dưới 20 MB
+                                                hoặc tập tin .mp4 đã lược gọn có kích thước dưới 200 MB.
+                                            </p>
+                                        </label>
+                                    )}
                                     {previewImage && (
                                         <div className={styles.preview}>
                                             <Image
                                                 src={previewImage}
                                                 alt="Preview"
-                                                width={200}
-                                                height={200}
-                                                style={{ objectFit: 'contain' }}
+                                                width={0}
+                                                height={0}
+                                                sizes="100vw"
+                                                style={{ width: '100%', height: 'auto' }}
                                             />
                                         </div>
                                     )}

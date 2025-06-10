@@ -19,19 +19,12 @@ import { Bar, PolarArea, Line } from 'react-chartjs-2';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faChartSimple,
-    faUserCog,
-    faMoneyBillWave,
-    faCommentDots,
-    faEdit,
-    faPlus,
-    faChevronLeft,
-    faChevronRight,
-} from '@fortawesome/free-solid-svg-icons';
+import { faChartSimple, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import styles from './dashboard.module.css';
 import AddProduct from '../popup/add_template/addTemplates';
 import Skeleton from './Skeleton';
+import Navigation from '../navigations/navigations';
+import ErrorList from '../error_list/page';
 
 // Register ChartJS components
 ChartJS.register(
@@ -215,6 +208,7 @@ const Dashboard: React.FC = () => {
     const [onlineSince, setOnlineSince] = React.useState<number | null>(null);
     const [currentDate, setCurrentDate] = React.useState<Date>(new Date());
     const [selectedDate, setSelectedDate] = React.useState<string>(new Date().toISOString().split('T')[0]);
+    const [activeSection, setActiveSection] = React.useState<string>('main');
 
     React.useEffect(() => {
         AOS.init({
@@ -400,7 +394,6 @@ const Dashboard: React.FC = () => {
             virtualRevenueByDate[date] = 0;
         });
 
-        // Calculate real revenue from completedPayments
         apiData.completedPayments.forEach((payment: Payment) => {
             const date: string = payment.paymentDate.split('T')[0];
             if (realRevenueByDate[date] !== undefined) {
@@ -409,7 +402,6 @@ const Dashboard: React.FC = () => {
             }
         });
 
-        // Calculate virtual revenue from canceledPayments
         if (apiData.canceledPayments && apiData.canceledPayments.length > 0) {
             apiData.canceledPayments.forEach((payment: Payment) => {
                 const date: string = payment.paymentDate.split('T')[0];
@@ -419,7 +411,6 @@ const Dashboard: React.FC = () => {
                 }
             });
         } else if (apiData.totalCanceledOrders > 0) {
-            // Fallback to totalCanceledOrders with assumed amount
             const virtualPerDay: number = Math.floor(apiData.totalCanceledOrders / 7) * 99000;
             last7Days.forEach((date: string) => {
                 virtualRevenueByDate[date] = virtualPerDay;
@@ -534,214 +525,222 @@ const Dashboard: React.FC = () => {
         setLastRequestTime(Date.now());
     };
 
+    const handleNavChange = (section: string): void => {
+        setActiveSection(section);
+        setLastRequestTime(Date.now());
+    };
+
     const formatHeaderDate = (date: Date): string => {
         return `${getMonthName(date.getMonth())} ${date.getFullYear()}`;
     };
 
     const weekDays: WeekDay[] = getWeekDays(currentDate);
 
-    return (
-        <div className={styles.dashboard}>
-            <div className={styles.dashboard_wrapper}>
-                <div className={styles.navigations}>
-                    <button title="Quản lý tài khoản">
-                        <FontAwesomeIcon icon={faUserCog} />
-                    </button>
-                    <button title="Quản lý doanh thu">
-                        <FontAwesomeIcon icon={faMoneyBillWave} />
-                    </button>
-                    <button title="Quản lý phản hồi">
-                        <FontAwesomeIcon icon={faCommentDots} />
-                    </button>
-                    <button title="Chỉnh sửa thông tin">
-                        <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                    <button title="Thêm sản phẩm" onClick={openAddProductPopup}>
-                        <FontAwesomeIcon icon={faPlus} />
-                    </button>
-                </div>
-
-                <div className={styles.main_content}>
-                    <div className={styles.header} data-aos="fade-down">
-                        {isLoading ? <Skeleton type="text" /> : <h1>{greeting}, Huỳnh Nam</h1>}
+    const renderContent = () => {
+        switch (activeSection) {
+            case 'account':
+                return <div className={styles.section_content}></div>;
+            case 'revenue':
+                return <div className={styles.section_content}>Quản lý doanh thu</div>;
+            case 'feedback':
+                return (
+                    <div className={styles.section_content}>
+                        <ErrorList />
                     </div>
-
-                    {error && (
-                        <div className={styles.error} style={{ color: 'red', marginBottom: '20px' }}>
-                            {error}
+                );
+            case 'edit':
+                return <div className={styles.section_content}>Chỉnh sửa thông tin</div>;
+            default:
+                return (
+                    <div className={styles.main_content}>
+                        <div className={styles.header} data-aos="fade-down">
+                            {isLoading ? <Skeleton type="text" /> : <h1>{greeting}, Huỳnh Nam</h1>}
                         </div>
-                    )}
 
-                    <div className={styles.wrapper_header}>
-                        <div className={styles.wrapper_header__left}>
-                            <div className={styles.chart_section} data-aos="fade-up">
-                                <div className={styles.chart}>
-                                    {isLoading ? (
-                                        <Skeleton type="chart" />
-                                    ) : apiData ? (
-                                        chartType === 'bar' ? (
-                                            <Bar data={orderChartData} options={chartOptions} />
-                                        ) : templateChartData.labels.length > 0 ? (
-                                            <PolarArea
-                                                style={{ margin: 'auto' }}
-                                                data={templateChartData}
-                                                options={chartOptions}
-                                            />
-                                        ) : (
-                                            <p>Không có dữ liệu template để hiển thị</p>
-                                        )
-                                    ) : (
-                                        <p>Không có dữ liệu để hiển thị</p>
-                                    )}
-                                </div>
+                        {error && (
+                            <div className={styles.error} style={{ color: 'red', marginBottom: '20px' }}>
+                                {error}
                             </div>
+                        )}
 
-                            <div className={styles.left_footer} data-aos="fade-up" data-aos-delay="200">
-                                <div className={styles.box_left}>
-                                    <h3>Chi tiết thanh toán</h3>
-                                    <div className={styles.list_of_responses}>
+                        <div className={styles.wrapper_header}>
+                            <div className={styles.wrapper_header__left}>
+                                <div className={styles.chart_section} data-aos="fade-up">
+                                    <div className={styles.chart}>
                                         {isLoading ? (
-                                            <>
-                                                {Array.from({ length: 3 }).map((_, index: number) => (
-                                                    <div key={index} className={styles.response_item}>
-                                                        <Skeleton type="box" />
-                                                    </div>
-                                                ))}
-                                            </>
-                                        ) : apiData && apiData.completedPayments.length > 0 ? (
-                                            apiData.completedPayments.slice(0, 5).map((payment: Payment) => (
-                                                <div key={payment.paymentId} className={styles.response_item}>
-                                                    <span>
-                                                        Success {payment.paymentId} -{' '}
-                                                        {new Date(payment.paymentDate).toLocaleDateString()}
-                                                    </span>
-                                                    <span className={styles.Processed}>
-                                                        {payment.amount.toLocaleString()} VNĐ
-                                                    </span>
-                                                </div>
-                                            ))
+                                            <Skeleton type="chart" />
+                                        ) : apiData ? (
+                                            chartType === 'bar' ? (
+                                                <Bar data={orderChartData} options={chartOptions} />
+                                            ) : templateChartData.labels.length > 0 ? (
+                                                <PolarArea
+                                                    style={{ margin: 'auto' }}
+                                                    data={templateChartData}
+                                                    options={chartOptions}
+                                                />
+                                            ) : (
+                                                <p>Không có dữ liệu template để hiển thị</p>
+                                            )
                                         ) : (
-                                            <p>Không có thanh toán hoàn tất</p>
+                                            <p>Không có dữ liệu để hiển thị</p>
                                         )}
                                     </div>
                                 </div>
-                                <div className={styles.box_right}>
-                                    <h3>Tổng đơn hàng bị hủy</h3>
-                                    {isLoading ? (
-                                        <Skeleton type="small" />
-                                    ) : (
-                                        <p style={{ color: 'red' }}>{apiData?.totalCanceledOrders ?? 0}</p>
-                                    )}
-                                    <h3>Server status</h3>
-                                    <p
-                                        style={{
-                                            color:
-                                                serverStatus === 'online'
-                                                    ? 'green'
-                                                    : serverStatus === 'rebuilding...'
-                                                      ? 'orange'
-                                                      : 'gray',
-                                        }}
-                                    >
-                                        {serverStatus}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.header__right}>
-                            <div className={styles.date_section}>
-                                <div className={styles.date_section__header}>
-                                    <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevMonth} />
-                                    <span>{formatHeaderDate(currentDate)}</span>
-                                    <FontAwesomeIcon icon={faChevronRight} onClick={handleNextMonth} />
-                                </div>
 
-                                <div className={styles.flex_date_section}>
-                                    {weekDays.map((day: WeekDay, index: number) => (
-                                        <div
-                                            key={index}
-                                            className={`${styles.date} ${day.isCurrent ? styles.currentDate : ''} ${
-                                                day.fullDate === selectedDate ? styles.selectedDate : ''
-                                            }`}
-                                            onClick={() => handleDateSelect(day.fullDate)}
-                                        >
-                                            <span>{day.day}</span>
-                                            <span>{day.date}</span>
+                                <div className={styles.left_footer} data-aos="fade-up" data-aos-delay="200">
+                                    <div className={styles.box_left}>
+                                        <h3>Chi tiết thanh toán</h3>
+                                        <div className={styles.list_of_responses}>
+                                            {isLoading ? (
+                                                <>
+                                                    {Array.from({ length: 3 }).map((_, index: number) => (
+                                                        <div key={index} className={styles.response_item}>
+                                                            <Skeleton type="box" />
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            ) : apiData && apiData.completedPayments.length > 0 ? (
+                                                apiData.completedPayments.slice(0, 5).map((payment: Payment) => (
+                                                    <div key={payment.paymentId} className={styles.response_item}>
+                                                        <span>
+                                                            Success {payment.paymentId} -{' '}
+                                                            {new Date(payment.paymentDate).toLocaleDateString()}
+                                                        </span>
+                                                        <span className={styles.Processed}>
+                                                            {payment.amount.toLocaleString()} VNĐ
+                                                        </span>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p>Không có thanh toán hoàn tất</p>
+                                            )}
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className={styles.Revenue_box} data-aos="fade-left">
-                                <h3>Doanh thu</h3>
-                                <div className={styles.chart}>
-                                    {isLoading ? (
-                                        <Skeleton type="chart" />
-                                    ) : apiData ? (
-                                        <Line data={revenueChartData} options={revenueChartOptions} />
-                                    ) : (
-                                        <p>Không có dữ liệu để hiển thị</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className={styles.total_client} data-aos="fade-left" data-aos-delay="200">
-                                <div className={styles.client}>
-                                    <h4>Tổng số Template</h4>
-                                    {isLoading ? <Skeleton type="small" /> : <p>{apiData?.totalTemplates ?? 0}</p>}
-                                </div>
-                                <div className={styles.client}>
-                                    <h4>Template sử dụng</h4>
-                                    {isLoading ? (
-                                        <Skeleton type="small" />
-                                    ) : (
-                                        <p>
-                                            {apiData?.templateUsage.reduce(
-                                                (sum: number, t: TemplateUsage) => sum + t.usageCount,
-                                                0
-                                            ) ?? 0}
+                                    </div>
+                                    <div className={styles.box_right}>
+                                        <h3>Tổng đơn hàng bị hủy</h3>
+                                        {isLoading ? (
+                                            <Skeleton type="small" />
+                                        ) : (
+                                            <p style={{ color: 'red' }}>{apiData?.totalCanceledOrders ?? 0}</p>
+                                        )}
+                                        <h3>Server status</h3>
+                                        <p
+                                            style={{
+                                                color:
+                                                    serverStatus === 'online'
+                                                        ? 'green'
+                                                        : serverStatus === 'rebuilding...'
+                                                          ? 'orange'
+                                                          : 'gray',
+                                            }}
+                                        >
+                                            {serverStatus}
                                         </p>
-                                    )}
+                                    </div>
                                 </div>
                             </div>
+                            <div className={styles.header__right}>
+                                <div className={styles.date_section}>
+                                    <div className={styles.date_section__header}>
+                                        <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevMonth} />
+                                        <span>{formatHeaderDate(currentDate)}</span>
+                                        <FontAwesomeIcon icon={faChevronRight} onClick={handleNextMonth} />
+                                    </div>
 
-                            <div className={styles.Most_used_model} data-aos="fade-left" data-aos-delay="400">
-                                <h3>Mẫu được sử dụng nhiều nhất</h3>
-                                <FontAwesomeIcon
-                                    icon={faChartSimple}
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={toggleChartType}
-                                    title={`Chuyển sang ${chartType === 'bar' ? 'Polar Area' : 'Bar'} Chart`}
-                                />
-                            </div>
+                                    <div className={styles.flex_date_section}>
+                                        {weekDays.map((day: WeekDay, index: number) => (
+                                            <div
+                                                key={index}
+                                                className={`${styles.date} ${day.isCurrent ? styles.currentDate : ''} ${
+                                                    day.fullDate === selectedDate ? styles.selectedDate : ''
+                                                }`}
+                                                onClick={() => handleDateSelect(day.fullDate)}
+                                            >
+                                                <span>{day.day}</span>
+                                                <span>{day.date}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
 
-                            <div className={styles.template} data-aos="fade-left" data-aos-delay="400">
-                                <h3>Mẫu Template đang có</h3>
-                                <div className={styles.template_wrapper_item}>
-                                    {isLoading ? (
-                                        <>
-                                            {Array.from({ length: 3 }).map((_, index: number) => (
-                                                <span key={index} className={styles.template_item}>
-                                                    <Skeleton type="small" />
+                                <div className={styles.Revenue_box} data-aos="fade-left">
+                                    <h3>Doanh thu</h3>
+                                    <div className={styles.chart}>
+                                        {isLoading ? (
+                                            <Skeleton type="chart" />
+                                        ) : apiData ? (
+                                            <Line data={revenueChartData} options={revenueChartOptions} />
+                                        ) : (
+                                            <p>Không có dữ liệu để hiển thị</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className={styles.total_client} data-aos="fade-left" data-aos-delay="200">
+                                    <div className={styles.client}>
+                                        <h4>Tổng số Template</h4>
+                                        {isLoading ? <Skeleton type="small" /> : <p>{apiData?.totalTemplates ?? 0}</p>}
+                                    </div>
+                                    <div className={styles.client}>
+                                        <h4>Template sử dụng</h4>
+                                        {isLoading ? (
+                                            <Skeleton type="small" />
+                                        ) : (
+                                            <p>
+                                                {apiData?.templateUsage.reduce(
+                                                    (sum: number, t: TemplateUsage) => sum + t.usageCount,
+                                                    0
+                                                ) ?? 0}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className={styles.Most_used_model} data-aos="fade-left" data-aos-delay="400">
+                                    <h3>Mẫu được sử dụng nhiều nhất</h3>
+                                    <FontAwesomeIcon
+                                        icon={faChartSimple}
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={toggleChartType}
+                                        title={`Chuyển sang ${chartType === 'bar' ? 'Polar Area' : 'Bar'} Chart`}
+                                    />
+                                </div>
+
+                                <div className={styles.template} data-aos="fade-left" data-aos-delay="400">
+                                    <h3>Mẫu Template đang có</h3>
+                                    <div className={styles.template_wrapper_item}>
+                                        {isLoading ? (
+                                            <>
+                                                {Array.from({ length: 3 }).map((_, index: number) => (
+                                                    <span key={index} className={styles.template_item}>
+                                                        <Skeleton type="small" />
+                                                    </span>
+                                                ))}
+                                            </>
+                                        ) : apiData && apiData.allTemplates.length > 0 ? (
+                                            apiData.allTemplates.map((template: Template) => (
+                                                <span key={template.templateId} className={styles.template_item}>
+                                                    {template.templateName}
                                                 </span>
-                                            ))}
-                                        </>
-                                    ) : apiData && apiData.allTemplates.length > 0 ? (
-                                        apiData.allTemplates.map((template: Template) => (
-                                            <span key={template.templateId} className={styles.template_item}>
-                                                {template.templateName}
-                                            </span>
-                                        ))
-                                    ) : (
-                                        <p>Không có template</p>
-                                    )}
+                                            ))
+                                        ) : (
+                                            <p>Không có template</p>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                );
+        }
+    };
 
+    return (
+        <div className={styles.dashboard}>
+            <div className={styles.dashboard_wrapper}>
+                <Navigation onNavChange={handleNavChange} onAddProduct={openAddProductPopup} />
+                {renderContent()}
+            </div>
             {isAddProductOpen && <AddProduct onClose={closeAddProductPopup} />}
         </div>
     );

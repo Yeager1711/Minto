@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import styles from '../../../3.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCirclePlay, faCirclePause, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Suspense } from 'react';
@@ -294,6 +294,14 @@ function Template3InviteeName() {
                     className={`${styles.intro_invition} ${isIntroOpen ? styles.visible : styles.hidden}`}
                     onClick={handleIntroClick}
                 >
+                    <div className={styles.swipe_up}>
+                        <div className={styles.wrapper_swipeUp}>
+                            <FontAwesomeIcon icon={faChevronDown} className={styles.chevron} />
+                            <FontAwesomeIcon icon={faChevronDown} className={styles.chevron} />
+                            <span> Click hoặc vuốt để mở</span>
+                        </div>
+                    </div>
+
                     <div className={styles.wrapper}>
                         <div className={styles.image_psb__TL}>
                             <img src="/images/m3/t2.png" alt="Top Left Decoration" />
