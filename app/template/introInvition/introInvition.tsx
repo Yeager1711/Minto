@@ -20,17 +20,18 @@ function IntroInvitation({ isIntroOpen, onClose, groomName, brideName, weddingDa
     // Handle swipe up with a lower threshold for sensitivity
     const handleTouchStart = (e: React.TouchEvent) => {
         setTouchStart(e.touches[0].clientY);
+        e.preventDefault(); // Prevent default touch behavior
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
         setTouchEnd(e.touches[0].clientY);
+        e.preventDefault(); // Prevent scrolling during touch move
     };
 
     const handleTouchEnd = () => {
         if (touchStart && touchEnd) {
             const deltaY = touchStart - touchEnd;
             if (deltaY > 20) {
-                // Reduced threshold to 20px for a light swipe
                 onClose(); // Close intro on swipe up
             }
         }
@@ -38,15 +39,27 @@ function IntroInvitation({ isIntroOpen, onClose, groomName, brideName, weddingDa
         setTouchEnd(null);
     };
 
-    // Prevent default scroll when intro is open
+    // Prevent default scroll and manage body overflow
     useEffect(() => {
+        if (isIntroOpen) {
+            document.body.style.overflow = 'hidden'; // Disable body scroll
+            document.body.style.overscrollBehavior = 'none'; // Prevent overscroll
+        } else {
+            document.body.style.overflow = ''; // Restore body scroll
+            document.body.style.overscrollBehavior = ''; // Restore overscroll
+        }
+
         const handleWheel = (e: WheelEvent) => {
             if (isIntroOpen) {
                 e.preventDefault();
             }
         };
         window.addEventListener('wheel', handleWheel, { passive: false });
-        return () => window.removeEventListener('wheel', handleWheel);
+        return () => {
+            window.removeEventListener('wheel', handleWheel);
+            document.body.style.overflow = ''; // Ensure scroll is restored on unmount
+            document.body.style.overscrollBehavior = '';
+        };
     }, [isIntroOpen]);
 
     return (

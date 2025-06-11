@@ -46,11 +46,9 @@ interface WeddingData {
     venue_bride: string;
 }
 
-// Function to generate Google Maps embed URL from coordinates in (latitude,longitude) format
 const getMapEmbedUrlFromCoords = (coords: string): string => {
     if (!coords) return '';
 
-    // Match coordinates in the format (latitude,longitude)
     const match = coords.match(/^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/);
     if (!match) return '';
 
@@ -64,7 +62,6 @@ const getMapEmbedUrlFromCoords = (coords: string): string => {
         return '';
     }
 
-    // Construct a simpler Embed API URL with a pin at the coordinates
     return `https://www.google.com/maps/embed/v1/place?key=${apiMapKey}&q=${lat},${lng}&zoom=15`;
 };
 
@@ -226,7 +223,6 @@ function Template3InviteeName() {
 
     const handleIntroClose = () => {
         setIsIntroOpen(false);
-        // Cuộn lên đầu trang khi tắt intro
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -301,7 +297,10 @@ function Template3InviteeName() {
                 />
 
                 <div
-                    className={`${styles.template3_content} ${isIntroOpen ? styles.content_hidden : styles.content_visible}`}
+                    className={`${styles.template3_content} ${
+                        isIntroOpen ? styles.content_hidden : styles.content_visible
+                    }`}
+                    style={{ pointerEvents: isIntroOpen ? 'none' : 'auto' }} // Disable interaction when intro is open
                 >
                     <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
                         <div className={styles.dynamic_content}>
@@ -336,6 +335,7 @@ function Template3InviteeName() {
                         <audio ref={audioRef} src="/audio/honcayeu.mp3" />
                     </div>
 
+                    {/* Rest of the JSX remains unchanged */}
                     <div className={styles.header} data-aos="fade-up">
                         <div className={styles.flower_left} data-aos="fade-right" data-aos-delay="200">
                             <img src="/images/m3/t1.png" alt="Flower decoration left" />
