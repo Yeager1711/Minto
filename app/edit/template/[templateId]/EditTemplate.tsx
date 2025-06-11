@@ -20,8 +20,8 @@ export interface TemplateWeddingData {
     groomStory: string;
     groomAddress: string;
     brideAddress: string;
-    groomMapUrl: string; // Now a coordinate string, e.g., "(10.3503377,106.1526945)"
-    brideMapUrl: string; // Now a coordinate string
+    groomMapUrl: string;
+    brideMapUrl: string;
     weddingDate: Date | null;
 }
 
@@ -97,10 +97,17 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
     useEffect(() => {
         const fetchQrStatus = async () => {
             try {
-                const qr = await getUserQr();
-                setHasQrCode(true);
-                setReceiveDonation(qr.status === 'ACTIVE');
-                setApiError('');
+                const qrList = await getUserQr();
+                console.log('Dữ liệu QR nhận được từ getUserQr:', qrList);
+                if (qrList.length > 0) {
+                    const qr = qrList[0];
+                    setHasQrCode(true);
+                    setReceiveDonation(qr.status === 'ACTIVE');
+                    setApiError('');
+                } else {
+                    setHasQrCode(false);
+                    setApiError('Bạn chưa có mã QR cho phép nhận tiền Hỷ qua QR');
+                }
             } catch (error) {
                 console.error('Lỗi khi lấy trạng thái QR:', error);
                 setHasQrCode(false);
@@ -199,15 +206,30 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
         setReceiveDonation(newReceiveDonation);
 
         try {
-            const qr = await getUserQr();
-            if (!qr.qrId) {
+            const qrList = await getUserQr();
+            console.log('Dữ liệu QR nhận được từ getUserQr:', qrList);
+
+            if (qrList.length === 0 || !qrList[0].qrId) {
                 throw new Error('Không tìm thấy mã QR');
             }
 
-            const updatedQr = await updateQrStatus(qr.qrId, newReceiveDonation ? 'ACTIVE' : 'SUCCESS');
-            if (updatedQr.status !== (newReceiveDonation ? 'ACTIVE' : 'SUCCESS')) {
+            const qr = qrList[0];
+            const qrId = qr.qrId;
+            const newStatus = newReceiveDonation ? 'ACTIVE' : 'SUCCESS';
+
+            console.log('Dữ liệu gửi đi tới updateQrStatus:', { qrId, status: newStatus });
+
+            const updatedQr = await updateQrStatus(qrId, newStatus);
+            console.log('Phản hồi từ updateQrStatus:', updatedQr);
+
+            // Kiểm tra trạng thái sau khi cập nhật bằng cách gọi lại getUserQr
+            const updatedQrList = await getUserQr();
+            console.log('Dữ liệu QR sau khi cập nhật:', updatedQrList);
+
+            if (updatedQrList.length === 0 || updatedQrList[0].status !== newStatus) {
                 throw new Error('Cập nhật trạng thái QR không thành công');
             }
+
             toast.success(
                 newReceiveDonation
                     ? 'Đã cho phép nhận tiền Hỷ qua QR code'
@@ -216,6 +238,7 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             setApiError('');
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Lỗi khi cập nhật trạng thái QR code';
+            console.error('Lỗi trong handleToggle:', errorMessage, error);
             showToastError(errorMessage);
             setApiError(errorMessage);
             setReceiveDonation(!newReceiveDonation);

@@ -88,7 +88,7 @@ function ErrorList() {
     const handleStatusChange = async (feedbackId: number, newStatus: Feedback['status']) => {
         try {
             let resolutionNotes: string | undefined;
-            if (newStatus === 'RESOLVED') {
+            if (newStatus === 'RESOLVED' || newStatus === 'IGNORED') {
                 resolutionNotes = prompt('Vui lòng nhập ghi chú giải quyết (tùy chọn):') || undefined;
             }
 
@@ -102,8 +102,12 @@ function ErrorList() {
                         ? {
                               ...feedback,
                               status: newStatus,
-                              resolved_at: newStatus === 'RESOLVED' ? new Date().toISOString() : null,
-                              resolution_notes: newStatus === 'RESOLVED' ? resolutionNotes || 'Đã giải quyết' : null,
+                              resolved_at:
+                                  newStatus === 'RESOLVED' || newStatus === 'IGNORED' ? new Date().toISOString() : null,
+                              resolution_notes:
+                                  newStatus === 'RESOLVED' || newStatus === 'IGNORED'
+                                      ? resolutionNotes || 'Đã xử lý'
+                                      : null,
                           }
                         : feedback
                 )
@@ -114,8 +118,9 @@ function ErrorList() {
                 setSelectedError({
                     ...selectedError,
                     status: newStatus,
-                    resolved_at: newStatus === 'RESOLVED' ? new Date().toISOString() : null,
-                    resolution_notes: newStatus === 'RESOLVED' ? resolutionNotes || 'Đã giải quyết' : null,
+                    resolved_at: newStatus === 'RESOLVED' || newStatus === 'IGNORED' ? new Date().toISOString() : null,
+                    resolution_notes:
+                        newStatus === 'RESOLVED' || newStatus === 'IGNORED' ? resolutionNotes || 'Đã xử lý' : null,
                 });
             }
         } catch {

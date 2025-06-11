@@ -230,6 +230,7 @@ interface QrResponse {
     qrCodeUrl: string;
     createdAt: Date;
     status: string;
+    representative: string;
 }
 
 interface SubmitErrorResponse {
@@ -278,12 +279,13 @@ interface ApiContextType {
     fetchAuthParams: () => Promise<ImageKitAuthParams>;
     updateUserName: (fullName: string) => Promise<UserProfile>;
     createQr: (data: QrData) => Promise<QrResponse>;
-    getUserQr: () => Promise<QrResponse>;
-    getUserQrPublic: (userId: number) => Promise<QrResponse>;
+    getUserQr: () => Promise<QrResponse[]>;
+    getUserQrPublic: (userId: number) => Promise<QrResponse[]>; // Updated return type
     updateQrStatus: (qrId: number, status: 'ACTIVE' | 'SUCCESS') => Promise<QrResponse>;
     submitPostError: (errorMessage: string) => Promise<SubmitErrorResponse>;
     getAllErrorFeedback: () => Promise<ErrorFeedbackResponse>;
     updateErrorFeedbackStatus: (feedbackId: number, status: string, resolutionNotes?: string) => Promise<void>;
+    getUserErrorFeedback: () => Promise<ErrorFeedbackResponse>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
@@ -631,7 +633,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
-    const getUserQr = async (): Promise<QrResponse> => {
+    const getUserQr = async (): Promise<QrResponse[]> => {
         if (!accessToken) {
             throw new Error('Vui lòng đăng nhập');
         }
@@ -646,7 +648,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             if (!Array.isArray(qrList) || qrList.length === 0) {
                 throw new Error('Không tìm thấy mã QR');
             }
-            return qrList[0]; // Trả về QR đầu tiên (vì mỗi user chỉ có 1 QR)
+            return qrList; // Return the full array of QR codes
         } catch (err: unknown) {
             const axiosError = err as AxiosErrorResponse;
             const errorMessage =
@@ -657,7 +659,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
-    const getUserQrPublic = async (userId: number): Promise<QrResponse> => {
+    const getUserQrPublic = async (userId: number): Promise<QrResponse[]> => {
         try {
             const response = await axios.get(`${apiUrl}/qr/public/qrs/${userId}`, {
                 headers: {
@@ -668,7 +670,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             if (!Array.isArray(qrList) || qrList.length === 0) {
                 throw new Error('Không tìm thấy mã QR');
             }
-            return qrList[0];
+            return qrList; // Return the full array of QR codes
         } catch (err: unknown) {
             const axiosError = err as AxiosErrorResponse;
             const errorMessage =
@@ -784,6 +786,29 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
+    const getUserErrorFeedback = async (): Promise<ErrorFeedbackResponse> => {
+        if (!accessToken) {
+            throw new Error('Vui lòng đăng nhập');
+        }
+        try {
+            const response = await axios.get(`${apiUrl}/error-feedback/user-feedbacks`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            return response.data;
+        } catch (err: unknown) {
+            const axiosError = err as AxiosErrorResponse;
+            const errorMessage =
+                axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
+                    ? axiosError.response.data.message
+                    : 'Không thể lấy danh sách phản hồi lỗi của người dùng';
+            showToastError(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
     const value = {
         accessToken,
         login,
@@ -805,6 +830,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         submitPostError,
         getAllErrorFeedback,
         updateErrorFeedbackStatus,
+        getUserErrorFeedback,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

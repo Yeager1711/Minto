@@ -1,0 +1,112 @@
+.ErrorHandling {
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 7rem 2rem;
+    font-family: Arial, sans-serif;
+}
+
+.ErrorHandling h3 {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+.ErrorHandling_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.feedbackCard {
+    background: #fff;
+    border-radius: 0.8rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border: 0.1rem solid #eeeeee;
+}
+
+.feedbackCard.expanded {
+    max-height: 30rem;
+}
+
+.feedbackHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.feedbackHeader h4 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: #333;
+    flex: 1;
+}
+
+.status {
+    padding: 0.5rem 1.5rem;
+    border-radius: 5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status.pending {
+    background: #ffd149;
+    color: #333;
+}
+
+.status.resolved {
+    background: #3f8b42;
+    color: #fff;
+}
+
+.status.ignored {
+    background: #f87373;
+    color: #fff;
+}
+
+.feedbackDetails {
+    font-size: 1.4rem;
+    color: #666;
+}
+
+.additionalDetails {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    font-size: 1.4rem;
+    color: #666;
+    border-radius: 1rem;
+    border: 0.1rem solid #eeee;
+    padding: 0 1rem;
+}
+
+.feedbackCard.expanded .additionalDetails {
+    max-height: 10rem;
+    margin-top: 1rem;
+}
+
+.noFeedback {
+    text-align: center;
+    color: #666;
+    font-size: 1.6rem;
+    margin-top: 2rem;
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #333;
+    margin-top: 2rem;
+}
+
+.error {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #d32f2f;
+    margin-top: 2rem;
+}

@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 import styles from './CreateCardPopup.module.css';
@@ -11,7 +12,13 @@ import { useSwipeable } from 'react-swipeable';
 interface CreateCardPopupProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (data: { bank: string; accountNumber: string; accountHolder: string; qrCodeUrl?: string }) => void;
+    onSubmit: (data: {
+        bank: string;
+        accountNumber: string;
+        accountHolder: string;
+        qrCodeUrl?: string;
+        representative?: string | null;
+    }) => void;
 }
 
 interface Bank {
@@ -27,6 +34,14 @@ interface BankApiResponse {
     data: Bank[];
 }
 
+interface QrData {
+    bank: string;
+    accountNumber: string;
+    accountHolder: string;
+    qrCodeUrl: string;
+    representative?: string | null;
+}
+
 interface QrResponse {
     qrId: number;
     bank: string;
@@ -35,6 +50,7 @@ interface QrResponse {
     qrCodeUrl: string;
     createdAt: Date;
     status: string;
+    representative: string | null;
 }
 
 const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSubmit }) => {
@@ -42,6 +58,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
     const [bank, setBank] = useState<string>('');
     const [accountNumber, setAccountNumber] = useState<string>('');
     const [accountHolder, setAccountHolder] = useState<string>('');
+    const [representative, setRepresentative] = useState<string | null>(null);
     const [error, setError] = useState<string>('');
     const [isAnimatingOut, setIsAnimatingOut] = useState<boolean>(false);
     const [banks, setBanks] = useState<Bank[]>([]);
@@ -91,6 +108,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
             setBank('');
             setAccountNumber('');
             setAccountHolder('');
+            setRepresentative(null);
             setError('');
             setQrCodeUrl(null);
             setShowQr(false);
@@ -133,12 +151,15 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
             const selectedBank = banks.find((b) => b.id === bank);
             const qrUrl = await generateQRCode(selectedBank?.bin, accountNumber, accountHolder);
 
-            const savedQr: QrResponse = await api.createQr({
+            const qrData: QrData = {
                 bank: bank || 'Không chọn ngân hàng',
                 accountNumber,
                 accountHolder,
                 qrCodeUrl: qrUrl,
-            });
+                representative: representative || null,
+            };
+
+            const savedQr: QrResponse = await api.createQr(qrData);
 
             setQrCodeUrl(savedQr.qrCodeUrl);
             onSubmit({
@@ -146,6 +167,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                 accountNumber: savedQr.accountNumber,
                 accountHolder: savedQr.accountHolder,
                 qrCodeUrl: savedQr.qrCodeUrl,
+                representative: savedQr.representative,
             });
             setIsQrCreated(true);
             showToastSuccess('Tạo thẻ thành công');
@@ -161,8 +183,15 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
         if (!accountNumber || accountNumber.length < 6 || accountNumber.length > 20) {
             return 'Số tài khoản phải có từ 6 đến 20 chữ số';
         }
-        if (!accountHolder || accountHolder.length < 3) return 'Tên chủ tài khoản không hợp lệ';
-        if (/[^A-Za-z\s]/.test(accountHolder)) return 'Tên chủ tài khoản chỉ được chứa chữ cái và khoảng trắng';
+        if (!accountHolder || accountHolder.length < 3) {
+            return 'Tên chủ tài khoản không hợp lệ';
+        }
+        if (/[^A-Za-z\s]/.test(accountHolder)) {
+            return 'Tên chủ tài khoản chỉ được chứa chữ cái và khoảng trắng';
+        }
+        if (!representative) {
+            return 'Vui lòng chọn Chú rể hoặc Cô dâu';
+        }
         return '';
     };
 
@@ -239,8 +268,13 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
             }
         },
         trackMouse: true,
-        delta: 10, // Sensitivity for swipe detection
+        delta: 10,
     });
+
+    const representativeOptions = [
+        { value: 'groom', label: 'Chú Rể' },
+        { value: 'bride', label: 'Cô Dâu' },
+    ];
 
     if (!isOpen && !isAnimatingOut) return null;
 
@@ -272,6 +306,44 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                             <div className={styles.form}>
                                 {error && <p className={styles.error}>{error}</p>}
                                 <div className={styles.inputWrapper}>
+                                    <div className={styles.inputField}>
+                                        <Select
+                                            options={representativeOptions}
+                                            value={
+                                                representativeOptions.find(
+                                                    (option) => option.value === representative
+                                                ) || null
+                                            }
+                                            onChange={(option) => setRepresentative(option?.value || null)}
+                                            className={styles.reactSelect}
+                                            classNamePrefix="react-select"
+                                            placeholder="Chọn người đại diện"
+                                            isDisabled={isVerifying}
+                                            styles={{
+                                                control: (base) => ({
+                                                    ...base,
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: '4px',
+                                                    padding: '4px',
+                                                    minHeight: '40px',
+                                                    fontSize: '16px',
+                                                }),
+                                                singleValue: (base) => ({
+                                                    ...base,
+                                                    fontSize: '16px',
+                                                }),
+                                                option: (base) => ({
+                                                    ...base,
+                                                    fontSize: '16px',
+                                                    padding: '8px',
+                                                }),
+                                                menu: (base) => ({
+                                                    ...base,
+                                                    zIndex: 9999,
+                                                }),
+                                            }}
+                                        />
+                                    </div>
                                     <div className={styles.inputField}>
                                         {isLoadingBanks ? (
                                             <div className={styles.input}>Đang tải danh sách ngân hàng...</div>
@@ -456,6 +528,43 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                         <div className={styles.form}>
                             {error && <p className={styles.error}>{error}</p>}
                             <div className={styles.inputWrapper}>
+                                <div className={styles.inputField}>
+                                    <Select
+                                        options={representativeOptions}
+                                        value={
+                                            representativeOptions.find((option) => option.value === representative) ||
+                                            null
+                                        }
+                                        onChange={(option) => setRepresentative(option?.value || null)}
+                                        className={styles.reactSelect}
+                                        classNamePrefix="react-select"
+                                        placeholder="Chọn người đại diện"
+                                        isDisabled={isVerifying}
+                                        styles={{
+                                            control: (base) => ({
+                                                ...base,
+                                                border: '1px solid #ccc',
+                                                borderRadius: '4px',
+                                                padding: '4px',
+                                                minHeight: '40px',
+                                                fontSize: '16px',
+                                            }),
+                                            singleValue: (base) => ({
+                                                ...base,
+                                                fontSize: '16px',
+                                            }),
+                                            option: (base) => ({
+                                                ...base,
+                                                fontSize: '16px',
+                                                padding: '8px',
+                                            }),
+                                            menu: (base) => ({
+                                                ...base,
+                                                zIndex: 9999,
+                                            }),
+                                        }}
+                                    />
+                                </div>
                                 <div className={styles.inputField}>
                                     {isLoadingBanks ? (
                                         <div className={styles.input}>Đang tải danh sách ngân hàng...</div>

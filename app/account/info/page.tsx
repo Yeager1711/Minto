@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import styles from './account_info.module.scss';
 import { useApi } from 'app/lib/apiContext/apiContext';
@@ -44,7 +45,6 @@ interface Template {
     };
 }
 
-// Define QrResponse interface
 interface QrResponse {
     qrId: number;
     bank: string;
@@ -142,9 +142,13 @@ function AccountInfo() {
 
     const handleShowQrPopup = async () => {
         try {
-            const qrData = await getUserQr();
-            setQrData(qrData);
-            setShowQrPopup(true);
+            const qrList = await getUserQr();
+            if (qrList.length > 0) {
+                setQrData(qrList[0]); // Select the first QR code
+                setShowQrPopup(true);
+            } else {
+                throw new Error('Bạn chưa tạo mã QR');
+            }
         } catch (err: unknown) {
             let errorMessage = 'Bạn chưa tạo thẻ, hoặc lỗi không thể lấy mã QR';
             if (err instanceof Error) errorMessage = err.message;

@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"invitionsQR.module.css"}
+{"version":3,"sources":["invitionsQR.module.scss","invitionsQR.module.css"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,4DAAA;EACA,WAAA;EACA,kBAAA;ACCJ;ADAI;;EAEI,YAAA;EACA,eAAA;EACA,4BAAA;EACA,mBAAA;EACA,2BAAA;EACA,YAAA;ACER;ADAQ;;EACI,WAAA;EACA,YAAA;EACA,sBAAA;KAAA,mBAAA;ACGZ;ADAQ;;EACI,cAAA;ACGZ;ADDY;;EACI,cAAA;EACA,iBAAA;ACIhB","file":"invitionsQR.module.css"}
