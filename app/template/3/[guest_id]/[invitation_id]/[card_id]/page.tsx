@@ -3,12 +3,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import styles from '../../../3.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCirclePlay, faCirclePause, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Suspense } from 'react';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import InvitionsQR from 'app/popup/invitionsQR/invitionsQR';
+import IntroInvitation from '../../../../introInvition/introInvition';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,10 +44,6 @@ interface WeddingData {
     brideMapUrl: string;
     venue_groom: string;
     venue_bride: string;
-}
-
-function InviteeNameContent({ fullName }: { fullName: string }) {
-    return <span>{fullName || 'bạn'}</span>;
 }
 
 // Function to generate Google Maps embed URL from coordinates in (latitude,longitude) format
@@ -227,7 +224,11 @@ function Template3InviteeName() {
         }
     };
 
-    const handleIntroClick = () => setIsIntroOpen(false);
+    const handleIntroClose = () => {
+        setIsIntroOpen(false);
+        // Cuộn lên đầu trang khi tắt intro
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -290,46 +291,14 @@ function Template3InviteeName() {
     return (
         <Suspense fallback={<div></div>}>
             <div className={styles.template3}>
-                <div
-                    className={`${styles.intro_invition} ${isIntroOpen ? styles.visible : styles.hidden}`}
-                    onClick={handleIntroClick}
-                >
-                    <div className={styles.swipe_up}>
-                        <div className={styles.wrapper_swipeUp}>
-                            <FontAwesomeIcon icon={faChevronDown} className={styles.chevron} />
-                            <FontAwesomeIcon icon={faChevronDown} className={styles.chevron} />
-                            <span> Click hoặc vuốt để mở</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.wrapper}>
-                        <div className={styles.image_psb__TL}>
-                            <img src="/images/m3/t2.png" alt="Top Left Decoration" />
-                        </div>
-                        <div className={styles.image_psb__BR}>
-                            <img src="/images/m3/t2.png" alt="Bottom Right Decoration" />
-                        </div>
-                        <div className={styles.text}>Wedding Invitations</div>
-                        <div className={styles.mar}>
-                            <div className={styles.groom_name}>{weddingData.groom}</div>
-                            <div className={styles.and}>&</div>
-                            <div className={styles.bride_name}>{weddingData.bride}</div>
-                        </div>
-                        <div className={styles.box_dateTime}>
-                            <div className={styles.dateTime}>
-                                <span className={styles.day}>{weddingData.weddingDate.split('/')[0]}</span>
-                                <span className={styles.month}>Tháng {weddingData.weddingDate.split('/')[1]}</span>
-                                <span className={styles.year}>{weddingData.weddingDate.split('/')[2]}</span>
-                            </div>
-                            <div className={styles.inviton_name}>
-                                <span className={styles.invition}>Kính mời</span>
-                                <h3 className={styles.name}>
-                                    <InviteeNameContent fullName={guestName} />
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <IntroInvitation
+                    isIntroOpen={isIntroOpen}
+                    onClose={handleIntroClose}
+                    groomName={weddingData.groom}
+                    brideName={weddingData.bride}
+                    weddingDate={weddingData.weddingDate}
+                    guestName={guestName}
+                />
 
                 <div
                     className={`${styles.template3_content} ${isIntroOpen ? styles.content_hidden : styles.content_visible}`}
