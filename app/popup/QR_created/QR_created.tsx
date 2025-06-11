@@ -53,16 +53,8 @@ const QRPopup: React.FC<QRPopupProps> = ({ isOpen, onClose, qrData }) => {
                         <div className={styles.blurCardRight}></div>
 
                         <div className={styles.mainCard}>
-                            <h3 className={styles.account_number}>
-                                {qrData.accountNumber
-                                    ? qrData.accountNumber.replace(/(\d{4})/g, '$1 ').trim()
-                                    : 'XXX XXX XXX'}
-                            </h3>
-                            <h3 className={styles.create_at}>
-                                {qrData.createdAt
-                                    ? new Date(qrData.createdAt).toLocaleDateString('en-GB')
-                                    : 'DD/MM/YYYY'}
-                            </h3>
+                            <h3 className={styles.account_number}>Minto Editions Card</h3>
+                            <h3 className={styles.create_at}>infinite</h3>
                         </div>
                     </div>
                 </div>

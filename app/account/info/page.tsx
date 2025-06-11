@@ -236,7 +236,7 @@ function AccountInfo() {
                     </div>
                     <div className={styles.right}>
                         <div className={styles.wrapper__right_template}>
-                            <FontAwesomeIcon className={styles.icon_QR} icon={faQrcode} onClick={handleShowQrPopup} />
+                            <FontAwesomeIcon className={styles.icon_QR} icon={faQrcode} onClick={handleShowQrPopup} style={{display: 'none'}}/>
                             <h4>Mẫu template đã sử dụng</h4>
                             {isLoading ? (
                                 <div className={styles.grid_template}>
