@@ -33,7 +33,7 @@ const notifications: Notification[] = [
         items: [
             'Cho phép tạo QR nhận Hỷ bằng tài khoản ngân hàng cá nhân',
             'Mỗi tài khoản được tạo tối đa 1 QR để nhận Hỷ',
-            'Áp dụng trực tiếp trong quá trình "Nhập thông tin thiệp" và nhận trức tiếp tại: Thiệp đã được tạo !',
+            'Áp dụng trực tiếp trong quá trình "Nhập thông tin thiệp" và nhận trực tiếp tại: Thiệp đã được tạo !',
         ],
     },
     {

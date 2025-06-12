@@ -7,6 +7,7 @@ import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import imagekit from 'app/lib/imagekit/imagekit';
 
 interface Category {
     category_id: number;
@@ -14,11 +15,11 @@ interface Category {
 }
 
 interface AddProductProps {
-    onClose: () => void; // Prop to close the popup
+    onClose: () => void;
 }
 
 const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
-    const { accessToken, createCategory, getCategories, createTemplate } = useApi();
+    const { accessToken, createCategory, getCategories, createTemplate, fetchAuthParams } = useApi();
     const [categoryName, setCategoryName] = useState<string>('');
     const [categories, setCategories] = useState<Category[]>([]);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -31,7 +32,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
         categoryId: '',
         status: '',
     });
-    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     // Cleanup URL.createObjectURL to prevent memory leaks
     useEffect(() => {
@@ -53,24 +54,81 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
         if (accessToken) fetchCategories();
     }, [accessToken, getCategories]);
 
-    // Handle image file change
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Load image from localStorage on mount
+    useEffect(() => {
+        const savedImage = localStorage.getItem('productImage');
+        if (savedImage) {
+            try {
+                const parsedImage = JSON.parse(savedImage);
+                setImageUrl(parsedImage.url);
+                setPreviewImage(parsedImage.url);
+            } catch (e) {
+                console.error('Lỗi khi đọc productImage từ localStorage:', e);
+            }
+        }
+    }, []);
+
+    // Handle image file change and upload to ImageKit
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            if (!file.type.match(/image\/(jpg|jpeg|png|gif)$/)) {
-                toast.error('Chỉ chấp nhận file ảnh (jpg, jpeg, png, gif)');
-                return;
-            }
-            if (file.size > 5 * 1024 * 1024) {
-                toast.error('Kích thước ảnh không được vượt quá 5MB');
-                return;
-            }
-            setImageFile(file);
-            const imageUrl = URL.createObjectURL(file);
-            setPreviewImage(imageUrl);
-        } else {
-            setImageFile(null);
+        if (!file) {
             setPreviewImage(null);
+            setImageUrl(null);
+            localStorage.removeItem('productImage');
+            e.target.value = '';
+            return;
+        }
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            toast.error('Chỉ chấp nhận file ảnh (jpg, jpeg, png, gif)');
+            e.target.value = '';
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error('Kích thước ảnh không được vượt quá 5MB');
+            e.target.value = '';
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const authParams = await fetchAuthParams();
+            const timestamp = Date.now();
+            const standardizedFileName = `product-${timestamp}.jpg`;
+            const folderPath = '/product_image';
+
+            const uploadResponse = await imagekit.upload({
+                file,
+                fileName: standardizedFileName,
+                folder: folderPath,
+                token: authParams.token,
+                expire: authParams.expire,
+                signature: authParams.signature,
+            });
+
+            if (!uploadResponse.url) {
+                throw new Error('Tải ảnh lên ImageKit thất bại: Không nhận được URL');
+            }
+
+            setImageUrl(uploadResponse.url);
+            setPreviewImage(uploadResponse.url);
+
+            // Save to localStorage
+            try {
+                localStorage.setItem(
+                    'productImage',
+                    JSON.stringify({ url: uploadResponse.url, fileName: standardizedFileName })
+                );
+            } catch (e) {
+                console.error('Lỗi khi lưu productImage vào localStorage:', e);
+            }
+        } catch {
+            toast.error('Lỗi khi tải ảnh lên ImageKit. Vui lòng thử lại.');
+            e.target.value = '';
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -105,6 +163,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
             setCategoryName('');
             const updatedCategories = await getCategories();
             setCategories(updatedCategories);
+            toast.success('Danh mục đã được tạo thành công');
         } catch {
             // Error handled in createCategory
         } finally {
@@ -140,8 +199,8 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
             return;
         }
 
-        if (!imageFile) {
-            toast.error('Vui lòng chọn ảnh đại diện');
+        if (!imageUrl) {
+            toast.error('Vui lòng chọn và tải lên ảnh đại diện');
             return;
         }
 
@@ -165,13 +224,14 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
                 price,
                 category_id: parseInt(templateData.categoryId),
                 status: templateData.status,
-                image: imageFile,
+                image_url: imageUrl,
             });
             toast.success('Mẫu thiệp đã được tạo thành công');
             setTemplateData({ templateId: '', name: '', description: '', price: '', categoryId: '', status: '' });
-            setImageFile(null);
             setPreviewImage(null);
-            onClose(); // Close the popup after successful submission
+            setImageUrl(null);
+            localStorage.removeItem('productImage');
+            onClose();
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Lỗi khi tạo mẫu thiệp';
             toast.error(errorMessage);

@@ -105,7 +105,7 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                     <div className={styles.imageSection}>
                         <div className={styles.popupImageContainer}>
                             <img
-                                src={`data:image/png;base64,${product.image_url}`}
+                                src={`${product.image_url}`}
                                 alt={product.name}
                                 className={styles.popupImage}
                                 onError={(e) => (e.currentTarget.src = '/images/fallback.png')}

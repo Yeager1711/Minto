@@ -108,7 +108,7 @@ interface CreateTemplateData {
     price: number;
     category_id: number;
     status: string;
-    image: File;
+    image_url: string; 
 }
 
 interface CreateTemplateResponse {
@@ -430,24 +430,10 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             throw new Error('Vui lòng đăng nhập');
         }
         try {
-            const formData = new FormData();
-            if (data.template_id !== undefined) {
-                formData.append('template_id', data.template_id.toString());
-            }
-            formData.append('name', data.name);
-            if (data.description) {
-                formData.append('description', data.description);
-            }
-            formData.append('price', data.price.toString());
-            formData.append('category_id', data.category_id.toString());
-            formData.append('status', data.status);
-            formData.append('image', data.image);
-
-            console.log('FormData:', Array.from(formData.entries()));
-
-            const response = await axios.post(`${apiUrl}/templates/add-template`, formData, {
+            const response = await axios.post(`${apiUrl}/templates/add-template`, data, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
                     'ngrok-skip-browser-warning': 'true',
                 },
             });

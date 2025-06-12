@@ -58,7 +58,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, image, onClick }) => (
     <div className={styles.card_product} onClick={onClick}>
         <div className={styles.image_products}>
             <Image
-                src={`data:image/png;base64,${image}`}
+                src={`${image}`}
                 alt={name}
                 width={300}
                 height={200}
