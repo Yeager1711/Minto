@@ -13,14 +13,13 @@
     animation: fadeIn 0.3s ease-out forwards;
     backdrop-filter: blur(5px);
     padding: 1rem;
+}
 
-    &.closing {
-        animation: fadeOut 0.3s ease-out forwards;
-    }
+.popupOverlay.closing {
+    animation: fadeOut 0.3s ease-out forwards;
 }
 
 .popupContent {
-    // background: #c1c1c3;
     background: #fff;
     padding: 2rem;
     border-radius: 2rem;
@@ -35,227 +34,164 @@
 .popupHeader {
     text-align: center;
     margin-bottom: 2rem;
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
     background: #fff;
-    z-index: 999 !important;
+    z-index: 999;
+}
 
-    .popupTitle {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        padding: 1rem 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: #fff;
-        z-index: 999 !important;
-    }
-
-    a {
-        font-size: 1.2rem;
-        color: #6f42c1;
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+.popupTitle {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    padding: 1rem 0;
+    background: #fff;
 }
 
 .popupBody {
     overflow-y: auto;
     max-height: 70rem;
+}
 
-    &::-webkit-scrollbar {
-        display: none;
-    }
+.popupBody::-webkit-scrollbar {
+    display: none;
+}
 
-    &.closing {
-        animation: scaleOut 0.3s ease-out forwards;
-    }
+.popupBody.closing {
+    animation: scaleOut 0.3s ease-out forwards;
+}
 
-    .imageSection {
-        flex: 1;
-        display: flex;
-        justify-content: center;
+.imageSection {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
 
-        .popupImageContainer {
-            width: 100%;
-            max-width: 30rem;
-            border-radius: 2rem;
-            padding: 1rem;
-            overflow: hidden;
+.popupImageContainer {
+    width: 100%;
+    max-width: 30rem;
+    border-radius: 2rem;
+    padding: 1rem;
+    overflow: hidden;
+}
 
-            .popupImage {
-                width: 100%;
-                height: 100%;
-                border-radius: 2rem;
-                object-fit: cover;
-            }
-        }
-    }
+.popupImage {
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    object-fit: cover;
+}
 
-    .infoSection {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        border-radius: 8px;
-    }
+.infoSection {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 8px;
+}
 
-    .price {
-        font-size: 2cap;
-        font-weight: 700;
-        color: #2c3e50;
-        margin: 0;
-    }
+.price {
+    font-size: 2cap;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+}
 
-    .description {
-        font-size: 1.4rem;
-        color: #34495e;
-        line-height: 1.6;
+.description {
+    font-size: 1.4rem;
+    color: #34495e;
+    line-height: 1.6;
+}
 
-        p {
-            margin: 5px 0;
-            padding: .5rem;
-        }
-    }
+.description p {
+    margin: 5px 0;
+    padding: .5rem;
+}
 
-    .statusReady {
-        color: #28a745;
-        /* Màu xanh cho "Sẵn sàng" */
-        font-weight: bold;
-        margin-top: 10px;
-    }
+.statusReady {
+    color: #28a745;
+    font-weight: bold;
+    margin-top: 10px;
+}
 
-    .statusUpdating {
-        color: #dc3545;
-        /* Màu đỏ cho "Đang được cập nhật" */
-        font-weight: bold;
-        margin-top: 10px;
-    }
+.statusUpdating {
+    color: #dc3545;
+    font-weight: bold;
+    margin-top: 10px;
+}
 
-    .actionButtons {
-        display: flex;
-        align-items: center;
-        gap: .5rem;
+.actionButtons {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    position: relative;
+}
 
-        .customizeButton {
-            flex: 4;
-            background-color: #9585ee;
-            color: white;
-            padding: 1.2rem 1.5rem;
-            border: none;
-            border-radius: 1rem;
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            position: relative;
-        }
+.customizeButton {
+    flex: 4;
+    background-color: #9585ee;
+    color: white;
+    padding: 1.2rem 1.5rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+}
 
-    }
+.customizeButton:disabled {
+    background: #dbdbdb;
+    cursor: not-allowed;
+}
 
+.customizeButton:disabled:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    z-index: 10;
+}
 
+.optionsSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
 
-    // Responsive design
-    @media (max-width: 768px) {
-        .infoSection {
-            padding: 15px;
-        }
+.paperOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
-        .price {
-            font-size: 1.5rem;
-        }
+.quantitySelector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
 
-        .description {
-            font-size: 1.3rem;
-            padding: 1rem .5rem;
-        }
+.quantitySelector span {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
 
-        .actionButtons {
-            flex-direction: column;
-            align-items: stretch;
-
-            .customizeButton {
-                width: 100%;
-                padding: 12px;
-            }
-
-            .favoriteButton {
-                width: 100%;
-                height: auto;
-                padding: 12px;
-                justify-content: center;
-            }
-        }
-    }
-
-    .optionsSection {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-
-        .paperOptions {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-
-            .paperOption {
-                display: flex;
-                align-items: flex-start;
-                gap: 1rem;
-                border: 0.1rem solid #dbdbdb;
-                padding: 1.5rem;
-                border-radius: 0.5rem;
-                cursor: pointer;
-
-                input[type="radio"] {
-                    margin-top: 0.3rem;
-                }
-
-                div {
-                    flex: 1;
-
-                    strong {
-                        display: block;
-                        font-size: 1.2rem;
-                    }
-
-                    p {
-                        font-size: 1rem;
-                        color: #666;
-                        margin: 0.5rem 0 0;
-                    }
-                }
-            }
-
-            .quantitySelector {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-
-                span {
-                    font-size: 1.2rem;
-                    font-weight: 600;
-                }
-
-                select {
-                    font-size: 1.2rem;
-                    padding: 1.5rem;
-                    border-radius: 0.5rem;
-                    border: 0.1rem solid #dbdbdb;
-                    width: 100%;
-                    cursor: pointer;
-                }
-            }
-        }
-
-
-    }
+.quantitySelector select {
+    font-size: 1.2rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #dbdbdb;
+    width: 100%;
+    cursor: pointer;
 }
 
 .closeButton {
@@ -269,10 +205,35 @@
     font-size: 2rem;
     cursor: pointer;
     color: #fff;
+}
 
-    &:hover {
-        background: rgba(0, 0, 0, 0.8);
-        transition: background-color 0.3s linear;
+.closeButton:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transition: background-color 0.3s linear;
+}
+
+@media (max-width: 768px) {
+    .infoSection {
+        padding: 15px;
+    }
+
+    .price {
+        font-size: 1.5rem;
+    }
+
+    .description {
+        font-size: 1.3rem;
+        padding: 1rem .5rem;
+    }
+
+    .actionButtons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .customizeButton {
+        width: 100%;
+        padding: 12px;
     }
 }
 
@@ -282,70 +243,34 @@
         max-width: 40rem;
     }
 
-    .popupHeader {
-        .popupTitle {
-            font-size: 1.5rem;
-        }
-
-        .popupSubtitle {
-            font-size: 1.3rem;
-        }
-
-        a {
-            font-size: 1.3rem;
-        }
+    .popupTitle {
+        font-size: 1.5rem;
     }
 
     .popupBody {
         flex-direction: column;
         max-height: 52rem;
+    }
 
-        .imageSection {
-            .popupImageContainer {
-                max-width: 100%;
-                padding: 0.5rem;
-            }
-        }
+    .popupImageContainer {
+        max-width: 100%;
+        padding: 0.5rem;
+    }
 
-        .optionsSection {
-            .paperOption {
-                padding: 1rem;
+    .quantitySelector span {
+        font-size: 1.3rem;
+    }
 
-                div {
-                    strong {
-                        font-size: 1.3rem;
-                    }
+    .quantitySelector select {
+        height: 5rem;
+        font-size: 1.3rem;
+        padding: 1.5rem;
+    }
 
-                    p {
-                        font-size: 0.9rem;
-                    }
-                }
-            }
-
-            .quantitySelector {
-
-                span {
-                    font-size: 1.3rem;
-                }
-
-                select {
-                    height: 5rem;
-                    font-size: 1.3rem;
-                    padding: 1.5rem;
-                }
-            }
-
-            .actionButtons {
-                flex-direction: column;
-
-                .customizeButton,
-                .favoriteButton {
-                    width: 100%;
-                    padding: 1.5rem;
-                    font-size: 1.4rem;
-                }
-            }
-        }
+    .customizeButton {
+        width: 100%;
+        padding: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .closeButton {
@@ -357,7 +282,6 @@
     }
 }
 
-// Animation for the overlay (fade in)
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -368,7 +292,6 @@
     }
 }
 
-// Animation for the overlay (fade out)
 @keyframes fadeOut {
     from {
         opacity: 1;
@@ -379,7 +302,6 @@
     }
 }
 
-// Animation for the popup content (scale in)
 @keyframes scaleIn {
     from {
         transform: scale(0.8);
@@ -392,7 +314,6 @@
     }
 }
 
-// Animation for the popup content (scale out)
 @keyframes scaleOut {
     from {
         transform: scale(1);

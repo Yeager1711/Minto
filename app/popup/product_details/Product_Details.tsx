@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './product_details.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark} from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 
 interface Template {
@@ -61,7 +61,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     };
 
     const handleUseTemplate = () => {
-        // Định dạng totalPrice cho URL (224.000.00)
         router.push(`/edit/template/${product.template_id}?quantity=${quantity}`);
     };
 
@@ -85,10 +84,9 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     };
 
     const totalPrice = calculateTotalPrice();
-    const formattedPrice = formatPrice(totalPrice); // Dùng để hiển thị (có "vnđ")
-    const formattedTotalPrice = formattedPrice; // Đồng bộ
+    const formattedPrice = formatPrice(totalPrice);
 
-    const isReady = product.status === 'Sẵn sàng';
+    const isReady = product.status.trim() === 'Sẵn sàng';
     const statusClass = isReady ? styles.statusReady : styles.statusUpdating;
 
     return (
@@ -99,13 +97,12 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
             <div className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}>
                 <div className={styles.popupHeader}>
                     <h2 className={styles.popupTitle}>{product.name}</h2>
-                   
                 </div>
                 <div className={styles.popupBody}>
                     <div className={styles.imageSection}>
                         <div className={styles.popupImageContainer}>
                             <img
-                                src={`${product.image_url}`}
+                                src={product.image_url}
                                 alt={product.name}
                                 className={styles.popupImage}
                                 onError={(e) => (e.currentTarget.src = '/images/fallback.png')}
@@ -124,7 +121,12 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                             <div className={styles.paperOptions}>
                                 <div className={styles.quantitySelector}>
                                     <span>Số lượng:</span>
-                                    <select name="quantity" id="quantity" onChange={handleQuantityChange}>
+                                    <select
+                                        name="quantity"
+                                        id="quantity"
+                                        onChange={handleQuantityChange}
+                                        value={`${quantity} lời mời`}
+                                    >
                                         <option value="1 lời mời">1 lời mời</option>
                                         <option value="3 lời mời">3 lời mời</option>
                                         <option value="50 lời mời">50 lời mời</option>
@@ -142,11 +144,10 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                     className={styles.customizeButton}
                                     onClick={handleUseTemplate}
                                     disabled={!isReady}
+                                    title={!isReady ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!' : ''}
                                 >
-                                    Sử dụng với giá {formattedTotalPrice}
+                                    Sử dụng với giá {formattedPrice}
                                 </button>
-
-                          
                             </div>
                         </div>
                     </div>
