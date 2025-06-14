@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { Suspense } from 'react';
 import { useApi } from 'app/lib/apiContext/apiContext';
-import InvitionsQR from 'app/popup/invitionsQR/invitionsQR';
+import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
 
 export const dynamic = 'force-dynamic';
 

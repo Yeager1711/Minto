@@ -8,7 +8,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Suspense } from 'react';
 import { useApi } from 'app/lib/apiContext/apiContext';
-import InvitionsQR from 'app/popup/invitionsQR/invitionsQR';
+import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
 import IntroInvitation from '../../../../introInvition/introInvition';
 
 export const dynamic = 'force-dynamic';
