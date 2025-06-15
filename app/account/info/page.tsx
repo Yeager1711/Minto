@@ -406,6 +406,12 @@ function AccountInfo() {
                                     <strong>Hóa đơn cho:</strong> {selectedGuests.templateName}
                                 </p>
                                 <p>
+                                    <strong>Người thực hiện:</strong> {user?.full_name || 'Chưa cập nhật'}
+                                </p>
+                                <p>
+                                    <strong>Email:</strong> {user?.email || 'Chưa cập nhật'}
+                                </p>
+                                <p>
                                     <strong>Giá Template:</strong>{' '}
                                     {parseFloat(selectedGuests.price).toLocaleString('vi-VN')} VNĐ
                                 </p>
