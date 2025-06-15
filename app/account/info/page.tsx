@@ -68,6 +68,9 @@ function AccountInfo() {
         guests: Guest[];
         templateName: string;
         template_id: number;
+        price: string;
+        paymentAmount?: string;
+        paymentDate?: string;
     } | null>(null);
     const [showQrPopup, setShowQrPopup] = useState(false);
     const [qrData, setQrData] = useState<QrResponse | null>(null);
@@ -98,7 +101,15 @@ function AccountInfo() {
                         guests: item.template.guests,
                     },
                 }));
-                setTemplates(formattedTemplates);
+                // Merge templates with the same template_id
+                const uniqueTemplates = formattedTemplates.reduce((acc, current) => {
+                    const existing = acc.find((item) => item.template.template_id === current.template.template_id);
+                    if (!existing) {
+                        acc.push(current);
+                    }
+                    return acc;
+                }, [] as Template[]);
+                setTemplates(uniqueTemplates);
                 setError('');
             } catch (err: unknown) {
                 let errorMessage = 'Không thể lấy dữ liệu';
@@ -130,8 +141,15 @@ function AccountInfo() {
         }
     };
 
-    const handleShowGuests = (guests: Guest[], templateName: string, template_id: number) => {
-        setSelectedGuests({ guests, templateName, template_id });
+    const handleShowGuests = (
+        guests: Guest[],
+        templateName: string,
+        template_id: number,
+        price: string,
+        paymentAmount?: string,
+        paymentDate?: string
+    ) => {
+        setSelectedGuests({ guests, templateName, template_id, price, paymentAmount, paymentDate });
         setShowGuestsModal(true);
     };
 
@@ -162,11 +180,6 @@ function AccountInfo() {
         setShowQrPopup(false);
         setQrData(null);
     };
-
-    const getImageSrc = (imageUrl: string) =>
-        imageUrl.startsWith('iVBORw0KGgo') || imageUrl.includes('base64')
-            ? `data:image/png;base64,${imageUrl}`
-            : imageUrl;
 
     return (
         <div className={styles.account_info}>
@@ -236,7 +249,12 @@ function AccountInfo() {
                     </div>
                     <div className={styles.right}>
                         <div className={styles.wrapper__right_template}>
-                            <FontAwesomeIcon className={styles.icon_QR} icon={faQrcode} onClick={handleShowQrPopup} style={{display: 'none'}}/>
+                            <FontAwesomeIcon
+                                className={styles.icon_QR}
+                                icon={faQrcode}
+                                onClick={handleShowQrPopup}
+                                style={{ display: 'none' }}
+                            />
                             <h4>Mẫu template đã sử dụng</h4>
                             {isLoading ? (
                                 <div className={styles.grid_template}>
@@ -254,7 +272,7 @@ function AccountInfo() {
                                         <div key={template.card_id} className={styles.template_item}>
                                             <div className={styles.image}>
                                                 <img
-                                                    src={getImageSrc(template.template.image_url)}
+                                                    src={template.template.image_url}
                                                     alt={template.template.name}
                                                     onError={(e) => (e.currentTarget.src = '/placeholder.png')}
                                                 />
@@ -332,7 +350,10 @@ function AccountInfo() {
                                                         handleShowGuests(
                                                             template.template.guests,
                                                             template.template.name,
-                                                            template.template.template_id
+                                                            template.template.template_id,
+                                                            template.template.price,
+                                                            template.template.payments[0]?.amount,
+                                                            template.template.payments[0]?.payment_date
                                                         )
                                                     }
                                                     disabled={template.template.guests.length === 0}
@@ -354,47 +375,90 @@ function AccountInfo() {
             {showGuestsModal && selectedGuests && (
                 <div className={styles.modal}>
                     <div className={styles.modal_content}>
-                        <h3>Danh sách khách mời</h3>
-                        {selectedGuests.guests.length === 0 ? (
-                            <p>Chưa có khách mời nào.</p>
-                        ) : (
-                            <table className={styles.guest_table}>
-                                <thead>
-                                    <tr>
-                                        <th>Template</th>
-                                        <th>Tên khách mời</th>
-                                        <th>Links mời</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedGuests.guests.map((guest) => (
-                                        <tr key={guest.guest_id}>
-                                            <td>{selectedGuests.templateName}</td>
-                                            <td>{guest.full_name}</td>
-                                            <td>
-                                                {guest.card_id ? (
-                                                    <a
-                                                        href={`/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        style={{ color: '#007bff', textDecoration: 'underline' }}
-                                                    >
-                                                        Link mời khách hàng {guest.full_name}
-                                                    </a>
-                                                ) : (
-                                                    <span style={{ color: '#ff9999' }}>
-                                                        Link không khả dụng (thiếu card_id)
-                                                    </span>
-                                                )}
-                                            </td>
+                        <div className={styles.header}>
+                            <div className={styles.company_info}>
+                                <h2>⚡Minto</h2>
+                                <p>mintoinvitions@gmail.com</p>
+                            </div>
+                            <div className={styles.invoice_info}>
+                                <h3>Hóa đơn thanh toán</h3>
+                                <p>
+                                    <strong>Số hóa đơn:</strong> T{selectedGuests.template_id}-C
+                                    {selectedGuests.guests[0]?.card_id || 'N/A'}
+                                </p>
+                                <p>
+                                    <strong>Ngày thực hiện:</strong>{' '}
+                                    {selectedGuests.paymentDate
+                                        ? new Date(selectedGuests.paymentDate)
+                                              .toLocaleString('vi-VN', {
+                                                  hour: '2-digit',
+                                                  minute: '2-digit',
+                                                  hour12: true,
+                                                  day: 'numeric',
+                                                  month: 'long',
+                                                  year: 'numeric',
+                                                  timeZone: 'Asia/Ho_Chi_Minh',
+                                              })
+                                              .replace(' lúc ', ' ')
+                                        : 'Chưa có'}
+                                </p>
+                                <p>
+                                    <strong>Hóa đơn cho:</strong> {selectedGuests.templateName}
+                                </p>
+                                <p>
+                                    <strong>Giá Template:</strong>{' '}
+                                    {parseFloat(selectedGuests.price).toLocaleString('vi-VN')} VNĐ
+                                </p>
+                                <p>
+                                    <strong>Giá Thanh toán:</strong>{' '}
+                                    {selectedGuests.paymentAmount
+                                        ? `${parseFloat(selectedGuests.paymentAmount).toLocaleString('vi-VN')} VNĐ`
+                                        : 'Chưa thanh toán'}
+                                </p>
+                            </div>
+                        </div>
+                        <div className={styles.body}>
+                            {selectedGuests.guests.length === 0 ? (
+                                <p>Chưa có khách mời nào.</p>
+                            ) : (
+                                <table className={styles.invoice_table}>
+                                    <thead>
+                                        <tr>
+                                            <th>Mô tả</th>
+                                            <th>Link Mời</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        )}
-                        <button className={styles.close_button} onClick={handleCloseGuestsModal}>
-                            Đóng
-                        </button>
+                                    </thead>
+                                    <tbody>
+                                        {selectedGuests.guests.map((guest) => (
+                                            <tr key={guest.guest_id}>
+                                                <td data-label="Mô tả">Khách - {guest.full_name}</td>
+                                                <td data-label="Link Mời">
+                                                    {guest.card_id ? (
+                                                        <a
+                                                            href={`/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            style={{ color: '#007bff', textDecoration: 'underline' }}
+                                                        >
+                                                            {guest.full_name}
+                                                        </a>
+                                                    ) : (
+                                                        <span style={{ color: '#ff9999' }}>
+                                                            Link không khả dụng (thiếu card_id)
+                                                        </span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
+                        </div>
+                        <div className={styles.footer}>
+                            <button className={styles.close_button} onClick={handleCloseGuestsModal}>
+                                Đóng
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
