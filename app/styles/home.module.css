@@ -261,9 +261,12 @@
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  -o-object-position: top;
+     object-position: top;
   display: block;
   border-radius: 1rem 1rem 0 0;
   transform: scale(0.9);
+  overflow: hidden;
 }
 .main .wrapper_main .layer_default .grid .card_product .image_products .card_overlay {
   position: absolute;
