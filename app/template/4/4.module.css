@@ -553,6 +553,8 @@
 .template4 .collage .collage_left .img2,
 .template4 .collage .collage_left .img3 {
   margin-left: auto;
+  overflow: hidden;
+  border-radius: 1rem;
 }
 .template4 .collage .collage_left .img1 {
   display: block;

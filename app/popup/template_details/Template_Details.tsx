@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import styles from './product_details.module.css';
+import styles from './template_details.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
@@ -30,9 +30,11 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const router = useRouter();
     const [isClosing, setIsClosing] = useState(false);
     const [quantity, setQuantity] = useState<number>(1);
+    const [inputValue, setInputValue] = useState<string>('1');
 
     useEffect(() => {
         setIsClosing(false);
+        setInputValue('1');
         return () => {
             setIsClosing(false);
         };
@@ -64,10 +66,30 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         router.push(`/edit/template/${product.template_id}?quantity=${quantity}`);
     };
 
-    const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = e.target.value;
-        const quantityValue = Math.max(1, parseInt(selectedValue.split(' ')[0]) || 1);
-        setQuantity(quantityValue);
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInputValue(value);
+
+        // Allow empty input temporarily
+        if (value === '') {
+            setQuantity(1); // Default to 1 internally, but don't update input
+            return;
+        }
+
+        const quantityValue = parseInt(value);
+        if (!isNaN(quantityValue) && quantityValue >= 1) {
+            setQuantity(quantityValue);
+        } else {
+            setQuantity(1); // Default to 1 if invalid
+        }
+    };
+
+    const handleBlur = () => {
+        // On blur, if the input is empty, set it back to '1'
+        if (inputValue === '') {
+            setInputValue('1');
+            setQuantity(1);
+        }
     };
 
     const calculateTotalPrice = () => {
@@ -98,7 +120,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                 <div className={styles.popupBody}>
                     <div className={styles.imageSection}>
                         <div className={styles.popupImageContainer}>
-                           
                             <img
                                 src={product.image_url}
                                 alt={product.name}
@@ -124,22 +145,19 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                             <div className={styles.paperOptions}>
                                 <div className={styles.quantitySelector}>
                                     <label htmlFor="quantity">Số lượng:</label>
-                                    <select
+                                    <input
+                                        type="number"
                                         name="quantity"
                                         id="quantity"
+                                        min="1"
+                                        value={inputValue}
                                         onChange={handleQuantityChange}
-                                        value={`${quantity} lời mời`}
-                                    >
-                                        <option value="1 lời mời">1 lời mời</option>
-                                        <option value="3 lời mời">3 lời mời</option>
-                                        <option value="50 lời mời">50 lời mời</option>
-                                        <option value="100 lời mời">100 lời mời</option>
-                                        <option value="150 lời mời">150 lời mời</option>
-                                        <option value="200 lời mời">200 lời mời</option>
-                                        <option value="250 lời mời">250 lời mời</option>
-                                        <option value="500 lời mời">500 lời mời</option>
-                                        <option value="1000 lời mời">1000 lời mời</option>
-                                    </select>
+                                        onBlur={handleBlur}
+                                        className={styles.quantityInput}
+                                    />
+                                    {quantity > 20 && (
+                                        <p className={styles.quantityNote}>Sau 20 lời mời, mỗi lời mời sau đó + 500đ</p>
+                                    )}
                                 </div>
                             </div>
                             <div className={styles.actionButtons}>

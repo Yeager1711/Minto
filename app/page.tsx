@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.css';
-import Popup from './popup/product_details/Product_Details';
+import Popup from './popup/template_details/Template_Details';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';

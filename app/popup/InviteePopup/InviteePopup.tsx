@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './InviteePopup.module.css';
 
 interface InviteePopupProps {
@@ -7,19 +7,51 @@ interface InviteePopupProps {
     quantity: number;
     onClose: () => void;
     id: string;
-    weddingImages: { file: File; position: string }[]; // Thêm prop weddingImages
+    weddingImages: { file: File; position: string }[];
 }
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClose, weddingImages }) => {
-    const [isClosing] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
     const [inviteeNames, setInviteeNames] = useState<string[]>(Array(quantity).fill(''));
     const [isLoading, setIsLoading] = useState(false);
     const [templatePrice, setTemplatePrice] = useState<number | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoadingPrice, setIsLoadingPrice] = useState(true);
+    const isMounted = useRef(false);
+
+    // Initialize inviteeNames from localStorage on mount
+    useEffect(() => {
+        if (isMounted.current) return; // Prevent running after initial mount
+        const storageKey = `inviteeNames_${templateId}`;
+        const storedData = localStorage.getItem(storageKey);
+        if (storedData) {
+            try {
+                const parsedNames = JSON.parse(storedData);
+                if (Array.isArray(parsedNames)) {
+                    // Initialize with stored names, adjusted to current quantity
+                    const adjustedNames = Array(quantity).fill('');
+                    parsedNames.forEach((name: string, index: number) => {
+                        if (index < quantity) {
+                            adjustedNames[index] = name;
+                        }
+                    });
+                    setInviteeNames(adjustedNames);
+                }
+            } catch (err) {
+                console.error('Error parsing localStorage inviteeNames:', err);
+            }
+        }
+        isMounted.current = true;
+    }, [templateId, quantity]);
+
+    // Save inviteeNames to localStorage when it changes
+    useEffect(() => {
+        const storageKey = `inviteeNames_${templateId}`;
+        localStorage.setItem(storageKey, JSON.stringify(inviteeNames));
+    }, [inviteeNames, templateId]);
 
     // Check apiUrl
     useEffect(() => {
@@ -54,8 +86,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
         fetchTemplatePrice();
     }, [templateId]);
 
-    // Adjust inviteeNames when quantity changes
+    // Adjust inviteeNames when quantity changes, preserving existing names
     useEffect(() => {
+        if (!isMounted.current) return; // Skip on initial mount to avoid overwriting localStorage data
         setInviteeNames((prev) => {
             const newNames = Array(quantity).fill('');
             prev.forEach((name, index) => {
@@ -73,8 +106,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
             ? (() => {
                   const basePrice = Number(templatePrice);
                   let totalPrice = basePrice;
-                  if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST)) {
-                      totalPrice += quantity * priceCardDefault;
+                  if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST || 20)) {
+                      totalPrice +=
+                          (quantity - Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST || 20)) * priceCardDefault;
                   }
                   return totalPrice;
               })()
@@ -89,6 +123,10 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
         if (isClosing) {
             onClose();
         }
+    };
+
+    const handleClose = () => {
+        setIsClosing(true);
     };
 
     const handleNameChange = (index: number, value: string) => {
@@ -115,7 +153,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
                 throw new Error('Không tìm thấy token. Vui lòng đăng nhập lại.');
             }
 
-            // Upload weddingImages trước và lấy danh sách URL hoặc ID
+            // Upload weddingImages
             const uploadedImageUrls: { url: string; position: string }[] = [];
             if (weddingImages && weddingImages.length > 0) {
                 const formData = new FormData();
@@ -132,16 +170,19 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
                     body: formData,
                 });
 
+                if (!uploadResponse.ok) {
+                    throw new Error(`Upload failed with status ${uploadResponse.status}`);
+                }
+
                 const uploadResult = await uploadResponse.json();
                 if (uploadResult.success && uploadResult.data) {
-                    // Giả sử API trả về danh sách URL và position
-                    uploadedImageUrls.push(...uploadResult.data); 
+                    uploadedImageUrls.push(...uploadResult.data);
                 } else {
                     throw new Error(uploadResult.message || 'Không thể upload hình ảnh');
                 }
             }
 
-            // Gửi inviteeNames và danh sách URL hình ảnh cùng với request create-payment
+            // Create payment
             const paymentResponse = await fetch(`${apiUrl}/payos/create-payment`, {
                 method: 'POST',
                 headers: {
@@ -153,89 +194,97 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
                     description: 'Thanh toán thiệp cưới',
                     templateId,
                     inviteeNames,
-                    weddingImages: uploadedImageUrls, // Gửi danh sách URL hình ảnh
+                    weddingImages: uploadedImageUrls,
                 }),
             });
 
+            if (!paymentResponse.ok) {
+                throw new Error(`Payment creation failed with status ${paymentResponse.status}`);
+            }
+
             const paymentResult = await paymentResponse.json();
             if (paymentResult.success && paymentResult.paymentLink) {
+                localStorage.removeItem(`inviteeNames_${templateId}`);
                 window.location.href = paymentResult.paymentLink;
             } else {
                 throw new Error(paymentResult.message || 'Không thể tạo liên kết thanh toán');
             }
-        } catch (error) {
-            console.error('Lỗi khi xử lý thanh toán:', error);
-            alert('Lỗi khi xử lý thanh toán. Vui lòng thử lại.');
-           window.location.reload()
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            console.error('Lỗi khi xử lý thanh toán:', {
+                message: errorMessage,
+                templateId,
+                quantity,
+                totalAmount: calculatedTotalPrice,
+            });
+            alert(`Lỗi khi xử lý thanh toán: ${errorMessage}`);
         } finally {
             setIsLoading(false);
         }
     };
 
     if (isLoadingPrice) {
-        if (isLoadingPrice) {
-            return (
-                <div
-                    className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}
-                    onAnimationEnd={handleCloseAnimationEnd}
-                >
-                    <div className={styles.popupHeader}>
-                        <div
-                            className={styles.skeletonTitle}
-                            style={{
-                                height: '2rem',
-                                width: '60%',
-                                margin: '0 auto',
-                                background: '#f0f0f0',
-                                borderRadius: '4px',
-                            }}
-                        ></div>
-                        <div
-                            className={styles.skeletonSubtitle}
-                            style={{
-                                height: '1.4rem',
-                                width: '40%',
-                                margin: '8px auto',
-                                background: '#f0f0f0',
-                                borderRadius: '4px',
-                            }}
-                        ></div>
+        return (
+            <div
+                className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}
+                onAnimationEnd={handleCloseAnimationEnd}
+            >
+                <div className={styles.popupHeader}>
+                    <div
+                        className={styles.skeletonTitle}
+                        style={{
+                            height: '2rem',
+                            width: '60%',
+                            margin: '0 auto',
+                            background: '#f0f0f0',
+                            borderRadius: '4px',
+                        }}
+                    ></div>
+                    <div
+                        className={styles.skeletonSubtitle}
+                        style={{
+                            height: '1.4rem',
+                            width: '40%',
+                            margin: '8px auto',
+                            background: '#f0f0f0',
+                            borderRadius: '4px',
+                        }}
+                    ></div>
+                </div>
+                <div className={styles.popupBody}>
+                    <div className={styles.inviteeSection}>
+                        {Array.from({ length: quantity }, (_, index) => (
+                            <div key={index} className={styles.inviteeInput}>
+                                <div
+                                    className={styles.skeletonLabel}
+                                    style={{
+                                        height: '2rem',
+                                        width: '30%',
+                                        background: '#f0f0f0',
+                                        borderRadius: '4px',
+                                    }}
+                                ></div>
+                                <div
+                                    className={styles.skeletonInput}
+                                    style={{
+                                        height: '4rem',
+                                        width: '100%',
+                                        background: '#f0f0f0',
+                                        borderRadius: '6px',
+                                    }}
+                                ></div>
+                            </div>
+                        ))}
                     </div>
-                    <div className={styles.popupBody}>
-                        <div className={styles.inviteeSection}>
-                            {Array.from({ length: quantity }, (_, index) => (
-                                <div key={index} className={styles.inviteeInput}>
-                                    <div
-                                        className={styles.skeletonLabel}
-                                        style={{
-                                            height: '2rem',
-                                            width: '30%',
-                                            background: '#f0f0f0',
-                                            borderRadius: '4px',
-                                        }}
-                                    ></div>
-                                    <div
-                                        className={styles.skeletonInput}
-                                        style={{
-                                            height: '4rem',
-                                            width: '100%',
-                                            background: '#f0f0f0',
-                                            borderRadius: '6px',
-                                        }}
-                                    ></div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className={styles.actionButtons}>
-                            <div
-                                className={styles.skeletonButton}
-                                style={{ height: '3rem', width: '100%', background: '#f0f0f0', borderRadius: '6px' }}
-                            ></div>
-                        </div>
+                    <div className={styles.actionButtons}>
+                        <div
+                            className={styles.skeletonButton}
+                            style={{ height: '3rem', width: '100%', background: '#f0f0f0', borderRadius: '6px' }}
+                        ></div>
                     </div>
                 </div>
-            );
-        }
+            </div>
+        );
     }
 
     if (error) {
@@ -257,7 +306,10 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
                 <div className={styles.inviteeSection}>
                     {Array.from({ length: quantity }, (_, index) => (
                         <div key={index} className={styles.inviteeInput}>
-                            <label htmlFor={`invitee-${index}`}>Tên người mời {index + 1}:</label>
+                            <label htmlFor={`invitee-${index}`}>
+                                Tên người mời {index + 1}
+                                {index >= 20 && <span className={styles.extraCost}> (+500đ)</span>}
+                            </label>
                             <input
                                 type="text"
                                 id={`invitee-${index}`}
@@ -275,6 +327,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
                         disabled={isLoading || templatePrice === null}
                     >
                         {isLoading ? 'Đang xử lý...' : `Thanh toán với giá ${formattedTotalPrice}`}
+                    </button>
+                    <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
+                        Đóng
                     </button>
                 </div>
             </div>

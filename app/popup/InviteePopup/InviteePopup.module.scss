@@ -3,7 +3,7 @@
     border-radius: 12px;
     max-width: 50rem;
     width: 76%;
-    max-height: 85vh;
+    max-height: 78vh;
     overflow-y: auto;
     animation: InviteePopup_InviteePopup_slideIn__K8zeO__Y4ZAN 0.3s ease-out;
     position: relative;
@@ -13,6 +13,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, 4%);
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     &.closing {
         animation: slideOut 0.3s ease-in;

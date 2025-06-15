@@ -15,7 +15,7 @@ const FeatureCard: React.FC = () => {
     };
 
     return (
-        <div className={styles.Feature_Card}>
+        <div className={styles.featureCard}>
             <div className={styles.box} onClick={handleOpenCreateCard}>
                 <div className={styles.content}>
                     <h3>Khám phá tính năng nhận HỶ qua QR</h3>
@@ -23,7 +23,6 @@ const FeatureCard: React.FC = () => {
                     <span>Khách mời có thể gửi lời chúc từ xa.</span>
                     <span>Tích hợp nhanh chóng, giao diện thân thiện.</span>
                     <span>Hỗ trợ đa nền tảng, đảm bảo trải nghiệm mượt mà.</span>
-                   
                 </div>
                 <video src="/videos/intro_card.mp4" autoPlay muted loop className={styles.fullScreenVideo} />
             </div>
