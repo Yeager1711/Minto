@@ -383,8 +383,6 @@ function Template4InviteeName() {
                             <p className={styles.at}>Vào lúc {formatTimeToHourMinute(weddingData.weddingTime)}</p>
                             <div className={styles.dateBox}>
                                 <div>
-                                    THỨ
-                                    <br />
                                     {weddingData.weddingDayOfWeek}
                                 </div>
                                 <div className={styles.day}>
