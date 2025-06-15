@@ -90,17 +90,15 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const statusClass = isReady ? styles.statusReady : styles.statusUpdating;
 
     return (
-        <div className={styles.popupOverlay} onClick={handleOverlayClick}>
-            <button className={styles.closeButton} onClick={handleClose}>
-                <FontAwesomeIcon icon={faXmark} />
-            </button>
+        <div className={styles.popupOverlay} onClick={handleOverlayClick} role="dialog" aria-labelledby="popupTitle">
             <div className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}>
-                <div className={styles.popupHeader}>
-                    <h2 className={styles.popupTitle}>{product.name}</h2>
-                </div>
+                <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
+                    <FontAwesomeIcon icon={faXmark} />
+                </button>
                 <div className={styles.popupBody}>
                     <div className={styles.imageSection}>
                         <div className={styles.popupImageContainer}>
+                           
                             <img
                                 src={product.image_url}
                                 alt={product.name}
@@ -110,6 +108,11 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                         </div>
                     </div>
                     <div className={styles.infoSection}>
+                        <div className={styles.popupHeader}>
+                            <h2 id="popupTitle" className={styles.popupTitle}>
+                                {product.name}
+                            </h2>
+                        </div>
                         <p className={styles.price}>Giá: {formattedPrice}</p>
                         <div className={styles.description}>
                             {product.description?.split('\n').map((line, index) => <p key={index}>{line}</p>) || (
@@ -120,7 +123,7 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                         <div className={styles.optionsSection}>
                             <div className={styles.paperOptions}>
                                 <div className={styles.quantitySelector}>
-                                    <span>Số lượng:</span>
+                                    <label htmlFor="quantity">Số lượng:</label>
                                     <select
                                         name="quantity"
                                         id="quantity"
@@ -144,9 +147,14 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                     className={styles.customizeButton}
                                     onClick={handleUseTemplate}
                                     disabled={!isReady}
-                                    title={!isReady ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!' : ''}
+                                    title={
+                                        !isReady
+                                            ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!'
+                                            : 'Sử dụng mẫu này'
+                                    }
+                                    aria-disabled={!isReady}
                                 >
-                                    Sử dụng với giá {formattedPrice}
+                                    Sử dụng mẫu
                                 </button>
                             </div>
                         </div>
