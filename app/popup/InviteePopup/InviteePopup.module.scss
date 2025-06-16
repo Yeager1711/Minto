@@ -5,7 +5,7 @@
     width: 76%;
     max-height: 78vh;
     overflow-y: auto;
-    animation: InviteePopup_InviteePopup_slideIn__K8zeO__Y4ZAN 0.3s ease-out;
+    animation: slideIn 0.3s ease-out;
     position: relative;
     padding: 3rem 2rem;
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -85,8 +85,6 @@
     }
 }
 
-
-
 .inviteeSection {
     display: flex;
     flex-direction: column;
@@ -97,7 +95,21 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
 
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.inviteeInput {
     label {
         font-size: 1.3rem;
         color: #1a1a1a;
@@ -122,6 +134,41 @@
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
+    }
+}
+
+.addButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6988f9;
+    padding: 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-top: 10px;
+}
+
+.removeButton {
+    color: #333;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 5rem;
+
+    &:hover {
+        background: #dbdbdb;
+        border-radius: 5rem;
     }
 }
 
@@ -178,6 +225,3 @@
         text-decoration: underline;
     }
 }
-
-
-

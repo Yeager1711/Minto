@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './InviteePopup.module.css';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 interface InviteePopupProps {
     templateId: string;
@@ -13,28 +14,40 @@ interface InviteePopupProps {
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
-const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClose, weddingImages }) => {
+const InviteePopup: React.FC<InviteePopupProps> = ({
+    templateId,
+    quantity: initialQuantity,
+    onClose,
+    weddingImages,
+}) => {
     const [isClosing, setIsClosing] = useState(false);
-    const [inviteeNames, setInviteeNames] = useState<string[]>(Array(quantity).fill(''));
+    const [inviteeNames, setInviteeNames] = useState<string[]>(Array(initialQuantity).fill(''));
+    const [quantity, setQuantity] = useState(initialQuantity);
     const [isLoading, setIsLoading] = useState(false);
     const [templatePrice, setTemplatePrice] = useState<number | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoadingPrice, setIsLoadingPrice] = useState(true);
     const isMounted = useRef(false);
 
+    // Function to update URL query parameter
+    const updateUrlQuantity = (newQuantity: number) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('quantity', newQuantity.toString());
+        window.history.pushState({}, '', url.toString());
+    };
+
     // Initialize inviteeNames from localStorage on mount
     useEffect(() => {
-        if (isMounted.current) return; // Prevent running after initial mount
+        if (isMounted.current) return;
         const storageKey = `inviteeNames_${templateId}`;
         const storedData = localStorage.getItem(storageKey);
         if (storedData) {
             try {
                 const parsedNames = JSON.parse(storedData);
                 if (Array.isArray(parsedNames)) {
-                    // Initialize with stored names, adjusted to current quantity
-                    const adjustedNames = Array(quantity).fill('');
+                    const adjustedNames = Array(initialQuantity).fill('');
                     parsedNames.forEach((name: string, index: number) => {
-                        if (index < quantity) {
+                        if (index < initialQuantity) {
                             adjustedNames[index] = name;
                         }
                     });
@@ -45,7 +58,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
             }
         }
         isMounted.current = true;
-    }, [templateId, quantity]);
+    }, [templateId, initialQuantity]);
 
     // Save inviteeNames to localStorage when it changes
     useEffect(() => {
@@ -86,9 +99,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
         fetchTemplatePrice();
     }, [templateId]);
 
-    // Adjust inviteeNames when quantity changes, preserving existing names
+    // Adjust inviteeNames when quantity changes
     useEffect(() => {
-        if (!isMounted.current) return; // Skip on initial mount to avoid overwriting localStorage data
+        if (!isMounted.current) return;
         setInviteeNames((prev) => {
             const newNames = Array(quantity).fill('');
             prev.forEach((name, index) => {
@@ -133,6 +146,26 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
         const updatedNames = [...inviteeNames];
         updatedNames[index] = value;
         setInviteeNames(updatedNames);
+    };
+
+    const handleAddInvitee = () => {
+        setQuantity((prev) => {
+            const newQuantity = prev + 1;
+            updateUrlQuantity(newQuantity); // Update URL
+            return newQuantity;
+        });
+        setInviteeNames((prev) => [...prev, '']);
+    };
+
+    const handleRemoveInvitee = (index: number) => {
+        if (quantity > 1) {
+            setQuantity((prev) => {
+                const newQuantity = prev - 1;
+                updateUrlQuantity(newQuantity); // Update URL
+                return newQuantity;
+            });
+            setInviteeNames((prev) => prev.filter((_, i) => i !== index));
+        }
     };
 
     const handleSubmit = async () => {
@@ -306,19 +339,35 @@ const InviteePopup: React.FC<InviteePopupProps> = ({ templateId, quantity, onClo
                 <div className={styles.inviteeSection}>
                     {Array.from({ length: quantity }, (_, index) => (
                         <div key={index} className={styles.inviteeInput}>
-                            <label htmlFor={`invitee-${index}`}>
-                                Tên người mời {index + 1}
-                                {index >= 20 && <span className={styles.extraCost}> (+500đ)</span>}
-                            </label>
-                            <input
-                                type="text"
-                                id={`invitee-${index}`}
-                                value={inviteeNames[index]}
-                                onChange={(e) => handleNameChange(index, e.target.value)}
-                                placeholder={`Nhập tên người mời ${index + 1}`}
-                            />
+                            <div className={styles.inputWrapper}>
+                                <label htmlFor={`invitee-${index}`}>
+                                    Tên người mời {index + 1}
+                                    {index >= 20 && <span className={styles.extraCost}> (+500đ)</span>}
+                                </label>
+                                <div className={styles.inputContainer}>
+                                    <input
+                                        type="text"
+                                        id={`invitee-${index}`}
+                                        value={inviteeNames[index]}
+                                        onChange={(e) => handleNameChange(index, e.target.value)}
+                                        placeholder={`Nhập tên người mời ${index + 1}`}
+                                    />
+                                    {quantity > 1 && (
+                                        <button
+                                            className={styles.removeButton}
+                                            onClick={() => handleRemoveInvitee(index)}
+                                            aria-label={`Xóa người mời ${index + 1}`}
+                                        >
+                                            <FaMinus />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     ))}
+                    <button className={styles.addButton} onClick={handleAddInvitee} aria-label="Thêm người mời">
+                        <FaPlus /> Thêm lời mời
+                    </button>
                 </div>
                 <div className={styles.actionButtons}>
                     <button
