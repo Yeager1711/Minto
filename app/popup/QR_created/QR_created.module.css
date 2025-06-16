@@ -223,9 +223,10 @@
 /* Responsive adjustments for tablets (max-width: 768px) */
 @media (max-width: 768px) {
   .popupContainer {
-    width: 95%;
+    width: 100%;
     max-width: 400px;
     padding: 1.5rem;
+    height: 100%;
   }
   .rightButton {
     left: -4rem;
@@ -384,6 +385,16 @@
   font-family: "Orbitron", sans-serif;
 }
 
+.name_bank {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  font-size: 1rem;
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+}
+
 .create_at {
   position: absolute;
   bottom: 0;
@@ -391,6 +402,7 @@
   font-size: 1.1rem;
   font-family: "Orbitron", sans-serif;
   text-transform: uppercase;
+  color: #7bf6d5;
 }
 
 .bankInfo {

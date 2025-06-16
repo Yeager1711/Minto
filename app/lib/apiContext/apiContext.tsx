@@ -634,7 +634,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             if (!Array.isArray(qrList) || qrList.length === 0) {
                 throw new Error('Không tìm thấy mã QR');
             }
-            return qrList; // Return the full array of QR codes
+            return qrList; 
         } catch (err: unknown) {
             const axiosError = err as AxiosErrorResponse;
             const errorMessage =

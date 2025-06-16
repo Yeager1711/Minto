@@ -91,8 +91,6 @@
   transition: background-color 0.3s, color 0.3s;
 }
 .account_info .wrapper .header_infoAccount .wrapper_left .account_info__wrapper .box_item .box_right:hover {
-  background-color: #007bff;
-  color: #fff;
   border-color: #007bff;
 }
 .account_info .wrapper .header_infoAccount .error {

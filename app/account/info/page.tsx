@@ -7,7 +7,7 @@ import Countdown from 'app/func/countDown/page';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQrcode } from '@fortawesome/free-solid-svg-icons';
-import QRPopup from '../../popup/QR_created/QR_created';
+import QRPopupCreated from '../../popup/QR_created/QR_created';
 
 interface UserProfile {
     user_id: number;
@@ -51,8 +51,18 @@ interface QrResponse {
     accountNumber: string;
     accountHolder: string;
     qrCodeUrl: string;
-    createdAt: Date;
+    createdAt: string;
     status: string;
+    representative: string;
+}
+
+interface Bank {
+    id: string;
+    name: string;
+    logo?: string;
+    bin?: string;
+    shortName?: string;
+    code?: string;
 }
 
 function AccountInfo() {
@@ -73,7 +83,8 @@ function AccountInfo() {
         paymentDate?: string;
     } | null>(null);
     const [showQrPopup, setShowQrPopup] = useState(false);
-    const [qrData, setQrData] = useState<QrResponse | null>(null);
+    const [qrData, setQrData] = useState<QrResponse[] | null>(null);
+    const [banks, setBanks] = useState<Bank[]>([]);
 
     const router = useRouter();
 
@@ -86,7 +97,11 @@ function AccountInfo() {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [userData, templateData] = await Promise.all([getUserProfile(), getUserTemplates()]);
+                const [userData, templateData, bankData] = await Promise.all([
+                    getUserProfile(),
+                    getUserTemplates(),
+                    fetch('https://api.vietqr.io/v1/banks').then((res) => res.json()),
+                ]);
                 setUser(userData);
                 setEditedFullName(userData.full_name);
                 setError('');
@@ -101,7 +116,6 @@ function AccountInfo() {
                         guests: item.template.guests,
                     },
                 }));
-                // Merge templates with the same template_id
                 const uniqueTemplates = formattedTemplates.reduce((acc, current) => {
                     const existing = acc.find((item) => item.template.template_id === current.template.template_id);
                     if (!existing) {
@@ -110,6 +124,12 @@ function AccountInfo() {
                     return acc;
                 }, [] as Template[]);
                 setTemplates(uniqueTemplates);
+                if (bankData.code === '00' && Array.isArray(bankData.data)) {
+                    setBanks(bankData.data);
+                    console.log('Fetched banks:', bankData.data);
+                } else {
+                    console.warn('Bank API returned invalid data:', bankData);
+                }
                 setError('');
             } catch (err: unknown) {
                 let errorMessage = 'Không thể lấy dữ liệu';
@@ -117,6 +137,7 @@ function AccountInfo() {
                 else if (typeof err === 'object' && err !== null && 'message' in err)
                     errorMessage = (err as { message: string }).message;
                 setError(errorMessage);
+                console.error('Fetch error:', errorMessage);
             } finally {
                 setIsLoading(false);
             }
@@ -161,8 +182,13 @@ function AccountInfo() {
     const handleShowQrPopup = async () => {
         try {
             const qrList = await getUserQr();
+            console.log('list QR', qrList);
             if (qrList.length > 0) {
-                setQrData(qrList[0]); // Select the first QR code
+                const convertedQrList: QrResponse[] = qrList.map((qr) => ({
+                    ...qr,
+                    createdAt: qr.createdAt instanceof Date ? qr.createdAt.toISOString() : qr.createdAt,
+                }));
+                setQrData(convertedQrList);
                 setShowQrPopup(true);
             } else {
                 throw new Error('Bạn chưa tạo mã QR');
@@ -249,12 +275,7 @@ function AccountInfo() {
                     </div>
                     <div className={styles.right}>
                         <div className={styles.wrapper__right_template}>
-                            <FontAwesomeIcon
-                                className={styles.icon_QR}
-                                icon={faQrcode}
-                                onClick={handleShowQrPopup}
-                                style={{ display: 'none' }}
-                            />
+                            <FontAwesomeIcon className={styles.icon_QR} icon={faQrcode} onClick={handleShowQrPopup} />
                             <h4>Mẫu template đã sử dụng</h4>
                             {isLoading ? (
                                 <div className={styles.grid_template}>
@@ -419,7 +440,7 @@ function AccountInfo() {
                                     <strong>Giá Thanh toán:</strong>{' '}
                                     {selectedGuests.paymentAmount
                                         ? `${parseFloat(selectedGuests.paymentAmount).toLocaleString('vi-VN')} VNĐ`
-                                        : 'Chưa thanh toán'}
+                                        : 'Chưa có'}
                                 </p>
                             </div>
                         </div>
@@ -469,7 +490,7 @@ function AccountInfo() {
                 </div>
             )}
 
-            <QRPopup isOpen={showQrPopup} onClose={handleCloseQrPopup} qrData={qrData} />
+            <QRPopupCreated isOpen={showQrPopup} onClose={handleCloseQrPopup} qrData={qrData} banks={banks} />
         </div>
     );
 }
