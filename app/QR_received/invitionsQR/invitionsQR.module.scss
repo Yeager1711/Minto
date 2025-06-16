@@ -1,29 +1,62 @@
-.flex {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
-    gap: 1.5rem;
-    text-align: center;
-    .groom,
-    .bride {
-        margin: auto;
-        padding: 1.5rem;
-        border: .1rem solid #dbdbdb;
-        border-radius: 1rem;
-        max-width: 20rem !important;
-        height: auto;
+.wrapper_gift {
+    .btn_gift_code {
+        padding: 0.8rem 2rem;
+        display: inline-block;
+        background: #640606;
+        margin-bottom: 2rem;
+        color: #fffff3;
+        border-radius: 0.5rem;
+        font-size: 1.3rem;
+        cursor: pointer;
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+        &:hover {
+            border-radius: 5rem;
+            transition: 0.3s ease-in-out;
         }
 
-        p {
-            display: block;
+        svg {
+            margin-left: 0.5rem;
+        }
+    }
 
-            strong {
+    .flex {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+        gap: 1.5rem;
+        text-align: center;
+        height: 0;
+        overflow: hidden;
+        transition: height 0.3s ease-in-out;
+
+        &.open {
+            height: auto;
+        }
+
+        .groom,
+        .bride {
+            margin: auto;
+            padding: 1.5rem;
+            border: 0.1rem solid #dbdbdb;
+            border-radius: 1rem;
+            max-width: 20rem !important;
+            height: auto;
+            background: #fffff3;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            p {
                 display: block;
-                padding: .5rem 0;
+                font-size: 1.2rem;
+
+                strong {
+                    display: block;
+                    padding: 0.5rem 0;
+                    font-size: 1.4rem;
+                }
             }
         }
     }

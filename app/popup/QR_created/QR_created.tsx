@@ -40,14 +40,6 @@ const QRPopupCreated: React.FC<QRPopupProps> = ({ isOpen, onClose, qrData, banks
     const touchStartY = useRef<number | null>(null);
 
     useEffect(() => {
-        console.log('Banks received in QRPopup:', banks);
-        console.log('Full qrData:', qrData);
-        const currentQr = qrData?.find((qr) => qr.representative === currentCard);
-        const currentQrBank = currentQr?.bank;
-        console.log('Current QR bank (raw):', currentQrBank, 'Type:', typeof currentQrBank);
-        banks.forEach((bank) => console.log('Bank id (raw):', bank.id, 'Type:', typeof bank.id));
-        const foundBank = currentQr ? banks.find((bank) => String(bank.id) === String(currentQr.bank)) : undefined;
-        console.log('Found bank:', foundBank);
     }, [banks, qrData, currentCard]);
 
     const handleNavigate = () => {
@@ -101,8 +93,6 @@ const QRPopupCreated: React.FC<QRPopupProps> = ({ isOpen, onClose, qrData, banks
     // Tìm ngân hàng tương ứng với currentQr.bank
     const currentBank = banks.find((bank) => String(bank.id) === String(currentQr.bank));
     const bankName = currentBank?.shortName || currentBank?.name || 'Không xác định';
-    console.log('Current bank name:', bankName);
-
     return (
         <div className={styles.popupOverlay} onClick={onClose}>
             <div
@@ -122,7 +112,7 @@ const QRPopupCreated: React.FC<QRPopupProps> = ({ isOpen, onClose, qrData, banks
                         <div className={styles.blurCardRight}></div>
                         <div key={currentQr.qrId} className={`${styles.mainCard} ${styles.cardTransition}`}>
                             <h3 className={styles.account_number}>
-                                {currentQr.representative === 'groom' ? 'GROOM CARD' : 'BRIDE CARD'}
+                                {currentQr.representative === 'groom' ? 'Thẻ chú rể' : 'Thẻ cô dâu'}
                             </h3>
                             <p className={styles.name_bank}>{bankName}</p>
                             <h3 className={styles.create_at}>Minto Editions Card</h3>

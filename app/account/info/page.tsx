@@ -126,7 +126,6 @@ function AccountInfo() {
                 setTemplates(uniqueTemplates);
                 if (bankData.code === '00' && Array.isArray(bankData.data)) {
                     setBanks(bankData.data);
-                    console.log('Fetched banks:', bankData.data);
                 } else {
                     console.warn('Bank API returned invalid data:', bankData);
                 }
@@ -182,7 +181,6 @@ function AccountInfo() {
     const handleShowQrPopup = async () => {
         try {
             const qrList = await getUserQr();
-            console.log('list QR', qrList);
             if (qrList.length > 0) {
                 const convertedQrList: QrResponse[] = qrList.map((qr) => ({
                     ...qr,

@@ -1,31 +1,57 @@
-.flex {
+.wrapper_gift .btn_gift_code {
+  padding: 0.8rem 2rem;
+  display: inline-block;
+  background: #640606;
+  margin-bottom: 2rem;
+  color: #fffff3;
+  border-radius: 0.5rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.wrapper_gift .btn_gift_code:hover {
+  border-radius: 5rem;
+  transition: 0.3s ease-in-out;
+}
+.wrapper_gift .btn_gift_code svg {
+  margin-left: 0.5rem;
+}
+.wrapper_gift .flex {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
   gap: 1.5rem;
   text-align: center;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
 }
-.flex .groom,
-.flex .bride {
+.wrapper_gift .flex.open {
+  height: auto;
+}
+.wrapper_gift .flex .groom,
+.wrapper_gift .flex .bride {
   margin: auto;
   padding: 1.5rem;
   border: 0.1rem solid #dbdbdb;
   border-radius: 1rem;
   max-width: 20rem !important;
   height: auto;
+  background: #fffff3;
 }
-.flex .groom img,
-.flex .bride img {
+.wrapper_gift .flex .groom img,
+.wrapper_gift .flex .bride img {
   width: 100%;
   height: 100%;
   -o-object-fit: contain;
      object-fit: contain;
 }
-.flex .groom p,
-.flex .bride p {
+.wrapper_gift .flex .groom p,
+.wrapper_gift .flex .bride p {
   display: block;
+  font-size: 1.2rem;
 }
-.flex .groom p strong,
-.flex .bride p strong {
+.wrapper_gift .flex .groom p strong,
+.wrapper_gift .flex .bride p strong {
   display: block;
   padding: 0.5rem 0;
+  font-size: 1.4rem;
 }/*# sourceMappingURL=invitionsQR.module.css.map */
