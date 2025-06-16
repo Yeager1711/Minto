@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './InviteePopup.module.css';
 import { FaPlus, FaMinus } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileImport } from '@fortawesome/free-solid-svg-icons';
 
 interface InviteePopupProps {
     templateId: string;
@@ -28,12 +30,71 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
     const [error, setError] = useState<string | null>(null);
     const [isLoadingPrice, setIsLoadingPrice] = useState(true);
     const isMounted = useRef(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Function to format name to title case
+    const formatName = (name: string): string => {
+        return name
+            .toLowerCase()
+            .trim()
+            .split(/\s+/)
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
 
     // Function to update URL query parameter
     const updateUrlQuantity = (newQuantity: number) => {
         const url = new URL(window.location.href);
         url.searchParams.set('quantity', newQuantity.toString());
         window.history.pushState({}, '', url.toString());
+    };
+
+    // Handle file input change
+    const handleFileImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        if (!file.name.endsWith('.txt')) {
+            alert('Vui lòng chọn file định dạng .txt');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const text = e.target?.result as string;
+            if (!text) {
+                alert('File trống hoặc không đọc được.');
+                return;
+            }
+
+            const names = text
+                .split('\n')
+                .map(name => formatName(name.trim()))
+                .filter(name => name !== '');
+            
+            if (names.length === 0) {
+                alert('File không chứa tên hợp lệ.');
+                return;
+            }
+
+            setQuantity(names.length);
+            setInviteeNames(names);
+            updateUrlQuantity(names.length);
+            
+            // Reset file input
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+        };
+        reader.onerror = () => {
+            alert('Lỗi khi đọc file. Vui lòng thử lại.');
+        };
+        reader.readAsText(file);
+    };
+
+    // Trigger file input click
+    const handleImportClick = () => {
+        fileInputRef.current?.click();
     };
 
     // Initialize inviteeNames from localStorage on mount
@@ -48,7 +109,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                     const adjustedNames = Array(initialQuantity).fill('');
                     parsedNames.forEach((name: string, index: number) => {
                         if (index < initialQuantity) {
-                            adjustedNames[index] = name;
+                            adjustedNames[index] = formatName(name);
                         }
                     });
                     setInviteeNames(adjustedNames);
@@ -144,14 +205,14 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
 
     const handleNameChange = (index: number, value: string) => {
         const updatedNames = [...inviteeNames];
-        updatedNames[index] = value;
+        updatedNames[index] = formatName(value);
         setInviteeNames(updatedNames);
     };
 
     const handleAddInvitee = () => {
         setQuantity((prev) => {
             const newQuantity = prev + 1;
-            updateUrlQuantity(newQuantity); // Update URL
+            updateUrlQuantity(newQuantity);
             return newQuantity;
         });
         setInviteeNames((prev) => [...prev, '']);
@@ -161,7 +222,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
         if (quantity > 1) {
             setQuantity((prev) => {
                 const newQuantity = prev - 1;
-                updateUrlQuantity(newQuantity); // Update URL
+                updateUrlQuantity(newQuantity);
                 return newQuantity;
             });
             setInviteeNames((prev) => prev.filter((_, i) => i !== index));
@@ -334,6 +395,18 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 <p className={styles.popupSubtitle}>
                     Số lượng: {quantity} lời mời • Tổng giá: {formattedTotalPrice}
                 </p>
+            </div>
+            <div className={styles.btn_import_text}>
+                <button onClick={handleImportClick} className={styles.importButton}>
+                    <FontAwesomeIcon icon={faFileImport} /> Thêm bằng File
+                </button>
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileImport}
+                    accept=".txt"
+                    style={{ display: 'none' }}
+                />
             </div>
             <div className={styles.popupBody}>
                 <div className={styles.inviteeSection}>

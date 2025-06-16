@@ -21,6 +21,7 @@
     "aos": "^2.3.4",
     "axios": "^1.7.7",
     "browser-image-compression": "^2.0.2",
+    "canvas": "^3.1.0",
     "chart.js": "^4.4.6",
     "cheerio": "^1.0.0",
     "classnames": "^2.5.1",
@@ -49,6 +50,7 @@
     "recharts": "^2.15.3",
     "sass": "^1.80.6",
     "swiper": "^11.2.7",
+    "tesseract.js": "^4.1.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
