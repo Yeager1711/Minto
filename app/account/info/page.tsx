@@ -6,7 +6,7 @@ import { useApi } from 'app/lib/apiContext/apiContext';
 import Countdown from 'app/func/countDown/page';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQrcode } from '@fortawesome/free-solid-svg-icons';
+import { faQrcode, faCopy } from '@fortawesome/free-solid-svg-icons';
 import QRPopupCreated from '../../popup/QR_created/QR_created';
 
 interface UserProfile {
@@ -203,6 +203,41 @@ function AccountInfo() {
     const handleCloseQrPopup = () => {
         setShowQrPopup(false);
         setQrData(null);
+    };
+
+    const exportGuestLinks = () => {
+        if (!selectedGuests || !selectedGuests.guests.length) {
+            setError('Không có khách mời để xuất file.');
+            return;
+        }
+
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+        const links = selectedGuests.guests
+            .map(
+                (guest) =>
+                    `${guest.full_name}: ${baseUrl}template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`
+            )
+            .join('\n');
+
+        const blob = new Blob([links], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `guest_links_${selectedGuests.template_id}.txt`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard
+            .writeText(text)
+            .then(() => {
+                alert('Đường link đã được sao chép!');
+            })
+            .catch((err) => {
+                console.error('Lỗi khi sao chép: ', err);
+                alert('Không thể sao chép đường link.');
+            });
     };
 
     return (
@@ -441,6 +476,10 @@ function AccountInfo() {
                                         : 'Chưa có'}
                                 </p>
                             </div>
+
+                            <div className={styles.btn_export_file} onClick={exportGuestLinks}>
+                                Xuất file danh sách khách mời
+                            </div>
                         </div>
                         <div className={styles.body}>
                             {selectedGuests.guests.length === 0 ? (
@@ -454,27 +493,40 @@ function AccountInfo() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {selectedGuests.guests.map((guest) => (
-                                            <tr key={guest.guest_id}>
-                                                <td data-label="Mô tả">Khách - {guest.full_name}</td>
-                                                <td data-label="Link Mời">
-                                                    {guest.card_id ? (
-                                                        <a
-                                                            href={`/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            style={{ color: '#007bff', textDecoration: 'underline' }}
-                                                        >
-                                                            {guest.full_name}
-                                                        </a>
-                                                    ) : (
-                                                        <span style={{ color: '#ff9999' }}>
-                                                            Link không khả dụng (thiếu card_id)
-                                                        </span>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {selectedGuests.guests.map((guest) => {
+                                            const link = `${process.env.NEXT_PUBLIC_BASE_URL || ''}/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`;
+                                            return (
+                                                <tr key={guest.guest_id}>
+                                                    <td data-label="Mô tả">Khách - {guest.full_name}</td>
+                                                    <td data-label="Link Mời">
+                                                        {guest.card_id ? (
+                                                            <>
+                                                                <a
+                                                                    href={link}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    style={{
+                                                                        color: '#007bff',
+                                                                        textDecoration: 'underline',
+                                                                    }}
+                                                                >
+                                                                    {guest.full_name}
+                                                                </a>
+                                                                <FontAwesomeIcon
+                                                                    icon={faCopy}
+                                                                    style={{ marginLeft: '3rem', cursor: 'pointer' }}
+                                                                    onClick={() => copyToClipboard(link)}
+                                                                />
+                                                            </>
+                                                        ) : (
+                                                            <span style={{ color: '#ff9999' }}>
+                                                                Link không khả dụng (thiếu card_id)
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             )}

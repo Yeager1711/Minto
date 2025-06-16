@@ -239,6 +239,16 @@
   margin: 0.2rem 0;
   padding: 0.7rem 0;
 }
+.account_info .modal .modal_content .header .btn_export_file {
+  padding: 0.7rem 1.5rem;
+  background: #0056b3;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-size: 1.3rem;
+  margin: 1rem 0;
+}
 .account_info .modal .modal_content .body {
   padding: 0.5rem 0;
   width: 100%;

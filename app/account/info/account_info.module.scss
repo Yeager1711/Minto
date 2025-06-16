@@ -285,6 +285,17 @@
                         padding: 0.7rem 0;
                     }
                 }
+
+                .btn_export_file {
+                    padding: .7rem 1.5rem;
+                    background: #0056b3;
+                    display: inline-block;
+                    cursor: pointer;
+                    border-radius: .5rem;
+                    color: #fff;
+                    font-size: 1.3rem;
+                    margin: 1rem 0;
+                }
             }
 
             .body {
