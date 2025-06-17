@@ -276,6 +276,9 @@
   font-size: 1.2rem;
   color: #555;
 }
+.account_info .modal .modal_content .body .invoice_table td svg {
+  font-size: 1.8rem;
+}
 .account_info .modal .modal_content .body .invoice_table tr:hover {
   background-color: #f9f9f9;
   transition: background-color 0.2s;
