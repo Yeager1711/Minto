@@ -470,9 +470,27 @@ function AccountInfo() {
                                     {parseFloat(selectedGuests.price).toLocaleString('vi-VN')} VNĐ
                                 </p>
                                 <p>
+                                    <strong>Giá tính thêm:</strong>{' '}
+                                    {selectedGuests.guests.length > 20
+                                        ? `+${selectedGuests.guests.length - 20} khách mời (${(
+                                              (selectedGuests.guests.length - 20) *
+                                              500
+                                          ).toLocaleString('vi-VN')} VNĐ)`
+                                        : '0 VNĐ'}
+                                </p>
+                                <p>
                                     <strong>Giá Thanh toán:</strong>{' '}
                                     {selectedGuests.paymentAmount
-                                        ? `${parseFloat(selectedGuests.paymentAmount).toLocaleString('vi-VN')} VNĐ`
+                                        ? (() => {
+                                              const basePrice = parseFloat(selectedGuests.paymentAmount);
+                                              const additionalGuests =
+                                                  selectedGuests.guests.length > 20
+                                                      ? selectedGuests.guests.length - 20
+                                                      : 0;
+                                              const additionalPrice = additionalGuests * 500;
+                                              const totalPrice = basePrice + additionalPrice;
+                                              return `${totalPrice.toLocaleString('vi-VN')} VNĐ`;
+                                          })()
                                         : 'Chưa có'}
                                 </p>
                             </div>
@@ -497,21 +515,12 @@ function AccountInfo() {
                                             const link = `${process.env.NEXT_PUBLIC_BASE_URL || ''}/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`;
                                             return (
                                                 <tr key={guest.guest_id}>
-                                                    <td data-label="Mô tả">Khách - {guest.full_name}</td>
+                                                    <td data-label="Mô tả">
+                                                        <a href={link}>Khách - {guest.full_name}</a>
+                                                    </td>
                                                     <td data-label="Link Mời">
                                                         {guest.card_id ? (
                                                             <>
-                                                                <a
-                                                                    href={link}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    style={{
-                                                                        color: '#007bff',
-                                                                        textDecoration: 'underline',
-                                                                    }}
-                                                                >
-                                                                    {guest.full_name}
-                                                                </a>
                                                                 <FontAwesomeIcon
                                                                     icon={faCopy}
                                                                     style={{ marginLeft: '3rem', cursor: 'pointer' }}
