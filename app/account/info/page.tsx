@@ -481,16 +481,7 @@ function AccountInfo() {
                                 <p>
                                     <strong>Giá Thanh toán:</strong>{' '}
                                     {selectedGuests.paymentAmount
-                                        ? (() => {
-                                              const basePrice = parseFloat(selectedGuests.paymentAmount);
-                                              const additionalGuests =
-                                                  selectedGuests.guests.length > 20
-                                                      ? selectedGuests.guests.length - 20
-                                                      : 0;
-                                              const additionalPrice = additionalGuests * 500;
-                                              const totalPrice = basePrice + additionalPrice;
-                                              return `${totalPrice.toLocaleString('vi-VN')} VNĐ`;
-                                          })()
+                                        ? `${parseFloat(selectedGuests.paymentAmount).toLocaleString('vi-VN')} VNĐ`
                                         : 'Chưa có'}
                                 </p>
                             </div>
