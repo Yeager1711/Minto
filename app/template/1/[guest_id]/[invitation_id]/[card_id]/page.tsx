@@ -6,7 +6,7 @@ import styles from './mau_1.module.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCirclePlay, faCirclePause, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { Suspense } from 'react';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
@@ -280,6 +280,18 @@ function Template1Invitee() {
                             <h2 className={styles.invite_message}>
                                 Kính mời: <InviteeNameContent fullName={guestName} />
                             </h2>
+                        </div>
+                    </div>
+
+                    <div className={styles.wrapper_animation__Click}>
+                        <div className={styles.icon_arrow__left}>
+                            <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
+                            <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
+                        </div>
+                        <div className={styles.text}>Click vào màn hình để mở</div>
+                        <div className={styles.icon_arrow__right}>
+                            <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
+                            <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
                         </div>
                     </div>
                 </div>
