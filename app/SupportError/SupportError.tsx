@@ -102,6 +102,7 @@ const SupportError: React.FC<SupportErrorProps> = ({ isSupportOpen, toggleSuppor
                         </option>
                         <option value="Lỗi khi thêm thông tin">Lỗi khi thêm thông tin</option>
                         <option value="Lỗi hệ thống khi thêm ảnh">Lỗi hệ thống khi thêm ảnh</option>
+                        <option value="Lỗi link mời không hiển thị với khách mời">Lỗi link mời không hiển thị với khách mời</option>
                         <option value="other">Khác</option>
                     </select>
                 </div>

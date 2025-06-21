@@ -117,6 +117,7 @@ $transition: all 0.3s ease;
                 min-height: 15rem;
                 resize: vertical;
                 line-height: 1.5;
+                text-transform: none;
             }
         }
 
@@ -316,6 +317,10 @@ $transition: all 0.3s ease;
         .textarea {
             font-size: 1.1rem;
             padding: 1rem;
+        }
+
+        .textarea {
+            text-transform: none;
         }
     }
 

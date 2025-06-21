@@ -181,7 +181,9 @@ const EditTemplate: React.FC<EditTemplateProps> = ({ weddingData, templateId }) 
             !path.includes('groomMapUrl') &&
             !path.includes('brideMapUrl') &&
             !path.includes('weddingTime') &&
-            !path.includes('weddingDate');
+            !path.includes('weddingDate') &&
+            !path.includes('brideStory') &&
+            !path.includes('groomStory');
         const transformedValue = shouldCapitalize && typeof value === 'string' ? capitalize(value) : value;
 
         setFormData((prev) => {

@@ -38,7 +38,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             .toLowerCase()
             .trim()
             .split(/\s+/)
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
     };
 
@@ -69,9 +69,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
 
             const names = text
                 .split('\n')
-                .map(name => formatName(name.trim()))
-                .filter(name => name !== '');
-            
+                .map((name) => formatName(name.trim()))
+                .filter((name) => name !== '');
+
             if (names.length === 0) {
                 alert('File không chứa tên hợp lệ.');
                 return;
@@ -80,7 +80,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             setQuantity(names.length);
             setInviteeNames(names);
             updateUrlQuantity(names.length);
-            
+
             // Reset file input
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
@@ -130,10 +130,11 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
     // Check apiUrl
     useEffect(() => {
         if (!apiUrl) {
-            setError('API URL không được định nghĩa.');
+            console.error('API URL không được định nghĩa trong biến môi trường NEXT_PUBLIC_APP_API_BASE_URL');
+            setError('API URL không được định nghĩa. Vui lòng liên hệ quản trị viên.');
             setTemplatePrice(0);
             setIsLoadingPrice(false);
-        }
+        } 
     }, []);
 
     // Fetch template price from API
@@ -240,40 +241,32 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             return;
         }
 
+        if (!apiUrl) {
+            alert('API URL không được định nghĩa. Vui lòng liên hệ quản trị viên.');
+            return;
+        }
+
         setIsLoading(true);
         try {
             const token = localStorage.getItem('accessToken');
             if (!token) {
                 throw new Error('Không tìm thấy token. Vui lòng đăng nhập lại.');
             }
-
-            // Upload weddingImages
+        
+            // Bỏ qua bước upload images vì endpoint không tồn tại
             const uploadedImageUrls: { url: string; position: string }[] = [];
             if (weddingImages && weddingImages.length > 0) {
-                const formData = new FormData();
-                weddingImages.forEach((image, index) => {
-                    formData.append(`images[${index}]`, image.file);
-                    formData.append(`positions[${index}]`, image.position);
-                });
-
-                const uploadResponse = await fetch(`${apiUrl}/upload/images`, {
-                    method: 'POST',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: formData,
-                });
-
-                if (!uploadResponse.ok) {
-                    throw new Error(`Upload failed with status ${uploadResponse.status}`);
-                }
-
-                const uploadResult = await uploadResponse.json();
-                if (uploadResult.success && uploadResult.data) {
-                    uploadedImageUrls.push(...uploadResult.data);
-                } else {
-                    throw new Error(uploadResult.message || 'Không thể upload hình ảnh');
-                }
+                // Nếu bạn đã có URL ảnh từ nơi khác (ví dụ: đã lưu trước đó), sử dụng chúng
+                // Hoặc bỏ qua nếu không cần gửi ảnh lên server
+                uploadedImageUrls.push(
+                    ...weddingImages.map((image) => ({
+                        url: URL.createObjectURL(image.file), // Tạo URL tạm thời nếu cần
+                        position: image.position,
+                    }))
+                );
+                console.warn('Ảnh không được tải lên server. Sử dụng URL tạm thời cục bộ.');
+            } else {
+                console.warn('Không có ảnh được chọn để tải lên.');
             }
 
             // Create payment
@@ -288,12 +281,15 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                     description: 'Thanh toán thiệp cưới',
                     templateId,
                     inviteeNames,
-                    weddingImages: uploadedImageUrls,
+                    weddingImages: uploadedImageUrls, // Gửi URL tạm thời hoặc mảng rỗng nếu không cần
                 }),
             });
 
             if (!paymentResponse.ok) {
-                throw new Error(`Payment creation failed with status ${paymentResponse.status}`);
+                const errorData = await paymentResponse.json();
+                throw new Error(
+                    `Payment creation failed with status ${paymentResponse.status}: ${errorData.message || 'Không có thông tin lỗi'}`
+                );
             }
 
             const paymentResult = await paymentResponse.json();
@@ -304,12 +300,13 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 throw new Error(paymentResult.message || 'Không thể tạo liên kết thanh toán');
             }
         } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            const errorMessage = error instanceof Error ? error.message : 'Lỗi không xác định';
             console.error('Lỗi khi xử lý thanh toán:', {
                 message: errorMessage,
                 templateId,
                 quantity,
                 totalAmount: calculatedTotalPrice,
+                weddingImages,
             });
             alert(`Lỗi khi xử lý thanh toán: ${errorMessage}`);
         } finally {

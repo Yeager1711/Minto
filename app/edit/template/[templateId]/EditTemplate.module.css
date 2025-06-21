@@ -107,6 +107,7 @@
   min-height: 15rem;
   resize: vertical;
   line-height: 1.5;
+  text-transform: none;
 }
 .editTemplateContainer .formContainer .toggleContainer {
   display: flex;
@@ -265,6 +266,9 @@
   .formField .textarea {
     font-size: 1.1rem;
     padding: 1rem;
+  }
+  .formField .textarea {
+    text-transform: none;
   }
   .toggleContainer .toggleLabel {
     font-size: 1.1rem;
