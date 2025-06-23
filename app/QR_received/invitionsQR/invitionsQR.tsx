@@ -35,18 +35,16 @@ const InvitionsQR: React.FC<InvitionsQRProps> = ({ userId }) => {
     const [qrData, setQrData] = useState<QrResponse[]>([]);
     const [banks, setBanks] = useState<Bank[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [isOpen, setIsOpen] = useState<boolean>(false); // State to toggle flex visibility
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                // Fetch QR data
                 const response = await getUserQrPublic(userId);
                 const qrArray: QrResponse[] = Array.isArray(response) ? response : [response];
                 setQrData(qrArray);
 
-                // Fetch banks data
                 const bankResponse = await fetch('https://api.vietqr.io/v1/banks');
                 const bankData = await bankResponse.json();
                 if (bankData.code === '00' && Array.isArray(bankData.data)) {
@@ -72,13 +70,15 @@ const InvitionsQR: React.FC<InvitionsQRProps> = ({ userId }) => {
 
     const groomQr = qrData.find((qr) => qr.representative === 'groom');
     const brideQr = qrData.find((qr) => qr.representative === 'bride');
-    console.log('Groom QR:', groomQr, 'Bride QR:', brideQr); // Debug: Check found QR codes
 
-    // Find bank name for each QR
     const getBankName = (bankId: string) => {
         const bank = banks.find((b) => String(b.id) === String(bankId));
         return bank?.shortName || bank?.name || 'Không xác định';
     };
+
+    // Check if the QR is a test QR based on account number
+    const isGroomTestQr = groomQr?.accountNumber === '171120018686';
+    const isBrideTestQr = brideQr?.accountNumber === '19002891';
 
     return (
         <div className={styles.wrapper_gift}>
@@ -89,7 +89,11 @@ const InvitionsQR: React.FC<InvitionsQRProps> = ({ userId }) => {
             <div className={`${styles.flex} ${isOpen ? styles.open : ''}`}>
                 {groomQr && (
                     <div className={styles.groom}>
-                        <h3>QR của Chú Rể {groomQr.status !== 'ACTIVE' && '(Không hoạt động)'}</h3>
+                        <h3>
+                            {isGroomTestQr
+                                ? 'QR đang test của Admin'
+                                : `QR của Chú Rể ${groomQr.status !== 'ACTIVE' ? '(Không hoạt động)' : ''}`}
+                        </h3>
                         <p>
                             <strong>Ngân hàng</strong> {getBankName(groomQr.bank)}
                         </p>
@@ -111,7 +115,11 @@ const InvitionsQR: React.FC<InvitionsQRProps> = ({ userId }) => {
                 )}
                 {brideQr && (
                     <div className={styles.bride}>
-                        <h3>QR của Cô Dâu {brideQr.status !== 'ACTIVE' && '(Không hoạt động)'}</h3>
+                        <h3>
+                            {isBrideTestQr
+                                ? 'QR đang test của Admin'
+                                : `QR của Cô Dâu ${brideQr.status !== 'ACTIVE' ? '(Không hoạt động)' : ''}`}
+                        </h3>
                         <p>
                             <strong>Ngân hàng</strong> {getBankName(brideQr.bank)}
                         </p>
@@ -132,12 +140,11 @@ const InvitionsQR: React.FC<InvitionsQRProps> = ({ userId }) => {
                     </div>
                 )}
                 {!groomQr && !brideQr && <div>Không có mã QR cho chú rể hoặc cô dâu</div>}
-                {/* Fallback to display all QR codes for debugging */}
                 {qrData.length > 2 && (
                     <div>
                         <h3>Thêm QR (Đang gỡ lỗi)</h3>
-                        {qrData.map((qr, index) => (
-                            <div key={index}>
+                        {qrData.map((qr) => (
+                            <div key={qr.qrId}>
                                 <p>
                                     Rep: {qr.representative}, Status: {qr.status}, Bank: {getBankName(qr.bank)}
                                 </p>
