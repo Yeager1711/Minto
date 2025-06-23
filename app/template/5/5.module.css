@@ -1081,7 +1081,7 @@
   overflow: hidden;
   background-image: url("../../../public/images/m5/paper_bg.png");
   border-top-left-radius: 2rem;
-  width: 50%;
+  width: auto;
 }
 .template5 .model_showTheway .popup_showTheway__wrapper .locaion_groom .content_groom .wrapper_groom {
   display: flex;
@@ -1105,6 +1105,7 @@
 .template5 .model_showTheway .popup_showTheway__wrapper .locaion_groom .content_groom .wrapper_groom .groom_name {
   flex: 1 1 16rem;
   border-bottom: 0.1rem solid #dbdbdb;
+  margin-left: 2rem;
 }
 .template5 .model_showTheway .popup_showTheway__wrapper .locaion_groom .content_groom .wrapper_groom .groom_name p {
   width: 100%;
@@ -1140,7 +1141,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 50%;
+  width: auto;
   right: -0.3rem;
   overflow: hidden;
   background-image: url("../../../public/images/m5/paper_bg.png");
@@ -1168,6 +1169,7 @@
 .template5 .model_showTheway .popup_showTheway__wrapper .locaion_bride .content_bride .wrapper_bride .bride_name {
   flex: 1 1 16rem;
   border-bottom: 0.1rem solid #dbdbdb;
+  margin-left: 2rem;
 }
 .template5 .model_showTheway .popup_showTheway__wrapper .locaion_bride .content_bride .wrapper_bride .bride_name p {
   width: 100%;

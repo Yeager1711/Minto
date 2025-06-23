@@ -1224,7 +1224,7 @@
                     overflow: hidden;
                     background-image: url('../../../public/images/m5/paper_bg.png');
                     border-top-left-radius: 2rem;
-                    width: 50%;
+                    width: auto;
 
                     .wrapper_groom {
                         display: flex;
@@ -1249,6 +1249,7 @@
                         .groom_name {
                             flex: 1 1 16rem;
                             border-bottom: 0.1rem solid #dbdbdb;
+                            margin-left: 2rem;
 
                             p {
                                 width: 100%;
@@ -1291,7 +1292,7 @@
                     position: absolute;
                     bottom: 0;
                     right: 0;
-                    width: 50%;
+                    width: auto;
                     right: -0.3rem;
                     overflow: hidden;
                     background-image: url('../../../public/images/m5/paper_bg.png');
@@ -1320,7 +1321,7 @@
                         .bride_name {
                             flex: 1 1 16rem;
                             border-bottom: 0.1rem solid #dbdbdb;
-
+                            margin-left: 2rem;
                             p {
                                 width: 100%;
                                 font-size: 2.5rem;
