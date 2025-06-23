@@ -147,6 +147,99 @@
         }
     }
 
+    .wrapper_animation__Click {
+        left: 50%;
+        transform: translate(-50%, -14%);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: absolute;
+        bottom: 14%;
+        color: #777;
+        cursor: pointer;
+
+        .icon_arrow__left {
+            .chevronLeft {
+                color: #333;
+                opacity: 0;
+                animation: swipeUpFadeLeft 1.2s infinite;
+
+                &:first-child {
+                    animation-delay: 0.4s;
+                }
+
+                &:last-child {
+                    animation-delay: 0s;
+                }
+            }
+        }
+
+        .text {
+            font-size: 1.25rem;
+            padding: 0 .5rem;
+        }
+
+        .icon_arrow__right {
+            .chevronRight {
+                color: #333;
+                opacity: 0;
+                animation: swipeUpFadeRight 1.2s infinite;
+
+                &:first-child {
+                    animation-delay: 0.4s;
+                }
+
+                &:last-child {
+                    animation-delay: 0s;
+                }
+            }
+        }
+    }
+
+    @keyframes swipeUpFadeLeft {
+        100% {
+            opacity: 0;
+            transform: translateX(6px);
+        }
+
+        60% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        30% {
+            opacity: 0.5;
+            transform: translateX(-3px);
+        }
+
+        0% {
+            opacity: 0;
+            transform: translateX(-6px);
+        }
+    }
+
+    @keyframes swipeUpFadeRight {
+        0% {
+            opacity: 0;
+            transform: translateX(6px);
+        }
+
+        30% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        60% {
+            opacity: 0.5;
+            transform: translateX(-3px);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateX(-6px);
+        }
+    }
+
     .invitions_name {
         position: absolute;
         bottom: 5%;
@@ -909,7 +1002,7 @@
             padding: 2rem;
             text-align: center;
 
-           
+
         }
 
         .footer_image {

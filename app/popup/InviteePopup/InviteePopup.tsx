@@ -4,6 +4,7 @@ import styles from './InviteePopup.module.css';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileImport } from '@fortawesome/free-solid-svg-icons';
+import { useApi } from 'app/lib/apiContext/apiContext';
 
 interface InviteePopupProps {
     templateId: string;
@@ -15,6 +16,7 @@ interface InviteePopupProps {
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+const DiscountEligibility = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY) || 0.2; // Đảm bảo mặc định là 20% (0.2)
 
 const InviteePopup: React.FC<InviteePopupProps> = ({
     templateId,
@@ -29,8 +31,10 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
     const [templatePrice, setTemplatePrice] = useState<number | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoadingPrice, setIsLoadingPrice] = useState(true);
+    const [isEligibleForDiscount, setIsEligibleForDiscount] = useState(false);
     const isMounted = useRef(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { checkDiscountEligibility } = useApi();
 
     // Function to format name to title case
     const formatName = (name: string): string => {
@@ -81,7 +85,6 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             setInviteeNames(names);
             updateUrlQuantity(names.length);
 
-            // Reset file input
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
@@ -97,7 +100,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
         fileInputRef.current?.click();
     };
 
-    // Initialize inviteeNames from localStorage on mount
+    // Initialize inviteeNames from localStorage and check discount eligibility
     useEffect(() => {
         if (isMounted.current) return;
         const storageKey = `inviteeNames_${templateId}`;
@@ -118,10 +121,23 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 console.error('Error parsing localStorage inviteeNames:', err);
             }
         }
-        isMounted.current = true;
-    }, [templateId, initialQuantity]);
 
-    // Save inviteeNames to localStorage when it changes
+        async function fetchDiscountEligibility() {
+            try {
+                const response = await checkDiscountEligibility();
+                setIsEligibleForDiscount(response.isEligible);
+                console.log('Discount Eligibility:', response); // Debug
+            } catch (err) {
+                console.error('Error checking discount eligibility:', err);
+                setIsEligibleForDiscount(false);
+            }
+        }
+        fetchDiscountEligibility();
+
+        isMounted.current = true;
+    }, [templateId, initialQuantity, checkDiscountEligibility]);
+
+    // Save inviteeNames to localStorage
     useEffect(() => {
         const storageKey = `inviteeNames_${templateId}`;
         localStorage.setItem(storageKey, JSON.stringify(inviteeNames));
@@ -134,7 +150,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             setError('API URL không được định nghĩa. Vui lòng liên hệ quản trị viên.');
             setTemplatePrice(0);
             setIsLoadingPrice(false);
-        } 
+        }
     }, []);
 
     // Fetch template price from API
@@ -146,7 +162,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 const response = await fetch(`${apiUrl}/templates/getTemplate/${templateId}`);
                 const result = await response.json();
                 if (result.statusCode === 200 && result.data?.price) {
-                    setTemplatePrice(result.data.price);
+                    const price = Number(result.data.price); // Chuyển đổi sang số để đảm bảo tính toán đúng
+                    console.log('Fetched Template Price:', price); // Debug
+                    setTemplatePrice(price);
                 } else {
                     throw new Error(result.message || 'Không lấy được giá template');
                 }
@@ -179,11 +197,25 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
     const calculatedTotalPrice =
         templatePrice !== null
             ? (() => {
-                  const basePrice = Number(templatePrice);
+                  const basePrice = Number(templatePrice); // Đảm bảo là số
                   let totalPrice = basePrice;
-                  if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST || 20)) {
-                      totalPrice +=
-                          (quantity - Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST || 20)) * priceCardDefault;
+                  if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST ||  0)) {
+                      const extraPeople = quantity - Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST || 0);
+                      totalPrice += extraPeople * priceCardDefault; // +500đ cho mỗi người thêm
+                  }
+                  console.log(
+                      'Base Price:',
+                      basePrice,
+                      'Extra Cost:',
+                      quantity > 20 ? (quantity - 20) * 500 : 0,
+                      'Total Before Discount:',
+                      totalPrice
+                  ); // Debug
+                  // Apply 20% discount if eligible
+                  if (isEligibleForDiscount) {
+                      const discountAmount = totalPrice * DiscountEligibility / 100;
+                      totalPrice -= discountAmount;
+                      console.log('Discount Amount:', discountAmount, 'Total After Discount:', totalPrice); // Debug
                   }
                   return totalPrice;
               })()
@@ -191,8 +223,8 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
 
     // Format totalPrice
     const formattedTotalPrice = calculatedTotalPrice
-        ? calculatedTotalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ'
-        : '0 vnđ';
+        ? calculatedTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+        : '0 VND';
 
     const handleCloseAnimationEnd = () => {
         if (isClosing) {
@@ -252,15 +284,12 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             if (!token) {
                 throw new Error('Không tìm thấy token. Vui lòng đăng nhập lại.');
             }
-        
-            // Bỏ qua bước upload images vì endpoint không tồn tại
+
             const uploadedImageUrls: { url: string; position: string }[] = [];
             if (weddingImages && weddingImages.length > 0) {
-                // Nếu bạn đã có URL ảnh từ nơi khác (ví dụ: đã lưu trước đó), sử dụng chúng
-                // Hoặc bỏ qua nếu không cần gửi ảnh lên server
                 uploadedImageUrls.push(
                     ...weddingImages.map((image) => ({
-                        url: URL.createObjectURL(image.file), // Tạo URL tạm thời nếu cần
+                        url: URL.createObjectURL(image.file),
                         position: image.position,
                     }))
                 );
@@ -281,7 +310,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                     description: 'Thanh toán thiệp cưới',
                     templateId,
                     inviteeNames,
-                    weddingImages: uploadedImageUrls, // Gửi URL tạm thời hoặc mảng rỗng nếu không cần
+                    weddingImages: uploadedImageUrls,
                 }),
             });
 
@@ -391,6 +420,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 <h2 className={styles.popupTitle}>Nhập Tên Khách Mời</h2>
                 <p className={styles.popupSubtitle}>
                     Số lượng: {quantity} lời mời • Tổng giá: {formattedTotalPrice}
+                    {isEligibleForDiscount && (
+                        <span className={styles.discountNote}> (Đã giảm {DiscountEligibility}%)</span>
+                    )}
                 </p>
             </div>
             <div className={styles.btn_import_text}>

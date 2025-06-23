@@ -23,24 +23,14 @@ interface Notification {
     items: string[];
 }
 
+const Discount = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY)
+
 const notifications: Notification[] = [
     {
         id: 1,
-        title: 'Ra mắt tính năng tạo thẻ nhận Hỷ',
-        period: {
-            from: '01/06/2025',
-        },
-        items: [
-            'Cho phép tạo QR nhận Hỷ bằng tài khoản ngân hàng cá nhân',
-            'Mỗi tài khoản được tạo tối đa 2 QR để nhận Hỷ',
-            'Áp dụng trực tiếp trong quá trình "Nhập thông tin thiệp" và nhận trực tiếp tại: Thiệp đã được tạo !',
-        ],
-    },
-    {
-        id: 2,
         title: (
             <>
-                Giảm giá 20% cho tài khoản mới tại{' '}
+                Giảm giá {Discount}% cho tài khoản mới tại{' '}
                 <Link href="/" className={styles.link}>
                     Minto
                 </Link>
@@ -55,6 +45,19 @@ const notifications: Notification[] = [
             'Ưu đãi chỉ áp dụng trong 7 ngày kể từ ngày đăng ký',
         ],
     },
+    {
+        id: 2,
+        title: 'Ra mắt tính năng tạo thẻ nhận Hỷ',
+        period: {
+            from: '01/06/2025',
+        },
+        items: [
+            'Cho phép tạo QR nhận Hỷ bằng tài khoản ngân hàng cá nhân',
+            'Mỗi tài khoản được tạo tối đa 2 QR để nhận Hỷ',
+            'Áp dụng trực tiếp trong quá trình "Nhập thông tin thiệp" và nhận trực tiếp tại: Thiệp đã được tạo !',
+        ],
+    },
+    
 ];
 
 const Notifications: React.FC = () => {

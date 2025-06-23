@@ -269,6 +269,7 @@ function AccountInfo() {
                                         </div>
                                         <div className={styles.box_right}></div>
                                     </div>
+
                                 </div>
                             ) : user ? (
                                 <>
