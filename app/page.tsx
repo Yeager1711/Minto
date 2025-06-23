@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.css';
 import Popup from './popup/template_details/Template_Details';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faBoltLightning, faMugHot, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
@@ -57,14 +57,7 @@ interface ProductListProps {
 const ProductCard: React.FC<ProductCardProps> = ({ name, image, onClick }) => (
     <div className={styles.card_product} onClick={onClick}>
         <div className={styles.image_products}>
-            <Image
-                src={`${image}`}
-                alt={name}
-                width={300}
-                height={200}
-                priority={false}
-                unoptimized
-            />
+            <Image src={`${image}`} alt={name} width={300} height={200} priority={false} unoptimized />
             <div className={styles.card_overlay}>
                 <span className={styles.card_title}>{name}</span>
             </div>
@@ -325,6 +318,63 @@ const Home: React.FC = () => {
                 </div>
 
                 <FeatureCard />
+
+                {/* Ưu điểm */}
+                <div className={styles.advantage}>
+                    <span>Ưu điểm</span>
+                    <h1 className={styles.advantage_h1}>
+                        Thiệp cưới của Minto có gì đặc biệt ? <strong>Tại sao bạn nên sử dụng ?</strong>
+                    </h1>
+                    <p className={styles.advantage_text}>
+                        Tạo thiệp nhanh chóng, lưu giữ kỉ niệm cưới của bạn và chia sẻ với bạn bè người thân của bạn một
+                        cách tiện lợi.
+                    </p>
+
+                    <div className={styles.advantage_wrapper}>
+                        <div className={styles.advantage_box}>
+                            <div className={styles.advantage_box__flex}>
+                                <FontAwesomeIcon icon={faBoltLightning} />
+                            </div>
+                            <div className={styles.advantage_box__right}>
+                                <h4>Nhanh chóng</h4>
+
+                                <p>
+                                    Tạo thiệp cưới chỉ trong vài phút, không cần phải đến cửa hàng in ấn. Tùy chỉnh nội
+                                    dung và hình ảnh theo ý muốn.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className={styles.advantage_box}>
+                            <div className={styles.advantage_box__flex}>
+                                {' '}
+                                <FontAwesomeIcon icon={faMugHot} />
+                            </div>
+                            <div className={styles.advantage_box__right}>
+                                <h4>Tiện lợi</h4>
+
+                                <p>
+                                    Bạn có thể tạo thiệp từ bất kỳ đâu, chỉ cần kết nối internet và sử dụng các công cụ
+                                    tạo thiệp online của <strong> Minto</strong>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className={styles.advantage_box}>
+                            <div className={styles.advantage_box__flex}>
+                                <FontAwesomeIcon icon={faDollarSign} />
+                            </div>
+                            <div className={styles.advantage_box__right}>
+                                <h4>Nhận tiền mừng qua QR của bạn</h4>
+
+                                <p>Nhận hồng bao sớm từ bạn bè bằng cách gắn QR ngân hàng vào thiệp.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/*  */}
+                <div className={styles.faqSection}></div>
                 <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupportPopup} />
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}
