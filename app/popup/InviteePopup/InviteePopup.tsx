@@ -427,7 +427,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             </div>
             <div className={styles.btn_import_text}>
                 <button onClick={handleImportClick} className={styles.importButton}>
-                    <FontAwesomeIcon icon={faFileImport} /> Thêm bằng File
+                    <FontAwesomeIcon icon={faFileImport} /> Thêm bằng File (.txt)
                 </button>
                 <input
                     type="file"

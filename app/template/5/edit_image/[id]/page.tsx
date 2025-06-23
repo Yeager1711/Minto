@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGift, faLocationDot, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faTimes } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../5.module.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -520,7 +520,7 @@ function Template5Edit() {
                                 style={{ display: 'none' }}
                             />
                         </div>
-                        <div className={styles.calendar_wrapper}>
+                        <div className={styles.calendar_wrapper} onClick={() => triggerFileInput('mainImage')}>
                             <div className={styles.info_wrapper} data-aos="zoom-in" data-aos-delay="200">
                                 <div className={styles.info__groom}>
                                     <span>Nhà trai</span>
@@ -687,10 +687,7 @@ function Template5Edit() {
                         </div>
                     </div>
                     <div className={styles.footer} data-aos="fade-up" data-aos-delay="1400">
-                        <div className={styles.btn_invitionQR__popop}>
-                            Mừng cưới
-                            <FontAwesomeIcon icon={faGift} />
-                        </div>
+                       
                     </div>
                     <div className={styles.footer_image} data-aos="fade-up">
                         <div className={styles.image_ft}>

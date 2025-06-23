@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './account_info.module.scss';
 import { useApi } from 'app/lib/apiContext/apiContext';
-import Countdown from 'app/func/countDown/page';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQrcode, faCopy } from '@fortawesome/free-solid-svg-icons';
@@ -15,6 +14,7 @@ interface UserProfile {
     email: string;
     phone: string | null;
     address: string | null;
+    created_at: Date;
     role: {
         role_id: number;
         name: string;
@@ -65,8 +65,14 @@ interface Bank {
     code?: string;
 }
 
+interface DiscountEligibilityResponse {
+    isEligible: boolean;
+    message?: string;
+}
+
 function AccountInfo() {
-    const { getUserProfile, getUserTemplates, accessToken, updateUserName, getUserQr } = useApi();
+    const { getUserProfile, getUserTemplates, accessToken, updateUserName, getUserQr, checkDiscountEligibility } =
+        useApi();
     const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
@@ -87,6 +93,10 @@ function AccountInfo() {
     const [banks, setBanks] = useState<Bank[]>([]);
 
     const router = useRouter();
+
+    const [isEligibleForDiscount, setIsEligibleForDiscount] = useState(false);
+    const [discountEndDate, setDiscountEndDate] = useState<Date | null>(null);
+    const [timeLeft, setTimeLeft] = useState<string>('');
 
     useEffect(() => {
         if (!accessToken) {
@@ -130,6 +140,20 @@ function AccountInfo() {
                     console.warn('Bank API returned invalid data:', bankData);
                 }
                 setError('');
+
+                const discountResponse: DiscountEligibilityResponse = await checkDiscountEligibility();
+                console.log('Discount Response:', discountResponse);
+                setIsEligibleForDiscount(discountResponse.isEligible);
+                if (discountResponse.isEligible && userData.created_at) {
+                    const eligibilityEndDate = new Date(userData.created_at);
+                    eligibilityEndDate.setDate(eligibilityEndDate.getDate() + 7);
+                    const now = new Date(); // 01:02 PM +07, June 23, 2025
+                    if (eligibilityEndDate > now) {
+                        setDiscountEndDate(eligibilityEndDate);
+                    } else {
+                        setIsEligibleForDiscount(false);
+                    }
+                }
             } catch (err: unknown) {
                 let errorMessage = 'Không thể lấy dữ liệu';
                 if (err instanceof Error) errorMessage = err.message;
@@ -143,10 +167,37 @@ function AccountInfo() {
         };
 
         fetchData();
-    }, [accessToken, getUserProfile, getUserTemplates, router]);
+    }, [accessToken, getUserProfile, getUserTemplates, router, checkDiscountEligibility]);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (discountEndDate && isEligibleForDiscount) {
+            const calculateTimeLeft = () => {
+                const now = new Date();
+                const difference = discountEndDate.getTime() - now.getTime();
+
+                if (difference <= 0) {
+                    setIsEligibleForDiscount(false);
+                    setTimeLeft('Hết hạn');
+                    return;
+                }
+
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                setTimeLeft(`${days}D, ${hours}H, ${minutes}M, ${seconds}S`);
+            };
+
+            calculateTimeLeft();
+            timer = setInterval(calculateTimeLeft, 1000);
+
+            return () => clearInterval(timer);
+        }
+    }, [discountEndDate, isEligibleForDiscount]);
 
     const handleEdit = () => setIsEditing(true);
-
     const handleSave = async () => {
         try {
             const updatedUser = await updateUserName(editedFullName);
@@ -269,7 +320,13 @@ function AccountInfo() {
                                         </div>
                                         <div className={styles.box_right}></div>
                                     </div>
-
+                                    <div className={styles.box_item}>
+                                        <div className={styles.box_flex}>
+                                            <h2>Ngày tạo</h2>
+                                            <div className={`${styles.skeleton} ${styles.skeleton_text}`}></div>
+                                        </div>
+                                        <div className={styles.box_right}></div>
+                                    </div>
                                 </div>
                             ) : user ? (
                                 <>
@@ -296,15 +353,41 @@ function AccountInfo() {
                                     </div>
                                     <div className={styles.box_item}>
                                         <div className={styles.box_flex}>
-                                            <span>{user.email || 'Chưa cập nhật'}</span>
+                                            <span>
+                                                {' '}
+                                                <strong>Email: </strong> {user.email || 'Chưa cập nhật'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className={styles.box_item}>
+                                        <div className={styles.box_flex}>
+                                            <span>
+                                                <strong>Ngày tạo:</strong>{' '}
+                                                {user.created_at
+                                                    ? new Date(user.created_at).toLocaleDateString('vi-VN', {
+                                                          day: '2-digit',
+                                                          month: '2-digit',
+                                                          year: 'numeric',
+                                                      })
+                                                    : 'Chưa cập nhật'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                  
+                                    <div className={styles.isEligibleForDiscount}>
+                                        <div className={styles.box_flex}>
+                                            <h4>Ưu đãi khi lần đầu sử dụng: </h4>
+                                            {isEligibleForDiscount && discountEndDate ? (
+                                                <div className={styles.wrapper_countDown_discount}>
+                                                    <span>{timeLeft}</span>
+                                                </div>
+                                            ) : null}
                                         </div>
                                     </div>
                                 </>
                             ) : (
                                 <p>Không có dữ liệu người dùng.</p>
                             )}
-
-                            <Countdown />
                         </div>
                     </div>
                     <div className={styles.right}>
@@ -339,7 +422,6 @@ function AccountInfo() {
                         </div>
                     </div>
                 </div>
-
                 <div className={styles.list_orders}>
                     <h4>Đơn hàng và hóa đơn</h4>
                     <div className={styles.list_item}>
@@ -378,7 +460,9 @@ function AccountInfo() {
                                             </td>
                                             <td data-label="Số tiền thanh toán">
                                                 {template.template.payments[0]?.amount
-                                                    ? `${parseFloat(template.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
+                                                    ? `${parseFloat(
+                                                          template.template.payments[0].amount
+                                                      ).toLocaleString('vi-VN')} VNĐ`
                                                     : 'Chưa có'}
                                             </td>
                                             <td data-label="Ngày thanh toán">
@@ -426,7 +510,6 @@ function AccountInfo() {
                     </div>
                 </div>
             </div>
-
             {showGuestsModal && selectedGuests && (
                 <div className={styles.modal}>
                     <div className={styles.modal_content}>
@@ -486,7 +569,6 @@ function AccountInfo() {
                                         : 'Chưa có'}
                                 </p>
                             </div>
-
                             <div className={styles.btn_export_file} onClick={exportGuestLinks}>
                                 Xuất file danh sách khách mời
                             </div>
@@ -504,7 +586,9 @@ function AccountInfo() {
                                     </thead>
                                     <tbody>
                                         {selectedGuests.guests.map((guest) => {
-                                            const link = `${process.env.NEXT_PUBLIC_BASE_URL || ''}/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`;
+                                            const link = `${
+                                                process.env.NEXT_PUBLIC_BASE_URL || ''
+                                            }/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`;
                                             return (
                                                 <tr key={guest.guest_id}>
                                                     <td data-label="Mô tả">
@@ -512,13 +596,11 @@ function AccountInfo() {
                                                     </td>
                                                     <td data-label="Link Mời">
                                                         {guest.card_id ? (
-                                                            <>
-                                                                <FontAwesomeIcon
-                                                                    icon={faCopy}
-                                                                    style={{ marginLeft: '3rem', cursor: 'pointer' }}
-                                                                    onClick={() => copyToClipboard(link)}
-                                                                />
-                                                            </>
+                                                            <FontAwesomeIcon
+                                                                icon={faCopy}
+                                                                style={{ marginLeft: '3rem', cursor: 'pointer' }}
+                                                                onClick={() => copyToClipboard(link)}
+                                                            />
                                                         ) : (
                                                             <span style={{ color: '#ff9999' }}>
                                                                 Link không khả dụng (thiếu card_id)
@@ -540,7 +622,6 @@ function AccountInfo() {
                     </div>
                 </div>
             )}
-
             <QRPopupCreated isOpen={showQrPopup} onClose={handleCloseQrPopup} qrData={qrData} banks={banks} />
         </div>
     );
