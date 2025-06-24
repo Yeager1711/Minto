@@ -1,15 +1,19 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.css';
 import Popup from './popup/template_details/Template_Details';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faBoltLightning, faMugHot, faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faBoltLightning, faMugHot, faDollarSign, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 import Notifications from './Notifications/Notifications';
 import FeatureCard from './func/FeatureCard/page';
 import SupportError from 'app/SupportError/SupportError';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import CountUp from 'react-countup';
 
 interface Template {
     template_id: number;
@@ -119,6 +123,14 @@ const Home: React.FC = () => {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false);
+    const [isAnimating, setIsAnimating] = useState<boolean>(false); // State để điều khiển hiệu ứng
+
+    useEffect(() => {
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+    }, []);
 
     const toggleSupportPopup = () => {
         setIsSupportOpen((prev) => !prev);
@@ -234,6 +246,14 @@ const Home: React.FC = () => {
         return a.localeCompare(b);
     });
 
+    // Hàm xử lý khi nhấn nút "Tạo thiệp"
+    const handleCreateClick = () => {
+        setIsAnimating(true);
+        setTimeout(() => {
+            setIsAnimating(false);
+        }, 3000); // Quay lại trạng thái ban đầu sau 3 giây
+    };
+
     return (
         <main className={styles.main}>
             <div className={styles.wrapper_main}>
@@ -295,7 +315,40 @@ const Home: React.FC = () => {
 
                 <Notifications />
 
-                <div className={styles.layer_default}>
+                {/* Những con số biết nói với CountUp */}
+                <div className={styles.statsSection} data-aos="fade-up">
+                    <h2 className={styles.statsTitle}>Những con số biết nói</h2>
+                    <p className={styles.statsDescription}>
+                        Tạo ngay thiệp cưới điện tử để tiết kiệm thời gian, tiện lợi và tạo nên một thiệp độc đáo theo
+                        phong cách riêng của bạn.
+                    </p>
+                    <div className={styles.statsGrid}>
+                        <div className={styles.statItem} data-aos="fade-up" data-aos-delay="200">
+                            <span className={styles.statNumber}>
+                                <CountUp end={200} suffix="+" duration={2.5} />
+                            </span>
+                            <span className={styles.statLabel}>Thiệp được tạo</span>
+                        </div>
+                        <div className={styles.statItem} data-aos="fade-up" data-aos-delay="400">
+                            <span className={styles.statNumber}>
+                                <CountUp end={1711} duration={2.5} />
+                            </span>
+                            <span className={styles.statLabel}>Khách mời</span>
+                        </div>
+                        <div className={styles.statItem} data-aos="fade-up" data-aos-delay="600">
+                            <span className={styles.statNumber}>
+                                <CountUp end={1000} suffix="+" duration={2.5} />
+                            </span>
+                            <span className={styles.statLabel}>Lượt xem thiệp</span>
+                        </div>
+                    </div>
+                    <button className={styles.createButton} onClick={handleCreateClick}>
+                        Tạo thiệp {' '}
+                        <FontAwesomeIcon icon={faChevronDown} />
+                    </button>
+                </div>
+
+                <div className={`${styles.layer_default} ${isAnimating ? styles.animateLayer : ''}`}>
                     {isLoading ? (
                         <div className={styles.section_skeleton}>
                             <div className={styles.section_title_skeleton}></div>
@@ -317,27 +370,26 @@ const Home: React.FC = () => {
                     )}
                 </div>
 
-                <FeatureCard />
-
                 {/* Ưu điểm */}
                 <div className={styles.advantage}>
-                    <span>Ưu điểm</span>
-                    <h1 className={styles.advantage_h1}>
+                    <span data-aos="fade-in" data-aos-delay="200">
+                        Ưu điểm
+                    </span>
+                    <h1 className={styles.advantage_h1} data-aos="fade-up" data-aos-delay="400">
                         Thiệp cưới của Minto có gì đặc biệt ? <strong>Tại sao bạn nên sử dụng ?</strong>
                     </h1>
-                    <p className={styles.advantage_text}>
+                    <p className={styles.advantage_text} data-aos="fade-up" data-aos-delay="600">
                         Tạo thiệp nhanh chóng, lưu giữ kỉ niệm cưới của bạn và chia sẻ với bạn bè người thân của bạn một
                         cách tiện lợi.
                     </p>
 
                     <div className={styles.advantage_wrapper}>
-                        <div className={styles.advantage_box}>
+                        <div className={styles.advantage_box} data-aos="fade-up" data-aos-delay="300">
                             <div className={styles.advantage_box__flex}>
                                 <FontAwesomeIcon icon={faBoltLightning} />
                             </div>
                             <div className={styles.advantage_box__right}>
                                 <h4>Nhanh chóng</h4>
-
                                 <p>
                                     Tạo thiệp cưới chỉ trong vài phút, không cần phải đến cửa hàng in ấn. Tùy chỉnh nội
                                     dung và hình ảnh theo ý muốn.
@@ -345,36 +397,90 @@ const Home: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className={styles.advantage_box}>
+                        <div className={styles.advantage_box} data-aos="fade-up" data-aos-delay="600">
                             <div className={styles.advantage_box__flex}>
-                                {' '}
                                 <FontAwesomeIcon icon={faMugHot} />
                             </div>
                             <div className={styles.advantage_box__right}>
                                 <h4>Tiện lợi</h4>
-
                                 <p>
                                     Bạn có thể tạo thiệp từ bất kỳ đâu, chỉ cần kết nối internet và sử dụng các công cụ
-                                    tạo thiệp online của <strong> Minto</strong>.
+                                    tạo thiệp online của <strong>Minto</strong>.
                                 </p>
                             </div>
                         </div>
 
-                        <div className={styles.advantage_box}>
+                        <div className={styles.advantage_box} data-aos="fade-up" data-aos-delay="900">
                             <div className={styles.advantage_box__flex}>
                                 <FontAwesomeIcon icon={faDollarSign} />
                             </div>
                             <div className={styles.advantage_box__right}>
                                 <h4>Nhận tiền mừng qua QR của bạn</h4>
-
                                 <p>Nhận hồng bao sớm từ bạn bè bằng cách gắn QR ngân hàng vào thiệp.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/*  */}
-                <div className={styles.faqSection}></div>
+                <FeatureCard />
+
+                {/* Câu hỏi thường gặp */}
+                <div className={styles.faqSection}>
+                    <div className={styles.faqSection_flex}>
+                        <div className={styles.faqSection_box}>
+                            <h3 className={styles.title} data-aos="fade-in" data-aos-delay="100">
+                                Câu hỏi thường gặp
+                            </h3>
+                            <span className={styles.text} data-aos="fade-in" data-aos-delay="300">
+                                Không giải đáp được thắc mắc của bạn? <strong>Liên hệ</strong> với chúng tôi để được hỗ
+                                trợ.
+                            </span>
+                        </div>
+                    </div>
+                    <div className={styles.faqSection_right}>
+                        <div className={styles.faqSection_wrapper}>
+                            <div className={styles.faqSection_box__item} data-aos="fade-left" data-aos-delay="300">
+                                <h4>Làm thế nào để tạo thiệp cưới online ?</h4>
+                                <p>
+                                    Bạn có thể tạo thiệp cưới online bằng cách chọn mẫu thiệp và tùy chỉnh nội dung và
+                                    hình ảnh theo ý muốn.
+                                </p>
+                            </div>
+
+                            <div className={styles.faqSection_box__item} data-aos="fade-left" data-aos-delay="500">
+                                <h4>Làm thế nào để gửi thiệp cưới online ?</h4>
+                                <p>
+                                    Sau khi tạo thiệp, bạn có thể vào phần <strong>Hồ sơ</strong> xem danh sách khách
+                                    mời của mẫu đã tạo trước đó.
+                                </p>
+                            </div>
+
+                            <div className={styles.faqSection_box__item} data-aos="fade-left" data-aos-delay="700">
+                                <h4>Có những mẫu thiệp cưới nào để lựa chọn?</h4>
+                                <p>
+                                    Có nhiều mẫu thiệp cưới đẹp và đa dạng để bạn lựa chọn, từ thiệp truyền thống đến
+                                    thiệp hiện đại.
+                                </p>
+                            </div>
+
+                            <div className={styles.faqSection_box__item} data-aos="fade-left" data-aos-delay="900">
+                                <h4>Tôi có thể tùy chỉnh nội dung và hình ảnh trên thiệp không ?</h4>
+                                <p>
+                                    Đúng vậy, bạn có thể tùy chỉnh nội dung và hình ảnh, thậm chí là địa điểm tổ chức
+                                    trên thiệp theo ý muốn để tạo nên một thiệp cưới độc đáo.
+                                </p>
+                            </div>
+
+                            <div className={styles.faqSection_box__item} data-aos="fade-left" data-aos-delay="1100">
+                                <h4>Tôi có thể in thiệp cưới điện tử không?</h4>
+                                <p>
+                                    Thiệp cưới điện tử thường được gửi qua email hoặc chia sẻ trực tuyến, nên không cần
+                                    in thiệp.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupportPopup} />
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}

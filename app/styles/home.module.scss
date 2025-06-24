@@ -200,8 +200,150 @@
       }
     }
 
+    //những con số biết nói
+    .statsSection {
+      text-align: center;
+      padding: 4rem 0;
+
+      .statsTitle {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        max-width: 69rem;
+        margin: auto;
+      }
+
+      .statsDescription {
+        font-size: 1.8rem;
+        color: #666;
+        max-width: 69rem;
+        margin: 2rem auto 4rem auto;
+        line-height: 1.5;
+      }
+
+      .statsGrid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); // Số cột cố định là 3
+        gap: 2rem;
+        margin: 0 auto 3rem;
+        max-width: 1200px; // Giới hạn chiều rộng tối đa
+
+        .statItem {
+          text-align: center;
+
+          .statNumber {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #000;
+          }
+
+          .statLabel {
+            display: block;
+            font-size: 1rem;
+            color: #666;
+          }
+        }
+      }
+
+      .createButton {
+        display: inline-block;
+        background: #6366f1;
+        padding: .7rem 3.5rem;
+        font-size: 1.3rem;
+        color: #fff;
+        text-transform: capitalize;
+        border-radius: 1rem;
+
+        svg {
+          margin-left: .5rem;
+        }
+
+        &:hover {
+          transition: 0.3s linear;
+          transform: scale(.9);
+        }
+      }
+    }
+
+    // Media queries để responsive
+    @media (max-width: 1024px) {
+
+      .statsSection {
+        .statsTitle {
+          font-size: 3rem;
+        }
+
+        .statsDescription {
+          font-size: 1.35rem;
+        }
+
+        .statsGrid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+
+          .statItem {
+            .statNumber {
+              font-size: 2.5rem;
+            }
+
+            .statLabel {
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+
+      .statItem .createButton {
+        font-size: 1.2rem;
+        padding: 0.8rem 2rem;
+      }
+    }
+
+    @media (max-width: 599px) {
+
+      .statsSection {
+        .statsTitle {
+          font-size: 3rem;
+        }
+
+        .statsDescription {
+          font-size: 1.25rem;
+        }
+
+        .statsGrid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1rem;
+
+          .statItem {
+            .statNumber {
+              font-size: 1.5rem;
+            }
+
+            .statLabel {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+
+      .statItem .createButton {
+        font-size: 1rem;
+        padding: 0.6rem 1.5rem;
+      }
+    }
+
+    .animateLayer {
+      border: 0.1rem solid #91e2f9;
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      transform: scale(1.1);
+      background: #fff;
+      transition: all .3s linear;
+    }
+
     .layer_default {
       margin-top: 2rem;
+      transition: all .3s linear;
 
       .category_section {
         margin-bottom: 3rem;
@@ -242,7 +384,7 @@
       .grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
-        gap: 1.5rem;
+        gap: 1rem;
         margin-top: 1rem;
 
         @media (max-width: 1024px) {
@@ -339,11 +481,13 @@
     }
 
     .advantage {
-      padding: 5rem 0; // tăng padding ngang ở mobile
+      padding: 5rem 0;
       text-align: center;
+      align-items: center;
+      margin: 5rem 0;
 
       span {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         color: #4f46e5;
       }
 
@@ -392,7 +536,7 @@
         }
 
         span {
-          font-size: 2rem;
+          font-size: 1.7rem;
         }
       }
 
@@ -413,7 +557,7 @@
           gap: 1.5rem;
 
           &:hover {
-            background: #f0f7ff;
+            background: #f1fff0;
           }
 
           .advantage_box__flex {
@@ -444,7 +588,72 @@
       }
     }
 
-    
+    .faqSection {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding: 5rem 0 0 0;
+      margin: 5rem 0 0 0;
+
+      .faqSection_flex {
+        flex: 1 1 32rem;
+
+        .faqSection_box {
+
+          .title {
+            font-size: 2.5rem;
+            margin: 1.5rem 0;
+          }
+
+          .text {
+            font-size: 1.4rem;
+            color: #555;
+          }
+        }
+      }
+
+      .faqSection_right {
+        flex: 1 1 32rem;
+
+        .faqSection_wrapper {
+          .faqSection_box__item {
+            padding: 1.5rem 1rem;
+
+            &:hover {
+              background: #f1fff0;
+              border-radius: 1.5rem;
+              transition: .3s ease-in;
+            }
+
+
+            h4 {
+              font-size: 1.4rem;
+              margin: 1rem 0;
+              line-height: 1.5;
+            }
+
+            p {
+              font-size: 1.5rem;
+              line-height: 1.8;
+              color: #555;
+              position: relative;
+              padding-left: 2rem;
+
+              &::before {
+                content: "➤";
+                position: absolute;
+                left: 0;
+                top: 3px;
+                color: #4f46e5;
+                font-size: 1.2rem;
+                line-height: 1.8;
+              }
+            }
+
+          }
+        }
+      }
+    }
   }
 }
 

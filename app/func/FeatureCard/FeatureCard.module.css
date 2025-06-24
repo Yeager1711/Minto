@@ -11,6 +11,7 @@
   border-radius: 1.5rem;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 }
 .featureCard .box .content {
   position: absolute;
