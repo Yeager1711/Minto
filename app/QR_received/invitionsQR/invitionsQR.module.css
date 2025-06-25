@@ -1,3 +1,10 @@
+.wrapper_gift {
+  text-align: center;
+  width: 100%;
+}
+.wrapper_gift .flex_center {
+  margin: auto;
+}
 .wrapper_gift .btn_gift_code {
   padding: 0.8rem 2rem;
   display: inline-block;
@@ -16,8 +23,9 @@
   margin-left: 0.5rem;
 }
 .wrapper_gift .flex {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  max-width: 50rem;
+  margin: auto;
+  display: flex;
   gap: 1.5rem;
   text-align: center;
   height: 0;

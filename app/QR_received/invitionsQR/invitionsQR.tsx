@@ -82,76 +82,78 @@ const InvitionsQR: React.FC<InvitionsQRProps> = ({ userId }) => {
 
     return (
         <div className={styles.wrapper_gift}>
-            <div className={styles.btn_gift_code} onClick={() => setIsOpen(!isOpen)}>
-                Nhận Hỷ <FontAwesomeIcon icon={faGift} />
-            </div>
+            <div className={styles.flex_center}>
+                <div className={styles.btn_gift_code} onClick={() => setIsOpen(!isOpen)}>
+                    Nhận Hỷ <FontAwesomeIcon icon={faGift} />
+                </div>
 
-            <div className={`${styles.flex} ${isOpen ? styles.open : ''}`}>
-                {groomQr && (
-                    <div className={styles.groom}>
-                        <h3>
-                            {isGroomTestQr
-                                ? 'QR đang test của Admin'
-                                : `QR của Chú Rể ${groomQr.status !== 'ACTIVE' ? '(Không hoạt động)' : ''}`}
-                        </h3>
-                        <p>
-                            <strong>Ngân hàng</strong> {getBankName(groomQr.bank)}
-                        </p>
-                        <Image
-                            src={groomQr.qrCodeUrl}
-                            alt="Mã QR Thanh Toán Chú Rể"
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            style={{ width: '100%', height: 'auto' }}
-                        />
-                        <p>
-                            <strong>Số tài khoản</strong> {groomQr.accountNumber}
-                        </p>
-                        <p>
-                            <strong>Chủ tài khoản</strong> {groomQr.accountHolder}
-                        </p>
-                    </div>
-                )}
-                {brideQr && (
-                    <div className={styles.bride}>
-                        <h3>
-                            {isBrideTestQr
-                                ? 'QR đang test của Admin'
-                                : `QR của Cô Dâu ${brideQr.status !== 'ACTIVE' ? '(Không hoạt động)' : ''}`}
-                        </h3>
-                        <p>
-                            <strong>Ngân hàng</strong> {getBankName(brideQr.bank)}
-                        </p>
-                        <Image
-                            src={brideQr.qrCodeUrl}
-                            alt="Mã QR Thanh Toán Cô Dâu"
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            style={{ width: '100%', height: 'auto' }}
-                        />
-                        <p>
-                            <strong>Số tài khoản</strong> {brideQr.accountNumber}
-                        </p>
-                        <p>
-                            <strong>Chủ tài khoản</strong> {brideQr.accountHolder}
-                        </p>
-                    </div>
-                )}
-                {!groomQr && !brideQr && <div>Không có mã QR cho chú rể hoặc cô dâu</div>}
-                {qrData.length > 2 && (
-                    <div>
-                        <h3>Thêm QR (Đang gỡ lỗi)</h3>
-                        {qrData.map((qr) => (
-                            <div key={qr.qrId}>
-                                <p>
-                                    Rep: {qr.representative}, Status: {qr.status}, Bank: {getBankName(qr.bank)}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                <div className={`${styles.flex} ${isOpen ? styles.open : ''}`}>
+                    {groomQr && (
+                        <div className={styles.groom}>
+                            <h3>
+                                {isGroomTestQr
+                                    ? 'QR đang test của Admin'
+                                    : `QR của Chú Rể ${groomQr.status !== 'ACTIVE' ? '(Không hoạt động)' : ''}`}
+                            </h3>
+                            <p>
+                                <strong>Ngân hàng</strong> {getBankName(groomQr.bank)}
+                            </p>
+                            <Image
+                                src={groomQr.qrCodeUrl}
+                                alt="Mã QR Thanh Toán Chú Rể"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                style={{ width: '100%', height: 'auto' }}
+                            />
+                            <p>
+                                <strong>Số tài khoản</strong> {groomQr.accountNumber}
+                            </p>
+                            <p>
+                                <strong>Chủ tài khoản</strong> {groomQr.accountHolder}
+                            </p>
+                        </div>
+                    )}
+                    {brideQr && (
+                        <div className={styles.bride}>
+                            <h3>
+                                {isBrideTestQr
+                                    ? 'QR đang test của Admin'
+                                    : `QR của Cô Dâu ${brideQr.status !== 'ACTIVE' ? '(Không hoạt động)' : ''}`}
+                            </h3>
+                            <p>
+                                <strong>Ngân hàng</strong> {getBankName(brideQr.bank)}
+                            </p>
+                            <Image
+                                src={brideQr.qrCodeUrl}
+                                alt="Mã QR Thanh Toán Cô Dâu"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                style={{ width: '100%', height: 'auto' }}
+                            />
+                            <p>
+                                <strong>Số tài khoản</strong> {brideQr.accountNumber}
+                            </p>
+                            <p>
+                                <strong>Chủ tài khoản</strong> {brideQr.accountHolder}
+                            </p>
+                        </div>
+                    )}
+                    {!groomQr && !brideQr && <div>Không có mã QR cho chú rể hoặc cô dâu</div>}
+                    {qrData.length > 2 && (
+                        <div>
+                            <h3>Thêm QR (Đang gỡ lỗi)</h3>
+                            {qrData.map((qr) => (
+                                <div key={qr.qrId}>
+                                    <p>
+                                        Rep: {qr.representative}, Status: {qr.status}, Bank: {getBankName(qr.bank)}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
