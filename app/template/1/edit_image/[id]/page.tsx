@@ -115,11 +115,11 @@ const generateCalendarData = (weddingDate: string, monthDisplay: string) => {
 
 // Default wedding data
 const defaultWeddingData: Template1WeddingData = {
-    banner: { image: '/placeholder.png' },
+    banner: { image: '/images/m1/placeholder-image.png' },
     couple: {
         names: '',
-        groom: { name: '', image: '/placeholder.png' },
-        bride: { name: '', image: '/placeholder.png' },
+        groom: { name: '', image: '/images/m1/placeholder-image.png' },
+        bride: { name: '', image: '/images/m1/placeholder-image.png' },
     },
     invitation: {
         title: 'Thư Mời Tiệc Cưới',
@@ -151,29 +151,29 @@ const defaultWeddingData: Template1WeddingData = {
         brideLocation: { name: 'Nhà Gái', address: '', mapEmbedUrl: '' },
     },
     coupleImages: [
-        { src: '/placeholder.png', alt: 'Chọn ảnh Couple 1', isCenter: false },
-        { src: '/placeholder.png', alt: 'Chọn ảnh Couple 2', isCenter: true },
-        { src: '/placeholder.png', alt: 'Chọn ảnh Couple 3', isCenter: false },
+        { src: '/images/m1/placeholder-image.png', alt: 'Chọn ảnh Couple 1', isCenter: false },
+        { src: '/images/m1/placeholder-image.png', alt: 'Chọn ảnh Couple 2', isCenter: true },
+        { src: '/images/m1/placeholder-image.png', alt: 'Chọn ảnh Couple 3', isCenter: false },
     ],
     thumnailImages: [
-        { src: '/placeholder.png', alt: 'Chọn ảnh Thumbnail 1', isCenter: true },
-        { src: '/placeholder.png', alt: 'Chọn ảnh Thumbnail 2', isCenter: false },
-        { src: '/placeholder.png', alt: 'Chọn ảnh Thumbnail 3', isCenter: false },
-        { src: '/placeholder.png', alt: 'Chọn ảnh Thumbnail 4', isCenter: false },
+        { src: '/images/m1/placeholder-image.png', alt: 'Chọn ảnh Thumbnail 1', isCenter: true },
+        { src: '/images/m1/placeholder-image.png', alt: 'Chọn ảnh Thumbnail 2', isCenter: false },
+        { src: '/images/m1/placeholder-image.png', alt: 'Chọn ảnh Thumbnail 3', isCenter: false },
+        { src: '/images/m1/placeholder-image.png', alt: 'Chọn ảnh Thumbnail 4', isCenter: false },
     ],
 };
 
 const defaultImages: Images = {
-    banner: { url: '/placeholder.png', position: 'banner' },
-    groom: { url: '/placeholder.png', position: 'groom' },
-    bride: { url: '/placeholder.png', position: 'bride' },
-    couple_0: { url: '/placeholder.png', position: 'couple_0' },
-    couple_1: { url: '/placeholder.png', position: 'couple_1' },
-    couple_2: { url: '/placeholder.png', position: 'couple_2' },
-    thumnail_0: { url: '/placeholder.png', position: 'thumnail_0' },
-    thumnail_1: { url: '/placeholder.png', position: 'thumnail_1' },
-    thumnail_2: { url: '/placeholder.png', position: 'thumnail_2' },
-    thumnail_3: { url: '/placeholder.png', position: 'thumnail_3' },
+    banner: { url: '/images/m1/placeholder-image.png', position: 'banner' },
+    groom: { url: '/images/m1/placeholder-image.png', position: 'groom' },
+    bride: { url: '/images/m1/placeholder-image.png', position: 'bride' },
+    couple_0: { url: '/images/m1/placeholder-image.png', position: 'couple_0' },
+    couple_1: { url: '/images/m1/placeholder-image.png', position: 'couple_1' },
+    couple_2: { url: '/images/m1/placeholder-image.png', position: 'couple_2' },
+    thumnail_0: { url: '/images/m1/placeholder-image.png', position: 'thumnail_0' },
+    thumnail_1: { url: '/images/m1/placeholder-image.png', position: 'thumnail_1' },
+    thumnail_2: { url: '/images/m1/placeholder-image.png', position: 'thumnail_2' },
+    thumnail_3: { url: '/images/m1/placeholder-image.png', position: 'thumnail_3' },
 };
 
 const Template1Edit: React.FC = () => {
@@ -759,6 +759,7 @@ const Template1Edit: React.FC = () => {
                         </div>
                         <div className={styles.locationContent}>
                             <h5>{weddingDataState.location.brideLocation.name}</h5>
+                            <p>{weddingDataState.location.brideLocation.address || 'Địa điểm nhà gái chưa cập nhật'}</p>
                             {weddingDataState.location.brideLocation.mapEmbedUrl ? (
                                 <iframe
                                     src={getMapEmbedUrlFromCoords(weddingDataState.location.brideLocation.mapEmbedUrl)}
@@ -771,7 +772,6 @@ const Template1Edit: React.FC = () => {
                             ) : (
                                 <p>Lỗi tải bản đồ nhà gái. Vui lòng kiểm tra tọa độ.</p>
                             )}
-                            <p>{weddingDataState.location.brideLocation.address || 'Địa điểm nhà gái chưa cập nhật'}</p>
                         </div>
                     </div>
 

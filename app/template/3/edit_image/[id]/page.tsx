@@ -28,6 +28,20 @@ interface Images {
     footerImage: { url: string; position: string; fileName?: string };
 }
 
+const defaultImages: Images = {
+    mainImage: { url: '/images/m3/placeholder-image.png', position: 'main' },
+    flexImage1: { url: '/images/m3/placeholder-image.png', position: 'flex1' },
+    flexImage2: { url: '/images/m3/placeholder-image.png', position: 'flex2' },
+    flexImage3: { url: '/images/m3/placeholder-image.png', position: 'flex3' },
+    galleryImage1: { url: '/images/m3/placeholder-image.png', position: 'gallery1' },
+    galleryImage2: { url: '/images/m3/placeholder-image.png', position: 'gallery2' },
+    galleryImage3: { url: '/images/m3/placeholder-image.png', position: 'gallery3' },
+    galleryImage4: { url: '/images/m3/placeholder-image.png', position: 'gallery4' },
+    galleryImage5: { url: '/images/m3/placeholder-image.png', position: 'gallery5' },
+    galleryImage6: { url: '/images/m3/placeholder-image.png', position: 'gallery6' },
+    footerImage: { url: '/images/m3/placeholder-image.png', position: 'footer' },
+};
+
 function Template3Edit() {
     const params = useParams();
     const templateId = params.id as string;
@@ -89,17 +103,17 @@ function Template3Edit() {
         bride: '',
         groom: '',
         weddingDate: new Date(2025, 5, 6),
-        weddingTime: '11:30 AM',
-        weddingDayOfWeek: 'FRIDAY',
-        lunarDay: '11 Tháng 05, Năm Ất Tỵ',
-        familyGroom: { father: 'Huỳnh Văn A', mother: 'Trần Thị B' },
-        familyBride: { father: 'Huỳnh Văn C', mother: 'Trần Thị D' },
+        weddingTime: '',
+        weddingDayOfWeek: '',
+        lunarDay: '',
+        familyGroom: { father: '', mother: '' },
+        familyBride: { father: '', mother: '' },
         brideStory: '',
         groomStory: '',
-        groomAddress: 'Thành phố Thủ Đức, TP. HCM',
-        brideAddress: 'Thành phố Thủ Đức, TP. HCM',
-        groomMapUrl: '(10.7769,106.7009)', // Default coordinates for Thủ Đức
-        brideMapUrl: '(10.7769,106.7009)',
+        groomAddress: '',
+        brideAddress: '',
+        groomMapUrl: '', // Default coordinates for Thủ Đức
+        brideMapUrl: '',
     };
 
     const [weddingData, setWeddingData] = useState<TemplateWeddingData>(() => {
@@ -146,20 +160,6 @@ function Template3Edit() {
         }
         return defaultImages;
     });
-
-    const defaultImages: Images = {
-        mainImage: { url: '', position: 'main' },
-        flexImage1: { url: '', position: 'flex1' },
-        flexImage2: { url: '', position: 'flex2' },
-        flexImage3: { url: '', position: 'flex3' },
-        galleryImage1: { url: '', position: 'gallery1' },
-        galleryImage2: { url: '', position: 'gallery2' },
-        galleryImage3: { url: '', position: 'gallery3' },
-        galleryImage4: { url: '', position: 'gallery4' },
-        galleryImage5: { url: '', position: 'gallery5' },
-        galleryImage6: { url: '', position: 'gallery6' },
-        footerImage: { url: '', position: 'footer' },
-    };
 
     const fileInputRefs = {
         mainImage: useRef<HTMLInputElement>(null),

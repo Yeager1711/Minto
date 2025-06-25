@@ -1,5 +1,5 @@
 .template3 {
-  max-width: 55rem;
+  max-width: 100rem;
   width: 100%;
   margin: auto;
   min-height: 100vh;
@@ -243,6 +243,8 @@
 }
 .template3 .info_groom_bride .info_wrapper {
   display: flex;
+  max-width: 60rem;
+  margin: auto;
 }
 .template3 .info_groom_bride .info_wrapper .info__groom {
   flex: 1 1;
@@ -274,6 +276,8 @@
 .template3 .info_groom_bride .mar {
   margin: 3rem 0;
   padding: 1rem;
+  max-width: 60rem;
+  margin: auto;
 }
 .template3 .info_groom_bride .mar .groom_name,
 .template3 .info_groom_bride .mar .bride_name {
@@ -321,6 +325,8 @@
   gap: 1.3rem;
   padding: 1.5rem 0;
   margin: 2.5rem 0 0 0;
+  max-width: 60rem;
+  margin: auto;
 }
 .template3 .info_groom_bride .flex_image .image_1,
 .template3 .info_groom_bride .flex_image .image_2,
@@ -352,6 +358,7 @@
 .template3 .info_groom_bride .specifically {
   text-align: center;
   padding: 1.5rem 0;
+  max-width: 100rem !important;
 }
 .template3 .info_groom_bride .specifically .time_specifically {
   padding: 1rem 0;
@@ -382,7 +389,7 @@
 }
 .template3 .info_groom_bride .specifically .calendar {
   width: 88%;
-  max-width: 600px;
+  max-width: 100rem;
   margin: 2.5rem auto;
   padding: 2rem;
   background: linear-gradient(135deg, rgba(255, 245, 247, 0.5), rgba(240, 235, 255, 0.5));

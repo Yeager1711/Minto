@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import styles from './mau_2.module.css';
+import styles from '../../../edit_image/[id]/mau_2.module.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -274,13 +274,13 @@ function Mau2InviteeName() {
 
                     <div className={styles.wrapper_animation__Click}>
                         <div className={styles.icon_arrow__left}>
-                            <FontAwesomeIcon icon={faChevronRight}  className={styles.chevronLeft}/>
-                            <FontAwesomeIcon icon={faChevronRight}  className={styles.chevronLeft}/>
+                            <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
+                            <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
                         </div>
                         <div className={styles.text}>Click vào màn hình để mở</div>
                         <div className={styles.icon_arrow__right}>
-                            <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight}/>
-                            <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight}/>
+                            <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
+                            <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
                         </div>
                     </div>
                 </div>
@@ -626,6 +626,7 @@ function Mau2InviteeName() {
                             </div>
                             <div className={styles.addressContent}>
                                 <h5>Nhà Gái - {weddingData.venue_bride}</h5>
+                                <p>{weddingData.brideAddress || 'Địa điểm nhà gái chưa cập nhật'}</p>
                                 {weddingData.brideMapUrl ? (
                                     <iframe
                                         src={getMapEmbedUrlFromCoords(weddingData.brideMapUrl)}
@@ -638,7 +639,6 @@ function Mau2InviteeName() {
                                 ) : (
                                     <p>Lỗi tải bản đồ nhà gái. Vui lòng kiểm tra tọa độ.</p>
                                 )}
-                                <p>{weddingData.brideAddress || 'Địa điểm nhà gái chưa cập nhật'}</p>
                             </div>
                         </div>
                         <div className={styles.photo_gallery}>

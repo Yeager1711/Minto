@@ -1,6 +1,6 @@
 @charset "UTF-8";
 .template4 {
-  max-width: 55rem;
+  max-width: 60rem;
   width: 100%;
   margin: auto;
   min-height: 100vh;
@@ -102,6 +102,8 @@
 .template4 .mainImage {
   position: relative;
   height: 100vh;
+  max-width: 60rem;
+  margin: auto;
 }
 .template4 .mainImage img {
   width: 100%;

@@ -501,6 +501,7 @@ function Template5Edit() {
                             <p>{weddingData.brideStory}</p>
                         </div>
                     </div>
+                    
                     <div className={styles.calendar} data-aos="fade-up">
                         <div className={styles.imageMainCalendar} data-aos="fade-down" data-aos-delay="400">
                             <Image

@@ -1,4 +1,169 @@
 @import url("https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400..700&family=Della+Respira&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100..400&display=swap");
+.mau_2_container {
+  background: #fff;
+}
+.mau_2_container .intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s ease;
+  z-index: 99 !important;
+  min-height: 100vh;
+}
+.mau_2_container .intro.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+.mau_2_container .intro.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+}
+.mau_2_container .intro .card_cover {
+  position: relative;
+  max-width: 100rem;
+  margin: auto;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  transition: transform 0.8s ease;
+}
+.mau_2_container .intro .card_cover img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.mau_2_container .intro .card_cover .intro_content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #544c46;
+  max-width: 60rem;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.mau_2_container .intro .card_cover .intro_content .groom_names {
+  position: relative;
+  font-family: "Della Respira", serif;
+  text-transform: uppercase;
+  font-size: clamp(2.8rem, 8vw, 4.2rem);
+  color: #544c46;
+  max-width: 100%;
+  margin: 0.5rem 0;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.mau_2_container .intro .card_cover .intro_content .bride_names {
+  position: relative;
+  font-family: "Della Respira", serif;
+  text-transform: uppercase;
+  font-size: clamp(2.8rem, 8vw, 4.2rem);
+  color: #544c46;
+  max-width: 100%;
+  margin: 0.5rem 0;
+  padding: 0;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+.mau_2_container .intro .card_cover .intro_content .invite_message {
+  position: relative;
+  font-family: "Allura", cursive;
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  margin: 1rem 0;
+  text-align: center;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  width: auto;
+  padding: 1rem 0;
+  border-top: 0.1rem solid #dbdbdb;
+  border-bottom: 0.1rem solid #dbdbdb;
+}
+.mau_2_container .intro .wrapper_animation__Click {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: absolute;
+  bottom: 7%;
+  color: #777;
+  cursor: pointer;
+}
+.mau_2_container .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft {
+  color: #333;
+  opacity: 0;
+  animation: swipeUpFadeLeft 1.2s infinite;
+}
+.mau_2_container .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft:first-child {
+  animation-delay: 0.4s;
+}
+.mau_2_container .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft:last-child {
+  animation-delay: 0s;
+}
+.mau_2_container .intro .wrapper_animation__Click .text {
+  font-size: 1.25rem;
+  padding: 0 0.5rem;
+}
+.mau_2_container .intro .wrapper_animation__Click .icon_arrow__right .chevronRight {
+  color: #333;
+  opacity: 0;
+  animation: swipeUpFadeRight 1.2s infinite;
+}
+.mau_2_container .intro .wrapper_animation__Click .icon_arrow__right .chevronRight:first-child {
+  animation-delay: 0.4s;
+}
+.mau_2_container .intro .wrapper_animation__Click .icon_arrow__right .chevronRight:last-child {
+  animation-delay: 0s;
+}
+@keyframes swipeUpFadeLeft {
+  100% {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  30% {
+    opacity: 0.5;
+    transform: translateX(-3px);
+  }
+  0% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+@keyframes swipeUpFadeRight {
+  0% {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  60% {
+    opacity: 0.5;
+    transform: translateX(-3px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
 .mau_2_container .dynamic {
   position: fixed;
   bottom: 2rem;
@@ -109,18 +274,20 @@
 }
 .mau_2_container .mau_2 {
   overflow: hidden;
-  max-width: 55rem;
+  max-width: 100rem;
   width: 100%;
   margin: 0 auto;
-  background: #fdfcfd;
+  background: #fdf9f3;
   padding-bottom: 2rem;
 }
 .mau_2_container .mau_2 .mau_2__wrapper {
-  background: #fdfcfd;
+  background: #fff;
+  margin: auto;
+  overflow: hidden;
 }
 .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 {
   width: 100%;
-  height: clamp(400px, 80vh, 80vh);
+  height: clamp(40rem, 80vh, 80vh);
   position: relative;
 }
 .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .page_2 {
@@ -233,61 +400,90 @@
 .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  margin-top: clamp(1rem, 2vw, 2rem);
+}
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_1,
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_2,
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_3,
+.mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_4 {
+  position: absolute;
+  width: clamp(15rem, 20vw, 20rem);
+  height: clamp(15rem, 20vw, 20rem);
+  border-radius: 1rem;
+  border: 0.4rem solid #fff;
+  z-index: 2;
 }
 .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_1 {
-  position: absolute;
   top: 5%;
   left: 0%;
-  width: 13rem;
-  height: 15rem;
-  border-radius: 1rem;
-  border: 0.4rem solid #fff;
-  z-index: 2;
   transform: rotate(-10deg);
-  border-radius: 1rem;
 }
 .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_2 {
-  position: absolute;
-  top: 5%;
-  right: 0;
-  width: 13rem;
-  height: 15rem;
-  border-radius: 1rem;
-  border: 0.4rem solid #fff;
-  z-index: 2;
+  top: 11%;
+  right: 4%;
   transform: rotate(10deg);
 }
 .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_3 {
-  position: absolute;
   bottom: 0%;
   left: 3%;
-  width: 13rem;
-  height: 15rem;
-  border-radius: 1rem;
-  border: 0.4rem solid #fff;
-  z-index: 2;
   transform: rotate(8deg);
   z-index: 8;
 }
 .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_4 {
-  position: absolute;
-  bottom: -7%;
+  bottom: 1%;
   right: 4%;
-  width: 13rem;
-  height: 15rem;
-  border-radius: 1rem;
-  border: 0.4rem solid #fff;
+  width: clamp(14rem, 19vw, 19rem);
+  height: clamp(14rem, 19vw, 19rem);
   transform: rotate(-3deg);
   z-index: 5;
+}
+@media (max-width: 1024px) {
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_1,
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_2,
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_3 {
+    width: clamp(13rem, 18vw, 18rem);
+    height: clamp(13rem, 18vw, 18rem);
+  }
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_4 {
+    width: clamp(12rem, 17vw, 17rem);
+    height: clamp(12rem, 17vw, 17rem);
+  }
+}
+@media (max-width: 600px) {
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_1,
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_2,
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_3 {
+    width: clamp(10rem, 13vw, 13rem);
+    height: clamp(12rem, 15vw, 15rem);
+  }
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_1 {
+    top: 5%;
+    left: 0%;
+  }
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_2 {
+    top: 5%;
+    right: 0;
+  }
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_3 {
+    bottom: 0%;
+    left: 3%;
+  }
+  .mau_2_container .mau_2 .mau_2__wrapper .image_mau2 .thumnails .thumnailImages_4 {
+    bottom: 1%;
+    right: 4%;
+    width: clamp(7rem, 9vw, 9rem);
+    height: clamp(8rem, 10vw, 10rem);
+  }
 }
 .mau_2_container .mau_2 .story {
   position: relative;
   z-index: 2 !important;
-  background: #fdfdfd;
+  background: #fdf9f3;
   padding: 0;
   overflow: hidden;
+  margin: auto;
+  padding-bottom: 4rem;
 }
 .mau_2_container .mau_2 .story .Timing_Hook {
   z-index: 9 !important;
@@ -327,13 +523,15 @@
 .mau_2_container .mau_2 .story .Timing_Hook .Timing_Hook__content p {
   font-size: 1.4rem;
   text-align: center;
+  background: #fdf9f3;
 }
 .mau_2_container .mau_2 .story .content_story {
   margin-left: -2rem;
   border-radius: 1rem;
   padding: 2rem;
   max-width: 60rem;
-  width: 100%;
+  margin: auto;
+  width: 85%;
   transform: rotate(-4deg);
   border: 0.2rem dashed #a11414;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
@@ -347,9 +545,10 @@
 .mau_2_container .mau_2 .story .content_story .header_content .left {
   flex: 1 1;
   max-width: 50rem;
-  height: 28rem;
+  height: auto;
   overflow: hidden;
   border-radius: 1rem;
+  background: #fdf9f3;
 }
 .mau_2_container .mau_2 .story .content_story .header_content .left img {
   width: 100%;
@@ -359,7 +558,7 @@
 }
 .mau_2_container .mau_2 .story .content_story .header_content .right {
   flex: 1 1;
-  background: #fff;
+  background: #fdf9f3;
   padding: 1rem;
   max-width: 24rem;
   border-radius: 1rem;
@@ -376,7 +575,7 @@
 }
 .mau_2_container .mau_2 .story .content_story .footer_content .left {
   flex: 1 1;
-  background: #fff;
+  background: fdf9f3;
   padding: 1rem;
   max-width: 24rem;
   border-radius: 1rem;
@@ -388,7 +587,7 @@
 .mau_2_container .mau_2 .story .content_story .footer_content .right {
   flex: 1 1;
   max-width: 50rem;
-  height: 28rem;
+  height: auto;
   overflow: hidden;
   border-radius: 1rem;
 }
@@ -398,176 +597,461 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
-.mau_2_container .mau_2 .story_bride {
-  margin: 5rem 0 0 0;
-  padding: 0 1.5rem;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left {
-  flex: 1 1 22rem;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h3 {
-  color: #333;
-  z-index: 3;
-  font-family: "Allura", cursive;
-  font-size: 4rem;
-  margin: 0;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 {
-  color: #333;
-  z-index: 3;
-  font-family: "Allura", cursive;
-  font-size: 2.5rem;
-  margin: 0;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 span {
-  font-size: 2.5rem;
-  font-family: "Allura", cursive;
-  color: #bb9148;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right {
-  flex: 1 1 22rem;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h2 {
-  margin: 2rem 0 0;
-  margin-left: 0;
-  font-size: 4rem;
-  font-family: "Herr Von Muellerhoff", cursive;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content {
-  position: relative;
-  max-width: 100%;
-  width: 97%;
-  height: 25rem;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  z-index: 10;
-  z-index: 1;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content span {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  display: block;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content span:nth-child(1) {
-  max-width: 35rem;
-  height: 23rem;
-  width: 55%;
-  overflow: auto;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content span:nth-child(1)::-webkit-scrollbar {
-  display: none;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride {
-  position: absolute;
-  bottom: -2rem;
-  right: 1rem;
-  overflow: hidden;
-  border-radius: 1rem;
-  z-index: 2;
-}
-.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride img {
-  width: 15rem;
-  height: 23rem;
-  border-radius: 1rem;
-  -o-object-fit: cover;
-     object-fit: cover;
-  display: block;
-}
+.mau_2_container .mau_2 .story_bride,
 .mau_2_container .mau_2 .story_groom {
-  margin: 5rem 0 0 0;
-  padding: 0 1.5rem;
+  max-width: 60rem;
+  width: 93%;
+  padding: 1.5rem;
+  margin: 3rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  background: #fdf9f3;
+  position: relative;
+  border-radius: 0.5rem;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+}
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: nowrap;
+  padding: 1rem;
+  border-bottom: 0.1rem solid #dbdbdb;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left {
-  flex: 1 1 22rem;
+  flex: 1 1 32rem;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h3,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h3,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h3,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h3,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h3,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h3,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h3,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h3 {
+  font-size: 2.85rem;
+  font-family: "Times New Roman", Times, serif;
   color: #333;
-  z-index: 3;
-  font-family: "Allura", cursive;
-  font-size: 4rem;
+  text-align: left;
+  text-transform: capitalize;
   margin: 0;
+  font-weight: 450;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h4,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h4,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h4,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h4,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h4,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h4,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 {
-  color: #333;
-  z-index: 3;
+  font-size: 3.4rem;
   font-family: "Allura", cursive;
-  font-size: 2.5rem;
+  color: #333;
+  text-align: left;
   margin: 0;
+  font-weight: 400;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 span,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h4 span,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h4 span,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h4 span,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h4 span,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h4 span,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h4 span,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 span {
-  font-size: 2.5rem;
+  font-size: 3.4rem;
   font-family: "Allura", cursive;
   color: #bb9148;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right {
-  flex: 1 1 22rem;
+  flex: 1 1 32rem;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h2,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h2,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h2,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h2,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h2,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h2,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h2,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h2 {
-  margin: 2rem 0 0;
-  margin-left: 0;
-  font-size: 4rem;
-  font-family: "Herr Von Muellerhoff", cursive;
-  font-weight: 600;
+  font-size: 3.4rem;
+  font-family: "Allura", cursive;
+  color: #333;
+  text-align: right;
   text-transform: capitalize;
+  margin: 1rem 0 0;
+  font-weight: 400;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content {
-  position: relative;
-  max-width: 100%;
-  width: 97%;
-  height: 25rem;
-  background: #fff;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  margin-top: 1rem;
   padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  z-index: 1;
+  max-width: 65rem;
+  margin: auto;
+  align-items: center;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content span,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content span,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content span,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content span {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  display: block;
-  margin-left: 16rem;
-}
-.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content span:nth-child(1) {
-  max-width: 33rem;
-  height: 23rem;
-  width: 55%;
+  font-size: 2rem;
+  line-height: 1.5;
+  font-family: "Allura", cursive;
+  color: #333;
+  font-weight: 600;
+  flex: 1 1 30rem;
+  max-height: 25rem;
   overflow: auto;
+  text-align: center;
+  text-transform: lowercase;
 }
-.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content span:nth-child(1)::-webkit-scrollbar {
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content span::-webkit-scrollbar,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content span::-webkit-scrollbar,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content span::-webkit-scrollbar,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content span::-webkit-scrollbar {
   display: none;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__groom,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__bride,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__groom,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__bride,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__groom,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__bride,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__groom {
-  position: absolute;
-  bottom: -2rem;
-  left: 1rem;
+  flex: 0 0 15rem;
+  height: 20rem;
+  position: relative;
   overflow: hidden;
   border-radius: 1rem;
-  z-index: 2;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride:hover,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__groom:hover,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__bride:hover,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__groom:hover,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__bride:hover,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__groom:hover,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__bride:hover,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__groom:hover {
+  transform: scale(1.05);
+}
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride img,
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__groom img,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__bride img,
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__groom img,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__bride img,
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__groom img,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__bride img,
 .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__groom img {
-  width: 15rem;
-  height: 23rem;
-  border-radius: 1rem;
+  width: 100%;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   display: block;
+  mask-image: url("/images/m5/vector2.svg");
+  -webkit-mask-image: url("/images/m5/vector2.svg");
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  border: none;
+}
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride input[type=file],
+.mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__groom input[type=file],
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__bride input[type=file],
+.mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__groom input[type=file],
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__bride input[type=file],
+.mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__groom input[type=file],
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__bride input[type=file],
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__groom input[type=file] {
+  display: none;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content {
+  flex-direction: row-reverse;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left {
+  text-align: right;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h3,
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 {
+  text-align: right;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h2 {
+  text-align: left;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content {
+  flex-direction: row-reverse;
+}
+.mau_2_container .mau_2 .story_groom .story_groom_wrapper .content span {
+  margin-left: 1rem;
+}
+@media (min-width: 768px) {
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h3 {
+    font-size: 4rem;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 span,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h4 span,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h4 span,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h4 span,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h4 span,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h4 span,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h4 span,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 span {
+    font-size: 5.3rem;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h2 {
+    font-size: 5.3rem;
+  }
+}
+@media (max-width: 599px) {
+  .mau_2_container .mau_2 .story_bride,
+  .mau_2_container .mau_2 .story_groom {
+    width: 95%;
+    padding: 1rem;
+    margin: 1.5rem auto;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h2,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h3,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h2,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h3,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h2 {
+    text-align: center;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h3,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h3,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h3 {
+    font-size: 2rem;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h4 span,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h4 span,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h4 span,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h4,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h4 span,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h4 span,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h4 span,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h4 span,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h4,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h4 span,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h4 span,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h4 span,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h4 span,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h4,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h4 span,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h4 span,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h4 span,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h4 span,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h4,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h4 span {
+    font-size: 2.5rem;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .left h2,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .left h2,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .left h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .left h2,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .left h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .left h2,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .story_groom__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .left h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_bride__content .right h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .left h2,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .story_groom__content .right h2 {
+    font-size: 2.5rem;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .content,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .content,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .content,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .content span,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .content span,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .content span,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content span {
+    max-height: 15rem;
+    font-size: 1.7rem;
+    margin-left: 0;
+  }
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__bride,
+  .mau_2_container .mau_2 .story_bride .story_bride_wrapper .content .img_story__groom,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__bride,
+  .mau_2_container .mau_2 .story_bride .story_groom_wrapper .content .img_story__groom,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__bride,
+  .mau_2_container .mau_2 .story_groom .story_bride_wrapper .content .img_story__groom,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__bride,
+  .mau_2_container .mau_2 .story_groom .story_groom_wrapper .content .img_story__groom {
+    flex: 0 0 80vw;
+    height: 15rem;
+  }
 }
 .mau_2_container .mau_2 .time_location {
   text-align: center;
@@ -575,6 +1059,8 @@
   width: 100%;
   background: #fdf9f3;
   position: relative;
+  max-width: 100rem;
+  margin: auto;
 }
 .mau_2_container .mau_2 .time_location .wrapper {
   padding: 7rem 1rem 3rem 1rem;
@@ -806,6 +1292,8 @@
   text-align: center;
   position: relative;
   background: #fdf9f3;
+  max-width: 100rem;
+  margin: auto;
 }
 .mau_2_container .mau_2 .address .dotLeft {
   position: absolute;
@@ -832,6 +1320,7 @@
   text-align: center;
   background: #fdf9f3;
   padding: 0 clamp(1rem, 2vw, 2rem) 0 0;
+  margin: 0;
 }
 .mau_2_container .mau_2 .address .addressContent {
   overflow: hidden;
@@ -841,8 +1330,9 @@
 .mau_2_container .mau_2 .address .addressContent h5 {
   font-family: "Allura", cursive;
   font-size: 2rem;
+  margin: 0;
 }
-.mau_2_container .mau_2 .address .addressContent p {
+.mau_2_container .mau_2 .address .addressContent span {
   padding: 1rem;
   font-size: 1.25rem;
 }
@@ -857,14 +1347,13 @@
   background: linear-gradient(180deg, #fffaf5 0%, #fdf9f3 100%);
   padding: 3rem 1.5rem;
   overflow: hidden;
-  max-width: 44rem;
-  width: 95%;
+  max-width: 100rem;
+  width: 100%;
   margin: 0 auto;
-  border-radius: 1.5rem;
 }
 .mau_2_container .mau_2 .photo_gallery .gallery_container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(45rem, 1fr));
   gap: 1.5rem;
   align-items: start;
 }
@@ -896,16 +1385,16 @@
   opacity: 0.95;
 }
 .mau_2_container .mau_2 .photo_gallery .item_1 .card_content {
-  height: 38rem;
+  height: 58rem;
 }
 .mau_2_container .mau_2 .photo_gallery .item_2 .card_content {
-  height: 28rem;
+  height: 48rem;
 }
 .mau_2_container .mau_2 .photo_gallery .item_3 .card_content {
-  height: 32rem;
+  height: 52rem;
 }
 .mau_2_container .mau_2 .photo_gallery .item_4 .card_content {
-  height: 42rem;
+  height: 62rem;
 }
 .mau_2_container .mau_2 .photo_gallery .item_4 {
   margin-top: -10rem;
@@ -945,10 +1434,14 @@
   }
 }
 .mau_2_container .mau_2 footer {
+  display: none;
   position: relative;
   min-height: 50vh;
   background: #fdf9f3;
   border-top: 0.2rem dashed #a11414;
+  max-width: 100rem;
+  margin: auto;
+  text-align: center;
 }
 .mau_2_container .mau_2 footer .dotLeft {
   position: absolute;
@@ -972,7 +1465,7 @@
   position: absolute;
   top: 30%;
   left: 40%;
-  transform: translate(-50%, -50%);
+  transform: translate(-45%, -50%);
   text-align: center;
   color: #ffffff;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
@@ -1049,7 +1542,7 @@
   gap: 0.5rem;
   z-index: 2;
   text-align: center;
-  max-width: 40rem;
+  max-width: 60rem;
   width: 95%;
 }
 .mau_2_container .mau_2 footer .content_foooter span {

@@ -125,44 +125,71 @@ function Template4Edit() {
             try {
                 const parsedImages = JSON.parse(savedImages);
                 return {
-                    mainImage: parsedImages.mainImage || { url: '', position: 'main' },
-                    groomImage: parsedImages.groomImage || { url: '', position: 'groom' },
-                    brideImage: parsedImages.brideImage || { url: '', position: 'bride' },
-                    collageImage1: parsedImages.collageImage1 || { url: '', position: 'collage1' },
-                    collageImage2: parsedImages.collageImage2 || { url: '', position: 'collage2' },
-                    collageImage3: parsedImages.collageImage3 || { url: '', position: 'collage3' },
-                    collageImage4: parsedImages.collageImage4 || { url: '', position: 'collage4' },
-                    collageImage5: parsedImages.collageImage5 || { url: '', position: 'collage5' },
-                    footerImage1: parsedImages.footerImage1 || { url: '', position: 'footer1' },
-                    footerImage2: parsedImages.footerImage2 || { url: '', position: 'footer2' },
+                    mainImage: parsedImages.mainImage || { url: '/images/m4/placeholder-image.png', position: 'main' },
+                    groomImage: parsedImages.groomImage || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'groom',
+                    },
+                    brideImage: parsedImages.brideImage || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'bride',
+                    },
+                    collageImage1: parsedImages.collageImage1 || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'collage1',
+                    },
+                    collageImage2: parsedImages.collageImage2 || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'collage2',
+                    },
+                    collageImage3: parsedImages.collageImage3 || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'collage3',
+                    },
+                    collageImage4: parsedImages.collageImage4 || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'collage4',
+                    },
+                    collageImage5: parsedImages.collageImage5 || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'collage5',
+                    },
+                    footerImage1: parsedImages.footerImage1 || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'footer1',
+                    },
+                    footerImage2: parsedImages.footerImage2 || {
+                        url: '/images/m4/placeholder-image.png',
+                        position: 'footer2',
+                    },
                 };
             } catch (e) {
                 console.error('Failed to parse weddingImages from localStorage:', e);
                 return {
-                    mainImage: { url: '', position: 'main' },
-                    groomImage: { url: '', position: 'groom' },
-                    brideImage: { url: '', position: 'bride' },
-                    collageImage1: { url: '', position: 'collage1' },
-                    collageImage2: { url: '', position: 'collage2' },
-                    collageImage3: { url: '', position: 'collage3' },
-                    collageImage4: { url: '', position: 'collage4' },
-                    collageImage5: { url: '', position: 'collage5' },
-                    footerImage1: { url: '', position: 'footer1' },
-                    footerImage2: { url: '', position: 'footer2' },
+                    mainImage: { url: '/images/m4/placeholder-image.png', position: 'main' },
+                    groomImage: { url: '/images/m4/placeholder-image.png', position: 'groom' },
+                    brideImage: { url: '/images/m4/placeholder-image.png', position: 'bride' },
+                    collageImage1: { url: '/images/m4/placeholder-image.png', position: 'collage1' },
+                    collageImage2: { url: '/images/m4/placeholder-image.png', position: 'collage2' },
+                    collageImage3: { url: '/images/m4/placeholder-image.png', position: 'collage3' },
+                    collageImage4: { url: '/images/m4/placeholder-image.png', position: 'collage4' },
+                    collageImage5: { url: '/images/m4/placeholder-image.png', position: 'collage5' },
+                    footerImage1: { url: '/images/m4/placeholder-image.png', position: 'footer1' },
+                    footerImage2: { url: '/images/m4/placeholder-image.png', position: 'footer2' },
                 };
             }
         }
         return {
-            mainImage: { url: '', position: 'main' },
-            groomImage: { url: '', position: 'groom' },
-            brideImage: { url: '', position: 'bride' },
-            collageImage1: { url: '', position: 'collage1' },
-            collageImage2: { url: '', position: 'collage2' },
-            collageImage3: { url: '', position: 'collage3' },
-            collageImage4: { url: '', position: 'collage4' },
-            collageImage5: { url: '', position: 'collage5' },
-            footerImage1: { url: '', position: 'footer1' },
-            footerImage2: { url: '', position: 'footer2' },
+            mainImage: { url: '/images/m4/placeholder-image.png', position: 'main' },
+            groomImage: { url: '/images/m4/placeholder-image.png', position: 'groom' },
+            brideImage: { url: '/images/m4/placeholder-image.png', position: 'bride' },
+            collageImage1: { url: '/images/m4/placeholder-image.png', position: 'collage1' },
+            collageImage2: { url: '/images/m4/placeholder-image.png', position: 'collage2' },
+            collageImage3: { url: '/images/m4/placeholder-image.png', position: 'collage3' },
+            collageImage4: { url: '/images/m4/placeholder-image.png', position: 'collage4' },
+            collageImage5: { url: '/images/m4/placeholder-image.png', position: 'collage5' },
+            footerImage1: { url: '/images/m4/placeholder-image.png', position: 'footer1' },
+            footerImage2: { url: '/images/m4/placeholder-image.png', position: 'footer2' },
         };
     });
 

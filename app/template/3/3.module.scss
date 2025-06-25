@@ -1,5 +1,5 @@
 .template3 {
-    max-width: 55rem;
+    max-width: 100rem;
     width: 100%;
     margin: auto;
     min-height: 100vh;
@@ -269,8 +269,11 @@
         margin: 3rem 1rem;
         border-radius: 1rem;
 
+
         .info_wrapper {
             display: flex;
+            max-width: 60rem;
+            margin: auto;
 
             .info__groom {
                 flex: 1 1;
@@ -307,6 +310,8 @@
         .mar {
             margin: 3rem 0;
             padding: 1rem;
+            max-width: 60rem;
+            margin: auto;
 
             .groom_name,
             .bride_name {
@@ -345,6 +350,7 @@
             font-weight: 400;
             font-family: "Alegreya", serif;
             margin-top: 3rem;
+
         }
 
         .text {
@@ -361,6 +367,8 @@
             gap: 1.3rem;
             padding: 1.5rem 0;
             margin: 2.5rem 0 0 0;
+            max-width: 60rem;
+            margin: auto;
 
             .image_1,
             .image_2,
@@ -395,6 +403,7 @@
         .specifically {
             text-align: center;
             padding: 1.5rem 0;
+            max-width: 100rem !important;
 
             .time_specifically {
                 padding: 1rem 0;
@@ -430,7 +439,7 @@
 
             .calendar {
                 width: 88%;
-                max-width: 600px;
+                max-width: 100rem;
                 margin: 2.5rem auto;
                 padding: 2rem;
                 background: linear-gradient(135deg, rgba(255, 245, 247, 0.5), rgba(240, 235, 255, 0.5));

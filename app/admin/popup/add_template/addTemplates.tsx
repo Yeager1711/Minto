@@ -86,8 +86,8 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
             return;
         }
 
-        if (file.size > 5 * 1024 * 1024) {
-            toast.error('Kích thước ảnh không được vượt quá 5MB');
+        if (file.size > 10 * 1024 * 1024) {
+            toast.error('Kích thước ảnh không được vượt quá 10MB');
             e.target.value = '';
             return;
         }

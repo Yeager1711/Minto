@@ -1,8 +1,8 @@
 .popupContent {
   background: #ffffff;
   border-radius: 12px;
-  max-width: 50rem;
-  width: 76%;
+  max-width: 100rem;
+  width: 85%;
   max-height: 78vh;
   overflow-y: auto;
   animation: slideIn 0.3s ease-out;

@@ -1,5 +1,5 @@
 .template4 {
-    max-width: 55rem;
+    max-width: 60rem;
     width: 100%;
     margin: auto;
     min-height: 100vh;
@@ -111,6 +111,8 @@
     .mainImage {
         position: relative;
         height: 100vh;
+        max-width: 60rem;
+        margin: auto;
 
         img {
             width: 100%;

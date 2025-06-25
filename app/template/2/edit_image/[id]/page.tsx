@@ -101,19 +101,19 @@ function Template2Edit() {
     };
 
     const defaultImages: Images = {
-        mainImage: { url: '/images/m2/8.jpg', position: 'main' },
-        thumbnail1: { url: '/images/m2/2.jpg', position: 'thumbnail1' },
-        thumbnail2: { url: '/images/m2/3.jpg', position: 'thumbnail2' },
-        thumbnail3: { url: '/images/m2/5.jpg', position: 'thumbnail3' },
-        thumbnail4: { url: '/images/m2/6.jpg', position: 'thumbnail4' },
-        storyImage1: { url: '/images/m2/1.jpg', position: 'story1' },
-        storyImage2: { url: '/images/m2/2.jpg', position: 'story2' },
-        brideImage: { url: '/images/m2/3.jpg', position: 'bride' },
-        groomImage: { url: '/images/m2/4.jpg', position: 'groom' },
-        galleryImage1: { url: '/images/m2/6.jpg', position: 'gallery1' },
-        galleryImage2: { url: '/images/m2/7.jpg', position: 'gallery2' },
-        galleryImage3: { url: '/images/m2/9.jpg', position: 'gallery3' },
-        galleryImage4: { url: '/images/m2/10.jpg', position: 'gallery4' },
+        mainImage: { url: '/images/m2/placeholder-image.png', position: 'main' },
+        thumbnail1: { url: '/images/m2/placeholder-image.png', position: 'thumbnail1' },
+        thumbnail2: { url: '/images/m2/placeholder-image.png', position: 'thumbnail2' },
+        thumbnail3: { url: '/images/m2/placeholder-image.png', position: 'thumbnail3' },
+        thumbnail4: { url: '/images/m2/placeholder-image.png', position: 'thumbnail4' },
+        storyImage1: { url: '/images/m2/placeholder-image.png', position: 'story1' },
+        storyImage2: { url: '/images/m2/placeholder-image.png', position: 'story2' },
+        brideImage: { url: '/images/m2/placeholder-image.png', position: 'bride' },
+        groomImage: { url: '/images/m2/placeholder-image.png', position: 'groom' },
+        galleryImage1: { url: '/images/m2/placeholder-image.png', position: 'gallery1' },
+        galleryImage2: { url: '/images/m2/placeholder-image.png', position: 'gallery2' },
+        galleryImage3: { url: '/images/m2/placeholder-image.png', position: 'gallery3' },
+        galleryImage4: { url: '/images/m2/placeholder-image.png', position: 'gallery4' },
     };
 
     const [weddingData] = useState<TemplateWeddingData>(() => {
@@ -524,6 +524,7 @@ function Template2Edit() {
                             </div>
                         </div>
                     </div>
+                    
                     <div className={styles.story_bride}>
                         <div className={styles.story_bride_wrapper}>
                             <div className={styles.story_bride__content} data-aos="zoom-in" data-aos-delay="400">
@@ -592,6 +593,7 @@ function Template2Edit() {
                             </div>
                         </div>
                     </div>
+
                     <div className={styles.time_location}>
                         <div className={styles.wrapper}>
                             <h3>Tới dự buổi tiệc mừng Lễ thành hôn</h3>

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import styles from './mau_1.module.css';
+import styles from '../../../edit_image/[id]/mau_1.module.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
