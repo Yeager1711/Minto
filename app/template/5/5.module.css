@@ -357,7 +357,7 @@
 }
 .template5 .wrapper .saveTheDate .saveTheDate_wrapper {
   width: 90%;
-  max-width: 50rem;
+  max-width: 80rem;
   padding: 4rem 1rem;
   height: 70rem;
   aspect-ratio: auto;
@@ -367,7 +367,7 @@
   z-index: 2;
 }
 .template5 .wrapper .saveTheDate .saveTheDate_wrapper .img_std {
-  max-width: 30rem;
+  max-width: 42rem;
   margin: auto;
 }
 .template5 .wrapper .saveTheDate .saveTheDate_wrapper .img_std img {
@@ -384,7 +384,7 @@
 .template5 .wrapper .saveTheDate .saveTheDate_wrapper .groom_bride__name .groom_names,
 .template5 .wrapper .saveTheDate .saveTheDate_wrapper .groom_bride__name .bride_names {
   flex: 1 1 16rem;
-  font-size: 5rem;
+  font-size: 7rem;
   font-family: "Allura", cursive;
   color: #2c2a19;
   font-weight: 600;
@@ -450,7 +450,13 @@
   color: #333;
   margin: 1rem auto 0 auto;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .template5 .wrapper .saveTheDate .saveTheDate_wrapper .groom_bride__name .groom_names,
+  .template5 .wrapper .saveTheDate .saveTheDate_wrapper .groom_bride__name .bride_names {
+    font-size: 6.25rem;
+  }
+}
+@media (max-width: 599px) {
   .template5 .wrapper .saveTheDate .saveTheDate_wrapper {
     max-width: 35rem;
     height: 57rem;
