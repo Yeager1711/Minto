@@ -65,7 +65,7 @@
                     font-weight: 700;
                     font-family: 'Great Vibes', cursive;
                     margin-bottom: 0.5rem;
-                    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+                    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
                     color: #e0b96f;
                 }
 
@@ -107,7 +107,7 @@
 
         .info_family {
             min-height: 100vh;
-            padding: 4rem 2rem;
+            padding: 4rem .5rem;
             text-align: center;
 
             .flex_representative {
@@ -129,6 +129,10 @@
                         text-transform: capitalize;
                         font-family: 'Times New Roman', Times, serif;
                     }
+
+                    .address {
+                        font-size: 1.4rem !important;
+                    }
                 }
             }
 
@@ -140,49 +144,119 @@
                 color: #333;
             }
 
-            .at {
-                color: #333;
-                font-family: 'Times New Roman', Times, serif;
-                font-size: 1.8rem;
-            }
-
-            .dateBox {
+            .flex {
                 display: flex;
                 align-items: center;
-                justify-content: space-around;
-                margin: 1.5rem 0;
-                font-size: 1.2rem;
-                font-weight: 500;
-                font-family: 'Times New Roman', Times, serif;
+                gap: 1rem;
 
-                div {
+                .flex_left {
+                    flex: 1 1 8rem;
+                    border-right: 0.2rem solid #333;
+                    width: 100%;
                     text-align: center;
-                    color: #333;
-                    flex: 1 1 16rem;
-                    line-height: 1.4;
-                    padding: 1rem 0;
-                    font-size: 2rem;
-                    font-weight: 600;
-                    text-transform: uppercase;
+                    padding-right: 1rem;
+
+                    .at {
+                        display: block;
+                        color: #333;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-size: 1.65rem;
+                        border-bottom: .1rem dashed #dbdbdb;
+                        padding-bottom: 1rem;
+                    }
+
+                    .dateBox {
+                        display: block;
+                        align-items: center;
+                        justify-content: space-around;
+                        margin: 1rem 0;
+                        font-size: 1.2rem;
+                        font-weight: 500;
+                        font-family: 'Times New Roman', Times, serif;
+
+                        div {
+                            color: #333;
+                            flex: 1 1 16rem;
+                            line-height: 1.4;
+                            padding-bottom: 1rem;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            font-size: 2rem;
+                        }
+
+                        strong {
+                            font-size: 2rem;
+                        }
+
+                        .day,
+                        .month {
+                            display: block;
+                            align-items: center;
+                            justify-content: space-around;
+                            margin: 1rem 0;
+                            font-weight: 500;
+                            font-family: 'Times New Roman', Times, serif;
+
+                            strong {
+                                font-size: 5rem;
+                            }
+                        }
+                    }
+
+                    .year {
+                        font-size: 5rem;
+                        line-height: 1.4;
+                        font-family: 'Times New Roman', Times, serif;
+                        color: #333;
+                        margin-bottom: 0;
+                        margin-top: 1rem;
+                    }
                 }
 
-                strong {
-                    font-size: 2rem;
-                }
+                .flex_right {
+                    flex: 2 1 40rem;
+                    text-align: start;
+                    padding-right: .5rem;
 
-                .day {
-                    border-left: 0.1rem solid #333;
-                    border-right: 0.1rem solid #333;
-                }
-            }
+                    .address_groom,
+                    .address_bride {
+                        display: block;
+                        color: #333;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-size: 1.7rem;
+                        border-bottom: .1rem dashed #dbdbdb;
+                        padding-bottom: 2rem;
+                        text-transform: uppercase;
 
-            .year {
-                font-size: 2.3rem;
-                line-height: 1.4;
-                font-family: 'Times New Roman', Times, serif;
-                color: #333;
-                margin-bottom: 0;
-                margin-top: 1rem;
+                        p {
+                            font-size: 2rem;
+                            line-height: 1.8;
+                            color: #555;
+                            position: relative;
+                            padding-left: 2rem;
+                            text-transform: none;
+
+                            &::before {
+                                content: "➤";
+                                position: absolute;
+                                left: 0;
+                                top: 1rem;
+                                color: #333;
+                                font-size: 1.2rem;
+                                line-height: 1.8;
+                            }
+                        }
+
+                        .btn_location {
+                            padding: .7rem 1rem;
+                            background: #640606;
+                            color: #fff;
+                            font-size: 1.3rem;
+                            font-family: 'Poppins', sans-serif;
+                            border-radius: .5rem;
+                        }
+                    }
+                }
             }
 
             .lunarDay {
@@ -228,6 +302,29 @@
                     }
                 }
             }
+
+            .info_family {
+                .address_groom,
+                .address_bride {
+                    font-size: 1.5rem !important;
+                    padding-bottom: 1.5rem;
+
+                    p {
+                        font-size: 1.8rem !important;
+                        padding-left: 1.8rem;
+
+                        &::before {
+                            top: 0.5rem !important;
+                            font-size: 1.1rem !important;
+                        }
+                    }
+
+                    .btn_location {
+                        padding: 0.6rem 2rem;
+                        font-size: 1.3rem !important;
+                    }
+                }
+            }
         }
     }
 }
@@ -242,7 +339,7 @@
                     }
 
                     .names {
-                        font-size: 3rem !important; 
+                        font-size: 3rem !important;
                     }
 
                     .dateTime {
@@ -271,6 +368,10 @@
                         text-transform: capitalize;
                         font-family: 'Times New Roman', Times, serif;
                     }
+
+                    .address {
+                        font-size: 1.5rem;
+                    }
                 }
             }
 
@@ -280,6 +381,30 @@
                 line-height: 1.4;
                 font-family: 'Allura', cursive;
                 color: #333;
+            }
+
+            .address_groom,
+            .address_bride {
+                font-size: 1.3rem;
+                padding-bottom: 1rem;
+                text-transform: none;
+
+                p {
+                    font-size: 1.6rem !important;
+                    padding-left: 1.5rem;
+
+                    &::before {
+                        top: 0.6rem;
+                        font-size: 1rem;
+                    }
+                }
+
+                .btn_location {
+                    padding: 0.5rem 1.5rem;
+                    font-size: 1.1rem !important;
+                    width: fit-content;
+                    margin: 0 auto;
+                }
             }
         }
     }

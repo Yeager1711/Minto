@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './6.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 function Template6() {
     return (
@@ -23,39 +25,62 @@ function Template6() {
                             <span>Nhà trai</span>
                             <h3>Ông: Nguyễn văn A</h3>
                             <h3>Bà: Trần Thị B</h3>
+                            <p className={styles.address}>Trung Tâm Hội Nghị - Tiệc Cưới Diamond Place</p>
                         </div>
                         <div className={styles.representative_house}>
                             <span>Nhà gái</span>
                             <h3>Ông: Lê văn C</h3>
                             <h3>Bà: Phạm thị D</h3>
+                            <p className={styles.address}>Trung Tâm Hội Nghị - Tiệc Cưới Diamond Place</p>
                         </div>
                     </div>
 
                     <p className={styles.text}>
-                        Trân Trọng kính mời Quý Khách tới tham dự
+                        Trân Trọng kính mời Quý Khách
                         <br />
-                        Lễ Thành Hôn của hai con chúng tôi
+                        Đến dự Lễ Thành Hôn của hai con chúng tôi
                     </p>
 
-                    <p className={styles.at}>Vào lúc 10:00</p>
-                    <div className={styles.dateBox}>
-                        <div>
-                            Thứ <br />
-                            Ba
+                    <div className={styles.flex}>
+                        <div className={styles.flex_left}>
+                            <p className={styles.at}>Lúc 10:00</p>
+                            <div className={styles.dateBox}>
+                                <div>Thứ Ba</div>
+                                <div className={styles.day}>
+                                    <strong>28</strong>
+                                </div>
+                                <div className={styles.month}>
+                                    <strong>28</strong>
+                                </div>
+                            </div>
+                            <p className={styles.year}>
+                                <strong>2025</strong>
+                            </p>
                         </div>
-                        <div className={styles.day}>
-                            NGÀY
-                            <br />
-                            <strong>28</strong>
-                        </div>
-                        <div>
-                            THÁNG
-                            <br />
-                            08
+
+                        <div className={styles.flex_right}>
+                            <div className={styles.address_groom}>
+                                <h3>Địa chỉ nhà Trai</h3>
+                                <p>Trung Tâm Hội Nghị - Tiệc Cưới Diamond Place</p>
+
+                                <button className={styles.btn_location}>
+                                    {' '}
+                                    <FontAwesomeIcon icon={faLocationDot} /> Chỉ đường địa điểm tổ chức
+                                </button>
+                            </div>
+
+                            <div className={styles.address_bride}>
+                                <h3>Địa chỉ nhà Trai</h3>
+                                <p>Trung Tâm Hội Nghị - Tiệc Cưới Diamond Place</p>
+
+                                <button className={styles.btn_location}>
+                                    {' '}
+                                    <FontAwesomeIcon icon={faLocationDot} /> Chỉ đường địa điểm tổ chức
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <p className={styles.year}>Năm 2025</p>
-                    <p className={styles.lunarDay}>Tức 17 tháng 11 năm ất tỵ </p>
+                    <p className={styles.lunarDay}>(Tức 17 tháng 11 năm ất tỵ )</p>
                     <p className={styles.note}>Rất hân hạnh được đón tiếp!</p>
                 </div>
             </div>
