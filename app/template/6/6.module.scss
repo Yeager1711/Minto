@@ -1,0 +1,286 @@
+.template6 {
+    background-image: url('../../../public/images/m6/paper_bg.png');
+
+    .wrapper {
+        overflow: hidden;
+        max-width: 80rem;
+        width: 100%;
+        margin: 0 auto;
+        min-height: 97vh;
+        background-image: url('../../../public/images/m6/paper_bg.png');
+        position: relative;
+
+        .mainImage {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            border: none;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+            }
+
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to top,
+                        rgba(0, 0, 0, 1) 0%,
+                        rgba(0, 0, 0, 0.7) 10%,
+                        rgba(0, 0, 0, 0.4) 20%,
+                        rgba(0, 0, 0, 0.1) 30%,
+                        rgba(0, 0, 0, 0) 40%);
+                z-index: 2;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+
+            }
+
+            .content {
+                position: absolute;
+                bottom: 10%;
+                left: 50%;
+                transform: translate(-50%, -10%);
+                padding: 2rem 1rem;
+                color: #fff;
+                max-width: 80rem;
+                width: 100%;
+                margin: auto;
+                text-align: center;
+
+
+                .saveTheDate {
+                    font-size: 11rem;
+                    font-weight: 700;
+                    font-family: 'Great Vibes', cursive;
+                    margin-bottom: 0.5rem;
+                    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+                    color: #e0b96f;
+                }
+
+                .weddingOf {
+                    font-size: 1.5rem;
+                    font-weight: 300;
+                    text-transform: uppercase;
+                    margin-bottom: 0.5rem;
+                    letter-spacing: 2px;
+                }
+
+                .names {
+                    font-size: 4.5rem;
+                    font-weight: 600;
+                    margin-bottom: 1rem;
+                    color: #e0b96f;
+                    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+                    text-transform: capitalize;
+                    font-family: 'Allura', cursive, sans-serif;
+                    font-weight: 400;
+                }
+
+                .dateTime {
+                    font-size: 1.5rem;
+                    font-weight: 400;
+                    margin-bottom: 0.5rem;
+                    color: #fff;
+                    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+                }
+
+                .location {
+                    font-size: 1rem;
+                    font-weight: 300;
+                    color: #fff;
+                    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+                }
+            }
+        }
+
+        .info_family {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            text-align: center;
+
+            .flex_representative {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+
+                .representative_house {
+                    flex: 1 1;
+
+                    span {
+                        text-transform: capitalize;
+                        font-size: 1.5rem;
+                    }
+
+                    h3 {
+                        font-size: 2.5rem;
+                        font-weight: 450;
+                        text-transform: capitalize;
+                        font-family: 'Times New Roman', Times, serif;
+                    }
+                }
+            }
+
+            .text {
+                margin: 1.5rem 0;
+                font-size: 3.2rem;
+                line-height: 1.4;
+                font-family: 'Allura', cursive;
+                color: #333;
+            }
+
+            .at {
+                color: #333;
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 1.8rem;
+            }
+
+            .dateBox {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                margin: 1.5rem 0;
+                font-size: 1.2rem;
+                font-weight: 500;
+                font-family: 'Times New Roman', Times, serif;
+
+                div {
+                    text-align: center;
+                    color: #333;
+                    flex: 1 1 16rem;
+                    line-height: 1.4;
+                    padding: 1rem 0;
+                    font-size: 2rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+
+                strong {
+                    font-size: 2rem;
+                }
+
+                .day {
+                    border-left: 0.1rem solid #333;
+                    border-right: 0.1rem solid #333;
+                }
+            }
+
+            .year {
+                font-size: 2.3rem;
+                line-height: 1.4;
+                font-family: 'Times New Roman', Times, serif;
+                color: #333;
+                margin-bottom: 0;
+                margin-top: 1rem;
+            }
+
+            .lunarDay {
+                font-size: 2rem;
+                line-height: 1.4;
+                font-family: 'Times New Roman', Times, serif;
+                color: #333;
+                margin: 1rem auto 0 auto;
+                text-transform: capitalize;
+            }
+
+            .note {
+                font-size: 2.3rem;
+                line-height: 1.4;
+                font-family: 'Allura', cursive;
+                color: #333;
+                margin: 1rem auto 0 auto;
+            }
+        }
+    }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .template6 {
+        .wrapper {
+            .mainImage {
+                .overlay {
+                    .content {
+                        padding: 1rem;
+
+                        .saveTheDate {
+                            font-size: 10rem;
+                        }
+
+                        .names {
+                            font-size: 4rem;
+                        }
+
+                        .dateTime {
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .wrapper {
+        .mainImage {
+            .overlay {
+                .content {
+                    .saveTheDate {
+                        font-size: 6.5rem !important;
+                    }
+
+                    .names {
+                        font-size: 3rem !important; 
+                    }
+
+                    .dateTime {
+                        font-size: 1rem;
+                    }
+
+                    .location {
+                        font-size: 0.9rem;
+                    }
+                }
+            }
+        }
+
+        .info_family {
+            .flex_representative {
+                .representative_house {
+
+                    span {
+                        text-transform: capitalize;
+                        font-size: 1.5rem;
+                    }
+
+                    h3 {
+                        font-size: 1.8rem !important;
+                        font-weight: 450;
+                        text-transform: capitalize;
+                        font-family: 'Times New Roman', Times, serif;
+                    }
+                }
+            }
+
+            .text {
+                margin: 1.5rem 0;
+                font-size: 2.2rem !important;
+                line-height: 1.4;
+                font-family: 'Allura', cursive;
+                color: #333;
+            }
+        }
+    }
+}

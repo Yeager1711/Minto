@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import Notifications from './Notifications/Notifications';
 import FeatureCard from './func/FeatureCard/page';
-import SupportError from 'app/SupportError/SupportError';
+import SupportError from 'app/feedback/SupportError/SupportError';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';

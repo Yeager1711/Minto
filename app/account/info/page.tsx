@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './account_info.module.scss';
 import { useApi } from 'app/lib/apiContext/apiContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQrcode, faCopy } from '@fortawesome/free-solid-svg-icons';
 import QRPopupCreated from '../../popup/QR_created/QR_created';
+import UserFeedback from 'app/feedback/userFeedback/userFeedBack';
 
 interface UserProfile {
     user_id: number;
@@ -75,11 +76,11 @@ function AccountInfo() {
         useApi();
     const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState<string>('');
-    const [isLoading, setIsLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedFullName, setEditedFullName] = useState('');
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [editedFullName, setEditedFullName] = useState<string>('');
     const [templates, setTemplates] = useState<Template[]>([]);
-    const [showGuestsModal, setShowGuestsModal] = useState(false);
+    const [showGuestsModal, setShowGuestsModal] = useState<boolean>(false);
     const [selectedGuests, setSelectedGuests] = useState<{
         guests: Guest[];
         templateName: string;
@@ -88,13 +89,16 @@ function AccountInfo() {
         paymentAmount?: string;
         paymentDate?: string;
     } | null>(null);
-    const [showQrPopup, setShowQrPopup] = useState(false);
+    const [showQrPopup, setShowQrPopup] = useState<boolean>(false);
     const [qrData, setQrData] = useState<QrResponse[] | null>(null);
     const [banks, setBanks] = useState<Bank[]>([]);
+    const [showFeedback, setShowFeedback] = useState<boolean>(false);
+    const [templateId, setTemplateId] = useState<number | null>(null);
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
-    const [isEligibleForDiscount, setIsEligibleForDiscount] = useState(false);
+    const [isEligibleForDiscount, setIsEligibleForDiscount] = useState<boolean>(false);
     const [discountEndDate, setDiscountEndDate] = useState<Date | null>(null);
     const [timeLeft, setTimeLeft] = useState<string>('');
 
@@ -104,7 +108,7 @@ function AccountInfo() {
             return;
         }
 
-        const fetchData = async () => {
+        const fetchData = async (): Promise<void> => {
             setIsLoading(true);
             try {
                 const [userData, templateData, bankData] = await Promise.all([
@@ -115,7 +119,7 @@ function AccountInfo() {
                 setUser(userData);
                 setEditedFullName(userData.full_name);
                 setError('');
-                const formattedTemplates = templateData.map((item: Template) => ({
+                const formattedTemplates: Template[] = templateData.map((item: Template) => ({
                     card_id: item.card_id,
                     template: {
                         template_id: item.template.template_id,
@@ -126,13 +130,13 @@ function AccountInfo() {
                         guests: item.template.guests,
                     },
                 }));
-                const uniqueTemplates = formattedTemplates.reduce((acc, current) => {
+                const uniqueTemplates: Template[] = formattedTemplates.reduce((acc: Template[], current: Template) => {
                     const existing = acc.find((item) => item.template.template_id === current.template.template_id);
                     if (!existing) {
                         acc.push(current);
                     }
                     return acc;
-                }, [] as Template[]);
+                }, []);
                 setTemplates(uniqueTemplates);
                 if (bankData.code === '00' && Array.isArray(bankData.data)) {
                     setBanks(bankData.data);
@@ -147,7 +151,7 @@ function AccountInfo() {
                 if (discountResponse.isEligible && userData.created_at) {
                     const eligibilityEndDate = new Date(userData.created_at);
                     eligibilityEndDate.setDate(eligibilityEndDate.getDate() + 7);
-                    const now = new Date(); // 01:02 PM +07, June 23, 2025
+                    const now = new Date(); // 01:37 PM +07, June 27, 2025
                     if (eligibilityEndDate > now) {
                         setDiscountEndDate(eligibilityEndDate);
                     } else {
@@ -170,9 +174,18 @@ function AccountInfo() {
     }, [accessToken, getUserProfile, getUserTemplates, router, checkDiscountEligibility]);
 
     useEffect(() => {
+        const templateIdFromQuery: string | null = searchParams.get('templateId');
+        const feedbackFromQuery: string | null = searchParams.get('feedback');
+        if (templateIdFromQuery && feedbackFromQuery === 'true') {
+            setTemplateId(Number(templateIdFromQuery));
+            setShowFeedback(true);
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
         let timer: NodeJS.Timeout;
         if (discountEndDate && isEligibleForDiscount) {
-            const calculateTimeLeft = () => {
+            const calculateTimeLeft = (): void => {
                 const now = new Date();
                 const difference = discountEndDate.getTime() - now.getTime();
 
@@ -197,8 +210,8 @@ function AccountInfo() {
         }
     }, [discountEndDate, isEligibleForDiscount]);
 
-    const handleEdit = () => setIsEditing(true);
-    const handleSave = async () => {
+    const handleEdit = (): void => setIsEditing(true);
+    const handleSave = async (): Promise<void> => {
         try {
             const updatedUser = await updateUserName(editedFullName);
             setUser(updatedUser);
@@ -219,17 +232,17 @@ function AccountInfo() {
         price: string,
         paymentAmount?: string,
         paymentDate?: string
-    ) => {
+    ): void => {
         setSelectedGuests({ guests, templateName, template_id, price, paymentAmount, paymentDate });
         setShowGuestsModal(true);
     };
 
-    const handleCloseGuestsModal = () => {
+    const handleCloseGuestsModal = (): void => {
         setShowGuestsModal(false);
         setSelectedGuests(null);
     };
 
-    const handleShowQrPopup = async () => {
+    const handleShowQrPopup = async (): Promise<void> => {
         try {
             const qrList = await getUserQr();
             if (qrList.length > 0) {
@@ -251,19 +264,19 @@ function AccountInfo() {
         }
     };
 
-    const handleCloseQrPopup = () => {
+    const handleCloseQrPopup = (): void => {
         setShowQrPopup(false);
         setQrData(null);
     };
 
-    const exportGuestLinks = () => {
+    const exportGuestLinks = (): void => {
         if (!selectedGuests || !selectedGuests.guests.length) {
             setError('Không có khách mời để xuất file.');
             return;
         }
 
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
-        const links = selectedGuests.guests
+        const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL || '';
+        const links: string = selectedGuests.guests
             .map(
                 (guest) =>
                     `${guest.full_name}: ${baseUrl}template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`
@@ -279,7 +292,7 @@ function AccountInfo() {
         window.URL.revokeObjectURL(url);
     };
 
-    const copyToClipboard = (text: string) => {
+    const copyToClipboard = (text: string): void => {
         navigator.clipboard
             .writeText(text)
             .then(() => {
@@ -336,7 +349,9 @@ function AccountInfo() {
                                                 <input
                                                     type="text"
                                                     value={editedFullName}
-                                                    onChange={(e) => setEditedFullName(e.target.value)}
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                                        setEditedFullName(e.target.value)
+                                                    }
                                                     className={styles.input}
                                                 />
                                             ) : (
@@ -373,7 +388,7 @@ function AccountInfo() {
                                             </span>
                                         </div>
                                     </div>
-                                  
+
                                     <div className={styles.isEligibleForDiscount}>
                                         <div className={styles.box_flex}>
                                             <h4>Ưu đãi khi lần đầu sử dụng: </h4>
@@ -412,7 +427,9 @@ function AccountInfo() {
                                                 <img
                                                     src={template.template.image_url}
                                                     alt={template.template.name}
-                                                    onError={(e) => (e.currentTarget.src = '/placeholder.png')}
+                                                    onError={(e: React.SyntheticEvent<HTMLImageElement>) =>
+                                                        (e.currentTarget.src = '/placeholder.png')
+                                                    }
                                                 />
                                             </div>
                                         </div>
@@ -460,9 +477,7 @@ function AccountInfo() {
                                             </td>
                                             <td data-label="Số tiền thanh toán">
                                                 {template.template.payments[0]?.amount
-                                                    ? `${parseFloat(
-                                                          template.template.payments[0].amount
-                                                      ).toLocaleString('vi-VN')} VNĐ`
+                                                    ? `${parseFloat(template.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
                                                     : 'Chưa có'}
                                             </td>
                                             <td data-label="Ngày thanh toán">
@@ -586,7 +601,7 @@ function AccountInfo() {
                                     </thead>
                                     <tbody>
                                         {selectedGuests.guests.map((guest) => {
-                                            const link = `${
+                                            const link: string = `${
                                                 process.env.NEXT_PUBLIC_BASE_URL || ''
                                             }/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`;
                                             return (
@@ -623,6 +638,7 @@ function AccountInfo() {
                 </div>
             )}
             <QRPopupCreated isOpen={showQrPopup} onClose={handleCloseQrPopup} qrData={qrData} banks={banks} />
+            {showFeedback && templateId && user && <UserFeedback templateId={templateId} />}
         </div>
     );
 }

@@ -4,42 +4,62 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import styles from './success.module.css';
 import { showToastSuccess } from 'app/Ultils/toast';
 
+interface WeddingData {
+    groom?: string;
+    bride?: string;
+    weddingDate?: string;
+    groomAddress?: string;
+    brideAddress?: string;
+    lunarDay?: string;
+    [key: string]: unknown;
+}
+
+interface WeddingImage {
+    url?: string;
+}
+
+interface SaveCardResponse {
+    message?: string;
+}
+
 const SuccessPage: React.FC = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [isCompleted, setIsCompleted] = useState(false);
+    const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
-    const templateId = pathname.split('/').pop();
-    console.log('templateId', templateId);
+    const templateId: string | undefined = pathname.split('/').pop();
 
-    const handleComplete = async () => {
+    const handleComplete = async (): Promise<void> => {
+        if (!templateId) {
+            setError('Template ID không hợp lệ.');
+            setIsLoading(false);
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
 
-        const orderCode = searchParams.get('orderCode');
-        const status = searchParams.get('status');
-        const id = searchParams.get('id');
+        const orderCode: string | null = searchParams.get('orderCode');
+        const status: string | null = searchParams.get('status');
+        const id: string | null = searchParams.get('id');
 
-        // Kiểm tra dữ liệu cần thiết
         if (status !== 'PAID' || !orderCode || !id || !templateId) {
             setError('Thông tin thanh toán hoặc template không hợp lệ.');
             setIsLoading(false);
             return;
         }
 
-        // Lấy dữ liệu từ localStorage dựa trên id (không phải templateId)
-        const weddingData = JSON.parse(localStorage.getItem(`WeddingData${templateId}`) || '{}');
-        const imagesRaw = localStorage.getItem(`weddingImages${templateId}`);
-        const weddingImages = imagesRaw ? JSON.parse(imagesRaw) : [];
+        const weddingData: WeddingData = JSON.parse(localStorage.getItem(`WeddingData${templateId}`) || '{}');
+        const imagesRaw: string | null = localStorage.getItem(`weddingImages${templateId}`);
+        const weddingImages: WeddingImage[] = imagesRaw ? JSON.parse(imagesRaw) : [];
 
         console.log('weddingData', weddingData);
         console.log('imagesRaw', imagesRaw);
         console.log('weddingImages', weddingImages);
 
-        // Kiểm tra dữ liệu từ localStorage
         if (
             !weddingData.groom ||
             !weddingData.bride ||
@@ -62,12 +82,11 @@ const SuccessPage: React.FC = () => {
         }
 
         try {
-            const token = localStorage.getItem('accessToken');
+            const token: string | null = localStorage.getItem('accessToken');
             if (!token) {
                 throw new Error('Không tìm thấy token. Vui lòng đăng nhập lại.');
             }
 
-            // Gọi API save-card với orderCode
             const response = await fetch(`${process.env.NEXT_PUBLIC_APP_API_BASE_URL}/cards/save-card`, {
                 method: 'POST',
                 headers: {
@@ -81,7 +100,7 @@ const SuccessPage: React.FC = () => {
                 }),
             });
 
-            const result = await response.json();
+            const result: SaveCardResponse = await response.json();
             if (!response.ok) {
                 throw new Error(result.message || 'Lỗi khi lưu thiệp.');
             }
@@ -89,7 +108,7 @@ const SuccessPage: React.FC = () => {
             setIsCompleted(true);
             setIsLoading(false);
             showToastSuccess('Lưu thiệp thành công!');
-            router.push('/account/info');
+            router.push(`/account/info?templateId=${templateId}&feedback=true`);
         } catch (err) {
             console.error('Lỗi khi lưu thiệp:', err);
             setError('Không tìm thấy đơn hàng đã thanh toán');
@@ -114,7 +133,10 @@ const SuccessPage: React.FC = () => {
             ) : (
                 <div className={styles.success}>
                     <h2>Thanh toán thành công!</h2>
-                    <p>Cảm ơn bạn đã thanh toán. Vui lòng nhấn nút dưới đây để hoàn thành việc lưu thiệp cưới.</p>
+                    <p>
+                        Cảm ơn bạn đã thanh toán. Vui lòng nhấn nút <strong>Hoàn Thành</strong> để hoàn thành việc lưu
+                        thiệp cưới.
+                    </p>
                     <button className={styles.completeButton} onClick={handleComplete} disabled={isLoading}>
                         {isLoading ? 'Đang lưu...' : 'Hoàn thành'}
                     </button>
