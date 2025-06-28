@@ -3,6 +3,9 @@
 
 .mau_2_container {
     background: #fff;
+    position: relative;
+    max-width: 80rem;
+    margin: auto;
 
     .intro {
         position: fixed;
@@ -33,7 +36,7 @@
 
         .card_cover {
             position: relative;
-            max-width: 100rem;
+            max-width: 80rem;
             margin: auto;
             width: 100%;
             height: 100vh;
@@ -317,7 +320,7 @@
 
     .mau_2 {
         overflow: hidden;
-        max-width: 100rem;
+        max-width: 80rem;
         width: 100%;
         margin: 0 auto;
         background: #fdf9f3;
@@ -1311,7 +1314,7 @@
 
             .gallery_container {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(45rem, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
                 gap: 1.5rem;
                 align-items: start;
             }

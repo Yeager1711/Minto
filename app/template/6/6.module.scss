@@ -35,9 +35,9 @@
                 height: 100%;
                 background: linear-gradient(to top,
                         rgba(0, 0, 0, 1) 0%,
-                        rgba(0, 0, 0, 0.7) 10%,
-                        rgba(0, 0, 0, 0.4) 20%,
-                        rgba(0, 0, 0, 0.1) 30%,
+                        rgba(0, 0, 0, 0.9) 10%,
+                        rgba(0, 0, 0, 0.8) 20%,
+                        rgba(0, 0, 0, 0.4) 30%,
                         rgba(0, 0, 0, 0) 40%);
                 z-index: 2;
                 display: flex;
@@ -55,7 +55,7 @@
                 padding: 2rem 1rem;
                 color: #fff;
                 max-width: 80rem;
-                width: 100%;
+                width: 95%;
                 margin: auto;
                 text-align: center;
 
@@ -84,8 +84,22 @@
                     color: #e0b96f;
                     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
                     text-transform: capitalize;
-                    font-family: 'Allura', cursive, sans-serif;
+                    font-family: "Pinyon Script", cursive;
+                    width: 100%;
                     font-weight: 400;
+                    display: flex;
+
+                    .names_flex {
+                        gap: .5rem;
+                        text-align: center;
+                        display: flex;
+                        margin: auto;
+
+                        .and {
+                            font-family: 'Allura', cursive;
+                            margin: .5rem .8rem;
+                        }
+                    }
                 }
 
                 .dateTime {
@@ -106,14 +120,14 @@
         }
 
         .info_family {
-            min-height: 100vh;
             padding: 4rem .5rem;
             text-align: center;
+            overflow: hidden;
 
             .flex_representative {
                 display: flex;
                 align-items: center;
-                gap: 1.5rem;
+                gap: .5rem;
 
                 .representative_house {
                     flex: 1 1;
@@ -130,8 +144,35 @@
                         font-family: 'Times New Roman', Times, serif;
                     }
 
-                    .address {
-                        font-size: 1.4rem !important;
+                }
+            }
+
+            .name_groom__bride {
+                width: 95%;
+                padding: 2rem 1rem;
+
+                .groom_name {
+                    font-size: 8.8rem;
+                    font-family: "Pinyon Script", cursive;
+                    font-weight: 400;
+                    color: #640606;
+                }
+
+                .bride_name {
+                    font-size: 8.8rem;
+                    font-family: "Pinyon Script", cursive;
+                    font-weight: 400;
+                    color: #640606;
+                }
+
+                .image_happy {
+                    max-width: 6rem;
+                    margin: 1rem auto;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
                     }
                 }
             }
@@ -147,14 +188,14 @@
             .flex {
                 display: flex;
                 align-items: center;
-                gap: 1rem;
+                gap: 2rem;
 
                 .flex_left {
-                    flex: 1 1 8rem;
+                    flex: 1 1 12rem;
                     border-right: 0.2rem solid #333;
                     width: 100%;
                     text-align: center;
-                    padding-right: 1rem;
+                    padding: 0 1rem 0 1rem;
 
                     .at {
                         display: block;
@@ -260,20 +301,226 @@
             }
 
             .lunarDay {
-                font-size: 2rem;
+                font-size: 2.2rem;
                 line-height: 1.4;
                 font-family: 'Times New Roman', Times, serif;
                 color: #333;
                 margin: 1rem auto 0 auto;
-                text-transform: capitalize;
+                text-transform: uppercase;
+                padding-top: 1rem;
             }
 
             .note {
-                font-size: 2.3rem;
+                font-size: 3.2rem;
                 line-height: 1.4;
                 font-family: 'Allura', cursive;
                 color: #333;
-                margin: 1rem auto 0 auto;
+                margin: .5rem auto 0 auto;
+            }
+        }
+
+        .flex_photo {
+            display: flex;
+            gap: 1rem;
+            padding: 2rem 1rem 4rem 1rem;
+
+            .box_photo {
+                flex: 1 1 8rem;
+                border-radius: 1rem;
+                overflow: hidden;
+
+                &:nth-child(2) {
+                    margin-top: 2.5rem;
+                    margin-bottom: -2.5rem;
+                }
+
+                img {
+                    width: 100%;
+                    height: 45rem;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        .love_story {
+            text-align: center;
+
+            .title {
+                max-width: 50rem;
+                margin: auto;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .groom {
+                width: 93%;
+                padding: 1.5rem;
+                margin-top: 1rem;
+                display: flex;
+                flex-wrap: wrap;
+
+                .wrapper_groom {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    margin: auto;
+
+                    .image_groom {
+                        flex: 1 1 48rem;
+                        width: 100%;
+                        max-width: 50rem;
+                        margin: 0 auto;
+                        position: relative;
+                        margin-left: -2rem;
+
+                        img {
+                            width: 100%;
+                            height: auto; // hoặc đặt chiều cao cụ thể như 600px
+                            object-fit: cover;
+                            display: block;
+                            mask-image: url('../../../public/images/m6/vector2.svg');
+                            -webkit-mask-image: url('../../../public/images/m6/vector2.svg');
+                            mask-size: cover;
+                            -webkit-mask-size: cover;
+                            mask-repeat: no-repeat;
+                            -webkit-mask-repeat: no-repeat;
+                            mask-position: center;
+                            -webkit-mask-position: center;
+                            border-radius: 1rem;
+                            border: none;
+                        }
+                    }
+
+
+                    .groom_name__story {
+                        border-bottom: 0.1rem solid #dbdbdb;
+                        flex: 1 1 32rem;
+                        width: 20rem;
+
+                        p {
+                            width: 100%;
+                            font-size: 2.85rem;
+                            font-family: 'Times New Roman', Times, serif;
+                            text-align: left;
+                            text-transform: capitalize;
+                            margin: 0;
+                            font-weight: 450;
+                        }
+
+                        h3 {
+                            font-size: 4.9rem;
+                            font-family: 'Allura', cursive;
+                            color: #333;
+                            font-weight: 400;
+                            text-transform: capitalize;
+                            width: 100%;
+                            text-align: left;
+                            margin: 1rem 0 0 0;
+                        }
+                    }
+                }
+
+                .groom_str {
+                    max-width: 65rem;
+                    width: 95%;
+                    margin: auto;
+                    text-align: center;
+
+                    p {
+                        font-size: 2rem;
+                        line-height: 1.5;
+                        font-family: 'Allura', cursive;
+                        color: #333;
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            .bride {
+                width: 93%;
+                padding: 1.5rem;
+                margin-top: 3rem;
+                display: flex;
+                flex-wrap: wrap;
+
+                .wrapper_bride {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    margin: auto;
+
+                    .image_bride {
+                        flex: 1 1 48rem;
+                        width: 100%;
+                        max-width: 50rem;
+                        margin: 0 auto;
+                        position: relative;
+                        margin-right: -2rem;
+
+                        img {
+                            width: 100%;
+                            height: auto; // hoặc đặt chiều cao cụ thể như 600px
+                            object-fit: cover;
+                            display: block;
+                            mask-image: url('../../../public/images/m6/vector2.svg');
+                            -webkit-mask-image: url('../../../public/images/m6/vector2.svg');
+                            mask-size: cover;
+                            -webkit-mask-size: cover;
+                            mask-repeat: no-repeat;
+                            -webkit-mask-repeat: no-repeat;
+                            mask-position: center;
+                            -webkit-mask-position: center;
+                            border-radius: 1rem;
+                            border: none;
+                        }
+                    }
+
+                    .bride_name__story {
+                        flex: 1 1 32rem;
+                        width: 20rem;
+                        border-bottom: 0.1rem solid #dbdbdb;
+
+                        p {
+                            width: 100%;
+                            font-size: 2.85rem;
+                            font-family: 'Times New Roman', Times, serif;
+                            text-align: right;
+                            text-transform: capitalize;
+                            margin: 0;
+                            font-weight: 450;
+                        }
+
+                        h3 {
+                            font-size: 4.9rem;
+                            font-family: 'Allura', cursive;
+                            color: #333;
+                            font-weight: 400;
+                            text-transform: capitalize;
+                            width: 100%;
+                            text-align: right;
+                            margin: 1rem 0 0 0;
+                        }
+                    }
+                }
+
+                .bride_str {
+                    max-width: 65rem;
+                    width: 95%;
+                    margin: auto;
+                    text-align: center;
+
+                    p {
+                        font-size: 2rem;
+                        line-height: 1.5;
+                        font-family: 'Allura', cursive;
+                        color: #333;
+                        font-weight: 600;
+                    }
+                }
             }
         }
     }
@@ -304,6 +551,7 @@
             }
 
             .info_family {
+
                 .address_groom,
                 .address_bride {
                     font-size: 1.5rem !important;
@@ -323,6 +571,30 @@
                         padding: 0.6rem 2rem;
                         font-size: 1.3rem !important;
                     }
+                }
+            }
+
+            .flex_photo {
+                .box_photo {
+                    img {
+                        width: 100%;
+                        height: 35rem;
+                        object-fit: cover;
+                    }
+                }
+            }
+
+            .love_story {
+                text-align: center;
+
+                .title {
+                    max-width: 35rem;
+
+                }
+
+                .groom_name__story h3,
+                .bride_name__story h3 {
+                    font-size: 4.9rem;
                 }
             }
         }
@@ -375,6 +647,53 @@
                 }
             }
 
+            .name_groom__bride {
+                width: 89%;
+                padding: 2rem;
+
+                .groom_name {
+                    font-size: 6.5rem !important;
+                    font-family: "Pinyon Script", cursive;
+                    font-weight: 400;
+                    color: #640606;
+                }
+
+                .bride_name {
+                    font-size: 6.5rem !important;
+                    font-family: "Pinyon Script", cursive;
+                    font-weight: 400;
+                    color: #640606;
+                }
+
+                .image_happy {
+                    max-width: 8rem;
+                    margin: 1rem auto;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+
+            .lunarDay {
+                font-size: 1.7rem !important;
+                line-height: 1.4;
+                font-family: 'Times New Roman', Times, serif;
+                color: #333;
+                margin: 1rem auto 0 auto;
+                text-transform: uppercase;
+            }
+
+            .note {
+                font-size: 2.5rem !important;
+                line-height: 1.4;
+                font-family: 'Allura', cursive;
+                color: #333;
+                margin: 1rem auto 0 auto;
+            }
+
             .text {
                 margin: 1.5rem 0;
                 font-size: 2.2rem !important;
@@ -405,6 +724,30 @@
                     width: fit-content;
                     margin: 0 auto;
                 }
+            }
+        }
+
+        .flex_photo {
+            .box_photo {
+                img {
+                    width: 100%;
+                    height: 25rem !important;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        .love_story {
+            text-align: center;
+
+            .title {
+                max-width: 25rem !important;
+
+            }
+
+            .groom_name__story h3,
+            .bride_name__story h3 {
+                font-size: 3rem !important;
             }
         }
     }

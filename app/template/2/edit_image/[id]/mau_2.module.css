@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400..700&family=Della+Respira&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Mr+Dafoe&family=Playwrite+AU+SA:wght@100..400&display=swap");
 .mau_2_container {
   background: #fff;
+  position: relative;
+  max-width: 80rem;
+  margin: auto;
 }
 .mau_2_container .intro {
   position: fixed;
@@ -28,7 +31,7 @@
 }
 .mau_2_container .intro .card_cover {
   position: relative;
-  max-width: 100rem;
+  max-width: 80rem;
   margin: auto;
   width: 100%;
   height: 100vh;
@@ -274,7 +277,7 @@
 }
 .mau_2_container .mau_2 {
   overflow: hidden;
-  max-width: 100rem;
+  max-width: 80rem;
   width: 100%;
   margin: 0 auto;
   background: #fdf9f3;
@@ -1353,7 +1356,7 @@
 }
 .mau_2_container .mau_2 .photo_gallery .gallery_container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(45rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
   gap: 1.5rem;
   align-items: start;
 }
