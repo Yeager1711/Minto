@@ -1043,7 +1043,7 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  max-width: 95rem;
+  max-width: 75rem;
   width: 88%;
   background-image: url("../../../public/images/m5/paper_bg.png");
   border-radius: 1rem;

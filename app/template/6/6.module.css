@@ -134,11 +134,13 @@
   font-family: "Pinyon Script", cursive;
   font-weight: 400;
   color: #640606;
+  text-transform: capitalize;
 }
 .template6 .wrapper .info_family .name_groom__bride .bride_name {
   font-size: 8.8rem;
   font-family: "Pinyon Script", cursive;
   font-weight: 400;
+  text-transform: capitalize;
   color: #640606;
 }
 .template6 .wrapper .info_family .name_groom__bride .image_happy {
@@ -158,19 +160,22 @@
   font-family: "Allura", cursive;
   color: #333;
 }
-.template6 .wrapper .info_family .flex {
+.template6 .wrapper .info_family .flex_info_map {
+  position: relative;
+}
+.template6 .wrapper .info_family .flex_info_map .flex {
   display: flex;
   align-items: center;
   gap: 2rem;
 }
-.template6 .wrapper .info_family .flex .flex_left {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left {
   flex: 1 1 12rem;
   border-right: 0.2rem solid #333;
   width: 100%;
   text-align: center;
   padding: 0 1rem 0 1rem;
 }
-.template6 .wrapper .info_family .flex .flex_left .at {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .at {
   display: block;
   color: #333;
   font-family: "Times New Roman", Times, serif;
@@ -178,7 +183,7 @@
   border-bottom: 0.1rem dashed #dbdbdb;
   padding-bottom: 1rem;
 }
-.template6 .wrapper .info_family .flex .flex_left .dateBox {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .dateBox {
   display: block;
   align-items: center;
   justify-content: space-around;
@@ -187,20 +192,20 @@
   font-weight: 500;
   font-family: "Times New Roman", Times, serif;
 }
-.template6 .wrapper .info_family .flex .flex_left .dateBox div {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .dateBox div {
   color: #333;
   flex: 1 1 16rem;
   line-height: 1.4;
   padding-bottom: 1rem;
   font-weight: 600;
   text-transform: uppercase;
+  font-size: 2.3rem;
+}
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .dateBox strong {
   font-size: 2rem;
 }
-.template6 .wrapper .info_family .flex .flex_left .dateBox strong {
-  font-size: 2rem;
-}
-.template6 .wrapper .info_family .flex .flex_left .dateBox .day,
-.template6 .wrapper .info_family .flex .flex_left .dateBox .month {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .dateBox .day,
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .dateBox .month {
   display: block;
   align-items: center;
   justify-content: space-around;
@@ -208,11 +213,11 @@
   font-weight: 500;
   font-family: "Times New Roman", Times, serif;
 }
-.template6 .wrapper .info_family .flex .flex_left .dateBox .day strong,
-.template6 .wrapper .info_family .flex .flex_left .dateBox .month strong {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .dateBox .day strong,
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .dateBox .month strong {
   font-size: 5rem;
 }
-.template6 .wrapper .info_family .flex .flex_left .year {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_left .year {
   font-size: 5rem;
   line-height: 1.4;
   font-family: "Times New Roman", Times, serif;
@@ -220,13 +225,16 @@
   margin-bottom: 0;
   margin-top: 1rem;
 }
-.template6 .wrapper .info_family .flex .flex_right {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right {
   flex: 2 1 40rem;
+  position: relative;
+}
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info {
   text-align: start;
   padding-right: 0.5rem;
 }
-.template6 .wrapper .info_family .flex .flex_right .address_groom,
-.template6 .wrapper .info_family .flex .flex_right .address_bride {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info .address_groom,
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info .address_bride {
   display: block;
   color: #333;
   font-family: "Times New Roman", Times, serif;
@@ -235,8 +243,8 @@
   padding-bottom: 2rem;
   text-transform: uppercase;
 }
-.template6 .wrapper .info_family .flex .flex_right .address_groom p,
-.template6 .wrapper .info_family .flex .flex_right .address_bride p {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info .address_groom p,
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info .address_bride p {
   font-size: 2rem;
   line-height: 1.8;
   color: #555;
@@ -244,8 +252,8 @@
   padding-left: 2rem;
   text-transform: none;
 }
-.template6 .wrapper .info_family .flex .flex_right .address_groom p::before,
-.template6 .wrapper .info_family .flex .flex_right .address_bride p::before {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info .address_groom p::before,
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info .address_bride p::before {
   content: "➤";
   position: absolute;
   left: 0;
@@ -254,14 +262,102 @@
   font-size: 1.2rem;
   line-height: 1.8;
 }
-.template6 .wrapper .info_family .flex .flex_right .address_groom .btn_location,
-.template6 .wrapper .info_family .flex .flex_right .address_bride .btn_location {
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info .address_groom .btn_location,
+.template6 .wrapper .info_family .flex_info_map .flex .flex_right .info .address_bride .btn_location {
   padding: 0.7rem 1rem;
   background: #640606;
   color: #fff;
   font-size: 1.3rem;
   font-family: "Poppins", sans-serif;
   border-radius: 0.5rem;
+  cursor: pointer;
+}
+.template6 .wrapper .info_family .flex_info_map .calendar {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+.template6 .wrapper .info_family .flex_info_map .calendar .calendar_header h3 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.template6 .wrapper .info_family .flex_info_map .calendar .calendar_grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+.template6 .wrapper .info_family .flex_info_map .calendar .calendar_grid .calendar_day {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+  padding: 0.5rem;
+}
+.template6 .wrapper .info_family .flex_info_map .calendar .calendar_grid .calendar_date {
+  position: relative;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.4rem;
+  color: #555;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  z-index: 3;
+}
+.template6 .wrapper .info_family .flex_info_map .calendar .calendar_grid .calendar_date.wedding_date {
+  color: #fff;
+  font-weight: 600;
+}
+.template6 .wrapper .info_family .flex_info_map .calendar .calendar_grid .calendar_date.wedding_date .heart_icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3.5rem;
+  color: #ff4d4d;
+  z-index: -1;
+}
+.template6 .wrapper .info_family .flex_info_map .map {
+  position: absolute;
+  top: 0;
+  right: -110%;
+  left: auto;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  transition: right 0.5s ease-in-out;
+}
+.template6 .wrapper .info_family .flex_info_map .map.active {
+  right: 0;
+}
+.template6 .wrapper .info_family .flex_info_map .map .map_wrapper {
+  height: 55%;
+  background-image: url("../../../public/images/m6/paper_bg.png");
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.template6 .wrapper .info_family .flex_info_map .map .map_wrapper .btn_close {
+  position: absolute;
+  top: 25%;
+  left: 0;
+  transform: translateY(-25%);
+  padding: 1rem 2rem;
+  border-radius: 0 5rem 5rem 0;
+  background-image: url("../../../public/images/m6/paper_bg.png");
+  cursor: pointer;
+}
+.template6 .wrapper .info_family .flex_info_map .map .map_wrapper .btn_close svg {
+  font-size: 2rem;
+}
+.template6 .wrapper .info_family .flex_info_map .map .map_wrapper iframe {
+  height: 100%;
+  width: 100%;
+  border: none;
 }
 .template6 .wrapper .info_family .lunarDay {
   font-size: 2.2rem;
@@ -331,7 +427,7 @@
   max-width: 50rem;
   margin: 0 auto;
   position: relative;
-  margin-left: -2rem;
+  margin-left: -1.5rem;
 }
 .template6 .wrapper .love_story .groom .wrapper_groom .image_groom img {
   width: 100%;
@@ -462,6 +558,213 @@
   color: #333;
   font-weight: 600;
 }
+.template6 .wrapper .love_img {
+  min-height: 50vh;
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+}
+.template6 .wrapper .love_img .flower_center {
+  position: absolute;
+  top: 55%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  max-width: 50rem;
+  z-index: 2;
+}
+.template6 .wrapper .love_img .flower_center img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transform: rotate(19deg);
+}
+.template6 .wrapper .love_img .love_img__wrapper .flex {
+  display: flex;
+  gap: 1rem;
+}
+.template6 .wrapper .love_img .love_img__wrapper .flex .love_img__1 {
+  border: 1rem solid #fff;
+  flex: 1 1 16rem;
+}
+.template6 .wrapper .love_img .love_img__wrapper .flex .love_img__1 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.template6 .wrapper .love_img .love_img__wrapper .flex .love_img__2 {
+  border: 1rem solid #fff;
+  flex: 1 1 16rem;
+}
+.template6 .wrapper .love_img .love_img__wrapper .flex .love_img__2 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.template6 .wrapper .love_img .love_img__wrapper .love_img__3 {
+  border: 1rem solid #fff;
+  margin-top: 1rem;
+}
+.template6 .wrapper .love_img .love_img__wrapper .love_img__3 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.template6 .wrapper .album_wedding {
+  text-align: center;
+}
+.template6 .wrapper .album_wedding .title {
+  max-width: 50rem;
+  margin: auto;
+  width: 80%;
+}
+.template6 .wrapper .album_wedding .title img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template6 .wrapper .album_wedding .wrapper_bg {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1rem;
+  max-width: 60rem;
+  margin: auto;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left {
+  flex: 1 1 22rem;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img1,
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img2,
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img3 {
+  margin-left: auto;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img1 {
+  display: block;
+  max-width: 15rem;
+  height: 22rem;
+  margin: 1rem 0 1rem auto;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img1 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: none;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img2 {
+  max-width: 30rem;
+  height: 35rem;
+  margin: 1rem 0 1rem auto;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img2 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: none;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img3 {
+  max-width: 12rem;
+  height: 18rem;
+  margin: 1rem 0 1rem auto;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_left .img3 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: none;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_right {
+  flex: 1 1 22rem;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_right .img4 {
+  max-width: 100%;
+  height: 100%;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_right .img4 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  border-radius: 1rem;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_right .img5 {
+  max-width: 100%;
+  height: 13rem;
+  text-align: right;
+  margin-top: 1rem;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_right .img5 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  border-radius: 1rem;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_right .img6 {
+  max-width: 100%;
+  height: 100%;
+  text-align: right;
+  margin-top: 1rem;
+  border-radius: 1rem;
+}
+.template6 .wrapper .album_wedding .wrapper_bg .collage_right .img6 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  border-radius: 1rem;
+}
+.template6 .wrapper .footer {
+  margin: auto;
+  max-width: 80rem;
+  width: 100%;
+}
+.template6 .wrapper .footer .column_text {
+  text-align: center;
+  max-width: 50rem;
+  width: 95%;
+  margin: auto;
+}
+.template6 .wrapper .footer .column_text h3 {
+  font-size: 5.5rem;
+  margin: 1rem 0;
+  font-family: "Allura", cursive;
+  font-weight: 400;
+}
+.template6 .wrapper .footer .column_text .subtext {
+  font-size: 3rem;
+  width: 25rem;
+  line-height: 1.5;
+  font-family: "Allura", cursive;
+}
+.template6 .wrapper .footer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
@@ -477,23 +780,26 @@
   .template6 .wrapper .mainImage .overlay .content .dateTime {
     font-size: 1.2rem;
   }
-  .template6 .wrapper .info_family .address_groom,
-  .template6 .wrapper .info_family .address_bride {
+  .template6 .wrapper .info_family .flex_left .dateBox div {
+    font-size: 2.1rem !important;
+  }
+  .template6 .wrapper .info_family .flex_right .info .address_groom,
+  .template6 .wrapper .info_family .flex_right .info .address_bride {
     font-size: 1.5rem !important;
     padding-bottom: 1.5rem;
   }
-  .template6 .wrapper .info_family .address_groom p,
-  .template6 .wrapper .info_family .address_bride p {
+  .template6 .wrapper .info_family .flex_right .info .address_groom p,
+  .template6 .wrapper .info_family .flex_right .info .address_bride p {
     font-size: 1.8rem !important;
     padding-left: 1.8rem;
   }
-  .template6 .wrapper .info_family .address_groom p::before,
-  .template6 .wrapper .info_family .address_bride p::before {
+  .template6 .wrapper .info_family .flex_right .info .address_groom p::before,
+  .template6 .wrapper .info_family .flex_right .info .address_bride p::before {
     top: 0.5rem !important;
     font-size: 1.1rem !important;
   }
-  .template6 .wrapper .info_family .address_groom .btn_location,
-  .template6 .wrapper .info_family .address_bride .btn_location {
+  .template6 .wrapper .info_family .flex_right .info .address_groom .btn_location,
+  .template6 .wrapper .info_family .flex_right .info .address_bride .btn_location {
     padding: 0.6rem 2rem;
     font-size: 1.3rem !important;
   }
@@ -588,24 +894,27 @@
     font-family: "Allura", cursive;
     color: #333;
   }
-  .wrapper .info_family .address_groom,
-  .wrapper .info_family .address_bride {
+  .wrapper .info_family .flex_info_map .flex .flex_left div {
+    font-size: 1.75rem !important;
+  }
+  .wrapper .info_family .flex_info_map .flex .flex_right .address_groom,
+  .wrapper .info_family .flex_info_map .flex .flex_right .address_bride {
     font-size: 1.3rem;
     padding-bottom: 1rem;
     text-transform: none;
   }
-  .wrapper .info_family .address_groom p,
-  .wrapper .info_family .address_bride p {
+  .wrapper .info_family .flex_info_map .flex .flex_right .address_groom p,
+  .wrapper .info_family .flex_info_map .flex .flex_right .address_bride p {
     font-size: 1.6rem !important;
     padding-left: 1.5rem;
   }
-  .wrapper .info_family .address_groom p::before,
-  .wrapper .info_family .address_bride p::before {
+  .wrapper .info_family .flex_info_map .flex .flex_right .address_groom p::before,
+  .wrapper .info_family .flex_info_map .flex .flex_right .address_bride p::before {
     top: 0.6rem;
     font-size: 1rem;
   }
-  .wrapper .info_family .address_groom .btn_location,
-  .wrapper .info_family .address_bride .btn_location {
+  .wrapper .info_family .flex_info_map .flex .flex_right .address_groom .btn_location,
+  .wrapper .info_family .flex_info_map .flex .flex_right .address_bride .btn_location {
     padding: 0.5rem 1.5rem;
     font-size: 1.1rem !important;
     width: -moz-fit-content;
@@ -627,5 +936,17 @@
   .wrapper .love_story .groom_name__story h3,
   .wrapper .love_story .bride_name__story h3 {
     font-size: 3rem !important;
+  }
+  .wrapper .footer .column_text h3 {
+    font-size: 4.3rem !important;
+    margin: 1rem 0;
+    font-family: "Allura", cursive;
+    font-weight: 400;
+  }
+  .wrapper .footer .column_text .subtext {
+    font-size: 2rem !important;
+    width: 20rem;
+    line-height: 1.5;
+    font-family: "Allura", cursive;
   }
 }/*# sourceMappingURL=6.module.css.map */

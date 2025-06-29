@@ -503,18 +503,18 @@
                     margin: 1rem auto 0 auto;
                 }
 
-                 @media (max-width: 1024px) {
-                  
+                @media (max-width: 1024px) {
+
                     .groom_bride__name {
 
                         .groom_names,
                         .bride_names {
                             font-size: 6.25rem;
-                           
+
                         }
                     }
 
-                   
+
                 }
 
                 @media (max-width: 599px) {
@@ -1185,7 +1185,7 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            max-width: 95rem;
+            max-width: 75rem;
             width: 88%;
             background-image: url('../../../public/images/m5/paper_bg.png');
             border-radius: 1rem;

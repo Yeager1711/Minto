@@ -1,9 +1,29 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import styles from './6.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faChevronRight, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 function Template6() {
+    const [isMapActive, setIsMapActive] = useState(false);
+
+    const toggleMap = () => {
+        setIsMapActive(!isMapActive);
+    };
+
+    // Calendar logic for August 2025
+    const firstDayOfMonth = new Date(2025, 7, 1).getDay(); // First day of August 2025
+    const daysInMonth = 31; // August has 31 days
+    const days = [];
+    // Add empty slots for days before the first day of the month
+    for (let i = 0; i < firstDayOfMonth; i++) {
+        days.push(null);
+    }
+    // Add days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+        days.push(i);
+    }
+
     return (
         <div className={styles.template6}>
             <div className={styles.wrapper}>
@@ -20,7 +40,7 @@ function Template6() {
                                     <div>Ngọc Khánh</div>
                                 </div>
                             </div>
-                            <div className={styles.dateTime}>17 Tháng 8, 2025 | Thứ 3, Lúc: 10:00 AM</div>
+                            <div className={styles.dateTime}>17 Tháng 8, 2025 | Chủ Nhật, Lúc: 10:00 AM</div>
                         </div>
                     </div>
                 </div>
@@ -53,45 +73,84 @@ function Template6() {
                         Đến dự Lễ Thành Hôn của hai con chúng tôi
                     </p>
 
-                    <div className={styles.flex}>
-                        <div className={styles.flex_left}>
-                            <p className={styles.at}>Lúc 10:00</p>
-                            <div className={styles.dateBox}>
-                                <div>Thứ Ba</div>
-                                <div className={styles.day}>
-                                    <strong>17</strong>
+                    <div className={styles.flex_info_map}>
+                        <div className={styles.flex}>
+                            <div className={styles.flex_left}>
+                                <p className={styles.at}>Lúc 10:00</p>
+                                <div className={styles.dateBox}>
+                                    <div>Chủ Nhật</div>
+                                    <div className={styles.day}>
+                                        <strong>17</strong>
+                                    </div>
+                                    <div className={styles.month}>
+                                        <strong>08</strong>
+                                    </div>
                                 </div>
-                                <div className={styles.month}>
-                                    <strong>08</strong>
+                                <p className={styles.year}>
+                                    <strong>2025</strong>
+                                </p>
+                            </div>
+
+                            <div className={styles.flex_right}>
+                                <div className={styles.info}>
+                                    <div className={styles.address_groom}>
+                                        <h3>Địa chỉ nhà Trai</h3>
+                                        <p>Trung Tâm Hội Nghị - Tiệc Cưới Diamond Place</p>
+
+                                        <button className={styles.btn_location} onClick={toggleMap}>
+                                            <FontAwesomeIcon icon={faLocationDot} /> Chỉ đường địa điểm tổ chức
+                                        </button>
+                                    </div>
+
+                                    <div className={styles.address_bride}>
+                                        <h3>Địa chỉ nhà Gái</h3>
+                                        <p>Trung Tâm Hội Nghị - Tiệc Cưới Diamond Place</p>
+
+                                        <button className={styles.btn_location} onClick={toggleMap}>
+                                            <FontAwesomeIcon icon={faLocationDot} /> Chỉ đường địa điểm tổ chức
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <p className={styles.year}>
-                                <strong>2025</strong>
-                            </p>
                         </div>
-
-                        <div className={styles.flex_right}>
-                            <div className={styles.address_groom}>
-                                <h3>Địa chỉ nhà Trai</h3>
-                                <p>Trung Tâm Hội Nghị - Tiệc Cưới Diamond Place</p>
-
-                                <button className={styles.btn_location}>
-                                    {' '}
-                                    <FontAwesomeIcon icon={faLocationDot} /> Chỉ đường địa điểm tổ chức
-                                </button>
+                        <div className={styles.calendar}>
+                            <div className={styles.calendar_header}>
+                                <h3>Tháng 8, 2025</h3>
                             </div>
+                            <div className={styles.calendar_grid}>
+                                <div className={styles.calendar_day}>CN</div>
+                                <div className={styles.calendar_day}>T2</div>
+                                <div className={styles.calendar_day}>T3</div>
+                                <div className={styles.calendar_day}>T4</div>
+                                <div className={styles.calendar_day}>T5</div>
+                                <div className={styles.calendar_day}>T6</div>
+                                <div className={styles.calendar_day}>T7</div>
+                                {days.map((day, index) => (
+                                    <div
+                                        key={index}
+                                        className={`${styles.calendar_date} ${day === 17 ? styles.wedding_date : ''}`}
+                                    >
+                                        {day || ''}
+                                        {day === 17 && <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className={`${styles.map} ${isMapActive ? styles.active : ''}`}>
+                            <div className={styles.map_wrapper}>
+                                <div className={styles.btn_close} onClick={toggleMap}>
+                                    <FontAwesomeIcon icon={faChevronRight} />
+                                </div>
 
-                            <div className={styles.address_bride}>
-                                <h3>Địa chỉ nhà Trai</h3>
-                                <p>Trung Tâm Hội Nghị - Tiệc Cưới Diamond Place</p>
-
-                                <button className={styles.btn_location}>
-                                    {' '}
-                                    <FontAwesomeIcon icon={faLocationDot} /> Chỉ đường địa điểm tổ chức
-                                </button>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18596.052244317845!2d106.64885385906803!3d10.791710158025271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529281040a431%3A0x7ff3572ff87b852a!2zVHJ1bmcgdMOibSBI4buZaSBuZ2jhu4ggLSBUaeG7h2MgY8aw4bubaSBEaWFtb25kIFBsYWNl!5e1!3m2!1svi!2s!4v1751166267710!5m2!1svi!2s"
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
                             </div>
                         </div>
                     </div>
+
                     <p className={styles.lunarDay}>(Nhằm Ngày 24 tháng 06 năm ất tỵ)</p>
                     <p className={styles.note}>Rất hân hạnh được đón tiếp!</p>
                 </div>
@@ -153,6 +212,70 @@ function Template6() {
                             </p>
                         </div>
                     </div>
+                </div>
+
+                <div className={styles.love_img}>
+                    <div className={styles.flower_center}>
+                        <img src="/images/m6/flower_center.png" alt="" />
+                    </div>
+
+                    <div className={styles.love_img__wrapper}>
+                        <div className={styles.flex}>
+                            <div className={styles.love_img__1}>
+                                <img src="/images/m6/7.jpg" alt="" />
+                            </div>
+
+                            <div className={styles.love_img__2}>
+                                <img src="/images/m6/6.jpg" alt="" />
+                            </div>
+                        </div>
+
+                        <div className={styles.love_img__3}>
+                            <img src="/images/m6/5.jpg" alt="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.album_wedding}>
+                    <div className={styles.title}>
+                        <img src="/images/m6/albumWedding_text.png" alt="" />
+                    </div>
+
+                    <div className={styles.wrapper_bg}>
+                        <div className={styles.collage_left}>
+                            <div className={styles.img1}>
+                                <img src="/images/m6/1.jpg" alt="" />{' '}
+                            </div>
+                            <div className={styles.img2}>
+                                <img src="/images/m6/2.jpg" alt="" />{' '}
+                            </div>
+                            <div className={styles.img3}>
+                                <img src="/images/m6/3.jpg" alt="" />{' '}
+                            </div>
+                        </div>
+                        <div className={styles.collage_right}>
+                            <div className={styles.img4}>
+                                <img src="/images/m6/7.jpg" alt="" />{' '}
+                            </div>
+                            <div className={styles.img5}>
+                                <img src="/images/m6/5.jpg" alt="" />
+                            </div>
+                            <div className={styles.img6}>
+                                <img src="/images/m6/6.jpg" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.footer}>
+                    <div className={styles.column_text}>
+                        <h3>Thank You</h3>
+                        <span className={styles.subtext}>
+                            Cảm ơn Quý Khách vì đã trở thành một phần quan trọng trong ngày đặc biệt của chúng tôi.
+                        </span>
+                    </div>
+
+                    <img src="/images/m6/footer.png" alt="" />
                 </div>
             </div>
         </div>
