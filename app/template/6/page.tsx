@@ -1,8 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './6.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faChevronRight, faHeart } from '@fortawesome/free-solid-svg-icons';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function Template6() {
     const [isMapActive, setIsMapActive] = useState(false);
@@ -12,7 +14,7 @@ function Template6() {
     };
 
     // Calendar logic for August 2025
-    const firstDayOfMonth = new Date(2025, 7, 1).getDay(); // First day of August 2025
+    const firstDayOfMonth = new Date(2025, 7, 1).getDay();
     const daysInMonth = 31; // August has 31 days
     const days = [];
     // Add empty slots for days before the first day of the month
@@ -24,6 +26,10 @@ function Template6() {
         days.push(i);
     }
 
+    useEffect(() => {
+        AOS.init({ duration: 800, once: true, offset: 100 });
+    }, []);
+
     return (
         <div className={styles.template6}>
             <div className={styles.wrapper}>
@@ -31,28 +37,40 @@ function Template6() {
                     <img src="/images/m6/2.jpg" alt="Wedding couple" />
                     <div className={styles.overlay}>
                         <div className={styles.content}>
-                            <div className={styles.saveTheDate}>Save the Date</div>
-                            <div className={styles.weddingOf}>THE WEDDING OF</div>
+                            <div className={styles.saveTheDate} data-aos="fade-in" data-aos-delay="200">
+                                Save the Date
+                            </div>
+                            <div className={styles.weddingOf} data-aos="fade-up" data-aos-delay="400">
+                                THE WEDDING OF
+                            </div>
                             <div className={styles.names}>
                                 <div className={styles.names_flex}>
-                                    <div>Việt anh</div>
-                                    <div className={styles.and}>&</div>
-                                    <div>Ngọc Khánh</div>
+                                    <div data-aos="fade-right" data-aos-delay="600">
+                                        Việt anh
+                                    </div>
+                                    <div className={styles.and} data-aos="fade-in" data-aos-delay="600">
+                                        &
+                                    </div>
+                                    <div data-aos="fade-left" data-aos-delay="600">
+                                        Ngọc Khánh
+                                    </div>
                                 </div>
                             </div>
-                            <div className={styles.dateTime}>17 Tháng 8, 2025 | Chủ Nhật, Lúc: 10:00 AM</div>
+                            <div className={styles.dateTime} data-aos="fade-up" data-aos-delay="800">
+                                17 Tháng 8, 2025 | Chủ Nhật, Lúc: 10:00 AM
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className={styles.info_family}>
                     <div className={styles.flex_representative}>
-                        <div className={styles.representative_house}>
+                        <div className={styles.representative_house} data-aos="fade-right" data-aos-delay="300">
                             <span>Nhà trai</span>
                             <h3>Ông: Nguyễn văn A</h3>
                             <h3>Bà: Trần Thị B</h3>
                         </div>
-                        <div className={styles.representative_house}>
+                        <div className={styles.representative_house} data-aos="fade-left" data-aos-delay="300">
                             <span>Nhà gái</span>
                             <h3>Ông: Lê văn C</h3>
                             <h3>Bà: Phạm thị D</h3>
@@ -60,14 +78,18 @@ function Template6() {
                     </div>
 
                     <div className={styles.name_groom__bride}>
-                        <div className={styles.groom_name}>Việt Anh</div>
-                        <div className={styles.image_happy}>
+                        <div className={styles.groom_name} data-aos="fade-right" data-aos-delay="500">
+                            Việt Anh
+                        </div>
+                        <div className={styles.image_happy} data-aos="fade-in" data-aos-delay="500">
                             <img src="/images/m6/happy_img.png" alt="" />
                         </div>
-                        <div className={styles.bride_name}>Ngọc Khánh</div>
+                        <div className={styles.bride_name} data-aos="fade-left" data-aos-delay="500">
+                            Ngọc Khánh
+                        </div>
                     </div>
 
-                    <p className={styles.text}>
+                    <p className={styles.text} data-aos="fade-up" data-aos-delay="600">
                         Trân trọng kính mời Quý Khách
                         <br />
                         Đến dự Lễ Thành Hôn của hai con chúng tôi
@@ -75,7 +97,7 @@ function Template6() {
 
                     <div className={styles.flex_info_map}>
                         <div className={styles.flex}>
-                            <div className={styles.flex_left}>
+                            <div className={styles.flex_left} data-aos="fade-right" data-aos-delay="300">
                                 <p className={styles.at}>Lúc 10:00</p>
                                 <div className={styles.dateBox}>
                                     <div>Chủ Nhật</div>
@@ -91,7 +113,7 @@ function Template6() {
                                 </p>
                             </div>
 
-                            <div className={styles.flex_right}>
+                            <div className={styles.flex_right} data-aos="fade-left" data-aos-delay="500">
                                 <div className={styles.info}>
                                     <div className={styles.address_groom}>
                                         <h3>Địa chỉ nhà Trai</h3>
@@ -113,7 +135,7 @@ function Template6() {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.calendar}>
+                        <div className={styles.calendar} data-aos="fade-up" data-aos-delay="700">
                             <div className={styles.calendar_header}>
                                 <h3>Tháng 8, 2025</h3>
                             </div>
@@ -151,40 +173,48 @@ function Template6() {
                         </div>
                     </div>
 
-                    <p className={styles.lunarDay}>(Nhằm Ngày 24 tháng 06 năm ất tỵ)</p>
-                    <p className={styles.note}>Rất hân hạnh được đón tiếp!</p>
+                    <p className={styles.lunarDay} data-aos="fade-up" data-aos-delay="900">
+                        (Nhằm Ngày 24 tháng 06 năm ất tỵ)
+                    </p>
+                    <p className={styles.note} data-aos="fade-up" data-aos-delay="1100">
+                        Rất hân hạnh được đón tiếp!
+                    </p>
                 </div>
 
                 <div className={styles.flex_photo}>
                     <div className={styles.box_photo}>
-                        <img src="/images/m6/1.jpg" alt="" />
+                        <img src="/images/m6/1.jpg" alt="" data-aos="fade-right" data-aos-delay="300" />
                     </div>
 
                     <div className={styles.box_photo}>
-                        <img src="/images/m6/2.jpg" alt="" />
+                        <img src="/images/m6/2.jpg" alt="" data-aos="fade-in" data-aos-delay="600" />
                     </div>
 
                     <div className={styles.box_photo}>
-                        <img src="/images/m6/3.jpg" alt="" />
+                        <img src="/images/m6/3.jpg" alt="" data-aos="fade-left" data-aos-delay="900" />
                     </div>
                 </div>
 
                 <div className={styles.love_story}>
-                    <div className={styles.title}>
+                    <div className={styles.title} data-aos="fade-in" data-aos-delay="300">
                         <img src="/images/m6/love_story.png" alt="" />
                     </div>
 
                     <div className={styles.groom}>
                         <div className={styles.wrapper_groom}>
-                            <div className={styles.image_groom}>
+                            <div className={styles.image_groom} data-aos="fade-right" data-aos-delay="300">
                                 <img src="/images/m6/4.jpg" alt="" />
                             </div>
                             <div className={styles.groom_name__story}>
-                                <p>Chú Rể</p>
-                                <h3>Việt Anh</h3>
+                                <p data-aos="fade-right" data-aos-delay="600">
+                                    Chú Rể
+                                </p>
+                                <h3 data-aos="fade-right" data-aos-delay="900">
+                                    Việt Anh
+                                </h3>
                             </div>
                         </div>
-                        <div className={styles.groom_str}>
+                        <div className={styles.groom_str} data-aos="fade-up" data-aos-delay="1100">
                             <p>
                                 Hạnh phúc nhất trên đời không phải là việc gặp được người tuyệt nhất ở những tháng ngày
                                 đẹp nhất. Mà là một người sẽ từ từ nhìn mình già đi, không cần ở những năm tháng đẹp
@@ -196,14 +226,18 @@ function Template6() {
                     <div className={styles.bride}>
                         <div className={styles.wrapper_bride}>
                             <div className={styles.bride_name__story}>
-                                <p>Cô dâu</p>
-                                <h3>Ngọc Khánh</h3>
+                                <p data-aos="fade-left" data-aos-delay="600">
+                                    Cô dâu
+                                </p>
+                                <h3 data-aos="fade-left" data-aos-delay="900">
+                                    Ngọc Khánh
+                                </h3>
                             </div>
-                            <div className={styles.image_bride}>
+                            <div className={styles.image_bride} data-aos="fade-left" data-aos-delay="300">
                                 <img src="/images/m6/2.jpg" alt="" />
                             </div>
                         </div>
-                        <div className={styles.bride_str}>
+                        <div className={styles.bride_str} data-aos="fade-up" data-aos-delay="1100">
                             <p>
                                 Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm, chăm
                                 sóc em thật nhiều, nuông chiều những khi em giận hờn vô cớ. Bắt đầu từ hôm nay chúng ta
@@ -221,46 +255,46 @@ function Template6() {
 
                     <div className={styles.love_img__wrapper}>
                         <div className={styles.flex}>
-                            <div className={styles.love_img__1}>
+                            <div className={styles.love_img__1} data-aos="fade-right" data-aos-delay="300">
                                 <img src="/images/m6/7.jpg" alt="" />
                             </div>
 
-                            <div className={styles.love_img__2}>
+                            <div className={styles.love_img__2} data-aos="fade-right" data-aos-delay="600">
                                 <img src="/images/m6/6.jpg" alt="" />
                             </div>
                         </div>
 
-                        <div className={styles.love_img__3}>
+                        <div className={styles.love_img__3} data-aos="fade-up" data-aos-delay="900">
                             <img src="/images/m6/5.jpg" alt="" />
                         </div>
                     </div>
                 </div>
 
                 <div className={styles.album_wedding}>
-                    <div className={styles.title}>
+                    <div className={styles.title} data-aos="fade-in" data-aos-delay="300">
                         <img src="/images/m6/albumWedding_text.png" alt="" />
                     </div>
 
                     <div className={styles.wrapper_bg}>
                         <div className={styles.collage_left}>
-                            <div className={styles.img1}>
+                            <div className={styles.img1} data-aos="fade-up" data-aos-delay="300">
                                 <img src="/images/m6/1.jpg" alt="" />{' '}
                             </div>
-                            <div className={styles.img2}>
+                            <div className={styles.img2} data-aos="fade-right" data-aos-delay="600">
                                 <img src="/images/m6/2.jpg" alt="" />{' '}
                             </div>
-                            <div className={styles.img3}>
+                            <div className={styles.img3} data-aos="fade-up" data-aos-delay="900">
                                 <img src="/images/m6/3.jpg" alt="" />{' '}
                             </div>
                         </div>
                         <div className={styles.collage_right}>
-                            <div className={styles.img4}>
+                            <div className={styles.img4} data-aos="fade-left" data-aos-delay="1100">
                                 <img src="/images/m6/7.jpg" alt="" />{' '}
                             </div>
-                            <div className={styles.img5}>
+                            <div className={styles.img5} data-aos="fade-left" data-aos-delay="1400">
                                 <img src="/images/m6/5.jpg" alt="" />
                             </div>
-                            <div className={styles.img6}>
+                            <div className={styles.img6} data-aos="fade-left" data-aos-delay="1700">
                                 <img src="/images/m6/6.jpg" alt="" />
                             </div>
                         </div>
@@ -269,9 +303,13 @@ function Template6() {
 
                 <div className={styles.footer}>
                     <div className={styles.column_text}>
-                        <h3>Thank You</h3>
-                        <span className={styles.subtext}>
-                            Cảm ơn Quý Khách vì đã trở thành một phần quan trọng trong ngày đặc biệt của chúng tôi.
+                        <h3 data-aos="fade-up" data-aos-delay="1000">
+                            Thank You
+                        </h3>
+                        <span className={styles.subtext} data-aos="fade-up" data-aos-delay="2000">
+                            Cảm ơn Quý Khách vì đã trở thành một phần quan trọng
+                            <br />
+                            trong ngày đặc biệt của chúng tôi.
                         </span>
                     </div>
 

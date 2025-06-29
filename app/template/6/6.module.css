@@ -742,7 +742,7 @@
 }
 .template6 .wrapper .footer .column_text {
   text-align: center;
-  max-width: 50rem;
+  max-width: 60rem;
   width: 95%;
   margin: auto;
 }
@@ -753,7 +753,7 @@
   font-weight: 400;
 }
 .template6 .wrapper .footer .column_text .subtext {
-  font-size: 3rem;
+  font-size: 2.8rem;
   width: 25rem;
   line-height: 1.5;
   font-family: "Allura", cursive;
@@ -944,7 +944,7 @@
     font-weight: 400;
   }
   .wrapper .footer .column_text .subtext {
-    font-size: 2rem !important;
+    font-size: 1.8rem !important;
     width: 20rem;
     line-height: 1.5;
     font-family: "Allura", cursive;
