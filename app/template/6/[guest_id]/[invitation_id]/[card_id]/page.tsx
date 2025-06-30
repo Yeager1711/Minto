@@ -328,42 +328,6 @@ function Template6InviteeName() {
 
     return (
         <div className={styles.template6}>
-            <div className={`${styles.intro} ${isIntroOpen ? '' : styles.intro_closed}`} onClick={handleIntroClick}>
-                <div className={styles.intro}>
-                    <div className={styles.flower_1}>
-                        <img src="/images/m6/6.6.jpg" alt="Flower 1" loading="lazy" />
-                    </div>
-                    <div className={styles.flower_2}>
-                        <img src="/images/m6/6.1.jpg" alt="Flower 2" loading="lazy" />
-                    </div>
-                    <div className={styles.wrapper_info}>
-                        <div className={styles.name_groom} data-aos="fade-right" data-aos-delay="200">
-                            {weddingData.groom}
-                        </div>
-                        <div className={styles.sh} data-aos="fade-in" data-aos-delay="400">
-                            <img src="/images/m6/moc_intro.png" alt="Symbol" loading="lazy" />
-                        </div>
-                        <div className={styles.name_bride} data-aos="fade-left" data-aos-delay="200">
-                            {weddingData.bride}
-                        </div>
-                    </div>
-                    <div className={styles.wrapper_animation__Click}>
-                        <div className={styles.icon_arrow__left}>
-                            <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
-                            <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
-                        </div>
-                        <div className={styles.text}>Click vào màn hình để mở</div>
-                        <div className={styles.icon_arrow__right}>
-                            <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
-                            <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
-                        </div>
-                    </div>
-                    <div className={styles.invition_name}>
-                        Trân trọng kính mời: <strong>{guestName}</strong>
-                    </div>
-                </div>
-            </div>
-
             <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
                 <div className={styles.dynamic_content}>
                     <div
@@ -395,6 +359,41 @@ function Template6InviteeName() {
             </div>
 
             <div className={`${styles.wrapper} ${isIntroOpen ? styles.wrapper_hidden : ''}`}>
+                <div className={`${styles.intro} ${isIntroOpen ? '' : styles.intro_closed}`} onClick={handleIntroClick}>
+                    <div className={styles.intro}>
+                        <div className={styles.flower_1}>
+                            <img src="/images/m6/6.6.jpg" alt="Flower 1" loading="lazy" />
+                        </div>
+                        <div className={styles.flower_2}>
+                            <img src="/images/m6/6.1.jpg" alt="Flower 2" loading="lazy" />
+                        </div>
+                        <div className={styles.wrapper_info}>
+                            <div className={styles.name_groom} data-aos="fade-right" data-aos-delay="200">
+                                {weddingData.groom}
+                            </div>
+                            <div className={styles.sh} data-aos="fade-in" data-aos-delay="400">
+                                <img src="/images/m6/moc_intro.png" alt="Symbol" loading="lazy" />
+                            </div>
+                            <div className={styles.name_bride} data-aos="fade-left" data-aos-delay="200">
+                                {weddingData.bride}
+                            </div>
+                        </div>
+                        <div className={styles.wrapper_animation__Click}>
+                            <div className={styles.icon_arrow__left}>
+                                <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
+                                <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
+                            </div>
+                            <div className={styles.text}>Click vào màn hình để mở</div>
+                            <div className={styles.icon_arrow__right}>
+                                <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
+                                <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
+                            </div>
+                        </div>
+                        <div className={styles.invition_name}>
+                            Trân trọng kính mời: <strong>{guestName}</strong>
+                        </div>
+                    </div>
+                </div>
                 <div className={styles.mainImage}>
                     <img src={images.mainImage.url} alt="Wedding couple" loading="lazy" />
                     <div className={styles.overlay}>
