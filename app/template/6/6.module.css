@@ -3,6 +3,195 @@
   background-image: url("../../../public/images/m6/paper_bg.png");
   position: relative;
 }
+.template6 .intro {
+  background: #861111;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 80rem;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s ease;
+  z-index: 99;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.template6 .intro.intro_closed {
+  transform: translateY(-100vh);
+  opacity: 0;
+  visibility: hidden;
+}
+.template6 .intro .flower_1 {
+  position: absolute;
+  top: -8%;
+  left: -6%;
+  transform: rotate(-14deg);
+  max-width: 40rem;
+}
+.template6 .intro .flower_1 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template6 .intro .flower_2 {
+  position: absolute;
+  bottom: -6%;
+  right: -16%;
+  max-width: 30rem;
+  transform: rotate(24deg);
+}
+.template6 .intro .flower_2 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template6 .intro .wrapper_info {
+  text-align: center;
+  margin: auto;
+}
+.template6 .intro .wrapper_info .sh {
+  max-width: 10rem;
+  margin: auto;
+  border: 1rem solid #e0b96f;
+  overflow: hidden;
+  border-radius: 50%;
+  padding: 3rem 2rem;
+  background: #dbdbdb;
+}
+.template6 .intro .wrapper_info .sh img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template6 .intro .wrapper_info .name_groom {
+  font-size: 8.5rem;
+  font-weight: 600;
+  margin-bottom: 2.5rem;
+  color: #e0b96f;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+  text-transform: capitalize;
+  font-family: "Allura", cursive;
+  width: 100%;
+  font-weight: 400;
+}
+.template6 .intro .wrapper_info .name_bride {
+  font-size: 8.5rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  color: #e0b96f;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+  text-transform: capitalize;
+  font-family: "Allura", cursive;
+  width: 100%;
+  font-weight: 400;
+}
+.template6 .intro .wrapper_animation__Click {
+  left: 50%;
+  transform: translate(-50%, -14%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: absolute;
+  bottom: 16%;
+  color: #dbdbdb;
+  cursor: pointer;
+  width: 21rem;
+}
+.template6 .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft {
+  color: #fff;
+  opacity: 0;
+  animation: swipeUpFadeLeft 1.2s infinite;
+}
+.template6 .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft:first-child {
+  animation-delay: 0.4s;
+}
+.template6 .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft:last-child {
+  animation-delay: 0s;
+}
+.template6 .intro .wrapper_animation__Click .text {
+  font-size: 1.25rem;
+  padding: 0 0.5rem;
+}
+.template6 .intro .wrapper_animation__Click .icon_arrow__right .chevronRight {
+  color: #fff;
+  opacity: 0;
+  animation: swipeUpFadeRight 1.2s infinite;
+}
+.template6 .intro .wrapper_animation__Click .icon_arrow__right .chevronRight:first-child {
+  animation-delay: 0.4s;
+}
+.template6 .intro .wrapper_animation__Click .icon_arrow__right .chevronRight:last-child {
+  animation-delay: 0s;
+}
+@keyframes swipeUpFadeLeft {
+  100% {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  30% {
+    opacity: 0.5;
+    transform: translateX(-3px);
+  }
+  0% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+@keyframes swipeUpFadeRight {
+  0% {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  60% {
+    opacity: 0.5;
+    transform: translateX(-3px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+.template6 .intro .invition_name {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, -5%);
+  width: 100%;
+  max-width: 55rem;
+  margin: 0 auto;
+  align-items: center;
+  font-size: 2rem;
+  font-family: "Times New Roman", Times, serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  text-transform: uppercase;
+  color: #fff;
+}
+.template6 .intro .invition_name strong {
+  font-family: "Allura", cursive;
+  font-size: 3rem;
+  text-transform: none;
+  display: block;
+  padding-top: 1rem;
+  color: #fff;
+}
 .template6 .dynamic {
   position: fixed;
   bottom: 2rem;
@@ -102,195 +291,6 @@
   min-height: 97vh;
   background-image: url("../../../public/images/m6/paper_bg.png");
   position: relative;
-}
-.template6 .wrapper .intro {
-  background: #861111;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-width: 80rem;
-  width: 100%;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s ease;
-  z-index: 99;
-  min-height: 100vh;
-  overflow: hidden;
-}
-.template6 .wrapper .intro.intro_closed {
-  transform: translateY(-100vh);
-  opacity: 0;
-  visibility: hidden;
-}
-.template6 .wrapper .intro .flower_1 {
-  position: absolute;
-  top: -8%;
-  left: -6%;
-  transform: rotate(-14deg);
-  max-width: 40rem;
-}
-.template6 .wrapper .intro .flower_1 img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.template6 .wrapper .intro .flower_2 {
-  position: absolute;
-  bottom: -6%;
-  right: -16%;
-  max-width: 30rem;
-  transform: rotate(24deg);
-}
-.template6 .wrapper .intro .flower_2 img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.template6 .wrapper .intro .wrapper_info {
-  text-align: center;
-  margin: auto;
-}
-.template6 .wrapper .intro .wrapper_info .sh {
-  max-width: 10rem;
-  margin: auto;
-  border: 1rem solid #e0b96f;
-  overflow: hidden;
-  border-radius: 50%;
-  padding: 3rem 2rem;
-  background: #dbdbdb;
-}
-.template6 .wrapper .intro .wrapper_info .sh img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.template6 .wrapper .intro .wrapper_info .name_groom {
-  font-size: 8.5rem;
-  font-weight: 600;
-  margin-bottom: 2.5rem;
-  color: #e0b96f;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-  text-transform: capitalize;
-  font-family: "Allura", cursive;
-  width: 100%;
-  font-weight: 400;
-}
-.template6 .wrapper .intro .wrapper_info .name_bride {
-  font-size: 8.5rem;
-  font-weight: 600;
-  margin-top: 2.5rem;
-  color: #e0b96f;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-  text-transform: capitalize;
-  font-family: "Allura", cursive;
-  width: 100%;
-  font-weight: 400;
-}
-.template6 .wrapper .intro .wrapper_animation__Click {
-  left: 50%;
-  transform: translate(-50%, -14%);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  position: absolute;
-  bottom: 16%;
-  color: #dbdbdb;
-  cursor: pointer;
-  width: 21rem;
-}
-.template6 .wrapper .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft {
-  color: #fff;
-  opacity: 0;
-  animation: swipeUpFadeLeft 1.2s infinite;
-}
-.template6 .wrapper .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft:first-child {
-  animation-delay: 0.4s;
-}
-.template6 .wrapper .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft:last-child {
-  animation-delay: 0s;
-}
-.template6 .wrapper .intro .wrapper_animation__Click .text {
-  font-size: 1.25rem;
-  padding: 0 0.5rem;
-}
-.template6 .wrapper .intro .wrapper_animation__Click .icon_arrow__right .chevronRight {
-  color: #fff;
-  opacity: 0;
-  animation: swipeUpFadeRight 1.2s infinite;
-}
-.template6 .wrapper .intro .wrapper_animation__Click .icon_arrow__right .chevronRight:first-child {
-  animation-delay: 0.4s;
-}
-.template6 .wrapper .intro .wrapper_animation__Click .icon_arrow__right .chevronRight:last-child {
-  animation-delay: 0s;
-}
-@keyframes swipeUpFadeLeft {
-  100% {
-    opacity: 0;
-    transform: translateX(6px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  30% {
-    opacity: 0.5;
-    transform: translateX(-3px);
-  }
-  0% {
-    opacity: 0;
-    transform: translateX(-6px);
-  }
-}
-@keyframes swipeUpFadeRight {
-  0% {
-    opacity: 0;
-    transform: translateX(6px);
-  }
-  30% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  60% {
-    opacity: 0.5;
-    transform: translateX(-3px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-6px);
-  }
-}
-.template6 .wrapper .intro .invition_name {
-  position: absolute;
-  bottom: 5%;
-  left: 50%;
-  transform: translate(-50%, -5%);
-  width: 100%;
-  max-width: 55rem;
-  margin: 0 auto;
-  align-items: center;
-  font-size: 2rem;
-  font-family: "Times New Roman", Times, serif;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-  text-transform: uppercase;
-  color: #fff;
-}
-.template6 .wrapper .intro .invition_name strong {
-  font-family: "Allura", cursive;
-  font-size: 3rem;
-  text-transform: none;
-  display: block;
-  padding-top: 1rem;
-  color: #fff;
 }
 .template6 .wrapper .mainImage {
   position: relative;
