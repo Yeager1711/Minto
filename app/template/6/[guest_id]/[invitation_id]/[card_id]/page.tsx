@@ -362,10 +362,10 @@ function Template6InviteeName() {
                 <div className={`${styles.intro} ${isIntroOpen ? '' : styles.intro_closed}`} onClick={handleIntroClick}>
                     <div className={styles.intro}>
                         <div className={styles.flower_1}>
-                            <img src="/images/m6/6.6.jpg" alt="Flower 1" loading="lazy" />
+                            <img src="/images/m6/6.6.jpg" alt="Flower 1"  />
                         </div>
                         <div className={styles.flower_2}>
-                            <img src="/images/m6/6.1.jpg" alt="Flower 2" loading="lazy" />
+                            <img src="/images/m6/6.1.jpg" alt="Flower 2"  />
                         </div>
                         <div className={styles.wrapper_info}>
                             <div className={styles.name_groom} data-aos="fade-right" data-aos-delay="200">
