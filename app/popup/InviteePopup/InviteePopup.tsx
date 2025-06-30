@@ -16,7 +16,7 @@ interface InviteePopupProps {
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-const DiscountEligibility = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY) || 0.2; // Đảm bảo mặc định là 20% (0.2)
+const DiscountEligibility = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY) || 0.2; 
 
 const InviteePopup: React.FC<InviteePopupProps> = ({
     templateId,
@@ -199,8 +199,8 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             ? (() => {
                   const basePrice = Number(templatePrice); // Đảm bảo là số
                   let totalPrice = basePrice;
-                  if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST ||  0)) {
-                      const extraPeople = quantity - Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST || 0);
+                  if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST ||  20)) {
+                      const extraPeople = quantity - Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST || 20);
                       totalPrice += extraPeople * priceCardDefault; // +500đ cho mỗi người thêm
                   }
                   console.log(
