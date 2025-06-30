@@ -349,8 +349,8 @@ function Template6Edit() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <div className={styles.template6}>
-                <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
                 <div className={styles.wrapper}>
+                    <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
                     <div className={styles.mainImage} onClick={() => triggerFileInput('mainImage')}>
                         <Image
                             src={images.mainImage.url || ''}

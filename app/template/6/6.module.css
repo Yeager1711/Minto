@@ -1,6 +1,7 @@
 @charset "UTF-8";
 .template6 {
   background-image: url("../../../public/images/m6/paper_bg.png");
+  position: relative;
 }
 .template6 .intro {
   background: #861111;
