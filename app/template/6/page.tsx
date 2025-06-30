@@ -32,6 +32,28 @@ function Template6() {
 
     return (
         <div className={styles.template6}>
+            <div className={styles.intro}>
+                <div className={styles.flower_1}>
+                    <img src="/images/m6/6.6.jpg" alt="" />
+                </div>
+
+                <div className={styles.flower_2}>
+                    <img src="/images/m6/6.1.jpg" alt="" />
+                </div>
+                <div className={styles.wrapper_info}>
+                    <div className={styles.name_groom}>Việt Anh</div>
+                    <div className={styles.sh}>
+                        <img src="/images/m6/moc_intro.png" alt="" />
+                    </div>
+                    <div className={styles.name_bride}>Ngọc Khánh</div>
+                </div>
+
+                <div className={styles.invition_name}>
+                    <span>Trân Trọng Kính Mời</span>
+                    <strong>Huỳnh Nam</strong>
+                </div>
+            </div>
+
             <div className={styles.wrapper}>
                 <div className={styles.mainImage}>
                     <img src="/images/m6/2.jpg" alt="Wedding couple" />
@@ -135,29 +157,7 @@ function Template6() {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.calendar} data-aos="fade-up" data-aos-delay="700">
-                            <div className={styles.calendar_header}>
-                                <h3>Tháng 8, 2025</h3>
-                            </div>
-                            <div className={styles.calendar_grid}>
-                                <div className={styles.calendar_day}>CN</div>
-                                <div className={styles.calendar_day}>T2</div>
-                                <div className={styles.calendar_day}>T3</div>
-                                <div className={styles.calendar_day}>T4</div>
-                                <div className={styles.calendar_day}>T5</div>
-                                <div className={styles.calendar_day}>T6</div>
-                                <div className={styles.calendar_day}>T7</div>
-                                {days.map((day, index) => (
-                                    <div
-                                        key={index}
-                                        className={`${styles.calendar_date} ${day === 17 ? styles.wedding_date : ''}`}
-                                    >
-                                        {day || ''}
-                                        {day === 17 && <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+
                         <div className={`${styles.map} ${isMapActive ? styles.active : ''}`}>
                             <div className={styles.map_wrapper}>
                                 <div className={styles.btn_close} onClick={toggleMap}>
@@ -170,6 +170,30 @@ function Template6() {
                                     referrerPolicy="no-referrer-when-downgrade"
                                 ></iframe>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className={styles.calendar} data-aos="fade-up" data-aos-delay="700">
+                        <div className={styles.calendar_header}>
+                            <h3>Tháng 8, 2025</h3>
+                        </div>
+                        <div className={styles.calendar_grid}>
+                            <div className={styles.calendar_day}>CN</div>
+                            <div className={styles.calendar_day}>T2</div>
+                            <div className={styles.calendar_day}>T3</div>
+                            <div className={styles.calendar_day}>T4</div>
+                            <div className={styles.calendar_day}>T5</div>
+                            <div className={styles.calendar_day}>T6</div>
+                            <div className={styles.calendar_day}>T7</div>
+                            {days.map((day, index) => (
+                                <div
+                                    key={index}
+                                    className={`${styles.calendar_date} ${day === 17 ? styles.wedding_date : ''}`}
+                                >
+                                    {day || ''}
+                                    {day === 17 && <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />}
+                                </div>
+                            ))}
                         </div>
                     </div>
 
