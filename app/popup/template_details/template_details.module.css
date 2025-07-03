@@ -135,6 +135,8 @@
   color: #1a202c;
   margin: 0;
   font-family: "Inter", system-ui, sans-serif;
+  max-width: 30rem;
+  width: 95%;
 }
 
 /* Price styling */

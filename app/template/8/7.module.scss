@@ -1,0 +1,274 @@
+.template7 {
+    overflow: hidden;
+    max-width: 80rem;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    min-height: 100vh;
+
+    .wrapper {
+        background-image: url(../../../public/images/m7/bg_7.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+        min-height: 100vh;
+        position: relative;
+    }
+}
+
+
+
+// .template7 {
+//     .wrapper {
+//         overflow: hidden;
+//         max-width: 80rem;
+//         width: 100%;
+//         margin: 0 auto;
+//         position: relative;
+//         min-height: 100vh;
+
+//         .mainImage {
+//             height: 80vh;
+//             position: absolute;
+//             left: 0;
+//             right: 0;
+//             top: 0;
+
+//             img {
+//                 width: 100%;
+//                 height: 100%;
+//                 object-fit: cover;
+//                 display: block;
+//             }
+//         }
+
+//         .overlay_content {
+//             position: absolute;
+//             left: 0;
+//             right: 0;
+//             bottom: 0;
+
+//             .layout_paper {
+//                 width: 100%;
+//                 height: 10%;
+
+//                 img {
+//                     width: 100%;
+//                     height: 100%;
+//                     object-fit: cover;
+//                     display: block;
+//                 }
+//             }
+
+//             .content {
+//                 position: absolute;
+//                 bottom: 0;
+//                 left: 50%;
+//                 transform: translate(-50%, -25%);
+//                 padding: 2rem 1rem;
+//                 color: #fff;
+//                 max-width: 80rem;
+//                 width: 95%;
+//                 margin: auto;
+//                 text-align: center;
+
+
+//                 .saveTheDate {
+//                     max-width: 70rem;
+//                     margin: auto;
+
+//                     img {
+//                         width: 100%;
+//                         height: 100%;
+//                         object-fit: cover;
+//                     }
+
+//                 }
+
+//                 .weddingOf {
+//                     font-size: 1.5rem;
+//                     font-weight: 300;
+//                     text-transform: uppercase;
+//                     margin-bottom: 0.5rem;
+//                     letter-spacing: 2px;
+//                     color: #333;
+//                     font-weight: 500;
+//                 }
+
+//                 .names {
+//                     font-size: 4.5rem;
+//                     font-weight: 600;
+//                     margin-bottom: 1rem;
+//                     color: #333;
+//                     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+//                     text-transform: capitalize;
+//                     font-family: "Pinyon Script", cursive;
+//                     width: 100%;
+//                     font-weight: 400;
+//                     display: flex;
+
+//                     .names_flex {
+//                         gap: .5rem;
+//                         text-align: center;
+//                         display: flex;
+//                         margin: auto;
+
+//                         .and {
+//                             font-family: 'Allura', cursive;
+//                             margin: .5rem .8rem;
+//                         }
+//                     }
+//                 }
+
+//                 .dateTime {
+//                     font-size: 1.5rem;
+//                     font-weight: 400;
+//                     margin-bottom: 0.5rem;
+//                     color: #333;
+//                     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+//                 }
+//             }
+//         }
+
+
+//     }
+// }
+
+
+// @media (max-width: 801px) {
+//     .template6 {
+
+//         // .intro {
+//         //     .flower_1 {
+//         //         max-width: 35rem;
+//         //     }
+
+//         //     .flower_2 {
+//         //         position: absolute;
+//         //         bottom: -6%;
+//         //         right: -16%;
+//         //         max-width: 25rem;
+//         //         transform: rotate(24deg);
+//         //     }
+
+//         //     .wrapper_info {
+//         //         .sh {
+//         //             max-width: 10rem;
+//         //         }
+
+//         //         .name_groom {
+//         //             font-size: 8rem;
+//         //         }
+
+//         //         .name_bride {
+//         //             font-size: 8rem;
+//         //         }
+//         //     }
+
+//         //     .invition_name {
+//         //         font-size: 2rem;
+
+//         //         strong {
+//         //             font-family: 'Allura', cursive;
+//         //             font-size: 3rem;
+//         //             text-transform: none;
+//         //             display: block;
+//         //             padding-top: 1rem;
+//         //             color: #fff;
+//         //         }
+//         //     }
+//         // }
+
+//         .wrapper {
+//             .mainImage {}
+
+//             .overlay_content {
+//                 .content {
+//                     padding: 1rem;
+//                     transform: translate(-50%, 10%);
+
+//                     .saveTheDate {
+//                         font-size: 10rem;
+//                     }
+
+//                     .names {
+//                         font-size: 4rem;
+//                     }
+
+//                     .dateTime {
+//                         font-size: 1.2rem;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// @media (max-width: 480px) {
+
+//     .template7 {
+//         // .intro {
+//         //     .flower_1 {
+//         //         max-width: 22rem;
+//         //     }
+
+//         //     .flower_2 {
+//         //         position: absolute;
+//         //         bottom: -6%;
+//         //         right: -18%;
+//         //         max-width: 16rem;
+//         //         transform: rotate(27deg);
+//         //     }
+
+//         //     .wrapper_info {
+//         //         .sh {
+//         //             max-width: 7rem;
+//         //         }
+
+//         //         .name_groom {
+//         //             font-size: 6rem;
+//         //         }
+
+//         //         .name_bride {
+//         //             font-size: 6rem;
+//         //         }
+//         //     }
+
+//         //     .invition_name {
+//         //         font-size: 1.7rem;
+
+//         //         strong {
+//         //             font-family: 'Allura', cursive;
+//         //             font-size: 3rem;
+//         //             text-transform: none;
+//         //             display: block;
+//         //             padding-top: 1rem;
+//         //             color: #fff;
+//         //         }
+//         //     }
+//         // }
+
+//         .wrapper {
+//             .mainImage {}
+
+//             .overlay_content {
+
+//                 .content {
+//                     transform: translate(-50%, 0%);
+
+//                     .names {
+//                         font-size: 3rem !important;
+//                     }
+
+//                     .dateTime {
+//                         font-size: 1rem;
+//                     }
+
+//                     .location {
+//                         font-size: 0.9rem;
+//                     }
+//                 }
+//             }
+
+//         }
+//     }
+// }
