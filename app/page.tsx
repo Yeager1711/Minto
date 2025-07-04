@@ -343,8 +343,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                     <button className={styles.createButton} onClick={handleCreateClick}>
-                        Tạo thiệp {' '}
-                        <FontAwesomeIcon icon={faChevronDown} />
+                        Tạo thiệp <FontAwesomeIcon icon={faChevronDown} />
                     </button>
                 </div>
 
@@ -477,6 +476,15 @@ const Home: React.FC = () => {
                                     Thiệp cưới điện tử thường được gửi qua email hoặc chia sẻ trực tuyến, nên không cần
                                     in thiệp.
                                 </p>
+                            </div>
+
+                            <div className={styles.faqSection_box__item} data-aos="fade-left" data-aos-delay="1100">
+                                <h4>Tiền mừng sẽ được rút từ hệ thống hay được đưa thẳng vào Ngân Hàng cá nhân</h4>
+                                <p>
+                                    Khi tạo tạo QR nhận mừng Hỷ, tiền sẽ thông qua QR đến trực tiếp tài khoản của{' '}
+                                    <strong>Chú Rể</strong> hoặc <strong>Cô Dâu</strong> khi khách mời quét QR.
+                                </p>
+                                <p>Hệ thống không nhận hay giữ bất cứ tiền liên quan từ phía khách hàng.</p>
                             </div>
                         </div>
                     </div>

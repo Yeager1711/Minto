@@ -135,7 +135,7 @@
         }
 
         .info_family {
-            background-image: url(../../../public/images/text_png/png_7.jpg);
+            background-image: url(../../../public/images/text_png/info_family.jpg);
             background-repeat: no-repeat;
             height: 100vh;
             background-size: cover;
@@ -143,111 +143,172 @@
             overflow: hidden;
             position: relative;
 
-            &::before {
-                content: "";
+
+            .wrapper_info {
                 position: absolute;
-                top: -17.5rem;
-                left: -15rem;
-                right: 0;
-                bottom: 0;
-                background-image: url(../../../public/images/text_png/png_5.1.png);
-                pointer-events: none;
-                background-repeat: no-repeat;
-                z-index: 1;
-                transform: scale(.7);
-            }
-
-
-            .flex_representative {
-                display: flex;
-                align-items: center;
+                top: 7%;
+                left: 0;
+                right: 22%;
+                bottom: 25%;
                 text-align: center;
-                gap: .5rem;
-                padding: 5rem .5rem 2rem .5rem;
 
-                &>* {
-                    position: relative;
-                    z-index: 1;
+                @media (max-width: 768px) {
+                    top: 18%;
+                    left: 0;
+                    right: 27%;
+                    bottom: 25%;
+                    text-align: center;
                 }
 
-                .representative_house {
-                    flex: 1 1;
+                @media (max-width: 480px) {
+                    top: 18%;
+                    left: 0;
+                    right: 27%;
+                    bottom: 25%;
+                    text-align: center;
+                    width: 80%;
+                }
 
-                    span {
-                        text-transform: capitalize;
-                        font-size: 1.5rem;
-                        color: #333;
-                        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+                .flex_representative {
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+                    padding: 5rem .5rem 2rem .5rem;
+                    width: 95%;
+
+                    @media (max-width: 1024px) {
+                        width: 100%;
                     }
 
-                    h3 {
-                        font-size: 2.5rem;
+                    @media (max-width: 768px) {
+                        width: 100%;
+                    }
+
+                    @media (max-width: 480px) {
+                        width: 100%;
+                    }
+
+                    &>* {
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .representative_house {
+                        flex: 1 1;
+
+                        span {
+                            text-transform: capitalize;
+                            font-size: 1.5rem;
+                            color: #333;
+
+                            @media (max-width: 1024px) {
+                                font-size: 1.5rem;
+                            }
+
+                            @media (max-width: 768px) {
+                                font-size: 1.5rem;
+                            }
+
+                        }
+
+                        h3 {
+                            font-size: 2rem;
+                            font-weight: 400;
+                            text-transform: capitalize;
+
+                            @media (max-width: 768px) {
+                                font-size: 2rem;
+                            }
+
+                            @media (max-width: 480px) {
+                                font-size: 2rem;
+                            }
+                        }
+
+                    }
+                }
+
+                .name_groom__bride {
+                    padding: 0 1rem;
+                    text-align: center;
+
+                    .groom_name {
+                        font-size: 7rem;
+                        font-family: "Pinyon Script", cursive;
+                        font-weight: 400;
+                        color: #640606;
+                        text-transform: capitalize;
+
+                        @media (max-width: 768px) {
+                            font-size: 6rem;
+                        }
+
+                    }
+
+                    .bride_name {
+                        font-size: 7rem;
+                        font-family: "Pinyon Script", cursive;
                         font-weight: 400;
                         text-transform: capitalize;
+                        color: #640606;
+
+                        @media (max-width: 768px) {
+                            font-size: 6rem;
+                        }
                     }
 
-                }
-            }
+                    .and_happy {
+                        font-family: 'Allura', cursive;
+                        font-size: 6.5rem;
+                        font-weight: 400;
+                        text-transform: capitalize;
+                        color: #640606;
 
-            .name_groom__bride {
-                width: 98%;
-                padding: 2rem 1rem;
-                text-align: center;
-
-                .groom_name {
-                    font-size: 8.8rem;
-                    font-family: "Pinyon Script", cursive;
-                    font-weight: 400;
-                    color: #640606;
-                    text-transform: capitalize;
+                        @media (max-width: 768px) {
+                            font-size: 5rem;
+                        }
+                    }
                 }
 
-                .bride_name {
-                    font-size: 8.8rem;
-                    font-family: "Pinyon Script", cursive;
-                    font-weight: 400;
-                    text-transform: capitalize;
-                    color: #640606;
-                }
-
-                .and_happy {
+                .text {
+                    margin: 1.5rem 0;
+                    font-size: 3rem;
+                    line-height: 1.4;
                     font-family: 'Allura', cursive;
-                    font-size: 8.8rem;
-                    font-weight: 400;
-                    text-transform: capitalize;
-                    color: #640606;
+                    text-align: center;
+                    color: #333;
+
+                    @media (max-width: 768px) {
+                        font-size: 2.7rem;
+                    }
+                }
+
+                .lunarDay {
+                    font-size: 2rem;
+                    line-height: 1.4;
+                    font-family: 'Times New Roman', Times, serif;
+                    color: #333;
+                    text-transform: uppercase;
+                    text-align: center;
+                    padding-top: 1rem;
+
+                    @media (max-width: 768px) {
+                        font-size: 1.8rem;
+                    }
+                }
+
+                .note {
+                    font-size: 3rem;
+                    line-height: 1.4;
+                    font-family: 'Allura', cursive;
+                    color: #333;
+                    text-align: center;
+
+                    @media (max-width: 768px) {
+                        font-size: 2.8rem;
+                    }
                 }
             }
-
-            .text {
-                margin: 1.5rem 0;
-                font-size: 3.2rem;
-                line-height: 1.4;
-                font-family: 'Allura', cursive;
-                text-align: center;
-                color: #333;
-            }
-
-            .lunarDay {
-                font-size: 2.2rem;
-                line-height: 1.4;
-                font-family: 'Times New Roman', Times, serif;
-                color: #333;
-                margin: 1rem auto 0 auto;
-                text-transform: uppercase;
-                text-align: center;
-                padding-top: 1rem;
-            }
-
-            .note {
-                font-size: 3.2rem;
-                line-height: 1.4;
-                font-family: 'Allura', cursive;
-                color: #333;
-                text-align: center;
-                margin: .5rem auto 0 auto;
-            }
-
         }
 
         .groom_bride {
@@ -468,6 +529,7 @@
                         height: 100%;
                         object-fit: cover;
                         object-position: center;
+
                     }
                 }
 
@@ -477,10 +539,11 @@
                     .map_groom {
                         iframe {
                             width: 100%;
-                            height: 100vh;
                             border: none;
                         }
                     }
+
+                    img {}
                 }
 
                 .img_bottom {
@@ -492,6 +555,10 @@
                             height: 55vh;
                             border: none;
                         }
+                    }
+
+                    img {
+                        object-position: center top;
                     }
                 }
 
@@ -761,7 +828,7 @@
                         }
 
                         h3 {
-                            font-size: 1.8rem !important;
+                            font-size: 1.4rem !important;
                             font-weight: 400;
                             text-transform: capitalize;
                         }
@@ -773,34 +840,32 @@
                 }
 
                 .name_groom__bride {
-                    width: 100%;
                     padding: 0 .5rem;
 
                     .groom_name {
-                        font-size: 6.5rem !important;
+                        font-size: 4.7rem !important;
                         font-family: "Pinyon Script", cursive;
                         font-weight: 400;
                         color: #640606;
                     }
 
                     .bride_name {
-                        font-size: 6.5rem !important;
+                        font-size: 4.7rem !important;
                         font-family: "Pinyon Script", cursive;
                         font-weight: 400;
                         color: #640606;
                     }
 
                     .and_happy {
-                        font-size: 6rem !important;
+                        font-size: 4rem !important;
                     }
                 }
 
                 .lunarDay {
-                    font-size: 1.7rem !important;
+                    font-size: 1.4rem !important;
                     line-height: 1.4;
                     font-family: 'Times New Roman', Times, serif;
                     color: #333;
-                    margin: 1rem auto 0 auto;
                     text-transform: uppercase;
                 }
 
@@ -809,15 +874,15 @@
                     line-height: 1.4;
                     font-family: 'Allura', cursive;
                     color: #333;
-                    margin: 1rem auto 0 auto;
                 }
 
                 .text {
                     margin: 1.5rem 0;
-                    font-size: 2.2rem !important;
+                    font-size: 1.8rem !important;
                     line-height: 1.4;
                     font-family: 'Allura', cursive;
                     color: #333;
+
                 }
 
             }

@@ -326,18 +326,18 @@
 }
 .main .wrapper_main .layer_default .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
   gap: 1rem;
   margin-top: 1rem;
 }
 @media (max-width: 1024px) {
   .main .wrapper_main .layer_default .grid {
-    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   }
 }
 @media (max-width: 768px) {
   .main .wrapper_main .layer_default .grid {
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   }
 }
 @media (max-width: 480px) {
@@ -360,8 +360,23 @@
 .main .wrapper_main .layer_default .grid .card_product .image_products {
   position: relative;
   width: 100%;
-  height: 30rem;
+  height: 45rem;
   background: #fff;
+}
+@media (max-width: 1024px) {
+  .main .wrapper_main .layer_default .grid .card_product .image_products {
+    height: 45rem;
+  }
+}
+@media (max-width: 768px) {
+  .main .wrapper_main .layer_default .grid .card_product .image_products {
+    height: 45rem;
+  }
+}
+@media (max-width: 480px) {
+  .main .wrapper_main .layer_default .grid .card_product .image_products {
+    height: 30rem;
+  }
 }
 .main .wrapper_main .layer_default .grid .card_product .image_products img {
   width: 100%;

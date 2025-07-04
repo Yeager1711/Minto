@@ -113,7 +113,7 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 .template7 .wrapper .info_family {
-  background-image: url(../../../public/images/text_png/png_7.jpg);
+  background-image: url(../../../public/images/text_png/info_family.jpg);
   background-repeat: no-repeat;
   height: 100vh;
   background-size: cover;
@@ -121,95 +121,170 @@
   overflow: hidden;
   position: relative;
 }
-.template7 .wrapper .info_family::before {
-  content: "";
+.template7 .wrapper .info_family .wrapper_info {
   position: absolute;
-  top: -17.5rem;
-  left: -15rem;
-  right: 0;
-  bottom: 0;
-  background-image: url(../../../public/images/text_png/png_5.1.png);
-  pointer-events: none;
-  background-repeat: no-repeat;
-  z-index: 1;
-  transform: scale(0.7);
+  top: 7%;
+  left: 0;
+  right: 22%;
+  bottom: 25%;
+  text-align: center;
 }
-.template7 .wrapper .info_family .flex_representative {
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info {
+    top: 18%;
+    left: 0;
+    right: 27%;
+    bottom: 25%;
+    text-align: center;
+  }
+}
+@media (max-width: 480px) {
+  .template7 .wrapper .info_family .wrapper_info {
+    top: 18%;
+    left: 0;
+    right: 27%;
+    bottom: 25%;
+    text-align: center;
+    width: 80%;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .flex_representative {
   display: flex;
   align-items: center;
-  text-align: center;
   gap: 0.5rem;
   padding: 5rem 0.5rem 2rem 0.5rem;
+  width: 95%;
 }
-.template7 .wrapper .info_family .flex_representative > * {
+@media (max-width: 1024px) {
+  .template7 .wrapper .info_family .wrapper_info .flex_representative {
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .flex_representative {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  .template7 .wrapper .info_family .wrapper_info .flex_representative {
+    width: 100%;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .flex_representative > * {
   position: relative;
   z-index: 1;
 }
-.template7 .wrapper .info_family .flex_representative .representative_house {
+.template7 .wrapper .info_family .wrapper_info .flex_representative .representative_house {
   flex: 1 1;
 }
-.template7 .wrapper .info_family .flex_representative .representative_house span {
+.template7 .wrapper .info_family .wrapper_info .flex_representative .representative_house span {
   text-transform: capitalize;
   font-size: 1.5rem;
   color: #333;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
-.template7 .wrapper .info_family .flex_representative .representative_house h3 {
-  font-size: 2.5rem;
+@media (max-width: 1024px) {
+  .template7 .wrapper .info_family .wrapper_info .flex_representative .representative_house span {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .flex_representative .representative_house span {
+    font-size: 1.5rem;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .flex_representative .representative_house h3 {
+  font-size: 2rem;
   font-weight: 400;
   text-transform: capitalize;
 }
-.template7 .wrapper .info_family .name_groom__bride {
-  width: 98%;
-  padding: 2rem 1rem;
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .flex_representative .representative_house h3 {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .template7 .wrapper .info_family .wrapper_info .flex_representative .representative_house h3 {
+    font-size: 2rem;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .name_groom__bride {
+  padding: 0 1rem;
   text-align: center;
 }
-.template7 .wrapper .info_family .name_groom__bride .groom_name {
-  font-size: 8.8rem;
+.template7 .wrapper .info_family .wrapper_info .name_groom__bride .groom_name {
+  font-size: 7rem;
   font-family: "Pinyon Script", cursive;
   font-weight: 400;
   color: #640606;
   text-transform: capitalize;
 }
-.template7 .wrapper .info_family .name_groom__bride .bride_name {
-  font-size: 8.8rem;
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .name_groom__bride .groom_name {
+    font-size: 6rem;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .name_groom__bride .bride_name {
+  font-size: 7rem;
   font-family: "Pinyon Script", cursive;
   font-weight: 400;
   text-transform: capitalize;
   color: #640606;
 }
-.template7 .wrapper .info_family .name_groom__bride .and_happy {
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .name_groom__bride .bride_name {
+    font-size: 6rem;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .name_groom__bride .and_happy {
   font-family: "Allura", cursive;
-  font-size: 8.8rem;
+  font-size: 6.5rem;
   font-weight: 400;
   text-transform: capitalize;
   color: #640606;
 }
-.template7 .wrapper .info_family .text {
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .name_groom__bride .and_happy {
+    font-size: 5rem;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .text {
   margin: 1.5rem 0;
-  font-size: 3.2rem;
+  font-size: 3rem;
   line-height: 1.4;
   font-family: "Allura", cursive;
   text-align: center;
   color: #333;
 }
-.template7 .wrapper .info_family .lunarDay {
-  font-size: 2.2rem;
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .text {
+    font-size: 2.7rem;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .lunarDay {
+  font-size: 2rem;
   line-height: 1.4;
   font-family: "Times New Roman", Times, serif;
   color: #333;
-  margin: 1rem auto 0 auto;
   text-transform: uppercase;
   text-align: center;
   padding-top: 1rem;
 }
-.template7 .wrapper .info_family .note {
-  font-size: 3.2rem;
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .lunarDay {
+    font-size: 1.8rem;
+  }
+}
+.template7 .wrapper .info_family .wrapper_info .note {
+  font-size: 3rem;
   line-height: 1.4;
   font-family: "Allura", cursive;
   color: #333;
   text-align: center;
-  margin: 0.5rem auto 0 auto;
+}
+@media (max-width: 768px) {
+  .template7 .wrapper .info_family .wrapper_info .note {
+    font-size: 2.8rem;
+  }
 }
 .template7 .wrapper .groom_bride {
   background: #fff;
@@ -418,7 +493,6 @@
 }
 .template7 .wrapper .location .wrapper_img__location .img_top .map_groom iframe {
   width: 100%;
-  height: 100vh;
   border: none;
 }
 .template7 .wrapper .location .wrapper_img__location .img_bottom {
@@ -428,6 +502,10 @@
   width: 100%;
   height: 55vh;
   border: none;
+}
+.template7 .wrapper .location .wrapper_img__location .img_bottom img {
+  -o-object-position: center top;
+     object-position: center top;
 }
 .template7 .wrapper .location .wrapper_img__location .torn_paper {
   position: absolute;
@@ -549,7 +627,7 @@
     font-size: 1.5rem;
   }
   .template7 .wrapper .info_family .flex_representative .representative_house h3 {
-    font-size: 1.8rem !important;
+    font-size: 1.4rem !important;
     font-weight: 400;
     text-transform: capitalize;
   }
@@ -557,30 +635,28 @@
     font-size: 1.5rem;
   }
   .template7 .wrapper .info_family .name_groom__bride {
-    width: 100%;
     padding: 0 0.5rem;
   }
   .template7 .wrapper .info_family .name_groom__bride .groom_name {
-    font-size: 6.5rem !important;
+    font-size: 4.7rem !important;
     font-family: "Pinyon Script", cursive;
     font-weight: 400;
     color: #640606;
   }
   .template7 .wrapper .info_family .name_groom__bride .bride_name {
-    font-size: 6.5rem !important;
+    font-size: 4.7rem !important;
     font-family: "Pinyon Script", cursive;
     font-weight: 400;
     color: #640606;
   }
   .template7 .wrapper .info_family .name_groom__bride .and_happy {
-    font-size: 6rem !important;
+    font-size: 4rem !important;
   }
   .template7 .wrapper .info_family .lunarDay {
-    font-size: 1.7rem !important;
+    font-size: 1.4rem !important;
     line-height: 1.4;
     font-family: "Times New Roman", Times, serif;
     color: #333;
-    margin: 1rem auto 0 auto;
     text-transform: uppercase;
   }
   .template7 .wrapper .info_family .note {
@@ -588,11 +664,10 @@
     line-height: 1.4;
     font-family: "Allura", cursive;
     color: #333;
-    margin: 1rem auto 0 auto;
   }
   .template7 .wrapper .info_family .text {
     margin: 1.5rem 0;
-    font-size: 2.2rem !important;
+    font-size: 1.8rem !important;
     line-height: 1.4;
     font-family: "Allura", cursive;
     color: #333;

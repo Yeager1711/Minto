@@ -144,7 +144,7 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                         <div className={styles.optionsSection}>
                             <div className={styles.paperOptions}>
                                 <div className={styles.quantitySelector}>
-                                    <label htmlFor="quantity">Số lượng:</label>
+                                    <label htmlFor="quantity">Số lượng khách mời:</label>
                                     <input
                                         type="number"
                                         name="quantity"

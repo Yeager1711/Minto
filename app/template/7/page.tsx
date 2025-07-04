@@ -6,19 +6,15 @@ import styles from './7.module.css';
 function Template7() {
     const [showGroomMap, setShowGroomMap] = useState(false);
     const [showBrideMap, setShowBrideMap] = useState(false);
-    const [groomButtonText, setGroomButtonText] = useState('Chỉ đường nhà trai');
-    const [brideButtonText, setBrideButtonText] = useState('Chỉ đường nhà gái');
 
     const handleGroomMapClick = () => {
-        setShowGroomMap(true);
-        setShowBrideMap(false);
-        setGroomButtonText('Xem trên bản đồ lớn');
+        setShowGroomMap(!showGroomMap);
+        setShowBrideMap(false); // Đảm bảo chỉ một bản đồ hiển thị
     };
 
     const handleBrideMapClick = () => {
-        setShowGroomMap(false);
-        setShowBrideMap(true);
-        setBrideButtonText('Xem trên bản đồ lớn');
+        setShowBrideMap(!showBrideMap);
+        setShowGroomMap(false); // Đảm bảo chỉ một bản đồ hiển thị
     };
 
     const openGroomMapInGoogle = () => {
@@ -60,33 +56,35 @@ function Template7() {
                     </div>
                 </div>
                 <div className={styles.info_family}>
-                    <div className={styles.flex_representative}>
-                        <div className={styles.representative_house}>
-                            <span>Nhà trai</span>
-                            <h3>Ông: Nguyễn văn A</h3>
-                            <h3>Bà: Trần Thị B</h3>
+                    <div className={styles.wrapper_info}>
+                        <div className={styles.flex_representative}>
+                            <div className={styles.representative_house}>
+                                <span>Nhà trai</span>
+                                <h3>Ông: Nguyễn văn An</h3>
+                                <h3>Bà: Trần Thị Bảy</h3>
+                            </div>
+                            <div className={styles.representative_house}>
+                                <span>Nhà gái</span>
+                                <h3>Ông: Lê văn Chung</h3>
+                                <h3>Bà: Phạm thị Dung</h3>
+                            </div>
                         </div>
-                        <div className={styles.representative_house}>
-                            <span>Nhà gái</span>
-                            <h3>Ông: Lê văn C</h3>
-                            <h3>Bà: Phạm thị D</h3>
+
+                        <div className={styles.name_groom__bride}>
+                            <div className={styles.groom_name}>Nam Khánh</div>
+                            <div className={styles.and_happy}>&</div>
+                            <div className={styles.bride_name}>Trúc Lam</div>
                         </div>
+
+                        <p className={styles.text}>
+                            Trân trọng kính mời Quý Khách
+                            <br />
+                            Đến dự Lễ Thành Hôn của hai con chúng tôi
+                        </p>
+
+                        <p className={styles.lunarDay}>(Nhằm Ngày 24 tháng 06 năm ất tỵ)</p>
+                        <p className={styles.note}>Rất hân hạnh được đón tiếp!</p>
                     </div>
-
-                    <div className={styles.name_groom__bride}>
-                        <div className={styles.groom_name}>Nam Khánh</div>
-                        <div className={styles.and_happy}>&</div>
-                        <div className={styles.bride_name}>Trúc Lam</div>
-                    </div>
-
-                    <p className={styles.text}>
-                        Trân trọng kính mời Quý Khách
-                        <br />
-                        Đến dự Lễ Thành Hôn của hai con chúng tôi
-                    </p>
-
-                    <p className={styles.lunarDay}>(Nhằm Ngày 24 tháng 06 năm ất tỵ)</p>
-                    <p className={styles.note}>Rất hân hạnh được đón tiếp!</p>
                 </div>
 
                 <div className={styles.groom_bride}>
@@ -139,7 +137,7 @@ function Template7() {
                 <div className={styles.location}>
                     <div className={styles.wrapper_img__location}>
                         <div className={styles.img_top}>
-                            {!showGroomMap && <img src="/images/m7/1.jpg" alt="" />}
+                            {!showGroomMap && <img src="/images/m7/3.jpg" alt="" />}
                             {showGroomMap && (
                                 <div className={styles.map_groom}>
                                     <iframe
@@ -156,30 +154,30 @@ function Template7() {
                         <div className={styles.torn_paper}>
                             <img src="/images/text_png/top_bottom.png" alt="" />
                             <div className={styles.show_theWay}>
-                                <h3>Địa điểm chỉ đường</h3>
+                                <h3>Địa điểm tổ chức</h3>
 
                                 <div className={styles.flex_location}>
                                     <button
                                         className={styles.btn_showTheway__groom}
                                         onClick={() => {
                                             handleGroomMapClick();
-                                            if (groomButtonText === 'Xem trên bản đồ lớn') {
+                                            if (showGroomMap) {
                                                 openGroomMapInGoogle();
                                             }
                                         }}
                                     >
-                                        {groomButtonText}
+                                        {showGroomMap ? 'Xem trên bản đồ lớn' : 'Google map nhà trai'}
                                     </button>
                                     <button
                                         className={styles.btn_showTheway__bride}
                                         onClick={() => {
                                             handleBrideMapClick();
-                                            if (brideButtonText === 'Xem trên bản đồ lớn') {
+                                            if (showBrideMap) {
                                                 openBrideMapInGoogle();
                                             }
                                         }}
                                     >
-                                        {brideButtonText}
+                                        {showBrideMap ? 'Xem trên bản đồ lớn' : 'Google map nhà gái'}
                                     </button>
                                 </div>
                             </div>
