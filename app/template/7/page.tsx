@@ -229,6 +229,21 @@ function Template7() {
                         </div>
                     </div>
                 </div>
+
+                <div className={styles.footer}>
+                    <div className={styles.column_text}>
+                        <h3 >
+                            Thank You
+                        </h3>
+                        <span className={styles.subtext}>
+                            Cảm ơn Quý Khách vì đã trở thành một phần quan trọng
+                            <br />
+                            trong ngày đặc biệt của chúng tôi.
+                        </span>
+                    </div>
+
+                    <img src="/images/m7/ft_m7.png" alt="" />
+                </div>
             </div>
         </div>
     );

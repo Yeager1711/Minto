@@ -633,7 +633,7 @@
 
             .title {
                 max-width: 50rem;
-                margin:  3rem auto 0 auto;
+                margin: 3rem auto 0 auto;
                 width: 80%;
 
                 img {
@@ -675,6 +675,52 @@
                 }
             }
 
+        }
+
+        .footer {
+            margin: auto;
+            max-width: 80rem;
+            width: 100%;
+
+
+            .column_text {
+                text-align: center;
+                max-width: 80rem;
+                width: 95%;
+                margin: auto;
+
+                h3 {
+                    font-size: 5.5rem;
+                    margin: 1rem 0;
+                    font-family: 'Allura', cursive;
+                    font-weight: 400;
+                }
+
+                .subtext {
+                    font-size: 2.8rem;
+                    width: 25rem;
+                    line-height: 1.5;
+                    font-family: 'Allura', cursive;
+
+                  
+
+                    @media (max-width: 768px) {
+                        font-size: 2.8rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 1.8rem;
+                    }
+                }
+            }
+
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
     }
 
