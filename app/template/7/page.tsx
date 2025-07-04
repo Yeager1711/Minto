@@ -36,11 +36,11 @@ function Template7() {
                     </div>
                     <div className={styles.overlay_content}>
                         <div className={styles.layout_paper}>
-                            <img src="/images/text_png/png_5.png" alt="" />
+                            <img src="/images/m7/png_5.png" alt="" />
 
                             <div className={styles.content}>
                                 <div className={styles.saveTheDate}>
-                                    <img src="/images/text_png/std_text2.png" alt="" />
+                                    <img src="/images/m7/std_text2.png" alt="" />
                                 </div>
                                 <div className={styles.weddingOf}>THE WEDDING OF</div>
                                 <div className={styles.names}>
@@ -152,7 +152,7 @@ function Template7() {
                         </div>
 
                         <div className={styles.torn_paper}>
-                            <img src="/images/text_png/top_bottom.png" alt="" />
+                            <img src="/images/m7/top_bottom.png" alt="" />
                             <div className={styles.show_theWay}>
                                 <h3>Địa điểm tổ chức</h3>
 
@@ -196,6 +196,36 @@ function Template7() {
                                     ></iframe>
                                 </div>
                             )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.album_wedding}>
+                    <div className={styles.title}>
+                        <img src="/images/m6/albumWedding_text.png" alt="" />
+                    </div>
+
+                    <div className={styles.bento_grid}>
+                        <div className={styles.boxTall}>
+                            <img src="/images/m7/1.jpg" alt="" />
+                        </div>
+                        <div className={styles.boxTall}>
+                            <img src="/images/m7/2.jpg" alt="" />
+                        </div>
+                        <div className={styles.boxTall}>
+                            <img src="/images/m7/8.jpg" alt="" />
+                        </div>
+                        <div className={styles.boxWide}>
+                            <img src="/images/m7/3.jpg" alt="" />
+                        </div>
+                        <div className={styles.box}>
+                            <img src="/images/m7/5.jpg" alt="" />
+                        </div>
+                        <div className={styles.boxTall}>
+                            <img src="/images/m7/6.jpg" alt="" />
+                        </div>
+                        <div className={styles.boxWide}>
+                            <img src="/images/m7/7.jpg" alt="" />
                         </div>
                     </div>
                 </div>

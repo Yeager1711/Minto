@@ -113,7 +113,7 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 .template7 .wrapper .info_family {
-  background-image: url(../../../public/images/text_png/info_family.jpg);
+  background-image: url(../../../public/images/m7/info_family.jpg);
   background-repeat: no-repeat;
   height: 100vh;
   background-size: cover;
@@ -290,7 +290,7 @@
   background: #fff;
 }
 .template7 .wrapper .groom_bride .groom_bride__wrapper {
-  background-image: url(../../../public/images/text_png/png_8.png);
+  background-image: url(../../../public/images/m7/png_8.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center bottom;
@@ -377,7 +377,7 @@
   background: #fff;
 }
 .template7 .wrapper .bride_bride .bride_bride__wrapper {
-  background-image: url(../../../public/images/text_png/png8.1.png);
+  background-image: url(../../../public/images/m7/png8.1.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center bottom;
@@ -564,6 +564,50 @@
   border-radius: 1rem;
   cursor: pointer;
   font-family: "Times New Roman", Times, serif;
+}
+.template7 .wrapper .album_wedding {
+  text-align: center;
+}
+.template7 .wrapper .album_wedding .title {
+  max-width: 50rem;
+  margin: 3rem auto 0 auto;
+  width: 80%;
+}
+.template7 .wrapper .album_wedding .title img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template7 .wrapper .album_wedding .bento_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 2rem 0.5rem;
+  max-width: 80rem;
+  margin: auto;
+}
+.template7 .wrapper .album_wedding .bento_grid .box,
+.template7 .wrapper .album_wedding .bento_grid .boxTall,
+.template7 .wrapper .album_wedding .bento_grid .boxWide {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+}
+.template7 .wrapper .album_wedding .bento_grid .box img,
+.template7 .wrapper .album_wedding .bento_grid .boxTall img,
+.template7 .wrapper .album_wedding .bento_grid .boxWide img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.template7 .wrapper .album_wedding .bento_grid .boxTall {
+  height: 35rem;
+}
+.template7 .wrapper .album_wedding .bento_grid .boxWide {
+  grid-column: span 2;
 }
 
 @media (max-width: 1023px) {
