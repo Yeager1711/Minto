@@ -1,0 +1,112 @@
+.edtiTemplate .wrapper {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 80rem;
+  width: 100%;
+  margin: auto;
+}
+.edtiTemplate .wrapper .list_template h3 {
+  font-size: 1.8rem;
+}
+.edtiTemplate .wrapper .list_template .template {
+  padding: 2rem 1.5rem;
+  border: 0.1rem solid #dbdbdb;
+  margin-bottom: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.edtiTemplate .wrapper .list_template .template:hover {
+  margin-left: 1rem;
+  transition: 0.3s ease-in-out;
+}
+.edtiTemplate .wrapper .list_template .template:last-child {
+  margin-bottom: 0;
+}
+.edtiTemplate .wrapper .list_template .template .name_template {
+  font-size: 1.35rem;
+}
+.edtiTemplate .wrapper .list_template .template .btn_edit {
+  padding: 0.8rem 1.5rem;
+  background: #ff7d55;
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.edtiTemplate .wrapper .mapping_info {
+  max-width: 80rem;
+  width: 100%;
+}
+.edtiTemplate .wrapper .mapping_info .flex_btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.edtiTemplate .wrapper .mapping_info .flex_btn .btn_BackEdit {
+  padding: 0.8rem 2rem;
+  background: #dbdbdb;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+}
+.edtiTemplate .wrapper .mapping_info .input {
+  margin: 1rem 0;
+}
+.edtiTemplate .wrapper .mapping_info .input span {
+  display: block;
+  font-size: 1.4rem;
+}
+.edtiTemplate .wrapper .mapping_info .input input,
+.edtiTemplate .wrapper .mapping_info .input select {
+  border: 0.1rem solid #dbdbdb;
+  padding: 0.8rem 1.5rem;
+  font-size: 16px;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  max-width: 40rem;
+  width: 100%;
+}
+.edtiTemplate .wrapper .mapping_info .input input::-moz-placeholder, .edtiTemplate .wrapper .mapping_info .input select::-moz-placeholder {
+  font-size: 1.25rem;
+}
+.edtiTemplate .wrapper .mapping_info .input input::placeholder,
+.edtiTemplate .wrapper .mapping_info .input select::placeholder {
+  font-size: 1.25rem;
+}
+.edtiTemplate .wrapper .mapping_info .input input option,
+.edtiTemplate .wrapper .mapping_info .input select option {
+  width: 100%;
+}
+.edtiTemplate .wrapper .mapping_info .input textarea {
+  border: 0.1rem solid #dbdbdb;
+  padding: 0.8rem 1.5rem;
+  font-size: 16px;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 30rem;
+}
+.edtiTemplate .wrapper .mapping_info .btn_update {
+  padding: 1rem 2rem;
+  background: #00a85e;
+  border-radius: 0.5rem;
+  width: 100%;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  margin-top: 2rem;
+}
+.edtiTemplate .wrapper .mapping_info .btn_update:hover {
+  border-radius: 5rem;
+  transition: 0.3s ease-in-out;
+}/*# sourceMappingURL=editTemplate.module.css.map */

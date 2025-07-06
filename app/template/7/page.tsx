@@ -29,9 +29,38 @@ function Template7() {
 
     return (
         <div className={styles.template7}>
+            {/* <div className={styles.intro}>
+                <div className={styles.colum_center}></div>
+
+                <div className={styles.wrapper_intro}>
+                    <div className={styles.border_center__img}>
+                        <img src="/images/m7/center.png" alt="" />
+                    </div>
+                    
+                </div>
+
+                <div className={styles.wrapper_animation__Click}>
+                    <div className={styles.icon_arrow__left}>
+                        <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
+                        <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
+                    </div>
+                    <div className={styles.text}>Click vào màn hình để mở</div>
+                    <div className={styles.icon_arrow__right}>
+                        <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
+                        <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
+                    </div>
+                </div>
+
+                <div className={styles.invition_name}>
+                    <span>Trân Trọng Kính Mời</span>
+                    <strong>Huỳnh Nam</strong>
+                </div>
+            </div> */}
+
             <div className={styles.wrapper}>
                 <div className={styles.header}>
                     <div className={styles.mainImage}>
+                        {/* ảnh main được chỉnh sửa*/}
                         <img src="/images/m7/4.jpg" alt="" />
                     </div>
                     <div className={styles.overlay_content}>
@@ -91,6 +120,7 @@ function Template7() {
                     <div className={styles.groom_bride__wrapper}>
                         <div className={styles.groom}>
                             <div className={styles.img_groom}>
+                                {/* ảnh chú rể được chỉnh sửa*/}
                                 <img src="/images/m7/2.jpg" alt="" />
                             </div>
                             <div className={styles.info}>
@@ -119,6 +149,7 @@ function Template7() {
                             </div>
 
                             <div className={styles.img_bride}>
+                                {/* ảnh cô dâu được chỉnh sửa */}
                                 <img src="/images/m7/1.jpg" alt="" />
                             </div>
                         </div>
@@ -137,6 +168,7 @@ function Template7() {
                 <div className={styles.location}>
                     <div className={styles.wrapper_img__location}>
                         <div className={styles.img_top}>
+                            {/* ảnh được cho phép chỉnh sửa */}
                             {!showGroomMap && <img src="/images/m7/3.jpg" alt="" />}
                             {showGroomMap && (
                                 <div className={styles.map_groom}>
@@ -184,6 +216,7 @@ function Template7() {
                         </div>
 
                         <div className={styles.img_bottom}>
+                            {/* ảnh được cho phép chỉnh sửa */}
                             {!showBrideMap && <img src="/images/m7/8.jpg" alt="" />}
                             {showBrideMap && (
                                 <div className={styles.map_bride}>
@@ -206,6 +239,8 @@ function Template7() {
                     </div>
 
                     <div className={styles.bento_grid}>
+                        {/*phần ảnh được cho phép chỉnh sửa */}
+
                         <div className={styles.boxTall}>
                             <img src="/images/m7/1.jpg" alt="" />
                         </div>
@@ -222,19 +257,17 @@ function Template7() {
                             <img src="/images/m7/5.jpg" alt="" />
                         </div>
                         <div className={styles.boxTall}>
-                            <img src="/images/m7/6.jpg" alt="" />
+                            <img src="/images/m7/7.jpg" alt="" />
                         </div>
                         <div className={styles.boxWide}>
-                            <img src="/images/m7/7.jpg" alt="" />
+                            <img src="/images/m7/6.jpg" alt="" />
                         </div>
                     </div>
                 </div>
 
                 <div className={styles.footer}>
                     <div className={styles.column_text}>
-                        <h3 >
-                            Thank You
-                        </h3>
+                        <h3>Thank You</h3>
                         <span className={styles.subtext}>
                             Cảm ơn Quý Khách vì đã trở thành một phần quan trọng
                             <br />

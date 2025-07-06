@@ -25,6 +25,7 @@ import AddProduct from '../popup/add_template/addTemplates';
 import Skeleton from './Skeleton';
 import Navigation from '../navigations/navigations';
 import ErrorList from '../error_list/page';
+import EditTemplate from '../editTemplate/page';
 
 // Register ChartJS components
 ChartJS.register(
@@ -549,7 +550,9 @@ const Dashboard: React.FC = () => {
                     </div>
                 );
             case 'edit':
-                return <div className={styles.section_content}>Chỉnh sửa thông tin</div>;
+                return <div className={styles.section_content}>
+                    <EditTemplate />
+                </div>;
             default:
                 return (
                     <div className={styles.main_content}>
