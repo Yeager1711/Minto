@@ -48,7 +48,7 @@ function Template8() {
 
                 <div className={styles.wrapper_story__love}>
                     <div className={styles.card_story__groom}>
-                        <h1>The Groom's Story</h1>
+                        <h1>The Groom Story</h1>
                         <div className={styles.groom_name}>Thiên Phúc</div>
                         <p className={styles.text_story}>
                             Hạnh phúc nhất trên đời không phải là việc gặp được người tuyệt nhất ở những tháng ngày đẹp
@@ -62,13 +62,13 @@ function Template8() {
 
                             <div className={styles.btn_map}>
                                 <FontAwesomeIcon icon={faLocationDot} />
-                                Chỉ đường Google map
+                                Chỉ đường Google map 
                             </div>
                         </div>
                     </div>
 
                     <div className={styles.card_story__bride}>
-                        <h1>The Bride's Story</h1>
+                        <h1>The Bride Story</h1>
                         <div className={styles.bride_name}>Mai Thảo</div>
                         <p className={styles.text_story}>
                             Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm, chăm sóc
