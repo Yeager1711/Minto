@@ -29,34 +29,6 @@ function Template7() {
 
     return (
         <div className={styles.template7}>
-            {/* <div className={styles.intro}>
-                <div className={styles.colum_center}></div>
-
-                <div className={styles.wrapper_intro}>
-                    <div className={styles.border_center__img}>
-                        <img src="/images/m7/center.png" alt="" />
-                    </div>
-                    
-                </div>
-
-                <div className={styles.wrapper_animation__Click}>
-                    <div className={styles.icon_arrow__left}>
-                        <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
-                        <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
-                    </div>
-                    <div className={styles.text}>Click vào màn hình để mở</div>
-                    <div className={styles.icon_arrow__right}>
-                        <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
-                        <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
-                    </div>
-                </div>
-
-                <div className={styles.invition_name}>
-                    <span>Trân Trọng Kính Mời</span>
-                    <strong>Huỳnh Nam</strong>
-                </div>
-            </div> */}
-
             <div className={styles.wrapper}>
                 <div className={styles.header}>
                     <div className={styles.mainImage}>

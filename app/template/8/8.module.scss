@@ -1,0 +1,449 @@
+.template8 {
+    background-image: url(../../../public/images/m8/bg_family.jpg);
+    position: relative;
+    overflow: hidden;
+
+    .wrapper {
+        max-width: 80rem;
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        border: .1rem solid #ffffc8;
+        border-radius: 1rem;
+
+        .mainImage {
+            position: relative;
+            overflow: hidden;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: url(../../../public/images/m8/nen.png);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                z-index: 2;
+                pointer-events: none;
+            }
+
+            img {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                display: block;
+                z-index: 1;
+                position: relative;
+            }
+        }
+
+        .info {
+            padding: 3rem 2rem;
+            position: relative;
+            // background-image: url(../../../public/images/m8/bg_family.jpg);
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: -40%;
+                bottom: 0;
+                width: 100%;
+                background-image: url(../../../public/images/m8/flower_rightM8.png);
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+                z-index: 1;
+            }
+
+            h3 {
+                font-size: 2.5rem;
+                color: #e5d6c3;
+                font-weight: 400;
+                text-transform: uppercase;
+                font-family: 'Times New Roman', Times, serif;
+                line-height: 1.5;
+
+                strong {
+                    font-size: 6rem;
+                    font-family: "Pinyon Script", cursive;
+                    font-weight: 400;
+                    text-transform: none;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 2.3rem;
+
+                    strong {
+                        font-size: 6.8rem;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 1.8rem;
+
+                    strong {
+                        font-size: 4.6rem;
+                    }
+                }
+
+            }
+
+            .groom_name,
+            .bride_name {
+                font-family: "Pinyon Script", cursive;
+                font-size: 10rem;
+                color: #fff;
+                text-transform: capitalize;
+
+
+
+                @media (max-width: 768px) {
+                    font-size: 7rem;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 4.5rem;
+                }
+            }
+
+            .bride_name {
+                padding-bottom: 1rem;
+                border-bottom: .1rem solid #ffff;
+            }
+
+            .and {
+                font-family: 'Allura', cursive;
+                font-size: 4rem;
+                font-weight: 400;
+                text-transform: none;
+                color: #fff;
+            }
+
+            .specific_time {
+                // border-bottom: .1rem solid #dbdbdb;
+
+                &>* {
+                    position: relative;
+                    z-index: 1;
+                }
+
+                h4 {
+                    font-size: 2.3rem;
+                    color: #e5d6c3;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    font-family: 'Times New Roman', Times, serif;
+                    margin: 2rem 0;
+
+
+
+                    @media (max-width: 768px) {
+                        font-size: 2rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 1.5em;
+                        text-shadow: 0 0 0.3rem #151414, 0 0 0.6rem #171717;
+                        font-weight: 550;
+
+                    }
+                }
+
+                span {
+                    font-size: 2rem;
+                    color: #e5d6c3;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    font-family: 'Times New Roman', Times, serif;
+                    line-height: 1.3;
+
+                    @media (max-width: 768px) {
+                        font-size: 2rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 1.4rem;
+                        text-shadow: 0 0 0.3rem #151414, 0 0 0.6rem #171717;
+                        font-weight: 550;
+
+                    }
+                }
+
+                .info_family {
+                    padding: 2rem 0;
+
+                    span {
+                        text-transform: capitalize;
+                        font-size: 2rem;
+                        color: #fff;
+
+                        @media (max-width: 768px) {
+                            font-size: 1.8rem;
+                        }
+
+                        @media (max-width: 480px) {
+                            font-size: 1.5rem;
+                        }
+                    }
+
+                    .groom_family,
+                    .bride_family {
+
+                        h3 {
+                            color: #fff;
+                            margin: auto;
+                            font-weight: 400;
+                        }
+                    }
+
+
+                    .bride_family {
+                        padding-top: 2.5rem;
+
+                        h3 {
+                            margin: auto;
+                        }
+                    }
+
+                    p {
+                        text-transform: capitalize;
+                        font-size: 1.8rem;
+                        color: #fff;
+                        font-family: 'Times New Roman', Times, serif;
+                        margin: 1rem 0 0 0;
+
+                        @media (max-width: 768px) {
+                            font-size: 1.8rem;
+                        }
+
+                        @media (max-width: 480px) {
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .wrapper_story__love {
+            // background: #fcf3ec;
+            padding: 3rem 2rem;
+
+            .card_story__groom,
+            .card_story__bride {
+                min-height: 100vh;
+                position: relative;
+                text-align: center;
+
+                h1 {
+                    color: #e7c695;
+                    font-size: 3rem;
+                    text-transform: capitalize;
+                }
+
+                .groom_name,
+                .bride_name {
+                    font-family: "Pinyon Script", cursive;
+                    font-size: 10rem;
+                    color: #ffb778;
+                    text-transform: capitalize;
+
+                    @media (max-width: 768px) {
+                        font-size: 8rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 6rem;
+                    }
+                }
+
+                .text_story {
+                    font-size: 2.5rem;
+                    line-height: 2;
+                    max-width: 100%;
+                    width: 95%;
+                    margin: auto;
+                    font-family: 'Allura', cursive;
+                    color: #fff;
+
+                    @media (max-width: 768px) {
+                        font-size: 2.3rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 2rem;
+                    }
+                }
+
+                .vector_img__groom,
+                .vector_img__bride {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0 auto;
+                    position: relative;
+                    transform: scale(1);
+                    margin-top: -4rem;
+
+                    img {
+                        display: block;
+                        width: 100%;
+                        width: 100%;
+                        height: auto; // hoặc đặt chiều cao cụ thể như 600px
+                        object-fit: cover;
+                        display: block;
+                        mask-image: url('../../../public/images/m8/vector8.1.svg');
+                        -webkit-mask-image: url('../../../public/images/m8/vector8.1.svg');
+                        mask-size: cover;
+                        -webkit-mask-size: cover;
+                        mask-repeat: no-repeat;
+                        -webkit-mask-repeat: no-repeat;
+                        mask-position: center;
+                        -webkit-mask-position: center;
+                        border-radius: 5rem;
+                        transform: scale(1);
+                        border: none;
+                    }
+
+                    .btn_map {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        padding: 1rem 4rem;
+                        background: #e7c695;
+                        color: #171717;
+                        font-size: 1.4rem;
+                        border-bottom-left-radius: 3rem;
+                        border-top-right-radius: 3rem;
+
+                        svg {
+                            margin-right: .7rem;
+                        }
+
+
+
+                        @media (max-width: 768px) {
+                            padding: 1.2rem 4rem;
+                            font-size: 1.2rem;
+                        }
+
+                        @media (max-width: 480px) {
+                            padding: 1.1rem 4rem;
+                            font-size: 1.2rem;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        .album_wedding {
+            text-align: center;
+
+            .title {
+                font-size: 5.5rem;
+                margin: 1rem 0;
+                font-family: 'Allura', cursive;
+                font-weight: 400;
+                color: #fff;
+            }
+
+            .bento_grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: .5rem;
+                padding: 2rem .5rem;
+                max-width: 80rem;
+                margin: auto;
+
+                .box,
+                .boxTall,
+                .boxWide {
+                    border-radius: 1.5rem;
+                    overflow: hidden;
+                    position: relative;
+                    border: .1rem solid #dbdbdb;
+
+
+                    @media (max-width: 1024px) {
+                        width: 100%;
+                    }
+
+                    @media (max-width: 768px) {
+                        height: 30rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        height: 20rem;
+                    }
+
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                    }
+                }
+
+                .boxWide {
+                    grid-column: span 2;
+                }
+            }
+
+        }
+
+        .footer {
+            margin: auto;
+            max-width: 80rem;
+            width: 100%;
+
+
+            .column_text {
+                text-align: center;
+                max-width: 80rem;
+                width: 95%;
+                margin: auto;
+
+                h3 {
+                    font-size: 5.5rem;
+                    margin: 1rem 0;
+                    font-family: 'Allura', cursive;
+                    font-weight: 400;
+                    color: #fff;
+                }
+
+                .subtext {
+                    font-size: 2.8rem;
+                    width: 25rem;
+                    line-height: 1.5;
+                    font-family: 'Allura', cursive;
+                    color: #fff;
+
+
+                    @media (max-width: 768px) {
+                        font-size: 2.8rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 1.8rem;
+                    }
+                }
+            }
+
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}

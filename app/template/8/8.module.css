@@ -1,0 +1,447 @@
+.template8 {
+  background-image: url(../../../public/images/m8/bg_family.jpg);
+  position: relative;
+  overflow: hidden;
+}
+.template8 .wrapper {
+  max-width: 80rem;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  border: 0.1rem solid #ffffc8;
+  border-radius: 1rem;
+}
+.template8 .wrapper .mainImage {
+  position: relative;
+  overflow: hidden;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+.template8 .wrapper .mainImage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(../../../public/images/m8/nen.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: 2;
+  pointer-events: none;
+}
+.template8 .wrapper .mainImage img {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  z-index: 1;
+  position: relative;
+}
+.template8 .wrapper .info {
+  padding: 3rem 2rem;
+  position: relative;
+}
+.template8 .wrapper .info::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -40%;
+  bottom: 0;
+  width: 100%;
+  background-image: url(../../../public/images/m8/flower_rightM8.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  z-index: 1;
+}
+.template8 .wrapper .info h3 {
+  font-size: 2.5rem;
+  color: #e5d6c3;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: "Times New Roman", Times, serif;
+  line-height: 1.5;
+}
+.template8 .wrapper .info h3 strong {
+  font-size: 6rem;
+  font-family: "Pinyon Script", cursive;
+  font-weight: 400;
+  text-transform: none;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .info h3 {
+    font-size: 2.3rem;
+  }
+  .template8 .wrapper .info h3 strong {
+    font-size: 6.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .info h3 {
+    font-size: 1.8rem;
+  }
+  .template8 .wrapper .info h3 strong {
+    font-size: 4.6rem;
+  }
+}
+.template8 .wrapper .info .groom_name,
+.template8 .wrapper .info .bride_name {
+  font-family: "Pinyon Script", cursive;
+  font-size: 10rem;
+  color: #fff;
+  text-transform: capitalize;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .info .groom_name,
+  .template8 .wrapper .info .bride_name {
+    font-size: 7rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .info .groom_name,
+  .template8 .wrapper .info .bride_name {
+    font-size: 4.5rem;
+  }
+}
+.template8 .wrapper .info .bride_name {
+  padding-bottom: 1rem;
+  border-bottom: 0.1rem solid white;
+}
+.template8 .wrapper .info .and {
+  font-family: "Allura", cursive;
+  font-size: 4rem;
+  font-weight: 400;
+  text-transform: none;
+  color: #fff;
+}
+.template8 .wrapper .info .specific_time > * {
+  position: relative;
+  z-index: 1;
+}
+.template8 .wrapper .info .specific_time h4 {
+  font-size: 2.3rem;
+  color: #e5d6c3;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: "Times New Roman", Times, serif;
+  margin: 2rem 0;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .info .specific_time h4 {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .info .specific_time h4 {
+    font-size: 1.5em;
+    text-shadow: 0 0 0.3rem #151414, 0 0 0.6rem #171717;
+    font-weight: 550;
+  }
+}
+.template8 .wrapper .info .specific_time span {
+  font-size: 2rem;
+  color: #e5d6c3;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: "Times New Roman", Times, serif;
+  line-height: 1.3;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .info .specific_time span {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .info .specific_time span {
+    font-size: 1.4rem;
+    text-shadow: 0 0 0.3rem #151414, 0 0 0.6rem #171717;
+    font-weight: 550;
+  }
+}
+.template8 .wrapper .info .specific_time .info_family {
+  padding: 2rem 0;
+}
+.template8 .wrapper .info .specific_time .info_family span {
+  text-transform: capitalize;
+  font-size: 2rem;
+  color: #fff;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .info .specific_time .info_family span {
+    font-size: 1.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .info .specific_time .info_family span {
+    font-size: 1.5rem;
+  }
+}
+.template8 .wrapper .info .specific_time .info_family .groom_family h3,
+.template8 .wrapper .info .specific_time .info_family .bride_family h3 {
+  color: #fff;
+  margin: auto;
+  font-weight: 400;
+}
+.template8 .wrapper .info .specific_time .info_family .bride_family {
+  padding-top: 2.5rem;
+}
+.template8 .wrapper .info .specific_time .info_family .bride_family h3 {
+  margin: auto;
+}
+.template8 .wrapper .info .specific_time .info_family p {
+  text-transform: capitalize;
+  font-size: 1.8rem;
+  color: #fff;
+  font-family: "Times New Roman", Times, serif;
+  margin: 1rem 0 0 0;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .info .specific_time .info_family p {
+    font-size: 1.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .info .specific_time .info_family p {
+    font-size: 1.5rem;
+  }
+}
+.template8 .wrapper .wrapper_story__love {
+  padding: 3rem 2rem;
+}
+.template8 .wrapper .wrapper_story__love .card_story__groom,
+.template8 .wrapper .wrapper_story__love .card_story__bride {
+  min-height: 100vh;
+  position: relative;
+  text-align: center;
+}
+.template8 .wrapper .wrapper_story__love .card_story__groom h1,
+.template8 .wrapper .wrapper_story__love .card_story__bride h1 {
+  color: #e7c695;
+  font-size: 3rem;
+  text-transform: capitalize;
+}
+.template8 .wrapper .wrapper_story__love .card_story__groom .groom_name,
+.template8 .wrapper .wrapper_story__love .card_story__groom .bride_name,
+.template8 .wrapper .wrapper_story__love .card_story__bride .groom_name,
+.template8 .wrapper .wrapper_story__love .card_story__bride .bride_name {
+  font-family: "Pinyon Script", cursive;
+  font-size: 10rem;
+  color: #ffb778;
+  text-transform: capitalize;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .wrapper_story__love .card_story__groom .groom_name,
+  .template8 .wrapper .wrapper_story__love .card_story__groom .bride_name,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .groom_name,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .bride_name {
+    font-size: 8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .wrapper_story__love .card_story__groom .groom_name,
+  .template8 .wrapper .wrapper_story__love .card_story__groom .bride_name,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .groom_name,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .bride_name {
+    font-size: 6rem;
+  }
+}
+.template8 .wrapper .wrapper_story__love .card_story__groom .text_story,
+.template8 .wrapper .wrapper_story__love .card_story__bride .text_story {
+  font-size: 2.5rem;
+  line-height: 2;
+  max-width: 100%;
+  width: 95%;
+  margin: auto;
+  font-family: "Allura", cursive;
+  color: #fff;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .wrapper_story__love .card_story__groom .text_story,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .text_story {
+    font-size: 2.3rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .wrapper_story__love .card_story__groom .text_story,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .text_story {
+    font-size: 2rem;
+  }
+}
+.template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__groom,
+.template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__bride,
+.template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__groom,
+.template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__bride {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  transform: scale(1);
+  margin-top: -4rem;
+}
+.template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__groom img,
+.template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__bride img,
+.template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__groom img,
+.template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__bride img {
+  display: block;
+  width: 100%;
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  mask-image: url("../../../public/images/m8/vector8.1.svg");
+  -webkit-mask-image: url("../../../public/images/m8/vector8.1.svg");
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  border-radius: 5rem;
+  transform: scale(1);
+  border: none;
+}
+.template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__groom .btn_map,
+.template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__bride .btn_map,
+.template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__groom .btn_map,
+.template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__bride .btn_map {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 1rem 4rem;
+  background: #e7c695;
+  color: #171717;
+  font-size: 1.4rem;
+  border-bottom-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+}
+.template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__groom .btn_map svg,
+.template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__bride .btn_map svg,
+.template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__groom .btn_map svg,
+.template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__bride .btn_map svg {
+  margin-right: 0.7rem;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__groom .btn_map,
+  .template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__bride .btn_map,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__groom .btn_map,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__bride .btn_map {
+    padding: 1.2rem 4rem;
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__groom .btn_map,
+  .template8 .wrapper .wrapper_story__love .card_story__groom .vector_img__bride .btn_map,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__groom .btn_map,
+  .template8 .wrapper .wrapper_story__love .card_story__bride .vector_img__bride .btn_map {
+    padding: 1.1rem 4rem;
+    font-size: 1.2rem;
+  }
+}
+.template8 .wrapper .album_wedding {
+  text-align: center;
+}
+.template8 .wrapper .album_wedding .title {
+  font-size: 5.5rem;
+  margin: 1rem 0;
+  font-family: "Allura", cursive;
+  font-weight: 400;
+  color: #fff;
+}
+.template8 .wrapper .album_wedding .bento_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 2rem 0.5rem;
+  max-width: 80rem;
+  margin: auto;
+}
+.template8 .wrapper .album_wedding .bento_grid .box,
+.template8 .wrapper .album_wedding .bento_grid .boxTall,
+.template8 .wrapper .album_wedding .bento_grid .boxWide {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  border: 0.1rem solid #dbdbdb;
+}
+@media (max-width: 1024px) {
+  .template8 .wrapper .album_wedding .bento_grid .box,
+  .template8 .wrapper .album_wedding .bento_grid .boxTall,
+  .template8 .wrapper .album_wedding .bento_grid .boxWide {
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .album_wedding .bento_grid .box,
+  .template8 .wrapper .album_wedding .bento_grid .boxTall,
+  .template8 .wrapper .album_wedding .bento_grid .boxWide {
+    height: 30rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .album_wedding .bento_grid .box,
+  .template8 .wrapper .album_wedding .bento_grid .boxTall,
+  .template8 .wrapper .album_wedding .bento_grid .boxWide {
+    height: 20rem;
+  }
+}
+.template8 .wrapper .album_wedding .bento_grid .box img,
+.template8 .wrapper .album_wedding .bento_grid .boxTall img,
+.template8 .wrapper .album_wedding .bento_grid .boxWide img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.template8 .wrapper .album_wedding .bento_grid .boxWide {
+  grid-column: span 2;
+}
+.template8 .wrapper .footer {
+  margin: auto;
+  max-width: 80rem;
+  width: 100%;
+}
+.template8 .wrapper .footer .column_text {
+  text-align: center;
+  max-width: 80rem;
+  width: 95%;
+  margin: auto;
+}
+.template8 .wrapper .footer .column_text h3 {
+  font-size: 5.5rem;
+  margin: 1rem 0;
+  font-family: "Allura", cursive;
+  font-weight: 400;
+  color: #fff;
+}
+.template8 .wrapper .footer .column_text .subtext {
+  font-size: 2.8rem;
+  width: 25rem;
+  line-height: 1.5;
+  font-family: "Allura", cursive;
+  color: #fff;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .footer .column_text .subtext {
+    font-size: 2.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .footer .column_text .subtext {
+    font-size: 1.8rem;
+  }
+}
+.template8 .wrapper .footer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}/*# sourceMappingURL=8.module.css.map */
