@@ -347,11 +347,20 @@
             text-align: center;
 
             .title {
-                font-size: 5.5rem;
+                font-size: 7.5rem;
                 margin: 1rem 0;
                 font-family: 'Allura', cursive;
                 font-weight: 400;
                 color: #fff;
+
+                @media (max-width: 768px) {
+                    font-size: 7rem;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 5.5rem;
+                }
+
             }
 
             .bento_grid {

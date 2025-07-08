@@ -348,11 +348,21 @@
   text-align: center;
 }
 .template8 .wrapper .album_wedding .title {
-  font-size: 5.5rem;
+  font-size: 7.5rem;
   margin: 1rem 0;
   font-family: "Allura", cursive;
   font-weight: 400;
   color: #fff;
+}
+@media (max-width: 768px) {
+  .template8 .wrapper .album_wedding .title {
+    font-size: 7rem;
+  }
+}
+@media (max-width: 480px) {
+  .template8 .wrapper .album_wedding .title {
+    font-size: 5.5rem;
+  }
 }
 .template8 .wrapper .album_wedding .bento_grid {
   display: grid;
