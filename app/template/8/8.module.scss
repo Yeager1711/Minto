@@ -44,23 +44,43 @@
             }
         }
 
+        .hy {
+            max-width: 50rem;
+            padding: 1.5rem 0 0 0;
+            margin: auto;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
         .info {
             padding: 3rem 2rem;
             position: relative;
-            // background-image: url(../../../public/images/m8/bg_family.jpg);
+            width: 95%;
 
-            &::before {
-                content: "";
+
+            @media (max-width: 768px) {
+                padding: 0 2rem;
+            }
+
+            @media (max-width: 480px) {
+                padding: 0 2rem;
+            }
+
+            .bg {
                 position: absolute;
-                top: 0;
-                right: -40%;
-                bottom: 0;
-                width: 100%;
-                background-image: url(../../../public/images/m8/flower_rightM8.png);
-                background-repeat: no-repeat;
-                background-size: contain;
-                background-position: center;
-                z-index: 1;
+                right: 5%;
+                top: -5%;
+                transform: scale(1.15);
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
             }
 
             h3 {
@@ -137,7 +157,7 @@
 
                 h4 {
                     font-size: 2.3rem;
-                    color: #e5d6c3;
+                    color: #ccaa80;
                     font-weight: 400;
                     text-transform: uppercase;
                     font-family: 'Times New Roman', Times, serif;
@@ -159,7 +179,7 @@
 
                 span {
                     font-size: 2rem;
-                    color: #e5d6c3;
+                    color: #ccaa80;
                     font-weight: 400;
                     text-transform: uppercase;
                     font-family: 'Times New Roman', Times, serif;
@@ -196,6 +216,7 @@
 
                     .groom_family,
                     .bride_family {
+                        padding: 2rem 0;
 
                         h3 {
                             color: #fff;
@@ -311,6 +332,56 @@
                         border: none;
                     }
 
+                    .map_groom,
+                    .map_bride {
+                        width: 80rem;
+                        height: 80rem;
+                        margin: 0 auto;
+                        position: relative;
+                        transform: scale(1);
+                        margin-top: -4rem;
+                        margin-left: -4rem;
+
+                        @media (max-width: 1023px) {
+                            width: 75rem;
+                            height: 75rem;
+                        }
+
+                        @media (max-width: 768px) {
+                            width: 63rem;
+                            height: 63rem;
+                        }
+
+                        @media (max-width: 480px) {
+                            width: 43rem;
+                            height: 43rem;
+                        }
+                    }
+
+                    .map_groom iframe,
+                    .map_bride iframe {
+                        display: block;
+                        width: 103%;
+                        height: 103%;
+                        object-fit: cover;
+                        mask-image: url('/images/m8/vector8.1.svg');
+                        -webkit-mask-image: url('/images/m8/vector8.1.svg');
+                        mask-size: cover;
+                        -webkit-mask-size: cover;
+                        mask-repeat: no-repeat;
+                        -webkit-mask-repeat: no-repeat;
+                        mask-position: center;
+                        -webkit-mask-position: center;
+                        border-radius: 5rem;
+                        transform: scale(1);
+                        border: none;
+                    }
+
+                    .map_bride iframe {
+                        mask-image: url('/images/m8/vector8.1.svg');
+                        -webkit-mask-image: url('/images/m8/vector8.1.svg');
+                    }
+
                     .btn_map {
                         position: absolute;
                         bottom: 0;
@@ -321,12 +392,11 @@
                         font-size: 1.4rem;
                         border-bottom-left-radius: 3rem;
                         border-top-right-radius: 3rem;
+                        cursor: pointer;
 
                         svg {
                             margin-right: .7rem;
                         }
-
-
 
                         @media (max-width: 768px) {
                             padding: 1.2rem 4rem;
@@ -342,6 +412,80 @@
                 }
             }
         }
+
+        .count {
+            position: relative;
+            width: 100%;
+            padding: 2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .countdown {
+                position: relative;
+                width: 100%;
+                max-width: 80rem;
+                height: 30rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .countdown_bg {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-image: linear-gradient(rgba(100, 6, 6, 0.5), rgba(100, 6, 6, 0.5)), url('/images/m8/nen_countdown.jpg');
+                    background-size: cover;
+                    background-position: center;
+                    z-index: 1;
+                }
+
+                .countdown_content {
+                    position: relative;
+                    z-index: 2;
+                    text-align: center;
+                    color: #fff;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+                    h2 {
+                        font-size: 2.5rem;
+                        margin-bottom: 1.5rem;
+                        font-weight: 700;
+                    }
+
+                    .countdown_timer {
+                        display: flex;
+                        justify-content: center;
+                        gap: 2rem;
+
+
+                        .time_unit {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+
+                            .time_value {
+                                font-size: 3rem;
+                                font-weight: 800;
+                                background: rgba(0, 0, 0, 0.7);
+                                padding: 0.5rem 1rem;
+                                border-radius: 0.5rem;
+                            }
+
+                            .time_label {
+                                font-size: 1.2rem;
+                                margin-top: 0.5rem;
+                            }
+                        }
+                    }
+
+                }
+
+            }
+        }
+
 
         .album_wedding {
             text-align: center;
