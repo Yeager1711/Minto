@@ -137,6 +137,22 @@ function AccountInfo() {
                     }
                     return acc;
                 }, []);
+
+                // Sắp xếp templates theo ngày thanh toán (mới nhất đến cũ nhất)
+                uniqueTemplates.sort((a, b) => {
+                    const dateA = a.template.payments[0]?.payment_date
+                        ? new Date(a.template.payments[0].payment_date).getTime()
+                        : 0;
+                    const dateB = b.template.payments[0]?.payment_date
+                        ? new Date(b.template.payments[0].payment_date).getTime()
+                        : 0;
+                    // Nếu không có ngày thanh toán, đẩy xuống cuối
+                    if (!dateA && !dateB) return 0;
+                    if (!dateA) return 1;
+                    if (!dateB) return -1;
+                    return dateB - dateA; // Sắp xếp giảm dần (mới nhất trước)
+                });
+
                 setTemplates(uniqueTemplates);
                 if (bankData.code === '00' && Array.isArray(bankData.data)) {
                     setBanks(bankData.data);
@@ -151,7 +167,7 @@ function AccountInfo() {
                 if (discountResponse.isEligible && userData.created_at) {
                     const eligibilityEndDate = new Date(userData.created_at);
                     eligibilityEndDate.setDate(eligibilityEndDate.getDate() + 7);
-                    const now = new Date(); // 01:37 PM +07, June 27, 2025
+                    const now = new Date(); // Current date: July 09, 2025, 10:56 AM +07
                     if (eligibilityEndDate > now) {
                         setDiscountEndDate(eligibilityEndDate);
                     } else {
