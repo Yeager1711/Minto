@@ -121,22 +121,22 @@ function Template7Edit() {
     };
 
     const defaultWeddingData: TemplateWeddingData = {
-        bride: 'Trúc Lam',
-        groom: 'Nam Khánh',
+        bride: '',
+        groom: '',
         weddingDate: new Date(2025, 7, 17),
-        weddingTime: '10:00',
-        weddingDayOfWeek: 'Chủ Nhật',
-        lunarDay: '24 tháng 06 năm ất tỵ',
-        familyGroom: { father: 'Nguyễn Văn An', mother: 'Trần Thị Bảy' },
-        familyBride: { father: 'Lê Văn Chung', mother: 'Phạm Thị Dung' },
+        weddingTime: '',
+        weddingDayOfWeek: '',
+        lunarDay: '',
+        familyGroom: { father: '', mother: '' },
+        familyBride: { father: '', mother: '' },
         brideStory:
             'Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm, chăm sóc em thật nhiều, nuông chiều những khi em giận hờn vô cớ. Bắt đầu từ hôm nay chúng ta sẽ viết nên một chương mới của cuộc đời, bằng tình thương yêu và hạnh phúc đong đầy anh nhé!',
         groomStory:
             'Hạnh phúc nhất trên đời không phải là việc gặp được người tuyệt nhất ở những tháng ngày đẹp nhất. Mà là một người sẽ từ từ nhìn mình già đi, không cần ở những năm tháng đẹp nhất, mà là đúng người, đúng thời điểm, nắm tay nhau cùng đi. Anh rất hạnh phúc vì gặp được em – người con gái cho anh biết thế nào là tình yêu, cùng anh về nhà em nhé!',
         groomAddress: 'Thành phố Thủ Đức, Thành phố Hồ Chí Minh',
         brideAddress: 'Thành phố Thủ Đức, Thành phố Hồ Chí Minh',
-        groomMapUrl: '(-37.82425,144.956)',
-        brideMapUrl: '(-37.83333,144.96667)',
+        groomMapUrl: '',
+        brideMapUrl: '',
     };
 
     const [weddingData, setWeddingData] = useState<TemplateWeddingData>(() => {

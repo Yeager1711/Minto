@@ -3,6 +3,294 @@
     position: relative;
     overflow: hidden;
 
+    .intro {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: 80rem;
+        width: 100%;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s ease;
+        z-index: 9999999 !important;
+        min-height: 100vh;
+        overflow: hidden;
+        background: url(../../../public/images/m8/bg_intro.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        &.intro_closed {
+            transform: translateY(-100vh);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .title {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+
+            h1 {
+                font-size: 7rem;
+                color: #ccaa80;
+                font-family: 'Allura', cursive;
+                font-weight: 400;
+                margin: 0;
+                width: 100%;
+
+                @media (max-width: 1024px) {
+                    font-size: 7rem;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 5rem;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 3rem;
+                }
+            }
+
+            p {
+                font-size: 2.2rem;
+                color: #e5d6c3;
+                font-family: 'Times New Roman', Times, serif;
+                font-weight: 400;
+                margin: 0;
+                text-transform: uppercase;
+
+                @media (max-width: 1024px) {
+                    font-size: 2.2rem;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 1.8rem;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+
+        .text_And {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Allura', cursive;
+            font-size: 30rem;
+            color: #ccaa80;
+
+            @media (max-width: 1024px) {
+                font-size: 30rem;
+            }
+
+            @media (max-width: 768px) {
+                font-size: 27rem;
+            }
+
+            @media (max-width: 480px) {
+                font-size: 22rem;
+            }
+        }
+
+        .groom_bride__intro {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Pinyon Script", cursive;
+            font-size: 13rem;
+            color: #fff;
+            width: 100%;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+
+
+            @media (max-width: 1024px) {
+                font-size: 13rem;
+            }
+
+            @media (max-width: 768px) {
+                font-size: 10rem;
+            }
+
+            @media (max-width: 480px) {
+                font-size: 7rem;
+            }
+
+
+            span {
+                display: block;
+            }
+        }
+
+
+        .wrapper_animation__Click {
+            left: 50%;
+            bottom: 18%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: absolute;
+            color: #dbdbdb;
+            cursor: pointer;
+            width: 21rem;
+
+            .icon_arrow__left {
+                .chevronLeft {
+                    color: #dbdbdb;
+                    opacity: 0;
+                    animation: swipeUpFadeLeft 1.2s infinite;
+
+                    &:first-child {
+                        animation-delay: 0.4s;
+                    }
+
+                    &:last-child {
+                        animation-delay: 0s;
+                    }
+                }
+            }
+
+            .text {
+                font-size: 1rem;
+                color: #dbdbdb;
+                padding: 0 .5rem;
+                text-align: center;
+                animation: swipeUpFadeUP 2s infinite;
+                margin: auto;
+            }
+
+            .icon_arrow__right {
+                .chevronRight {
+                    color: #dbdbdb;
+                    opacity: 0;
+                    animation: swipeUpFadeRight 1.2s infinite;
+
+                    &:first-child {
+                        animation-delay: 0.4s;
+                    }
+
+                    &:last-child {
+                        animation-delay: 0s;
+                    }
+                }
+            }
+        }
+
+        @keyframes swipeUpFadeUP {
+            0% {
+                opacity: 0;
+                transform: translateY(3px);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            60% {
+                opacity: 0.5;
+                transform: translateY(-1.5px);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes swipeUpFadeLeft {
+            100% {
+                opacity: 0;
+                transform: translateX(6px);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            30% {
+                opacity: 0.5;
+                transform: translateX(-3px);
+            }
+
+            0% {
+                opacity: 0;
+                transform: translateX(-6px);
+            }
+        }
+
+        @keyframes swipeUpFadeRight {
+            0% {
+                opacity: 0;
+                transform: translateX(6px);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            60% {
+                opacity: 0.5;
+                transform: translateX(-3px);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-6px);
+            }
+        }
+
+        .invition_name {
+            position: absolute;
+            bottom: 8%;
+            left: 50%;
+            transform: translate(-50%, -8%);
+            width: 100%;
+            max-width: 55rem;
+            margin: 0 auto;
+            align-items: center;
+            font-size: 2rem;
+            font-family: 'Times New Roman', Times, serif;
+            user-select: none;
+            text-transform: uppercase;
+            color: #fff;
+            z-index: 5;
+
+
+            @media (max-width: 768px) {
+                width: 100%;
+            }
+
+            @media (max-width: 480px) {
+                font-size: 1.5rem;
+
+            }
+
+
+            strong {
+                font-family: 'Allura', cursive;
+                font-size: 3rem;
+                text-transform: none;
+                display: block;
+                padding-top: 1rem;
+                color: #fff;
+            }
+        }
+    }
+
     .wrapper {
         max-width: 80rem;
         width: 100%;

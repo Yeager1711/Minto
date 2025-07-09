@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
 
-const Template8: React.FC = () => {
+const Template8Edit: React.FC = () => {
     const [showGroomMap, setShowGroomMap] = React.useState<boolean>(false);
     const [showBrideMap, setShowBrideMap] = React.useState<boolean>(false);
     const [timeLeft, setTimeLeft] = React.useState<{
@@ -68,15 +68,16 @@ const Template8: React.FC = () => {
         <div className={styles.template8}>
             <div className={styles.wrapper}>
                 <div className={styles.mainImage}>
+                    {/* ảnh này được thay đổi */}
                     <Image src="/images/m8/6.jpg" alt="Wedding main image" width={500} height={500} />
                 </div>
 
                 <div className={styles.hy}>
-                    <Image src="/images/m8/hy.png" alt="Decorative image" width={500} height={200} />
+                    <img src="/images/m8/hy.png" alt="Decorative image" />
                 </div>
                 <div className={styles.info}>
                     <div className={styles.bg}>
-                        <img src="/images/m8/nen_1.png"/>
+                        <img src="/images/m8/nen_1.png" />
                     </div>
                     <h3>
                         join us to celebrate
@@ -124,6 +125,7 @@ const Template8: React.FC = () => {
                         </p>
 
                         <div className={styles.vector_img__groom}>
+                            {/* ảnh này được thay đổi */}
                             {!showGroomMap && (
                                 <Image src="/images/m8/1.jpg" alt="Groom image" width={300} height={300} />
                             )}
@@ -157,6 +159,7 @@ const Template8: React.FC = () => {
                         </p>
 
                         <div className={styles.vector_img__bride}>
+                            {/* ảnh này được thay đổi */}
                             {!showBrideMap && (
                                 <Image src="/images/m8/2.jpg" alt="Bride image" width={300} height={300} />
                             )}
@@ -212,6 +215,7 @@ const Template8: React.FC = () => {
                     <div className={styles.title}>Album Wedding</div>
 
                     <div className={styles.bento_grid}>
+                         {/* phần ảnh này được thay đổi */}
                         <div className={styles.boxTall}>
                             <Image src="/images/m8/11.jpg" alt="Wedding photo 1" width={200} height={300} />
                         </div>
@@ -253,4 +257,4 @@ const Template8: React.FC = () => {
     );
 };
 
-export default Template8;
+export default Template8Edit;
