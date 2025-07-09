@@ -1,12 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import styles from '../../../8.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+    faLocationDot,
+    faChevronRight,
+    faChevronLeft,
+    faCirclePause,
+    faCirclePlay,
+} from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useApi } from 'app/lib/apiContext/apiContext';
@@ -94,8 +100,12 @@ const Template8InviteeName: React.FC = () => {
     useDisableDevTools();
     const pathname = usePathname();
     const { getGuestAndCard } = useApi();
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [showGroomMap, setShowGroomMap] = useState<boolean>(false);
     const [showBrideMap, setShowBrideMap] = useState<boolean>(false);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
     const [timeLeft, setTimeLeft] = useState<{
         days: number;
         hours: number;
@@ -164,24 +174,24 @@ const Template8InviteeName: React.FC = () => {
 
                 const weddingData = card.custom_data.weddingData as Partial<WeddingData> | undefined;
                 const updatedWeddingData: WeddingData = {
-                    bride: weddingData?.bride || 'Mai Thảo',
-                    groom: weddingData?.groom || 'Thiên Phúc',
-                    weddingDate: weddingData?.weddingDate || '17/08/2025',
-                    weddingTime: weddingData?.weddingTime || '10:00',
-                    weddingDayOfWeek: weddingData?.weddingDayOfWeek || 'Chủ Nhật',
-                    lunar_day: card.invitations[0]?.lunar_day || weddingData?.lunar_day || '24 tháng 06 năm ất tỵ',
-                    familyGroom: weddingData?.familyGroom || { father: 'Nguyễn Văn A', mother: 'Trần Thị B' },
-                    familyBride: weddingData?.familyBride || { father: 'Lê Văn C', mother: 'Phạm Thị D' },
+                    bride: weddingData?.bride || '',
+                    groom: weddingData?.groom || '',
+                    weddingDate: weddingData?.weddingDate || '',
+                    weddingTime: weddingData?.weddingTime || '',
+                    weddingDayOfWeek: weddingData?.weddingDayOfWeek || '',
+                    lunar_day: card.invitations[0]?.lunar_day || weddingData?.lunar_day || '',
+                    familyGroom: weddingData?.familyGroom || { father: '', mother: '' },
+                    familyBride: weddingData?.familyBride || { father: '', mother: '' },
                     brideStory:
                         weddingData?.brideStory ||
                         'Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm, chăm sóc em thật nhiều, nuông chiều những khi em giận hờn vô cớ. Bắt đầu từ hôm nay chúng ta sẽ viết nên một chương mới của cuộc đời, bằng tình thương yêu và hạnh phúc đong đầy anh nhé!',
                     groomStory:
                         weddingData?.groomStory ||
                         'Hạnh phúc nhất trên đời không phải là việc gặp được người tuyệt nhất ở những tháng ngày đẹp nhất. Mà là một người sẽ từ từ nhìn mình già đi, không cần ở những năm tháng đẹp nhất, mà là đúng người, đúng thời điểm, nắm tay nhau cùng đi. Anh rất hạnh phúc vì gặp được em – người con gái cho anh biết thế nào là tình yêu, cùng anh về nhà em nhé!',
-                    groomAddress: weddingData?.groomAddress || 'Long Tiên, Cai Lậy, Đồng Tháp',
-                    brideAddress: weddingData?.brideAddress || 'Long Tiên, Cai Lậy, Đồng Tháp',
-                    groomMapUrl: weddingData?.groomMapUrl || '(-37.82425,144.956)',
-                    brideMapUrl: weddingData?.brideMapUrl || '(-37.83333,144.96667)',
+                    groomAddress: weddingData?.groomAddress || '',
+                    brideAddress: weddingData?.brideAddress || '',
+                    groomMapUrl: weddingData?.groomMapUrl || '',
+                    brideMapUrl: weddingData?.brideMapUrl || '',
                     venue_groom: card.invitations[0]?.venue_groom || '',
                     venue_bride: card.invitations[0]?.venue_bride || '',
                 };
@@ -306,6 +316,38 @@ const Template8InviteeName: React.FC = () => {
         }
     };
 
+    const togglePlayPause = () => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.pause();
+            } else {
+                audioRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
+    useEffect(() => {
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
+        };
+    }, []);
+
+    const toggleExpand = () => setIsExpanded(!isExpanded);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (isExpanded) {
+                setIsExpanded(false);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [isExpanded]);
+
     const formatTimeToHourMinute = (time: string) => {
         if (!time || !time.includes(':')) return time;
         const [hours, minutes] = time.split(':');
@@ -331,6 +373,36 @@ const Template8InviteeName: React.FC = () => {
 
     return (
         <div className={styles.template8}>
+            <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
+                <div className={styles.dynamic_content}>
+                    <div
+                        className={styles.controls}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            togglePlayPause();
+                        }}
+                    >
+                        <FontAwesomeIcon
+                            icon={isPlaying ? faCirclePause : faCirclePlay}
+                            className={styles.playPauseIcon}
+                        />
+                    </div>
+                    <h3>{isPlaying ? 'Đang Phát: Why Not Me' : 'Why Not Me'}</h3>
+                </div>
+                {isExpanded && (
+                    <div className={styles.expanded_content}>
+                        <div className={styles.song_info}>
+                            <h4>Why Not Me</h4>
+                            <p>Ca sĩ: Enrique Iglesias</p>
+                        </div>
+                        <div className={styles.progress_bar}>
+                            <div className={styles.progress}></div>
+                        </div>
+                    </div>
+                )}
+                <audio ref={audioRef} src="/audio/whynotme.mp3" />
+            </div>
+
             <div className={`${styles.intro} ${isIntroOpen ? '' : styles.intro_closed}`} onClick={handleIntroClick}>
                 <div className={styles.title}>
                     <h1>Save the Date</h1>

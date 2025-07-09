@@ -277,7 +277,7 @@ function Template7InviteeName() {
 
     const handleGroomMapClick = () => {
         if (showGroomMap) {
-            openMapInGoogle(weddingData?.groomMapUrl || '(-37.82425,144.956)');
+            openMapInGoogle(weddingData?.groomMapUrl || '');
         } else {
             setShowGroomMap(true);
             setShowBrideMap(false);
@@ -286,7 +286,7 @@ function Template7InviteeName() {
 
     const handleBrideMapClick = () => {
         if (showBrideMap) {
-            openMapInGoogle(weddingData?.brideMapUrl || '(-37.83333,144.96667)');
+            openMapInGoogle(weddingData?.brideMapUrl || '');
         } else {
             setShowBrideMap(true);
             setShowGroomMap(false);
