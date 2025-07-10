@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .loginPopupOverlay {
   position: fixed;
   top: 0;
@@ -9,42 +8,96 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999999 !important;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  -webkit-backdrop-filter: blur(1.5rem);
-          backdrop-filter: blur(1.5rem);
-}
-.loginPopupOverlay.animateIn {
+  z-index: 99999 !important;
   opacity: 1;
+  transition: opacity 1s ease-in-out;
+  -webkit-backdrop-filter: blur(0.5rem);
+          backdrop-filter: blur(0.5rem);
+}
+.loginPopupOverlay.fadeOut {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 .loginPopupOverlay .loginPopupContainer {
   width: 95%;
   max-width: 45rem;
+  height: 45rem;
   position: relative;
-  transform: scale(0.9);
-  transition: transform 0.3s ease-in-out;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginPopupOverlay .loginPopupContainer.scaleOut {
+  animation: scaleOutSmooth 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes scaleOutSmooth {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
 }
 .loginPopupOverlay .loginPopupContainer.animateContainerIn {
   transform: scale(1);
+  opacity: 1;
+  max-width: 45rem;
+  height: 45rem;
+  border-radius: 5rem;
+  background: transparent;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header {
+.loginPopupOverlay .loginPopupContainer.animateContainerOut {
+  max-width: 15rem;
+  width: 90%;
+  height: 15rem;
+  background: rgba(245, 242, 233, 0.5);
+  border-radius: 50%;
+  transform: scale(1);
+  opacity: 1;
+}
+@media (max-width: 480px) {
+  .loginPopupOverlay .loginPopupContainer.animateContainerOut {
+    max-width: 10rem;
+    height: 10rem;
+  }
+}
+.loginPopupOverlay .loginPopupContainer.expandedContainer {
+  max-width: 45rem;
+  background: none;
+  border-radius: 15rem;
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+}
+.loginPopupOverlay .loginPopupContainer .flow_1 {
+  transition: opacity 0.4s ease-in-out;
+  height: 45rem;
+}
+.loginPopupOverlay .loginPopupContainer .flow_1.fadeOut {
+  display: none;
+  height: 0;
+  opacity: 0;
+}
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header {
   background: rgba(245, 242, 233, 0.5);
   padding: 2rem;
   border-radius: 2rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .header {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .header .brand {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .header .brand {
   font-size: 2rem;
   font-weight: bold;
   color: #333;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .header .signUpButton {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .header .signUpButton {
   background: none;
   border: none;
   color: #333;
@@ -52,33 +105,33 @@
   cursor: pointer;
   text-decoration: underline;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginTitle {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginTitle {
   font-size: 2.5rem;
   font-weight: bold;
   color: #333;
   margin-bottom: 1.5rem;
   text-align: center;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .loginError {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .loginError {
   color: #ff4d4d;
   font-size: 1.2rem;
   text-align: center;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField {
   position: relative;
   margin-bottom: 1rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField .loginInput {
   width: 100%;
   padding: 1.5rem 1.5rem 1.5rem 4rem;
   border: none;
@@ -88,21 +141,20 @@
   color: #333;
   box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput:focus {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField .loginInput:focus {
   outline: none;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=email] {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=email] {
   background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 12.713l11.99-7.163A2 2 0 0022 4H2a2 2 0 00-1.99 1.55L12 12.713zM12 14.287L0 7.163V18a2 2 0 002 2h20a2 2 0 002-2V7.163l-12 7.124z"/></svg>') no-repeat 0.625rem center;
   background-size: 1.8rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=password], .loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=text] {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=password], .loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField .loginInput[type=text] {
   background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M12 17a2 2 0 01-2-2 2 2 0 012-2 2 2 0 012 2 2 2 0 01-2 2zm6-9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8a2 2 0 012-2h1V7a5 5 0 0110 0v3h1zm-6-5a3 3 0 00-3 3v3h6V7a3 3 0 00-3-3z"/></svg>') no-repeat 0.625rem center;
   background-size: 1.8rem;
   padding-right: 4rem;
-  /* Để chừa chỗ cho nút con mắt */
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .eyeButton {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField .eyeButton {
   position: absolute;
   right: 1rem;
   top: 50%;
@@ -113,55 +165,24 @@
   font-size: 1.6rem;
   color: #666;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .inputWrapper .inputField .eyeButton:hover {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField .eyeButton:hover {
   color: #333;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .googleLoginWrapper {
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0;
-}
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .googleLoginButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  width: 100%;
-  max-width: 300px;
-}
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .googleLoginButton:hover {
-  background-color: #f8f8f8;
-}
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .googleLoginButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .googleLogo {
-  width: 20px;
-  height: 20px;
-}
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .flex_footer {
   display: flex;
   align-items: center;
   flex-wrap: wrap-reverse;
   gap: 1rem;
   margin-top: 2rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer span {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .flex_footer span {
   margin: auto;
   margin-top: 1rem;
   font-size: 1.4rem;
   width: 90%;
   text-align: center;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer .loginSubmit {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .flex_footer .loginSubmit {
   align-self: center;
   background: #000;
   color: #fff;
@@ -178,15 +199,14 @@
   align-items: center;
   margin: auto;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer .loginSubmit svg {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .flex_footer .loginSubmit svg {
   margin-left: 0.5rem;
 }
-.loginPopupOverlay .loginPopupContainer .wrapper_header .loginForm .flex_footer .loginSubmit:disabled {
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .flex_footer .loginSubmit:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
-
-.newSection {
+.loginPopupOverlay .loginPopupContainer .newSection {
   background: #000;
   color: #fff;
   border-radius: 0.9375rem;
@@ -194,17 +214,16 @@
   margin-top: 1.5rem;
   text-align: center;
 }
-.newSection h3 {
+.loginPopupOverlay .loginPopupContainer .newSection h3 {
   font-size: 1.5rem;
   margin-bottom: 0.3125rem;
 }
-.newSection h2 {
+.loginPopupOverlay .loginPopupContainer .newSection h2 {
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 0.625rem;
 }
-
-.discoverButton {
+.loginPopupOverlay .loginPopupContainer .discoverButton {
   margin-top: 1rem;
   background: none;
   border: 0.1rem solid #fff;
@@ -213,4 +232,121 @@
   padding: 0.7rem 2rem;
   font-size: 1.3rem;
   cursor: pointer;
+}
+.loginPopupOverlay .loginPopupContainer .flow_2 {
+  max-width: 15rem;
+  height: 15rem;
+  width: 100%;
+  border-radius: 50%;
+  transform: scale(0.7);
+  opacity: 0;
+  visibility: hidden;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s linear;
+  background: rgba(245, 242, 233, 0.5);
+}
+.loginPopupOverlay .loginPopupContainer .flow_2.flowExpand {
+  max-width: 45rem !important;
+  height: 6rem;
+  border-radius: 10rem;
+  background: #fff;
+  justify-content: flex-start;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+@media (max-width: 480px) {
+  .loginPopupOverlay .loginPopupContainer .flow_2 {
+    max-width: 10rem;
+    height: 10rem;
+  }
+}
+.loginPopupOverlay .loginPopupContainer .flow_2.animateContainerIn {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+.loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
+  width: 10rem;
+  height: 10rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 1rem;
+  transform: scale(1.15);
+}
+@media (max-width: 1024px) {
+  .loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
+    width: 10rem;
+    height: 10rem;
+    -o-object-fit: cover;
+       object-fit: cover;
+    border-radius: 1rem;
+  }
+}
+@media (max-width: 768px) {
+  .loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
+    width: 10rem;
+    height: 10rem;
+    -o-object-fit: cover;
+       object-fit: cover;
+    border-radius: 1rem;
+    transform: scale(1.1);
+  }
+}
+@media (max-width: 480px) {
+  .loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
+    width: 8rem;
+    height: 8rem;
+    -o-object-fit: cover;
+       object-fit: cover;
+    border-radius: 1rem;
+  }
+}
+.loginPopupOverlay .loginPopupContainer .flow_2 .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+.loginPopupOverlay .loginPopupContainer .flow_2 .content p {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  margin-top: 0;
+}
+@media (max-width: 768px) {
+  .loginPopupOverlay .loginPopupContainer .flow_2 .content p {
+    font-size: 1.7rem;
+  }
+}
+@media (max-width: 480px) {
+  .loginPopupOverlay .loginPopupContainer .flow_2 .content p {
+    font-size: 1.5rem;
+  }
+}
+.loginPopupOverlay .loginPopupContainer .flow_2 .content h3 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .loginPopupOverlay .loginPopupContainer .flow_2 .content h3 {
+    font-size: 1.7rem;
+  }
+}
+@media (max-width: 480px) {
+  .loginPopupOverlay .loginPopupContainer .flow_2 .content h3 {
+    font-size: 1.9rem;
+  }
+}
+.loginPopupOverlay .loginPopupContainer .flow_2 .content.show {
+  opacity: 1;
+  transform: translateY(0);
 }/*# sourceMappingURL=login.module.css.map */

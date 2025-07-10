@@ -9,8 +9,10 @@ const LoginPopup: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [showFlow2, setShowFlow2] = useState(false); // Shrink flow_1
-    const [expandFlow2, setExpandFlow2] = useState(false); // Expand flow_2
+    const [showFlow2, setShowFlow2] = useState(false);
+    const [expandFlow2, setExpandFlow2] = useState(false);
+    const [hidePopup, setHidePopup] = useState(false);
+    const [showContent, setShowContent] = useState(false);
     const isMounted = useRef(true);
 
     useEffect(() => {
@@ -27,11 +29,33 @@ const LoginPopup: React.FC = () => {
     useEffect(() => {
         if (!showFlow2) return;
 
-        const timer = setTimeout(() => {
+        const expandTimer = setTimeout(() => {
             setExpandFlow2(true);
+
+            const showContentTimer = setTimeout(() => {
+                setShowContent(true);
+            }, 300); // delay nhỏ để tránh khựng
+
+            // ⏱ 2s sau khi expand → remove expand
+            const collapseTimer = setTimeout(() => {
+                setShowContent(false);
+                setExpandFlow2(false);
+
+                // ⏱ 0.5s sau khi xóa expand → ẩn popup
+                const hideTimer = setTimeout(() => {
+                    setHidePopup(true);
+                }, 400);
+
+                return () => clearTimeout(hideTimer);
+            }, 2000);
+
+            return () => {
+                clearTimeout(showContentTimer);
+                clearTimeout(collapseTimer);
+            };
         }, 1000);
 
-        return () => clearTimeout(timer);
+        return () => clearTimeout(expandTimer);
     }, [showFlow2]);
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -41,13 +65,20 @@ const LoginPopup: React.FC = () => {
     };
 
     return (
-        <div className={styles.loginPopupOverlay} onClick={handleOverlayClick}>
+        <div
+            className={`
+            ${styles.loginPopupOverlay}
+            ${hidePopup ? styles.fadeOut : ''}
+            `}
+            onClick={handleOverlayClick}
+        >
             <div
                 className={`
-          ${styles.loginPopupContainer}
-          ${showFlow2 ? styles.animateContainerOut : styles.animateContainerIn}
-          ${expandFlow2 ? styles.expandedContainer : ''}
-        `}
+                ${styles.loginPopupContainer}
+                ${showFlow2 ? styles.animateContainerOut : styles.animateContainerIn}
+                ${expandFlow2 ? styles.expandedContainer : ''}
+                ${hidePopup ? styles.scaleOut : ''}
+                `}
             >
                 {!showFlow2 && (
                     <div className={styles.flow_1}>
@@ -121,10 +152,10 @@ const LoginPopup: React.FC = () => {
                 {showFlow2 && (
                     <div
                         className={`
-              ${styles.flow_2}
-              ${styles.animateContainerIn}
-              ${expandFlow2 ? styles.expand : ''}
-            `}
+                        ${styles.flow_2}
+                        ${styles.animateContainerIn}
+                        ${expandFlow2 ? styles.expand : ''}
+                    `}
                     >
                         <div className={styles.image_logo}>
                             <Image
@@ -136,8 +167,8 @@ const LoginPopup: React.FC = () => {
                             />
                         </div>
                         {expandFlow2 && (
-                            <div className={styles.content}>
-                                <h1>Chào mừng bạn đến Minto</h1>
+                            <div className={`${styles.content} ${showContent ? styles.show : ''}`}>
+                                <p>Chào mừng bạn đến Minto</p>
                                 <h3>Huỳnh Nam</h3>
                             </div>
                         )}

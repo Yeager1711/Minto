@@ -37,13 +37,15 @@
   gap: 1rem;
   position: relative;
 }
-.sidebar .margin .user-container .user {
+.sidebar .margin .user-container .user_1,
+.sidebar .margin .user-container .user_2 {
   padding: 1rem;
   background: #dbdbdb;
   border-radius: 5rem;
   cursor: pointer;
 }
-.sidebar .margin .user-container .user svg {
+.sidebar .margin .user-container .user_1 svg,
+.sidebar .margin .user-container .user_2 svg {
   width: 1.5rem;
   height: 1.5rem;
 }

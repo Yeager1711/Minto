@@ -1,4 +1,3 @@
-// app/components/UserPopup.tsx
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
