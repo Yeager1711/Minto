@@ -13,19 +13,28 @@ interface LoginPopupProps {
     onLoginSuccess: (token: string) => void;
 }
 
+interface ApiError {
+    response?: {
+        data?: {
+            message?: string;
+        };
+    };
+    message?: string;
+}
+
 const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister, onLoginSuccess }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const [showFlow2, setShowFlow2] = useState(false);
-    const [expandFlow2, setExpandFlow2] = useState(false);
-    const [hidePopup, setHidePopup] = useState(false);
-    const [showContent, setShowContent] = useState(false);
-    const [userName, setUserName] = useState('');
-    const isMounted = useRef(true);
-    const wasOpenedRef = useRef(false);
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showFlow2, setShowFlow2] = useState<boolean>(false);
+    const [expandFlow2, setExpandFlow2] = useState<boolean>(false);
+    const [hidePopup, setHidePopup] = useState<boolean>(false);
+    const [showContent, setShowContent] = useState<boolean>(false);
+    const [userName, setUserName] = useState<string>('');
+    const isMounted = useRef<boolean>(true);
+    const wasOpenedRef = useRef<boolean>(false);
     const [pendingToken, setPendingToken] = useState<string | null>(null);
 
     const { login, getUserProfile } = useApi();
@@ -47,6 +56,8 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
             setExpandFlow2(false);
             setHidePopup(false);
             setShowContent(false);
+            setUserName('');
+            setPendingToken(null);
         }
     }, [isOpen]);
 
@@ -54,19 +65,21 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
         if (!showFlow2 || !pendingToken) return;
 
         const expandTimer = setTimeout(() => {
+            if (!isMounted.current) return;
             setExpandFlow2(true);
 
             const showContentTimer = setTimeout(() => {
+                if (!isMounted.current) return;
                 setShowContent(true);
-            }, 300); // delay nhỏ để tránh khựng
+            }, 300);
 
-            // ⏱ 2s sau khi expand → remove expand
             const collapseTimer = setTimeout(() => {
+                if (!isMounted.current) return;
                 setShowContent(false);
                 setExpandFlow2(false);
 
-                // ⏱ 0.5s sau khi xóa expand → ẩn popup
                 const hideTimer = setTimeout(() => {
+                    if (!isMounted.current) return;
                     setHidePopup(true);
                     onLoginSuccess(pendingToken);
                     window.location.reload();
@@ -82,26 +95,40 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
         }, 1000);
 
         return () => clearTimeout(expandTimer);
-    }, [showFlow2, pendingToken]);
+    }, [showFlow2, pendingToken, onLoginSuccess]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email || !password) {
-            setError('Vui lòng điền đầy đủ tất cả các trường');
+            setError('Vui lòng điền đầy đủ email và mật khẩu');
             return;
         }
 
         setError('');
         setIsLoading(true);
-        setShowFlow2(true);
 
         try {
             const response = await login({ email, password });
-            const userProfile = await getUserProfile();
-            setUserName(userProfile.full_name || 'Người dùng');
             setPendingToken(response.accessToken);
-        } catch {
-            setError('Đăng nhập thất bại');
+            setShowFlow2(true);
+
+            try {
+                const userProfile = await getUserProfile();
+                setUserName(userProfile.full_name || 'Người dùng');
+            } catch (profileError: unknown) {
+                const error = profileError as ApiError;
+                setError(error.response?.data?.message || 'Không thể lấy thông tin người dùng');
+                setShowFlow2(false);
+            }
+        } catch (loginError: unknown) {
+            const error = loginError as ApiError;
+            let errorMessage = error.response?.data?.message || '';
+            if (errorMessage === 'Email hoặc mật khẩu không đúng') {
+                errorMessage = 'Email hoặc mật khẩu không đúng';
+            } else if (error.message?.includes('Network Error')) {
+                errorMessage = 'Lỗi mạng, vui lòng kiểm tra kết nối';
+            }
+            setError(errorMessage);
             setShowFlow2(false);
         } finally {
             setIsLoading(false);
@@ -117,20 +144,14 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
     if (!isOpen && !hidePopup) return null;
 
     return (
-        <div
-            className={`
-                ${styles.loginPopupOverlay}
-                ${hidePopup ? styles.fadeOut : ''}
-            `}
-            onClick={handleOverlayClick}
-        >
+        <div className={`${styles.loginPopupOverlay} ${hidePopup ? styles.fadeOut : ''}`} onClick={handleOverlayClick}>
             <div
                 className={`
-                    ${styles.loginPopupContainer}
-                    ${showFlow2 ? styles.animateContainerOut : styles.animateContainerIn}
-                    ${expandFlow2 ? styles.expandedContainer : ''}
-                    ${hidePopup ? styles.scaleOut : ''}
-                `}
+          ${styles.loginPopupContainer}
+          ${showFlow2 ? styles.animateContainerOut : styles.animateContainerIn}
+          ${expandFlow2 ? styles.expandedContainer : ''}
+          ${hidePopup ? styles.scaleOut : ''}
+        `}
             >
                 {!showFlow2 && (
                     <div className={styles.flow_1}>
@@ -149,7 +170,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                             </div>
                             <h2 className={styles.loginTitle}>Đăng nhập</h2>
                             <form onSubmit={handleSubmit} className={styles.loginForm}>
-                                {error && <p className={styles.loginError}>{error}</p>}
+                                {error && <p className={`${styles.loginError} ${styles.errorHighlight}`}>{error}</p>}
                                 <div className={styles.inputWrapper}>
                                     <div className={styles.inputField}>
                                         <input
@@ -159,6 +180,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                                             onChange={(e) => setEmail(e.target.value)}
                                             className={styles.loginInput}
                                             required
+                                            disabled={isLoading}
                                         />
                                     </div>
                                     <div className={styles.inputField}>
@@ -169,11 +191,13 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                                             onChange={(e) => setPassword(e.target.value)}
                                             className={styles.loginInput}
                                             required
+                                            disabled={isLoading}
                                         />
                                         <button
                                             type="button"
                                             className={styles.eyeButton}
                                             onClick={() => setShowPassword(!showPassword)}
+                                            disabled={isLoading}
                                         >
                                             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                                         </button>
@@ -193,7 +217,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                                     </span>
                                     <button type="submit" className={styles.loginSubmit} disabled={isLoading}>
                                         {isLoading ? (
-                                            'Đang đăng nhập'
+                                            'Đang đăng nhập...'
                                         ) : (
                                             <>
                                                 Đăng nhập <FontAwesomeIcon icon={faChevronRight} />
