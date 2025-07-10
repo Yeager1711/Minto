@@ -41,7 +41,6 @@ const UserPopup: React.FC<UserPopupProps> = ({ isOpen, onClose, onLogout }) => {
                 setIsLoading(true);
                 try {
                     const userData = await getUserProfile();
-                    console.log('data: ', userData);
                     setUser(userData);
                     setError('');
                 } catch (err: unknown) {

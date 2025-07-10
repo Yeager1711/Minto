@@ -34,7 +34,6 @@ function Header() {
     // Đồng bộ isUserPopupOpen khi accessToken thay đổi sau đăng nhập
     useEffect(() => {
         if (accessToken && isInitialLogin.current && !isUserPopupOpen && !isLoginOpen) {
-            console.log('Access token updated after login, preparing user_2:', accessToken);
             isInitialLogin.current = false; // Đặt lại ref sau lần đầu
             // Không tự động mở UserPopup, để user_2 xử lý
         }
@@ -59,7 +58,6 @@ function Header() {
     };
 
     const handleOpenUserPopup = () => {
-        console.log('Opening UserPopup, isUserPopupOpen:', isUserPopupOpen, 'accessToken:', accessToken); // Debug
         if (accessToken) {
             setIsUserPopupOpen(true);
         }
@@ -79,7 +77,6 @@ function Header() {
 
     // Xử lý đăng nhập thành công ngay lập tức
     const handleLoginSuccess = (token: string) => {
-        console.log('Login success, token:', token); // Debug
         localStorage.setItem('accessToken', token);
         setAccessToken(token); // Cập nhật accessToken
         setIsLoginOpen(false); // Đóng LoginPopup
