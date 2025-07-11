@@ -174,7 +174,7 @@
                     height: 10rem;
                     object-fit: cover;
                     border-radius: 1rem;
-                    transform: scale(1.15);
+                    transform: scale(1);
                 }
 
                 @media (max-width: 1024px) {
@@ -228,7 +228,7 @@
                     }
 
                     @media (max-width: 480px) {
-                        font-size: 1.5rem;
+                        font-size: 1.4rem;
 
                     }
                 }

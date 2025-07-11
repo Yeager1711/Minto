@@ -153,7 +153,7 @@
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 1rem;
-  transform: scale(1.15);
+  transform: scale(1);
 }
 @media (max-width: 1024px) {
   .loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
@@ -205,7 +205,7 @@
 }
 @media (max-width: 480px) {
   .loginPopupOverlay .loginPopupContainer .flow_2 .content p {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 }
 .loginPopupOverlay .loginPopupContainer .flow_2 .content h3 {

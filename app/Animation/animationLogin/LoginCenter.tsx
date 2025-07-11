@@ -99,7 +99,7 @@ const LoginCenter: React.FC<LoginCenterProps> = ({ startAnimation, fullName, onF
                         </div>
                         {expandFlow2 && (
                             <div className={`${styles.content} ${showContent ? styles.show : ''}`}>
-                                <p>Chào mừng bạn đến Minto</p>
+                                <p>Chào mừng bạn đến ⚡Minto</p>
                                 <h3>{fullName}</h3>
                             </div>
                         )}
