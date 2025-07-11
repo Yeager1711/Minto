@@ -42,7 +42,7 @@ const LoginCenter: React.FC<LoginCenterProps> = ({ startAnimation, fullName, onF
                 }, 400);
 
                 return () => clearTimeout(hideTimer);
-            }, 200000);
+            }, 2000);
 
             return () => {
                 clearTimeout(showContentTimer);
