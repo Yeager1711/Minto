@@ -14,41 +14,49 @@ const LoginCenter: React.FC<LoginCenterProps> = ({ startAnimation, fullName, onF
     const [expandFlow2, setExpandFlow2] = useState(false);
     const [showContent, setShowContent] = useState(false);
     const [hidePopup, setHidePopup] = useState(false);
+    const [startFadeOut, setStartFadeOut] = useState(false);
     const isMounted = useRef(true);
 
     useEffect(() => {
         if (!startAnimation) return;
 
-        setShowFlow2(true); // Step 1: Hiện flow_2 (bắt đầu animateContainerOut)
+        setShowFlow2(true);
 
         const expandTimer = setTimeout(() => {
             if (!isMounted.current) return;
-            setExpandFlow2(true); // Step 2: Mở rộng block .flow_2 (expand)
+            setExpandFlow2(true);
 
             const showContentTimer = setTimeout(() => {
                 if (!isMounted.current) return;
-                setShowContent(true); // Step 3: Hiện nội dung chào mừng
-            }, 300);
+                setShowContent(true);
+            }, 400);
 
             const collapseTimer = setTimeout(() => {
                 if (!isMounted.current) return;
                 setShowContent(false);
-                setExpandFlow2(false); // Step 4: Thu lại .flow_2
+                setExpandFlow2(false);
 
-                const hideTimer = setTimeout(() => {
+                const scaleOutTimer = setTimeout(() => {
                     if (!isMounted.current) return;
-                    setHidePopup(true); // Step 5: Ẩn toàn bộ popup
-                    onFinish(); // Gọi callback sau animation
-                }, 400);
+                    setHidePopup(true); // 👈 Kích hoạt scaleOut
 
-                return () => clearTimeout(hideTimer);
-            }, 2000);
+                    const fadeOutTimer = setTimeout(() => {
+                        if (!isMounted.current) return;
+                        setStartFadeOut(true); // 👈 fadeOut bắt đầu sau scaleOut
+                        onFinish(); // 👈 Kết thúc sau animation hoàn chỉnh
+                    }, 500); // Khớp với @keyframes scaleOutSmooth (0.5s)
+
+                    return () => clearTimeout(fadeOutTimer);
+                }, 400); // Delay collapse
+
+                return () => clearTimeout(scaleOutTimer);
+            }, 2000); // Hiển thị content khoảng 2s
 
             return () => {
                 clearTimeout(showContentTimer);
                 clearTimeout(collapseTimer);
             };
-        }, 1000); // Delay để cho animateContainerOut chạy xong
+        }, 1000); // Delay ban đầu
 
         return () => {
             clearTimeout(expandTimer);
@@ -61,14 +69,8 @@ const LoginCenter: React.FC<LoginCenterProps> = ({ startAnimation, fullName, onF
         };
     }, []);
 
-    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) {
-            console.log('Overlay clicked - closing popup');
-        }
-    };
-
     return (
-        <div className={`${styles.loginPopupOverlay} ${hidePopup ? styles.fadeOut : ''}`} onClick={handleOverlayClick}>
+        <div className={`${styles.loginPopupOverlay} ${startFadeOut ? styles.fadeOut : ''}`}>
             <div
                 className={`
                     ${styles.loginPopupContainer}
