@@ -3,14 +3,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './login.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import Image from 'next/image';
 import { useApi } from '../../lib/apiContext/apiContext';
+import Cookies from 'js-cookie';
+import LoginCenter from '../../Animation/animationLogin/LoginCenter';
 
 interface LoginPopupProps {
     isOpen: boolean;
     onClose: () => void;
     onOpenRegister: () => void;
-    onLoginSuccess: (token: string) => void;
+    onLoginSuccess: (token: string, fullName: string) => void;
 }
 
 interface ApiError {
@@ -28,74 +29,25 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [showFlow2, setShowFlow2] = useState<boolean>(false);
-    const [expandFlow2, setExpandFlow2] = useState<boolean>(false);
-    const [hidePopup, setHidePopup] = useState<boolean>(false);
-    const [showContent, setShowContent] = useState<boolean>(false);
     const [userName, setUserName] = useState<string>('');
-    const isMounted = useRef<boolean>(true);
-    const wasOpenedRef = useRef<boolean>(false);
+    const [rememberMe, setRememberMe] = useState<boolean>(false);
+    const [showLoginCenter, setShowLoginCenter] = useState<boolean>(false);
     const [pendingToken, setPendingToken] = useState<string | null>(null);
+    const isMounted = useRef<boolean>(true);
 
-    const { login, getUserProfile } = useApi();
+    const { login } = useApi();
 
     useEffect(() => {
+        const savedEmail = Cookies.get('loginEmail');
+        const savedPassword = Cookies.get('loginPassword');
+        setEmail(savedEmail || '');
+        setPassword(savedPassword || '');
+        setRememberMe(!!savedEmail && !!savedPassword);
+
         return () => {
             isMounted.current = false;
         };
     }, []);
-
-    useEffect(() => {
-        if (isOpen) {
-            wasOpenedRef.current = true;
-            setEmail('');
-            setPassword('');
-            setError('');
-            setShowPassword(false);
-            setShowFlow2(false);
-            setExpandFlow2(false);
-            setHidePopup(false);
-            setShowContent(false);
-            setUserName('');
-            setPendingToken(null);
-        }
-    }, [isOpen]);
-
-    useEffect(() => {
-        if (!showFlow2 || !pendingToken) return;
-
-        const expandTimer = setTimeout(() => {
-            if (!isMounted.current) return;
-            setExpandFlow2(true);
-
-            const showContentTimer = setTimeout(() => {
-                if (!isMounted.current) return;
-                setShowContent(true);
-            }, 300);
-
-            const collapseTimer = setTimeout(() => {
-                if (!isMounted.current) return;
-                setShowContent(false);
-                setExpandFlow2(false);
-
-                const hideTimer = setTimeout(() => {
-                    if (!isMounted.current) return;
-                    setHidePopup(true);
-                    onLoginSuccess(pendingToken);
-                    window.location.reload();
-                }, 400);
-
-                return () => clearTimeout(hideTimer);
-            }, 2000);
-
-            return () => {
-                clearTimeout(showContentTimer);
-                clearTimeout(collapseTimer);
-            };
-        }, 1000);
-
-        return () => clearTimeout(expandTimer);
-    }, [showFlow2, pendingToken, onLoginSuccess]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -109,17 +61,20 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
 
         try {
             const response = await login({ email, password });
-            setPendingToken(response.accessToken);
-            setShowFlow2(true);
 
-            try {
-                const userProfile = await getUserProfile();
-                setUserName(userProfile.full_name || 'Người dùng');
-            } catch (profileError: unknown) {
-                const error = profileError as ApiError;
-                setError(error.response?.data?.message || 'Không thể lấy thông tin người dùng');
-                setShowFlow2(false);
+            const fullName = response.user.full_name || 'Người dùng';
+            setUserName(fullName);
+            setPendingToken(response.accessToken);
+
+            if (rememberMe) {
+                Cookies.set('loginEmail', email, { expires: 30 });
+                Cookies.set('loginPassword', password, { expires: 30 });
+            } else {
+                Cookies.remove('loginEmail');
+                Cookies.remove('loginPassword');
             }
+
+            setShowLoginCenter(true); // Trigger animation
         } catch (loginError: unknown) {
             const error = loginError as ApiError;
             let errorMessage = error.response?.data?.message || '';
@@ -129,7 +84,6 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                 errorMessage = 'Lỗi mạng, vui lòng kiểm tra kết nối';
             }
             setError(errorMessage);
-            setShowFlow2(false);
         } finally {
             setIsLoading(false);
         }
@@ -141,19 +95,25 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
         }
     };
 
-    if (!isOpen && !hidePopup) return null;
+    if (!isOpen) return null;
 
     return (
-        <div className={`${styles.loginPopupOverlay} ${hidePopup ? styles.fadeOut : ''}`} onClick={handleOverlayClick}>
-            <div
-                className={`
-          ${styles.loginPopupContainer}
-          ${showFlow2 ? styles.animateContainerOut : styles.animateContainerIn}
-          ${expandFlow2 ? styles.expandedContainer : ''}
-          ${hidePopup ? styles.scaleOut : ''}
-        `}
-            >
-                {!showFlow2 && (
+        <div className={styles.loginPopupOverlay} onClick={handleOverlayClick}>
+            {showLoginCenter ? (
+                <LoginCenter
+                    startAnimation={true}
+                    fullName={userName}
+                    onFinish={() => {
+                        if (pendingToken && userName) {
+                            onLoginSuccess(pendingToken, userName);
+                            onClose();
+                            setShowLoginCenter(false);
+                            setPendingToken(null);
+                        }
+                    }}
+                />
+            ) : (
+                <div className={styles.loginPopupContainer}>
                     <div className={styles.flow_1}>
                         <div className={styles.wrapper_header}>
                             <div className={styles.header}>
@@ -202,6 +162,16 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                                             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                                         </button>
                                     </div>
+                                    <div className={styles.rememberMe}>
+                                        <input
+                                            type="checkbox"
+                                            id="rememberMe"
+                                            checked={rememberMe}
+                                            onChange={(e) => setRememberMe(e.target.checked)}
+                                            disabled={isLoading}
+                                        />
+                                        <label htmlFor="rememberMe">Nhớ tài khoản và mật khẩu</label>
+                                    </div>
                                 </div>
                                 <div className={styles.flex_footer}>
                                     <span>
@@ -232,30 +202,8 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onClose, onOpenRegister
                             <button className={styles.discoverButton}>Bắt đầu ngay</button>
                         </div>
                     </div>
-                )}
-
-                {showFlow2 && (
-                    <div
-                        className={`${styles.flow_2} ${styles.animateContainerIn} ${expandFlow2 ? styles.flowExpand : ''}`}
-                    >
-                        <div className={styles.image_logo}>
-                            <Image
-                                src="/images/logo.png"
-                                alt="Minto Logo"
-                                width={100}
-                                height={100}
-                                style={{ borderRadius: '1rem', objectFit: 'cover' }}
-                            />
-                        </div>
-                        {expandFlow2 && (
-                            <div className={`${styles.content} ${showContent ? styles.show : ''}`}>
-                                <p>Chào mừng bạn đến Minto</p>
-                                <h3>{userName}</h3>
-                            </div>
-                        )}
-                    </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 };

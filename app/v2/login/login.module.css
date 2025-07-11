@@ -4,82 +4,27 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 99999 !important;
-  opacity: 1;
-  transition: opacity 1s ease-in-out;
-  -webkit-backdrop-filter: blur(0.5rem);
-          backdrop-filter: blur(0.5rem);
-}
-.loginPopupOverlay.fadeOut {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+  -webkit-backdrop-filter: blur(0.2rem);
+          backdrop-filter: blur(0.2rem);
 }
 .loginPopupOverlay .loginPopupContainer {
   width: 95%;
   max-width: 45rem;
   height: 45rem;
   position: relative;
-  transform: scale(1);
-  transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.loginPopupOverlay .loginPopupContainer.scaleOut {
-  animation: scaleOutSmooth 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-@keyframes scaleOutSmooth {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0);
-    opacity: 0;
-  }
-}
-.loginPopupOverlay .loginPopupContainer.animateContainerIn {
-  transform: scale(1);
-  opacity: 1;
-  max-width: 45rem;
-  height: 45rem;
   border-radius: 5rem;
   background: transparent;
 }
-.loginPopupOverlay .loginPopupContainer.animateContainerOut {
-  max-width: 15rem;
-  width: 90%;
-  height: 15rem;
-  background: rgba(245, 242, 233, 0.5);
-  border-radius: 50%;
-  transform: scale(1);
-  opacity: 1;
-}
-@media (max-width: 480px) {
-  .loginPopupOverlay .loginPopupContainer.animateContainerOut {
-    max-width: 10rem;
-    height: 10rem;
-  }
-}
-.loginPopupOverlay .loginPopupContainer.expandedContainer {
-  max-width: 45rem;
-  background: none;
-  border-radius: 15rem;
-  transition: all 0.5s ease-in-out;
-  overflow: hidden;
-}
 .loginPopupOverlay .loginPopupContainer .flow_1 {
-  transition: opacity 0.4s ease-in-out;
   height: 45rem;
-}
-.loginPopupOverlay .loginPopupContainer .flow_1.fadeOut {
-  display: none;
-  height: 0;
-  opacity: 0;
 }
 .loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header {
   background: rgba(245, 242, 233, 0.5);
@@ -126,6 +71,23 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 1.3rem;
+  color: #333;
+}
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .rememberMe input {
+  cursor: pointer;
+}
+.loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .rememberMe label {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .loginPopupOverlay .loginPopupContainer .flow_1 .wrapper_header .loginForm .inputWrapper .inputField {
   position: relative;
@@ -229,124 +191,7 @@
   border: 0.1rem solid #fff;
   border-radius: 1.5625rem;
   color: #fff;
-  padding: 0.7rem 2rem;
+  padding: 0.7reminna 2rem;
   font-size: 1.3rem;
   cursor: pointer;
-}
-.loginPopupOverlay .loginPopupContainer .flow_2 {
-  max-width: 15rem;
-  height: 15rem;
-  width: 100%;
-  border-radius: 50%;
-  transform: scale(0.7);
-  opacity: 0;
-  visibility: hidden;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s linear;
-  background: rgba(245, 242, 233, 0.5);
-}
-.loginPopupOverlay .loginPopupContainer .flow_2.flowExpand {
-  max-width: 45rem !important;
-  height: 6rem;
-  border-radius: 10rem;
-  background: #fff;
-  justify-content: flex-start;
-  padding: 2rem;
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-}
-@media (max-width: 480px) {
-  .loginPopupOverlay .loginPopupContainer .flow_2 {
-    max-width: 10rem;
-    height: 10rem;
-  }
-}
-.loginPopupOverlay .loginPopupContainer .flow_2.animateContainerIn {
-  transform: scale(1);
-  opacity: 1;
-  visibility: visible;
-}
-.loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
-  width: 10rem;
-  height: 10rem;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 1rem;
-  transform: scale(1.15);
-}
-@media (max-width: 1024px) {
-  .loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
-    width: 10rem;
-    height: 10rem;
-    -o-object-fit: cover;
-       object-fit: cover;
-    border-radius: 1rem;
-  }
-}
-@media (max-width: 768px) {
-  .loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
-    width: 10rem;
-    height: 10rem;
-    -o-object-fit: cover;
-       object-fit: cover;
-    border-radius: 1rem;
-    transform: scale(1.1);
-  }
-}
-@media (max-width: 480px) {
-  .loginPopupOverlay .loginPopupContainer .flow_2 .image_logo img {
-    width: 8rem;
-    height: 8rem;
-    -o-object-fit: cover;
-       object-fit: cover;
-    border-radius: 1rem;
-  }
-}
-.loginPopupOverlay .loginPopupContainer .flow_2 .content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(1rem);
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-.loginPopupOverlay .loginPopupContainer .flow_2 .content p {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  font-weight: 400;
-  margin-top: 0;
-}
-@media (max-width: 768px) {
-  .loginPopupOverlay .loginPopupContainer .flow_2 .content p {
-    font-size: 1.7rem;
-  }
-}
-@media (max-width: 480px) {
-  .loginPopupOverlay .loginPopupContainer .flow_2 .content p {
-    font-size: 1.5rem;
-  }
-}
-.loginPopupOverlay .loginPopupContainer .flow_2 .content h3 {
-  font-size: 2.2rem;
-  font-weight: bold;
-  margin: 0;
-}
-@media (max-width: 768px) {
-  .loginPopupOverlay .loginPopupContainer .flow_2 .content h3 {
-    font-size: 1.7rem;
-  }
-}
-@media (max-width: 480px) {
-  .loginPopupOverlay .loginPopupContainer .flow_2 .content h3 {
-    font-size: 1.9rem;
-  }
-}
-.loginPopupOverlay .loginPopupContainer .flow_2 .content.show {
-  opacity: 1;
-  transform: translateY(0);
 }/*# sourceMappingURL=login.module.css.map */

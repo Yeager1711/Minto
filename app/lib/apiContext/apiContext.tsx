@@ -69,6 +69,10 @@ interface RegisterData {
 
 interface LoginResponse {
     accessToken: string;
+
+    user: {
+        full_name: string;
+    };
 }
 
 interface UserProfile {
