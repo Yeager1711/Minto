@@ -105,10 +105,6 @@ html {
     white-space: normal;
 }
 
-.swiper-slide.swiper-slide-active {
-    margin: auto !important;
-}
-
 .wrapper-flex {
     display: flex;
     flex-wrap: wrap;
@@ -140,29 +136,62 @@ button {
     background: none;
 }
 
+button.swiper-button-prev {
+    &::after {
+        margin-left: -.5rem;
+    }
+}
+
+.swiper-button-prev,
 .swiper-button-next {
-    right: -1rem !important;
+    color: #fff !important;
+}
+
+.swiper-button-next {
+    right: 2rem !important;
     z-index: 999 !important;
 
     &::after {
-        font-size: 1.6rem !important;
-        background: #fff;
-        padding: 1.1rem 1.3rem .9rem 1.4rem;
+        font-size: 2.2rem !important;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 1.5rem 2rem;
         border-radius: 5rem;
-        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+
+
+
+        @media (max-width: 768px) {
+            font-size: 2.5rem !important;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 1.8rem !important;
+
+        }
+
     }
 }
 
 .swiper-button-prev {
-    left: -1rem !important;
+    left: 2rem !important;
     z-index: 999 !important;
 
     &::after {
-        font-size: 1.6rem !important;
-        background: #fff;
-        padding: 1.1rem 1.3rem .9rem 1.4rem;
+        font-size: 2.2rem !important;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 1.5rem 2rem;
         border-radius: 5rem;
-        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+
+
+        @media (max-width: 768px) {
+            font-size: 2.5rem !important;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 1.8rem !important;
+
+        }
     }
 }
 
@@ -175,3 +204,4 @@ button {
     height: .7rem !important;
     border-radius: .5rem !important;
 }
+

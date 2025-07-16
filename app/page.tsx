@@ -14,6 +14,12 @@ import SupportError from 'app/feedback/SupportError/SupportError';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay, Navigation } from 'swiper/modules'; // Added Navigation module
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
+import 'swiper/css/navigation'; // Import navigation styles
 
 interface Template {
     template_id: number;
@@ -49,6 +55,8 @@ interface UserProfile {
 interface ProductCardProps {
     name: string;
     image: string;
+    price: number;
+    status: string;
     onClick: () => void;
 }
 
@@ -58,12 +66,22 @@ interface ProductListProps {
     isLoading: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ name, image, onClick }) => (
+const ProductCard: React.FC<ProductCardProps> = ({ name, image, price, status, onClick }) => (
     <div className={styles.card_product} onClick={onClick}>
         <div className={styles.image_products}>
-            <Image src={`${image}`} alt={name} width={300} height={200} priority={false} unoptimized />
+            <Image
+                src={image || '/default-image.jpg'}
+                alt={name}
+                width={300}
+                height={200}
+                priority={false}
+                unoptimized
+                style={{ aspectRatio: '3/2' }}
+            />
             <div className={styles.card_overlay}>
-                <span className={styles.card_title}>{name}</span>
+                <h3 className={styles.card_title}>{name}</h3>
+                <h3 className={styles.card_price}>{price.toLocaleString()} VNĐ</h3>
+                <h3 className={styles.card_status}>{status.toUpperCase()}</h3>
             </div>
         </div>
     </div>
@@ -91,26 +109,82 @@ const CategorySkeleton: React.FC = () => (
     </div>
 );
 
-const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, isLoading }) => (
-    <div className={styles.grid}>
-        {isLoading ? (
-            Array(4)
-                .fill(0)
-                .map((_, index) => <ProductCardSkeleton key={index} />)
-        ) : templates.length === 0 ? (
-            <div className={styles.no_results}>Không tìm thấy kết quả</div>
-        ) : (
-            templates.map((template) => (
-                <ProductCard
-                    key={template.template_id}
-                    name={template.name}
-                    image={template.image_url}
-                    onClick={() => onProductClick(template)}
-                />
-            ))
-        )}
-    </div>
-);
+const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, isLoading }) => {
+    // Sort templates by template_id in descending order
+    const sortedTemplates = [...templates].sort((a, b) => b.template_id - a.template_id);
+
+    return (
+        <div className={styles.product_list}>
+            {isLoading ? (
+                <Swiper
+                    slidesPerView={1}
+                    spaceBetween={10}
+                    pagination={{
+                        dynamicBullets: true,
+                    }}
+                    breakpoints={{
+                        375: { slidesPerView: 1.5, spaceBetween: 10 },
+                        600: { slidesPerView: 2.5, spaceBetween: 15 },
+                        1024: { slidesPerView: 3, spaceBetween: 15 },
+                    }}
+                    modules={[Pagination, Autoplay, Navigation]}
+                    className={styles.swiper_container}
+                    autoplay={{ delay: 100000000000000, disableOnInteraction: false }}
+                    navigation={{
+                        prevEl: '.swiper-button-prev',
+                        nextEl: '.swiper-button-next',
+                    }}
+                >
+                    {Array(4)
+                        .fill(0)
+                        .map((_, index) => (
+                            <SwiperSlide key={index}>
+                                <ProductCardSkeleton />
+                            </SwiperSlide>
+                        ))}
+                    <button className="swiper-button-prev"></button>
+                    <button className="swiper-button-next"></button>
+                </Swiper>
+            ) : sortedTemplates.length === 0 ? (
+                <div className={styles.no_results}>Không tìm thấy kết quả</div>
+            ) : (
+                <Swiper
+                    slidesPerView={1}
+                    spaceBetween={10}
+                    pagination={{
+                        dynamicBullets: true,
+                    }}
+                    breakpoints={{
+                        375: { slidesPerView: 1.5, spaceBetween: 10 },
+                        600: { slidesPerView: 2.2, spaceBetween: 15 },
+                        1024: { slidesPerView: 3, spaceBetween: 15 },
+                    }}
+                    modules={[Pagination, Autoplay, Navigation]}
+                    className={styles.swiper_container}
+                    autoplay={{ delay: 10000, disableOnInteraction: false }}
+                    navigation={{
+                        prevEl: '.swiper-button-prev',
+                        nextEl: '.swiper-button-next',
+                    }}
+                >
+                    {sortedTemplates.map((template) => (
+                        <SwiperSlide key={template.template_id}>
+                            <ProductCard
+                                name={template.name}
+                                image={template.image_url}
+                                price={template.price}
+                                status={template.status}
+                                onClick={() => onProductClick(template)}
+                            />
+                        </SwiperSlide>
+                    ))}
+                    <button className="swiper-button-prev"></button>
+                    <button className="swiper-button-next"></button>
+                </Swiper>
+            )}
+        </div>
+    );
+};
 
 const Home: React.FC = () => {
     const { getTemplates, getCategories, getUserProfile, accessToken } = useApi();
