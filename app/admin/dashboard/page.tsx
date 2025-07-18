@@ -15,15 +15,7 @@ import {
     TooltipItem,
 } from 'chart.js';
 import { Bar, Radar, Line } from 'react-chartjs-2';
-import {
-    AreaChart,
-    Area,
-    XAxis,
-    YAxis,
-    
-    ResponsiveContainer,
-    Tooltip as RechartsTooltip,
-} from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -122,7 +114,7 @@ interface ServerStatusData {
     status: string;
 }
 
-const apiUrl: string | undefined = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 if (!apiUrl) {
     throw new Error('NEXT_PUBLIC_APP_API_BASE_URL is not defined');
