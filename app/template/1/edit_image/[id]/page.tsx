@@ -5,7 +5,6 @@ import { useParams, useSearchParams } from 'next/navigation';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './mau_1.module.css';
-import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { showToastError } from 'app/Ultils/toast';
@@ -655,7 +654,7 @@ const Template1Edit: React.FC = () => {
                                 key={index}
                                 src={img.src}
                                 alt={img.alt}
-                                className={clsx(styles.coupleImg, { [styles.centerImg]: img.isCenter })}
+                                className={`${styles.coupleImg} ${img.isCenter ? styles.centerImg : ''}`}
                                 data-aos="fade-up"
                                 data-aos-delay={(100 * (index + 1)).toString()}
                                 onClick={() =>
@@ -785,7 +784,7 @@ const Template1Edit: React.FC = () => {
                                     key={index}
                                     src={img.src}
                                     alt={img.alt}
-                                    className={clsx(styles.thumnailImg, { [styles.centerImg]: img.isCenter })}
+                                    className={`${styles.thumnailImg} ${img.isCenter ? styles.centerImg : ''}`}
                                     data-aos="fade-up"
                                     data-aos-delay={(100 * (index + 1)).toString()}
                                     onClick={() =>
