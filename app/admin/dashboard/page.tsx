@@ -115,43 +115,11 @@ interface ServerStatusData {
 }
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+console.log('api:', apiUrl);
 
 if (!apiUrl) {
     throw new Error('NEXT_PUBLIC_APP_API_BASE_URL is not defined');
 }
-
-// Fetch statistics function
-const fetchStatistics = async (): Promise<ApiData> => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) {
-        throw new Error('Không tìm thấy accessToken trong localStorage');
-    }
-
-    const currentYear = new Date().getFullYear();
-    const startDate = new Date(currentYear, 0, 1);
-    const endDate = new Date(currentYear, 11, 31);
-
-    const response = await fetch(
-        `${apiUrl}/payos/statistics?startDate=${startDate.toISOString().split('T')[0]}&endDate=${endDate.toISOString().split('T')[0]}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
-        }
-    );
-
-    if (response.status === 401) {
-        throw new Error('Unauthorized: Invalid or expired token');
-    }
-
-    const result = await response.json();
-    if (result.success) {
-        return result.data as ApiData;
-    }
-    throw new Error('Không thể lấy dữ liệu thống kê');
-};
 
 // Get last 7 days
 const getLast7Days = (endDate: Date): string[] => {
@@ -279,7 +247,40 @@ const Dashboard: React.FC = () => {
 
         // Gọi lần đầu khi component mount
         fetchData();
-    }, [getUserProfile]); // Loại bỏ lastRequestTime khỏi dependency để tránh lặp vô hạn
+    }, [getUserProfile]);
+
+    // Fetch statistics function
+    const fetchStatistics = async (): Promise<ApiData> => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+            throw new Error('Không tìm thấy accessToken trong localStorage');
+        }
+
+        const currentYear = new Date().getFullYear();
+        const startDate = new Date(currentYear, 0, 1);
+        const endDate = new Date(currentYear, 11, 31);
+
+        const response = await fetch(
+            `${apiUrl}/payos/statistics?startDate=${startDate.toISOString().split('T')[0]}&endDate=${endDate.toISOString().split('T')[0]}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+
+        if (response.status === 401) {
+            throw new Error('Unauthorized: Invalid or expired token');
+        }
+
+        const result = await response.json();
+        if (result.success) {
+            return result.data as ApiData;
+        }
+        throw new Error('Không thể lấy dữ liệu thống kê');
+    };
 
     React.useEffect(() => {
         const interval = setInterval(() => {
