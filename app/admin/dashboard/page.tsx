@@ -14,20 +14,19 @@ import {
     Tooltip as ChartJSTooltip,
     TooltipItem,
 } from 'chart.js';
-import { Bar, PolarArea, Line } from 'react-chartjs-2';
+import { Bar, Radar, Line } from 'react-chartjs-2';
 import {
     AreaChart,
     Area,
     XAxis,
     YAxis,
-    CartesianGrid,
     ResponsiveContainer,
     Tooltip as RechartsTooltip,
 } from 'recharts';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartSimple, faEye, faEyeSlash, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChartSimple, faEye, faEyeSlash, faRotateLeft, faExpand } from '@fortawesome/free-solid-svg-icons';
 import styles from './dashboard.module.css';
 import AddProduct from '../popup/add_template/addTemplates';
 import Skeleton from './Skeleton';
@@ -35,7 +34,13 @@ import Navigation from '../navigations/navigations';
 import ErrorList from '../error_list/page';
 import EditTemplate from '../editTemplate/page';
 import { useApi } from 'app/lib/apiContext/apiContext';
-import * as echarts from 'echarts';
+
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay, Navigation as SwiperNavigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 // Register ChartJS components
 ChartJS.register(
@@ -83,6 +88,9 @@ interface Payment {
 interface Template {
     templateId: number;
     templateName: string;
+    templateImage: string;
+    templatePrice: number;
+    templateStatus: string;
 }
 
 interface TemplateUsage extends Template {
@@ -106,7 +114,7 @@ interface AreaChartData {
     canceled: number;
 }
 
-interface ServerChartData {
+interface ServerStatusData {
     timestamp: number;
     responseTime: number;
     returnTime: number;
@@ -119,7 +127,7 @@ if (!apiUrl) {
     throw new Error('NEXT_PUBLIC_APP_API_BASE_URL is not defined');
 }
 
-// Fetch statistics function (modified to fetch entire year)
+// Fetch statistics function
 const fetchStatistics = async (): Promise<ApiData> => {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
@@ -127,8 +135,8 @@ const fetchStatistics = async (): Promise<ApiData> => {
     }
 
     const currentYear = new Date().getFullYear();
-    const startDate = new Date(currentYear, 0, 1); // January 1
-    const endDate = new Date(currentYear, 11, 31); // December 31
+    const startDate = new Date(currentYear, 0, 1);
+    const endDate = new Date(currentYear, 11, 31);
 
     const response = await fetch(
         `${apiUrl}/payos/statistics?startDate=${startDate.toISOString().split('T')[0]}&endDate=${endDate.toISOString().split('T')[0]}`,
@@ -207,7 +215,7 @@ const Dashboard: React.FC = () => {
     const [apiData, setApiData] = React.useState<ApiData | null>(null);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
     const [error, setError] = React.useState<string | null>(null);
-    const [chartType, setChartType] = React.useState<'bar' | 'area' | 'polar'>('bar');
+    const [chartType, setChartType] = React.useState<'bar' | 'area' | 'radar'>('bar');
     const [greeting, setGreeting] = React.useState<string>(getGreeting());
     const [isAddProductOpen, setIsAddProductOpen] = React.useState<boolean>(false);
     const [serverStatus, setServerStatus] = React.useState<string>('sleeping');
@@ -219,13 +227,20 @@ const Dashboard: React.FC = () => {
     const [showVirtualRevenue, setShowVirtualRevenue] = React.useState<boolean>(false);
     const { getUserProfile } = useApi();
     const [userProfile, setUserProfile] = React.useState<UserProfile | null>(null);
-
-    // State and refs for server chart
-    const [showServerChart, setShowServerChart] = useState<boolean>(true); // Default to true for initial render
-    const [serverChartData, setServerChartData] = useState<ServerChartData[]>([]);
+    const [showServerStatus, setShowServerStatus] = useState<boolean>(false);
+    const [serverStatusData, setServerStatusData] = useState<ServerStatusData[]>([]);
     const serverStatusRef = useRef<HTMLDivElement>(null);
-    const chartRef = useRef<HTMLDivElement>(null);
-    const chartInstanceRef = useRef<echarts.ECharts | null>(null); // Use useRef for chart instance
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (showServerStatus) {
+                setShowServerStatus(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [showServerStatus]);
 
     React.useEffect(() => {
         AOS.init({
@@ -240,26 +255,27 @@ const Dashboard: React.FC = () => {
                 setIsLoading(true);
                 setServerStatus('rebuilding...');
                 const startTime = Date.now();
+                setLastRequestTime(startTime); // Cập nhật lastRequestTime mỗi lần gọi fetchData
 
                 const [data, profile] = await Promise.all([fetchStatistics(), getUserProfile()]);
                 const endTime = Date.now();
                 const responseTime = endTime - startTime;
-                const returnTime = endTime - lastRequestTime;
+                const returnTime = endTime - lastRequestTime; // Sử dụng lastRequestTime mới
 
                 setApiData(data);
                 setUserProfile(profile as unknown as UserProfile);
-                setServerStatus('online');
+                setServerStatus('Online');
                 setOnlineSince(Date.now());
-                setServerChartData((prev) => [
+                setServerStatusData((prev) => [
                     ...prev.slice(-10),
-                    { timestamp: endTime, responseTime, returnTime, status: 'online' },
+                    { timestamp: endTime, responseTime, returnTime, status: 'Online' },
                 ]);
             } catch (error: unknown) {
                 const errorMessage = error instanceof Error ? error.message : 'Đã xảy ra lỗi khi tải dữ liệu';
                 setError(errorMessage);
                 setServerStatus('sleeping');
                 setOnlineSince(null);
-                setServerChartData((prev) => [
+                setServerStatusData((prev) => [
                     ...prev.slice(-10),
                     { timestamp: Date.now(), responseTime: 0, returnTime: 0, status: 'sleeping' },
                 ]);
@@ -268,10 +284,9 @@ const Dashboard: React.FC = () => {
             }
         };
 
+        // Gọi lần đầu khi component mount
         fetchData();
-        const interval = setInterval(fetchData, 60000);
-        return () => clearInterval(interval);
-    }, [getUserProfile, lastRequestTime]);
+    }, [getUserProfile]); // Loại bỏ lastRequestTime khỏi dependency để tránh lặp vô hạn
 
     React.useEffect(() => {
         const interval = setInterval(() => {
@@ -290,6 +305,10 @@ const Dashboard: React.FC = () => {
                 if (timeSinceOnline >= 60 && inactivityTime >= 60) {
                     setServerStatus('sleeping');
                     setOnlineSince(null);
+                    setServerStatusData((prev) => [
+                        ...prev.slice(-10),
+                        { timestamp: Date.now(), responseTime: 0, returnTime: 0, status: 'sleeping' },
+                    ]);
                 }
             }
         };
@@ -299,12 +318,12 @@ const Dashboard: React.FC = () => {
     }, [lastRequestTime, serverStatus, onlineSince]);
 
     const toggleChartType = (): void => {
-        setChartType((prev: 'bar' | 'area' | 'polar') => (prev === 'bar' ? 'area' : 'bar'));
+        setChartType((prev: 'bar' | 'area' | 'radar') => (prev === 'bar' ? 'area' : 'bar'));
         setLastRequestTime(Date.now());
     };
 
-    const showPolarChart = (): void => {
-        setChartType('polar');
+    const showRadarChart = (): void => {
+        setChartType('radar');
         setLastRequestTime(Date.now());
     };
 
@@ -459,13 +478,13 @@ const Dashboard: React.FC = () => {
                 {
                     label: 'Tỷ lệ sử dụng (%)',
                     data,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
-                        'rgba(255, 206, 86, 0.8)',
-                        'rgba(75, 192, 192, 0.8)',
-                        'rgba(153, 102, 255, 0.8)',
-                    ],
+                    backgroundColor: 'rgba(99, 161, 249, 0.2)',
+                    borderColor: '#0a84ff',
+                    pointBackgroundColor: '#1e3a8a',
+                    pointBorderColor: '#ffffff',
+                    pointHoverBackgroundColor: '#ffffff',
+                    pointHoverBorderColor: '#1e40af',
+                    borderWidth: 2,
                 },
             ],
         };
@@ -519,24 +538,24 @@ const Dashboard: React.FC = () => {
                 {
                     label: 'Tổng doanh thu',
                     data: last7Days.map((date: string) => totalRevenueByDate[date]),
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: '#60a5fa',
+                    backgroundColor: 'rgba(96, 165, 250, 0.2)',
                     fill: true,
                     tension: 0.4,
                 },
                 {
                     label: 'Doanh thu thật',
                     data: last7Days.map((date: string) => realRevenueByDate[date]),
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: '#0a84ff',
+                    backgroundColor: 'rgba(10, 132, 255, 0.2)',
                     fill: true,
                     tension: 0.4,
                 },
                 {
                     label: 'Doanh thu ảo',
                     data: last7Days.map((date: string) => virtualRevenueByDate[date]),
-                    borderColor: 'rgb(255, 124, 152)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: '#fb923c',
+                    backgroundColor: 'rgba(251, 146, 60, 0.2)',
                     fill: true,
                     tension: 0.4,
                 },
@@ -550,13 +569,13 @@ const Dashboard: React.FC = () => {
             legend: {
                 display: true,
                 labels: {
-                    color: '#fff',
+                    color: '#ffffff',
                 },
             },
             title: {
                 display: true,
                 text: `Trạng thái đơn hàng năm ${new Date().getFullYear()}`,
-                color: '#6988f0',
+                color: '#1e40af',
             },
             tooltip: {
                 callbacks: {
@@ -568,8 +587,8 @@ const Dashboard: React.FC = () => {
                         return 'No label available';
                     },
                 },
-                titleColor: '#fff',
-                bodyColor: '#fff',
+                titleColor: '#ffffff',
+                bodyColor: '#ffffff',
             },
         },
         scales: {
@@ -577,7 +596,7 @@ const Dashboard: React.FC = () => {
                 beginAtZero: true,
                 ticks: {
                     stepSize: 1,
-                    color: '#fff',
+                    color: '#ffffff',
                 },
                 grid: { display: false },
             },
@@ -586,30 +605,57 @@ const Dashboard: React.FC = () => {
                     autoSkip: false,
                     maxRotation: 45,
                     minRotation: 45,
-                    color: '#fff',
+                    color: '#ffffff',
                 },
                 grid: { display: false },
             },
         },
     };
 
-    const polarChartOptions = {
+    const radarChartOptions = {
         responsive: true,
         plugins: {
-            legend: { display: true },
+            legend: {
+                display: true,
+                labels: {
+                    color: '#ffffff',
+                },
+            },
             title: {
                 display: true,
                 text: 'Tỷ lệ sử dụng Template (%)',
+                color: '#1e40af',
             },
             tooltip: {
                 callbacks: {
-                    label: (context: TooltipItem<'polarArea'>): string => {
+                    label: (context: TooltipItem<'radar'>): string => {
                         if (context.dataset.label) {
                             const value = context.parsed.r;
                             return `${context.dataset.label}: ${value.toFixed(2)}%`;
                         }
                         return 'No label available';
                     },
+                },
+                titleColor: '#ffffff',
+                bodyColor: '#ffffff',
+            },
+        },
+        scales: {
+            r: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 20,
+                    color: '#ffffff',
+                    backdropColor: 'rgba(17, 24, 39, 0.8)',
+                },
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.2)',
+                },
+                angleLines: {
+                    color: 'rgba(255, 255, 255, 0.2)',
+                },
+                pointLabels: {
+                    color: '#ffffff',
                 },
             },
         },
@@ -618,8 +664,30 @@ const Dashboard: React.FC = () => {
     const revenueChartOptions = {
         responsive: true,
         plugins: {
-            legend: { display: true },
-            title: { display: true, text: 'Doanh thu 7 ngày qua' },
+            legend: {
+                display: true,
+                labels: {
+                    color: '#ffffff',
+                },
+            },
+            title: {
+                display: true,
+                text: 'Doanh thu 7 ngày qua',
+                color: '#1e40af',
+            },
+            tooltip: {
+                callbacks: {
+                    label: (context: TooltipItem<'line'>): string => {
+                        if (context.dataset.label) {
+                            const value = context.parsed.y;
+                            return `${context.dataset.label}: ${value.toLocaleString()} VNĐ`;
+                        }
+                        return 'No label available';
+                    },
+                },
+                titleColor: '#ffffff',
+                bodyColor: '#ffffff',
+            },
         },
         scales: {
             y: {
@@ -627,108 +695,18 @@ const Dashboard: React.FC = () => {
                 ticks: {
                     callback: (tickValue: string | number): string =>
                         typeof tickValue === 'number' ? `${tickValue.toLocaleString()} VNĐ` : tickValue,
+                    color: '#ffffff',
                 },
+                grid: { color: 'rgba(255, 255, 255, 0.2)' },
+            },
+            x: {
+                ticks: {
+                    color: '#ffffff',
+                },
+                grid: { display: false },
             },
         },
     };
-
-    useEffect(() => {
-        if (showServerChart && chartRef.current) {
-            // Initialize or reinitialize chart using useRef
-            if (!chartInstanceRef.current) {
-                chartInstanceRef.current = echarts.init(chartRef.current);
-            }
-
-            const chartInstance = chartInstanceRef.current;
-
-            // Generate data similar to the demo if serverChartData is empty, otherwise use it
-            const base = Date.now() - 19999 * 24 * 3600 * 1000; // Start 20,000 days ago
-            const oneDay = 24 * 3600 * 1000;
-            const date: string[] = []; // Explicitly typed as string[]
-            const data = [Math.random() * 300];
-
-            for (let i = 1; i < 20000; i++) {
-                const now = new Date(base + oneDay * i); // Fixed var to const
-                date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-                data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
-            }
-
-            // Use serverChartData if available, mapped to match the demo format
-            const chartData =
-                serverChartData.length > 0
-                    ? serverChartData.map((d) => [new Date(d.timestamp).toLocaleDateString(), d.responseTime])
-                    : data.map((value, index) => [date[index], value]);
-
-            const option: echarts.EChartsOption = {
-                title: {
-                    text: '',
-                    textStyle: { color: '#fff' },
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    position: function (pt) {
-                        return [pt[0], '10%'];
-                    },
-                },
-                xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: chartData.map((item) => item[0]),
-                    axisLabel: { show: false }, // Hide x-axis labels
-                },
-                yAxis: {
-                    type: 'value',
-                    boundaryGap: [0, '100%'],
-                    axisLabel: { show: false }, // Hide y-axis labels
-                },
-                dataZoom: [
-                    {
-                        type: 'inside',
-                        start: 0, // Start at 0% (full range)
-                        end: 100, // Full range
-                        show: false, // Hide the dataZoom control
-                    },
-                ],
-                series: [
-                    {
-                        name: 'Server Response',
-                        type: 'line',
-                        symbol: 'none',
-                        sampling: 'lttb',
-                        itemStyle: {
-                            color: 'rgb(255, 70, 131)',
-                        },
-                        areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                { offset: 0, color: 'rgb(255, 158, 68)' },
-                                { offset: 1, color: 'rgb(255, 70, 131)' },
-                            ]),
-                        },
-                        data: chartData.map((item) => item[1]),
-                    },
-                ],
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true,
-                },
-                animation: true,
-            };
-
-            chartInstance.setOption(option);
-
-            const resizeHandler = () => chartInstance?.resize();
-            window.addEventListener('resize', resizeHandler);
-
-            // Cleanup on unmount or when showServerChart changes
-            return () => {
-                window.removeEventListener('resize', resizeHandler);
-                chartInstance?.dispose();
-                chartInstanceRef.current = null; // Clear the ref on cleanup
-            };
-        }
-    }, [showServerChart, serverChartData]);
 
     const calcStrokeOffset = (current: number, total: number): string => {
         const radius = 40;
@@ -795,6 +773,59 @@ const Dashboard: React.FC = () => {
             default:
                 return (
                     <div className={styles.main_content}>
+                        <div
+                            ref={serverStatusRef}
+                            className={`${styles.dynamic} ${showServerStatus ? styles.expanded : ''}`}
+                            onClick={() => setShowServerStatus(!showServerStatus)}
+                        >
+                            <div className={styles.status_text}>Server: {serverStatus}</div>
+                            {showServerStatus && (
+                                <div className={styles.server_info}>
+                                    {serverStatusData.length > 0 ? (
+                                        <div className={styles.server_status_card}>
+                                            <div className={styles.status_header}>
+                                                <div className={styles.status_timestamp}>
+                                                    <span>
+                                                        Cập nhật lúc:{' '}
+                                                        {new Date(
+                                                            serverStatusData[serverStatusData.length - 1].timestamp
+                                                        ).toLocaleTimeString()}
+                                                    </span>
+                                                </div>
+                                                <span
+                                                    className={
+                                                        styles[
+                                                            serverStatusData[
+                                                                serverStatusData.length - 1
+                                                            ].status.toLowerCase()
+                                                        ]
+                                                    }
+                                                >
+                                                    {serverStatusData[serverStatusData.length - 1].status}
+                                                </span>
+                                            </div>
+                                            <div className={styles.status_metrics}>
+                                                <div className={styles.metric_item}>
+                                                    <span className={styles.metric_label}>Response Time</span>
+                                                    <span className={styles.metric_value}>
+                                                        {serverStatusData[serverStatusData.length - 1].responseTime} ms
+                                                    </span>
+                                                </div>
+                                                <div className={styles.metric_item}>
+                                                    <span className={styles.metric_label}>Return Time</span>
+                                                    <span className={styles.metric_value}>
+                                                        {serverStatusData[serverStatusData.length - 1].returnTime} ms
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <p>Không có phản hồi từ server</p>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
                         <div className={styles.header} data-aos="fade-in" data-aos-delay="300">
                             {isLoading ? (
                                 <Skeleton type="text" />
@@ -804,15 +835,6 @@ const Dashboard: React.FC = () => {
                                         <h1>
                                             {greeting}, {userProfile?.full_name || '(Err Type User)'}👋
                                         </h1>
-                                    </div>
-
-                                    <div
-                                        ref={serverStatusRef}
-                                        className={`${styles.server_status} ${showServerChart ? styles.expanded : ''}`}
-                                        onClick={() => setShowServerChart(!showServerChart)}
-                                    >
-                                        <div className={styles.status_text}>Server: {serverStatus}</div>
-                                        {showServerChart && <div ref={chartRef} className={styles.chart_container} />}
                                     </div>
                                 </div>
                             )}
@@ -875,7 +897,7 @@ const Dashboard: React.FC = () => {
                                         className={styles.change_chart}
                                         icon={faChartSimple}
                                         style={{ cursor: 'pointer' }}
-                                        onClick={showPolarChart}
+                                        onClick={showRadarChart}
                                         title="Hiển thị Tỷ lệ sử dụng Template (%)"
                                     />
                                 </div>
@@ -903,12 +925,11 @@ const Dashboard: React.FC = () => {
                                                 />
                                             ) : chartType === 'area' ? (
                                                 <div style={{ borderRadius: '1rem', overflow: 'hidden' }}>
-                                                    <ResponsiveContainer width="100%" height={400}>
+                                                    <ResponsiveContainer width="100%" height={380}>
                                                         <AreaChart
                                                             data={areaChartData}
                                                             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                                                         >
-                                                            <CartesianGrid strokeDasharray="3 3" />
                                                             <XAxis dataKey="name" />
                                                             <YAxis />
                                                             <RechartsTooltip />
@@ -929,13 +950,13 @@ const Dashboard: React.FC = () => {
                                                         </AreaChart>
                                                     </ResponsiveContainer>
                                                 </div>
-                                            ) : chartType === 'polar' ? (
+                                            ) : chartType === 'radar' ? (
                                                 templateChartData.labels.length > 0 ? (
-                                                    <PolarArea
+                                                    <Radar
                                                         style={{ margin: 'auto' }}
                                                         data={templateChartData}
                                                         options={{
-                                                            ...polarChartOptions,
+                                                            ...radarChartOptions,
                                                             responsive: true,
                                                             maintainAspectRatio: false,
                                                         }}
@@ -960,6 +981,8 @@ const Dashboard: React.FC = () => {
                                 </div>
 
                                 <div className={styles.left_footer}>
+                                    <FontAwesomeIcon className={styles.btn_expand} icon={faExpand} />
+
                                     <div className={styles.box_left}>
                                         <h3>Chi tiết thanh toán</h3>
                                         <div className={styles.list_of_responses}>
@@ -991,17 +1014,20 @@ const Dashboard: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className={styles.box_right}>
-                                        <h3 className={styles.title_cancel}>Tổng đơn hàng bị hủy</h3>
-                                        {isLoading ? (
-                                            <Skeleton type="small" />
-                                        ) : (
-                                            <p style={{ color: 'red' }}>{apiData?.totalCanceledOrders ?? 0}</p>
-                                        )}
+                                        <div className={styles.cancel_order}>
+                                            <h3 className={styles.title_cancel}>Tổng đơn hàng bị hủy</h3>
+                                            {isLoading ? (
+                                                <Skeleton type="small" />
+                                            ) : (
+                                                <p style={{ color: 'red' }}>{apiData?.totalCanceledOrders ?? 0}</p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div className={styles.header__right}>
                                 <div className={styles.Revenue_box}>
+                                    <FontAwesomeIcon className={styles.btn_expand} icon={faExpand} />
                                     <h3>Doanh thu theo tuần</h3>
                                     <div className={styles.chart}>
                                         {isLoading ? (
@@ -1022,6 +1048,8 @@ const Dashboard: React.FC = () => {
                                 </div>
 
                                 <div className={styles.total_client}>
+                                    <FontAwesomeIcon className={styles.btn_expand} icon={faExpand} />
+
                                     <div className={styles.client}>
                                         <h3>Tổng số Template</h3>
                                         {isLoading ? (
@@ -1049,8 +1077,8 @@ const Dashboard: React.FC = () => {
                                                         textAnchor="middle"
                                                         dy=".3em"
                                                         className={styles.progressText}
-                                                        style={{ color: '#fff' }}
-                                                        fill="#fff"
+                                                        style={{ color: '#1f2937' }}
+                                                        fill="#1f2937"
                                                     >
                                                         {`${apiData.totalTemplates || 0}/${apiData.totalTemplates || 0}`}
                                                     </text>
@@ -1090,7 +1118,7 @@ const Dashboard: React.FC = () => {
                                                         textAnchor="middle"
                                                         dy=".3em"
                                                         className={styles.progressText}
-                                                        fill="#fff"
+                                                        fill="#ffffff"
                                                     >
                                                         {`${apiData.templateUsage.reduce((sum, t) => sum + t.usageCount, 0)}/${
                                                             apiData.totalTemplates || 0
@@ -1105,22 +1133,76 @@ const Dashboard: React.FC = () => {
                                 </div>
 
                                 <div className={styles.template}>
-                                    <h3>Mẫu Template đang có</h3>
+                                    <FontAwesomeIcon className={styles.btn_expand} icon={faExpand} />
+
+                                    <h3>Mẫu đang có</h3>
                                     <div className={styles.template_wrapper_item}>
                                         {isLoading ? (
-                                            <>
-                                                {Array.from({ length: 3 }).map((_, index: number) => (
-                                                    <span key={index} className={styles.template_item}>
-                                                        <Skeleton type="small" />
-                                                    </span>
+                                            <Swiper
+                                                slidesPerView={2}
+                                                spaceBetween={10}
+                                                pagination={{
+                                                    dynamicBullets: true,
+                                                }}
+                                                modules={[Pagination, Autoplay]}
+                                                className={styles.swiper_container}
+                                                autoplay={{ delay: 100000000, disableOnInteraction: false }}
+                                            >
+                                                {Array.from({ length: 3 }).map((_, index) => (
+                                                    <SwiperSlide key={index}>
+                                                        <div className={styles.template_skeleton}>
+                                                            <Skeleton type="small" />
+                                                        </div>
+                                                    </SwiperSlide>
                                                 ))}
-                                            </>
+                                            </Swiper>
                                         ) : apiData && apiData.allTemplates.length > 0 ? (
-                                            apiData.allTemplates.map((template: Template) => (
-                                                <span key={template.templateId} className={styles.template_item}>
-                                                    {template.templateName}
-                                                </span>
-                                            ))
+                                            <div className={styles.swiper_wrapper}>
+                                                <button className="swiper-button-prev"></button>
+                                                <button className="swiper-button-next"></button>
+                                                <Swiper
+                                                    slidesPerView={1}
+                                                    spaceBetween={10}
+                                                    pagination={{
+                                                        dynamicBullets: true,
+                                                    }}
+                                                    breakpoints={{
+                                                        375: { slidesPerView: 1.8, spaceBetween: 10 },
+                                                        600: { slidesPerView: 2.8, spaceBetween: 15 },
+                                                        1024: { slidesPerView: 4, spaceBetween: 10 },
+                                                    }}
+                                                    navigation={{
+                                                        prevEl: '.swiper-button-prev',
+                                                        nextEl: '.swiper-button-next',
+                                                    }}
+                                                    modules={[Pagination, Autoplay, SwiperNavigation]}
+                                                    className={styles.swiper_container}
+                                                    autoplay={{ delay: 10000, disableOnInteraction: false }}
+                                                >
+                                                    {apiData.allTemplates
+                                                        .slice()
+                                                        .sort((a, b) => b.templateId - a.templateId)
+                                                        .map((template) => (
+                                                            <SwiperSlide key={template.templateId}>
+                                                                <div className={styles.template_card}>
+                                                                    {/* <div className={styles.template_image}>
+                                                                        <img
+                                                                            src={template.templateImage}
+                                                                            alt={template.templateName}
+                                                                            className={styles.template_image}
+                                                                        />
+                                                                    </div>
+                                                                    <h4>{template.templateName}</h4> */}
+                                                                    <p>
+                                                                        Giá: {template.templatePrice.toLocaleString()}{' '}
+                                                                        VNĐ
+                                                                    </p>
+                                                                    <p>Trạng thái: {template.templateStatus}</p>
+                                                                </div>
+                                                            </SwiperSlide>
+                                                        ))}
+                                                </Swiper>
+                                            </div>
                                         ) : (
                                             <p>Không có template</p>
                                         )}

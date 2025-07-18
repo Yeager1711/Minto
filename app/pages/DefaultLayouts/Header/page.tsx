@@ -202,7 +202,11 @@ function Header() {
     const displayedNavItem = pathname === '/' ? navItems[1] : navItems[0];
 
     return (
-        <aside className={cx('sidebar', { 'display-none': pathname.includes('/template') })}>
+        <aside
+            className={cx('sidebar', {
+                'display-none': pathname.includes('/template') || pathname.startsWith('/admin'),
+            })}
+        >
             <div className={styles.margin}>
                 <div className={cx('logo', { 'logo-hidden': isNavBoxOpen })}>
                     <p>⚡</p> Minto

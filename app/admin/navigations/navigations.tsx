@@ -2,34 +2,73 @@
 
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCog, faMoneyBillWave, faCommentDots, faEdit, faPlus, faHome } from '@fortawesome/free-solid-svg-icons';
-import styles from './navigations.module.css';
+import { faUserCog, faCommentDots, faEdit, faPlus, faHome } from '@fortawesome/free-solid-svg-icons';
+
+import styles from './navigations.module.scss';
 
 interface NavigationProps {
     onNavChange: (section: string) => void;
-    onAddProduct: () => void;
+    onAddProduct: (position: DOMRect) => void;
 }
 
 const Navigation: React.FC<NavigationProps> = ({ onNavChange, onAddProduct }) => {
+    const addButtonRef = React.useRef<HTMLButtonElement>(null);
+    const [activeSection, setActiveSection] = React.useState<string>('main'); // Mặc định là 'main'
+
+    const handleAddProductClick = () => {
+        if (addButtonRef.current) {
+            onAddProduct(addButtonRef.current.getBoundingClientRect());
+        }
+    };
+
+    const handleNavChange = (section: string) => {
+        setActiveSection(section);
+        onNavChange(section);
+    };
+
     return (
         <div className={styles.navigations}>
-            <button title="Trang chủ" onClick={() => onNavChange('main')}>
-                <FontAwesomeIcon icon={faHome} /> <p> DashBoard</p>
+            <button
+                title="Trang chủ"
+                onClick={() => handleNavChange('main')}
+                className={activeSection === 'main' ? styles.active : ''}
+            >
+                <FontAwesomeIcon icon={faHome} />
+                <p>Trang chủ</p>
             </button>
-            <button title="Quản lý tài khoản" onClick={() => onNavChange('account')}>
-                <FontAwesomeIcon icon={faUserCog} /> <p>Quản lý tài khoản</p>
+            <button
+                title="Quản lý tài khoản"
+                onClick={() => handleNavChange('account')}
+                className={activeSection === 'account' ? styles.active : ''}
+            >
+                <FontAwesomeIcon icon={faUserCog} />
+                <p>Tài khoản</p>
             </button>
-            <button title="Quản lý doanh thu" onClick={() => onNavChange('revenue')}>
-                <FontAwesomeIcon icon={faMoneyBillWave} /> <p> Quản Lý Doanh Thu</p>
+            <div className={styles.addWrapper}>
+                <button
+                    ref={addButtonRef}
+                    title="Thêm sản phẩm"
+                    onClick={handleAddProductClick}
+                    className={styles.addButton}
+                >
+                    <FontAwesomeIcon icon={faPlus} />
+                </button>
+            </div>
+            <button
+                title="Phản hồi"
+                onClick={() => handleNavChange('feedback')}
+                className={activeSection === 'feedback' ? styles.active : ''}
+            >
+                <FontAwesomeIcon icon={faCommentDots} />
+                <p>Phản hồi</p>
             </button>
-            <button title="Quản lý phản hồi" onClick={() => onNavChange('feedback')}>
-                <FontAwesomeIcon icon={faCommentDots} /> <p>Quản Lý Phản Hồi</p>
-            </button>
-            <button title="Chỉnh sửa thông tin" onClick={() => onNavChange('edit')}>
-                <FontAwesomeIcon icon={faEdit} /> <p>Chỉnh sửa thông tin</p>
-            </button>
-            <button title="Thêm sản phẩm" onClick={onAddProduct}>
-                <FontAwesomeIcon icon={faPlus} /> <p>Thêm sản phẩm</p>
+            <button
+                title="Chỉnh sửa"
+                onClick={() => handleNavChange('edit')}
+                className={activeSection === 'edit' ? styles.active : ''}
+            >
+                <FontAwesomeIcon icon={faEdit} />
+                <p>Chỉnh sửa</p>
             </button>
         </div>
     );
