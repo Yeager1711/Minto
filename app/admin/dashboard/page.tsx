@@ -101,12 +101,6 @@ interface ApiData {
     payments: Payment[];
 }
 
-interface AreaChartData {
-    name: string;
-    completed: number;
-    canceled: number;
-}
-
 interface ServerStatusData {
     timestamp: number;
     responseTime: number;
@@ -114,12 +108,7 @@ interface ServerStatusData {
     status: string;
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-console.log('api:', apiUrl);
-
-if (!apiUrl) {
-    throw new Error('NEXT_PUBLIC_APP_API_BASE_URL is not defined');
-}
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL || 'https://default-api-url.com'; // Fallback URL
 
 // Get last 7 days
 const getLast7Days = (endDate: Date): string[] => {
@@ -145,17 +134,14 @@ const getMonthsInYearForChart = (baseDate: Date): string[] => {
 // Get greeting
 const getGreeting = (): string => {
     const currentHour = new Date().getHours();
-    if (currentHour >= 5 && currentHour < 12) {
-        return 'Good Morning';
-    } else if (currentHour >= 12 && currentHour < 17) {
-        return 'Good Afternoon';
-    }
+    if (currentHour >= 5 && currentHour < 12) return 'Good Morning';
+    if (currentHour >= 12 && currentHour < 17) return 'Good Afternoon';
     return 'Good Evening';
 };
 
 // Get month name from month number (0-based)
 const getMonthName = (month: number): string => {
-    const months: string[] = [
+    const months = [
         'Tháng 1',
         'Tháng 2',
         'Tháng 3',
@@ -173,41 +159,35 @@ const getMonthName = (month: number): string => {
 };
 
 const Dashboard: React.FC = () => {
-    const [apiData, setApiData] = React.useState<ApiData | null>(null);
-    const [isLoading, setIsLoading] = React.useState<boolean>(true);
-    const [error, setError] = React.useState<string | null>(null);
-    const [chartType, setChartType] = React.useState<'bar' | 'area' | 'radar'>('bar');
-    const [greeting, setGreeting] = React.useState<string>(getGreeting());
-    const [isAddProductOpen, setIsAddProductOpen] = React.useState<boolean>(false);
-    const [serverStatus, setServerStatus] = React.useState<string>('sleeping');
-    const [lastRequestTime, setLastRequestTime] = React.useState<number>(Date.now());
-    const [onlineSince, setOnlineSince] = React.useState<number | null>(null);
-    const [activeSection, setActiveSection] = React.useState<string>('main');
-    const [showTotalRevenue, setShowTotalRevenue] = React.useState<boolean>(false);
-    const [showRealRevenue, setShowRealRevenue] = React.useState<boolean>(false);
-    const [showVirtualRevenue, setShowVirtualRevenue] = React.useState<boolean>(false);
+    const [apiData, setApiData] = useState<ApiData | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [chartType, setChartType] = useState<'bar' | 'area' | 'radar'>('bar');
+    const [greeting, setGreeting] = useState<string>(getGreeting());
+    const [isAddProductOpen, setIsAddProductOpen] = useState<boolean>(false);
+    const [serverStatus, setServerStatus] = useState<string>('sleeping');
+    const [lastRequestTime, setLastRequestTime] = useState<number>(Date.now());
+    const [onlineSince, setOnlineSince] = useState<number | null>(null);
+    const [activeSection, setActiveSection] = useState<string>('main');
+    const [showTotalRevenue, setShowTotalRevenue] = useState<boolean>(false);
+    const [showRealRevenue, setShowRealRevenue] = useState<boolean>(false);
+    const [showVirtualRevenue, setShowVirtualRevenue] = useState<boolean>(false);
     const { getUserProfile } = useApi();
-    const [userProfile, setUserProfile] = React.useState<UserProfile | null>(null);
+    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [showServerStatus, setShowServerStatus] = useState<boolean>(false);
     const [serverStatusData, setServerStatusData] = useState<ServerStatusData[]>([]);
     const serverStatusRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleScroll = () => {
-            if (showServerStatus) {
-                setShowServerStatus(false);
-            }
+            if (showServerStatus) setShowServerStatus(false);
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [showServerStatus]);
 
-    React.useEffect(() => {
-        AOS.init({
-            duration: 1000,
-            once: true,
-        });
+    useEffect(() => {
+        AOS.init({ duration: 1000, once: true });
     }, []);
 
     useEffect(() => {
@@ -216,12 +196,12 @@ const Dashboard: React.FC = () => {
                 setIsLoading(true);
                 setServerStatus('rebuilding...');
                 const startTime = Date.now();
-                setLastRequestTime(startTime); // Cập nhật lastRequestTime mỗi lần gọi fetchData
+                setLastRequestTime(startTime);
 
                 const [data, profile] = await Promise.all([fetchStatistics(), getUserProfile()]);
                 const endTime = Date.now();
                 const responseTime = endTime - startTime;
-                const returnTime = endTime - lastRequestTime; // Sử dụng lastRequestTime mới
+                const returnTime = endTime - lastRequestTime;
 
                 setApiData(data);
                 setUserProfile(profile as unknown as UserProfile);
@@ -244,15 +224,13 @@ const Dashboard: React.FC = () => {
                 setIsLoading(false);
             }
         };
-
-        // Gọi lần đầu khi component mount
         fetchData();
     }, [getUserProfile]);
 
-    // Fetch statistics function
     const fetchStatistics = async (): Promise<ApiData> => {
         const accessToken = localStorage.getItem('accessToken');
         if (!accessToken) {
+            window.location.href = '/login'; // Redirect if no token
             throw new Error('Không tìm thấy accessToken trong localStorage');
         }
 
@@ -271,31 +249,27 @@ const Dashboard: React.FC = () => {
             }
         );
 
-        if (response.status === 401) {
-            throw new Error('Unauthorized: Invalid or expired token');
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
         }
 
         const result = await response.json();
-        if (result.success) {
-            return result.data as ApiData;
-        }
+        if (result.success) return result.data as ApiData;
         throw new Error('Không thể lấy dữ liệu thống kê');
     };
 
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            setGreeting(getGreeting());
-        }, 60000);
+    useEffect(() => {
+        const interval = setInterval(() => setGreeting(getGreeting()), 60000);
         return () => clearInterval(interval);
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const checkServerStatus = (): void => {
+            if (!apiData) return;
             const now = Date.now();
-            if (serverStatus === 'online' && onlineSince !== null) {
+            if (serverStatus === 'Online' && onlineSince !== null) {
                 const timeSinceOnline = (now - onlineSince) / 1000;
                 const inactivityTime = (now - lastRequestTime) / 1000;
-
                 if (timeSinceOnline >= 60 && inactivityTime >= 60) {
                     setServerStatus('sleeping');
                     setOnlineSince(null);
@@ -306,13 +280,12 @@ const Dashboard: React.FC = () => {
                 }
             }
         };
-
         const interval = setInterval(checkServerStatus, 10000);
         return () => clearInterval(interval);
-    }, [lastRequestTime, serverStatus, onlineSince]);
+    }, [apiData, lastRequestTime, serverStatus, onlineSince]);
 
     const toggleChartType = (): void => {
-        setChartType((prev: 'bar' | 'area' | 'radar') => (prev === 'bar' ? 'area' : 'bar'));
+        setChartType((prev) => (prev === 'bar' ? 'area' : 'bar'));
         setLastRequestTime(Date.now());
     };
 
@@ -337,45 +310,38 @@ const Dashboard: React.FC = () => {
     };
 
     const orderChartData = React.useMemo(() => {
-        if (!apiData) {
-            return { labels: [], datasets: [] };
-        }
-
+        if (!apiData) return { labels: [], datasets: [] };
         const currentDate = new Date();
-        const monthsInYear: string[] = getMonthsInYearForChart(currentDate);
+        const monthsInYear = getMonthsInYearForChart(currentDate);
         const completedOrdersByMonth: { [key: string]: number } = {};
         const canceledOrdersByMonth: { [key: string]: number } = {};
 
-        monthsInYear.forEach((month: string) => {
+        monthsInYear.forEach((month) => {
             completedOrdersByMonth[month] = 0;
             canceledOrdersByMonth[month] = 0;
         });
 
-        apiData.completedPayments.forEach((payment: Payment) => {
+        apiData.completedPayments.forEach((payment) => {
             const date = new Date(payment.paymentDate);
             const year = date.getFullYear();
             const month = date.getMonth();
             const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
-            if (year === currentDate.getFullYear()) {
+            if (year === currentDate.getFullYear())
                 completedOrdersByMonth[monthKey] = (completedOrdersByMonth[monthKey] || 0) + 1;
-            }
         });
 
         if (apiData.canceledPayments && apiData.canceledPayments.length > 0) {
-            apiData.canceledPayments.forEach((payment: Payment) => {
+            apiData.canceledPayments.forEach((payment) => {
                 const date = new Date(payment.paymentDate);
                 const year = date.getFullYear();
                 const month = date.getMonth();
                 const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
-                if (year === currentDate.getFullYear()) {
+                if (year === currentDate.getFullYear())
                     canceledOrdersByMonth[monthKey] = (canceledOrdersByMonth[monthKey] || 0) + 1;
-                }
             });
         } else if (apiData.totalCanceledOrders > 0) {
-            const canceledPerMonth: number = Math.floor(apiData.totalCanceledOrders / 12);
-            monthsInYear.forEach((month: string) => {
-                canceledOrdersByMonth[month] = canceledPerMonth;
-            });
+            const canceledPerMonth = Math.floor(apiData.totalCanceledOrders / 12);
+            monthsInYear.forEach((month) => (canceledOrdersByMonth[month] = canceledPerMonth));
             canceledOrdersByMonth[monthsInYear[0]] += apiData.totalCanceledOrders % 12;
         }
 
@@ -386,14 +352,14 @@ const Dashboard: React.FC = () => {
             datasets: [
                 {
                     label: 'Đơn hàng hoàn tất',
-                    data: monthsInYear.map((month: string) => completedOrdersByMonth[month] || 0),
+                    data: monthsInYear.map((month) => completedOrdersByMonth[month] || 0),
                     backgroundColor: 'rgba(99, 161, 249, 0.8)',
                     borderRadius: 3,
                     borderWidth: 0,
                 },
                 {
                     label: 'Đơn hàng bị hủy',
-                    data: monthsInYear.map((month: string) => canceledOrdersByMonth[month] || 0),
+                    data: monthsInYear.map((month) => canceledOrdersByMonth[month] || 0),
                     backgroundColor: 'rgba(215, 40, 40, 0.6)',
                     borderRadius: 3,
                     borderWidth: 0,
@@ -402,50 +368,43 @@ const Dashboard: React.FC = () => {
         };
     }, [apiData]);
 
-    const areaChartData = React.useMemo<AreaChartData[]>(() => {
-        if (!apiData) {
-            return [];
-        }
-
+    const areaChartData = React.useMemo(() => {
+        if (!apiData) return [];
         const currentDate = new Date();
-        const monthsInYear: string[] = getMonthsInYearForChart(currentDate);
+        const monthsInYear = getMonthsInYearForChart(currentDate);
         const completedOrdersByMonth: { [key: string]: number } = {};
         const canceledOrdersByMonth: { [key: string]: number } = {};
 
-        monthsInYear.forEach((month: string) => {
+        monthsInYear.forEach((month) => {
             completedOrdersByMonth[month] = 0;
             canceledOrdersByMonth[month] = 0;
         });
 
-        apiData.completedPayments.forEach((payment: Payment) => {
+        apiData.completedPayments.forEach((payment) => {
             const date = new Date(payment.paymentDate);
             const year = date.getFullYear();
             const month = date.getMonth();
             const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
-            if (year === currentDate.getFullYear()) {
+            if (year === currentDate.getFullYear())
                 completedOrdersByMonth[monthKey] = (completedOrdersByMonth[monthKey] || 0) + 1;
-            }
         });
 
         if (apiData.canceledPayments && apiData.canceledPayments.length > 0) {
-            apiData.canceledPayments.forEach((payment: Payment) => {
+            apiData.canceledPayments.forEach((payment) => {
                 const date = new Date(payment.paymentDate);
                 const year = date.getFullYear();
                 const month = date.getMonth();
                 const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
-                if (year === currentDate.getFullYear()) {
+                if (year === currentDate.getFullYear())
                     canceledOrdersByMonth[monthKey] = (canceledOrdersByMonth[monthKey] || 0) + 1;
-                }
             });
         } else if (apiData.totalCanceledOrders > 0) {
-            const canceledPerMonth: number = Math.floor(apiData.totalCanceledOrders / 12);
-            monthsInYear.forEach((month: string) => {
-                canceledOrdersByMonth[month] = canceledPerMonth;
-            });
+            const canceledPerMonth = Math.floor(apiData.totalCanceledOrders / 12);
+            monthsInYear.forEach((month) => (canceledOrdersByMonth[month] = canceledPerMonth));
             canceledOrdersByMonth[monthsInYear[0]] += apiData.totalCanceledOrders % 12;
         }
 
-        return monthsInYear.map((month: string, index: number) => ({
+        return monthsInYear.map((month, index) => ({
             name: getMonthName(index),
             completed: completedOrdersByMonth[month] || 0,
             canceled: canceledOrdersByMonth[month] || 0,
@@ -453,16 +412,10 @@ const Dashboard: React.FC = () => {
     }, [apiData]);
 
     const templateChartData = React.useMemo(() => {
-        if (!apiData || apiData.templateUsage.length === 0) {
-            return { labels: [], datasets: [] };
-        }
-
-        const totalUsage: number = apiData.templateUsage.reduce(
-            (sum: number, template: TemplateUsage) => sum + template.usageCount,
-            0
-        );
-        const labels: string[] = apiData.templateUsage.map((template: TemplateUsage) => template.templateName);
-        const data: number[] = apiData.templateUsage.map((template: TemplateUsage) =>
+        if (!apiData || apiData.templateUsage.length === 0) return { labels: [], datasets: [] };
+        const totalUsage = apiData.templateUsage.reduce((sum, template) => sum + template.usageCount, 0);
+        const labels = apiData.templateUsage.map((template) => template.templateName);
+        const data = apiData.templateUsage.map((template) =>
             totalUsage > 0 ? (template.usageCount / totalUsage) * 100 : 0
         );
 
@@ -485,23 +438,20 @@ const Dashboard: React.FC = () => {
     }, [apiData]);
 
     const revenueChartData = React.useMemo(() => {
-        if (!apiData) {
-            return { labels: [], datasets: [] };
-        }
-
-        const last7Days: string[] = getLast7Days(new Date());
+        if (!apiData) return { labels: [], datasets: [] };
+        const last7Days = getLast7Days(new Date());
         const totalRevenueByDate: { [key: string]: number } = {};
         const realRevenueByDate: { [key: string]: number } = {};
         const virtualRevenueByDate: { [key: string]: number } = {};
 
-        last7Days.forEach((date: string) => {
+        last7Days.forEach((date) => {
             totalRevenueByDate[date] = 0;
             realRevenueByDate[date] = 0;
             virtualRevenueByDate[date] = 0;
         });
 
-        apiData.completedPayments.forEach((payment: Payment) => {
-            const date: string = payment.paymentDate.split('T')[0];
+        apiData.completedPayments.forEach((payment) => {
+            const date = payment.paymentDate.split('T')[0];
             if (realRevenueByDate[date] !== undefined) {
                 realRevenueByDate[date] += payment.amount;
                 totalRevenueByDate[date] += payment.amount;
@@ -509,16 +459,16 @@ const Dashboard: React.FC = () => {
         });
 
         if (apiData.canceledPayments && apiData.canceledPayments.length > 0) {
-            apiData.canceledPayments.forEach((payment: Payment) => {
-                const date: string = payment.paymentDate.split('T')[0];
+            apiData.canceledPayments.forEach((payment) => {
+                const date = payment.paymentDate.split('T')[0];
                 if (virtualRevenueByDate[date] !== undefined) {
                     virtualRevenueByDate[date] += payment.amount;
                     totalRevenueByDate[date] += payment.amount;
                 }
             });
         } else if (apiData.totalCanceledOrders > 0) {
-            const virtualPerDay: number = Math.floor(apiData.totalCanceledOrders / 7) * 99000;
-            last7Days.forEach((date: string) => {
+            const virtualPerDay = Math.floor(apiData.totalCanceledOrders / 7) * 99000;
+            last7Days.forEach((date) => {
                 virtualRevenueByDate[date] = virtualPerDay;
                 totalRevenueByDate[date] += virtualPerDay;
             });
@@ -531,7 +481,7 @@ const Dashboard: React.FC = () => {
             datasets: [
                 {
                     label: 'Tổng doanh thu',
-                    data: last7Days.map((date: string) => totalRevenueByDate[date]),
+                    data: last7Days.map((date) => totalRevenueByDate[date]),
                     borderColor: '#60a5fa',
                     backgroundColor: 'rgba(96, 165, 250, 0.2)',
                     fill: true,
@@ -539,7 +489,7 @@ const Dashboard: React.FC = () => {
                 },
                 {
                     label: 'Doanh thu thật',
-                    data: last7Days.map((date: string) => realRevenueByDate[date]),
+                    data: last7Days.map((date) => realRevenueByDate[date]),
                     borderColor: '#0a84ff',
                     backgroundColor: 'rgba(10, 132, 255, 0.2)',
                     fill: true,
@@ -547,7 +497,7 @@ const Dashboard: React.FC = () => {
                 },
                 {
                     label: 'Doanh thu ảo',
-                    data: last7Days.map((date: string) => virtualRevenueByDate[date]),
+                    data: last7Days.map((date) => virtualRevenueByDate[date]),
                     borderColor: '#fb923c',
                     backgroundColor: 'rgba(251, 146, 60, 0.2)',
                     fill: true,
@@ -559,48 +509,20 @@ const Dashboard: React.FC = () => {
 
     const barChartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-            legend: {
-                display: true,
-                labels: {
-                    color: '#ffffff',
-                },
-            },
-            title: {
-                display: true,
-                text: `Trạng thái đơn hàng năm ${new Date().getFullYear()}`,
-                color: '#1e40af',
-            },
+            legend: { display: true, labels: { color: '#ffffff' } },
+            title: { display: true, text: `Trạng thái đơn hàng năm ${new Date().getFullYear()}`, color: '#1e40af' },
             tooltip: {
-                callbacks: {
-                    label: (context: TooltipItem<'bar'>): string => {
-                        if (context.dataset.label) {
-                            const value = context.parsed.y;
-                            return `${context.dataset.label}: ${value}`;
-                        }
-                        return 'No label available';
-                    },
-                },
+                callbacks: { label: (context: TooltipItem<'bar'>) => `${context.dataset.label}: ${context.parsed.y}` },
                 titleColor: '#ffffff',
                 bodyColor: '#ffffff',
             },
         },
         scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1,
-                    color: '#ffffff',
-                },
-                grid: { display: false },
-            },
+            y: { beginAtZero: true, ticks: { stepSize: 1, color: '#ffffff' }, grid: { display: false } },
             x: {
-                ticks: {
-                    autoSkip: false,
-                    maxRotation: 45,
-                    minRotation: 45,
-                    color: '#ffffff',
-                },
+                ticks: { autoSkip: false, maxRotation: 45, minRotation: 45, color: '#ffffff' },
                 grid: { display: false },
             },
         },
@@ -608,27 +530,14 @@ const Dashboard: React.FC = () => {
 
     const radarChartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-            legend: {
-                display: true,
-                labels: {
-                    color: '#ffffff',
-                },
-            },
-            title: {
-                display: true,
-                text: 'Tỷ lệ sử dụng Template (%)',
-                color: '#1e40af',
-            },
+            legend: { display: true, labels: { color: '#ffffff' } },
+            title: { display: true, text: 'Tỷ lệ sử dụng Template (%)', color: '#1e40af' },
             tooltip: {
                 callbacks: {
-                    label: (context: TooltipItem<'radar'>): string => {
-                        if (context.dataset.label) {
-                            const value = context.parsed.r;
-                            return `${context.dataset.label}: ${value.toFixed(2)}%`;
-                        }
-                        return 'No label available';
-                    },
+                    label: (context: TooltipItem<'radar'>) =>
+                        `${context.dataset.label}: ${context.parsed.r.toFixed(2)}%`,
                 },
                 titleColor: '#ffffff',
                 bodyColor: '#ffffff',
@@ -637,47 +546,24 @@ const Dashboard: React.FC = () => {
         scales: {
             r: {
                 beginAtZero: true,
-                ticks: {
-                    stepSize: 20,
-                    color: '#ffffff',
-                    backdropColor: 'rgba(17, 24, 39, 0.8)',
-                },
-                grid: {
-                    color: 'rgba(255, 255, 255, 0.2)',
-                },
-                angleLines: {
-                    color: 'rgba(255, 255, 255, 0.2)',
-                },
-                pointLabels: {
-                    color: '#ffffff',
-                },
+                ticks: { stepSize: 20, color: '#ffffff', backdropColor: 'rgba(17, 24, 39, 0.8)' },
+                grid: { color: 'rgba(255, 255, 255, 0.2)' },
+                angleLines: { color: 'rgba(255, 255, 255, 0.2)' },
+                pointLabels: { color: '#ffffff' },
             },
         },
     };
 
     const revenueChartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-            legend: {
-                display: true,
-                labels: {
-                    color: '#ffffff',
-                },
-            },
-            title: {
-                display: true,
-                text: 'Doanh thu 7 ngày qua',
-                color: '#1e40af',
-            },
+            legend: { display: true, labels: { color: '#ffffff' } },
+            title: { display: true, text: 'Doanh thu 7 ngày qua', color: '#1e40af' },
             tooltip: {
                 callbacks: {
-                    label: (context: TooltipItem<'line'>): string => {
-                        if (context.dataset.label) {
-                            const value = context.parsed.y;
-                            return `${context.dataset.label}: ${value.toLocaleString()} VNĐ`;
-                        }
-                        return 'No label available';
-                    },
+                    label: (context: TooltipItem<'line'>) =>
+                        `${context.dataset.label}: ${context.parsed.y.toLocaleString()} VNĐ`,
                 },
                 titleColor: '#ffffff',
                 bodyColor: '#ffffff',
@@ -687,25 +573,21 @@ const Dashboard: React.FC = () => {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    callback: (tickValue: string | number): string =>
-                        typeof tickValue === 'number' ? `${tickValue.toLocaleString()} VNĐ` : tickValue,
+                    callback: (tickValue: number | string): string => {
+                        return typeof tickValue === 'number' ? `${tickValue.toLocaleString()} VNĐ` : tickValue;
+                    },
                     color: '#ffffff',
                 },
                 grid: { color: 'rgba(255, 255, 255, 0.2)' },
             },
-            x: {
-                ticks: {
-                    color: '#ffffff',
-                },
-                grid: { display: false },
-            },
+            x: { ticks: { color: '#ffffff' }, grid: { display: false } },
         },
     };
 
     const calcStrokeOffset = (current: number, total: number): string => {
         const radius = 40;
         const circumference = 2 * Math.PI * radius;
-        const progress = current / total;
+        const progress = current / (total || 1); // Avoid division by zero
         const offset = circumference * (1 - progress);
         return `${offset}px`;
     };
@@ -728,22 +610,22 @@ const Dashboard: React.FC = () => {
         if (!apiData) return 0;
         const realRevenue = apiData.completedPayments.reduce((sum, payment) => sum + payment.amount, 0);
         const virtualRevenue =
-            apiData.canceledPayments && apiData.canceledPayments.length > 0
-                ? apiData.canceledPayments.reduce((sum, payment) => sum + payment.amount, 0)
-                : apiData.totalCanceledOrders * 99000;
+            apiData.canceledPayments?.reduce((sum, payment) => sum + payment.amount, 0) ||
+            apiData.totalCanceledOrders * 99000;
         return realRevenue + virtualRevenue;
     }, [apiData]);
 
-    const realRevenue = React.useMemo(() => {
-        if (!apiData) return 0;
-        return apiData.completedPayments.reduce((sum, payment) => sum + payment.amount, 0);
-    }, [apiData]);
+    const realRevenue = React.useMemo(
+        () => (apiData ? apiData.completedPayments.reduce((sum, payment) => sum + payment.amount, 0) : 0),
+        [apiData]
+    );
 
     const virtualRevenue = React.useMemo(() => {
         if (!apiData) return 0;
-        return apiData.canceledPayments && apiData.canceledPayments.length > 0
-            ? apiData.canceledPayments.reduce((sum, payment) => sum + payment.amount, 0)
-            : apiData.totalCanceledOrders * 99000;
+        return (
+            apiData.canceledPayments?.reduce((sum, payment) => sum + payment.amount, 0) ||
+            apiData.totalCanceledOrders * 99000
+        );
     }, [apiData]);
 
     const renderContent = () => {
@@ -834,11 +716,7 @@ const Dashboard: React.FC = () => {
                             )}
                         </div>
 
-                        {error && (
-                            <div className={styles.error} style={{ color: 'red', marginBottom: '20px' }}>
-                                {error}
-                            </div>
-                        )}
+                        {error && <div className={styles.error}>Có lỗi xảy ra. Vui lòng thử lại sau.</div>}
 
                         <div className={styles.wrapper_header}>
                             <div className={styles.wrapper_header__left}>
@@ -905,91 +783,60 @@ const Dashboard: React.FC = () => {
                                         title={`Chuyển sang ${chartType === 'bar' ? 'Area' : 'Bar'} Chart`}
                                     />
                                     <div className={styles.chart}>
-                                        {isLoading ? (
+                                        {isLoading || !apiData ? (
                                             <Skeleton type="chart" />
-                                        ) : apiData ? (
-                                            chartType === 'bar' ? (
-                                                <Bar
-                                                    data={orderChartData}
-                                                    options={{
-                                                        ...barChartOptions,
-                                                        responsive: true,
-                                                        maintainAspectRatio: false,
-                                                    }}
-                                                />
-                                            ) : chartType === 'area' ? (
-                                                <div style={{ borderRadius: '1rem', overflow: 'hidden' }}>
-                                                    <ResponsiveContainer width="100%" height={380}>
-                                                        <AreaChart
-                                                            data={areaChartData}
-                                                            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                                                        >
-                                                            <XAxis dataKey="name" />
-                                                            <YAxis />
-                                                            <RechartsTooltip />
-                                                            <Area
-                                                                type="monotone"
-                                                                dataKey="completed"
-                                                                name="Đơn hàng hoàn tất"
-                                                                stroke="#63A1F9"
-                                                                fill="rgba(99, 161, 249, 0.8)"
-                                                            />
-                                                            <Area
-                                                                type="monotone"
-                                                                dataKey="canceled"
-                                                                name="Đơn hàng bị hủy"
-                                                                stroke="#D72828"
-                                                                fill="rgba(215, 40, 40, 0.6)"
-                                                            />
-                                                        </AreaChart>
-                                                    </ResponsiveContainer>
-                                                </div>
-                                            ) : chartType === 'radar' ? (
-                                                templateChartData.labels.length > 0 ? (
-                                                    <Radar
-                                                        style={{ margin: 'auto' }}
-                                                        data={templateChartData}
-                                                        options={{
-                                                            ...radarChartOptions,
-                                                            responsive: true,
-                                                            maintainAspectRatio: false,
-                                                        }}
+                                        ) : chartType === 'bar' ? (
+                                            <Bar data={orderChartData} options={barChartOptions} />
+                                        ) : chartType === 'area' ? (
+                                            <ResponsiveContainer width="100%" height={380}>
+                                                <AreaChart
+                                                    data={areaChartData}
+                                                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                                                >
+                                                    <XAxis dataKey="name" />
+                                                    <YAxis />
+                                                    <RechartsTooltip />
+                                                    <Area
+                                                        type="monotone"
+                                                        dataKey="completed"
+                                                        name="Đơn hàng hoàn tất"
+                                                        stroke="#63A1F9"
+                                                        fill="rgba(99, 161, 249, 0.8)"
                                                     />
-                                                ) : (
-                                                    <p>Không có dữ liệu template để hiển thị</p>
-                                                )
+                                                    <Area
+                                                        type="monotone"
+                                                        dataKey="canceled"
+                                                        name="Đơn hàng bị hủy"
+                                                        stroke="#D72828"
+                                                        fill="rgba(215, 40, 40, 0.6)"
+                                                    />
+                                                </AreaChart>
+                                            </ResponsiveContainer>
+                                        ) : chartType === 'radar' ? (
+                                            templateChartData.labels.length > 0 ? (
+                                                <Radar data={templateChartData} options={radarChartOptions} />
                                             ) : (
-                                                <Bar
-                                                    data={orderChartData}
-                                                    options={{
-                                                        ...barChartOptions,
-                                                        responsive: true,
-                                                        maintainAspectRatio: false,
-                                                    }}
-                                                />
+                                                <p>Không có dữ liệu template để hiển thị</p>
                                             )
                                         ) : (
-                                            <p>Không có dữ liệu để hiển thị</p>
+                                            <Bar data={orderChartData} options={barChartOptions} />
                                         )}
                                     </div>
                                 </div>
 
                                 <div className={styles.left_footer}>
                                     <FontAwesomeIcon className={styles.btn_expand} icon={faExpand} />
-
                                     <div className={styles.box_left}>
                                         <h3>Chi tiết thanh toán</h3>
                                         <div className={styles.list_of_responses}>
                                             {isLoading ? (
-                                                <>
-                                                    {Array.from({ length: 3 }).map((_, index: number) => (
-                                                        <div key={index} className={styles.response_item}>
-                                                            <Skeleton type="box" />
-                                                        </div>
-                                                    ))}
-                                                </>
+                                                Array.from({ length: 3 }).map((_, index) => (
+                                                    <div key={index} className={styles.response_item}>
+                                                        <Skeleton type="box" />
+                                                    </div>
+                                                ))
                                             ) : apiData && apiData.completedPayments.length > 0 ? (
-                                                apiData.completedPayments.slice(0, 5).map((payment: Payment) => (
+                                                apiData.completedPayments.slice(0, 5).map((payment) => (
                                                     <div key={payment.paymentId} className={styles.response_item}>
                                                         <span>
                                                             Success {payment.paymentId} -{' '}
@@ -1024,31 +871,21 @@ const Dashboard: React.FC = () => {
                                     <FontAwesomeIcon className={styles.btn_expand} icon={faExpand} />
                                     <h3>Doanh thu theo tuần</h3>
                                     <div className={styles.chart}>
-                                        {isLoading ? (
+                                        {isLoading || !apiData ? (
                                             <Skeleton type="chart" />
-                                        ) : apiData ? (
-                                            <Line
-                                                data={revenueChartData}
-                                                options={{
-                                                    ...revenueChartOptions,
-                                                    responsive: true,
-                                                    maintainAspectRatio: false,
-                                                }}
-                                            />
                                         ) : (
-                                            <p>Không có dữ liệu để hiển thị</p>
+                                            <Line data={revenueChartData} options={revenueChartOptions} />
                                         )}
                                     </div>
                                 </div>
 
                                 <div className={styles.total_client}>
                                     <FontAwesomeIcon className={styles.btn_expand} icon={faExpand} />
-
                                     <div className={styles.client}>
                                         <h3>Tổng số Template</h3>
-                                        {isLoading ? (
+                                        {isLoading || !apiData ? (
                                             <Skeleton type="chart" />
-                                        ) : apiData ? (
+                                        ) : (
                                             <div className={styles.progressBar}>
                                                 <svg width="100" height="100">
                                                     <circle className={styles.bg} cx="50%" cy="50%" r="40" />
@@ -1071,22 +908,17 @@ const Dashboard: React.FC = () => {
                                                         textAnchor="middle"
                                                         dy=".3em"
                                                         className={styles.progressText}
-                                                        style={{ color: '#1f2937' }}
                                                         fill="#1f2937"
-                                                    >
-                                                        {`${apiData.totalTemplates || 0}/${apiData.totalTemplates || 0}`}
-                                                    </text>
+                                                    >{`${apiData.totalTemplates || 0}/${apiData.totalTemplates || 0}`}</text>
                                                 </svg>
                                             </div>
-                                        ) : (
-                                            <p>Không có dữ liệu</p>
                                         )}
                                     </div>
                                     <div className={styles.client}>
                                         <h3>Template sử dụng</h3>
-                                        {isLoading ? (
+                                        {isLoading || !apiData ? (
                                             <Skeleton type="chart" />
-                                        ) : apiData ? (
+                                        ) : (
                                             <div className={styles.progressBar}>
                                                 <svg width="100" height="100">
                                                     <circle className={styles.bg} cx="50%" cy="50%" r="40" />
@@ -1113,31 +945,22 @@ const Dashboard: React.FC = () => {
                                                         dy=".3em"
                                                         className={styles.progressText}
                                                         fill="#ffffff"
-                                                    >
-                                                        {`${apiData.templateUsage.reduce((sum, t) => sum + t.usageCount, 0)}/${
-                                                            apiData.totalTemplates || 0
-                                                        }`}
-                                                    </text>
+                                                    >{`${apiData.templateUsage.reduce((sum, t) => sum + t.usageCount, 0)}/${apiData.totalTemplates || 0}`}</text>
                                                 </svg>
                                             </div>
-                                        ) : (
-                                            <p>Không có dữ liệu</p>
                                         )}
                                     </div>
                                 </div>
 
                                 <div className={styles.template}>
                                     <FontAwesomeIcon className={styles.btn_expand} icon={faExpand} />
-
                                     <h3>Mẫu đang có</h3>
                                     <div className={styles.template_wrapper_item}>
-                                        {isLoading ? (
+                                        {isLoading || !apiData ? (
                                             <Swiper
                                                 slidesPerView={2}
                                                 spaceBetween={10}
-                                                pagination={{
-                                                    dynamicBullets: true,
-                                                }}
+                                                pagination={{ dynamicBullets: true }}
                                                 modules={[Pagination, Autoplay]}
                                                 className={styles.swiper_container}
                                                 autoplay={{ delay: 100000000, disableOnInteraction: false }}
@@ -1157,9 +980,7 @@ const Dashboard: React.FC = () => {
                                                 <Swiper
                                                     slidesPerView={1}
                                                     spaceBetween={10}
-                                                    pagination={{
-                                                        dynamicBullets: true,
-                                                    }}
+                                                    pagination={{ dynamicBullets: true }}
                                                     breakpoints={{
                                                         375: { slidesPerView: 1.8, spaceBetween: 10 },
                                                         600: { slidesPerView: 2.8, spaceBetween: 15 },
@@ -1179,14 +1000,6 @@ const Dashboard: React.FC = () => {
                                                         .map((template) => (
                                                             <SwiperSlide key={template.templateId}>
                                                                 <div className={styles.template_card}>
-                                                                    {/* <div className={styles.template_image}>
-                                                                        <img
-                                                                            src={template.templateImage}
-                                                                            alt={template.templateName}
-                                                                            className={styles.template_image}
-                                                                        />
-                                                                    </div>
-                                                                    <h4>{template.templateName}</h4> */}
                                                                     <p>
                                                                         Giá: {template.templatePrice.toLocaleString()}{' '}
                                                                         VNĐ
