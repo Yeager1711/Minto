@@ -31,6 +31,8 @@ interface Images {
     galleryImage4: { url: string; position: string; fileName?: string };
 }
 
+
+
 function Template2Edit() {
     const params = useParams();
     const templateId = params.id as string;
