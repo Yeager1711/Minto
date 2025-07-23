@@ -1,0 +1,234 @@
+.template10 {
+  max-width: 80rem;
+  margin: auto;
+}
+.template10 .wrapper {
+  background: #fff;
+  max-width: 80rem;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.template10 .wrapper .pss {
+  position: relative;
+}
+.template10 .wrapper .pss .main {
+  display: flex;
+  flex-grow: 1;
+  border-left: 1rem solid #630606;
+  border-right: 1rem solid #630606;
+  border-radius: 2rem 2rem 0 0;
+  min-height: 70vh;
+}
+.template10 .wrapper .pss .main .text {
+  flex: 1;
+  padding-right: 2rem;
+  position: relative;
+}
+.template10 .wrapper .pss .main .text::before, .template10 .wrapper .pss .main .text::after {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  background-color: #111;
+  border-radius: 1rem;
+}
+.template10 .wrapper .pss .main .text::before {
+  top: 0;
+  height: 20rem;
+  width: 0.2rem;
+}
+.template10 .wrapper .pss .main .text::after {
+  top: 0;
+  left: 2rem;
+  height: 15rem;
+  width: 0.3rem;
+}
+.template10 .wrapper .pss .main .text span.line-shortest {
+  position: absolute;
+  top: 3rem;
+  left: 1.8rem;
+  width: 0.1rem;
+  height: 4rem;
+  background-color: #888;
+  border-radius: 1rem;
+  display: block;
+}
+.template10 .wrapper .pss .main .hexWrapper {
+  width: 30rem;
+  height: 60rem;
+  position: relative;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex {
+  width: 18rem;
+  height: 22rem;
+  aspect-ratio: 1.1547;
+  clip-path: polygon(49% 0, 100% 29%, 100% 71%, 50% 100%, 0 72%, 0 28%);
+  position: absolute;
+  box-sizing: border-box;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex .hexIn {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex0 {
+  top: -121px;
+  right: 92px;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex1 {
+  top: -124px;
+  right: -90px;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex2 {
+  top: 37px;
+  right: -1px;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex3 {
+  top: 38px;
+  right: 181px;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex4 {
+  top: 197px;
+  right: 88px;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex5 {
+  top: 196px;
+  right: -94px;
+}
+.template10 .wrapper .pss .main .hexWrapper .hex6 {
+  top: 356px;
+  right: -4px;
+}
+.template10 .wrapper .pss .text_info {
+  position: absolute;
+  bottom: 0%;
+  left: 2rem;
+}
+.template10 .wrapper .pss .text_info .date {
+  text-transform: capitalize;
+  font-size: 1.4rem;
+}
+.template10 .wrapper .pss .text_info p {
+  font-size: 2rem;
+  margin: 0;
+}
+.template10 .wrapper .pss .text_info .groom_name {
+  font-size: 5rem;
+  margin: 1rem 0 0;
+  text-transform: capitalize;
+  font-family: "Pinyon Script", cursive;
+  font-weight: 500;
+  color: #630606;
+}
+.template10 .wrapper .pss .text_info .bride_name {
+  font-size: 5rem;
+  margin: 1rem 0 0 5rem;
+  text-transform: capitalize;
+  position: relative;
+  font-family: "Pinyon Script", cursive;
+  font-weight: 500;
+  color: #630606;
+}
+.template10 .wrapper .pss .text_info .bride_name::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  width: 0.2rem;
+  height: 100%;
+  background: #333;
+  border-radius: 1rem;
+}
+.template10 .wrapper .pss .text_info .bride_name::after {
+  content: "";
+  position: absolute;
+  left: -2rem;
+  width: 0.2rem;
+  height: 100%;
+  background: #333;
+  border-radius: 1rem;
+}
+.template10 .wrapper .pss .text_info .description {
+  padding: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #333;
+  position: relative;
+  margin: 3rem 0 0 0;
+}
+.template10 .wrapper .pss .text_info .description::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2rem;
+  height: 2rem;
+  border-top: 2px solid #a88;
+  border-left: 2px solid #a88;
+  border-top-left-radius: 0.5rem;
+}
+.template10 .wrapper .pss .text_info .description::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 2rem;
+  height: 2rem;
+  border-bottom: 2px solid #a88;
+  border-right: 2px solid #a88;
+  border-top-left-radius: 0.5rem;
+}
+.template10 .wrapper .story_groom,
+.template10 .wrapper .story_bride {
+  padding: 2rem;
+  background: #111;
+  margin-top: 2rem;
+  position: relative;
+}
+.template10 .wrapper .story_groom .torn_paper__top,
+.template10 .wrapper .story_bride .torn_paper__top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.template10 .wrapper .story_groom .story_groom__wrapper h1,
+.template10 .wrapper .story_groom .story_bride__wrapper h1,
+.template10 .wrapper .story_bride .story_groom__wrapper h1,
+.template10 .wrapper .story_bride .story_bride__wrapper h1 {
+  font-size: 5rem;
+  margin: 1rem 0 0;
+  text-transform: capitalize;
+  font-family: "Allura", cursive;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 0;
+}
+.template10 .wrapper .story_groom .story_groom__wrapper .for_groom,
+.template10 .wrapper .story_groom .story_groom__wrapper .for_bride,
+.template10 .wrapper .story_groom .story_bride__wrapper .for_groom,
+.template10 .wrapper .story_groom .story_bride__wrapper .for_bride,
+.template10 .wrapper .story_bride .story_groom__wrapper .for_groom,
+.template10 .wrapper .story_bride .story_groom__wrapper .for_bride,
+.template10 .wrapper .story_bride .story_bride__wrapper .for_groom,
+.template10 .wrapper .story_bride .story_bride__wrapper .for_bride {
+  font-size: 3rem;
+  margin: 1rem 0;
+  text-transform: capitalize;
+  font-weight: 400;
+  font-family: "Pinyon Script", cursive;
+  color: #ccaa80;
+}
+.template10 .wrapper .story_groom .story_groom__wrapper .story_text,
+.template10 .wrapper .story_groom .story_bride__wrapper .story_text,
+.template10 .wrapper .story_bride .story_groom__wrapper .story_text,
+.template10 .wrapper .story_bride .story_bride__wrapper .story_text {
+  font-size: 2rem;
+  line-height: 1.5;
+  color: #fff;
+  font-family: "Allura", cursive;
+}/*# sourceMappingURL=10.module.css.map */

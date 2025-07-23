@@ -1,0 +1,276 @@
+.template10 {
+    max-width: 80rem;
+    margin: auto;
+
+    .wrapper {
+        background: #fff;
+        max-width: 80rem;
+        width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+
+
+        .pss {
+            position: relative;
+
+            .main {
+                display: flex;
+                flex-grow: 1;
+                border-left: 1rem solid #630606;
+                border-right: 1rem solid #630606;
+                border-radius: 2rem 2rem 0 0;
+                min-height: 70vh;
+
+                .text {
+                    flex: 1;
+                    padding-right: 2rem;
+                    position: relative;
+
+                    // Container chứa các gạch
+                    &::before,
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: 1rem;
+
+                        background-color: #111;
+                        border-radius: 1rem;
+                    }
+
+                    // Gạch ngoài cùng - dài nhất
+                    &::before {
+                        top: 0;
+                        height: 20rem;
+                        width: 0.2rem;
+                    }
+
+                    // Gạch giữa - ngắn hơn
+                    &::after {
+                        top: 0;
+                        left: 2rem;
+                        height: 15rem;
+                        width: 0.3rem;
+                    }
+
+                    // Gạch trong cùng - ngắn nhất
+                    span.line-shortest {
+                        position: absolute;
+                        top: 3rem;
+                        left: 1.8rem;
+                        width: 0.1rem;
+                        height: 4rem;
+                        background-color: #888;
+                        border-radius: 1rem;
+                        display: block;
+                    }
+                }
+
+                .hexWrapper {
+                    width: 30rem;
+                    height: 60rem;
+                    position: relative;
+
+                    .hex {
+                        width: 18rem;
+                        height: 22rem;
+                        aspect-ratio: 1.1547;
+                        clip-path: polygon(49% 0, 100% 29%, 100% 71%, 50% 100%, 0 72%, 0 28%);
+                        position: absolute;
+                        box-sizing: border-box;
+
+                        .hexIn {
+                            width: 100%;
+                            height: 100%;
+                            background-size: cover; // Đảm bảo ảnh bao phủ toàn bộ
+                            background-repeat: no-repeat;
+                        }
+                    }
+
+                    // Position 7 hexagons vertically with 0.1rem gap
+                    .hex0 {
+                        top: -121px;
+                        right: 92px;
+                    }
+
+                    .hex1 {
+                        top: -124px;
+                        right: -90px;
+                    }
+
+                    .hex2 {
+                        top: 37px;
+                        right: -1px;
+                    }
+
+                    .hex3 {
+                        top: 38px;
+                        right: 181px;
+                    }
+
+                    .hex4 {
+                        top: 197px;
+                        right: 88px;
+                    }
+
+                    .hex5 {
+                        top: 196px;
+                        right: -94px;
+                    }
+
+                    .hex6 {
+                        top: 356px;
+                        right: -4px;
+                    }
+                }
+            }
+
+            .text_info {
+                position: absolute;
+                bottom: 0%;
+                left: 2rem;
+
+                .date {
+                    text-transform: capitalize;
+                    font-size: 1.4rem;
+                }
+
+                p {
+                    font-size: 2rem;
+                    margin: 0;
+                }
+
+                .groom_name {
+                    font-size: 5rem;
+                    margin: 1rem 0 0;
+                    text-transform: capitalize;
+                    font-family: "Pinyon Script", cursive;
+                    font-weight: 500;
+                    color: #630606;
+                }
+
+                .bride_name {
+                    font-size: 5rem;
+                    margin: 1rem 0 0 5rem;
+                    text-transform: capitalize;
+                    position: relative;
+                    font-family: "Pinyon Script", cursive;
+                    font-weight: 500;
+                    color: #630606;
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: -1rem;
+                        width: .2rem;
+                        height: 100%;
+                        background: #333;
+                        border-radius: 1rem;
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: -2rem;
+                        width: .2rem;
+                        height: 100%;
+                        background: #333;
+                        border-radius: 1rem;
+                    }
+                }
+
+                .description {
+                    padding: 1.5rem;
+                    font-size: 1.2rem;
+                    line-height: 1.5;
+                    color: #333;
+                    position: relative;
+                    margin: 3rem 0 0 0;
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 2rem;
+                        height: 2rem;
+                        border-top: 2px solid #a88;
+                        border-left: 2px solid #a88;
+                        border-top-left-radius: 0.5rem;
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                        width: 2rem;
+                        height: 2rem;
+                        border-bottom: 2px solid #a88;
+                        border-right: 2px solid #a88;
+                        border-top-left-radius: 0.5rem;
+                    }
+                }
+
+            }
+        }
+
+
+        .story_groom,
+        .story_bride {
+            padding: 2rem;
+            background: #111;
+            margin-top: 2rem;
+            position: relative;
+
+            .torn_paper__top {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+            }
+
+            .story_groom__wrapper,
+            .story_bride__wrapper {
+
+                h1 {
+                    font-size: 5rem;
+                    margin: 1rem 0 0;
+                    text-transform: capitalize;
+                    font-family: 'Allura', cursive;
+                    font-weight: 500;
+                    color: #fff;
+                    margin-bottom: 0;
+                }
+
+                .for_groom,
+                .for_bride {
+                    font-size: 3rem;
+                    margin: 1rem 0;
+                    text-transform: capitalize;
+                    font-weight: 400;
+                    font-family: "Pinyon Script", cursive;
+                    color: #ccaa80;
+                }
+
+                .story_text {
+                    font-size: 2rem;
+                    line-height: 1.5;
+                    color: #fff;
+                    font-family: 'Allura', cursive;
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+}

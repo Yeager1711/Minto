@@ -1,25 +1,24 @@
 'use client';
-
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import styles from '../../../8.module.css';
+import styles from '../../../9.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faLocationDot,
+    faHeart,
+    faCirclePlay,
+    faCirclePause,
     faChevronRight,
     faChevronLeft,
-    faCirclePause,
-    faCirclePlay,
 } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { parse } from 'date-fns';
 import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
-export const dynamic = 'force-dynamic';
-import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
 
 interface WeddingData {
     bride: string;
@@ -44,8 +43,6 @@ interface Images {
     mainImage: { url: string; position: string };
     groomImage: { url: string; position: string };
     brideImage: { url: string; position: string };
-    locationGroomImage: { url: string; position: string };
-    locationBrideImage: { url: string; position: string };
     albumImage1: { url: string; position: string };
     albumImage2: { url: string; position: string };
     albumImage3: { url: string; position: string };
@@ -96,30 +93,27 @@ const openMapInGoogle = (coords: string) => {
     window.open(mapUrl, '_blank');
 };
 
-const Template8InviteeName: React.FC = () => {
+const Template9InviteeName: React.FC = () => {
     useDisableDevTools();
     const pathname = usePathname();
     const { getGuestAndCard } = useApi();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isIntroOpen, setIsIntroOpen] = useState(true);
     const [showGroomMap, setShowGroomMap] = useState<boolean>(false);
     const [showBrideMap, setShowBrideMap] = useState<boolean>(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-
     const [timeLeft, setTimeLeft] = useState<{
         days: number;
         hours: number;
         minutes: number;
         seconds: number;
     }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    const [isIntroOpen, setIsIntroOpen] = useState(true);
     const [weddingData, setWeddingData] = useState<WeddingData | null>(null);
     const [images, setImages] = useState<Images>({
         mainImage: { url: defaultImage, position: 'main' },
         groomImage: { url: defaultImage, position: 'groom' },
         brideImage: { url: defaultImage, position: 'bride' },
-        locationGroomImage: { url: defaultImage, position: 'locationGroom' },
-        locationBrideImage: { url: defaultImage, position: 'locationBride' },
         albumImage1: { url: defaultImage, position: 'album1' },
         albumImage2: { url: defaultImage, position: 'album2' },
         albumImage3: { url: defaultImage, position: 'album3' },
@@ -181,7 +175,10 @@ const Template8InviteeName: React.FC = () => {
                     weddingDayOfWeek: weddingData?.weddingDayOfWeek || '',
                     lunar_day: card.invitations[0]?.lunar_day || weddingData?.lunar_day || '',
                     familyGroom: weddingData?.familyGroom || { father: '', mother: '' },
-                    familyBride: weddingData?.familyBride || { father: '', mother: '' },
+                    familyBride: weddingData?.familyBride || {
+                        father: '',
+                        mother: '',
+                    },
                     brideStory:
                         weddingData?.brideStory ||
                         'Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm, chăm sóc em thật nhiều, nuông chiều những khi em giận hờn vô cớ. Bắt đầu từ hôm nay chúng ta sẽ viết nên một chương mới của cuộc đời, bằng tình thương yêu và hạnh phúc đong đầy anh nhé!',
@@ -203,8 +200,6 @@ const Template8InviteeName: React.FC = () => {
                     mainImage: { url: defaultImage, position: 'main' },
                     groomImage: { url: defaultImage, position: 'groom' },
                     brideImage: { url: defaultImage, position: 'bride' },
-                    locationGroomImage: { url: defaultImage, position: 'locationGroom' },
-                    locationBrideImage: { url: defaultImage, position: 'locationBride' },
                     albumImage1: { url: defaultImage, position: 'album1' },
                     albumImage2: { url: defaultImage, position: 'album2' },
                     albumImage3: { url: defaultImage, position: 'album3' },
@@ -222,8 +217,6 @@ const Template8InviteeName: React.FC = () => {
                                     main: 'mainImage',
                                     groom: 'groomImage',
                                     bride: 'brideImage',
-                                    locationGroom: 'locationGroomImage',
-                                    locationBride: 'locationBrideImage',
                                     album1: 'albumImage1',
                                     album2: 'albumImage2',
                                     album3: 'albumImage3',
@@ -308,14 +301,6 @@ const Template8InviteeName: React.FC = () => {
         }
     };
 
-    const parseWeddingDate = (dateStr: string): Date | null => {
-        try {
-            return parse(dateStr, 'dd/MM/yyyy', new Date());
-        } catch {
-            return null;
-        }
-    };
-
     const togglePlayPause = () => {
         if (audioRef.current) {
             if (isPlaying) {
@@ -354,6 +339,14 @@ const Template8InviteeName: React.FC = () => {
         return `${hours}:${minutes}`;
     };
 
+    const parseWeddingDate = (dateStr: string): Date | null => {
+        try {
+            return parse(dateStr, 'dd/MM/yyyy', new Date());
+        } catch {
+            return null;
+        }
+    };
+
     if (isLoading) {
         return <div className={styles.loading}>Đang tải dữ liệu...</div>;
     }
@@ -366,13 +359,13 @@ const Template8InviteeName: React.FC = () => {
         return <div className={styles.error}>Không tìm thấy dữ liệu thiệp cưới.</div>;
     }
 
-    const weddingDateObj = parseWeddingDate(weddingData.weddingDate) || new Date(2025, 7, 17);
+    const weddingDateObj = parseWeddingDate(weddingData.weddingDate) || new Date(2025, 6, 20);
     const weddingDay = weddingDateObj.getDate();
     const weddingMonth = weddingDateObj.getMonth() + 1;
     const weddingYear = weddingDateObj.getFullYear();
 
     return (
-        <div className={styles.template8}>
+        <div className={styles.template9}>
             <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
                 <div className={styles.dynamic_content}>
                     <div
@@ -429,62 +422,147 @@ const Template8InviteeName: React.FC = () => {
                     <strong>{guestName}</strong>
                 </div>
             </div>
+
             <div className={`${styles.wrapper} ${isIntroOpen ? styles.wrapper_hidden : ''}`}>
-                <div className={styles.mainImage} data-aos="fade-in" data-aos-delay="200">
+                <div className={styles.mainImage}>
                     <Image src={images.mainImage.url} alt="Wedding main image" width={500} height={500} />
-                </div>
-                <div className={styles.hy} data-aos="fade-in" data-aos-delay="300">
-                    <img src="/images/m8/hy.png" alt="Decorative image" />
-                </div>
-                <div className={styles.info} data-aos="fade-up" data-aos-delay="400">
-                    <div className={styles.bg}>
-                        <img src="/images/m8/nen_1.png" />
+                    <div className={styles.imgFrame}></div>
+
+                    <div className={styles.whiteBorder}>
+                        <Image
+                            src={images.mainImage.url}
+                            alt="Wedding main image"
+                            width={250}
+                            height={250}
+                            className={styles.roundedImage}
+                        />
                     </div>
+
+                    <div className={styles.text_pss_top}>
+                        <h3>Our special day</h3>
+                        <p>
+                            Chúng ta đã cùng nhau bước vào hành trình mới của cuộc đời. Mong rằng sẽ mãi bên nhau và
+                            cùng kỷ niệm ngày đặc biệt này mỗi năm.
+                        </p>
+                    </div>
+
+                    <div className={styles.text_pss_bottom}>
+                        <h3>The start of always</h3>
+                    </div>
+                </div>
+
+                <div className={styles.info_family}>
+                    <div className={styles.groom_family}>
+                        <span> * Nhà trai</span>
+                        <h3>Ông: {weddingData.familyGroom.father}</h3>
+                        <h3>Bà: {weddingData.familyGroom.mother}</h3>
+                        <p>D/C: {weddingData.groomAddress}</p>
+                    </div>
+
+                    <div className={styles.bride_family}>
+                        <span> * Nhà gái</span>
+                        <h3>Ông: {weddingData.familyBride.father}</h3>
+                        <h3>Bà: {weddingData.familyBride.mother}</h3>
+                        <p>D/C: {weddingData.brideAddress}</p>
+                    </div>
+                </div>
+
+                <div className={styles.info}>
                     <h3>
-                        join us to celebrate
+                        Trân Trọng kính mời đến dự buổi tiệc
                         <br />
-                        <strong> the Wedding Of</strong>
+                        <strong>chung vui cùng Gia đình chúng tôi</strong>
                     </h3>
-                    <div className={styles.groom_name} data-aos="fade-right" data-aos-delay="500">
-                        {weddingData.groom}
-                    </div>
-                    <div className={styles.and} data-aos="fade-in" data-aos-delay="500">
-                        &
-                    </div>
-                    <div className={styles.bride_name} data-aos="fade-left" data-aos-delay="500">
-                        {weddingData.bride}
-                    </div>
-                    <div className={styles.specific_time} data-aos="fade-up" data-aos-delay="600">
-                        <h4>
-                            Lúc: <strong>{formatTimeToHourMinute(weddingData.weddingTime)}</strong> ||{' '}
-                            {weddingData.weddingDayOfWeek}, {weddingDay} Tháng {weddingMonth}, {weddingYear}
-                        </h4>
-                        <span>Đến dự buổi tiệc cùng gia đình chúng tôi.</span>
-                        <div className={styles.info_family}>
-                            <div className={styles.groom_family} data-aos="fade-right" data-aos-delay="700">
-                                <span> * Nhà trai</span>
-                                <h3>Ông: {weddingData.familyGroom.father}</h3>
-                                <h3>Bà: {weddingData.familyGroom.mother}</h3>
-                                <p>D/C: {weddingData.groomAddress}</p>
-                            </div>
-                            <div className={styles.bride_family} data-aos="fade-left" data-aos-delay="700">
-                                <span> * Nhà gái</span>
-                                <h3>Ông: {weddingData.familyBride.father}</h3>
-                                <h3>Bà: {weddingData.familyBride.mother}</h3>
-                                <p>D/C: {weddingData.brideAddress}</p>
+                    <div className={styles.groom_name}>{weddingData.groom}</div>
+                    <div className={styles.and}>&</div>
+                    <div className={styles.bride_name}>{weddingData.bride}</div>
+                    <div className={styles.specific_time}>
+                        <div className={styles.time_day}>
+                            Vào Lúc: <strong>{formatTimeToHourMinute(weddingData.weddingTime)}</strong> AM
+                            <br />
+                            <div className={styles.wrapper_times}>
+                                <div className={styles.flex}>
+                                    {weddingData.weddingDayOfWeek}
+                                    <div className={styles.br}>
+                                        <strong>{weddingDay}</strong>
+                                        <br />
+                                        <span>{weddingYear}</span>
+                                    </div>
+                                    Tháng {weddingMonth}
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <span className={styles.lunar_day}>(Nhằm Ngày {weddingData.lunar_day})</span>
+
+                    <div className={styles.calendar}>
+                        <div className={styles.vignette}>
+                            <img src="/images/m9/vignette_1.png" alt="" />
+                        </div>
+                        <div className={styles.calendarHeader}>
+                            <h3>
+                                Tháng {weddingMonth}, {weddingYear}
+                            </h3>
+                        </div>
+                        <div className={styles.calendarGrid}>
+                            <div className={styles.dayName}>CN</div>
+                            <div className={styles.dayName}>T2</div>
+                            <div className={styles.dayName}>T3</div>
+                            <div className={styles.dayName}>T4</div>
+                            <div className={styles.dayName}>T5</div>
+                            <div className={styles.dayName}>T6</div>
+                            <div className={styles.dayName}>T7</div>
+                            {Array.from({ length: 6 }, (_, weekIndex) => (
+                                <React.Fragment key={weekIndex}>
+                                    {Array.from({ length: 7 }, (_, dayIndex) => {
+                                        const day = weekIndex * 7 + dayIndex - 1;
+                                        const isWeddingDay = day === weddingDay;
+                                        const isValidDay = day > 0 && day <= 31;
+                                        return (
+                                            <div
+                                                key={dayIndex}
+                                                className={`${styles.calendarDay} ${isWeddingDay ? styles.weddingDay : ''} ${
+                                                    !isValidDay ? styles.emptyDay : ''
+                                                }`}
+                                            >
+                                                {isValidDay && (
+                                                    <>
+                                                        {isWeddingDay ? (
+                                                            <span className={styles.weddingDayContent}>
+                                                                {day}
+                                                                <FontAwesomeIcon
+                                                                    icon={faHeart}
+                                                                    className={styles.heartIcon}
+                                                                />
+                                                            </span>
+                                                        ) : (
+                                                            day
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className={styles.honor_message}>
+                        Sự hiện diện của Quý khách
+                        <br />
+                        là niềm vinh hạnh của gia đình chúng tôi
+                    </div>
                 </div>
+
                 <div className={styles.wrapper_story__love}>
                     <div className={styles.card_story__groom}>
-                        <h1 data-aos="fade-right" data-aos-delay="300">
-                            The Groom&apos;s Story
-                        </h1>
-                        <div className={styles.groom_name} data-aos="fade-right" data-aos-delay="600">
-                            {weddingData.groom}
-                        </div>
-                        <p className={styles.text_story} data-aos="fade-up" data-aos-delay="900">
+                        <h1>The Groom&apos;s Story</h1>
+                        <p className={styles.text_story}>
+                            <span className={styles.groom_name}>
+                                <img src={images.groomImage.url} alt="Groom" />
+                                {weddingData.groom}
+                            </span>
                             {weddingData.groomStory}
                         </p>
                         <div className={styles.vector_img__groom}>
@@ -500,25 +578,20 @@ const Template8InviteeName: React.FC = () => {
                                     ></iframe>
                                 </div>
                             )}
-                            <div
-                                className={styles.btn_map}
-                                onClick={handleGroomMapClick}
-                                data-aos="fade-up"
-                                data-aos-delay="400"
-                            >
+                            <div className={styles.btn_map} onClick={handleGroomMapClick}>
                                 <FontAwesomeIcon icon={faLocationDot} />
                                 {showGroomMap ? 'Mở map lớn' : 'Chỉ đường Google map'}
                             </div>
                         </div>
                     </div>
+
                     <div className={styles.card_story__bride}>
-                        <h1 data-aos="fade-left" data-aos-delay="300">
-                            The Bride&apos;s Story
-                        </h1>
-                        <div className={styles.bride_name} data-aos="fade-left" data-aos-delay="600">
-                            {weddingData.bride}
-                        </div>
-                        <p className={styles.text_story} data-aos="fade-up" data-aos-delay="900">
+                        <h1>The Bride&apos;s Story</h1>
+                        <p className={styles.text_story}>
+                            <span className={styles.bride_name}>
+                                <img src={images.brideImage.url} alt="Bride" />
+                                {weddingData.bride}
+                            </span>
                             {weddingData.brideStory}
                         </p>
                         <div className={styles.vector_img__bride}>
@@ -534,72 +607,74 @@ const Template8InviteeName: React.FC = () => {
                                     ></iframe>
                                 </div>
                             )}
-                            <div
-                                className={styles.btn_map}
-                                onClick={handleBrideMapClick}
-                                data-aos="fade-up"
-                                data-aos-delay="400"
-                            >
+                            <div className={styles.btn_map} onClick={handleBrideMapClick}>
                                 <FontAwesomeIcon icon={faLocationDot} />
                                 {showBrideMap ? 'Mở map lớn' : 'Chỉ đường Google map'}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={styles.count} data-aos="fade-in" data-aos-delay="300">
-                    <div className={styles.countdown}>
-                        <div className={styles.countdown_bg}></div>
-                        <div className={styles.countdown_content}>
-                            <h2>Đếm ngược đến ngày cưới</h2>
-                            <div className={styles.countdown_timer}>
-                                <div className={styles.time_unit}>
-                                    <span className={styles.time_value}>{timeLeft.days}</span>
-                                    <span className={styles.time_label}>Ngày</span>
+
+                <div className={styles.count}>
+                    <div className={styles.countdownContainer}>
+                        <div className={styles.leftPanel}>
+                            <div className={styles.profileImage}>
+                                <img src={images.mainImage.url} alt="Profile" />
+                            </div>
+                        </div>
+                        <div className={styles.timerSection}>
+                            <h2 className={styles.title}>Đếm ngược đến ngày cưới</h2>
+                            <div className={styles.timerDisplay}>
+                                <div className={styles.timeGroup}>
+                                    <span className={styles.timeValue}>{timeLeft.days}</span>
+                                    <span className={styles.timeUnit}>Ngày</span>
                                 </div>
-                                <div className={styles.time_unit}>
-                                    <span className={styles.time_value}>{timeLeft.hours}</span>
-                                    <span className={styles.time_label}>Giờ</span>
+                                <div className={styles.timeGroup}>
+                                    <span className={styles.timeValue}>{timeLeft.hours}</span>
+                                    <span className={styles.timeUnit}>Giờ</span>
                                 </div>
-                                <div className={styles.time_unit}>
-                                    <span className={styles.time_value}>{timeLeft.minutes}</span>
-                                    <span className={styles.time_label}>Phút</span>
+                                <div className={styles.timeGroup}>
+                                    <span className={styles.timeValue}>{timeLeft.minutes}</span>
+                                    <span className={styles.timeUnit}>Phút</span>
                                 </div>
-                                <div className={styles.time_unit}>
-                                    <span className={styles.time_value}>{timeLeft.seconds}</span>
-                                    <span className={styles.time_label}>Giây</span>
+                                <div className={styles.timeGroup}>
+                                    <span className={styles.timeValue}>{timeLeft.seconds}</span>
+                                    <span className={styles.timeUnit}>Giây</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div className={styles.album_wedding}>
                     <div className={styles.title}>Album Wedding</div>
                     <div className={styles.bento_grid}>
-                        <div className={styles.boxTall} data-aos="fade-right" data-aos-delay="300">
+                        <div className={styles.boxTall}>
                             <Image src={images.albumImage1.url} alt="Wedding photo 1" width={200} height={300} />
                         </div>
-                        <div className={styles.boxTall} data-aos="fade-right" data-aos-delay="600">
+                        <div className={styles.boxTall}>
                             <Image src={images.albumImage2.url} alt="Wedding photo 2" width={200} height={300} />
                         </div>
-                        <div className={styles.boxTall} data-aos="fade-right" data-aos-delay="900">
+                        <div className={styles.boxTall}>
                             <Image src={images.albumImage3.url} alt="Wedding photo 3" width={200} height={300} />
                         </div>
-                        <div className={styles.boxWide} data-aos="fade-up" data-aos-delay="1100">
+                        <div className={styles.boxWide}>
                             <Image src={images.albumImage4.url} alt="Wedding photo 4" width={400} height={200} />
                         </div>
-                        <div className={styles.box} data-aos="fade-up" data-aos-delay="1400">
+                        <div className={styles.box}>
                             <Image src={images.albumImage5.url} alt="Wedding photo 5" width={200} height={200} />
                         </div>
-                        <div className={styles.boxTall} data-aos="fade-up" data-aos-delay="1700">
+                        <div className={styles.boxTall}>
                             <Image src={images.albumImage6.url} alt="Wedding photo 6" width={200} height={300} />
                         </div>
-                        <div className={styles.boxWide} data-aos="fade-up" data-aos-delay="2000">
+                        <div className={styles.boxWide}>
                             <Image src={images.albumImage7.url} alt="Wedding photo 7" width={400} height={200} />
                         </div>
                     </div>
                 </div>
+
                 <div className={styles.footer}>
-                    <div className={styles.column_text} data-aos="fade-up" data-aos-delay="600">
+                    <div className={styles.column_text}>
                         <h3>Thank You</h3>
                         <span className={styles.subtext}>
                             Cảm ơn Quý Khách vì đã trở thành một phần quan trọng
@@ -617,4 +692,4 @@ const Template8InviteeName: React.FC = () => {
     );
 };
 
-export default Template8InviteeName;
+export default Template9InviteeName;

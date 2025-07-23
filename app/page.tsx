@@ -15,11 +15,11 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, Navigation } from 'swiper/modules'; // Added Navigation module
+import { Pagination, Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
-import 'swiper/css/navigation'; // Import navigation styles
+import 'swiper/css/navigation';
 
 interface Template {
     template_id: number;
@@ -80,7 +80,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, image, price, status, o
             />
             <div className={styles.card_overlay}>
                 <h3 className={styles.card_title}>{name}</h3>
-                <h3 className={styles.card_price}>{price.toLocaleString()} VNĐ</h3>
+                <h3 className={styles.card_price}>{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ'}</h3>
                 <h3 className={styles.card_status}>{status.toUpperCase()}</h3>
             </div>
         </div>
