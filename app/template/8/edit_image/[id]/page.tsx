@@ -79,10 +79,38 @@ const Template8Edit: React.FC = () => {
     };
 
     const formatTime = (time: string): string => {
-        if (!time) return '10:00';
-        return time;
-    };
+        if (!time) return '00:00';
 
+        // Handle 12-hour format with AM/PM (e.g., "6:00 PM" or "6:00PM")
+        const amPmMatch = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+        if (amPmMatch) {
+            let hours = parseInt(amPmMatch[1], 10);
+            const minutes = amPmMatch[2];
+            const period = amPmMatch[3].toUpperCase();
+
+            // Convert to 24-hour format
+            if (period === 'PM' && hours !== 12) {
+                hours += 12;
+            } else if (period === 'AM' && hours === 12) {
+                hours = 0;
+            }
+
+            return `${hours.toString().padStart(2, '0')}:${minutes}`;
+        }
+
+        // Handle 24-hour format (e.g., "18:00")
+        const timeMatch = time.match(/^(\d{1,2}):(\d{2})$/);
+        if (timeMatch) {
+            const hours = parseInt(timeMatch[1], 10);
+            const minutes = timeMatch[2];
+            if (hours >= 0 && hours <= 23 && parseInt(minutes, 10) <= 59) {
+                return `${hours.toString().padStart(2, '0')}:${minutes}`;
+            }
+        }
+
+        // Return default if format is invalid
+        return '00:00';
+    };
     const getMapEmbedUrlFromCoords = (coords: string): string => {
         if (!coords) return '';
         const match = coords.match(/^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/);
@@ -376,7 +404,6 @@ const Template8Edit: React.FC = () => {
 
     return (
         <div className={styles.template8}>
-            
             <div className={styles.wrapper}>
                 <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
 
@@ -417,7 +444,7 @@ const Template8Edit: React.FC = () => {
 
                     <div className={styles.specific_time}>
                         <h4>
-                            Lúc: <strong>{formatTime(weddingData.weddingTime)}</strong> AM ||{' '}
+                            Lúc: <strong>{formatTime(weddingData.weddingTime)}</strong>  ||{' '}
                             {formatDayOfWeek(weddingData.weddingDate)}, {weddingData.weddingDate?.getDate() || 17} Tháng{' '}
                             {weddingData.weddingDate ? weddingData.weddingDate.getMonth() + 1 : 8},{' '}
                             {weddingData.weddingDate?.getFullYear() || 2025}

@@ -80,9 +80,39 @@ const Template9Edit: React.FC = () => {
         return days[date.getDay()];
     };
 
+    // Updated formatTime function
     const formatTime = (time: string): string => {
-        if (!time) return '10:00';
-        return time;
+        if (!time) return '00:00';
+
+        // Handle 12-hour format with AM/PM (e.g., "6:00 PM" or "6:00PM")
+        const amPmMatch = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+        if (amPmMatch) {
+            let hours = parseInt(amPmMatch[1], 10);
+            const minutes = amPmMatch[2];
+            const period = amPmMatch[3].toUpperCase();
+
+            // Convert to 24-hour format
+            if (period === 'PM' && hours !== 12) {
+                hours += 12;
+            } else if (period === 'AM' && hours === 12) {
+                hours = 0;
+            }
+
+            return `${hours.toString().padStart(2, '0')}:${minutes}`;
+        }
+
+        // Handle 24-hour format (e.g., "18:00")
+        const timeMatch = time.match(/^(\d{1,2}):(\d{2})$/);
+        if (timeMatch) {
+            const hours = parseInt(timeMatch[1], 10);
+            const minutes = timeMatch[2];
+            if (hours >= 0 && hours <= 23 && parseInt(minutes, 10) <= 59) {
+                return `${hours.toString().padStart(2, '0')}:${minutes}`;
+            }
+        }
+
+        // Return default if format is invalid
+        return '00:00';
     };
 
     const getMapEmbedUrlFromCoords = (coords: string): string => {
@@ -489,7 +519,7 @@ const Template9Edit: React.FC = () => {
                     <div className={styles.bride_name}>{weddingData.bride}</div>
                     <div className={styles.specific_time}>
                         <div className={styles.time_day}>
-                            Vào Lúc: <strong>{formatTime(weddingData.weddingTime)}</strong> AM
+                            Vào Lúc: <strong>{formatTime(weddingData.weddingTime)}</strong>
                             <br />
                             <div className={styles.wrapper_times}>
                                 <div className={styles.flex}>
