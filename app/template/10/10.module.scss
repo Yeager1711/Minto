@@ -147,7 +147,7 @@
                     font-size: 5rem;
                     margin: 1rem 0 0;
                     text-transform: capitalize;
-                    font-family: "Pinyon Script", cursive;
+                    font-family: 'Allura', cursive;
                     font-weight: 500;
                     color: #630606;
                 }
@@ -157,7 +157,7 @@
                     margin: 1rem 0 0 5rem;
                     text-transform: capitalize;
                     position: relative;
-                    font-family: "Pinyon Script", cursive;
+                    font-family: 'Allura', cursive;
                     font-weight: 500;
                     color: #630606;
 
@@ -221,16 +221,49 @@
 
         .story_groom,
         .story_bride {
-            padding: 2rem;
-            background: #111;
+            padding: 4rem 1rem;
             margin-top: 2rem;
-            position: relative;
+            text-align: center;
 
-            .torn_paper__top {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
+            .flex_image_groom {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                .box_image {
+                    border-radius: 1rem;
+                    overflow: hidden;
+                    width: 35rem;
+                    height: 45rem;
+
+                    @media (max-width: 768px) {
+                        height: 40rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        height: 25rem;
+                    }
+
+
+                    &:nth-child(2) {
+                        margin-top: 5rem;
+                        margin-bottom: -5rem;
+                    }
+
+                    &:nth-child(1) {
+                        transform: scale(1);
+                    }
+
+                    &:nth-child(3) {
+                        transform: scale(1);
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
             }
 
             .story_groom__wrapper,
@@ -242,7 +275,7 @@
                     text-transform: capitalize;
                     font-family: 'Allura', cursive;
                     font-weight: 500;
-                    color: #fff;
+                    color: #333;
                     margin-bottom: 0;
                 }
 
@@ -259,9 +292,567 @@
                 .story_text {
                     font-size: 2rem;
                     line-height: 1.5;
-                    color: #fff;
+                    color: #333;
                     font-family: 'Allura', cursive;
                 }
+            }
+        }
+
+        .info {
+            text-align: center;
+            margin: 1rem 0;
+            border-radius: 1rem;
+            margin-top: 6rem;
+
+            .info_family {
+                display: flex;
+                margin: 1rem 0 3rem 0;
+
+                .groom_family {
+                    flex: 1 1;
+
+                    p {
+                        font-size: 1.4rem;
+                        color: #555;
+                    }
+                }
+
+                .bride_family {
+                    flex: 1 1;
+
+                    p {
+                        font-size: 1.4rem;
+                        color: #555;
+                    }
+                }
+            }
+
+            span {
+                font-size: 1.4rem;
+            }
+
+            h3 {
+                font-size: 2.5rem;
+                color: #ccaa80;
+                font-weight: 500;
+                text-transform: uppercase;
+                font-family: 'Times New Roman', Times, serif;
+                line-height: 1.5;
+                margin-top: 0;
+                margin-bottom: 1rem;
+                margin-top: 1rem;
+
+                strong {
+                    font-size: 2rem;
+                    color: #ccaa80;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    font-family: 'Times New Roman', Times, serif;
+                    line-height: 1.5;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 2.3rem;
+
+                    strong {
+                        font-size: 1.8rem;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 1.6rem;
+
+                    strong {
+                        font-size: 1.4rem;
+                    }
+                }
+
+            }
+
+            .groom_name {}
+
+            .groom_name,
+            .bride_name {
+                font-family: "Pinyon Script", cursive;
+                font-size: 12rem;
+                color: #333;
+                text-transform: capitalize;
+
+
+
+                @media (max-width: 768px) {
+                    font-size: 9rem;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 7rem;
+                }
+            }
+
+            .bride_name {
+                padding-bottom: 1rem;
+            }
+
+            .and {
+                font-family: 'Allura', cursive;
+                font-size: 5rem;
+                font-weight: 400;
+                text-transform: none;
+                color: #333;
+            }
+
+            .specific_time {
+                margin-top: 4rem;
+
+                h4 {
+                    font-size: 2rem;
+                    color: #ccaa80;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    font-family: 'Times New Roman', Times, serif;
+                    margin: 2rem auto 2rem auto;
+                    line-height: 1.5;
+                    margin-bottom: 0;
+                    padding: 1rem 0;
+
+                    @media (max-width: 768px) {
+                        font-size: 1.8rem;
+
+                        strong {
+                            font-size: 1.8rem;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 1.6rem;
+
+                        strong {
+                            font-size: 1.4rem;
+                        }
+                    }
+                }
+
+                &>* {
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .time_day {
+                    font-size: 2.3rem;
+                    color: #ccaa80;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    font-family: 'Times New Roman', Times, serif;
+                    margin: 2rem auto;
+
+                    strong {
+                        font-weight: 400;
+                    }
+
+                    .wrapper_times {
+                        margin: auto;
+                        display: flex;
+                        justify-content: center;
+
+                        .flex {
+                            display: flex;
+                            align-items: center;
+                            gap: 3rem;
+                            padding: 8rem 0 0 0;
+                            font-weight: 400;
+
+                            @media (max-width: 768px) {
+                                padding: 5rem 0 0 0;
+                            }
+
+                            @media (max-width: 480px) {
+                                padding: 4rem 0 0 0;
+                            }
+
+                            .br {
+                                margin-top: -8rem;
+                                color: #fff;
+
+                                @media (max-width: 768px) {
+                                    margin-top: -5rem;
+                                }
+
+                                @media (max-width: 480px) {
+                                    margin-top: -4rem;
+                                }
+
+
+                                strong {
+                                    border-bottom: .1rem solid #ccaa80;
+                                    font-size: 10rem;
+
+                                    @media (max-width: 768px) {
+                                        font-size: 8rem;
+                                    }
+
+                                    @media (max-width: 480px) {
+                                        font-size: 7rem;
+                                    }
+                                }
+
+                                span {
+                                    font-size: 3rem;
+                                    font-weight: 400;
+                                }
+                            }
+
+                            @media (max-width: 768px) {
+                                font-size: 3rem;
+                            }
+
+                            @media (max-width: 480px) {
+                                font-size: 1.6rem;
+                            }
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        font-size: 2rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 1.5em;
+                        text-shadow: 0 0 0.3rem #151414, 0 0 0.6rem #171717;
+                        font-weight: 550;
+
+                    }
+                }
+
+            }
+
+
+
+            .lunar_day {
+                font-size: 2.5rem;
+                color: #ccaa80;
+                font-weight: 400;
+                text-transform: uppercase;
+                font-family: 'Times New Roman', Times, serif;
+                margin: 2rem auto;
+
+                @media (max-width: 768px) {
+                    font-size: 2.3rem;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 1.7rem;
+                }
+            }
+
+            .honor_message {
+                font-size: 2.5rem;
+                color: #ccaa80;
+                font-weight: 400;
+                text-transform: uppercase;
+                font-family: 'Times New Roman', Times, serif;
+                margin: 5rem auto 2rem auto;
+                line-height: 1.5;
+                margin-bottom: 0;
+
+                @media (max-width: 768px) {
+                    font-size: 2.3rem;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        .flex_time_details {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 4rem 0;
+
+            .image {
+                flex: 1 1;
+                overflow: hidden;
+                border-radius: 1rem;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .box {
+                flex: 1 1;
+                text-align: center;
+                padding: 0 .5rem 0 0;
+
+                h1 {
+                    font-size: 4.5rem;
+                    font-family: 'Times New Roman', Times, serif;
+                    text-transform: uppercase;
+
+
+                    @media (max-width: 768px) {
+                        font-size: 3.5rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 2.5rem;
+                    }
+                }
+
+                span {
+                    font-size: 4.5rem;
+                    font-weight: 400;
+                    letter-spacing: 1rem;
+                    color: #ccaa80;
+
+
+                    @media (max-width: 768px) {
+                        font-size: 3.5rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 2rem;
+                    }
+                }
+            }
+        }
+
+        .calendar {
+
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 0rem 1rem 1rem 1rem;
+            border-top: .2rem solid #ccaa80;
+            position: relative;
+
+
+
+            .calendarHeader {
+                h3 {
+                    font-size: 3.5rem;
+                    color: #ccaa80;
+                    font-family: "Pinyon Script", cursive;
+                    margin: 1rem;
+                }
+            }
+
+            .calendarGrid {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+                padding: 1rem;
+                border-radius: 8px;
+            }
+
+            .dayName {
+                font-weight: bold;
+                color: #333;
+                text-align: center;
+                padding: 8px;
+                font-size: 1.5rem;
+            }
+
+            .calendarDay {
+                padding: 8px;
+                text-align: center;
+                font-size: 2rem;
+                color: #333;
+                border-radius: 50%;
+                transition: background-color 0.3s;
+                position: relative;
+                font-family: "Sue Ellen Francisco", cursive;
+                font-weight: 400;
+                font-style: normal;
+
+                &.emptyDay {
+                    background-color: transparent;
+                    z-index: 99999 !important;
+                    position: relative;
+                    color: #151414;
+
+                }
+
+                &.weddingDay {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: "Sue Ellen Francisco", cursive;
+                    font-weight: 500;
+                    font-style: normal;
+
+                    .weddingDayContent {
+                        position: relative;
+                        z-index: 2;
+                        font-size: 1.6rem;
+                        color: #630606;
+                        font-weight: 550;
+                    }
+
+                    .heartIcon {
+                        position: absolute;
+                        z-index: -1;
+                        font-size: 4rem;
+                        color: #ccaa80;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+
+            }
+        }
+
+        .wrapper_map {
+            .flex_btn__map {
+                padding: 1.5rem 0;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                .map_groom {
+                    flex: 1 1;
+                    border: .1rem solid #3333;
+                    padding: 1rem 3rem;
+                    font-size: 1.4rem;
+                    text-transform: capitalize;
+                }
+
+                .map_bride {
+                    flex: 1 1;
+                    border: .1rem solid #3333;
+                    padding: 1rem 3rem;
+                    font-size: 1.4rem;
+                    text-transform: capitalize;
+                }
+            }
+
+            .google_map {
+                overflow: hidden;
+                border-radius: 1rem;
+
+                iframe {
+                    border: none;
+                    width: 100%;
+                    height: 50rem;
+                }
+            }
+        }
+
+        .album_wedding {
+            text-align: center;
+
+            .title {
+                font-size: 7.5rem;
+                margin: 1rem 0;
+                font-family: 'Allura', cursive;
+                font-weight: 400;
+                color: #ccaa80;
+                padding-top: 1.5rem;
+
+                @media (max-width: 768px) {
+                    font-size: 7rem;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 5.5rem;
+                }
+
+            }
+
+            .bento_grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: .5rem;
+                padding: 2rem .5rem;
+                max-width: 80rem;
+                margin: auto;
+
+                .box,
+                .boxTall,
+                .boxWide {
+                    border-radius: 1.5rem;
+                    overflow: hidden;
+                    position: relative;
+                    border: .1rem solid #dbdbdb;
+
+
+                    @media (max-width: 1024px) {
+                        width: 100%;
+                    }
+
+                    @media (max-width: 768px) {
+                        height: 30rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        height: 20rem;
+                    }
+
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                    }
+                }
+
+                .boxWide {
+                    grid-column: span 2;
+                }
+            }
+
+        }
+
+        .footer {
+            margin: auto;
+            max-width: 80rem;
+            width: 100%;
+            padding: 2rem 0 5rem 0;
+
+
+            .column_text {
+                text-align: center;
+                max-width: 80rem;
+                width: 95%;
+                margin: auto;
+
+                h3 {
+                    font-size: 5.5rem;
+                    margin: 0;
+                    font-family: 'Allura', cursive;
+                    font-weight: 400;
+                    color: #333;
+                }
+
+                .subtext {
+                    font-size: 2.8rem;
+                    width: 25rem;
+                    line-height: 1.5;
+                    font-family: 'Allura', cursive;
+                    color: #333;
+
+
+                    @media (max-width: 768px) {
+                        font-size: 2.5rem;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 1.8rem;
+                    }
+                }
+            }
+
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
             }
         }
     }
