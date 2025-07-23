@@ -332,7 +332,7 @@ const Home: React.FC = () => {
         <main className={styles.main}>
             <div className={styles.wrapper_main}>
                 <header className={styles.header}>
-                    <h1 className={styles.header_title}>Ý tưởng hôm nay của bạn là gì?</h1>
+                    <h1 className={styles.header_title}>Bạn thích mẫu thiệp như nào ?</h1>
                     <div className={styles.wrapper_expend}>
                         <div className={styles.search_bar}>
                             <input
