@@ -1,6 +1,334 @@
 .template10 {
   max-width: 80rem;
   margin: auto;
+  position: relative;
+}
+.template10 .intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 80rem;
+  width: 99%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s ease;
+  z-index: 9999999 !important;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0.2rem solid #ccaa80;
+}
+.template10 .intro.intro_closed {
+  transform: translateY(-100vh);
+  opacity: 0;
+  visibility: hidden;
+}
+.template10 .intro .title {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+.template10 .intro .title h1 {
+  font-size: 10rem;
+  color: #630606;
+  font-family: "Allura", cursive;
+  font-weight: 400;
+  margin: 0;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .template10 .intro .title h1 {
+    font-size: 8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .intro .title h1 {
+    font-size: 6rem;
+  }
+}
+.template10 .intro .title p {
+  font-size: 2.2rem;
+  color: #630606;
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+}
+@media (max-width: 1024px) {
+  .template10 .intro .title p {
+    font-size: 2.2rem;
+  }
+}
+@media (max-width: 768px) {
+  .template10 .intro .title p {
+    font-size: 1.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .intro .title p {
+    font-size: 1.8rem;
+  }
+}
+.template10 .intro .groom_bride__intro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Pinyon Script", cursive;
+  font-size: 13rem;
+  color: #333;
+  width: 100%;
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+@media (max-width: 1024px) {
+  .template10 .intro .groom_bride__intro {
+    font-size: 13rem;
+  }
+}
+@media (max-width: 768px) {
+  .template10 .intro .groom_bride__intro {
+    font-size: 10rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .intro .groom_bride__intro {
+    font-size: 7rem;
+  }
+}
+.template10 .intro .groom_bride__intro span {
+  display: block;
+}
+.template10 .intro .wrapper_animation__Click {
+  left: 50%;
+  bottom: 18%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: absolute;
+  color: #333;
+  cursor: pointer;
+  width: 21rem;
+}
+.template10 .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft {
+  color: #333;
+  opacity: 0;
+  animation: swipeUpFadeLeft 1.2s infinite;
+}
+.template10 .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft:first-child {
+  animation-delay: 0.4s;
+}
+.template10 .intro .wrapper_animation__Click .icon_arrow__left .chevronLeft:last-child {
+  animation-delay: 0s;
+}
+.template10 .intro .wrapper_animation__Click .text {
+  font-size: 1rem;
+  color: #333;
+  padding: 0 0.5rem;
+  text-align: center;
+  animation: swipeUpFadeUP 2s infinite;
+  margin: auto;
+}
+.template10 .intro .wrapper_animation__Click .icon_arrow__right .chevronRight {
+  color: #333;
+  opacity: 0;
+  animation: swipeUpFadeRight 1.2s infinite;
+}
+.template10 .intro .wrapper_animation__Click .icon_arrow__right .chevronRight:first-child {
+  animation-delay: 0.4s;
+}
+.template10 .intro .wrapper_animation__Click .icon_arrow__right .chevronRight:last-child {
+  animation-delay: 0s;
+}
+@keyframes swipeUpFadeUP {
+  0% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  60% {
+    opacity: 0.5;
+    transform: translateY(-1.5px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+@keyframes swipeUpFadeLeft {
+  100% {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  30% {
+    opacity: 0.5;
+    transform: translateX(-3px);
+  }
+  0% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+@keyframes swipeUpFadeRight {
+  0% {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  60% {
+    opacity: 0.5;
+    transform: translateX(-3px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+.template10 .intro .invition_name {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translate(-50%, -8%);
+  width: 100%;
+  max-width: 55rem;
+  margin: 0 auto;
+  align-items: center;
+  font-size: 2rem;
+  font-family: "Times New Roman", Times, serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  text-transform: uppercase;
+  color: #333;
+  z-index: 5;
+}
+@media (max-width: 768px) {
+  .template10 .intro .invition_name {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .intro .invition_name {
+    font-size: 1.5rem;
+  }
+}
+.template10 .intro .invition_name strong {
+  font-family: "Allura", cursive;
+  font-size: 3rem;
+  text-transform: none;
+  display: block;
+  padding-top: 1rem;
+  color: #333;
+}
+.template10 .dynamic {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(51, 51, 51, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  width: 20rem;
+  height: 3.5rem;
+  z-index: 9999;
+  border-radius: 2rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  color: #fff;
+  cursor: pointer;
+  z-index: 98;
+}
+.template10 .dynamic.expanded {
+  height: 9rem;
+  max-width: 50rem !important;
+  width: 30%;
+  border-radius: 1.5rem;
+}
+.template10 .dynamic .dynamic_content {
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.template10 .dynamic .dynamic_content .controls {
+  cursor: pointer;
+}
+.template10 .dynamic .dynamic_content .playPauseIcon {
+  width: 2rem;
+  height: 2rem;
+  color: #fff;
+}
+.template10 .dynamic .dynamic_content h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50rem;
+}
+.template10 .dynamic .expanded_content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.template10 .dynamic .expanded_content .song_info {
+  text-align: center;
+}
+.template10 .dynamic .expanded_content .song_info h4 {
+  margin: 0;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26rem;
+  font-weight: 600;
+}
+.template10 .dynamic .expanded_content .song_info p {
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26rem;
+}
+.template10 .dynamic .expanded_content .progress_bar {
+  width: 100%;
+  height: 0.3rem;
+  background: #555;
+  border-radius: 0.15rem;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .template10 .dynamic {
+    width: 18rem;
+  }
+  .template10 .dynamic.expanded {
+    max-width: 50rem;
+    width: 90vw;
+  }
 }
 .template10 .wrapper {
   background: #fff;
@@ -63,7 +391,7 @@
   position: relative;
 }
 .template10 .wrapper .pss .main .hexWrapper .hex {
-  width: 18rem;
+  width: 20rem;
   height: 22rem;
   aspect-ratio: 1.1547;
   clip-path: polygon(49% 0, 100% 29%, 100% 71%, 50% 100%, 0 72%, 0 28%);
@@ -77,37 +405,46 @@
   background-repeat: no-repeat;
 }
 .template10 .wrapper .pss .main .hexWrapper .hex0 {
-  top: -121px;
-  right: 92px;
+  top: -118px;
+  right: 103px;
 }
 .template10 .wrapper .pss .main .hexWrapper .hex1 {
-  top: -124px;
-  right: -90px;
+  top: -119px;
+  right: -100px;
 }
 .template10 .wrapper .pss .main .hexWrapper .hex2 {
-  top: 37px;
-  right: -1px;
+  top: 42px;
+  right: 0px;
 }
 .template10 .wrapper .pss .main .hexWrapper .hex3 {
-  top: 38px;
-  right: 181px;
+  top: 42px;
+  right: 203px;
 }
 .template10 .wrapper .pss .main .hexWrapper .hex4 {
-  top: 197px;
-  right: 88px;
+  top: 201px;
+  right: 102px;
 }
 .template10 .wrapper .pss .main .hexWrapper .hex5 {
-  top: 196px;
-  right: -94px;
+  top: 203px;
+  right: -100px;
 }
 .template10 .wrapper .pss .main .hexWrapper .hex6 {
-  top: 356px;
-  right: -4px;
+  top: 361px;
+  right: 1px;
 }
 .template10 .wrapper .pss .text_info {
   position: absolute;
   bottom: 0%;
   left: 2rem;
+  right: 2rem;
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .pss .text_info {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+  }
 }
 .template10 .wrapper .pss .text_info .date {
   text-transform: capitalize;
@@ -118,15 +455,25 @@
   margin: 0;
 }
 .template10 .wrapper .pss .text_info .groom_name {
-  font-size: 5rem;
+  font-size: 9rem;
   margin: 1rem 0 0;
   text-transform: capitalize;
   font-family: "Allura", cursive;
   font-weight: 500;
   color: #630606;
 }
+@media (max-width: 768px) {
+  .template10 .wrapper .pss .text_info .groom_name {
+    font-size: 8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .pss .text_info .groom_name {
+    font-size: 5rem;
+  }
+}
 .template10 .wrapper .pss .text_info .bride_name {
-  font-size: 5rem;
+  font-size: 9rem;
   margin: 1rem 0 0 5rem;
   text-transform: capitalize;
   position: relative;
@@ -134,10 +481,20 @@
   font-weight: 500;
   color: #630606;
 }
+@media (max-width: 768px) {
+  .template10 .wrapper .pss .text_info .bride_name {
+    font-size: 8rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .pss .text_info .bride_name {
+    font-size: 5rem;
+  }
+}
 .template10 .wrapper .pss .text_info .bride_name::before {
   content: "";
   position: absolute;
-  left: -1rem;
+  left: -3rem;
   width: 0.2rem;
   height: 100%;
   background: #333;
@@ -160,6 +517,11 @@
   position: relative;
   margin: 3rem 0 0 0;
 }
+@media (max-width: 480px) {
+  .template10 .wrapper .pss .text_info .description {
+    padding: 1rem 0;
+  }
+}
 .template10 .wrapper .pss .text_info .description::before {
   content: "";
   position: absolute;
@@ -181,6 +543,33 @@
   border-bottom: 2px solid #a88;
   border-right: 2px solid #a88;
   border-top-left-radius: 0.5rem;
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .pss .text_info .description::before {
+    left: -1.5rem;
+  }
+  .template10 .wrapper .pss .text_info .description::after {
+    right: -1.5rem;
+  }
+}
+.template10 .wrapper .flex_btn_choose_image {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+  margin-top: 2rem;
+}
+.template10 .wrapper .flex_btn_choose_image h3 {
+  display: block;
+}
+.template10 .wrapper .flex_btn_choose_image .btn_choose,
+.template10 .wrapper .flex_btn_choose_image .btn_success {
+  padding: 0.8rem 1.5rem;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  border: 0.1rem solid #333;
+  border-radius: 1rem;
+  cursor: pointer;
 }
 .template10 .wrapper .story_groom,
 .template10 .wrapper .story_bride {
@@ -642,25 +1031,149 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.template10 .wrapper .count {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.template10 .wrapper .count .countdownContainer {
+  position: relative;
+  width: 100%;
+  max-width: 80rem;
+  padding: 0 1rem;
+  display: flex;
+  min-height: 20vh;
+}
+.template10 .wrapper .count .countdownContainer .timerSection {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.template10 .wrapper .count .countdownContainer .timerSection .title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+}
+@media (max-width: 768px) {
+  .template10 .wrapper .count .countdownContainer .timerSection .title {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .count .countdownContainer .timerSection .title {
+    font-size: 1.5rem;
+  }
+}
+.template10 .wrapper .count .countdownContainer .timerSection .timerDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+.template10 .wrapper .count .countdownContainer .timerSection .timerDisplay .timeGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1rem;
+}
+.template10 .wrapper .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeValue {
+  font-size: 5rem;
+  font-weight: 800;
+  padding: 0.5rem 1rem;
+  border-radius: 5rem;
+  color: #333;
+}
+@media (max-width: 768px) {
+  .template10 .wrapper .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeValue {
+    font-size: 5rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeValue {
+    font-size: 3rem;
+  }
+}
+.template10 .wrapper .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeUnit {
+  font-size: 1.2rem;
+  margin: 0.5rem 0 0.7rem 0;
+}
+@media (max-width: 768px) {
+  .template10 .wrapper .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeUnit {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeUnit {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
+.template10 .wrapper .wrapper_map {
+  border-bottom: 0.2rem solid #ccaa80;
+  padding-bottom: 1rem;
+}
 .template10 .wrapper .wrapper_map .flex_btn__map {
   padding: 1.5rem 0;
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+@media (max-width: 768px) {
+  .template10 .wrapper .wrapper_map .flex_btn__map {
+    padding: 1.5rem 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .wrapper_map .flex_btn__map {
+    padding: 1.5rem 1rem;
+  }
+}
 .template10 .wrapper .wrapper_map .flex_btn__map .map_groom {
   flex: 1 1;
   border: 0.1rem solid rgba(51, 51, 51, 0.2);
-  padding: 1rem 3rem;
+  padding: 1rem 1.5rem;
   font-size: 1.4rem;
   text-transform: capitalize;
+}
+.template10 .wrapper .wrapper_map .flex_btn__map .map_groom svg {
+  margin-right: 0.5rem;
+}
+@media (max-width: 768px) {
+  .template10 .wrapper .wrapper_map .flex_btn__map .map_groom {
+    border-radius: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .wrapper_map .flex_btn__map .map_groom {
+    border-radius: 1rem;
+  }
 }
 .template10 .wrapper .wrapper_map .flex_btn__map .map_bride {
   flex: 1 1;
   border: 0.1rem solid rgba(51, 51, 51, 0.2);
-  padding: 1rem 3rem;
+  padding: 1rem 1.5rem;
   font-size: 1.4rem;
   text-transform: capitalize;
+}
+.template10 .wrapper .wrapper_map .flex_btn__map .map_bride svg {
+  margin-right: 0.5rem;
+}
+@media (max-width: 768px) {
+  .template10 .wrapper .wrapper_map .flex_btn__map .map_bride {
+    border-radius: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .template10 .wrapper .wrapper_map .flex_btn__map .map_bride {
+    border-radius: 1rem;
+  }
 }
 .template10 .wrapper .wrapper_map .google_map {
   overflow: hidden;
@@ -670,6 +1183,12 @@
   border: none;
   width: 100%;
   height: 50rem;
+}
+.template10 .wrapper .wrapper_map .google_map img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .template10 .wrapper .album_wedding {
   text-align: center;
