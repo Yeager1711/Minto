@@ -60,7 +60,7 @@ function Template10Edit() {
     const [showImagePicker, setShowImagePicker] = useState<boolean>(true);
     const [pendingMainImage, setPendingMainImage] = useState<{ file: File | null; url: string }>({
         file: null,
-        url: '/images/m10/2.jpg',
+        url: '/images/m10/choose_img.png',
     });
     const [showGroomMap, setShowGroomMap] = useState<boolean>(false);
     const [showBrideMap, setShowBrideMap] = useState<boolean>(false);
@@ -544,7 +544,7 @@ function Template10Edit() {
                     <div className={styles.story_groom__wrapper}>
                         <h1>The Groom&apos;s Story</h1>
                         <h3 className={styles.for_groom}>{weddingData.groom}</h3>
-                        <span className={styles.story_text}>{weddingData.groomStory}</span>
+                        <span className={styles.story_text}>{weddingData.groomStory || defaultWeddingData.groomStory}</span>
                     </div>
 
                     <div className={styles.flex_image_groom}>
@@ -606,7 +606,7 @@ function Template10Edit() {
                     <div className={styles.story_bride__wrapper}>
                         <h1>The Bride&apos;s Story</h1>
                         <h3 className={styles.for_bride}>{weddingData.bride}</h3>
-                        <span className={styles.story_text}>{weddingData.brideStory}</span>
+                        <span className={styles.story_text}>{weddingData.brideStory || defaultWeddingData.brideStory}</span>
                     </div>
 
                     <div className={styles.flex_image_groom}>

@@ -516,7 +516,7 @@ function Template10InviteeName() {
                     <div className={styles.story_groom__wrapper}>
                         <h1>The Groom&apos;s Story</h1>
                         <h3 className={styles.for_groom}>{weddingData.groom}</h3>
-                        <span className={styles.story_text}>{weddingData.groomStory}</span>
+                        <span className={styles.story_text}>{weddingData.groomStory || weddingData.groomStory}</span>
                     </div>
 
                     <div className={styles.flex_image_groom}>
@@ -554,7 +554,7 @@ function Template10InviteeName() {
                     <div className={styles.story_bride__wrapper}>
                         <h1>The Bride&apos;s Story</h1>
                         <h3 className={styles.for_bride}>{weddingData.bride}</h3>
-                        <span className={styles.story_text}>{weddingData.brideStory}</span>
+                        <span className={styles.story_text}>{weddingData.brideStory || weddingData.brideStory}</span>
                     </div>
 
                     <div className={styles.flex_image_groom}>
