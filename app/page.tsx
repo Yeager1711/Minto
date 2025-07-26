@@ -399,13 +399,13 @@ const Home: React.FC = () => {
                     <div className={styles.statsGrid}>
                         <div className={styles.statItem} data-aos="fade-up" data-aos-delay="200">
                             <span className={styles.statNumber}>
-                                <CountUp end={200} suffix="+" duration={2.5} />
+                                <CountUp end={217}  duration={2.5} />
                             </span>
                             <span className={styles.statLabel}>Thiệp được tạo</span>
                         </div>
                         <div className={styles.statItem} data-aos="fade-up" data-aos-delay="400">
                             <span className={styles.statNumber}>
-                                <CountUp end={1711} duration={2.5} />
+                                <CountUp end={2101} duration={2.5} />
                             </span>
                             <span className={styles.statLabel}>Khách mời</span>
                         </div>
