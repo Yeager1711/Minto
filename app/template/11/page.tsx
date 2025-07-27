@@ -5,7 +5,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './11.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faChevronCircleDown, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 interface BarPosition {
     x: string;
@@ -18,6 +18,7 @@ const Template11: React.FC = () => {
     const [expandedBar, setExpandedBar] = useState<number | null>(null);
     const [showBrideStory, setShowBrideStory] = useState<boolean>(false);
     const [showContent, setShowContent] = useState<boolean>(false);
+    const [showMap, setShowMap] = useState<boolean>(false);
 
     const barPositions: BarPosition[] = [
         { x: '11%', y: '40%' },
@@ -25,24 +26,38 @@ const Template11: React.FC = () => {
         { x: '95%', y: '40%' },
     ];
 
+    const groomMapUrl =
+        'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3738.351619823762!2d144.9575123!3d-37.8242139!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d5173a284b5%3A0x958eeaf04deea384!2sMelbourne%20Convention%20and%20Exhibition%20Centre%20(MCEC)!5e1!3m2!1svi!2s!4v1753622568092!5m2!1svi!2s';
+    const brideMapUrl =
+        'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3738.351619823762!2d144.9575123!3d-37.8242139!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d53038e461d%3A0xfb83b485c5048192!2sThe%20Palms%20at%20Crown!5e1!3m2!1svi!2s!4v1753622592843!5m2!1svi!2s';
+
     const handleBarClick = (index: number) => {
         console.log('handleBarClick', { index, expandedBar, showContent, showBrideStory });
         if (expandedBar === index) {
             setExpandedBar(null);
             setShowContent(false);
+            setShowMap(false);
         } else {
             setExpandedBar(index);
-            setShowBrideStory(index === 2 ? false : showBrideStory); // Default to groom's story for index 2
-            setShowContent(true); // Show content immediately
+            setShowBrideStory(index === 2 ? false : showBrideStory);
+            setShowContent(true);
+            setShowMap(false);
         }
     };
 
     const handleStoryToggle = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
         console.log('handleStoryToggle', { showBrideStory });
-        setShowContent(false); // Ẩn nội dung trước khi chuyển đổi
-        setShowBrideStory((prev) => !prev); // Chuyển đổi giữa cô dâu và chú rể
-        setShowContent(true); // Hiển thị lại nội dung ngay lập tức
+        setShowContent(false);
+        setShowBrideStory((prev) => !prev);
+        setShowContent(true);
+        setShowMap(false);
+    };
+
+    const handleMapToggle = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        console.log('handleMapToggle', { showMap });
+        setShowMap((prev) => !prev);
     };
 
     useEffect(() => {
@@ -71,15 +86,10 @@ const Template11: React.FC = () => {
         e.stopPropagation();
     };
 
-    // Inline styles cho hiệu ứng trượt
     const slideStyle = {
         opacity: showContent ? 1 : 0,
-        transform: showContent
-            ? 'translateX(0)'
-            : showBrideStory
-              ? 'translateX(100%)' // Trượt từ bên phải (cô dâu)
-              : 'translateX(-100%)', // Trượt từ bên trái (chú rể)
-        transition: 'opacity 0.5s ease, transform 0.5s ease', // Hiệu ứng mượt mà
+        transform: showContent ? 'translateX(0)' : showBrideStory ? 'translateX(100%)' : 'translateX(-100%)',
+        transition: 'opacity 0.5s ease, transform 0.5s ease',
     };
 
     return (
@@ -97,7 +107,7 @@ const Template11: React.FC = () => {
                             style={{
                                 backgroundImage: expandedBar === index ? 'none' : `url(${mainImage})`,
                                 backgroundPosition: `${pos.x} ${pos.y}`,
-                                backgroundSize: expandedBar === index ? 'cover' : '350%',
+                                backgroundSize: expandedBar === index ? 'cover' : '350% !important',
                                 marginTop: pos.marginTop || '0',
                                 backgroundRepeat: 'no-repeat',
                             }}
@@ -133,16 +143,12 @@ const Template11: React.FC = () => {
                                     <div className={styles.wrapper_bar2}>
                                         <h2 data-aos="fade-down">Our Families</h2>
                                         <div className={styles.familyContainer}>
-                                            <h1 data-aos="fade-up" data-aos-delay="200">
+                                            <h1>
                                                 Trân Trọng kính mời đến dự buổi tiệc
                                                 <br />
                                                 Chung vui cùng gia đình chúng tôi
                                             </h1>
-                                            <div
-                                                className={styles.familySide}
-                                                data-aos="fade-right"
-                                                data-aos-delay="400"
-                                            >
+                                            <div className={styles.familySide}>
                                                 <h3>Groom&apos;s Family</h3>
                                                 <span>Ông Nguyễn Văn A</span>
                                                 <span>Bà: Trần Thị B</span>
@@ -151,11 +157,7 @@ const Template11: React.FC = () => {
                                                     Hanoi
                                                 </p>
                                             </div>
-                                            <div
-                                                className={styles.familySide}
-                                                data-aos="fade-left"
-                                                data-aos-delay="600"
-                                            >
+                                            <div className={styles.familySide}>
                                                 <h3>Bride&apos;s Family</h3>
                                                 <span>Ông: Lê Văn C</span>
                                                 <span>Bà: Phạm Thị D</span>
@@ -164,7 +166,7 @@ const Template11: React.FC = () => {
                                                     Hanoi
                                                 </p>
                                             </div>
-                                            <h1 data-aos="fade-up" data-aos-delay="800">
+                                            <h1>
                                                 Vào lúc: <strong>18:00 || Ngày 24 tháng 09, 2025</strong>
                                                 <br />
                                                 <p>
@@ -183,6 +185,22 @@ const Template11: React.FC = () => {
                                     onTouchStart={handleTouchStart}
                                 >
                                     <div className={styles.wrapper_bar3}>
+                                        <div className={styles.btn_map} onClick={handleMapToggle}>
+                                            <FontAwesomeIcon icon={showMap ? faChevronUp : faChevronDown} />
+                                        </div>
+                                        <div
+                                            className={`${styles.mapContainer} ${showMap ? styles.show : styles.hide}`}
+                                        >
+                                            <iframe
+                                                src={showBrideStory ? brideMapUrl : groomMapUrl}
+                                                width="100%"
+                                                height="100%"
+                                                style={{ border: 0 }}
+                                                allowFullScreen
+                                                loading="lazy"
+                                                referrerPolicy="no-referrer-when-downgrade"
+                                            ></iframe>
+                                        </div>
                                         <div className={styles.step_3}>
                                             <div className={styles.image_3} data-aos="fade-down">
                                                 <img
@@ -201,7 +219,7 @@ const Template11: React.FC = () => {
                                                     <FontAwesomeIcon icon={faChevronCircleDown} />
                                                 </div>
                                             </div>
-                                            <div className={styles.text_story} >
+                                            <div className={styles.text_story}>
                                                 <p>
                                                     {showBrideStory
                                                         ? 'Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm, chăm sóc em thật nhiều, nuông chiều những khi em giận hờn vô cớ. Bắt đầu từ hôm nay chúng ta sẽ viết nên một chương mới của cuộc đời, bằng tình thương yêu và hạnh phúc đong đầy anh nhé!'
