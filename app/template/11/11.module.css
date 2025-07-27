@@ -66,9 +66,12 @@
   border-radius: 0;
   background-color: #fff;
   background-size: cover;
-  overflow: hidden;
+  overflow-y: scroll;
   margin: auto;
   animation: expand 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.template11 .wrapper .barMaskContainer .bar.expanded::-webkit-scrollbar {
+  display: none;
 }
 @keyframes expand {
   0% {

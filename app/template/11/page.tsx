@@ -201,7 +201,7 @@ const Template11: React.FC = () => {
                                                     <FontAwesomeIcon icon={faChevronCircleDown} />
                                                 </div>
                                             </div>
-                                            <div className={styles.text_story} data-aos="fade-up" data-aos-delay="400">
+                                            <div className={styles.text_story} >
                                                 <p>
                                                     {showBrideStory
                                                         ? 'Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm, chăm sóc em thật nhiều, nuông chiều những khi em giận hờn vô cớ. Bắt đầu từ hôm nay chúng ta sẽ viết nên một chương mới của cuộc đời, bằng tình thương yêu và hạnh phúc đong đầy anh nhé!'

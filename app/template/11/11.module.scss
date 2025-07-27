@@ -67,9 +67,14 @@
                     border-radius: 0;
                     background-color: #fff;
                     background-size: cover;
-                    overflow: hidden;
+                    overflow-y: scroll;
                     margin: auto;
                     animation: expand 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+
                 }
             }
 
@@ -351,7 +356,7 @@
                 &::-webkit-scrollbar {
                     display: none;
                 }
-                
+
                 &.slideInRight {
                     animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
                 }
