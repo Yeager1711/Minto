@@ -32,7 +32,6 @@ const Template11: React.FC = () => {
         'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3738.351619823762!2d144.9575123!3d-37.8242139!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d53038e461d%3A0xfb83b485c5048192!2sThe%20Palms%20at%20Crown!5e1!3m2!1svi!2s!4v1753622592843!5m2!1svi!2s';
 
     const handleBarClick = (index: number) => {
-        console.log('handleBarClick', { index, expandedBar, showContent, showBrideStory });
         if (expandedBar === index) {
             setExpandedBar(null);
             setShowContent(false);
@@ -47,7 +46,6 @@ const Template11: React.FC = () => {
 
     const handleStoryToggle = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
-        console.log('handleStoryToggle', { showBrideStory });
         setShowContent(false);
         setShowBrideStory((prev) => !prev);
         setShowContent(true);
@@ -56,7 +54,6 @@ const Template11: React.FC = () => {
 
     const handleMapToggle = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
-        console.log('handleMapToggle', { showMap });
         setShowMap((prev) => !prev);
     };
 
@@ -99,11 +96,13 @@ const Template11: React.FC = () => {
                     <img src={mainImage} alt="blurred background" />
                 </div>
 
-                <div className={`${styles.barMaskContainer} ${expandedBar !== null ? styles.hidden : ''}`}>
+                <div className={`${styles.barMaskContainer} ${expandedBar !== null ? styles.expandedContainer : ''}`}>
                     {barPositions.map((pos, index) => (
                         <div
                             key={index}
-                            className={`${styles.bar} ${expandedBar === index ? styles.expanded : ''}`}
+                            className={`${styles.bar} ${expandedBar === index ? styles.expanded : ''} ${
+                                expandedBar !== null && expandedBar !== index ? styles.hidden : ''
+                            }`}
                             style={{
                                 backgroundImage: expandedBar === index ? 'none' : `url(${mainImage})`,
                                 backgroundPosition: `${pos.x} ${pos.y}`,
@@ -114,7 +113,10 @@ const Template11: React.FC = () => {
                             onClick={() => handleBarClick(index)}
                         >
                             {expandedBar === index && showContent && index === 0 && (
-                                <div className={styles.weddingInfo} onTouchStart={handleTouchStart}>
+                                <div
+                                    className={`${styles.weddingInfo} ${styles.weddingInfoAnimation}`}
+                                    onTouchStart={handleTouchStart}
+                                >
                                     <div className={styles.wrapper_bar1}>
                                         <div className={styles.step_1}>
                                             <div className={styles.image_1} data-aos="fade-down">

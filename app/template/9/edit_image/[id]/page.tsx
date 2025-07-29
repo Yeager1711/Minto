@@ -385,6 +385,7 @@ const Template9Edit: React.FC = () => {
 
         setWeddingData((prev) => {
             const updatedData = { ...prev };
+            
             try {
                 localStorage.setItem(
                     `WeddingData${templateId}`,
