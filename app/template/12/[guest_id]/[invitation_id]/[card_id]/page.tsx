@@ -113,7 +113,7 @@ const Template12InviteeName: React.FC = () => {
     const [userId, setUserId] = useState<number | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    useDisableDevTools()
+    useDisableDevTools();
 
     useEffect(() => {
         AOS.init({
@@ -378,20 +378,20 @@ const Template12InviteeName: React.FC = () => {
                             className={styles.playPauseIcon}
                         />
                     </div>
-                    <h3>{isPlaying ? 'Đang Phát: Why Not Me' : 'Why Not Me'}</h3>
+                    <h3>{isPlaying ? 'Đang Phát: Tỏ Tình' : 'Tỏ Tình'}</h3>
                 </div>
                 {isExpanded && (
                     <div className={styles.expanded_content}>
                         <div className={styles.song_info}>
-                            <h4>Why Not Me</h4>
-                            <p>Ca sĩ: Enrique Iglesias</p>
+                            <h4>Tỏ Tình</h4>
+                            <p>Ca sĩ: ICM x JANG NGUYEN</p>
                         </div>
                         <div className={styles.progress_bar}>
                             <div className={styles.progress}></div>
                         </div>
                     </div>
                 )}
-                <audio ref={audioRef} src="/audio/whynotme.mp3" />
+                <audio ref={audioRef} src="/audio/totinh.mp3" />
             </div>
 
             <div className={`${styles.intro} ${isIntroOpen ? '' : styles.intro_closed}`} onClick={handleIntroClick}>
