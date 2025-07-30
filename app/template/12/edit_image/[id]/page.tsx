@@ -82,6 +82,24 @@ const Template12Edit: React.FC = () => {
     const [imageFiles, setImageFiles] = useState<{ file: File; position: string }[]>([]);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
+    // Hàm chuyển đổi ImageState thành định dạng phẳng
+    const flattenImages = (imageState: ImageState): Record<string, ImageItem> => {
+        return {
+            bar0Image1: imageState.bar0[0] || { url: '/images/m12/choose_img.png', position: 'bar0_0' },
+            bar0Image2: imageState.bar0[1] || { url: '/images/m12/choose_img.png', position: 'bar0_1' },
+            bar1Image1: imageState.bar1[0] || { url: '/images/m12/choose_img.png', position: 'bar1_0' },
+            groomImage: imageState.groomImages[0] || { url: '/images/m12/choose_img.png', position: 'groom_0' },
+            brideImage: imageState.brideImages[0] || { url: '/images/m12/choose_img.png', position: 'bride_0' },
+            bar4Image1: imageState.bar4[0] || { url: '/images/m12/choose_img.png', position: 'bar4_0' },
+            bar4Image2: imageState.bar4[1] || { url: '/images/m12/choose_img.png', position: 'bar4_1' },
+            bar4Image3: imageState.bar4[2] || { url: '/images/m12/choose_img.png', position: 'bar4_2' },
+            bar4Image4: imageState.bar4[3] || { url: '/images/m12/choose_img.png', position: 'bar4_3' },
+            bar4Image5: imageState.bar4[4] || { url: '/images/m12/choose_img.png', position: 'bar4_4' },
+            bar4Image6: imageState.bar4[5] || { url: '/images/m12/choose_img.png', position: 'bar4_5' },
+            bar4Image7: imageState.bar4[6] || { url: '/images/m12/choose_img.png', position: 'bar4_6' },
+        };
+    };
+
     const parseWeddingDate = (dateStr: string | Date | null): Date | null => {
         if (typeof dateStr === 'string' && dateStr.trim()) {
             const [day, month, year] = dateStr.split('/').map(Number);
@@ -153,12 +171,27 @@ const Template12Edit: React.FC = () => {
                 { url: '/images/m12/choose_img.png', position: 'bar4_6' },
             ],
         };
+
         if (savedImages) {
             try {
-                const parsedImages = JSON.parse(savedImages) as ImageState;
+                const parsedImages = JSON.parse(savedImages) as Record<string, ImageItem>;
                 return {
-                    ...defaultImages,
-                    ...parsedImages,
+                    bar0: [
+                        parsedImages.bar0Image1 || defaultImages.bar0[0],
+                        parsedImages.bar0Image2 || defaultImages.bar0[1],
+                    ],
+                    bar1: [parsedImages.bar1Image1 || defaultImages.bar1[0]],
+                    groomImages: [parsedImages.groomImage || defaultImages.groomImages[0]],
+                    brideImages: [parsedImages.brideImage || defaultImages.brideImages[0]],
+                    bar4: [
+                        parsedImages.bar4Image1 || defaultImages.bar4[0],
+                        parsedImages.bar4Image2 || defaultImages.bar4[1],
+                        parsedImages.bar4Image3 || defaultImages.bar4[2],
+                        parsedImages.bar4Image4 || defaultImages.bar4[3],
+                        parsedImages.bar4Image5 || defaultImages.bar4[4],
+                        parsedImages.bar4Image6 || defaultImages.bar4[5],
+                        parsedImages.bar4Image7 || defaultImages.bar4[6],
+                    ],
                 };
             } catch (e) {
                 console.error('Failed to parse weddingImages from localStorage:', e);
@@ -248,7 +281,7 @@ const Template12Edit: React.FC = () => {
                     ),
                 };
                 try {
-                    localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(newImages));
+                    localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(flattenImages(newImages)));
                 } catch (e) {
                     console.error('Lỗi khi lưu weddingImages vào localStorage:', e);
                 }
@@ -314,7 +347,7 @@ const Template12Edit: React.FC = () => {
                         ),
                     };
                     try {
-                        localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(newImages));
+                        localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(flattenImages(newImages)));
                     } catch (e) {
                         console.error('Lỗi khi lưu weddingImages vào localStorage:', e);
                     }
