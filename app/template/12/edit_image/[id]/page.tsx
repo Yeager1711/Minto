@@ -91,7 +91,7 @@ const Template12Edit: React.FC = () => {
         return null;
     };
 
-    // useDisableDevTools();
+    useDisableDevTools();
 
     // Dữ liệu mặc định cho đám cưới
     const defaultWeddingData: TemplateWeddingData = {
