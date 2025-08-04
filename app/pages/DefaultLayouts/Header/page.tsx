@@ -209,7 +209,7 @@ function Header() {
         >
             <div className={styles.margin}>
                 <div className={cx('logo', { 'logo-hidden': isNavBoxOpen })}>
-                    <p>⚡</p> Minto
+                    <img src="/images/logo.png" alt="" />
                 </div>
                 <div className={cx('nav-container')}>
                     <div className={cx('user-container')}>
