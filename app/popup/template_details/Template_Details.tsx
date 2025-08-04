@@ -70,9 +70,8 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         const value = e.target.value;
         setInputValue(value);
 
-        // Allow empty input temporarily
         if (value === '') {
-            setQuantity(1); // Default to 1 internally, but don't update input
+            setQuantity(1);
             return;
         }
 
@@ -80,12 +79,11 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         if (!isNaN(quantityValue) && quantityValue >= 1) {
             setQuantity(quantityValue);
         } else {
-            setQuantity(1); // Default to 1 if invalid
+            setQuantity(1);
         }
     };
 
     const handleBlur = () => {
-        // On blur, if the input is empty, set it back to '1'
         if (inputValue === '') {
             setInputValue('1');
             setQuantity(1);
@@ -112,11 +110,16 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const statusClass = isReady ? styles.statusReady : styles.statusUpdating;
 
     return (
-        <div className={styles.popupOverlay} onClick={handleOverlayClick} role="dialog" aria-labelledby="popupTitle">
+        <div
+            className={`${styles.popupOverlay} ${isClosing ? styles.closing : ''}`}
+            onClick={handleOverlayClick}
+            role="dialog"
+            aria-labelledby="popupTitle"
+        >
+            <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
+                <FontAwesomeIcon icon={faXmark} />
+            </button>
             <div className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}>
-                <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
-                    <FontAwesomeIcon icon={faXmark} />
-                </button>
                 <div className={styles.popupBody}>
                     <div className={styles.imageSection}>
                         <div className={styles.popupImageContainer}>

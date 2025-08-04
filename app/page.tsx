@@ -4,7 +4,14 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.css';
 import Popup from './popup/template_details/Template_Details';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faBoltLightning, faMugHot, faDollarSign, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import {
+    faSearch,
+    faBoltLightning,
+    faMugHot,
+    faDollarSign,
+    faChevronDown,
+    faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
@@ -110,7 +117,6 @@ const CategorySkeleton: React.FC = () => (
 );
 
 const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, isLoading }) => {
-    // Sort templates by template_id in descending order
     const sortedTemplates = [...templates].sort((a, b) => b.template_id - a.template_id);
 
     return (
@@ -197,7 +203,8 @@ const Home: React.FC = () => {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false);
-    const [isAnimating, setIsAnimating] = useState<boolean>(false); // State để điều khiển hiệu ứng
+    const [isAnimating, setIsAnimating] = useState<boolean>(false);
+    const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false); // Track search bar focus
 
     useEffect(() => {
         AOS.init({
@@ -274,6 +281,20 @@ const Home: React.FC = () => {
         }
     };
 
+    const handleClearSearch = () => {
+        setSearchQuery('');
+        setFilteredTemplates(allTemplates);
+        setSelectedCategoryId(null);
+    };
+
+    const handleSearchFocus = () => {
+        setIsSearchFocused(true);
+    };
+
+    const handleSearchBlur = () => {
+        setIsSearchFocused(false);
+    };
+
     const handleCategoryClick = (categoryId: number) => {
         setSelectedCategoryId(categoryId);
         const filtered = allTemplates.filter((template) => template.category.category_id === categoryId);
@@ -320,12 +341,11 @@ const Home: React.FC = () => {
         return a.localeCompare(b);
     });
 
-    // Hàm xử lý khi nhấn nút "Tạo thiệp"
     const handleCreateClick = () => {
         setIsAnimating(true);
         setTimeout(() => {
             setIsAnimating(false);
-        }, 3000); // Quay lại trạng thái ban đầu sau 3 giây
+        }, 3000);
     };
 
     return (
@@ -334,7 +354,7 @@ const Home: React.FC = () => {
                 <header className={styles.header}>
                     <h1 className={styles.header_title}>Bạn thích mẫu thiệp như nào ?</h1>
                     <div className={styles.wrapper_expend}>
-                        <div className={styles.search_bar}>
+                        <div className={`${styles.search_bar} ${isSearchFocused ? styles.search_bar_expanded : ''}`}>
                             <input
                                 type="text"
                                 placeholder="Tìm kiếm theo Tên, loại, template...."
@@ -342,7 +362,14 @@ const Home: React.FC = () => {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyPress={handleKeyPress}
+                                onFocus={handleSearchFocus}
+                                onBlur={handleSearchBlur}
                             />
+                            {searchQuery && (
+                                <span className={styles.clear_icon} onClick={handleClearSearch}>
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </span>
+                            )}
                             <span className={styles.search_icon} onClick={handleSearch}>
                                 <FontAwesomeIcon icon={faSearch} />
                             </span>
@@ -389,7 +416,6 @@ const Home: React.FC = () => {
 
                 <Notifications />
 
-                {/* Những con số biết nói với CountUp */}
                 <div className={styles.statsSection} data-aos="fade-up">
                     <h2 className={styles.statsTitle}>Những con số biết nói</h2>
                     <p className={styles.statsDescription}>
@@ -399,7 +425,7 @@ const Home: React.FC = () => {
                     <div className={styles.statsGrid}>
                         <div className={styles.statItem} data-aos="fade-up" data-aos-delay="200">
                             <span className={styles.statNumber}>
-                                <CountUp end={217}  duration={2.5} />
+                                <CountUp end={217} duration={2.5} />
                             </span>
                             <span className={styles.statLabel}>Thiệp được tạo</span>
                         </div>
@@ -443,7 +469,6 @@ const Home: React.FC = () => {
                     )}
                 </div>
 
-                {/* Ưu điểm */}
                 <div className={styles.advantage}>
                     <span data-aos="fade-in" data-aos-delay="200">
                         Ưu điểm
@@ -497,7 +522,6 @@ const Home: React.FC = () => {
 
                 <FeatureCard />
 
-                {/* Câu hỏi thường gặp */}
                 <div className={styles.faqSection}>
                     <div className={styles.faqSection_flex}>
                         <div className={styles.faqSection_box}>
