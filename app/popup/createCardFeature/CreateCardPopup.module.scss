@@ -33,7 +33,7 @@
             background: rgb(245, 242, 233, 0.5);
             padding: 2rem;
             border-radius: 2rem;
-            height: 64rem;
+            // height: 64rem;
             overflow-y: scroll;
 
             &::-webkit-scrollbar {
@@ -44,7 +44,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 2rem;
+                margin-bottom: 1rem;
 
                 .brand {
                     font-size: 2rem;
@@ -563,14 +563,13 @@
         .wrapper_mobile {
             background: #fff;
             padding: 2rem;
-            border-top-left-radius: 3rem;
-            border-top-right-radius: 3rem;
+            border-radius: 2rem;
             height: auto;
             overflow-y: scroll;
             position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            left: 3%;
+            right: 3%;
+            bottom: 1%;
             z-index: 999;
             transition: opacity 0.3s ease;
             height: 30rem;
@@ -586,7 +585,7 @@
                 margin-bottom: 2rem;
 
                 .brand {
-                    font-size: 2rem;
+                    font-size: 1.8rem;
                     font-weight: bold;
                     color: #333;
                 }
