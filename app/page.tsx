@@ -27,6 +27,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
+import GeminiButton from './feedback/Auto_Reply/gemini_button/Gemini';
+import GeminiReply from './feedback/Auto_Reply/genmini_reply/GenimiReply';
 
 interface Template {
     template_id: number;
@@ -205,6 +207,15 @@ const Home: React.FC = () => {
     const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false);
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false); // Track search bar focus
+    const [isReplyVisible, setIsReplyVisible] = useState<boolean>(false);
+
+    const openReply = () => {
+        setIsReplyVisible(true);
+    };
+
+    const closeReply = () => {
+        setIsReplyVisible(false);
+    };
 
     useEffect(() => {
         AOS.init({
@@ -588,6 +599,8 @@ const Home: React.FC = () => {
                     </div>
                 </div>
                 <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupportPopup} />
+                <GeminiButton onClick={openReply} />
+                {isReplyVisible && <GeminiReply onClose={closeReply} />}
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}
         </main>
