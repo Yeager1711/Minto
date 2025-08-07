@@ -206,6 +206,20 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         }, 300);
     };
 
+    const formatText = (text: string): string => {
+        return (
+            text
+                // Thêm xuống dòng sau dấu :
+                .replace(/:\s*/g, ':\n')
+                // Thêm xuống dòng sau dấu *
+                .replace(/\*\s*/g, '\n• ')
+                // Thêm xuống dòng trước các số thứ tự (1. 2. 3.)
+                .replace(/(?<!\n)(\d+\.\s)/g, '\n$1')
+                // Thêm xuống dòng trước dấu gạch đầu dòng
+                .replace(/(?<!\n)(-\s)/g, '\n$1')
+        );
+    };
+
     return (
         <div className={`${styles.gemini_reply} ${isClosing ? styles.closing : styles.opening}`}>
             <button className={styles.close_button} onClick={handleClose} aria-label="Close chat">
@@ -291,7 +305,11 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                             )}
                                         </>
                                     ) : (
-                                        <span dangerouslySetInnerHTML={{ __html: message.displayedText || '' }} />
+                                        <span
+                                            dangerouslySetInnerHTML={{
+                                                __html: formatText(message.displayedText || '').replace(/\n/g, '<br/>'),
+                                            }}
+                                        />
                                     )}
                                 </div>
                             </div>
