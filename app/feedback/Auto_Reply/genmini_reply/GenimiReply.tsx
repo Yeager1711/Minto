@@ -1,21 +1,49 @@
 'use client';
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
-import styles from './gemini_reply.module.css';
 import { IoSend } from 'react-icons/io5';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import styles from './gemini_reply.module.css';
+
+// Define interfaces for type safety
+interface Template {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    status: string;
+    features: string[];
+    imageSource?: string;
+    music?: string;
+    imageUrl?: string;
+}
 
 interface Message {
     text: string;
     isUser: boolean;
     displayedText?: string;
+    templates?: Template[];
+    displayedTemplates?: number; // Số template đã hiển thị
 }
 
 interface GeminiReplyProps {
     onClose: () => void;
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
+interface Env {
+    NEXT_PUBLIC_APP_API_BASE_URL?: string;
+}
+
+declare const process: {
+    env: Env;
+};
+
+const apiUrl: string | undefined = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -24,22 +52,21 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const [error, setError] = useState<string | null>(null);
     const [isClosing, setIsClosing] = useState<boolean>(false);
 
-    // Hàm gửi câu hỏi đến API
-    const handleSend = async () => {
-        if (!input.trim()) return;
+    const handleSend = async (): Promise<void> => {
+        if (!input.trim() || !apiUrl) return;
 
-        setMessages([...messages, { text: input, isUser: true }]);
+        setMessages((prev) => [...prev, { text: input, isUser: true }]);
         setInput('');
         setIsLoading(true);
         setError(null);
 
         try {
-            const accessToken = localStorage.getItem('accessToken');
+            const accessToken: string | null = localStorage.getItem('accessToken');
             if (!accessToken) {
                 throw new Error('Bạn cần đăng nhập để sử dụng Minto Bot!');
             }
 
-            const response = await axios.post(
+            const response = await axios.post<{ response: string | Template[] }>(
                 `${apiUrl}/ai/ask-minto`,
                 { question: input },
                 {
@@ -50,12 +77,27 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 }
             );
 
-            setMessages((prev) => [...prev, { text: response.data.response, isUser: false, displayedText: '' }]);
+            const responseData = response.data.response;
+            let templates: Template[] | undefined = undefined;
+
+            if (Array.isArray(responseData)) {
+                templates = responseData;
+                console.log('Received templates:', JSON.stringify(templates, null, 2)); // Debug log
+            }
+
+            setMessages((prev) => [
+                ...prev,
+                {
+                    text: templates ? '' : (responseData as string),
+                    isUser: false,
+                    displayedText: '',
+                    templates,
+                    displayedTemplates: templates ? 0 : undefined,
+                },
+            ]);
         } catch (err: unknown) {
-            // Use `unknown` instead of `AxiosError`
-            let errorMessage = 'Có lỗi xảy ra khi gọi Minto Bot. Vui lòng thử lại!';
+            let errorMessage: string = 'Có lỗi xảy ra khi gọi Minto Bot. Vui lòng thử lại!';
             if (err instanceof AxiosError) {
-                // Type narrowing
                 if (err.response) {
                     if (err.response.status === 401) {
                         errorMessage = 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!';
@@ -68,7 +110,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                     errorMessage = err.message;
                 }
             } else if (err instanceof Error) {
-                // Handle non-Axios errors
                 errorMessage = err.message;
             }
 
@@ -79,7 +120,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         }
     };
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSend();
@@ -89,50 +130,85 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         }
     };
 
-    // Hiệu ứng gõ chữ
+    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+        setInput(e.target.value);
+    };
+
     useEffect(() => {
-        const lastMessage = messages[messages.length - 1];
-        if (lastMessage && !lastMessage.isUser && lastMessage.displayedText !== lastMessage.text) {
-            const timer = setInterval(() => {
-                setMessages((prev) => {
-                    const newMessages = [...prev];
-                    const currentMessage = newMessages[newMessages.length - 1];
-                    if (currentMessage.displayedText!.length < currentMessage.text.length) {
-                        currentMessage.displayedText = currentMessage.text.slice(
-                            0,
-                            currentMessage.displayedText!.length + 1
-                        );
+        const lastMessage: Message | undefined = messages[messages.length - 1];
+        if (lastMessage && !lastMessage.isUser) {
+            let timer: NodeJS.Timeout;
+            const startTypingEffect = () => {
+                timer = setInterval(() => {
+                    setMessages((prev) => {
+                        const newMessages = [...prev];
+                        const currentMessage = newMessages[newMessages.length - 1];
+
+                        // Hiệu ứng chạm chậm cho text
+                        if (!currentMessage.templates && currentMessage.displayedText !== currentMessage.text) {
+                            if (currentMessage.displayedText!.length < currentMessage.text.length) {
+                                currentMessage.displayedText = currentMessage.text.slice(
+                                    0,
+                                    currentMessage.displayedText!.length + 1
+                                );
+                                return newMessages;
+                            }
+                        }
+
+                        // Hiệu ứng chạm chậm cho templates
+                        if (currentMessage.templates && currentMessage.displayedTemplates !== undefined) {
+                            if (currentMessage.displayedTemplates! < currentMessage.templates.length) {
+                                currentMessage.displayedTemplates = Math.min(
+                                    currentMessage.displayedTemplates! + 1,
+                                    currentMessage.templates.length
+                                );
+                                return newMessages;
+                            }
+                        }
+
+                        // Dừng timer khi hoàn thành
+                        if (
+                            (!currentMessage.templates || currentMessage.displayedText === currentMessage.text) &&
+                            (!currentMessage.templates ||
+                                currentMessage.displayedTemplates === currentMessage.templates.length)
+                        ) {
+                            clearInterval(timer);
+                        }
                         return newMessages;
-                    } else {
-                        clearInterval(timer);
-                        return prev;
-                    }
-                });
-            }, 10);
+                    });
+                }, 10); // Tốc độ gõ chữ (50ms cho mỗi ký tự hoặc template)
+            };
+
+            startTypingEffect();
             return () => clearInterval(timer);
         }
     }, [messages]);
 
-    // Tự động cuộn xuống tin nhắn mới nhất
     useEffect(() => {
         const answerDiv = document.querySelector(`.${styles.answer}`);
         if (answerDiv) {
-            answerDiv.scrollTop = answerDiv.scrollHeight;
+            // Only scroll to bottom if the user is near the bottom
+            const isNearBottom = answerDiv.scrollHeight - answerDiv.scrollTop <= answerDiv.clientHeight + 100;
+            if (isNearBottom) {
+                answerDiv.scrollTo({
+                    top: answerDiv.scrollHeight,
+                    behavior: 'smooth',
+                });
+            }
         }
     }, [messages, isLoading, error]);
 
-    // Handle close with animation
-    const handleClose = () => {
+    const handleClose = (): void => {
         setIsClosing(true);
         setTimeout(() => {
             onClose();
-            setIsClosing(false); // Reset for next open
-        }, 300); // Match animation duration
+            setIsClosing(false);
+        }, 300);
     };
 
     return (
         <div className={`${styles.gemini_reply} ${isClosing ? styles.closing : styles.opening}`}>
-            <button className={styles.close_button} onClick={handleClose}>
+            <button className={styles.close_button} onClick={handleClose} aria-label="Close chat">
                 ✕
             </button>
             <div className={styles.model}>
@@ -157,6 +233,63 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 <div className={styles.messageContent}>
                                     {message.isUser ? (
                                         message.text
+                                    ) : message.templates ? (
+                                        <>
+                                            <span>
+                                                Mình đã tìm thấy một vài template thiệp cưới phù hợp với sở thích của
+                                                bạn:
+                                            </span>
+                                            <Swiper
+                                                modules={[Navigation, Pagination]}
+                                                spaceBetween={10}
+                                                pagination={{ clickable: true }}
+                                                slidesPerView={2.5}
+                                                className={styles.swiper}
+                                            >
+                                                {message.templates
+                                                    .slice(0, message.displayedTemplates || 0)
+                                                    .map((template, idx) => (
+                                                        <SwiperSlide key={idx} className={styles.swiperSlide}>
+                                                            <div className={styles.templateCard}>
+                                                                <div className={styles.image}>
+                                                                    {template.imageSource || template.imageUrl ? (
+                                                                        <img
+                                                                            src={
+                                                                                template.imageSource ||
+                                                                                template.imageUrl
+                                                                            }
+                                                                            alt={template.name}
+                                                                            className={styles.templateImage}
+                                                                        />
+                                                                    ) : (
+                                                                        <div className={styles.imagePlaceholder}>
+                                                                            Không có ảnh
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+
+                                                                <h3>{template.name}</h3>
+                                                                <p>
+                                                                    <strong>Giá:</strong>{' '}
+                                                                    {new Intl.NumberFormat('vi-VN', {
+                                                                        style: 'currency',
+                                                                        currency: 'VND',
+                                                                    }).format(template.price)}
+                                                                </p>
+
+                                                                {template.music && (
+                                                                    <p>
+                                                                        <strong>Music:</strong> {template.music}
+                                                                    </p>
+                                                                )}
+                                                            </div>
+                                                        </SwiperSlide>
+                                                    ))}
+                                            </Swiper>
+                                            {message.displayedTemplates === message.templates?.length && (
+                                                <span>Bạn muốn biết thêm chi tiết về mẫu nào không? 😊</span>
+                                            )}
+                                        </>
                                     ) : (
                                         <span dangerouslySetInnerHTML={{ __html: message.displayedText || '' }} />
                                     )}
@@ -178,9 +311,9 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                     </div>
                     <div className={styles.input_question}>
                         <textarea
-                            placeholder="Hỏi Minto Bot ..."
+                            placeholder="Ask me anything..."
                             value={input}
-                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInput(e.target.value)}
+                            onChange={handleInputChange}
                             onKeyPress={handleKeyPress}
                             disabled={isLoading}
                             rows={3}
@@ -191,10 +324,12 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 borderRadius: '4px',
                             }}
                             maxLength={1000}
+                            aria-label="Chat input"
                         />
                         <IoSend
                             onClick={handleSend}
                             className={`${styles.sendIcon} ${isLoading ? styles.disabled : ''}`}
+                            aria-label="Send message"
                         />
                     </div>
                 </div>
