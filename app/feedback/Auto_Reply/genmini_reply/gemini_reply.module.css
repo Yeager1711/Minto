@@ -19,16 +19,19 @@
   animation: glowWave 4s ease-in-out infinite;
   border: 0.1rem solid #dbdbdb;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  /* Initial state for translateIn */
+  transform: translateY(5rem) scale(0.8);
+  opacity: 0;
 }
 
 /* Animation for opening */
 .opening {
-  animation: scaleIn 0.3s ease-out forwards;
+  animation: translateIn 0.4s ease-out forwards;
 }
 
 /* Animation for closing */
 .closing {
-  animation: scaleOut 0.3s ease-out forwards;
+  animation: translateOut 0.5s ease-out forwards;
 }
 
 .close_button {
@@ -44,7 +47,6 @@
   color: #333;
   cursor: pointer;
   transition: background 0.3s ease;
-  cursor: pointer;
   z-index: 9999999 !important;
 }
 
@@ -234,24 +236,26 @@
   cursor: not-allowed;
 }
 
-/* Scale animations */
-@keyframes scaleIn {
+/* Combined translate and scale animations */
+@keyframes translateIn {
   from {
-    transform: scale(0.8);
+    transform: translateY(20rem) scale(0);
     opacity: 0;
   }
   to {
-    transform: scale(1);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }
-@keyframes scaleOut {
+@keyframes translateOut {
   from {
-    transform: scale(1);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
   to {
-    transform: scale(0.8);
+    transform: translateY(35rem) scale(0);
+    width: 0;
+    height: 0;
     opacity: 0;
   }
 }
