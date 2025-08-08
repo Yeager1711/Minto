@@ -233,8 +233,10 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         }
     }, [messages]);
 
+    const answerRef = React.useRef<HTMLDivElement | null>(null);
+
     useEffect(() => {
-        const answerDiv = document.querySelector(`.${styles.answer}`);
+        const answerDiv = answerRef.current;
         if (!answerDiv) return;
 
         const handleScroll = () => {
@@ -247,13 +249,15 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     }, []);
 
     useEffect(() => {
-        const answerDiv = document.querySelector(`.${styles.answer}`);
-        if (answerDiv && !isUserScrollingUp) {
-            answerDiv.scrollTo({
-                top: answerDiv.scrollHeight,
+        if (!answerRef.current || isUserScrollingUp) return;
+
+        // Đợi browser render xong layout
+        requestAnimationFrame(() => {
+            answerRef.current?.scrollTo({
+                top: answerRef.current.scrollHeight,
                 behavior: 'smooth',
             });
-        }
+        });
     }, [messages, isLoading, error, isUserScrollingUp]);
 
     const formatText = (text: string): string => {
@@ -287,7 +291,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
             </button>
             <div className={styles.model}>
                 <div className={styles.wrapper}>
-                    <div className={styles.answer}>
+                    <div className={styles.answer} ref={answerRef}>
                         {messages.length === 0 && (
                             <div className={`${styles.message} ${styles.botMessage}`}>
                                 <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
