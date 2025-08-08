@@ -40,9 +40,10 @@ interface PopupTemplate {
 }
 
 interface Message {
+    id: string;
     text: string;
     isUser: boolean;
-    displayedText?: string;
+    isTyping?: boolean; // mới: đánh dấu message còn đang typing
     templates?: GeminiTemplate[];
     displayedTemplates?: number; // Số template đã hiển thị
 }
@@ -70,6 +71,22 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const [isUserScrollingUp, setIsUserScrollingUp] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<PopupTemplate | null>(null);
 
+    // refs
+    const answerRef = React.useRef<HTMLDivElement | null>(null);
+    const textSpanRefs = React.useRef<Record<string, HTMLSpanElement | null>>({});
+    const typingTimerRef = React.useRef<number | null>(null);
+
+    // utils
+    const genId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+    const escapeHtml = (unsafe: string) =>
+        unsafe
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+
     const mapToPopupTemplate = (template: GeminiTemplate): PopupTemplate => ({
         template_id: template.id,
         name: template.name,
@@ -90,7 +107,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
     const handleClosePopup = () => {
         setSelectedProduct(null);
-        // Only closes the Popup, does not affect GeminiReply
     };
 
     const handleCloseGeminiReply = (): void => {
@@ -104,7 +120,8 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const handleSend = async (): Promise<void> => {
         if (!input.trim() || !apiUrl) return;
 
-        setMessages((prev) => [...prev, { text: input, isUser: true }]);
+        const userId = genId();
+        setMessages((prev) => [...prev, { id: userId, text: input, isUser: true }]);
         setInput('');
         setIsLoading(true);
         setError(null);
@@ -134,12 +151,15 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 console.log('Received templates:', JSON.stringify(templates, null, 2)); // Debug log
             }
 
+            // Bot message: set isTyping true so effect will type it (either DOM-typing or template revealing)
+            const botId = genId();
             setMessages((prev) => [
                 ...prev,
                 {
+                    id: botId,
                     text: templates ? '' : (responseData as string),
                     isUser: false,
-                    displayedText: '',
+                    isTyping: true,
                     templates,
                     displayedTemplates: templates ? 0 : undefined,
                 },
@@ -163,7 +183,8 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
             }
 
             setError(errorMessage);
-            setMessages((prev) => [...prev, { text: errorMessage, isUser: false, displayedText: '' }]);
+            const errId = genId();
+            setMessages((prev) => [...prev, { id: errId, text: errorMessage, isUser: false, isTyping: false }]);
         } finally {
             setIsLoading(false);
         }
@@ -183,58 +204,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         setInput(e.target.value);
     };
 
-    useEffect(() => {
-        const lastMessage: Message | undefined = messages[messages.length - 1];
-        if (lastMessage && !lastMessage.isUser) {
-            let timer: NodeJS.Timeout;
-            const startTypingEffect = () => {
-                timer = setInterval(() => {
-                    setMessages((prev) => {
-                        const newMessages = [...prev];
-                        const currentMessage = newMessages[newMessages.length - 1];
-
-                        // Hiệu ứng chạm chậm cho text
-                        if (!currentMessage.templates && currentMessage.displayedText !== currentMessage.text) {
-                            if (currentMessage.displayedText!.length < currentMessage.text.length) {
-                                currentMessage.displayedText = currentMessage.text.slice(
-                                    0,
-                                    currentMessage.displayedText!.length + 1
-                                );
-                                return newMessages;
-                            }
-                        }
-
-                        // Hiệu ứng chạm chậm cho templates
-                        if (currentMessage.templates && currentMessage.displayedTemplates !== undefined) {
-                            if (currentMessage.displayedTemplates! < currentMessage.templates.length) {
-                                currentMessage.displayedTemplates = Math.min(
-                                    currentMessage.displayedTemplates! + 1,
-                                    currentMessage.templates.length
-                                );
-                                return newMessages;
-                            }
-                        }
-
-                        // Dừng timer khi hoàn thành
-                        if (
-                            (!currentMessage.templates || currentMessage.displayedText === currentMessage.text) &&
-                            (!currentMessage.templates ||
-                                currentMessage.displayedTemplates === currentMessage.templates.length)
-                        ) {
-                            clearInterval(timer);
-                        }
-                        return newMessages;
-                    });
-                }, 10); // Tốc độ gõ chữ (10ms cho mỗi ký tự hoặc template)
-            };
-
-            startTypingEffect();
-            return () => clearInterval(timer);
-        }
-    }, [messages]);
-
-    const answerRef = React.useRef<HTMLDivElement | null>(null);
-
+    // Auto-scroll handling (kept improved)
     useEffect(() => {
         const answerDiv = answerRef.current;
         if (!answerDiv) return;
@@ -251,14 +221,14 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     useEffect(() => {
         if (!answerRef.current || isUserScrollingUp) return;
 
-        // Đợi browser render xong layout
+        // Đợi browser render xong layout — requestAnimationFrame giúp mượt hơn
         requestAnimationFrame(() => {
             answerRef.current?.scrollTo({
                 top: answerRef.current.scrollHeight,
                 behavior: 'smooth',
             });
         });
-    }, [messages, isLoading, error, isUserScrollingUp]);
+    }, [messages.length, isLoading, error, isUserScrollingUp]);
 
     const formatText = (text: string): string => {
         return (
@@ -273,6 +243,91 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 .replace(/(?<!\n)(-\s)/g, '\n$1')
         );
     };
+
+    // Typing effect for the "last" bot message:
+    // - If templates: reveal templates by incrementing displayedTemplates in state
+    // - Else: perform DOM-based typing into the span ref to avoid re-rendering span
+    const lastMessage = messages.length ? messages[messages.length - 1] : null;
+    const lastMessageId = lastMessage?.id ?? null;
+
+    useEffect(() => {
+        // cleanup previous timer if any
+        if (typingTimerRef.current) {
+            clearInterval(typingTimerRef.current);
+            typingTimerRef.current = null;
+        }
+
+        if (!lastMessage || lastMessage.isUser || !lastMessage.isTyping) return;
+
+        // If this message has templates -> reveal them one by one in state
+        if (lastMessage.templates && lastMessage.templates.length > 0) {
+            typingTimerRef.current = window.setInterval(() => {
+                setMessages((prev) => {
+                    const newMsgs = [...prev];
+                    const idx = newMsgs.findIndex((m) => m.id === lastMessage.id);
+                    if (idx === -1) {
+                        if (typingTimerRef.current) {
+                            clearInterval(typingTimerRef.current);
+                            typingTimerRef.current = null;
+                        }
+                        return prev;
+                    }
+                    const msg = newMsgs[idx];
+                    const current = msg.displayedTemplates ?? 0;
+                    if (current < (msg.templates?.length ?? 0)) {
+                        msg.displayedTemplates = current + 1;
+                        return newMsgs;
+                    } else {
+                        // done, mark isTyping false and clear timer
+                        msg.isTyping = false;
+                        if (typingTimerRef.current) {
+                            clearInterval(typingTimerRef.current);
+                            typingTimerRef.current = null;
+                        }
+                        return newMsgs;
+                    }
+                });
+            }, 250); // tốc độ hiện template (ms)
+            return () => {
+                if (typingTimerRef.current) {
+                    clearInterval(typingTimerRef.current);
+                    typingTimerRef.current = null;
+                }
+            };
+        }
+
+        // Else: plain text -> DOM typing
+        const plain = lastMessage.text || '';
+        let idx = 0;
+        // start after a frame to ensure ref exists
+        requestAnimationFrame(() => {
+            typingTimerRef.current = window.setInterval(() => {
+                idx++;
+                const span = textSpanRefs.current[lastMessage.id];
+                if (span) {
+                    const partial = plain.slice(0, idx);
+                    span.innerHTML = escapeHtml(formatText(partial)).replace(/\n/g, '<br/>');
+                }
+                if (idx >= plain.length) {
+                    // finish
+                    if (typingTimerRef.current) {
+                        clearInterval(typingTimerRef.current);
+                        typingTimerRef.current = null;
+                    }
+                    // mark message as not typing (so future renders will show full HTML)
+                    setMessages((prev) => prev.map((m) => (m.id === lastMessage.id ? { ...m, isTyping: false } : m)));
+                }
+            }, 10); // tốc độ gõ chữ (ms)
+        });
+
+        return () => {
+            if (typingTimerRef.current) {
+                clearInterval(typingTimerRef.current);
+                typingTimerRef.current = null;
+            }
+        };
+        // chỉ chạy khi lastMessageId thay đổi
+    }, [lastMessageId]);
 
     useEffect(() => {
         // Vô hiệu hóa scroll của body khi popup mở
@@ -300,9 +355,10 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 </div>
                             </div>
                         )}
-                        {messages.map((message, index) => (
+
+                        {messages.map((message) => (
                             <div
-                                key={index}
+                                key={message.id}
                                 className={`${styles.message} ${message.isUser ? styles.userMessage : styles.botMessage}`}
                             >
                                 {!message.isUser && (
@@ -310,8 +366,10 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 )}
                                 <div className={styles.messageContent}>
                                     {message.isUser ? (
-                                        message.text
+                                        // user message (plain)
+                                        <span>{message.text}</span>
                                     ) : message.templates ? (
+                                        // templates + swiper (renders only displayedTemplates)
                                         <>
                                             <span>
                                                 Mình đã tìm thấy một vài template thiệp cưới phù hợp với sở thích của
@@ -372,15 +430,35 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                             )}
                                         </>
                                     ) : (
-                                        <span
-                                            dangerouslySetInnerHTML={{
-                                                __html: formatText(message.displayedText || '').replace(/\n/g, '<br/>'),
-                                            }}
-                                        />
+                                        // plain bot text
+                                        <>
+                                            {message.isTyping ? (
+                                                // typing: single span, updated via ref (no rerender of span text)
+                                                <span
+                                                    ref={(el) => {
+                                                        textSpanRefs.current[message.id] = el;
+                                                    }}
+                                                />
+                                            ) : (
+                                                // finished typing: render final HTML once
+                                                <span
+                                                    ref={(el) => {
+                                                        textSpanRefs.current[message.id] = el;
+                                                    }}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: escapeHtml(formatText(message.text || '')).replace(
+                                                            /\n/g,
+                                                            '<br/>'
+                                                        ),
+                                                    }}
+                                                />
+                                            )}
+                                        </>
                                     )}
                                 </div>
                             </div>
                         ))}
+
                         {isLoading && (
                             <div className={`${styles.message} ${styles.botMessage}`}>
                                 <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
@@ -394,6 +472,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                             </div>
                         )}
                     </div>
+
                     <div className={styles.input_question}>
                         <textarea
                             placeholder="Ask me anything..."
