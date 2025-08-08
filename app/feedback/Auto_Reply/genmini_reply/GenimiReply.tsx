@@ -9,9 +9,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import styles from './gemini_reply.module.css';
+import Popup from 'app/popup/template_details/Template_Details';
 
 // Define interfaces for type safety
-interface Template {
+interface GeminiTemplate {
     id: number;
     name: string;
     description: string;
@@ -23,11 +24,26 @@ interface Template {
     imageUrl?: string;
 }
 
+// Interface compatible with Popup component
+interface PopupTemplate {
+    template_id: number;
+    name: string;
+    image_url: string;
+    price: number;
+    description?: string;
+    status: string;
+    link?: string;
+    category: {
+        category_id: number;
+        category_name: string;
+    };
+}
+
 interface Message {
     text: string;
     isUser: boolean;
     displayedText?: string;
-    templates?: Template[];
+    templates?: GeminiTemplate[];
     displayedTemplates?: number; // Số template đã hiển thị
 }
 
@@ -51,6 +67,39 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [isClosing, setIsClosing] = useState<boolean>(false);
+    const [isUserScrollingUp, setIsUserScrollingUp] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<PopupTemplate | null>(null);
+
+    const mapToPopupTemplate = (template: GeminiTemplate): PopupTemplate => ({
+        template_id: template.id,
+        name: template.name,
+        image_url: template.imageSource || template.imageUrl || '/images/fallback.png',
+        price: template.price,
+        description: template.description,
+        status: template.status,
+        link: undefined,
+        category: {
+            category_id: 0, // Default or fallback category ID
+            category_name: 'Unknown', // Default or fallback category name
+        },
+    });
+
+    const handleProductClick = (template: GeminiTemplate) => {
+        setSelectedProduct(mapToPopupTemplate(template));
+    };
+
+    const handleClosePopup = () => {
+        setSelectedProduct(null);
+        // Only closes the Popup, does not affect GeminiReply
+    };
+
+    const handleCloseGeminiReply = (): void => {
+        setIsClosing(true);
+        setTimeout(() => {
+            onClose();
+            setIsClosing(false);
+        }, 300);
+    };
 
     const handleSend = async (): Promise<void> => {
         if (!input.trim() || !apiUrl) return;
@@ -66,7 +115,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 throw new Error('Bạn cần đăng nhập để sử dụng Minto Bot!');
             }
 
-            const response = await axios.post<{ response: string | Template[] }>(
+            const response = await axios.post<{ response: string | GeminiTemplate[] }>(
                 `${apiUrl}/ai/ask-minto`,
                 { question: input },
                 {
@@ -78,7 +127,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
             );
 
             const responseData = response.data.response;
-            let templates: Template[] | undefined = undefined;
+            let templates: GeminiTemplate[] | undefined = undefined;
 
             if (Array.isArray(responseData)) {
                 templates = responseData;
@@ -176,7 +225,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         }
                         return newMessages;
                     });
-                }, 10); // Tốc độ gõ chữ (50ms cho mỗi ký tự hoặc template)
+                }, 10); // Tốc độ gõ chữ (10ms cho mỗi ký tự hoặc template)
             };
 
             startTypingEffect();
@@ -186,25 +235,26 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
     useEffect(() => {
         const answerDiv = document.querySelector(`.${styles.answer}`);
-        if (answerDiv) {
-            // Only scroll to bottom if the user is near the bottom
-            const isNearBottom = answerDiv.scrollHeight - answerDiv.scrollTop <= answerDiv.clientHeight + 100;
-            if (isNearBottom) {
-                answerDiv.scrollTo({
-                    top: answerDiv.scrollHeight,
-                    behavior: 'smooth',
-                });
-            }
-        }
-    }, [messages, isLoading, error]);
+        if (!answerDiv) return;
 
-    const handleClose = (): void => {
-        setIsClosing(true);
-        setTimeout(() => {
-            onClose();
-            setIsClosing(false);
-        }, 300);
-    };
+        const handleScroll = () => {
+            const isAtBottom = answerDiv.scrollHeight - answerDiv.scrollTop - answerDiv.clientHeight < 50;
+            setIsUserScrollingUp(!isAtBottom);
+        };
+
+        answerDiv.addEventListener('scroll', handleScroll);
+        return () => answerDiv.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const answerDiv = document.querySelector(`.${styles.answer}`);
+        if (answerDiv && !isUserScrollingUp) {
+            answerDiv.scrollTo({
+                top: answerDiv.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
+    }, [messages, isLoading, error, isUserScrollingUp]);
 
     const formatText = (text: string): string => {
         return (
@@ -220,9 +270,19 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         );
     };
 
+    useEffect(() => {
+        // Vô hiệu hóa scroll của body khi popup mở
+        document.body.style.overflow = 'hidden';
+
+        // Khôi phục scroll khi popup đóng
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
+
     return (
         <div className={`${styles.gemini_reply} ${isClosing ? styles.closing : styles.opening}`}>
-            <button className={styles.close_button} onClick={handleClose} aria-label="Close chat">
+            <button className={styles.close_button} onClick={handleCloseGeminiReply} aria-label="Close chat">
                 ✕
             </button>
             <div className={styles.model}>
@@ -232,7 +292,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                             <div className={`${styles.message} ${styles.botMessage}`}>
                                 <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
                                 <div className={styles.messageContent}>
-                                    Hi, Tôi là Minto Bot! Bạn cần mình giúp gì về thiệp cưới hay nhận hỷ nào? 😊
+                                    Hi, mình là Minto Bot nè! Bạn cần mình giúp gì về thiệp cưới hay nhận hỷ nào? 😊
                                 </div>
                             </div>
                         )}
@@ -264,7 +324,10 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                     .slice(0, message.displayedTemplates || 0)
                                                     .map((template, idx) => (
                                                         <SwiperSlide key={idx} className={styles.swiperSlide}>
-                                                            <div className={styles.templateCard}>
+                                                            <div
+                                                                className={styles.templateCard}
+                                                                onClick={() => handleProductClick(template)}
+                                                            >
                                                                 <div className={styles.image}>
                                                                     {template.imageSource || template.imageUrl ? (
                                                                         <img
@@ -352,6 +415,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                     </div>
                 </div>
             </div>
+            {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}
         </div>
     );
 };
