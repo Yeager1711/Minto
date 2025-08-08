@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { IoSend } from 'react-icons/io5';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaRegCopy } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -10,6 +12,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import styles from './gemini_reply.module.css';
 import Popup from 'app/popup/template_details/Template_Details';
+import { showToastSuccess } from 'app/Ultils/toast';
 
 // Define interfaces for type safety
 interface GeminiTemplate {
@@ -244,9 +247,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         );
     };
 
-    // Typing effect for the "last" bot message:
-    // - If templates: reveal templates by incrementing displayedTemplates in state
-    // - Else: perform DOM-based typing into the span ref to avoid re-rendering span
     const lastMessage = messages.length ? messages[messages.length - 1] : null;
     const lastMessageId = lastMessage?.id ?? null;
 
@@ -338,6 +338,18 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
             document.body.style.overflow = 'auto';
         };
     }, []);
+
+    // Hàm copy vào clipboard
+    const handleCopy = (text: string) => {
+        navigator.clipboard
+            .writeText(text)
+            .then(() => {
+               showToastSuccess("Đã coppy tọa độ:")
+            })
+            .catch((err) => {
+                console.error('Failed to copy text:', err);
+            });
+    };
 
     return (
         <div className={`${styles.gemini_reply} ${isClosing ? styles.closing : styles.opening}`}>
@@ -433,25 +445,46 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                         // plain bot text
                                         <>
                                             {message.isTyping ? (
-                                                // typing: single span, updated via ref (no rerender of span text)
                                                 <span
                                                     ref={(el) => {
                                                         textSpanRefs.current[message.id] = el;
                                                     }}
                                                 />
                                             ) : (
-                                                // finished typing: render final HTML once
-                                                <span
-                                                    ref={(el) => {
-                                                        textSpanRefs.current[message.id] = el;
-                                                    }}
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: escapeHtml(formatText(message.text || '')).replace(
-                                                            /\n/g,
-                                                            '<br/>'
-                                                        ),
-                                                    }}
-                                                />
+                                                <>
+                                                    {message.text?.includes(
+                                                        'Tọa độ của địa điểm này là (10.762622, 106.660172)'
+                                                    ) ? (
+                                                        <div
+                                                            style={{
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                gap: '8px',
+                                                            }}
+                                                        >
+                                                            <span
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: escapeHtml(
+                                                                        formatText(message.text || '')
+                                                                    ).replace(/\n/g, '<br/>'),
+                                                                }}
+                                                            />
+                                                            <FaRegCopy
+                                                                style={{ cursor: 'pointer' }}
+                                                                title="Copy tọa độ"
+                                                                onClick={() => handleCopy('(10.762622, 106.660172)')}
+                                                            />
+                                                        </div>
+                                                    ) : (
+                                                        <span
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: escapeHtml(
+                                                                    formatText(message.text || '')
+                                                                ).replace(/\n/g, '<br/>'),
+                                                            }}
+                                                        />
+                                                    )}
+                                                </>
                                             )}
                                         </>
                                     )}

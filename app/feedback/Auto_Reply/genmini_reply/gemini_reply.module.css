@@ -187,6 +187,7 @@
   display: flex;
   align-items: center;
   background: rgb(255, 255, 255);
+  z-index: 99999 !important;
 }
 
 .input_question textarea {
@@ -241,10 +242,14 @@
   from {
     transform: translateY(20rem) scale(0);
     opacity: 0;
+    width: 0;
+    height: 0;
   }
   to {
     transform: translateY(0) scale(1);
     opacity: 1;
+    width: 95%;
+    height: 95%;
   }
 }
 @keyframes translateOut {
