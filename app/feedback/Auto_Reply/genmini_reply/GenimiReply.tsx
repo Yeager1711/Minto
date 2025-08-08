@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { IoSend } from 'react-icons/io5';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegCopy } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
