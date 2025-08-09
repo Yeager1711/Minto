@@ -173,7 +173,13 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                     if (err.response.status === 401) {
                         errorMessage = 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!';
                     } else if (err.response.status === 400) {
-                        errorMessage = (err.response.data as { message?: string }).message || 'Câu hỏi không hợp lệ!';
+                        const serverMessage = (err.response.data as { message?: string }).message || '';
+                        if (serverMessage.includes('vulgar[555]')) {
+                            errorMessage =
+                                'Tài khoản của bạn đã bị tạm khóa 24 giờ do sử dụng từ ngữ không phù hợp. Vui lòng liên hệ Admin qua Zalo: 0333 xxxx 892 để được hỗ trợ.';
+                        } else {
+                            errorMessage = serverMessage || 'Câu hỏi không hợp lệ!';
+                        }
                     } else if (err.response.status === 503) {
                         errorMessage = 'Máy chủ của Minto Bot đang bận. Vui lòng thử lại sau vài phút nhé! 😊';
                     }
