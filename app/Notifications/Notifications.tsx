@@ -26,8 +26,26 @@ interface Notification {
 const Discount = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY)
 
 const notifications: Notification[] = [
-    {
+     {
         id: 1,
+        title: (
+            <>
+                Ra mắt tính năng AI
+                <Link href="/" className={styles.link}>
+                    Minto Bot
+                </Link>
+            </>
+        ),
+        period: {
+            from: '15/08/2025',
+        },
+        items: [
+           'Hỏi đáp thắc mắc, những vấn đề trong quá trình sử dụng',
+           'Hướng dẫn và hỗ trợ khách hàng việc lấy tọa độ'
+        ],
+    },
+    {
+        id: 2,
         title: (
             <>
                 Giảm giá {Discount}% cho tài khoản mới tại{' '}
@@ -46,7 +64,7 @@ const notifications: Notification[] = [
         ],
     },
     {
-        id: 2,
+        id: 3,
         title: 'Ra mắt tính năng tạo thẻ nhận Hỷ',
         period: {
             from: '01/06/2025',

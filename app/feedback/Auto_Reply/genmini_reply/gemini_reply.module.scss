@@ -123,6 +123,26 @@
     font-size: 1.3rem;
     line-height: 1.7;
 
+    .cp_coordinates{
+        float: right;
+        padding: .5rem 1rem;
+        border-radius: .5rem;
+        background: #111;
+        color: #fff;
+        display: inline-block;
+        cursor: pointer;
+        font-size: 1.1rem;
+        margin-top: .5rem;
+
+        svg {
+            margin-right: 1rem;
+        }
+    }
+
+    span {
+        display: block;
+    }
+
     .templateCard {
         background: #fff;
         border-radius: 2rem;
@@ -256,7 +276,7 @@
 /* Combined translate and scale animations */
 @keyframes translateIn {
     from {
-        transform: translateY(20rem) scale(0);
+        transform: translateY(60rem) scale(0);
         opacity: 0;
         width: 0;
         height: 0;
@@ -277,7 +297,7 @@
     }
 
     to {
-        transform: translateY(35rem) scale(0);
+        transform: translateY(60rem) scale(0);
         width: 0;
         height: 0;
         opacity: 0;

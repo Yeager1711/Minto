@@ -246,6 +246,13 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         );
     };
 
+    // Hàm trích xuất tọa độ từ văn bản
+    const extractCoordinates = (text: string): string | null => {
+        const coordRegex = /\(\s*([-+]?\d+\.\d+),\s*([-+]?\d+\.\d+)\s*\)/;
+        const match = text.match(coordRegex);
+        return match ? `(${match[1]}, ${match[2]})` : null;
+    };
+
     const lastMessage = messages.length ? messages[messages.length - 1] : null;
     const lastMessageId = lastMessage?.id ?? null;
 
@@ -343,7 +350,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         navigator.clipboard
             .writeText(text)
             .then(() => {
-               showToastSuccess("Đã coppy tọa độ:")
+                showToastSuccess('Đã copy tọa độ:');
             })
             .catch((err) => {
                 console.error('Failed to copy text:', err);
@@ -451,16 +458,8 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                 />
                                             ) : (
                                                 <>
-                                                    {message.text?.includes(
-                                                        'Tọa độ của địa điểm này là (10.762622, 106.660172)'
-                                                    ) ? (
-                                                        <div
-                                                            style={{
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                gap: '8px',
-                                                            }}
-                                                        >
+                                                    {message.text?.includes('Tọa độ từ link bạn cung cấp là') ? (
+                                                        <>
                                                             <span
                                                                 dangerouslySetInnerHTML={{
                                                                     __html: escapeHtml(
@@ -468,12 +467,23 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                                     ).replace(/\n/g, '<br/>'),
                                                                 }}
                                                             />
-                                                            <FaRegCopy
-                                                                style={{ cursor: 'pointer' }}
-                                                                title="Copy tọa độ"
-                                                                onClick={() => handleCopy('(10.762622, 106.660172)')}
-                                                            />
-                                                        </div>
+                                                            {extractCoordinates(message.text) && (
+                                                                <div
+                                                                    className={styles.cp_coordinates}
+                                                                    onClick={() =>
+                                                                        handleCopy(
+                                                                            extractCoordinates(message.text) || ''
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <FaRegCopy
+                                                                        style={{ cursor: 'pointer' }}
+                                                                        title="Copy tọa độ"
+                                                                    />
+                                                                    {extractCoordinates(message.text)}
+                                                                </div>
+                                                            )}
+                                                        </>
                                                     ) : (
                                                         <span
                                                             dangerouslySetInnerHTML={{

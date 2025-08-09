@@ -598,8 +598,12 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupportPopup} />
-                <GeminiButton onClick={openReply} />
+
+            
+                    <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupportPopup} />
+                    <GeminiButton onClick={openReply} />
+              
+
                 {isReplyVisible && <GeminiReply onClose={closeReply} />}
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}

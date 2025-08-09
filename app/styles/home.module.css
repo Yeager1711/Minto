@@ -28,6 +28,7 @@
   margin: 0 auto;
   padding: 2rem;
   border-radius: 1.5rem;
+  position: relative;
 }
 @media (max-width: 1024px) {
   .main .wrapper_main {
@@ -620,6 +621,18 @@
   color: #4f46e5;
   font-size: 1.2rem;
   line-height: 1.8;
+}
+.main .wrapper_main .controller_func {
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  background: #333;
+  border-radius: 2rem;
+  z-index: 999999 !important;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 @keyframes skeleton-loading {
