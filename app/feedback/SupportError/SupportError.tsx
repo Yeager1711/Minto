@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeadset } from '@fortawesome/free-solid-svg-icons';
+import { faHeadset, faXmark } from '@fortawesome/free-solid-svg-icons';
 import styles from './SupportError.module.css';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
@@ -75,7 +75,7 @@ const SupportError: React.FC<SupportErrorProps> = ({ isSupportOpen, toggleSuppor
     return (
         <>
             <div className={styles.support} onClick={toggleSupportPopup}>
-                <FontAwesomeIcon icon={faHeadset} />
+                <FontAwesomeIcon icon={isSupportOpen ? faXmark : faHeadset} />
             </div>
 
             <div className={`${styles.wrapper_support} ${isSupportOpen ? styles.active : ''}`}>
@@ -102,7 +102,9 @@ const SupportError: React.FC<SupportErrorProps> = ({ isSupportOpen, toggleSuppor
                         </option>
                         <option value="Lỗi khi thêm thông tin">Lỗi khi thêm thông tin</option>
                         <option value="Lỗi hệ thống khi thêm ảnh">Lỗi hệ thống khi thêm ảnh</option>
-                        <option value="Lỗi link mời không hiển thị với khách mời">Lỗi link mời không hiển thị với khách mời</option>
+                        <option value="Lỗi link mời không hiển thị với khách mời">
+                            Lỗi link mời không hiển thị với khách mời
+                        </option>
                         <option value="other">Khác</option>
                     </select>
                 </div>

@@ -1,0 +1,61 @@
+.template13 {
+  max-width: 80rem;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #fff;
+  overflow: hidden;
+  border: 0.1rem solid #dbdbdb;
+  position: relative;
+}
+.template13 .wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.template13 .wrapper .wrapper_imageMain {
+  height: 100vh;
+  position: relative;
+  overflow-y: scroll;
+}
+.template13 .wrapper .wrapper_imageMain::-webkit-scrollbar {
+  display: none;
+}
+.template13 .wrapper .wrapper_imageMain .image_top,
+.template13 .wrapper .wrapper_imageMain .image_bottom {
+  height: 55%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .wrapper_imageMain .image_top,
+  .template13 .wrapper .wrapper_imageMain .image_bottom {
+    height: 55%;
+  }
+}
+.template13 .wrapper .wrapper_imageMain .image_top img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -o-object-position: center top;
+     object-position: center top;
+}
+.template13 .wrapper .wrapper_imageMain .image_bottom {
+  margin-top: -10vh;
+  z-index: 0;
+}
+.template13 .wrapper .wrapper_imageMain .image_bottom img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center top;
+     object-position: center top;
+  display: block;
+  mask-image: linear-gradient(to top, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 80%, transparent 100%);
+}/*# sourceMappingURL=13.module.css.map */
