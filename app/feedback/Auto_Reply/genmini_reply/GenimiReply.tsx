@@ -259,11 +259,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         return match ? `(${match[1]}, ${match[2]})` : null;
     };
 
-    const extractLinks = (text: string): string[] => {
-        const urlRegex = /https?:\/\/[^\s<]+/g;
-        return text.match(urlRegex) || [];
-    };
-
     const lastMessage = messages.length ? messages[messages.length - 1] : null;
     const lastMessageId = lastMessage?.id ?? null;
 
