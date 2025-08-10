@@ -45,9 +45,9 @@ interface Message {
     id: string;
     text: string;
     isUser: boolean;
-    isTyping?: boolean; // mới: đánh dấu message còn đang typing
+    isTyping?: boolean;
     templates?: GeminiTemplate[];
-    displayedTemplates?: number; // Số template đã hiển thị
+    displayedTemplates?: number;
 }
 
 interface GeminiReplyProps {
@@ -98,8 +98,8 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         status: template.status,
         link: undefined,
         category: {
-            category_id: 0, // Default or fallback category ID
-            category_name: 'Unknown', // Default or fallback category name
+            category_id: 0,
+            category_name: 'Unknown',
         },
     });
 
@@ -150,10 +150,9 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
             if (Array.isArray(responseData)) {
                 templates = responseData;
-                console.log('Received templates:', JSON.stringify(templates, null, 2)); // Debug log
+                console.log('Received templates:', JSON.stringify(templates, null, 2));
             }
 
-            // Bot message: set isTyping true so effect will type it (either DOM-typing or template revealing)
             const botId = genId();
             setMessages((prev) => [
                 ...prev,
@@ -212,7 +211,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         setInput(e.target.value);
     };
 
-    // Auto-scroll handling (kept improved)
     useEffect(() => {
         const answerDiv = answerRef.current;
         if (!answerDiv) return;
@@ -229,7 +227,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     useEffect(() => {
         if (!answerRef.current || isUserScrollingUp) return;
 
-        // Đợi browser render xong layout — requestAnimationFrame giúp mượt hơn
         requestAnimationFrame(() => {
             answerRef.current?.scrollTo({
                 top: answerRef.current.scrollHeight,
@@ -238,38 +235,39 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         });
     }, [messages.length, isLoading, error, isUserScrollingUp]);
 
-    const formatText = (text: string): string => {
-        return (
-            text
-                // Thay * thành dấu đầu dòng với xuống dòng, nhưng chỉ khi không ở đầu dòng
-                .replace(/(?<!^)\*\s*/g, '\n• ')
-                // Thêm xuống dòng trước số thứ tự (1., 2., 3.), nhưng tránh lặp
-                .replace(/(?<!\n)(\d+\.\s)/g, '\n$1')
-                // Thêm xuống dòng trước dấu gạch đầu dòng (-), nhưng tránh lặp
-                .replace(/(?<!\n)(-\s)/g, '\n$1')
-                // Loại bỏ dấu : không cần thiết ở cuối dòng để tránh xuống dòng thừa
-                .replace(/:\s*$/gm, '')
-                // Loại bỏ các dòng chỉ chứa - hoặc khoảng trắng
-                .replace(/^\s*[-•◦●○■□▲▼*+.→←–—]\s*$/gm, '')
-                // Loại bỏ các xuống dòng liên tiếp để tránh khoảng trống thừa
-                .replace(/\n\s*\n/g, '\n')
-                // Xóa khoảng trắng đầu/cuối
-                .trim()
-        );
+    const cleanTextFromUrls = (text: string): { cleanedText: string; links: string[] } => {
+        const urlRegex = /https?:\/\/[^\s<]+/g;
+        const links = text.match(urlRegex) || [];
+        const cleanedText = text.replace(urlRegex, '').trim();
+        return { cleanedText, links };
     };
 
-    // Hàm trích xuất tọa độ từ văn bản
+    const formatText = (text: string): string => {
+        return text
+            .replace(/(?<!^)\*\s*/g, '\n• ')
+            .replace(/(?<!\n)(\d+\.\s)/g, '\n$1')
+            .replace(/(?<!\n)(-\s)/g, '\n$1')
+            .replace(/:\s*$/gm, '')
+            .replace(/^\s*[-•◦●○■□▲▼*+.→←–—]\s*$/gm, '')
+            .replace(/\n\s*\n/g, '\n')
+            .trim();
+    };
+
     const extractCoordinates = (text: string): string | null => {
         const coordRegex = /\(\s*([-+]?\d+\.\d+),\s*([-+]?\d+\.\d+)\s*\)/;
         const match = text.match(coordRegex);
         return match ? `(${match[1]}, ${match[2]})` : null;
     };
 
+    const extractLinks = (text: string): string[] => {
+        const urlRegex = /https?:\/\/[^\s<]+/g;
+        return text.match(urlRegex) || [];
+    };
+
     const lastMessage = messages.length ? messages[messages.length - 1] : null;
     const lastMessageId = lastMessage?.id ?? null;
 
     useEffect(() => {
-        // cleanup previous timer if any
         if (typingTimerRef.current) {
             clearInterval(typingTimerRef.current);
             typingTimerRef.current = null;
@@ -277,7 +275,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
         if (!lastMessage || lastMessage.isUser || !lastMessage.isTyping) return;
 
-        // If this message has templates -> reveal them one by one in state
         if (lastMessage.templates && lastMessage.templates.length > 0) {
             typingTimerRef.current = window.setInterval(() => {
                 setMessages((prev) => {
@@ -296,7 +293,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         msg.displayedTemplates = current + 1;
                         return newMsgs;
                     } else {
-                        // done, mark isTyping false and clear timer
                         msg.isTyping = false;
                         if (typingTimerRef.current) {
                             clearInterval(typingTimerRef.current);
@@ -305,7 +301,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         return newMsgs;
                     }
                 });
-            }, 250); // tốc độ hiện template (ms)
+            }, 250);
             return () => {
                 if (typingTimerRef.current) {
                     clearInterval(typingTimerRef.current);
@@ -314,10 +310,8 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
             };
         }
 
-        // Else: plain text -> DOM typing
         const plain = lastMessage.text || '';
         let idx = 0;
-        // start after a frame to ensure ref exists
         requestAnimationFrame(() => {
             typingTimerRef.current = window.setInterval(() => {
                 idx++;
@@ -327,15 +321,13 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                     span.innerHTML = escapeHtml(formatText(partial)).replace(/\n/g, '<br/>');
                 }
                 if (idx >= plain.length) {
-                    // finish
                     if (typingTimerRef.current) {
                         clearInterval(typingTimerRef.current);
                         typingTimerRef.current = null;
                     }
-                    // mark message as not typing (so future renders will show full HTML)
                     setMessages((prev) => prev.map((m) => (m.id === lastMessage.id ? { ...m, isTyping: false } : m)));
                 }
-            }, 10); // tốc độ gõ chữ (ms)
+            }, 10);
         });
 
         return () => {
@@ -344,20 +336,15 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 typingTimerRef.current = null;
             }
         };
-        // chỉ chạy khi lastMessageId thay đổi
     }, [lastMessageId]);
 
     useEffect(() => {
-        // Vô hiệu hóa scroll của body khi popup mở
         document.body.style.overflow = 'hidden';
-
-        // Khôi phục scroll khi popup đóng
         return () => {
             document.body.style.overflow = 'auto';
         };
     }, []);
 
-    // Hàm copy vào clipboard
     const handleCopy = (text: string) => {
         navigator.clipboard
             .writeText(text)
@@ -396,10 +383,8 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 )}
                                 <div className={styles.messageContent}>
                                     {message.isUser ? (
-                                        // user message (plain)
                                         <span>{message.text}</span>
                                     ) : message.templates ? (
-                                        // templates + swiper (renders only displayedTemplates)
                                         <>
                                             <span>
                                                 Mình đã tìm thấy một vài template thiệp cưới phù hợp với sở thích của
@@ -460,7 +445,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                             )}
                                         </>
                                     ) : (
-                                        // plain bot text
                                         <>
                                             {message.isTyping ? (
                                                 <span
@@ -497,13 +481,29 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                             )}
                                                         </>
                                                     ) : (
-                                                        <span
-                                                            dangerouslySetInnerHTML={{
-                                                                __html: escapeHtml(
-                                                                    formatText(message.text || '')
-                                                                ).replace(/\n/g, '<br/>'),
-                                                            }}
-                                                        />
+                                                        <>
+                                                            <span
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: escapeHtml(
+                                                                        formatText(
+                                                                            cleanTextFromUrls(message.text).cleanedText
+                                                                        )
+                                                                    ).replace(/\n/g, '<br/>'),
+                                                                }}
+                                                            />
+                                                            {cleanTextFromUrls(message.text).links.map((link, idx) => (
+                                                                <div key={idx}>
+                                                                    <a
+                                                                        href={link}
+                                                                        className={styles.link}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                    >
+                                                                        Nhấn để xem TikTok của Minto
+                                                                    </a>
+                                                                </div>
+                                                            ))}
+                                                        </>
                                                     )}
                                                 </>
                                             )}

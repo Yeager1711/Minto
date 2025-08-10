@@ -130,6 +130,9 @@
 .messageContent span {
   display: block;
 }
+.messageContent .link {
+  color: #5d86fc;
+}
 .messageContent .templateCard {
   background: #fff;
   border-radius: 2rem;

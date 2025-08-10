@@ -58,4 +58,186 @@
   display: block;
   mask-image: linear-gradient(to top, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(to top, black 80%, transparent 100%);
+}
+.template13 .wrapper .familyInfo {
+  background: #fff;
+  max-width: 100%;
+  bottom: 0;
+  z-index: 9999 !important;
+  padding: 10rem 0.5rem 2rem 0.5rem;
+  display: flex;
+  margin-top: -10vh;
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .familyInfo {
+    display: block;
+    padding: 2rem 0.5;
+  }
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 {
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  transform: scale(1);
+  overflow-y: scroll;
+}
+.template13 .wrapper .familyInfo .wrapper_bar2::-webkit-scrollbar {
+  display: none;
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 h2 {
+  font-size: 5rem;
+  text-transform: uppercase;
+  font-family: "Cormorant Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  transform: scale(0.8);
+  margin: 2rem 0;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .familyInfo .wrapper_bar2 h2 {
+    font-size: 4rem;
+  }
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer h1 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  font-family: "Lora", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  transform: scale(0.8);
+  line-height: 1.5;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer h1 {
+    font-size: 1.65rem;
+  }
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer h1 strong {
+  font-family: "Times New Roman", Times, serif;
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer h1 p {
+  font-size: 2rem;
+  transform: scale(0.8);
+  margin: 0 0 3rem 0;
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer h1 p {
+    font-size: 1.5rem;
+  }
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .groom_and_bride {
+  font-family: "Pinyon Script", cursive;
+  margin: 1rem 0;
+  font-size: 12rem;
+  font-weight: 400 !important;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .groom_and_bride {
+    font-size: 10rem;
+  }
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .groom_and_bride {
+    font-size: 7rem;
+  }
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide h3 {
+  font-size: 2rem;
+  font-family: "Cormorant Garamond", serif;
+  transform: scale(0.8);
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide h3 {
+    margin-bottom: 0;
+  }
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide span {
+  font-size: 2.2rem;
+  color: #333;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: "Times New Roman", Times, serif;
+  line-height: 1.5;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  display: block;
+  transform: scale(0.8);
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide span {
+    font-size: 1.7rem;
+  }
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide p {
+  color: #888;
+  font-size: 1.8rem;
+  transform: scale(0.8);
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide p {
+    font-size: 1.4rem;
+  }
+}
+.template13 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide p svg {
+  margin-right: 1rem;
+}
+.template13 .wrapper .groom_story,
+.template13 .wrapper .bride_story {
+  display: flex;
+  align-items: center;
+}
+.template13 .wrapper .groom_story .story_text,
+.template13 .wrapper .bride_story .story_text {
+  flex: 1 1;
+}
+.template13 .wrapper .groom_story .story_text p,
+.template13 .wrapper .bride_story .story_text p {
+  padding: 1rem;
+  line-height: 1.5;
+  font-size: 2.2rem;
+  font-family: "Allura", cursive;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .template13 .wrapper .groom_story .story_text p,
+  .template13 .wrapper .bride_story .story_text p {
+    font-size: 1.9rem;
+  }
+}
+@media (max-width: 480px) {
+  .template13 .wrapper .groom_story .story_text p,
+  .template13 .wrapper .bride_story .story_text p {
+    font-size: 1.4rem;
+  }
+}
+.template13 .wrapper .groom_story .story_image_groom,
+.template13 .wrapper .groom_story .story_image_bride,
+.template13 .wrapper .bride_story .story_image_groom,
+.template13 .wrapper .bride_story .story_image_bride {
+  flex: 1 1;
+}
+.template13 .wrapper .groom_story .story_image_groom img,
+.template13 .wrapper .groom_story .story_image_bride img,
+.template13 .wrapper .bride_story .story_image_groom img,
+.template13 .wrapper .bride_story .story_image_bride img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
 }/*# sourceMappingURL=13.module.css.map */
