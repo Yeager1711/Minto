@@ -1,7 +1,7 @@
 .support {
-  position: fixed;
-  bottom: 5%;
-  right: 6%;
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
   padding: 1rem;
   border-radius: 5rem;
   background: #fff;
@@ -25,26 +25,22 @@
 
 .wrapper_support {
   position: fixed;
-  bottom: 13%;
-  right: 4%;
+  bottom: 110%;
+  right: 5%;
+  transform: translate(-50%, -50%) scale(0.1) translateY(50px);
   background: rgb(255, 255, 255);
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   max-width: 40rem;
-  width: 80%;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   opacity: 0;
   visibility: hidden;
-  transform: scale(0.1) translateY(50px);
-  /* Start scaled down and offset from icon */
   transform-origin: bottom right;
-  /* Origin at the support icon */
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   z-index: 999;
-  /* Below the support icon but above other content */
 }
 .wrapper_support.active {
   opacity: 1;

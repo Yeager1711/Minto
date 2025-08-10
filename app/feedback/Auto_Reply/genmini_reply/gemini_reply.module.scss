@@ -191,11 +191,11 @@
 .messageContent {
     flex: 1;
     font-size: 1.3rem;
-    line-height: 1.7;
+    line-height: 1.9;
 }
 
 .botMessage .messageContent {
-    max-width: 95%;
+    max-width: 100%;
     color: #333;
 }
 
@@ -297,7 +297,7 @@
     }
 
     to {
-        transform: translateY(60rem) scale(0);
+        transform: translateY(-50rem) scale(0);
         width: 0;
         height: 0;
         opacity: 0;

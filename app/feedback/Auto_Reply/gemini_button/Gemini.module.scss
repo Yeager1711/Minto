@@ -1,18 +1,14 @@
 .border_layer {
-    position: fixed;
-    right: 5%;
-    bottom: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
     z-index: 9999 !important;
 }
 
 .gemini_button {
     padding: 1rem;
     font-size: 1.2rem;
-    border-radius: 1rem;
+    border-radius: 5rem;
     border: none;
     cursor: pointer;
     position: relative;
@@ -20,7 +16,7 @@
     transition: transform 0.3s ease;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
     padding: 1rem;
-    background: rgba(255,255,255, .5);
+    border: .1rem solid rgba(255,255,255, .5);
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.05);
 
     svg {

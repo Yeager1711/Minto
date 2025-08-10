@@ -241,14 +241,20 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const formatText = (text: string): string => {
         return (
             text
-                // Thêm xuống dòng sau dấu :
-                .replace(/:\s*/g, ':\n')
-                // Thêm xuống dòng sau dấu *
-                .replace(/\*\s*/g, '\n• ')
-                // Thêm xuống dòng trước các số thứ tự (1. 2. 3.)
+                // Thay * thành dấu đầu dòng với xuống dòng, nhưng chỉ khi không ở đầu dòng
+                .replace(/(?<!^)\*\s*/g, '\n• ')
+                // Thêm xuống dòng trước số thứ tự (1., 2., 3.), nhưng tránh lặp
                 .replace(/(?<!\n)(\d+\.\s)/g, '\n$1')
-                // Thêm xuống dòng trước dấu gạch đầu dòng
+                // Thêm xuống dòng trước dấu gạch đầu dòng (-), nhưng tránh lặp
                 .replace(/(?<!\n)(-\s)/g, '\n$1')
+                // Loại bỏ dấu : không cần thiết ở cuối dòng để tránh xuống dòng thừa
+                .replace(/:\s*$/gm, '')
+                // Loại bỏ các dòng chỉ chứa - hoặc khoảng trắng
+                .replace(/^\s*[-•◦●○■□▲▼*+.→←–—]\s*$/gm, '')
+                // Loại bỏ các xuống dòng liên tiếp để tránh khoảng trống thừa
+                .replace(/\n\s*\n/g, '\n')
+                // Xóa khoảng trắng đầu/cuối
+                .trim()
         );
     };
 

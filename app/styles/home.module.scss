@@ -38,6 +38,32 @@
       padding: 1rem;
     }
 
+    .control_right {
+      position: fixed;
+      right: 6%;
+      bottom: 10%;
+      width: 5rem;
+      height: 12rem;
+      border-radius: 5rem;
+      background: linear-gradient(135deg,
+          #fce1e4 0%,
+          /* Hồng nhạt */
+          #e3d0ff 35%,
+          /* Tím pastel */
+          #c0e6f9 70%,
+          /* Xanh pastel */
+          #fdecc8 100%
+          /* Cam nhạt */
+        );
+
+      backdrop-filter: blur(.5rem);
+      z-index: 9999 !important;
+
+      .wrapper_center {
+        padding: .5rem;
+      }
+    }
+
     .header {
       padding: 2rem 0;
       text-align: center;
