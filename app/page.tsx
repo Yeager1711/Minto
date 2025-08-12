@@ -22,7 +22,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import GeminiButton from './feedback/Auto_Reply/gemini_button/Gemini';
