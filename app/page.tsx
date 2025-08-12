@@ -22,7 +22,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+import { Pagination, Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import GeminiButton from './feedback/Auto_Reply/gemini_button/Gemini';
@@ -148,9 +148,13 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
                         600: { slidesPerView: 2.5, spaceBetween: 15 },
                         1024: { slidesPerView: 3, spaceBetween: 15 },
                     }}
-                    modules={[Autoplay]}
+                    modules={[Autoplay, Navigation]}
                     className={styles.swiper_container}
                     autoplay={{ delay: 100000000000000, disableOnInteraction: false }}
+                    navigation={{
+                        prevEl: '.swiper-button-prev',
+                        nextEl: '.swiper-button-next',
+                    }}
                 >
                     {Array(4)
                         .fill(0)
@@ -159,6 +163,8 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
                                 <ProductCardSkeleton />
                             </SwiperSlide>
                         ))}
+                    <button className="swiper-button-prev"></button>
+                    <button className="swiper-button-next"></button>
                 </Swiper>
             ) : sortedTemplates.length === 0 ? (
                 <div className={styles.no_results}>Không tìm thấy kết quả</div>
@@ -171,9 +177,13 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
                         600: { slidesPerView: 2.2, spaceBetween: 15 },
                         1024: { slidesPerView: 3, spaceBetween: 15 },
                     }}
-                    modules={[Autoplay]}
+                    modules={[Autoplay, Navigation]}
                     className={styles.swiper_container}
                     autoplay={{ delay: 10000, disableOnInteraction: false }}
+                    navigation={{
+                        prevEl: '.swiper-button-prev',
+                        nextEl: '.swiper-button-next',
+                    }}
                 >
                     {sortedTemplates.map((template) => (
                         <SwiperSlide key={template.template_id}>
@@ -186,6 +196,8 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
                             />
                         </SwiperSlide>
                     ))}
+                    <button className="swiper-button-prev"></button>
+                    <button className="swiper-button-next"></button>
                 </Swiper>
             )}
         </div>
