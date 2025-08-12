@@ -22,11 +22,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
-import 'swiper/css/navigation';
 import GeminiButton from './feedback/Auto_Reply/gemini_button/Gemini';
 import GeminiReply from './feedback/Auto_Reply/genmini_reply/GenimiReply';
 
@@ -61,6 +59,23 @@ interface UserProfile {
     };
 }
 
+interface Feedback {
+    feedback_id: number;
+    rating: number;
+    comment: string;
+    submitted_at: string;
+    user: {
+        user_id: number;
+        full_name: string;
+        email: string;
+        phone: string | null;
+        address: string | null;
+        password: string;
+        created_at: string | null;
+    };
+    template: Template; // Align with Template interface
+}
+
 interface ProductCardProps {
     name: string;
     image: string;
@@ -75,6 +90,7 @@ interface ProductListProps {
     isLoading: boolean;
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 const ProductCard: React.FC<ProductCardProps> = ({ name, image, price, status, onClick }) => (
     <div className={styles.card_product} onClick={onClick}>
         <div className={styles.image_products}>
@@ -127,21 +143,14 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
                 <Swiper
                     slidesPerView={1}
                     spaceBetween={10}
-                    pagination={{
-                        dynamicBullets: true,
-                    }}
                     breakpoints={{
                         375: { slidesPerView: 1.5, spaceBetween: 10 },
                         600: { slidesPerView: 2.5, spaceBetween: 15 },
                         1024: { slidesPerView: 3, spaceBetween: 15 },
                     }}
-                    modules={[Pagination, Autoplay, Navigation]}
+                    modules={[Autoplay]}
                     className={styles.swiper_container}
                     autoplay={{ delay: 100000000000000, disableOnInteraction: false }}
-                    navigation={{
-                        prevEl: '.swiper-button-prev',
-                        nextEl: '.swiper-button-next',
-                    }}
                 >
                     {Array(4)
                         .fill(0)
@@ -150,8 +159,6 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
                                 <ProductCardSkeleton />
                             </SwiperSlide>
                         ))}
-                    <button className="swiper-button-prev"></button>
-                    <button className="swiper-button-next"></button>
                 </Swiper>
             ) : sortedTemplates.length === 0 ? (
                 <div className={styles.no_results}>Không tìm thấy kết quả</div>
@@ -159,21 +166,14 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
                 <Swiper
                     slidesPerView={1}
                     spaceBetween={10}
-                    pagination={{
-                        dynamicBullets: true,
-                    }}
                     breakpoints={{
                         375: { slidesPerView: 1.5, spaceBetween: 10 },
                         600: { slidesPerView: 2.2, spaceBetween: 15 },
                         1024: { slidesPerView: 3, spaceBetween: 15 },
                     }}
-                    modules={[Pagination, Autoplay, Navigation]}
+                    modules={[Autoplay]}
                     className={styles.swiper_container}
                     autoplay={{ delay: 10000, disableOnInteraction: false }}
-                    navigation={{
-                        prevEl: '.swiper-button-prev',
-                        nextEl: '.swiper-button-next',
-                    }}
                 >
                     {sortedTemplates.map((template) => (
                         <SwiperSlide key={template.template_id}>
@@ -186,8 +186,6 @@ const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, is
                             />
                         </SwiperSlide>
                     ))}
-                    <button className="swiper-button-prev"></button>
-                    <button className="swiper-button-next"></button>
                 </Swiper>
             )}
         </div>
@@ -206,8 +204,10 @@ const Home: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false);
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
-    const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false); // Track search bar focus
+    const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
     const [isReplyVisible, setIsReplyVisible] = useState<boolean>(false);
+    const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+    const [isFeedbackLoading, setIsFeedbackLoading] = useState<boolean>(false);
 
     const openReply = () => {
         setIsReplyVisible(true);
@@ -228,6 +228,7 @@ const Home: React.FC = () => {
         setIsSupportOpen((prev) => !prev);
     };
 
+    // Fetch templates and categories
     useEffect(() => {
         const fetchTemplatesAndCategories = async () => {
             setIsLoading(true);
@@ -252,6 +253,7 @@ const Home: React.FC = () => {
         fetchTemplatesAndCategories();
     }, [getTemplates, getCategories]);
 
+    // Fetch user profile
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (!accessToken) {
@@ -267,6 +269,32 @@ const Home: React.FC = () => {
         };
         fetchUserProfile();
     }, [getUserProfile]);
+
+    // Fetch feedback data
+    useEffect(() => {
+        const fetchFeedbacks = async () => {
+            setIsFeedbackLoading(true);
+            try {
+                const response = await fetch(`${apiUrl}/user-feedback/all-user-feedback`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch feedbacks');
+                }
+                const data: Feedback[] = await response.json();
+                setFeedbacks(data);
+            } catch {
+                toast.error('Không thể tải phản hồi của khách hàng');
+            } finally {
+                setIsFeedbackLoading(false);
+            }
+        };
+        fetchFeedbacks();
+    }, [accessToken]);
 
     const handleSearch = async () => {
         setIsLoading(true);
@@ -325,6 +353,10 @@ const Home: React.FC = () => {
 
     const handleClosePopup = () => {
         setSelectedProduct(null);
+    };
+
+    const handleFeedbackClick = (template: Template) => {
+        setSelectedProduct(template);
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -532,6 +564,67 @@ const Home: React.FC = () => {
                 </div>
 
                 <FeatureCard />
+
+                <div className={styles.feedbacks_user}>
+                    <h1 className={styles.feedbacksUser_h1} data-aos="fade-up" data-aos-delay="400">
+                        Cảm nhận của khách hàng về các mẫu thiệp
+                    </h1>
+                    {isFeedbackLoading ? (
+                        <Swiper
+                            slidesPerView={1}
+                            spaceBetween={20}
+                            breakpoints={{
+                                375: { slidesPerView: 1.5, spaceBetween: 10 },
+                                600: { slidesPerView: 2.5, spaceBetween: 15 },
+                                1024: { slidesPerView: 3, spaceBetween: 15 },
+                            }}
+                            modules={[Autoplay]}
+                            className={styles.swiper_container}
+                            autoplay={{ delay: 5000, disableOnInteraction: false }}
+                        >
+                            {Array(3)
+                                .fill(0)
+                                .map((_, index) => (
+                                    <SwiperSlide key={index}>
+                                        <div className={styles.box_feedback}>
+                                            <div className={styles.customer_name}>Đang tải...</div>
+                                            <div className={styles.template_name}>Mẫu: Đang tải...</div>
+                                            <p className={styles.comment}>Đang tải phản hồi...</p>
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+                        </Swiper>
+                    ) : feedbacks.length === 0 ? (
+                        <div className={styles.no_results}>Không có phản hồi nào</div>
+                    ) : (
+                        <Swiper
+                            slidesPerView={1}
+                            spaceBetween={20}
+                            loop={true}
+                            breakpoints={{
+                                375: { slidesPerView: 1.5, spaceBetween: 10 },
+                                600: { slidesPerView: 2.5, spaceBetween: 15 },
+                                1024: { slidesPerView: 3, spaceBetween: 15 },
+                            }}
+                            modules={[Autoplay]}
+                            className={styles.swiper_container}
+                            autoplay={{ delay: 5000, disableOnInteraction: false }}
+                        >
+                            {feedbacks.map((fb) => (
+                                <SwiperSlide key={fb.feedback_id}>
+                                    <div
+                                        className={styles.box_feedback}
+                                        onClick={() => handleFeedbackClick(fb.template)}
+                                    >
+                                        <div className={styles.customer_name}>{fb.user.full_name}</div>
+                                        <div className={styles.template_name}>Mẫu: {fb.template.name}</div>
+                                        <p className={styles.comment}>{fb.comment}</p>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    )}
+                </div>
 
                 <div className={styles.faqSection}>
                     <div className={styles.faqSection_flex}>

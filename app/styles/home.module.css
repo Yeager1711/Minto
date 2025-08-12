@@ -591,6 +591,67 @@
   color: #888;
   line-height: 1.5;
 }
+.main .wrapper_main .feedbacks_user {
+  width: 100%;
+  overflow: hidden;
+  padding: 2rem 0;
+  margin-top: 5rem;
+}
+.main .wrapper_main .feedbacks_user .feedbacksUser_h1 {
+  font-size: 2.6rem;
+  font-family: "Poppins", sans-serif;
+  margin: 1.5rem auto;
+  max-width: 80rem;
+  text-align: center;
+  width: 100%;
+}
+.main .wrapper_main .feedbacks_user .feedbacksUser_h1 strong {
+  display: block;
+}
+.main .wrapper_main .feedbacks_user .wrapper_feedback {
+  display: flex;
+  gap: 2rem;
+  animation: slide 15s linear infinite;
+}
+.main .wrapper_main .feedbacks_user .box_feedback {
+  min-width: 3rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1.6rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.main .wrapper_main .feedbacks_user .box_feedback:hover {
+  transform: translateY(-0.5rem);
+  cursor: pointer;
+}
+.main .wrapper_main .feedbacks_user .box_feedback .customer_name {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 4px;
+}
+.main .wrapper_main .feedbacks_user .box_feedback .template_name {
+  font-size: 1.3rem;
+  color: #888;
+  margin-bottom: 10px;
+  padding: 1rem 0 0 1rem;
+}
+.main .wrapper_main .feedbacks_user .box_feedback .comment {
+  font-size: 1.4rem;
+  color: #555;
+  padding: 1rem 0 0 1rem;
+  line-height: 1.4;
+}
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 .main .wrapper_main .faqSection {
   display: flex;
   flex-wrap: wrap;
