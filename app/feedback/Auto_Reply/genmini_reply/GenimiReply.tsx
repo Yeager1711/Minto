@@ -363,7 +363,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                             <div className={`${styles.message} ${styles.botMessage}`}>
                                 <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
                                 <div className={styles.messageContent}>
-                                    Hi, mình là Minto Bot nè! Bạn cần mình giúp gì về thiệp cưới hay nhận hỷ nào? 😊
+                                    Hi, em là Minto Bot nè! Anh/Chị cần em giúp gì đóa? 😊
                                 </div>
                             </div>
                         )}

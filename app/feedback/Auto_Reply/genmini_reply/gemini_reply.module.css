@@ -278,7 +278,7 @@
     opacity: 1;
   }
   to {
-    transform: translateY(-50rem) scale(0);
+    transform: translateY(50rem) scale(0);
     width: 0;
     height: 0;
     opacity: 0;
