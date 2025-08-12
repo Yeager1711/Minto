@@ -368,9 +368,8 @@
   height: 100%;
 }
 .template13 .wrapper .wrapper_imageMain {
-  height: 100vh;
+  height: 150vh;
   position: relative;
-  overflow-y: scroll;
 }
 .template13 .wrapper .wrapper_imageMain::-webkit-scrollbar {
   display: none;
@@ -400,7 +399,7 @@
      object-position: center top;
 }
 .template13 .wrapper .wrapper_imageMain .image_bottom {
-  margin-top: -10vh;
+  margin-top: -15vh;
   z-index: 0;
 }
 .template13 .wrapper .wrapper_imageMain .image_bottom img {
@@ -729,6 +728,8 @@
   inset: 0;
   z-index: 0;
   height: 50vh;
+  overflow: hidden;
+  border-radius: 1rem;
 }
 .template13 .wrapper .count .bg_nen img {
   width: 100%;

@@ -191,10 +191,8 @@ function Template13InviteeName() {
                     groomStory:
                         weddingData?.groomStory ||
                         'Hạnh phúc nhất trên đời không phải là việc gặp được người tuyệt nhất ở những tháng ngày đẹp nhất. Mà là một người sẽ từ từ nhìn mình già đi, không cần ở những năm tháng đẹp nhất, mà là đúng người, đúng thời điểm, nắm tay nhau cùng đi. Anh rất hạnh phúc vì gặp được em – người con gái cho anh biết thế nào là tình yêu, cùng anh về nhà em nhé!',
-                    groomAddress:
-                        weddingData?.groomAddress || '',
-                    brideAddress:
-                        weddingData?.brideAddress || '',
+                    groomAddress: weddingData?.groomAddress || '',
+                    brideAddress: weddingData?.brideAddress || '',
                     groomMapUrl: weddingData?.groomMapUrl || '',
                     brideMapUrl: weddingData?.brideMapUrl || '',
                     venue_groom: card.invitations[0]?.venue_groom || '',
@@ -436,6 +434,7 @@ function Template13InviteeName() {
                     <span>{weddingData.groom}</span>
                     <span>{weddingData.bride}</span>
                 </div>
+
                 <div className={styles.wrapper_animation__Click}>
                     <div className={styles.icon_arrow__left}>
                         <FontAwesomeIcon icon={faChevronRight} className={styles.chevronLeft} />
