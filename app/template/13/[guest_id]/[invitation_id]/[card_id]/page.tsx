@@ -409,20 +409,20 @@ function Template13InviteeName() {
                             className={styles.playPauseIcon}
                         />
                     </div>
-                    <h3>{isPlaying ? 'Đang Phát: Hơn Cả Yêu' : 'Hơn Cả Yêu'}</h3>
+                    <h3>{isPlaying ? 'Đang Phát: Lễ Đường' : 'Lễ Đường'}</h3>
                 </div>
                 {isExpanded && (
                     <div className={styles.expanded_content}>
                         <div className={styles.song_info}>
-                            <h4>Hơn Cả Yêu</h4>
-                            <p>Ca sĩ: Đức Phúc</p>
+                            <h4>Lễ Đường</h4>
+                            <p>Ca sĩ: | KAI ĐINH |</p>
                         </div>
                         <div className={styles.progress_bar}>
                             <div className={styles.progress}></div>
                         </div>
                     </div>
                 )}
-                <audio ref={audioRef} src="/audio/honcayeu.mp3" />
+                <audio ref={audioRef} src="/audio/leduong.mp3" />
             </div>
 
             <div className={`${styles.intro} ${isIntroOpen ? '' : styles.intro_closed}`} onClick={handleIntroClick}>
