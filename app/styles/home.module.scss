@@ -740,13 +740,14 @@
       }
 
       .box_feedback {
-        min-width: 3rem;
         background: white;
-        padding: 1.5rem;
         border-radius: 1.6rem;
         flex-shrink: 0;
         transition: transform 0.3s ease;
         border: 1px solid rgba(0, 0, 0, 0.05);
+        padding: 1rem 0 0 0;
+        padding: 1.5rem;
+
 
         &:hover {
           transform: translateY(-.5rem);
@@ -765,6 +766,9 @@
           color: #888;
           margin-bottom: 10px;
           padding: 1rem 0 0 1rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .comment {

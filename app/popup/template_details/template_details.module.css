@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 99999;
   opacity: 0;
   animation: slideIn 0.4s ease-out forwards;
   -webkit-backdrop-filter: blur(10px);
@@ -305,7 +305,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 99999;
     opacity: 0;
     animation: slideIn 0.3s ease-out forwards;
     -webkit-backdrop-filter: blur(5px);

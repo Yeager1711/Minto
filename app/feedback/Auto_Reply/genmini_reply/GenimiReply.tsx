@@ -26,7 +26,6 @@ interface GeminiTemplate {
     imageUrl?: string;
 }
 
-// Interface compatible with Popup component
 interface PopupTemplate {
     template_id: number;
     name: string;
@@ -362,7 +361,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         {messages.length === 0 && (
                             <div className={`${styles.message} ${styles.botMessage}`}>
                                 <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
-                                <div className={styles.messageContent}>
+                                <div className={styles.messageContent_bot}>
                                     Hi, em là Minto Bot nè! Anh/Chị cần em giúp gì đóa? 😊
                                 </div>
                             </div>
@@ -371,74 +370,18 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         {messages.map((message) => (
                             <div
                                 key={message.id}
-                                className={`${styles.message} ${message.isUser ? styles.userMessage : styles.botMessage}`}
+                                className={`${styles.message} ${
+                                    message.isUser ? styles.userMessage : styles.botMessage
+                                } ${message.templates ? styles.templateMessage : ''}`}
                             >
                                 {!message.isUser && (
                                     <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
                                 )}
-                                <div className={styles.messageContent}>
+                                <div
+                                    className={message.isUser ? styles.messageContent_user : styles.messageContent_bot}
+                                >
                                     {message.isUser ? (
                                         <span>{message.text}</span>
-                                    ) : message.templates ? (
-                                        <>
-                                            <span>
-                                                Mình đã tìm thấy một vài template thiệp cưới phù hợp với sở thích của
-                                                bạn:
-                                            </span>
-                                            <Swiper
-                                                modules={[Navigation, Pagination]}
-                                                spaceBetween={10}
-                                                pagination={{ clickable: true }}
-                                                slidesPerView={2.5}
-                                                className={styles.swiper}
-                                            >
-                                                {message.templates
-                                                    .slice(0, message.displayedTemplates || 0)
-                                                    .map((template, idx) => (
-                                                        <SwiperSlide key={idx} className={styles.swiperSlide}>
-                                                            <div
-                                                                className={styles.templateCard}
-                                                                onClick={() => handleProductClick(template)}
-                                                            >
-                                                                <div className={styles.image}>
-                                                                    {template.imageSource || template.imageUrl ? (
-                                                                        <img
-                                                                            src={
-                                                                                template.imageSource ||
-                                                                                template.imageUrl
-                                                                            }
-                                                                            alt={template.name}
-                                                                            className={styles.templateImage}
-                                                                        />
-                                                                    ) : (
-                                                                        <div className={styles.imagePlaceholder}>
-                                                                            Không có ảnh
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-
-                                                                <h3>{template.name}</h3>
-                                                                <p>
-                                                                    <strong>Giá:</strong>{' '}
-                                                                    {new Intl.NumberFormat('vi-VN', {
-                                                                        style: 'currency',
-                                                                        currency: 'VND',
-                                                                    }).format(template.price)}
-                                                                </p>
-
-                                                                {template.music && (
-                                                                    <p>
-                                                                        <strong>Music:</strong> {template.music}
-                                                                    </p>
-                                                                )}
-                                                            </div>
-                                                        </SwiperSlide>
-                                                    ))}
-                                            </Swiper>
-                                            {message.displayedTemplates === message.templates?.length && (
-                                                <span>Bạn muốn biết thêm chi tiết về mẫu nào không? 😊</span>
-                                            )}
-                                        </>
                                     ) : (
                                         <>
                                             {message.isTyping ? (
@@ -449,55 +392,140 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                 />
                                             ) : (
                                                 <>
-                                                    {message.text?.includes('Tọa độ từ link bạn cung cấp là') ? (
-                                                        <>
-                                                            <span
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: escapeHtml(
-                                                                        formatText(message.text || '')
-                                                                    ).replace(/\n/g, '<br/>'),
-                                                                }}
-                                                            />
-                                                            {extractCoordinates(message.text) && (
-                                                                <div
-                                                                    className={styles.cp_coordinates}
-                                                                    onClick={() =>
-                                                                        handleCopy(
-                                                                            extractCoordinates(message.text) || ''
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <FaRegCopy
-                                                                        style={{ cursor: 'pointer' }}
-                                                                        title="Copy tọa độ"
-                                                                    />
-                                                                    {extractCoordinates(message.text)}
-                                                                </div>
+                                                    {message.templates ? (
+                                                        <div className={styles.messageContent}>
+                                                            <span>
+                                                                Mình đã tìm thấy một vài template thiệp cưới phù hợp với
+                                                                sở thích của bạn:
+                                                            </span>
+                                                            <Swiper
+                                                                modules={[Navigation, Pagination]}
+                                                                spaceBetween={10}
+                                                                slidesPerView={2.5}
+                                                                className={styles.swiper}
+                                                            >
+                                                                {message.templates
+                                                                    .slice(0, message.displayedTemplates || 0)
+                                                                    .map((template, idx) => (
+                                                                        <SwiperSlide
+                                                                            key={idx}
+                                                                            className={styles.swiperSlide}
+                                                                        >
+                                                                            <div
+                                                                                className={styles.templateCard}
+                                                                                onClick={() =>
+                                                                                    handleProductClick(template)
+                                                                                }
+                                                                            >
+                                                                                <div className={styles.image}>
+                                                                                    {template.imageSource ||
+                                                                                    template.imageUrl ? (
+                                                                                        <img
+                                                                                            src={
+                                                                                                template.imageSource ||
+                                                                                                template.imageUrl
+                                                                                            }
+                                                                                            alt={template.name}
+                                                                                            className={
+                                                                                                styles.templateImage
+                                                                                            }
+                                                                                        />
+                                                                                    ) : (
+                                                                                        <div
+                                                                                            className={
+                                                                                                styles.imagePlaceholder
+                                                                                            }
+                                                                                        >
+                                                                                            Không có ảnh
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
+
+                                                                                <h3>{template.name}</h3>
+                                                                                <p>
+                                                                                    <strong>Giá:</strong>{' '}
+                                                                                    {new Intl.NumberFormat('vi-VN', {
+                                                                                        style: 'currency',
+                                                                                        currency: 'VND',
+                                                                                    }).format(template.price)}
+                                                                                </p>
+
+                                                                                {template.music && (
+                                                                                    <p>
+                                                                                        <strong>Music:</strong>{' '}
+                                                                                        {template.music}
+                                                                                    </p>
+                                                                                )}
+                                                                            </div>
+                                                                        </SwiperSlide>
+                                                                    ))}
+                                                            </Swiper>
+                                                            {message.displayedTemplates ===
+                                                                message.templates?.length && (
+                                                                <span>
+                                                                    Bạn muốn biết thêm chi tiết về mẫu nào không? 😊
+                                                                </span>
                                                             )}
-                                                        </>
+                                                        </div>
                                                     ) : (
                                                         <>
-                                                            <span
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: escapeHtml(
-                                                                        formatText(
-                                                                            cleanTextFromUrls(message.text).cleanedText
+                                                            {message.text?.includes(
+                                                                'Tọa độ từ link bạn cung cấp là'
+                                                            ) ? (
+                                                                <>
+                                                                    <span
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: escapeHtml(
+                                                                                formatText(message.text || '')
+                                                                            ).replace(/\n/g, '<br/>'),
+                                                                        }}
+                                                                    />
+                                                                    {extractCoordinates(message.text) && (
+                                                                        <div
+                                                                            className={styles.cp_coordinates}
+                                                                            onClick={() =>
+                                                                                handleCopy(
+                                                                                    extractCoordinates(message.text) ||
+                                                                                        ''
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <FaRegCopy
+                                                                                style={{ cursor: 'pointer' }}
+                                                                                title="Copy tọa độ"
+                                                                            />
+                                                                            {extractCoordinates(message.text)}
+                                                                        </div>
+                                                                    )}
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <span
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: escapeHtml(
+                                                                                formatText(
+                                                                                    cleanTextFromUrls(message.text)
+                                                                                        .cleanedText
+                                                                                )
+                                                                            ).replace(/\n/g, '<br/>'),
+                                                                        }}
+                                                                    />
+                                                                    {cleanTextFromUrls(message.text).links.map(
+                                                                        (link, idx) => (
+                                                                            <div key={idx}>
+                                                                                <a
+                                                                                    href={link}
+                                                                                    className={styles.link}
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                >
+                                                                                    Nhấn để xem TikTok của Minto
+                                                                                </a>
+                                                                            </div>
                                                                         )
-                                                                    ).replace(/\n/g, '<br/>'),
-                                                                }}
-                                                            />
-                                                            {cleanTextFromUrls(message.text).links.map((link, idx) => (
-                                                                <div key={idx}>
-                                                                    <a
-                                                                        href={link}
-                                                                        className={styles.link}
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                    >
-                                                                        Nhấn để xem TikTok của Minto
-                                                                    </a>
-                                                                </div>
-                                                            ))}
+                                                                    )}
+                                                                </>
+                                                            )}
                                                         </>
                                                     )}
                                                 </>
@@ -510,14 +538,17 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
                         {isLoading && (
                             <div className={`${styles.message} ${styles.botMessage}`}>
-                                <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
-                                <div className={styles.messageContent}>Đang trả lời...</div>
+                                <div className={styles.botLogo_thinking}>
+                                    <img src="/images/logo.png" alt="Minto Bot" />
+                                </div>
+
+                                <div style={{ marginTop: '1rem' }}> Đang suy nghĩ....</div>
                             </div>
                         )}
                         {error && (
                             <div className={`${styles.message} ${styles.botMessage}`}>
                                 <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
-                                <div className={styles.messageContent}>{error}</div>
+                                <div className={styles.messageContent_bot}>{error}</div>
                             </div>
                         )}
                     </div>
