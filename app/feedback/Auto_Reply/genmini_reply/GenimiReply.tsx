@@ -359,7 +359,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         navigator.clipboard
             .writeText(text)
             .then(() => {
-                showToastSuccess('Đã copy tọa độ:');
+                showToastSuccess('Đã copy tọa độ');
             })
             .catch((err) => {
                 console.error('Failed to copy text:', err);
@@ -486,7 +486,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                     ) : (
                                                         <>
                                                             {message.text?.includes(
-                                                                'Tọa độ từ link bạn cung cấp là'
+                                                                'Tọa độ từ link Anh/Chị cung cấp là'
                                                             ) ? (
                                                                 <>
                                                                     <span
