@@ -30,8 +30,8 @@ const GeminiButton: React.FC<GeminiButtonProps> = ({ onClick }) => {
                             gradientUnits="userSpaceOnUse"
                         >
                             <stop stopColor="#B900F6"></stop>
-                            <stop offset="0.67" stop-color="#FF3C68" stopOpacity="0.3"></stop>
-                            <stop offset="1" stop-color="#FF6200" stopOpacity="0"></stop>
+                            <stop offset="0.67" stopColor="#FF3C68" stopOpacity="0.3"></stop>
+                            <stop offset="1" stopColor="#FF6200" stopOpacity="0"></stop>
                         </linearGradient>
                         <linearGradient
                             id="paint1_linear_35033_166622"
@@ -42,8 +42,8 @@ const GeminiButton: React.FC<GeminiButtonProps> = ({ onClick }) => {
                             gradientUnits="userSpaceOnUse"
                         >
                             <stop stopColor="#B900F6"></stop>
-                            <stop offset="0.67" stop-color="#FF3C68" stopOpacity="0.3"></stop>
-                            <stop offset="1" stop-color="#FF6200" stopOpacity="0"></stop>
+                            <stop offset="0.67" stopColor="#FF3C68" stopOpacity="0.3"></stop>
+                            <stop offset="1" stopColor="#FF6200" stopOpacity="0"></stop>
                         </linearGradient>
                     </defs>
                 </svg>

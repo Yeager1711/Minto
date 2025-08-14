@@ -110,8 +110,24 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         setSelectedProduct(null);
     };
 
+
     const handleCloseGeminiReply = (): void => {
         setIsClosing(true);
+
+        // Optional: Gửi request end-session
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            axios
+                .post(
+                    `${apiUrl}/ai/end-session`,
+                    {},
+                    {
+                        headers: { Authorization: `Bearer ${accessToken}` },
+                    }
+                )
+                .catch((err) => console.error('Failed to end session:', err));
+        }
+
         setTimeout(() => {
             onClose();
             setIsClosing(false);
@@ -395,8 +411,8 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                     {message.templates ? (
                                                         <div className={styles.messageContent}>
                                                             <span>
-                                                                Mình đã tìm thấy một vài template thiệp cưới phù hợp với
-                                                                sở thích của bạn:
+                                                                Em đã tìm thấy một vài template thiệp cưới phù hợp với
+                                                                sở thích của Anh/Chị:
                                                             </span>
                                                             <Swiper
                                                                 modules={[Navigation, Pagination]}
@@ -462,8 +478,8 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                             </Swiper>
                                                             {message.displayedTemplates ===
                                                                 message.templates?.length && (
-                                                                <span>
-                                                                    Bạn muốn biết thêm chi tiết về mẫu nào không? 😊
+                                                                <span style={{marginTop: '1rem'}}>
+                                                                    Anh/Chị muốn biết thêm chi tiết về mẫu nào không? 😊
                                                                 </span>
                                                             )}
                                                         </div>

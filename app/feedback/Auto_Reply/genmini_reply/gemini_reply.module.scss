@@ -31,13 +31,13 @@
 
     .close_button {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 1.5rem;
+        right: 1.5rem;
         background: rgba(255, 255, 255, 0.2);
         border: none;
         border-radius: 50%;
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 4rem;
+        height: 4rem;
         font-size: 1.5rem;
         color: #333;
         cursor: pointer;
@@ -45,7 +45,8 @@
         z-index: 9999999 !important;
 
         &:hover {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
         }
     }
 
@@ -117,6 +118,7 @@
                             background: #fff;
                             padding: 0.5rem;
                             flex-shrink: 0;
+                            aspect-ratio: 1;
 
                             img {
                                 width: 100%;
@@ -134,19 +136,32 @@
                                 inset: 0;
                                 border-radius: 50%;
                                 padding: 3px;
-                                background: conic-gradient(#a64dff 0deg 40deg,
-                                        transparent 40deg 90deg,
-                                        #4da6ff 90deg 130deg,
-                                        transparent 130deg 180deg,
-                                        #a64dff 180deg 220deg,
-                                        transparent 220deg 270deg,
-                                        #4da6ff 270deg 310deg,
-                                        transparent 310deg 360deg);
-                                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-                                -webkit-mask-composite: xor;
+                                aspect-ratio: 1;
+                                background:
+                                    radial-gradient(farthest-side, #16c5ff 94%, transparent) top/8px 8px no-repeat,
+                                    conic-gradient(transparent 30%, #169eff);
+                                -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 0);
                                 mask-composite: exclude;
-                                animation: spinBorder 3s linear infinite;
+                                animation: spinBorder 1s linear infinite;
                                 z-index: 1;
+                            }
+
+                            @keyframes spinBorder {
+                                100% {
+                                    transform: rotate(360deg);
+                                }
+                            }
+
+                            @keyframes pulseImage {
+
+                                0%,
+                                100% {
+                                    transform: scale(1);
+                                }
+
+                                50% {
+                                    transform: scale(0.85);
+                                }
                             }
                         }
 
@@ -255,22 +270,23 @@
                 bottom: -1%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                max-width: 50rem;
+                max-width: 60rem;
                 width: 88%;
-                padding: 1rem 1rem 1rem 1.5rem;
-                border: 1px solid rgba(102, 153, 255, 0.4);
-                border-radius: 100rem;
-                background: rgba(255, 255, 255, 0.05);
-                box-shadow:
-                    0 0 0.5rem rgba(102, 153, 255, 0.4),
-                    0 0 1rem rgba(102, 153, 255, 0.3),
-                    0 0 2rem rgba(102, 153, 255, 0.2);
-                backdrop-filter: blur(1rem);
+                padding: 1.5rem;
+
+                border-radius: 5rem;
+                border: 1px solid #dbdbdb;
+                // background: rgba(255, 255, 255, 0.05);
+                // box-shadow:
+                //     0 0 0.5rem rgba(102, 153, 255, 0.4),
+                //     0 0 1rem rgba(102, 153, 255, 0.3),
+                //     0 0 2rem rgba(102, 153, 255, 0.2);
+                // backdrop-filter: blur(1rem);
                 transition: all 0.3s ease;
-                animation: siriPulse 4s ease-in-out infinite;
+                // animation: siriPulse 4s ease-in-out infinite;
                 display: flex;
                 align-items: center;
-                background: rgba(255, 255, 255, 1);
+                // background: rgba(255, 255, 255, 1);
                 z-index: 99999 !important;
 
                 textarea {
@@ -324,31 +340,7 @@
     }
 }
 
-@keyframes spinBorder {
-    0% {
-        transform: rotate(0deg);
-    }
 
-    75% {
-        transform: rotate(540deg);
-    }
-
-    100% {
-        transform: rotate(720deg);
-    }
-}
-
-@keyframes pulseImage {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(0.8);
-    }
-}
 
 @keyframes translateIn {
     from {
