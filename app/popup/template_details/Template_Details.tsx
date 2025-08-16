@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './template_details.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faChevronCircleRight, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 
 interface Template {
@@ -31,10 +31,16 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const [isClosing, setIsClosing] = useState(false);
     const [quantity, setQuantity] = useState<number>(1);
     const [inputValue, setInputValue] = useState<string>('1');
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+    const [isContentExpanded, setIsContentExpanded] = useState(true);
+    const [isOpenResponsive, setIsOpenResponsive] = useState(true);
 
     useEffect(() => {
         setIsClosing(false);
+        setIsOpenResponsive(true);
         setInputValue('1');
+        setIsDescriptionExpanded(false);
+        setIsContentExpanded(true);
         return () => {
             setIsClosing(false);
         };
@@ -93,8 +99,8 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const calculateTotalPrice = () => {
         const basePrice = Number(product.price);
         let totalPrice = basePrice;
-        if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST)) {
-            totalPrice += quantity * priceCardDefault;
+        if (quantity > 20) {
+            totalPrice += (quantity - 20) * priceCardDefault;
         }
         return totalPrice;
     };
@@ -109,80 +115,201 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const isReady = product.status.trim() === 'Sẵn sàng';
     const statusClass = isReady ? styles.statusReady : styles.statusUpdating;
 
+    const toggleDescription = () => {
+        setIsDescriptionExpanded(!isDescriptionExpanded);
+    };
+
+    const toggleContent = () => {
+        setIsContentExpanded(!isContentExpanded);
+    };
+
+    const renderDescription = () => {
+        if (!product.description) {
+            return <p>Không có mô tả</p>;
+        }
+
+        const lines = product.description.split('\n');
+        const maxLines = 3;
+        const shouldShowButton = lines.length > maxLines;
+
+        return (
+            <>
+                <div className={`${styles.descriptionWrapper} ${isDescriptionExpanded ? '' : styles.collapsed}`}>
+                    {lines.map((line, index) => (
+                        <p key={index}>{line}</p>
+                    ))}
+                </div>
+                {shouldShowButton && (
+                    <button
+                        className={styles.showMoreButton}
+                        onClick={toggleDescription}
+                        aria-label={isDescriptionExpanded ? 'Thu gọn mô tả' : 'Xem thêm mô tả'}
+                    >
+                        <span>{isDescriptionExpanded ? 'Thu gọn' : 'Xem thêm'}</span>
+                        <FontAwesomeIcon
+                            icon={isDescriptionExpanded ? faChevronUp : faChevronDown}
+                            className={styles.showMoreIcon}
+                        />
+                    </button>
+                )}
+            </>
+        );
+    };
+
     return (
-        <div
-            className={`${styles.popupOverlay} ${isClosing ? styles.closing : ''}`}
-            onClick={handleOverlayClick}
-            role="dialog"
-            aria-labelledby="popupTitle"
-        >
-            <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
-                <FontAwesomeIcon icon={faXmark} />
-            </button>
-            <div className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}>
-                <div className={styles.popupBody}>
-                    <div className={styles.imageSection}>
-                        <div className={styles.popupImageContainer}>
-                            <img
-                                src={product.image_url}
-                                alt={product.name}
-                                className={styles.popupImage}
-                                onError={(e) => (e.currentTarget.src = '/images/fallback.png')}
-                            />
-                        </div>
-                    </div>
-                    <div className={styles.infoSection}>
-                        <div className={styles.popupHeader}>
-                            <h2 id="popupTitle" className={styles.popupTitle}>
-                                {product.name}
-                            </h2>
-                        </div>
-                        <p className={styles.price}>Giá: {formattedPrice}</p>
-                        <div className={styles.description}>
-                            {product.description?.split('\n').map((line, index) => <p key={index}>{line}</p>) || (
-                                <p>Không có mô tả</p>
-                            )}
-                            <p className={statusClass}>{product.status}</p>
-                        </div>
-                        <div className={styles.optionsSection}>
-                            <div className={styles.paperOptions}>
-                                <div className={styles.quantitySelector}>
-                                    <label htmlFor="quantity">Số lượng khách mời:</label>
-                                    <input
-                                        type="number"
-                                        name="quantity"
-                                        id="quantity"
-                                        min="1"
-                                        value={inputValue}
-                                        onChange={handleQuantityChange}
-                                        onBlur={handleBlur}
-                                        className={styles.quantityInput}
-                                    />
-                                    {quantity > 20 && (
-                                        <p className={styles.quantityNote}>Sau 20 lời mời, mỗi lời mời sau đó + 500đ</p>
-                                    )}
-                                </div>
+        <>
+            <div
+                className={`${styles.popupOverlay_pc} ${isClosing ? styles.closing : ''}`}
+                onClick={handleOverlayClick}
+                role="dialog"
+                aria-labelledby="popupTitle"
+            >
+                <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
+                    <FontAwesomeIcon icon={faXmark} />
+                </button>
+                <div className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}>
+                    <div className={styles.popupBody}>
+                        <div className={styles.imageSection}>
+                            <div className={styles.popupImageContainer}>
+                                <img
+                                    src={product.image_url}
+                                    alt={product.name}
+                                    className={styles.popupImage}
+                                    onError={(e) => (e.currentTarget.src = '/images/fallback.png')}
+                                />
                             </div>
-                            <div className={styles.actionButtons}>
-                                <button
-                                    className={styles.customizeButton}
-                                    onClick={handleUseTemplate}
-                                    disabled={!isReady}
-                                    title={
-                                        !isReady
-                                            ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!'
-                                            : 'Sử dụng mẫu này'
-                                    }
-                                    aria-disabled={!isReady}
-                                >
-                                    Sử dụng mẫu
-                                </button>
+                        </div>
+                        <div className={styles.infoSection}>
+                            <div className={styles.popupHeader}>
+                                <h2 id="popupTitle" className={styles.popupTitle}>
+                                    {product.name}
+                                </h2>
+                            </div>
+                            <p className={styles.price}>Giá: {formattedPrice}</p>
+                            <div className={styles.description}>
+                                {product.description?.split('\n').map((line, index) => <p key={index}>{line}</p>) || (
+                                    <p>Không có mô tả</p>
+                                )}
+                                <p className={statusClass}>{product.status}</p>
+                            </div>
+                            <div className={styles.optionsSection}>
+                                <div className={styles.paperOptions}>
+                                    <div className={styles.quantitySelector}>
+                                        <label htmlFor="quantity">Số lượng khách mời:</label>
+                                        <input
+                                            type="number"
+                                            name="quantity"
+                                            id="quantity"
+                                            min="1"
+                                            value={inputValue}
+                                            onChange={handleQuantityChange}
+                                            onBlur={handleBlur}
+                                            className={styles.quantityInput}
+                                        />
+                                        {quantity > 20 && (
+                                            <p className={styles.quantityNote}>
+                                                Sau 20 lời mời, mỗi lời mời sau đó + 500đ
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className={styles.actionButtons}>
+                                    <button
+                                        className={styles.customizeButton}
+                                        onClick={handleUseTemplate}
+                                        disabled={!isReady}
+                                        title={
+                                            !isReady
+                                                ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!'
+                                                : 'Sử dụng mẫu này'
+                                        }
+                                        aria-disabled={!isReady}
+                                    >
+                                        Sử dụng mẫu
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div
+                className={`
+                    ${styles.popupOverlay__reponsive} 
+                    ${isOpenResponsive ? styles.open_reponsive : ''} 
+                    ${isClosing ? styles.closing_reponsive : ''}
+                `}
+            >
+                <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
+                    <FontAwesomeIcon icon={faXmark} />
+                </button>
+
+                <div className={styles.img_template}>
+                    <img
+                        src={product.image_url}
+                        alt={product.name}
+                        onError={(e) => (e.currentTarget.src = '/images/fallback.png')}
+                    />
+                </div>
+
+                <div className={`${styles.content} ${isContentExpanded ? '' : styles.collapsed}`}>
+                    <button
+                        className={styles.expand_toggle}
+                        onClick={toggleContent}
+                        aria-label={isContentExpanded ? 'Thu gọn nội dung' : 'Mở rộng nội dung'}
+                    >
+                        <FontAwesomeIcon icon={isContentExpanded ? faChevronDown : faChevronUp} />
+                    </button>
+                    <div className={styles.wrapper_info}>
+                        <h2 id="popupTitle" className={styles.popupTitle_reponsive}>
+                            {product.name}
+                        </h2>
+                        <div className={`${styles.description} ${isContentExpanded ? '' : styles.hidden}`}>
+                            {renderDescription()}
+                            <p className={statusClass}>{product.status}</p>
+                        </div>
+
+                        <div className={`${styles.paperOptions} ${isContentExpanded ? '' : styles.hidden}`}>
+                            <div className={styles.quantitySelector}>
+                                <label htmlFor="quantity">Số lượng khách mời:</label>
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    id="quantity"
+                                    min="1"
+                                    value={inputValue}
+                                    onChange={handleQuantityChange}
+                                    onBlur={handleBlur}
+                                    className={styles.quantityInput}
+                                />
+                                {quantity > 20 && (
+                                    <p className={styles.quantityNote}>Sau 20 lời mời, mỗi lời mời sau đó + 500đ</p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className={styles.flex_control}>
+                            <div className={styles.price}>
+                                <span>Tổng tiền</span>
+                                <h1>{formattedPrice}</h1>
+                            </div>
+
+                            <div
+                                className={styles.using_template}
+                                onClick={handleUseTemplate}
+                                title={
+                                    !isReady ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!' : 'Sử dụng mẫu này'
+                                }
+                                aria-disabled={!isReady}
+                            >
+                                <FontAwesomeIcon icon={faChevronCircleRight} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 };
 
