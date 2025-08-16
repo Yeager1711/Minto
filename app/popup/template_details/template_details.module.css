@@ -487,7 +487,7 @@
 }
 @keyframes translateIn {
   from {
-    transform: translateY(60rem) scale(0);
+    transform: translateY(-40rem) scale(0);
     opacity: 0;
     width: 0;
     height: 0;
@@ -505,7 +505,7 @@
     opacity: 1;
   }
   to {
-    transform: translateY(50rem) scale(0);
+    transform: translateY(-40rem) scale(0);
     width: 0;
     height: 0;
     opacity: 0;
