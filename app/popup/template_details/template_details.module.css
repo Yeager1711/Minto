@@ -336,7 +336,6 @@
   left: 2%;
   background: rgba(0, 0, 0, 0.9);
   border-radius: 3rem;
-  /* KHÔNG animate padding để mượt hơn */
   padding: 1.5rem 2rem 1rem 2rem;
   overflow: scroll;
   will-change: height, opacity, transform;
@@ -350,6 +349,7 @@
 }
 .popupOverlay__reponsive .content.collapsed {
   animation: collapseContent 0.3s ease forwards;
+  bottom: 2%;
 }
 .popupOverlay__reponsive .content .expand_toggle {
   position: absolute;
@@ -371,7 +371,7 @@
   transform: translate(-50%, -50%) scale(1.1);
 }
 .popupOverlay__reponsive .content .wrapper_info {
-  margin-top: 3rem;
+  margin-top: 2rem;
   transition: opacity 0.5s ease;
 }
 .popupOverlay__reponsive .content .wrapper_info .popupTitle_reponsive {
