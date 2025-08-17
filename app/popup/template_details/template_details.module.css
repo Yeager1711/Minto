@@ -375,7 +375,7 @@
   background: #fff;
   border-radius: 5rem;
   cursor: pointer;
-  transition: 0.3s linear;
+  transition: transform 0.8s;
 }
 .popupOverlay__reponsive .content .expand_toggle svg {
   width: 2rem;
