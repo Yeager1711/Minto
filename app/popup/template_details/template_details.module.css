@@ -436,24 +436,24 @@
 /* Keyframes để ngoài root cho chắc */
 @keyframes expandContent {
   from {
-    height: 14rem;
+    height: 16rem;
     opacity: 1;
     transform: translateY(1rem);
   }
   to {
-    height: 34rem;
+    height: 36rem;
     opacity: 1;
     transform: translateY(0);
   }
 }
 @keyframes collapseContent {
   from {
-    height: 34rem;
+    height: 36rem;
     opacity: 1;
     transform: translateY(0);
   }
   to {
-    height: 14rem;
+    height: 16rem;
     opacity: 1;
     transform: translateY(1rem);
   }
