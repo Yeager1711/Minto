@@ -12,14 +12,13 @@
   -webkit-backdrop-filter: blur(10px);
           backdrop-filter: blur(10px);
   padding: 1.5rem;
+  will-change: transform, opacity;
+  /* Popup content container */
 }
-
 .popupOverlay_pc.closing {
   animation: slideOut 0.4s ease-out forwards;
 }
-
-/* Popup content container */
-.popupContent {
+.popupOverlay_pc .popupContent {
   background: #ffffff;
   padding: 2rem;
   border-radius: 1.25rem;
@@ -28,62 +27,45 @@
   max-width: 100rem;
   transform: translateY(30px);
   overflow: hidden;
+  /* Popup body with flex layout */
 }
-
-.popupContent.closing {
+.popupOverlay_pc .popupContent.closing {
   animation: slideOut 0.4s ease-out forwards;
 }
-
-/* Popup body with flex layout */
-.popupBody {
+.popupOverlay_pc .popupContent .popupBody {
   display: flex;
   gap: 1.5rem;
   max-height: 100vh;
   overflow-y: auto;
   scrollbar-width: none;
 }
-
-.popupBody::-webkit-scrollbar {
+.popupOverlay_pc .popupContent .popupBody::-webkit-scrollbar {
   display: none;
 }
-
-.imageSection {
+.popupOverlay_pc .popupContent .popupBody .imageSection {
   flex: 1;
   max-width: 50rem;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #e2e8f0 #ffffff;
 }
-
-.imageSection::-webkit-scrollbar {
+.popupOverlay_pc .popupContent .popupBody .imageSection::-webkit-scrollbar {
   width: 6px;
 }
-
-.imageSection::-webkit-scrollbar-thumb {
+.popupOverlay_pc .popupContent .popupBody .imageSection::-webkit-scrollbar-thumb {
   background-color: #e2e8f0;
   border-radius: 3px;
 }
-
-.imageSection::-webkit-scrollbar-track {
+.popupOverlay_pc .popupContent .popupBody .imageSection::-webkit-scrollbar-track {
   background: #ffffff;
 }
-
-@media (max-width: 768px) {
-  .imageSection {
-    flex: 1;
-    height: 100%;
-    max-width: 100%;
-    overflow-y: visible;
-  }
-}
-.popupImageContainer {
+.popupOverlay_pc .popupContent .popupBody .imageSection .popupImageContainer {
   width: 100%;
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
-
-.popupImage {
+.popupOverlay_pc .popupContent .popupBody .imageSection .popupImageContainer .popupImage {
   width: 100%;
   height: 100%;
   border-radius: 1rem;
@@ -91,9 +73,7 @@
      object-fit: cover;
   display: block;
 }
-
-/* Info section */
-.infoSection {
+.popupOverlay_pc .popupContent .popupBody .infoSection {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -101,40 +81,14 @@
   max-height: 70vh;
   overflow-y: auto;
   scrollbar-width: none;
+  /* Popup header */
 }
-
-.infoSection::-webkit-scrollbar {
+.popupOverlay_pc .popupContent .popupBody .infoSection::-webkit-scrollbar {
   display: none;
 }
-
-@media (max-width: 768px) {
-  .popupBody {
-    flex-direction: column;
-    max-height: 70rem;
-    overflow-y: auto;
-  }
-  .infoSection {
-    max-height: none;
-    width: 100%;
-    overflow-y: visible;
-    padding: 20px;
-  }
-}
-/* Popup header */
-.popupHeader {
+.popupOverlay_pc .popupContent .popupBody .infoSection .popupHeader {
   text-align: left;
   margin-bottom: 1.25rem;
-}
-
-/* Popup title */
-.popupTitle {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1a202c;
-  margin: 0;
-  font-family: "Inter", system-ui, sans-serif;
-  max-width: 30rem;
-  width: 95%;
 }
 
 /* Price styling */
@@ -285,7 +239,7 @@
 }
 
 .quantitySelector input {
-  font-size: 1.3rem;
+  font-size: 16px;
   padding: 1rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #e2e8f0;
@@ -328,175 +282,168 @@
 }
 
 /* Responsive design for tablet and mobile */
-@media (max-width: 768px) {
-  .popupOverlay_pc {
-    display: none;
-  }
-  .popupOverlay__reponsive {
-    position: fixed;
-    top: 5%;
-    left: 5%;
-    right: 5%;
-    bottom: 5%;
-    max-width: 100%;
-    width: 100%;
-    height: 90%;
-    margin: auto;
-    inset: 0;
-    background: #fff;
-    -webkit-backdrop-filter: blur(0.5rem);
-            backdrop-filter: blur(0.5rem);
-    z-index: 9999 !important;
-    animation: glowWave 4s ease-in-out infinite;
-    border: 0.1rem solid #dbdbdb;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-    transform: translateY(5rem) scale(0.8);
-    opacity: 0;
-  }
-  .popupOverlay__reponsive.open_reponsive {
-    animation: translateIn 0.4s ease-out forwards;
-  }
-  .popupOverlay__reponsive.closing_reponsive {
-    animation: translateOut 0.5s ease-out forwards;
-  }
-  .popupOverlay__reponsive .closeButton {
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.5);
-    width: 4rem;
-    height: 4rem;
-    z-index: 999999 !important;
-  }
-  .popupOverlay__reponsive .closeButton svg {
-    color: #fff;
-    font-size: 2rem;
-  }
-  .popupOverlay__reponsive .img_template {
-    position: relative;
-    height: 100%;
-    overflow-y: scroll;
-    background: #fff;
-  }
-  .popupOverlay__reponsive .img_template::-webkit-scrollbar {
-    display: none;
-  }
-  .popupOverlay__reponsive .img_template img {
-    border-radius: none;
-    -o-object-fit: cover;
-       object-fit: cover;
-    width: 100%;
-    margin-bottom: 16.7rem;
-  }
-  .popupOverlay__reponsive .content {
-    position: absolute;
-    bottom: 1rem;
-    right: 2%;
-    left: 2%;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 3rem 2rem 1rem 2rem;
-    border-radius: 3rem;
-    height: 34rem;
-    overflow: scroll;
-    opacity: 1;
-    transform: translateY(0);
-    transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease, transform 0.6s ease, padding 0.6s ease;
-  }
-  .popupOverlay__reponsive .content::-webkit-scrollbar {
-    display: none;
-  }
-  .popupOverlay__reponsive .content.collapsed {
-    height: 14rem;
-    opacity: 0.98;
-    transform: translateY(1rem);
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
-  .popupOverlay__reponsive .content.collapsed .flex_control .price {
-    margin: 0;
-  }
-  .popupOverlay__reponsive .content .expand_toggle {
-    position: absolute;
-    left: 50%;
-    top: 5%;
-    transform: translate(-50%, -50%);
-    padding: 0.5rem 2rem;
-    background: #fff;
-    border-radius: 5rem;
-    cursor: pointer;
-    transition: transform 0.8s;
-  }
-  .popupOverlay__reponsive .content .expand_toggle svg {
-    width: 2rem;
-    height: 1.5rem;
-    color: #333;
-  }
-  .popupOverlay__reponsive .content .expand_toggle:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-  .popupOverlay__reponsive .content .wrapper_info {
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .hidden {
-    opacity: 0;
-    visibility: hidden;
-    height: 0;
-    margin: 0;
-    padding: 0;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .popupTitle_reponsive {
-    max-width: 100% !important;
-    color: #fff;
-    width: 100%;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .description {
-    color: #fff;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .paperOptions .quantitySelector label {
-    color: #fff;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .flex_control {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .flex_control .price {
-    margin-top: 2rem;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .flex_control .price span {
-    color: #fff;
-    font-weight: 400;
-    text-transform: capitalize;
-    font-size: 1.2rem;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .flex_control .price h1 {
-    margin: 1rem 0;
-    font-size: 3rem;
-    color: #fff;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .flex_control .using_template {
-    cursor: pointer;
-    padding: 1rem 0 1rem 1rem;
-    color: #fff;
-  }
-  .popupOverlay__reponsive .content .wrapper_info .flex_control .using_template svg {
-    width: 6rem;
-    height: 6rem;
-  }
+.popupOverlay__reponsive {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  right: 5%;
+  bottom: 5%;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  inset: 0;
+  background: #fff;
+  -webkit-backdrop-filter: blur(0.5rem);
+          backdrop-filter: blur(0.5rem);
+  z-index: 9999 !important;
+  border: 0.1rem solid #dbdbdb;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  transform: translateY(5rem) scale(0.8);
+  opacity: 0;
+  will-change: transform, opacity;
 }
+.popupOverlay__reponsive.open_reponsive {
+  animation: translateIn 0.5s ease-out forwards;
+}
+.popupOverlay__reponsive.closing_reponsive {
+  animation: translateOut 0.5s ease-out forwards;
+}
+.popupOverlay__reponsive .closeButton {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  width: 4rem;
+  height: 4rem;
+  z-index: 999999 !important;
+}
+.popupOverlay__reponsive .closeButton svg {
+  color: #fff;
+  font-size: 2rem;
+}
+.popupOverlay__reponsive .img_template {
+  position: relative;
+  height: 100%;
+  overflow-y: scroll;
+  background: #fff;
+}
+.popupOverlay__reponsive .img_template::-webkit-scrollbar {
+  display: none;
+}
+.popupOverlay__reponsive .img_template img {
+  border-radius: none;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  margin-bottom: 16.7rem;
+}
+.popupOverlay__reponsive .content {
+  position: absolute;
+  bottom: 1rem;
+  right: 2%;
+  left: 2%;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 3rem 2rem 1rem 2rem;
+  border-radius: 3rem;
+  height: 34rem;
+  overflow: scroll;
+  opacity: 1;
+  transform: translateY(0);
+  transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease, transform 0.6s ease, padding 0.6s ease;
+  will-change: height, opacity, transform, padding;
+}
+.popupOverlay__reponsive .content::-webkit-scrollbar {
+  display: none;
+}
+.popupOverlay__reponsive .content.collapsed {
+  height: 14rem;
+  opacity: 0.98;
+  transform: translateY(1rem);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.popupOverlay__reponsive .content.collapsed .flex_control .price {
+  margin: 0;
+}
+.popupOverlay__reponsive .content .expand_toggle {
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  transform: translate(-50%, -50%);
+  padding: 0.5rem 2rem;
+  background: #fff;
+  border-radius: 5rem;
+  cursor: pointer;
+  transition: transform 0.8s;
+}
+.popupOverlay__reponsive .content .expand_toggle svg {
+  width: 2rem;
+  height: 1.5rem;
+  color: #333;
+}
+.popupOverlay__reponsive .content .expand_toggle:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.popupOverlay__reponsive .content .wrapper_info {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.popupOverlay__reponsive .content .wrapper_info .hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+.popupOverlay__reponsive .content .wrapper_info .popupTitle_reponsive {
+  max-width: 100% !important;
+  color: #fff;
+  width: 100%;
+}
+.popupOverlay__reponsive .content .wrapper_info .description {
+  color: #fff;
+}
+.popupOverlay__reponsive .content .wrapper_info .paperOptions .quantitySelector label {
+  color: #fff;
+}
+.popupOverlay__reponsive .content .wrapper_info .flex_control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.popupOverlay__reponsive .content .wrapper_info .flex_control .price {
+  margin-top: 2rem;
+}
+.popupOverlay__reponsive .content .wrapper_info .flex_control .price span {
+  color: #fff;
+  font-weight: 400;
+  text-transform: capitalize;
+  font-size: 1.2rem;
+}
+.popupOverlay__reponsive .content .wrapper_info .flex_control .price h1 {
+  margin: 1rem 0;
+  font-size: 3rem;
+  color: #fff;
+}
+.popupOverlay__reponsive .content .wrapper_info .flex_control .using_template {
+  cursor: pointer;
+  padding: 1rem 0 1rem 1rem;
+  color: #fff;
+}
+.popupOverlay__reponsive .content .wrapper_info .flex_control .using_template svg {
+  width: 6rem;
+  height: 6rem;
+}
+
 @keyframes translateIn {
   from {
-    transform: translateY(-40rem) scale(0);
+    transform: translateY(40rem) scale(0);
     opacity: 0;
-    width: 0;
-    height: 0;
   }
   to {
     transform: translateY(0) scale(1);
     opacity: 1;
-    width: 100%;
-    height: 100%;
   }
 }
 @keyframes translateOut {
@@ -505,9 +452,7 @@
     opacity: 1;
   }
   to {
-    transform: translateY(-40rem) scale(0);
-    width: 0;
-    height: 0;
+    transform: translateY(40rem) scale(0);
     opacity: 0;
   }
 }

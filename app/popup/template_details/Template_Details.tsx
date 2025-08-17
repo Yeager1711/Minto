@@ -33,11 +33,23 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const [inputValue, setInputValue] = useState<string>('1');
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     const [isContentExpanded, setIsContentExpanded] = useState(true);
-    const [isOpenResponsive, setIsOpenResponsive] = useState(true);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+        };
+    }, []);
 
     useEffect(() => {
         setIsClosing(false);
-        setIsOpenResponsive(true);
         setInputValue('1');
         setIsDescriptionExpanded(false);
         setIsContentExpanded(true);
@@ -156,89 +168,12 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         );
     };
 
-    return (
-        <>
-            <div
-                className={`${styles.popupOverlay_pc} ${isClosing ? styles.closing : ''}`}
-                onClick={handleOverlayClick}
-                role="dialog"
-                aria-labelledby="popupTitle"
-            >
-                <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
-                    <FontAwesomeIcon icon={faXmark} />
-                </button>
-                <div className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}>
-                    <div className={styles.popupBody}>
-                        <div className={styles.imageSection}>
-                            <div className={styles.popupImageContainer}>
-                                <img
-                                    src={product.image_url}
-                                    alt={product.name}
-                                    className={styles.popupImage}
-                                    onError={(e) => (e.currentTarget.src = '/images/fallback.png')}
-                                />
-                            </div>
-                        </div>
-                        <div className={styles.infoSection}>
-                            <div className={styles.popupHeader}>
-                                <h2 id="popupTitle" className={styles.popupTitle}>
-                                    {product.name}
-                                </h2>
-                            </div>
-                            <p className={styles.price}>Giá: {formattedPrice}</p>
-                            <div className={styles.description}>
-                                {product.description?.split('\n').map((line, index) => <p key={index}>{line}</p>) || (
-                                    <p>Không có mô tả</p>
-                                )}
-                                <p className={statusClass}>{product.status}</p>
-                            </div>
-                            <div className={styles.optionsSection}>
-                                <div className={styles.paperOptions}>
-                                    <div className={styles.quantitySelector}>
-                                        <label htmlFor="quantity">Số lượng khách mời:</label>
-                                        <input
-                                            type="number"
-                                            name="quantity"
-                                            id="quantity"
-                                            min="1"
-                                            value={inputValue}
-                                            onChange={handleQuantityChange}
-                                            onBlur={handleBlur}
-                                            className={styles.quantityInput}
-                                        />
-                                        {quantity > 20 && (
-                                            <p className={styles.quantityNote}>
-                                                Sau 20 lời mời, mỗi lời mời sau đó + 500đ
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className={styles.actionButtons}>
-                                    <button
-                                        className={styles.customizeButton}
-                                        onClick={handleUseTemplate}
-                                        disabled={!isReady}
-                                        title={
-                                            !isReady
-                                                ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!'
-                                                : 'Sử dụng mẫu này'
-                                        }
-                                        aria-disabled={!isReady}
-                                    >
-                                        Sử dụng mẫu
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+    if (isMobile) {
+        return (
             <div
                 className={`
                     ${styles.popupOverlay__reponsive} 
-                    ${isOpenResponsive ? styles.open_reponsive : ''} 
-                    ${isClosing ? styles.closing_reponsive : ''}
+                    ${isClosing ? styles.closing_reponsive : styles.open_reponsive}
                 `}
             >
                 <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
@@ -309,7 +244,86 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                     </div>
                 </div>
             </div>
-        </>
+        );
+    }
+
+    return (
+        <div
+            className={`${styles.popupOverlay_pc} ${isClosing ? styles.closing : ''}`}
+            onClick={handleOverlayClick}
+            role="dialog"
+            aria-labelledby="popupTitle"
+        >
+            <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
+                <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <div className={`${styles.popupContent} ${isClosing ? styles.closing : ''}`}>
+                <div className={styles.popupBody}>
+                    <div className={styles.imageSection}>
+                        <div className={styles.popupImageContainer}>
+                            <img
+                                src={product.image_url}
+                                alt={product.name}
+                                className={styles.popupImage}
+                                onError={(e) => (e.currentTarget.src = '/images/fallback.png')}
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.infoSection}>
+                        <div className={styles.popupHeader}>
+                            <h2 id="popupTitle" className={styles.popupTitle}>
+                                {product.name}
+                            </h2>
+                        </div>
+
+                        <p className={styles.price}>Giá: {formattedPrice}</p>
+
+                        <div className={styles.description}>
+                            {product.description?.split('\n').map((line, index) => <p key={index}>{line}</p>) || (
+                                <p>Không có mô tả</p>
+                            )}
+                            <p className={statusClass}>{product.status}</p>
+                        </div>
+
+                        <div className={styles.optionsSection}>
+                            <div className={styles.paperOptions}>
+                                <div className={styles.quantitySelector}>
+                                    <label htmlFor="quantity">Số lượng khách mời:</label>
+                                    <input
+                                        type="number"
+                                        name="quantity"
+                                        id="quantity"
+                                        min="1"
+                                        value={inputValue}
+                                        onChange={handleQuantityChange}
+                                        onBlur={handleBlur}
+                                        className={styles.quantityInput}
+                                    />
+                                    {quantity > 20 && (
+                                        <p className={styles.quantityNote}>Sau 20 lời mời, mỗi lời mời sau đó + 500đ</p>
+                                    )}
+                                </div>
+                            </div>
+                            <div className={styles.actionButtons}>
+                                <button
+                                    className={styles.customizeButton}
+                                    onClick={handleUseTemplate}
+                                    disabled={!isReady}
+                                    title={
+                                        !isReady
+                                            ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!'
+                                            : 'Sử dụng mẫu này'
+                                    }
+                                    aria-disabled={!isReady}
+                                >
+                                    Sử dụng mẫu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 
