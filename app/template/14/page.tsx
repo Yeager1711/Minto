@@ -18,11 +18,11 @@ function Template14() {
                             <img src="/images/m13/4.jpg" alt="" />
                         </div>
 
-                         <div className={styles.img_main_2}>
+                        <div className={styles.img_main_2}>
                             <img src="/images/m13/2.jpg" alt="" />
                         </div>
 
-                         <div className={styles.img_main_3}>
+                        <div className={styles.img_main_3}>
                             <img src="/images/m13/3.jpg" alt="" />
                         </div>
                     </div>
@@ -40,6 +40,13 @@ function Template14() {
 
                 <div className={styles.familyInfo}>
                     <div className={styles.wrapper_bar2}>
+                        {/* răng cưa trên */}
+                        <div className={styles.teethTop}>
+                            {Array.from({ length: 14 }).map((_, i) => (
+                                <div key={i} className={styles.tooth}></div>
+                            ))}
+                        </div>
+
                         <div className={styles.familyContainer}>
                             <h1>
                                 Trân Trọng kính mời đến dự buổi tiệc
@@ -79,6 +86,13 @@ function Template14() {
                                 </p>
                                 Sự hiện diện của bạn là niềm vinh hạnh lớn đối với chúng tôi.
                             </div>
+                        </div>
+
+                        {/* răng cưa dưới */}
+                        <div className={styles.teethBottom}>
+                            {Array.from({ length: 14 }).map((_, i) => (
+                                <div key={i} className={styles.tooth}></div>
+                            ))}
                         </div>
                     </div>
                 </div>

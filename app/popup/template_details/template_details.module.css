@@ -449,7 +449,7 @@
   from {
     height: 16rem;
     opacity: 1;
-    transform: translateY(1rem) scale(0.8);
+    transform: translateY(1rem) scale(0.9);
   }
   to {
     height: 36rem;
@@ -466,7 +466,7 @@
   to {
     height: 16rem;
     opacity: 1;
-    transform: translateY(1rem) scale(0.95);
+    transform: translateY(1rem) scale(0.9);
   }
 }
 /* Respect reduced motion */

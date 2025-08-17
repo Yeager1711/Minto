@@ -176,10 +176,38 @@
   }
 }
 .template14 .wrapper .familyInfo .wrapper_bar2 {
-  align-items: center;
   width: 100%;
-  transform: scale(1);
-  overflow-y: scroll;
+  max-width: 79rem;
+  background: #fff;
+  border: 0.2rem solid #04183a;
+  border-radius: 1rem;
+  padding: 4rem 2rem 4rem 2rem;
+  color: #04183a;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.template14 .wrapper .familyInfo .wrapper_bar2 .teethTop,
+.template14 .wrapper .familyInfo .wrapper_bar2 .teethBottom {
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 0;
+}
+.template14 .wrapper .familyInfo .wrapper_bar2 .teethTop {
+  top: -2rem;
+}
+.template14 .wrapper .familyInfo .wrapper_bar2 .teethBottom {
+  bottom: -2rem;
+}
+.template14 .wrapper .familyInfo .wrapper_bar2 .tooth {
+  width: 3rem;
+  height: 3rem;
+  background: #04183a;
+  border-radius: 50%;
 }
 .template14 .wrapper .familyInfo .wrapper_bar2::-webkit-scrollbar {
   display: none;
@@ -194,7 +222,7 @@
   transform: scale(0.9);
   margin: 2rem 0;
   text-align: center;
-  color: #fff;
+  color: #04183a;
 }
 @media (max-width: 480px) {
   .template14 .wrapper .familyInfo .wrapper_bar2 h2 {
@@ -213,7 +241,7 @@
   text-align: center;
   max-width: 80rem;
   width: 100%;
-  color: #fff;
+  color: #04183a;
 }
 @media (max-width: 480px) {
   .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer h1 {
@@ -232,7 +260,7 @@
   text-align: center;
   max-width: 80rem;
   width: 95%;
-  color: #fff;
+  color: #04183a;
 }
 @media (max-width: 480px) {
   .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .dat {
@@ -284,7 +312,7 @@
   font-family: "Cormorant Garamond", serif;
   transform: scale(0.8);
   text-align: center;
-  color: #fff;
+  color: #04183a;
 }
 @media (max-width: 480px) {
   .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide h3 {
@@ -293,7 +321,7 @@
 }
 .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide span {
   font-size: 2.2rem;
-  color: #fff;
+  color: #04183a;
   font-weight: 500;
   text-transform: uppercase;
   font-family: "Times New Roman", Times, serif;
