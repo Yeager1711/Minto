@@ -368,15 +368,15 @@
   top: 5%;
   transform: translate(-50%, -50%);
   padding: 0.5rem 2rem;
-  background: #fff;
+  background: #333;
   border-radius: 5rem;
   cursor: pointer;
   transition: transform 0.5s ease;
 }
 .popupOverlay__reponsive .content .expand_toggle svg {
-  width: 2rem;
-  height: 1.5rem;
-  color: #333;
+  width: 3rem;
+  height: 1.8rem;
+  color: #fff;
 }
 .popupOverlay__reponsive .content .expand_toggle:hover {
   transform: translate(-50%, -50%) scale(1.1);
@@ -449,24 +449,24 @@
   from {
     height: 16rem;
     opacity: 1;
-    transform: translateY(1rem);
+    transform: translateY(1rem) scale(0.8);
   }
   to {
     height: 36rem;
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 @keyframes collapseContent {
   from {
     height: 36rem;
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   to {
     height: 16rem;
     opacity: 1;
-    transform: translateY(1rem);
+    transform: translateY(1rem) scale(0.95);
   }
 }
 /* Respect reduced motion */

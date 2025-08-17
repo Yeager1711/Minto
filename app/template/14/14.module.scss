@@ -259,12 +259,16 @@
                         text-align: center;
                         color: #ffd89c;
 
+                        div {
+                            padding: 1rem 0;
+                        }
+
                         @media (max-width: 768px) {
                             font-size: 10rem;
                         }
 
                         @media (max-width: 480px) {
-                            font-size: 7rem;
+                            font-size: 6rem;
                         }
                     }
 

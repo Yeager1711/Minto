@@ -260,6 +260,9 @@
   text-align: center;
   color: #ffd89c;
 }
+.template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .groom_and_bride div {
+  padding: 1rem 0;
+}
 @media (max-width: 768px) {
   .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .groom_and_bride {
     font-size: 10rem;
@@ -267,7 +270,7 @@
 }
 @media (max-width: 480px) {
   .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .groom_and_bride {
-    font-size: 7rem;
+    font-size: 6rem;
   }
 }
 .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex {
