@@ -171,17 +171,15 @@
 }
 @media (max-width: 480px) {
   .template14 .wrapper .familyInfo {
-    display: block;
-    padding: 2rem 0.5;
+    padding: 2rem 0.5rem;
   }
 }
 .template14 .wrapper .familyInfo .wrapper_bar2 {
   width: 100%;
-  max-width: 79rem;
   background: #fff;
   border: 0.2rem solid #04183a;
   border-radius: 1rem;
-  padding: 4rem 2rem 4rem 2rem;
+  padding: 4rem 0;
   color: #04183a;
   text-align: center;
   position: relative;
@@ -351,4 +349,109 @@
 }
 .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide p svg {
   margin-right: 1rem;
+}
+.template14 .wrapper .story_groom .preview_select,
+.template14 .wrapper .story_bride .preview_select {
+  min-height: 100vh;
+  position: relative;
+}
+.template14 .wrapper .story_groom .preview_select img,
+.template14 .wrapper .story_bride .preview_select img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template14 .wrapper .story_groom .flex_content,
+.template14 .wrapper .story_bride .flex_content {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translate(-3%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2rem;
+  padding: 2rem;
+}
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__1,
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__2,
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__3,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__1,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__2,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__3 {
+  max-width: 50rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__1:last-child,
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__2:last-child,
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__3:last-child,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__1:last-child,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__2:last-child,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__3:last-child {
+  margin-bottom: 0;
+}
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__1 img,
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__2 img,
+.template14 .wrapper .story_groom .flex_content .list_img .img_story__3 img,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__1 img,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__2 img,
+.template14 .wrapper .story_bride .flex_content .list_img .img_story__3 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template14 .wrapper .story_groom .flex_content .text_story,
+.template14 .wrapper .story_bride .flex_content .text_story {
+  text-align: center;
+}
+.template14 .wrapper .story_groom .flex_content .text_story h1,
+.template14 .wrapper .story_bride .flex_content .text_story h1 {
+  color: #333;
+  font-size: 8rem;
+  text-transform: capitalize;
+  font-family: "Allura", cursive;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+@media (max-width: 768px) {
+  .template14 .wrapper .story_groom .flex_content .text_story h1,
+  .template14 .wrapper .story_bride .flex_content .text_story h1 {
+    font-size: 7rem;
+  }
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .story_groom .flex_content .text_story h1,
+  .template14 .wrapper .story_bride .flex_content .text_story h1 {
+    font-size: 5rem;
+  }
+}
+.template14 .wrapper .story_groom .flex_content .text_story p,
+.template14 .wrapper .story_bride .flex_content .text_story p {
+  font-size: 2rem;
+  line-height: 2;
+  max-width: 100%;
+  width: 95%;
+  margin: auto;
+  font-family: "Allura", cursive;
+  color: #333;
+  border-radius: 1rem;
+  display: block;
+}
+@media (max-width: 768px) {
+  .template14 .wrapper .story_groom .flex_content .text_story p,
+  .template14 .wrapper .story_bride .flex_content .text_story p {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .story_groom .flex_content .text_story p,
+  .template14 .wrapper .story_bride .flex_content .text_story p {
+    font-size: 1.4rem;
+  }
 }/*# sourceMappingURL=14.module.css.map */

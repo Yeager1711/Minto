@@ -5,6 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 function Template14() {
+    const groomImages = ['/images/m13/5.jpg', '/images/m13/6.jpg', '/images/m13/7.jpg'];
+
+    const brideImages = ['/images/m13/8.jpg', '/images/m13/9.jpg', '/images/m13/10.jpg'];
+
+    const [selectedGroomImg, setSelectedGroomImg] = React.useState(groomImages[0]);
+    const [selectedBrideImg, setSelectedBrideImg] = React.useState(brideImages[0]);
+
     return (
         <div className={styles.template14}>
             <div className={styles.wrapper}>
@@ -40,7 +47,6 @@ function Template14() {
 
                 <div className={styles.familyInfo}>
                     <div className={styles.wrapper_bar2}>
-                        {/* răng cưa trên */}
                         <div className={styles.teethTop}>
                             {Array.from({ length: 14 }).map((_, i) => (
                                 <div key={i} className={styles.tooth}></div>
@@ -88,11 +94,71 @@ function Template14() {
                             </div>
                         </div>
 
-                        {/* răng cưa dưới */}
                         <div className={styles.teethBottom}>
                             {Array.from({ length: 14 }).map((_, i) => (
                                 <div key={i} className={styles.tooth}></div>
                             ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.story_groom}>
+                    <div className={styles.preview_select}>
+                        <img src={selectedGroomImg} alt="preview" />
+
+                        <div className={styles.flex_content}>
+                            <div className={styles.list_img}>
+                                {groomImages.map((src, i) => (
+                                    <div
+                                        key={i}
+                                        className={styles[`img_story__${i + 1}`]}
+                                        onClick={() => setSelectedGroomImg(src)}
+                                    >
+                                        <img src={src} alt={`thumb-${i}`} />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className={styles.text_story}>
+                                <h1>The Groom&apos;s Story</h1>
+                                <p>
+                                    Hạnh phúc nhất trên đời không phải là việc gặp được người tuyệt nhất ở những tháng
+                                    ngày đẹp nhất. Mà là một người sẽ từ từ nhìn mình già đi, không cần ở những năm
+                                    tháng đẹp nhất, mà là đúng người, đúng thời điểm, nắm tay nhau cùng đi. Anh rất hạnh
+                                    phúc vì gặp được em – người con gái cho anh biết thế nào là tình yêu, cùng anh về
+                                    nhà em nhé!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.story_bride}>
+                    <div className={styles.preview_select}>
+                        <img src={selectedBrideImg} alt="preview" />
+
+                        <div className={styles.flex_content}>
+                            <div className={styles.list_img}>
+                                {brideImages.map((src, i) => (
+                                    <div
+                                        key={i}
+                                        className={styles[`img_story__${i + 1}`]}
+                                        onClick={() => setSelectedBrideImg(src)}
+                                    >
+                                        <img src={src} alt={`thumb-${i}`} />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className={styles.text_story}>
+                                <h1>The Bride&apos;s Story</h1>
+                                <p>
+                                    Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm,
+                                    chăm sóc em thật nhiều, nuông chiều những khi em giận hờn vô cớ. Bắt đầu từ hôm nay
+                                    chúng ta sẽ viết nên một chương mới của cuộc đời, bằng tình thương yêu và hạnh phúc
+                                    đong đầy anh nhé!
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
