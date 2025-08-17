@@ -327,7 +327,19 @@
     }
 
     .closeButton {
-        /* giữ nguyên như cũ */
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.5);
+        width: 4rem;
+        height: 4rem;
+        z-index: 999999 !important;
+
+        svg {
+            color: #fff;
+            font-size: 2rem;
+        }
     }
 
     .img_template {

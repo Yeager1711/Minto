@@ -311,7 +311,18 @@
   animation: translateOut 0.5s ease-out forwards;
 }
 .popupOverlay__reponsive .closeButton {
-  /* giữ nguyên như cũ */
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  width: 4rem;
+  height: 4rem;
+  z-index: 999999 !important;
+}
+.popupOverlay__reponsive .closeButton svg {
+  color: #fff;
+  font-size: 2rem;
 }
 .popupOverlay__reponsive .img_template {
   position: relative;
