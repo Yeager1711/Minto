@@ -126,12 +126,14 @@
 
 .descriptionWrapper {
     transition: max-height 0.3s ease-out;
+
+    &.collapsed {
+        max-height: 7.2rem;
+        overflow: hidden;
+    }
 }
 
-.descriptionWrapper.collapsed {
-    max-height: 7.2rem;
-    overflow: hidden;
-}
+
 
 /* Status styling */
 .statusReady {
@@ -251,7 +253,7 @@
 }
 
 .quantitySelector input {
-    font-size:16px;
+    font-size: 16px;
     padding: 1rem;
     border-radius: 0.5rem;
     border: .1rem solid #e2e8f0;
@@ -368,11 +370,7 @@
         overflow: scroll;
         opacity: 1;
         transform: translateY(0);
-        transition:
-            height .6s cubic-bezier(0.4, 0, 0.2, 1),
-            opacity .6s ease,
-            transform .6s ease,
-            padding .6s ease;
+        transition: .3s linear;
         will-change: height, opacity, transform, padding;
 
         &::-webkit-scrollbar {
@@ -402,7 +400,7 @@
             background: #fff;
             border-radius: 5rem;
             cursor: pointer;
-            transition: transform 0.8s;
+            transition:  0.3s linear;
 
             svg {
                 width: 2rem;
@@ -420,7 +418,7 @@
 
             .hidden {
                 opacity: 0;
-                visibility: hidden;
+              display: none;
                 height: 0;
                 margin: 0;
                 padding: 0;
