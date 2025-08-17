@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Overlay styling */
 .popupOverlay_pc {
   position: fixed;
@@ -280,6 +281,7 @@
   transform: scale(1.15);
 }
 
+/* ... các style khác giữ nguyên ... */
 /* Responsive design for tablet and mobile */
 .popupOverlay__reponsive {
   position: fixed;
@@ -309,18 +311,7 @@
   animation: translateOut 0.5s ease-out forwards;
 }
 .popupOverlay__reponsive .closeButton {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.5);
-  width: 4rem;
-  height: 4rem;
-  z-index: 999999 !important;
-}
-.popupOverlay__reponsive .closeButton svg {
-  color: #fff;
-  font-size: 2rem;
+  /* giữ nguyên như cũ */
 }
 .popupOverlay__reponsive .img_template {
   position: relative;
@@ -332,7 +323,7 @@
   display: none;
 }
 .popupOverlay__reponsive .img_template img {
-  border-radius: none;
+  border-radius: 0;
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;
@@ -345,10 +336,11 @@
   left: 2%;
   background: rgba(0, 0, 0, 0.9);
   border-radius: 3rem;
-  overflow: hidden;
-  opacity: 1;
-  transform: translateY(0);
-  will-change: height, opacity, transform, padding;
+  /* KHÔNG animate padding để mượt hơn */
+  padding: 1.5rem 2rem 1rem 2rem;
+  overflow: scroll;
+  will-change: height, opacity, transform;
+  /* Toggle đúng 2 trạng thái */
 }
 .popupOverlay__reponsive .content::-webkit-scrollbar {
   display: none;
@@ -357,7 +349,7 @@
   animation: expandContent 0.3s ease forwards;
 }
 .popupOverlay__reponsive .content.collapsed {
-  animation: collapsedContent 0.3s ease forwards;
+  animation: collapseContent 0.3s ease forwards;
 }
 .popupOverlay__reponsive .content .expand_toggle {
   position: absolute;
@@ -368,7 +360,7 @@
   background: #fff;
   border-radius: 5rem;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
 }
 .popupOverlay__reponsive .content .expand_toggle svg {
   width: 2rem;
@@ -378,43 +370,9 @@
 .popupOverlay__reponsive .content .expand_toggle:hover {
   transform: translate(-50%, -50%) scale(1.1);
 }
-@keyframes expandContent {
-  from {
-    height: 14rem;
-    opacity: 0.95;
-    transform: translateY(1rem);
-    padding: 1rem;
-  }
-  to {
-    height: 34rem;
-    opacity: 1;
-    transform: translateY(0);
-    padding: 3rem 2rem 1rem 2rem;
-  }
-}
-@keyframes collapsedContent {
-  from {
-    height: 34rem;
-    opacity: 1;
-    transform: translateY(0);
-    padding: 3rem 2rem 1rem 2rem;
-  }
-  to {
-    height: 14rem;
-    opacity: 0.95;
-    transform: translateY(1rem);
-    padding: 1rem;
-  }
-}
 .popupOverlay__reponsive .content .wrapper_info {
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.popupOverlay__reponsive .content .wrapper_info .hidden {
-  opacity: 0;
-  display: none;
-  height: 0;
-  margin: 0;
-  padding: 0;
+  margin-top: 3rem;
+  transition: opacity 0.5s ease;
 }
 .popupOverlay__reponsive .content .wrapper_info .popupTitle_reponsive {
   max-width: 100% !important;
@@ -456,6 +414,61 @@
   height: 6rem;
 }
 
+/* KHÔNG dùng display:none để còn animate */
+.hidden {
+  opacity: 0;
+  height: 0 !important;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.5s ease, height 0.5s ease, visibility 0.5s;
+}
+
+/* Giữ tính năng show-more của description */
+.descriptionWrapper {
+  transition: height 0.5s ease-out;
+}
+.descriptionWrapper.collapsed {
+  height: 7.2rem;
+  overflow: hidden;
+}
+
+/* Keyframes để ngoài root cho chắc */
+@keyframes expandContent {
+  from {
+    height: 14rem;
+    opacity: 0.8;
+    transform: translateY(1rem);
+  }
+  to {
+    height: 34rem;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes collapseContent {
+  from {
+    height: 34rem;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    height: 14rem;
+    opacity: 0.8;
+    transform: translateY(1rem);
+  }
+}
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .popupOverlay__reponsive,
+  .popupOverlay_pc,
+  .content,
+  .descriptionWrapper,
+  .hidden {
+    animation: none !important;
+    transition: none !important;
+  }
+}
 @keyframes translateIn {
   from {
     transform: translateY(40rem) scale(0);

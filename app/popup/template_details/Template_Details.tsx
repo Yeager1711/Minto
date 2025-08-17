@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import styles from './template_details.module.css';
+import styles from './template_details.module.css'; // giữ nguyên ext như bạn đang dùng
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faChevronCircleRight, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
@@ -36,16 +36,10 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
         checkMobile();
         window.addEventListener('resize', checkMobile);
-
-        return () => {
-            window.removeEventListener('resize', checkMobile);
-        };
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
     useEffect(() => {
@@ -53,32 +47,27 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         setInputValue('1');
         setIsDescriptionExpanded(false);
         setIsContentExpanded(true);
-        return () => {
-            setIsClosing(false);
-        };
+        return () => setIsClosing(false);
     }, [product]);
 
+    // Đồng bộ thời gian đóng với CSS animation
     useEffect(() => {
-        if (isClosing) {
-            const timer = setTimeout(() => {
-                onClose();
-                setIsClosing(false);
-            }, 300);
-            return () => clearTimeout(timer);
-        }
-    }, [isClosing, onClose]);
+        if (!isClosing) return;
+        const ANIM_MS = isMobile ? 500 : 400; // mobile: translateIn/out 0.5s, desktop: slideIn/out 0.4s
+        const timer = setTimeout(() => {
+            onClose();
+            setIsClosing(false);
+        }, ANIM_MS);
+        return () => clearTimeout(timer);
+    }, [isClosing, isMobile, onClose]);
 
     if (!product) return null;
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) {
-            setIsClosing(true);
-        }
+        if (e.target === e.currentTarget) setIsClosing(true);
     };
 
-    const handleClose = () => {
-        setIsClosing(true);
-    };
+    const handleClose = () => setIsClosing(true);
 
     const handleUseTemplate = () => {
         router.push(`/edit/template/${product.template_id}?quantity=${quantity}`);
@@ -87,18 +76,12 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setInputValue(value);
-
         if (value === '') {
             setQuantity(1);
             return;
         }
-
-        const quantityValue = parseInt(value);
-        if (!isNaN(quantityValue) && quantityValue >= 1) {
-            setQuantity(quantityValue);
-        } else {
-            setQuantity(1);
-        }
+        const n = parseInt(value);
+        setQuantity(!isNaN(n) && n >= 1 ? n : 1);
     };
 
     const handleBlur = () => {
@@ -110,16 +93,12 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
 
     const calculateTotalPrice = () => {
         const basePrice = Number(product.price);
-        let totalPrice = basePrice;
-        if (quantity > 20) {
-            totalPrice += (quantity - 20) * priceCardDefault;
-        }
-        return totalPrice;
+        let total = basePrice;
+        if (quantity > 20) total += (quantity - 20) * priceCardDefault;
+        return total;
     };
 
-    const formatPrice = (price: number) => {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ';
-    };
+    const formatPrice = (price: number) => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ';
 
     const totalPrice = calculateTotalPrice();
     const formattedPrice = formatPrice(totalPrice);
@@ -127,28 +106,19 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const isReady = product.status.trim() === 'Sẵn sàng';
     const statusClass = isReady ? styles.statusReady : styles.statusUpdating;
 
-    const toggleDescription = () => {
-        setIsDescriptionExpanded(!isDescriptionExpanded);
-    };
-
-    const toggleContent = () => {
-        setIsContentExpanded(!isContentExpanded);
-    };
+    const toggleDescription = () => setIsDescriptionExpanded((v) => !v);
+    const toggleContent = () => setIsContentExpanded((v) => !v);
 
     const renderDescription = () => {
-        if (!product.description) {
-            return <p>Không có mô tả</p>;
-        }
-
+        if (!product.description) return <p>Không có mô tả</p>;
         const lines = product.description.split('\n');
         const maxLines = 3;
         const shouldShowButton = lines.length > maxLines;
-
         return (
             <>
                 <div className={`${styles.descriptionWrapper} ${isDescriptionExpanded ? '' : styles.collapsed}`}>
-                    {lines.map((line, index) => (
-                        <p key={index}>{line}</p>
+                    {lines.map((line, i) => (
+                        <p key={i}>{line}</p>
                     ))}
                 </div>
                 {shouldShowButton && (
@@ -172,9 +142,9 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         return (
             <div
                 className={`
-                    ${styles.popupOverlay__reponsive} 
-                    ${isClosing ? styles.closing_reponsive : styles.open_reponsive}
-                `}
+          ${styles.popupOverlay__reponsive}
+          ${isClosing ? styles.closing_reponsive : styles.open_reponsive}
+        `}
             >
                 <button className={styles.closeButton} onClick={handleClose} aria-label="Đóng popup">
                     <FontAwesomeIcon icon={faXmark} />
@@ -188,7 +158,8 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                     />
                 </div>
 
-                <div className={`${styles.content} ${isContentExpanded ? '' : styles.collapsed}`}>
+                {/* SỬA Ở ĐÂY: toggle đúng expanded/collapsed */}
+                <div className={`${styles.content} ${isContentExpanded ? styles.expanded : styles.collapsed}`}>
                     <button
                         className={styles.expand_toggle}
                         onClick={toggleContent}
@@ -196,16 +167,25 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                     >
                         <FontAwesomeIcon icon={isContentExpanded ? faChevronDown : faChevronUp} />
                     </button>
+
                     <div className={styles.wrapper_info}>
                         <h2 id="popupTitle" className={styles.popupTitle_reponsive}>
                             {product.name}
                         </h2>
-                        <div className={`${styles.description} ${isContentExpanded ? '' : styles.hidden}`}>
+
+                        {/* KHÔNG dùng display:none để còn animate */}
+                        <div
+                            className={`${styles.description} ${isContentExpanded ? '' : styles.hidden}`}
+                            aria-hidden={!isContentExpanded}
+                        >
                             {renderDescription()}
                             <p className={statusClass}>{product.status}</p>
                         </div>
 
-                        <div className={`${styles.paperOptions} ${isContentExpanded ? '' : styles.hidden}`}>
+                        <div
+                            className={`${styles.paperOptions} ${isContentExpanded ? '' : styles.hidden}`}
+                            aria-hidden={!isContentExpanded}
+                        >
                             <div className={styles.quantitySelector}>
                                 <label htmlFor="quantity">Số lượng khách mời:</label>
                                 <input
@@ -229,7 +209,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                 <span>Tổng tiền</span>
                                 <h1>{formattedPrice}</h1>
                             </div>
-
                             <div
                                 className={styles.using_template}
                                 onClick={handleUseTemplate}
@@ -247,6 +226,7 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         );
     }
 
+    // Desktop giữ nguyên logic, chỉ đồng bộ thời gian đóng (đã làm ở useEffect)
     return (
         <div
             className={`${styles.popupOverlay_pc} ${isClosing ? styles.closing : ''}`}
@@ -279,7 +259,7 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                         <p className={styles.price}>Giá: {formattedPrice}</p>
 
                         <div className={styles.description}>
-                            {product.description?.split('\n').map((line, index) => <p key={index}>{line}</p>) || (
+                            {product.description?.split('\n').map((line, i) => <p key={i}>{line}</p>) || (
                                 <p>Không có mô tả</p>
                             )}
                             <p className={statusClass}>{product.status}</p>

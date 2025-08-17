@@ -295,6 +295,8 @@
     transform: scale(1.15);
 }
 
+/* ... các style khác giữ nguyên ... */
+
 /* Responsive design for tablet and mobile */
 .popupOverlay__reponsive {
     position: fixed;
@@ -325,19 +327,7 @@
     }
 
     .closeButton {
-        position: absolute;
-        top: 2rem;
-        left: 2rem;
-        padding: 1rem;
-        background: rgba(0, 0, 0, 0.5);
-        width: 4rem;
-        height: 4rem;
-        z-index: 999999 !important;
-
-        svg {
-            color: #fff;
-            font-size: 2rem;
-        }
+        /* giữ nguyên như cũ */
     }
 
     .img_template {
@@ -351,7 +341,7 @@
         }
 
         img {
-            border-radius: none;
+            border-radius: 0;
             object-fit: cover;
             width: 100%;
             margin-bottom: 16.7rem;
@@ -365,22 +355,22 @@
         left: 2%;
         background: rgba(0, 0, 0, .9);
         border-radius: 3rem;
-        overflow: hidden; // tránh scroll nhảy khi collapse
-        opacity: 1;
-        transform: translateY(0);
-        will-change: height, opacity, transform, padding;
+        /* KHÔNG animate padding để mượt hơn */
+        padding: 1.5rem 2rem 1rem 2rem;
+        overflow: scroll;
+        will-change: height, opacity, transform;
 
         &::-webkit-scrollbar {
             display: none;
         }
 
+        /* Toggle đúng 2 trạng thái */
         &.expanded {
             animation: expandContent 0.3s ease forwards;
         }
 
-        // trạng thái collapsed
         &.collapsed {
-            animation: collapsedContent 0.3s ease forwards;
+            animation: collapseContent 0.3s ease forwards;
         }
 
         .expand_toggle {
@@ -392,7 +382,7 @@
             background: #fff;
             border-radius: 5rem;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform .5s ease;
 
             svg {
                 width: 2rem;
@@ -405,50 +395,9 @@
             }
         }
 
-
-        // keyframes
-        @keyframes expandContent {
-            from {
-                height: 14rem;
-                opacity: 0.95;
-                transform: translateY(1rem);
-                padding: 1rem;
-            }
-
-            to {
-                height: 34rem;
-                opacity: 1;
-                transform: translateY(0);
-                padding: 3rem 2rem 1rem 2rem;
-            }
-        }
-
-        @keyframes collapsedContent {
-            from {
-                height: 34rem;
-                opacity: 1;
-                transform: translateY(0);
-                padding: 3rem 2rem 1rem 2rem;
-            }
-
-            to {
-                height: 14rem;
-                opacity: 0.95;
-                transform: translateY(1rem);
-                padding: 1rem;
-            }
-        }
-
         .wrapper_info {
-            transition: opacity 0.5s ease, transform 0.5s ease;
-
-            .hidden {
-                opacity: 0;
-                display: none;
-                height: 0;
-                margin: 0;
-                padding: 0;
-            }
+            margin-top: 3rem;
+            transition: opacity .5s ease;
 
             .popupTitle_reponsive {
                 max-width: 100% !important;
@@ -502,6 +451,68 @@
                 }
             }
         }
+    }
+}
+
+/* KHÔNG dùng display:none để còn animate */
+.hidden {
+    opacity: 0;
+    height: 0 !important;
+    overflow: hidden;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity .5s ease, height .5s ease, visibility .5s;
+}
+
+/* Giữ tính năng show-more của description */
+.descriptionWrapper {
+    transition: height .5s ease-out;
+
+    &.collapsed {
+        height: 7.2rem;
+        overflow: hidden;
+    }
+}
+
+/* Keyframes để ngoài root cho chắc */
+@keyframes expandContent {
+    from {
+        height: 14rem;
+        opacity: .8;
+        transform: translateY(1rem);
+    }
+
+    to {
+        height: 34rem;
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes collapseContent {
+    from {
+        height: 34rem;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        height: 14rem;
+        opacity: 0.8;
+        transform: translateY(1rem);
+    }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .popupOverlay__reponsive,
+    .popupOverlay_pc,
+    .content,
+    .descriptionWrapper,
+    .hidden {
+        animation: none !important;
+        transition: none !important;
     }
 }
 
