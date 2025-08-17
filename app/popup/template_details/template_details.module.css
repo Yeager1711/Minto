@@ -344,27 +344,20 @@
   right: 2%;
   left: 2%;
   background: rgba(0, 0, 0, 0.9);
-  padding: 3rem 2rem 1rem 2rem;
   border-radius: 3rem;
-  height: 34rem;
-  overflow: scroll;
+  overflow: hidden;
   opacity: 1;
   transform: translateY(0);
-  transition: 0.3s linear;
   will-change: height, opacity, transform, padding;
 }
 .popupOverlay__reponsive .content::-webkit-scrollbar {
   display: none;
 }
-.popupOverlay__reponsive .content.collapsed {
-  height: 14rem;
-  opacity: 0.98;
-  transform: translateY(1rem);
-  padding: 1rem;
-  margin-bottom: 1rem;
+.popupOverlay__reponsive .content.expanded {
+  animation: expandContent 0.3s ease forwards;
 }
-.popupOverlay__reponsive .content.collapsed .flex_control .price {
-  margin: 0;
+.popupOverlay__reponsive .content.collapsed {
+  animation: collapsedContent 0.3s ease forwards;
 }
 .popupOverlay__reponsive .content .expand_toggle {
   position: absolute;
@@ -375,7 +368,7 @@
   background: #fff;
   border-radius: 5rem;
   cursor: pointer;
-  transition: transform 0.8s;
+  transition: transform 0.3s ease;
 }
 .popupOverlay__reponsive .content .expand_toggle svg {
   width: 2rem;
@@ -384,6 +377,34 @@
 }
 .popupOverlay__reponsive .content .expand_toggle:hover {
   transform: translate(-50%, -50%) scale(1.1);
+}
+@keyframes expandContent {
+  from {
+    height: 14rem;
+    opacity: 0.95;
+    transform: translateY(1rem);
+    padding: 1rem;
+  }
+  to {
+    height: 34rem;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 3rem 2rem 1rem 2rem;
+  }
+}
+@keyframes collapsedContent {
+  from {
+    height: 34rem;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 3rem 2rem 1rem 2rem;
+  }
+  to {
+    height: 14rem;
+    opacity: 0.95;
+    transform: translateY(1rem);
+    padding: 1rem;
+  }
 }
 .popupOverlay__reponsive .content .wrapper_info {
   transition: opacity 0.5s ease, transform 0.5s ease;
