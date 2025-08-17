@@ -377,11 +377,11 @@
 
         /* Toggle đúng 2 trạng thái */
         &.expanded {
-            animation: expandContent 0.3s ease forwards;
-        }
+            animation: expandContent .6s ease forwards;
+        }   
 
         &.collapsed {
-            animation: collapseContent 0.3s ease forwards;
+            animation: collapseContent .6s ease forwards;
             bottom: 5%;
         }
 

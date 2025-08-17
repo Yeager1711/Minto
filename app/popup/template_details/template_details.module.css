@@ -356,10 +356,10 @@
   display: none;
 }
 .popupOverlay__reponsive .content.expanded {
-  animation: expandContent 0.3s ease forwards;
+  animation: expandContent 0.6s ease forwards;
 }
 .popupOverlay__reponsive .content.collapsed {
-  animation: collapseContent 0.3s ease forwards;
+  animation: collapseContent 0.6s ease forwards;
   bottom: 5%;
 }
 .popupOverlay__reponsive .content .expand_toggle {
