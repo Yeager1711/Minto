@@ -378,7 +378,7 @@
         /* Toggle đúng 2 trạng thái */
         &.expanded {
             animation: expandContent .6s ease forwards;
-        }   
+        }
 
         &.collapsed {
             animation: collapseContent .6s ease forwards;
@@ -415,6 +415,11 @@
                 max-width: 100% !important;
                 color: #fff;
                 width: 100%;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .description {

@@ -105,7 +105,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, image, price, status, o
             />
             <div className={styles.card_overlay}>
                 <h3 className={styles.card_title}>{name}</h3>
-                <h3 className={styles.card_price}>{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' vnđ'}</h3>
+                <h3 className={styles.card_price}>{Number(price).toLocaleString('vi-VN') + ' VNĐ'}</h3>
                 <h3 className={styles.card_status}>{status.toUpperCase()}</h3>
             </div>
         </div>

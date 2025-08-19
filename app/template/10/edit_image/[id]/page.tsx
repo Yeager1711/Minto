@@ -728,7 +728,7 @@ function Template10Edit() {
                         <span>
                             {weddingData.weddingDate
                                 ? `${weddingData.weddingDate.getDate()}.${weddingData.weddingDate.getMonth() + 1}.${weddingData.weddingDate.getFullYear()}`
-                                : '17.08.2025'}
+                                : ''}
                         </span>
                     </div>
                 </div>

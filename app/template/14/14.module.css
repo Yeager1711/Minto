@@ -7,17 +7,19 @@
 .template14 .wrapper {
   max-width: 80rem;
   margin: 0 auto;
-  border: 0.1rem solid #fff;
   min-height: 100vh;
 }
 .template14 .wrapper .header_content {
   position: relative;
   min-height: 100vh;
+  border-left: 0.1rem solid #fff;
+  border-right: 0.1rem solid #fff;
+  overflow: hidden;
 }
 .template14 .wrapper .header_content .image_flower_blue {
   position: absolute;
   top: -10%;
-  left: 0;
+  left: -2rem;
   max-width: 50rem;
 }
 .template14 .wrapper .header_content .image_flower_blue img {
@@ -164,20 +166,19 @@
   max-width: 100%;
   bottom: 0;
   z-index: 9999 !important;
-  padding: 2rem 0.5rem 2rem 0.5rem;
+  padding: 0 0 2rem 0;
   display: flex;
   min-height: 100vh;
   align-items: center;
 }
 @media (max-width: 480px) {
   .template14 .wrapper .familyInfo {
-    padding: 2rem 0.5rem;
+    padding: 0 0 2rem 0;
   }
 }
 .template14 .wrapper .familyInfo .wrapper_bar2 {
   width: 100%;
   background: #fff;
-  border: 0.2rem solid #04183a;
   border-radius: 1rem;
   padding: 4rem 0;
   color: #04183a;
@@ -350,10 +351,36 @@
 .template14 .wrapper .familyInfo .wrapper_bar2 .familyContainer .flex .familySide p svg {
   margin-right: 1rem;
 }
-.template14 .wrapper .story_groom .preview_select,
-.template14 .wrapper .story_bride .preview_select {
-  min-height: 100vh;
+.template14 .wrapper .story {
+  background: #04183a;
   position: relative;
+  overflow: hidden;
+}
+.template14 .wrapper .story::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -2rem;
+  background: #fff;
+  width: 3rem;
+  height: 100%;
+  border-radius: 2rem;
+  z-index: 99999 !important;
+}
+.template14 .wrapper .story::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -2rem;
+  background: #fff;
+  width: 3rem;
+  height: 100%;
+  z-index: 99999 !important;
+  border-radius: 2rem;
+}
+.template14 .wrapper .story_groom,
+.template14 .wrapper .story_bride {
+  padding: 0 0 3rem 0;
 }
 .template14 .wrapper .story_groom .preview_select img,
 .template14 .wrapper .story_bride .preview_select img {
@@ -364,94 +391,411 @@
 }
 .template14 .wrapper .story_groom .flex_content,
 .template14 .wrapper .story_bride .flex_content {
-  position: absolute;
-  top: 50%;
-  left: 5%;
-  transform: translate(-3%, -50%);
-  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 2rem;
-  padding: 2rem;
+  gap: 2rem;
+  padding: 0;
 }
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__1,
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__2,
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__3,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__1,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__2,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__3 {
-  max-width: 50rem;
-  border-radius: 1rem;
+.template14 .wrapper .story_groom .flex_content .image_story__groom,
+.template14 .wrapper .story_bride .flex_content .image_story__groom {
+  border-radius: 0 0 50% 50%;
   overflow: hidden;
-  margin-bottom: 1rem;
-  cursor: pointer;
+  height: 60rem;
+  border-left: 0.3rem solid #dbdbdb;
+  border-right: 0.3rem solid #dbdbdb;
+  border-bottom: 0.3rem solid #dbdbdb;
+  padding: 1rem;
+  margin-top: 0.5rem;
 }
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__1:last-child,
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__2:last-child,
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__3:last-child,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__1:last-child,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__2:last-child,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__3:last-child {
-  margin-bottom: 0;
+@media (max-width: 480px) {
+  .template14 .wrapper .story_groom .flex_content .image_story__groom,
+  .template14 .wrapper .story_bride .flex_content .image_story__groom {
+    height: 35rem;
+  }
 }
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__1 img,
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__2 img,
-.template14 .wrapper .story_groom .flex_content .list_img .img_story__3 img,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__1 img,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__2 img,
-.template14 .wrapper .story_bride .flex_content .list_img .img_story__3 img {
+.template14 .wrapper .story_groom .flex_content .image_story__groom img,
+.template14 .wrapper .story_bride .flex_content .image_story__groom img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
+  -o-object-position: top;
+     object-position: top;
+  border-radius: 0 0 50% 50%;
+  overflow: hidden;
+}
+.template14 .wrapper .story_groom .flex_content .image_story__bride,
+.template14 .wrapper .story_bride .flex_content .image_story__bride {
+  border-radius: 0 0 50% 50%;
+  overflow: hidden;
+  height: 60rem;
+  border-left: 0.3rem solid #dbdbdb;
+  border-right: 0.3rem solid #dbdbdb;
+  border-bottom: 0.3rem solid #dbdbdb;
+  padding: 1rem;
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .story_groom .flex_content .image_story__bride,
+  .template14 .wrapper .story_bride .flex_content .image_story__bride {
+    height: 35rem;
+  }
+}
+.template14 .wrapper .story_groom .flex_content .image_story__bride img,
+.template14 .wrapper .story_bride .flex_content .image_story__bride img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: top;
+     object-position: top;
+  border-radius: 0 0 50% 50%;
+  overflow: hidden;
 }
 .template14 .wrapper .story_groom .flex_content .text_story,
 .template14 .wrapper .story_bride .flex_content .text_story {
   text-align: center;
+  flex: 1;
+  margin-top: 2rem;
 }
 .template14 .wrapper .story_groom .flex_content .text_story h1,
 .template14 .wrapper .story_bride .flex_content .text_story h1 {
-  color: #333;
-  font-size: 8rem;
+  color: #fff;
+  font-size: 5rem;
   text-transform: capitalize;
   font-family: "Allura", cursive;
   font-weight: 400;
   margin-bottom: 0;
+  margin-top: 0rem;
 }
 @media (max-width: 768px) {
   .template14 .wrapper .story_groom .flex_content .text_story h1,
   .template14 .wrapper .story_bride .flex_content .text_story h1 {
-    font-size: 7rem;
+    font-size: 4rem;
   }
 }
 @media (max-width: 480px) {
   .template14 .wrapper .story_groom .flex_content .text_story h1,
   .template14 .wrapper .story_bride .flex_content .text_story h1 {
-    font-size: 5rem;
+    font-size: 4rem;
   }
 }
 .template14 .wrapper .story_groom .flex_content .text_story p,
 .template14 .wrapper .story_bride .flex_content .text_story p {
-  font-size: 2rem;
+  font-size: 1.7rem;
   line-height: 2;
   max-width: 100%;
   width: 95%;
   margin: auto;
   font-family: "Allura", cursive;
-  color: #333;
+  color: #fff;
   border-radius: 1rem;
   display: block;
 }
 @media (max-width: 768px) {
   .template14 .wrapper .story_groom .flex_content .text_story p,
   .template14 .wrapper .story_bride .flex_content .text_story p {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 }
 @media (max-width: 480px) {
   .template14 .wrapper .story_groom .flex_content .text_story p,
   .template14 .wrapper .story_bride .flex_content .text_story p {
     font-size: 1.4rem;
+    max-width: 90%;
   }
+}
+.template14 .wrapper .wrapper_teeth {
+  width: 100%;
+  background: #fff;
+  border-radius: 1rem;
+  padding: 4rem 0;
+  color: #04183a;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin: auto;
+}
+.template14 .wrapper .wrapper_teeth .teethTop,
+.template14 .wrapper .wrapper_teeth .teethBottom {
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 0;
+}
+.template14 .wrapper .wrapper_teeth .teethTop {
+  top: -2rem;
+}
+.template14 .wrapper .wrapper_teeth .teethBottom {
+  bottom: -2rem;
+}
+.template14 .wrapper .wrapper_teeth .tooth {
+  width: 3rem;
+  height: 3rem;
+  background: #04183a;
+  border-radius: 50%;
+}
+.template14 .wrapper .wrapper_teeth .calendar {
+  position: relative;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 0rem 1rem 1rem 1rem;
+  border: none;
+  border-bottom: 0.2rem dashed transparent;
+  background-image: repeating-linear-gradient(to right, #04183a 0, #04183a 8px, transparent 8px, transparent 16px);
+  background-position: bottom;
+  background-size: 100% 2px;
+  background-repeat: repeat-x;
+  position: relative;
+}
+.template14 .wrapper .wrapper_teeth .calendar::before {
+  content: "";
+  position: absolute;
+  bottom: -8rem;
+  left: -3.5rem;
+  width: 5rem;
+  height: 16rem;
+  border-radius: 5rem;
+  background: #04183a;
+}
+.template14 .wrapper .wrapper_teeth .calendar::after {
+  content: "";
+  position: absolute;
+  bottom: -8rem;
+  right: -3.5rem;
+  width: 5rem;
+  height: 16rem;
+  border-radius: 5rem;
+  background: #04183a;
+}
+.template14 .wrapper .wrapper_teeth .calendar .calendarHeader h3 {
+  font-size: 3.5rem;
+  color: #ccaa80;
+  font-family: "Pinyon Script", cursive;
+  margin: 1rem;
+}
+.template14 .wrapper .wrapper_teeth .calendar .calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  padding: 1rem;
+  border-radius: 8px;
+}
+.template14 .wrapper .wrapper_teeth .calendar .dayName {
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  padding: 8px;
+  font-size: 1.5rem;
+}
+.template14 .wrapper .wrapper_teeth .calendar .calendarDay {
+  padding: 8px;
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  position: relative;
+  font-family: "Sue Ellen Francisco", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+.template14 .wrapper .wrapper_teeth .calendar .calendarDay.emptyDay {
+  background-color: transparent;
+  z-index: 99999 !important;
+  position: relative;
+  color: #151414;
+}
+.template14 .wrapper .wrapper_teeth .calendar .calendarDay.weddingDay {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Sue Ellen Francisco", cursive;
+  font-weight: 500;
+  font-style: normal;
+}
+.template14 .wrapper .wrapper_teeth .calendar .calendarDay.weddingDay .weddingDayContent {
+  position: relative;
+  z-index: 2;
+  font-size: 1.6rem;
+  color: #630606;
+  font-weight: 550;
+}
+.template14 .wrapper .wrapper_teeth .calendar .calendarDay.weddingDay .heartIcon {
+  position: absolute;
+  z-index: -1;
+  font-size: 4rem;
+  color: #ccaa80;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.template14 .wrapper .wrapper_teeth .count {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.template14 .wrapper .wrapper_teeth .count .countdownContainer {
+  position: relative;
+  width: 100%;
+  max-width: 80rem;
+  padding: 0 1rem;
+  display: flex;
+  min-height: 20vh;
+}
+.template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+}
+@media (max-width: 768px) {
+  .template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .title {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .title {
+    font-size: 1.5rem;
+  }
+}
+.template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .timerDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+.template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .timerDisplay .timeGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1rem;
+}
+.template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeValue {
+  font-size: 5rem;
+  font-weight: 800;
+  padding: 0.5rem 1rem;
+  border-radius: 5rem;
+  color: #333;
+}
+@media (max-width: 768px) {
+  .template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeValue {
+    font-size: 5rem;
+  }
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeValue {
+    font-size: 3rem;
+  }
+}
+.template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeUnit {
+  font-size: 1.2rem;
+  margin: 0.5rem 0 0.7rem 0;
+}
+@media (max-width: 768px) {
+  .template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeUnit {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .wrapper_teeth .count .countdownContainer .timerSection .timerDisplay .timeGroup .timeUnit {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map {
+  padding-bottom: 1rem;
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map {
+  padding: 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+@media (max-width: 768px) {
+  .template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map {
+    padding: 1.5rem 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map {
+    padding: 1.5rem 1rem;
+  }
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map .map_groom {
+  flex: 1 1;
+  border: 0.1rem solid rgba(51, 51, 51, 0.2);
+  padding: 1rem 1.5rem;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  border-radius: 0.5rem;
+  background: #04183a;
+  color: #fff;
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map .map_groom svg {
+  margin-right: 0.5rem;
+}
+@media (max-width: 768px) {
+  .template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map .map_groom {
+    border-radius: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map .map_groom {
+    border-radius: 1rem;
+    font-size: 1.3rem;
+  }
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map .map_bride {
+  flex: 1 1;
+  border: 0.1rem solid rgba(51, 51, 51, 0.2);
+  padding: 1rem 1.5rem;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  border-radius: 0.5rem;
+  background: #04183a;
+  color: #fff;
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map .map_bride svg {
+  margin-right: 0.5rem;
+}
+@media (max-width: 768px) {
+  .template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map .map_bride {
+    border-radius: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .template14 .wrapper .wrapper_teeth .wrapper_map .flex_btn__map .map_bride {
+    border-radius: 1rem;
+    font-size: 1.3rem;
+  }
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map .google_map {
+  overflow: hidden;
+  border-radius: 1rem;
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map .google_map iframe {
+  border: none;
+  width: 98%;
+  border-radius: 1rem;
+  height: 50rem;
+}
+.template14 .wrapper .wrapper_teeth .wrapper_map .google_map img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }/*# sourceMappingURL=14.module.css.map */

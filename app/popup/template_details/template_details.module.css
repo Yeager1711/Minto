@@ -389,6 +389,11 @@
   max-width: 100% !important;
   color: #fff;
   width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .popupOverlay__reponsive .content .wrapper_info .description {
   color: #fff;

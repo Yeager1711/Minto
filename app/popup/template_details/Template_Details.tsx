@@ -173,7 +173,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                             {product.name}
                         </h2>
 
-                        {/* KHÔNG dùng display:none để còn animate */}
                         <div
                             className={`${styles.description} ${isContentExpanded ? '' : styles.hidden}`}
                             aria-hidden={!isContentExpanded}
