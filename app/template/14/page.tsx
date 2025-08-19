@@ -223,6 +223,9 @@ const Template14: React.FC = () => {
                     </div>
 
                     <div className={styles.calendar}>
+                        <div className={styles.text_std__image}>
+                            <img src="/images/m14/std_txt.png" alt="" />
+                        </div>
                         <div className={styles.calendarHeader}>
                             <h3>
                                 Tháng {weddingData.weddingDate.getMonth() + 1}, {weddingData.weddingDate.getFullYear()}
