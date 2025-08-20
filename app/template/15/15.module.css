@@ -81,7 +81,7 @@
   z-index: 9999 !important;
   padding: 0;
   display: flex;
-  min-height: 90vh;
+  min-height: 80vh;
   align-items: center;
 }
 @media (max-width: 480px) {
