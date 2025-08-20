@@ -111,9 +111,9 @@ const Template14: React.FC = () => {
                     <div className={styles.content_header}>
                         <span>Please join us for</span>
                         <h3>The Wedding of</h3>
-                        <div className={styles.groom}>Huỳnh Khánh</div>
+                        <div className={styles.groom}>Hoàng Nam</div>
                         <div className={styles.and}>and</div>
-                        <div className={styles.bride}>Nhu Quỳnh</div>
+                        <div className={styles.bride}>Thùy Linh</div>
                     </div>
                 </div>
 
@@ -152,8 +152,8 @@ const Template14: React.FC = () => {
                             </div>
 
                             <div className={styles.groom_and_bride}>
-                                <div>Huỳnh Khánh</div>
-                                <div>Nhu Quỳnh</div>
+                                <div>Hoàng Nam</div>
+                                <div>Thùy Linh</div>
                             </div>
 
                             <div className={styles.dat}>
@@ -199,7 +199,7 @@ const Template14: React.FC = () => {
                         <div className={styles.preview_select}>
                             <div className={styles.flex_content}>
                                 <div className={styles.image_story__bride}>
-                                    <img src="/images/m13/10.jpg" alt="" />
+                                    <img src="/images/m13/8.jpg" alt="" />
                                 </div>
                                 <div className={styles.text_story}>
                                     <h1>The Bride&apos;s Story</h1>
@@ -338,6 +338,29 @@ const Template14: React.FC = () => {
                         {Array.from({ length: 14 }).map((_, i) => (
                             <div key={i} className={styles.tooth}></div>
                         ))}
+                    </div>
+                </div>
+
+                <div className={styles.title_album}>wedding album</div>
+                <div className={styles.bento_image}>
+                    <img src="/images/m13/8.jpg" alt="" className={styles.img1} />
+                    <img src="/images/m13/2.jpg" alt="" className={styles.img2} />
+                    <img src="/images/m13/3.jpg" alt="" className={styles.img3} />
+                    <img src="/images/m13/4.jpg" alt="" className={styles.img4} />
+                    <img src="/images/m13/5.jpg" alt="" className={styles.img5} />
+                    <img src="/images/m13/6.jpg" alt="" className={styles.img6} />
+                    <img src="/images/m13/7.jpg" alt="" className={styles.img7} />
+                    <img src="/images/m13/1.jpg" alt="" className={styles.img8} />
+                </div>
+
+                <div className={styles.footer}>
+                    <div className={styles.column_text}>
+                        <h3>Thank You</h3>
+                        <span className={styles.subtext}>
+                            Cảm ơn Quý Khách vì đã trở thành một phần quan trọng
+                            <br />
+                            trong ngày đặc biệt của chúng tôi.
+                        </span>
                     </div>
                 </div>
             </div>
