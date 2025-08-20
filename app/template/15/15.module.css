@@ -7,7 +7,7 @@
 .Template15 .wrapper {
   max-width: 80rem;
   margin: 0 auto;
-  min-height: 90vh;
+  min-height: 100vh;
   border: 0.1rem solid #dbdbdb;
 }
 .Template15 .wrapper .mainImage {
@@ -81,7 +81,7 @@
   z-index: 9999 !important;
   padding: 0;
   display: flex;
-  min-height: 100vh;
+  min-height: 90vh;
   align-items: center;
 }
 @media (max-width: 480px) {
