@@ -393,10 +393,6 @@ const Template15InviteeName: React.FC = () => {
                         <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
                     </div>
                 </div>
-                <div className={styles.invition_name}>
-                    <span>Trân Trọng Kính Mời</span>
-                    <strong>{guestName}</strong>
-                </div>
             </div>
 
             <div className={`${styles.wrapper} ${isIntroOpen ? styles.wrapper_hidden : ''}`}>
@@ -676,7 +672,6 @@ const Template15InviteeName: React.FC = () => {
                     <div className={`${styles.google_map} ${showMap !== 'none' ? styles.showMap : ''}`}>
                         {showMap !== 'none' && (
                             <button className={styles.closeButton} onClick={handleCloseMap}>
-                                Đóng
                             </button>
                         )}
                         {showMap === 'groom' && (
@@ -783,7 +778,7 @@ const Template15InviteeName: React.FC = () => {
                     {userId ? <InvitionsQR userId={userId} /> : <p>Lỗi: Không tìm thấy thông tin người dùng.</p>}
                 </div>
 
-                <div className={styles.footer} data-aos="fade-up" data-aos-delay="500">
+                <div className={styles.footer} data-aos="fade-up" data-aos-delay="300">
                     <div className={styles.column_text}>
                         <h3>Thank You</h3>
                         <span className={styles.subtext}>
