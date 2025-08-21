@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-import styles from '../../13.module.css';
+import styles from '../../14.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faHeart } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
@@ -33,14 +33,11 @@ interface WeddingData {
 }
 
 interface Images {
-    mainImageTop: { url: string; position: string; fileName?: string };
-    mainImageBottom: { url: string; position: string; fileName?: string };
+    mainImage1: { url: string; position: string; fileName?: string };
+    mainImage2: { url: string; position: string; fileName?: string };
+    mainImage3: { url: string; position: string; fileName?: string };
     groomImage: { url: string; position: string; fileName?: string };
     brideImage: { url: string; position: string; fileName?: string };
-    posterMainImage: { url: string; position: string; fileName?: string };
-    posterSideImage1: { url: string; position: string; fileName?: string };
-    posterSideImage2: { url: string; position: string; fileName?: string };
-    countdownImage: { url: string; position: string; fileName?: string };
     albumImage1: { url: string; position: string; fileName?: string };
     albumImage2: { url: string; position: string; fileName?: string };
     albumImage3: { url: string; position: string; fileName?: string };
@@ -58,7 +55,7 @@ interface TimeLeft {
     seconds: number;
 }
 
-function Template13Edit() {
+const Template14InviteeName: React.FC = () => {
     const params = useParams();
     const templateId = params.id as string;
     const searchParams = useSearchParams();
@@ -66,16 +63,15 @@ function Template13Edit() {
     const [isLoading, setIsLoading] = useState(true);
     const [quantity] = useState(parseInt(searchParams.get('quantity') || '1'));
     const [imageFiles, setImageFiles] = useState<{ file: File; position: string }[]>([]);
-
     const [showMap, setShowMap] = useState<'none' | 'groom' | 'bride'>('none');
 
     useDisableDevTools();
 
-    // Default wedding data based on provided image
+    // Default wedding data
     const defaultWeddingData: WeddingData = {
         bride: '',
         groom: '',
-        weddingDate: new Date(0, 0, 0, 100, 0, 0), 
+        weddingDate: new Date(0, 0, 0, 100, 0, 0),
         weddingTime: '',
         weddingDayOfWeek: '',
         lunarDay: '',
@@ -87,8 +83,8 @@ function Template13Edit() {
             'Em – một cô gái cảm thấy thật may mắn khi gặp được anh. Cảm ơn anh luôn quan tâm, chăm sóc em thật nhiều, nuông chiều những khi em giận hờn vô cớ. Bắt đầu từ hôm nay chúng ta sẽ viết nên một chương mới của cuộc đời, bằng tình thương yêu và hạnh phúc đong đầy anh nhé!',
         groomAddress: '',
         brideAddress: '',
-        groomMapUrl: '',
-        brideMapUrl: '',
+        groomMapUrl: '', // Default coordinates for Crown Melbourne
+        brideMapUrl: '', // Default coordinates for Melbourne Convention and Exhibition Centre
     };
 
     const [weddingData, setWeddingData] = useState<WeddingData>(() => {
@@ -96,17 +92,15 @@ function Template13Edit() {
         if (savedData) {
             try {
                 const parsedData = JSON.parse(savedData);
-                // Parse weddingDate if it's a string (e.g., "17/8/2025")
                 let parsedDate: Date | null = null;
                 if (parsedData.weddingDate) {
                     if (typeof parsedData.weddingDate === 'string') {
                         const [day, month, year] = parsedData.weddingDate.split('/').map(Number);
-                        parsedDate = new Date(year, month - 1, day, 10, 0, 0); // Default to 10:00 AM
+                        parsedDate = new Date(year, month - 1, day, 18, 0, 0); // Default to 6:00 PM
                     } else if (parsedData.weddingDate instanceof Date) {
                         parsedDate = new Date(parsedData.weddingDate);
                     }
                 }
-                // Fallback to defaultWeddingDate.weddingDate if parsedDate is null or invalid
                 const finalDate =
                     parsedDate && !isNaN(parsedDate.getTime()) ? parsedDate : defaultWeddingData.weddingDate;
                 return {
@@ -125,22 +119,19 @@ function Template13Edit() {
     const [images, setImages] = useState<Images>(() => {
         const savedImages = typeof window !== 'undefined' ? localStorage.getItem(`weddingImages${templateId}`) : null;
         const defaultImages: Images = {
-            mainImageTop: { url: '/images/m13/choose_img.png', position: 'mainTop' },
-            mainImageBottom: { url: '/images/m13/choose_img.png', position: 'mainBottom' },
-            groomImage: { url: '/images/m13/choose_img.png', position: 'groom' },
-            brideImage: { url: '/images/m13/choose_img.png', position: 'bride' },
-            posterMainImage: { url: '/images/m13/choose_img.png', position: 'posterMain' },
-            posterSideImage1: { url: '/images/m13/choose_img.png', position: 'posterSide1' },
-            posterSideImage2: { url: '/images/m13/choose_img.png', position: 'posterSide2' },
-            countdownImage: { url: '/images/m13/choose_img.png', position: 'countdown' },
-            albumImage1: { url: '/images/m13/choose_img.png', position: 'album1' },
-            albumImage2: { url: '/images/m13/choose_img.png', position: 'album2' },
-            albumImage3: { url: '/images/m13/choose_img.png', position: 'album3' },
-            albumImage4: { url: '/images/m13/choose_img.png', position: 'album4' },
-            albumImage5: { url: '/images/m13/choose_img.png', position: 'album5' },
-            albumImage6: { url: '/images/m13/choose_img.png', position: 'album6' },
-            albumImage7: { url: '/images/m13/choose_img.png', position: 'album7' },
-            albumImage8: { url: '/images/m13/choose_img.png', position: 'album8' },
+            mainImage1: { url: '/images/m14/choose_img.png', position: 'main1' },
+            mainImage2: { url: '/images/m14/choose_img.png', position: 'main2' },
+            mainImage3: { url: '/images/m14/choose_img.png', position: 'main3' },
+            groomImage: { url: '/images/m14/choose_img.png', position: 'groom' },
+            brideImage: { url: '/images/m14/choose_img.png', position: 'bride' },
+            albumImage1: { url: '/images/m14/choose_img.png', position: 'album1' },
+            albumImage2: { url: '/images/m14/choose_img.png', position: 'album2' },
+            albumImage3: { url: '/images/m14/choose_img.png', position: 'album3' },
+            albumImage4: { url: '/images/m14/choose_img.png', position: 'album4' },
+            albumImage5: { url: '/images/m14/choose_img.png', position: 'album5' },
+            albumImage6: { url: '/images/m14/choose_img.png', position: 'album6' },
+            albumImage7: { url: '/images/m14/choose_img.png', position: 'album7' },
+            albumImage8: { url: '/images/m14/choose_img.png', position: 'album8' },
         };
 
         if (savedImages) {
@@ -159,14 +150,11 @@ function Template13Edit() {
     });
 
     const fileInputRefs = {
-        mainImageTop: useRef<HTMLInputElement>(null),
-        mainImageBottom: useRef<HTMLInputElement>(null),
+        mainImage1: useRef<HTMLInputElement>(null),
+        mainImage2: useRef<HTMLInputElement>(null),
+        mainImage3: useRef<HTMLInputElement>(null),
         groomImage: useRef<HTMLInputElement>(null),
         brideImage: useRef<HTMLInputElement>(null),
-        posterMainImage: useRef<HTMLInputElement>(null),
-        posterSideImage1: useRef<HTMLInputElement>(null),
-        posterSideImage2: useRef<HTMLInputElement>(null),
-        countdownImage: useRef<HTMLInputElement>(null),
         albumImage1: useRef<HTMLInputElement>(null),
         albumImage2: useRef<HTMLInputElement>(null),
         albumImage3: useRef<HTMLInputElement>(null),
@@ -184,7 +172,7 @@ function Template13Edit() {
             setImages((prev) => {
                 const newImages = {
                     ...prev,
-                    [key]: { url: `/images/m13/${position}.jpg`, position, fileName: undefined },
+                    [key]: { url: `/images/m14/${position}.jpg`, position, fileName: undefined },
                 };
                 try {
                     localStorage.setItem(`weddingImages${templateId}`, JSON.stringify(newImages));
@@ -261,12 +249,6 @@ function Template13Edit() {
         fileInputRefs[key].current?.click();
     };
 
-    const formatDayOfWeek = (date: Date | null): string => {
-        if (!date) return 'Chủ Nhật'; // Default to Sunday based on image data
-        const days = ['Chủ Nhật', 'THỨ HAI', 'THỨ BA', 'THỨ TƯ', 'THỨ NĂM', 'THỨ SÁU', 'THỨ BẢY'];
-        return days[date.getDay()];
-    };
-
     const formatTime = (time: string): string => {
         if (!time) return '';
         const amPmMatch = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
@@ -292,6 +274,48 @@ function Template13Edit() {
         return '';
     };
 
+    // Countdown logic
+    const calculateTimeLeft = (): TimeLeft => {
+        const now = new Date(); // Current date and time
+        const difference =
+            (weddingData.weddingDate?.getTime() || new Date().getTime()) - now.getTime();
+
+        if (difference <= 0) {
+            return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+        }
+
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        return { days, hours, minutes, seconds };
+    };
+
+    const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
+
+    // Calendar logic
+    const generateCalendarDays = (): (number | null)[] => {
+        const year = weddingData.weddingDate ? weddingData.weddingDate.getFullYear() : 2025;
+        const month = weddingData.weddingDate ? weddingData.weddingDate.getMonth() : 8; // August
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const calendarDays: (number | null)[] = [];
+        for (let i = 0; i < firstDay; i++) {
+            calendarDays.push(null);
+        }
+        for (let day = 1; day <= daysInMonth; day++) {
+            calendarDays.push(day);
+        }
+        const totalSlots = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+        for (let i = calendarDays.length; i < totalSlots; i++) {
+            calendarDays.push(null);
+        }
+        return calendarDays;
+    };
+    const calendarDays = generateCalendarDays();
+
+    // Map functions
     const getMapEmbedUrlFromCoords = (coords: string): string => {
         if (!coords) return '';
         const match = coords.match(/^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$/);
@@ -347,49 +371,6 @@ function Template13Edit() {
         setShowMap('none');
     };
 
-    // Generate calendar days
-    const generateCalendarDays = (date: Date | null): (number | null)[] => {
-        const year = date ? date.getFullYear() : 2025;
-        const month = date ? date.getMonth() : 7; // Default to August
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        const calendarDays: (number | null)[] = [];
-        for (let i = 0; i < firstDayOfMonth; i++) {
-            calendarDays.push(null);
-        }
-        for (let day = 1; day <= daysInMonth; day++) {
-            calendarDays.push(day);
-        }
-        const totalSlots = Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7;
-        for (let i = calendarDays.length; i < totalSlots; i++) {
-            calendarDays.push(null);
-        }
-        return calendarDays;
-    };
-
-    const calendarDays = generateCalendarDays(weddingData.weddingDate);
-
-    // Countdown logic
-    const calculateTimeLeft = (): TimeLeft => {
-        const now = new Date();
-        const difference =
-            (weddingData.weddingDate?.getTime() || new Date(2025, 7, 17, 10, 0, 0).getTime()) - now.getTime();
-
-        if (difference <= 0) {
-            return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-        }
-
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        return { days, hours, minutes, seconds };
-    };
-
-    const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
-
     useEffect(() => {
         AOS.init({ duration: 800, once: true, offset: 100 });
 
@@ -402,7 +383,7 @@ function Template13Edit() {
                         ...updatedData,
                         weddingDate: updatedData.weddingDate
                             ? `${updatedData.weddingDate.getDate()}/${updatedData.weddingDate.getMonth() + 1}/${updatedData.weddingDate.getFullYear()}`
-                            : '', 
+                            : '',
                     })
                 );
             } catch (e) {
@@ -428,54 +409,92 @@ function Template13Edit() {
     }
 
     return (
-        <div className={styles.template13}>
+        <div className={styles.template14}>
             <div className={styles.wrapper}>
                 <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
-                <div className={styles.wrapper_imageMain}>
-                    <div className={styles.image_top} onClick={() => triggerFileInput('mainImageTop')}>
-                        <Image
-                            src={images.mainImageTop.url}
-                            alt={images.mainImageTop.url ? 'Main photo top' : 'Chọn ảnh'}
-                            width={600}
-                            height={400}
-                            className={images.mainImageTop.url ? '' : styles.imagePlaceholder}
-                            style={{ cursor: 'pointer' }}
-                        />
-                        <input
-                            type="file"
-                            ref={fileInputRefs.mainImageTop}
-                            onChange={(e) => handleImageChange('mainImageTop', 'mainTop', e)}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
+                <div className={styles.header_content}>
+                    <div className={styles.image_flower_blue}>
+                        <Image src="/images/m14/14.1.jpg" alt="Flower background" width={600} height={400} />
                     </div>
-                    <div className={styles.image_bottom} onClick={() => triggerFileInput('mainImageBottom')}>
-                        <Image
-                            src={images.mainImageBottom.url}
-                            alt={images.mainImageBottom.url ? 'Main photo bottom' : 'Chọn ảnh'}
-                            width={600}
-                            height={400}
-                            className={images.mainImageBottom.url ? '' : styles.imagePlaceholder}
-                            style={{ cursor: 'pointer' }}
-                        />
-                        <input
-                            type="file"
-                            ref={fileInputRefs.mainImageBottom}
-                            onChange={(e) => handleImageChange('mainImageBottom', 'mainBottom', e)}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
+
+                    <div className={styles.wrapper_main}>
+                        <div className={styles.img_main_1} onClick={() => triggerFileInput('mainImage1')}>
+                            <Image
+                                src={images.mainImage1.url}
+                                alt={images.mainImage1.url ? 'Main photo 1' : 'Chọn ảnh'}
+                                width={200}
+                                height={300}
+                                className={images.mainImage1.url ? '' : styles.imagePlaceholder}
+                                style={{ cursor: 'pointer' }}
+                            />
+                            <input
+                                type="file"
+                                ref={fileInputRefs.mainImage1}
+                                onChange={(e) => handleImageChange('mainImage1', 'main1', e)}
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                            />
+                        </div>
+                        <div className={styles.img_main_2} onClick={() => triggerFileInput('mainImage2')}>
+                            <Image
+                                src={images.mainImage2.url}
+                                alt={images.mainImage2.url ? 'Main photo 2' : 'Chọn ảnh'}
+                                width={200}
+                                height={300}
+                                className={images.mainImage2.url ? '' : styles.imagePlaceholder}
+                                style={{ cursor: 'pointer' }}
+                            />
+                            <input
+                                type="file"
+                                ref={fileInputRefs.mainImage2}
+                                onChange={(e) => handleImageChange('mainImage2', 'main2', e)}
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                            />
+                        </div>
+                        <div className={styles.img_main_3} onClick={() => triggerFileInput('mainImage3')}>
+                            <Image
+                                src={images.mainImage3.url}
+                                alt={images.mainImage3.url ? 'Main photo 3' : 'Chọn ảnh'}
+                                width={200}
+                                height={300}
+                                className={images.mainImage3.url ? '' : styles.imagePlaceholder}
+                                style={{ cursor: 'pointer' }}
+                            />
+                            <input
+                                type="file"
+                                ref={fileInputRefs.mainImage3}
+                                onChange={(e) => handleImageChange('mainImage3', 'main3', e)}
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className={styles.content_header}>
+                        <span>Please join us for</span>
+                        <h3>The Wedding of</h3>
+                        <div className={styles.groom}>{weddingData.groom}</div>
+                        <div className={styles.and}>and</div>
+                        <div className={styles.bride}>{weddingData.bride}</div>
                     </div>
                 </div>
 
                 <div className={styles.familyInfo}>
                     <div className={styles.wrapper_bar2}>
+                        <div className={styles.teethTop}>
+                            {Array.from({ length: 14 }).map((_, i) => (
+                                <div key={i} className={styles.tooth}></div>
+                            ))}
+                        </div>
+
                         <div className={styles.familyContainer}>
                             <h1>
                                 Trân Trọng kính mời đến dự buổi tiệc
                                 <br />
                                 Chung vui cùng gia đình chúng tôi
                             </h1>
+
                             <div className={styles.flex}>
                                 <div className={styles.familySide}>
                                     <h3>Groom&apos;s Family</h3>
@@ -494,14 +513,16 @@ function Template13Edit() {
                                     </p>
                                 </div>
                             </div>
+
                             <div className={styles.groom_and_bride}>
                                 <div>{weddingData.groom}</div>
                                 <div>{weddingData.bride}</div>
                             </div>
+
                             <div className={styles.dat}>
                                 Lúc:{' '}
                                 <strong>
-                                    {formatTime(weddingData.weddingTime)} || {formatDayOfWeek(weddingData.weddingDate)},{' '}
+                                    {formatTime(weddingData.weddingTime)} || {weddingData.weddingDayOfWeek},{' '}
                                     {weddingData.weddingDate && !isNaN(weddingData.weddingDate.getTime())
                                         ? `${weddingData.weddingDate.getDate()} Tháng ${weddingData.weddingDate.getMonth() + 1}, ${weddingData.weddingDate.getFullYear()}`
                                         : ''}
@@ -511,251 +532,219 @@ function Template13Edit() {
                                 Sự hiện diện của bạn là niềm vinh hạnh lớn đối với chúng tôi.
                             </div>
                         </div>
+
+                        <div className={styles.teethBottom}>
+                            {Array.from({ length: 14 }).map((_, i) => (
+                                <div key={i} className={styles.tooth}></div>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
-                <div className={styles.groom_story}>
-                    <div className={styles.story_text}>
-                        <p>{weddingData.groomStory || defaultWeddingData.groomStory}</p>
-                    </div>
-                    <div className={styles.story_image_groom} onClick={() => triggerFileInput('groomImage')}>
-                        <Image
-                            src={images.groomImage.url}
-                            alt={images.groomImage.url ? 'Groom photo' : 'Chọn ảnh'}
-                            width={300}
-                            height={400}
-                            className={images.groomImage.url ? '' : styles.imagePlaceholder}
-                            style={{ cursor: 'pointer' }}
-                        />
-                        <input
-                            type="file"
-                            ref={fileInputRefs.groomImage}
-                            onChange={(e) => handleImageChange('groomImage', 'groom', e)}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
-                    </div>
-                </div>
-
-                <div className={styles.bride_story}>
-                    <div className={styles.story_image_bride} onClick={() => triggerFileInput('brideImage')}>
-                        <Image
-                            src={images.brideImage.url}
-                            alt={images.brideImage.url ? 'Bride photo' : 'Chọn ảnh'}
-                            width={300}
-                            height={400}
-                            className={images.brideImage.url ? '' : styles.imagePlaceholder}
-                            style={{ cursor: 'pointer' }}
-                        />
-                        <input
-                            type="file"
-                            ref={fileInputRefs.brideImage}
-                            onChange={(e) => handleImageChange('brideImage', 'bride', e)}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
-                    </div>
-                    <div className={styles.story_text}>
-                        <p>{weddingData.brideStory || defaultWeddingData.brideStory}</p>
-                    </div>
-                </div>
-
-                <div className={styles.calendar}>
-                    <div className={styles.calendarHeader}>
-                        <h3>
-                            Tháng{' '}
-                            {weddingData.weddingDate && !isNaN(weddingData.weddingDate.getTime())
-                                ? weddingData.weddingDate.getMonth() + 1
-                                : 8}
-                            , {weddingData.weddingDate?.getFullYear() || 2025}
-                        </h3>
-                    </div>
-                    <div className={styles.calendarGrid}>
-                        <div className={styles.dayName}>CN</div>
-                        <div className={styles.dayName}>T2</div>
-                        <div className={styles.dayName}>T3</div>
-                        <div className={styles.dayName}>T4</div>
-                        <div className={styles.dayName}>T5</div>
-                        <div className={styles.dayName}>T6</div>
-                        <div className={styles.dayName}>T7</div>
-                        {calendarDays.map((day, index) => {
-                            const isWeddingDay =
-                                weddingData.weddingDate && !isNaN(weddingData.weddingDate.getTime())
-                                    ? day === weddingData.weddingDate.getDate()
-                                    : day === 17; // Default to 17th if date is invalid
-                            const isValidDay = day !== null;
-                            return (
+                <div className={styles.story}>
+                    <div className={styles.story_groom}>
+                        <div className={styles.preview_select}>
+                            <div className={styles.flex_content}>
                                 <div
-                                    key={index}
-                                    className={`${styles.calendarDay} ${isWeddingDay ? styles.weddingDay : ''} ${
-                                        !isValidDay ? styles.emptyDay : ''
-                                    }`}
+                                    className={styles.image_story__groom}
+                                    onClick={() => triggerFileInput('groomImage')}
                                 >
-                                    {isValidDay && (
-                                        <>
-                                            {isWeddingDay ? (
-                                                <span className={styles.weddingDayContent}>
-                                                    {day}
-                                                    <FontAwesomeIcon icon={faHeart} className={styles.heartIcon} />
-                                                </span>
-                                            ) : (
-                                                day
-                                            )}
-                                        </>
-                                    )}
+                                    <Image
+                                        src={images.groomImage.url}
+                                        alt={images.groomImage.url ? 'Groom photo' : 'Chọn ảnh'}
+                                        width={300}
+                                        height={400}
+                                        className={images.groomImage.url ? '' : styles.imagePlaceholder}
+                                        style={{ cursor: 'pointer' }}
+                                    />
+                                    <input
+                                        type="file"
+                                        ref={fileInputRefs.groomImage}
+                                        onChange={(e) => handleImageChange('groomImage', 'groom', e)}
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                    />
                                 </div>
-                            );
-                        })}
-                    </div>
-                </div>
-
-                <div className={styles.count}>
-                    <div className={styles.bg_nen} onClick={() => triggerFileInput('countdownImage')}>
-                        <Image
-                            src={images.countdownImage.url}
-                            alt={images.countdownImage.url ? 'Countdown photo' : 'Chọn ảnh'}
-                            width={600}
-                            height={400}
-                            className={images.countdownImage.url ? '' : styles.imagePlaceholder}
-                            style={{ cursor: 'pointer' }}
-                        />
-                        <input
-                            type="file"
-                            ref={fileInputRefs.countdownImage}
-                            onChange={(e) => handleImageChange('countdownImage', 'countdown', e)}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
-                    </div>
-                    <div className={`${styles.countdownContainer} ${showMap !== 'none' ? styles.hidden : ''}`}>
-                        <div className={styles.timerSection}>
-                            <h2 className={styles.title}>Đếm ngược đến ngày cưới</h2>
-                            <div className={styles.timerDisplay}>
-                                <div className={styles.timeGroup}>
-                                    <span className={styles.timeValue}>{timeLeft.days}</span>
-                                    <span className={styles.timeUnit}>Ngày</span>
+                                <div className={styles.text_story}>
+                                    <h1>The Groom&apos;s Story</h1>
+                                    <p>{weddingData.groomStory || defaultWeddingData.groomStory}</p>
                                 </div>
-                                <div className={styles.timeGroup}>
-                                    <span className={styles.timeValue}>{timeLeft.hours}</span>
-                                    <span className={styles.timeUnit}>Giờ</span>
-                                </div>
-                                <div className={styles.timeGroup}>
-                                    <span className={styles.timeValue}>{timeLeft.minutes}</span>
-                                    <span className={styles.timeUnit}>Phút</span>
-                                </div>
-                                <div className={styles.timeGroup}>
-                                    <span className={styles.timeValue}>{timeLeft.seconds}</span>
-                                    <span className={styles.timeUnit}>Giây</span>
-                                </div>
-                            </div>
-                            <div className={styles.mapButtons}>
-                                <button
-                                    className={styles.mapButton}
-                                    onClick={showMap === 'groom' ? openGroomMapInGoogle : () => handleShowMap('groom')}
-                                >
-                                    <FontAwesomeIcon icon={faLocationDot} />
-                                    {showMap === 'groom' ? 'Mở map lớn' : 'Nhà Trai'}
-                                </button>
-                                <button
-                                    className={styles.mapButton}
-                                    onClick={showMap === 'bride' ? openBrideMapInGoogle : () => handleShowMap('bride')}
-                                >
-                                    <FontAwesomeIcon icon={faLocationDot} />
-                                    {showMap === 'bride' ? 'Mở map lớn' : 'Nhà Gái'}
-                                </button>
                             </div>
                         </div>
                     </div>
-                    <div className={`${styles.mapContainer} ${showMap !== 'none' ? styles.showMap : ''}`}>
-                        <button className={styles.closeButton} onClick={handleCloseMap}>
-                            Đóng
-                        </button>
-                        {showMap === 'groom' && (
-                            <iframe
-                                src={getMapEmbedUrlFromCoords(weddingData.groomMapUrl)}
-                                width=""
-                                height=""
-                                style={{ border: 0 }}
-                                allowFullScreen
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            ></iframe>
-                        )}
-                        {showMap === 'bride' && (
-                            <iframe
-                                src={getMapEmbedUrlFromCoords(weddingData.brideMapUrl)}
-                                width=""
-                                height=""
-                                style={{ border: 0 }}
-                                allowFullScreen
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            ></iframe>
-                        )}
+
+                    <div className={styles.story_bride}>
+                        <div className={styles.preview_select}>
+                            <div className={styles.flex_content}>
+                                <div
+                                    className={styles.image_story__bride}
+                                    onClick={() => triggerFileInput('brideImage')}
+                                >
+                                    <Image
+                                        src={images.brideImage.url}
+                                        alt={images.brideImage.url ? 'Bride photo' : 'Chọn ảnh'}
+                                        width={300}
+                                        height={400}
+                                        className={images.brideImage.url ? '' : styles.imagePlaceholder}
+                                        style={{ cursor: 'pointer' }}
+                                    />
+                                    <input
+                                        type="file"
+                                        ref={fileInputRefs.brideImage}
+                                        onChange={(e) => handleImageChange('brideImage', 'bride', e)}
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                    />
+                                </div>
+                                <div className={styles.text_story}>
+                                    <h1>The Bride&apos;s Story</h1>
+                                    <p>{weddingData.brideStory || defaultWeddingData.brideStory}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div className={styles.posterSection}>
-                    <div className={styles.left} onClick={() => triggerFileInput('posterMainImage')}>
-                        <div className={styles.overlayText}>
-                            Our love <br /> story begins <br /> here.
-                        </div>
-                        <Image
-                            src={images.posterMainImage.url}
-                            alt={images.posterMainImage.url ? 'Poster main photo' : 'Chọn ảnh'}
-                            width={400}
-                            height={600}
-                            className={images.posterMainImage.url ? '' : styles.imagePlaceholder}
-                            style={{ cursor: 'pointer' }}
-                        />
-                        <input
-                            type="file"
-                            ref={fileInputRefs.posterMainImage}
-                            onChange={(e) => handleImageChange('posterMainImage', 'posterMain', e)}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
+                <div className={styles.wrapper_teeth}>
+                    <div className={styles.teethTop}>
+                        {Array.from({ length: 14 }).map((_, i) => (
+                            <div key={i} className={styles.tooth}></div>
+                        ))}
                     </div>
-                    <div className={styles.right}>
-                        <div className={styles.sideImage} onClick={() => triggerFileInput('posterSideImage1')}>
-                            <Image
-                                src={images.posterSideImage1.url}
-                                alt={images.posterSideImage1.url ? 'Poster side photo 1' : 'Chọn ảnh'}
-                                width={200}
-                                height={300}
-                                className={images.posterSideImage1.url ? '' : styles.imagePlaceholder}
-                                style={{ cursor: 'pointer' }}
-                            />
-                            <input
-                                type="file"
-                                ref={fileInputRefs.posterSideImage1}
-                                onChange={(e) => handleImageChange('posterSideImage1', 'posterSide1', e)}
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                            />
+
+                    <div className={styles.calendar}>
+                        <div className={styles.text_std__image}>
+                            <Image src="/images/m14/std_txt.png" alt="Calendar decoration" width={200} height={100} />
                         </div>
-                        <div className={styles.sideImage} onClick={() => triggerFileInput('posterSideImage2')}>
-                            <Image
-                                src={images.posterSideImage2.url}
-                                alt={images.posterSideImage2.url ? 'Poster side photo 2' : 'Chọn ảnh'}
-                                width={200}
-                                height={300}
-                                className={images.posterSideImage2.url ? '' : styles.imagePlaceholder}
-                                style={{ cursor: 'pointer' }}
-                            />
-                            <input
-                                type="file"
-                                ref={fileInputRefs.posterSideImage2}
-                                onChange={(e) => handleImageChange('posterSideImage2', 'posterSide2', e)}
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                            />
+                        <div className={styles.calendarHeader}>
+                            <h3>
+                                Tháng{' '}
+                                {weddingData.weddingDate && !isNaN(weddingData.weddingDate.getTime())
+                                    ? weddingData.weddingDate.getMonth() + 1
+                                    : 8}
+                                , {weddingData.weddingDate?.getFullYear() || 2025}
+                            </h3>
                         </div>
-                        <div className={styles.quoteText}>
-                            <p>
-                                <strong>She.</strong> <br /> &quot;I knew the first time he saw you, he would never let go.&quot;
-                            </p>
+                        <div className={styles.calendarGrid}>
+                            <div className={styles.dayName}>CN</div>
+                            <div className={styles.dayName}>T2</div>
+                            <div className={styles.dayName}>T3</div>
+                            <div className={styles.dayName}>T4</div>
+                            <div className={styles.dayName}>T5</div>
+                            <div className={styles.dayName}>T6</div>
+                            <div className={styles.dayName}>T7</div>
+                            {calendarDays.map((day, index) => {
+                                const isWeddingDay =
+                                    weddingData.weddingDate && !isNaN(weddingData.weddingDate.getTime())
+                                        ? day === weddingData.weddingDate.getDate()
+                                        : day === 21; // Default to 21st (today's date)
+                                const isValidDay = day !== null;
+                                return (
+                                    <div
+                                        key={index}
+                                        className={`${styles.calendarDay} ${isWeddingDay ? styles.weddingDay : ''} ${
+                                            !isValidDay ? styles.emptyDay : ''
+                                        }`}
+                                    >
+                                        {isValidDay && (
+                                            <>
+                                                {isWeddingDay ? (
+                                                    <span className={styles.weddingDayContent}>
+                                                        {day}
+                                                        <FontAwesomeIcon icon={faHeart} className={styles.heartIcon} />
+                                                    </span>
+                                                ) : (
+                                                    day
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
+                    </div>
+
+                    <div className={styles.count}>
+                        <div className={styles.countdownContainer}>
+                            <div className={styles.timerSection}>
+                                <h2 className={styles.title}>Đếm ngược đến ngày cưới</h2>
+                                <div className={styles.timerDisplay}>
+                                    <div className={styles.timeGroup}>
+                                        <span className={styles.timeValue}>{timeLeft.days}</span>
+                                        <span className={styles.timeUnit}>Ngày</span>
+                                    </div>
+                                    <div className={styles.timeGroup}>
+                                        <span className={styles.timeValue}>{timeLeft.hours}</span>
+                                        <span className={styles.timeUnit}>Giờ</span>
+                                    </div>
+                                    <div className={styles.timeGroup}>
+                                        <span className={styles.timeValue}>{timeLeft.minutes}</span>
+                                        <span className={styles.timeUnit}>Phút</span>
+                                    </div>
+                                    <div className={styles.timeGroup}>
+                                        <span className={styles.timeValue}>{timeLeft.seconds}</span>
+                                        <span className={styles.timeUnit}>Giây</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={styles.wrapper_map}>
+                        <div className={styles.flex_btn__map}>
+                            <button
+                                className={styles.map_groom}
+                                onClick={showMap === 'groom' ? openGroomMapInGoogle : () => handleShowMap('groom')}
+                            >
+                                <FontAwesomeIcon icon={faLocationDot} />
+                                {showMap === 'groom' ? 'Mở bản đồ lớn' : 'Chỉ đường chú rể'}
+                            </button>
+                            <button
+                                className={styles.map_bride}
+                                onClick={showMap === 'bride' ? openBrideMapInGoogle : () => handleShowMap('bride')}
+                            >
+                                <FontAwesomeIcon icon={faLocationDot} />
+                                {showMap === 'bride' ? 'Mở bản đồ lớn' : 'Chỉ đường cô dâu'}
+                            </button>
+                        </div>
+                        <div className={`${styles.google_map} ${showMap !== 'none' ? styles.showMap : ''}`}>
+                            {showMap !== 'none' && (
+                                <button className={styles.closeButton} onClick={handleCloseMap}>
+                                    Đóng
+                                </button>
+                            )}
+                            {showMap === 'groom' && (
+                                <iframe
+                                    src={getMapEmbedUrlFromCoords(weddingData.groomMapUrl)}
+                                    width="100%"
+                                    height="500"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
+                            )}
+                            {showMap === 'bride' && (
+                                <iframe
+                                    src={getMapEmbedUrlFromCoords(weddingData.brideMapUrl)}
+                                    width="100%"
+                                    height="500"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
+                            )}
+                            {showMap === 'none' && (
+                                <Image src="/images/m10/icon_map.png" alt="Map placeholder" width={200} height={200} />
+                            )}
+                        </div>
+                    </div>
+
+                    <div className={styles.teethBottom}>
+                        {Array.from({ length: 14 }).map((_, i) => (
+                            <div key={i} className={styles.tooth}></div>
+                        ))}
                     </div>
                 </div>
 
@@ -912,6 +901,6 @@ function Template13Edit() {
             </div>
         </div>
     );
-}
+};
 
-export default Template13Edit;
+export default Template14InviteeName;

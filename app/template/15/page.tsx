@@ -21,7 +21,7 @@ interface TimeLeft {
     seconds: number;
 }
 
-const Template15: React.FC = () => {
+const Template15Edit: React.FC = () => {
     // Dữ liệu giả lập
     const weddingData: WeddingData = {
         weddingDate: new Date('2025-09-17T18:00:00+07:00'),
@@ -111,9 +111,9 @@ const Template15: React.FC = () => {
                 <div className={styles.mainImage}>
                     <img src="/images/m15/1.jpg" alt="" />
                     <div className={styles.content_main}>
-                        <div className={styles.groom_name}>Huỳnh Nam</div>
+                        <div className={styles.groom_name}>Anh Khoa</div>
                         <div className={styles.and}>&</div>
-                        <div className={styles.bride_name}>Nhu Quỳnh</div>
+                        <div className={styles.bride_name}>Thanh Huyền</div>
                     </div>
                 </div>
 
@@ -142,11 +142,11 @@ const Template15: React.FC = () => {
                                 </div>
                             </div>
                             <div className={styles.groom_and_bride}>
-                                <div>Huỳnh Nam</div>
-                                <div>Nhu Quỳnh</div>
+                                <div>Anh Khoa</div>
+                                <div>Thanh Huyền</div>
                             </div>
                             <div className={styles.dat}>
-                                At: <strong>18:00 || Wednesday, September 17, 2025</strong>
+                                At: <strong>18:00 || Wednesday, November 17, 2025</strong>
                                 <br />
                                 <p>
                                     (Nhằm ngày <strong>28</strong> tháng <strong>09</strong> năm Ất Tỵ)
@@ -163,7 +163,7 @@ const Template15: React.FC = () => {
                     </div>
                     <div className={styles.dateRow}>
                         <span>17</span>
-                        <span>09</span>
+                        <span>11</span>
                         <span>25</span>
                     </div>
                     <div className={styles.photos}>
@@ -300,6 +300,7 @@ const Template15: React.FC = () => {
                         ))}
                     </div>
                 </div>
+
                 <div className={styles.wrapper_map}>
                     <div className={styles.google_map}>
                         {showGroomMap && (
@@ -327,9 +328,30 @@ const Template15: React.FC = () => {
                         {!showGroomMap && !showBrideMap && <img src="/images/m10/icon_map.png" alt="map placeholder" />}
                     </div>
                 </div>
+
+                <div className={styles.galary}>
+                    <img src="/images/m15/6.jpg" alt="" />
+                    <img src="/images/m15/2.jpg" alt="" />
+                    <img src="/images/m15/3.jpg" alt="" />
+                    <img src="/images/m15/4.jpg" alt="" />
+                    <img src="/images/m15/5.jpg" alt="" />
+                    <img src="/images/m15/7.jpg" alt="" />
+                    <img src="/images/m15/8.jpg" alt="" />
+                </div>
+
+                <div className={styles.footer}>
+                    <div className={styles.column_text}>
+                        <h3>Thank You</h3>
+                        <span className={styles.subtext}>
+                            Cảm ơn Quý Khách vì đã trở thành một phần quan trọng
+                            <br />
+                            trong ngày đặc biệt của chúng tôi.
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     );
 };
 
-export default Template15;
+export default Template15Edit;

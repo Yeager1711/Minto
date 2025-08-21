@@ -18,7 +18,7 @@ interface WeddingData {
     brideMapUrl: string;
 }
 
-const Template14: React.FC = () => {
+const Template14nviteeName: React.FC = () => {
     const [showGroomMap, setShowGroomMap] = React.useState<boolean>(false);
     const [showBrideMap, setShowBrideMap] = React.useState<boolean>(false);
     const [timeLeft, setTimeLeft] = React.useState<TimeLeft>({
@@ -368,4 +368,4 @@ const Template14: React.FC = () => {
     );
 };
 
-export default Template14;
+export default Template14nviteeName;
