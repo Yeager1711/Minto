@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 import { IoSend } from 'react-icons/io5';
 import { FaRegCopy } from 'react-icons/fa';
@@ -71,11 +71,65 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const [isClosing, setIsClosing] = useState<boolean>(false);
     const [isUserScrollingUp, setIsUserScrollingUp] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<PopupTemplate | null>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showColon, setShowColon] = useState(false);
 
     // refs
-    const answerRef = React.useRef<HTMLDivElement | null>(null);
-    const textSpanRefs = React.useRef<Record<string, HTMLSpanElement | null>>({});
-    const typingTimerRef = React.useRef<number | null>(null);
+    const answerRef = useRef<HTMLDivElement | null>(null);
+    const textSpanRefs = useRef<Record<string, HTMLSpanElement | null>>({});
+    const typingTimerRef = useRef<number | null>(null);
+    const plusMenuRef = useRef<HTMLDivElement | null>(null);
+    const inputQuestionRef = useRef<HTMLDivElement | null>(null); // New ref for input_question
+
+    const toggleMenu = () => {
+        setIsMenuOpen((prev) => !prev);
+    };
+
+    const handleMenuItemClick = (item: string) => {
+        if (item === 'Tìm mẫu sở thich') {
+            setInput('gu thiệp: ');
+            setShowColon(true);
+        }
+        setIsMenuOpen(false);
+    };
+
+    // Handle click outside to close menu
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (plusMenuRef.current && !plusMenuRef.current.contains(event.target as Node)) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    // Handle textarea focus and blur to toggle the focused class
+    useEffect(() => {
+        const inputQuestion = inputQuestionRef.current;
+        const textarea = inputQuestion?.querySelector('textarea');
+
+        if (!inputQuestion || !textarea) return;
+
+        const handleFocus = () => {
+            inputQuestion.classList.add(styles.focused);
+        };
+
+        const handleBlur = () => {
+            inputQuestion.classList.remove(styles.focused);
+        };
+
+        textarea.addEventListener('focus', handleFocus);
+        textarea.addEventListener('blur', handleBlur);
+
+        return () => {
+            textarea.removeEventListener('focus', handleFocus);
+            textarea.removeEventListener('blur', handleBlur);
+        };
+    }, []);
 
     // utils
     const genId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -110,11 +164,9 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         setSelectedProduct(null);
     };
 
-
     const handleCloseGeminiReply = (): void => {
         setIsClosing(true);
 
-        // Optional: Gửi request end-session
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
             axios
@@ -140,6 +192,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         const userId = genId();
         setMessages((prev) => [...prev, { id: userId, text: input, isUser: true }]);
         setInput('');
+        setShowColon(false);
         setIsLoading(true);
         setError(null);
 
@@ -478,7 +531,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                             </Swiper>
                                                             {message.displayedTemplates ===
                                                                 message.templates?.length && (
-                                                                <span style={{marginTop: '1rem'}}>
+                                                                <span style={{ marginTop: '1rem' }}>
                                                                     Anh/Chị muốn biết thêm chi tiết về mẫu nào không? 😊
                                                                 </span>
                                                             )}
@@ -569,23 +622,52 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         )}
                     </div>
 
-                    <div className={styles.input_question}>
-                        <textarea
-                            placeholder="Ask me anything..."
-                            value={input}
-                            onChange={handleInputChange}
-                            onKeyPress={handleKeyPress}
-                            disabled={isLoading}
-                            rows={3}
-                            style={{
-                                resize: 'vertical',
-                                width: '100%',
-                                padding: '10px',
-                                borderRadius: '4px',
-                            }}
-                            maxLength={1000}
-                            aria-label="Chat input"
-                        />
+                    <div className={styles.input_question} ref={inputQuestionRef}>
+                        <div className={styles.plusMenuWrapper} ref={plusMenuRef}>
+                            <button className={styles.plusButton} onClick={toggleMenu} aria-label="Open menu">
+                                +
+                            </button>
+
+                            {isMenuOpen && (
+                                <div className={styles.menuDropdown}>
+                                    <div
+                                        className={styles.menuItem}
+                                        onClick={() => handleMenuItemClick('Phân tích hình ảnh')}
+                                    >
+                                        📂 Phân tích hình ảnh
+                                    </div>
+
+                                    <div
+                                        className={styles.menuItem}
+                                        onClick={() => handleMenuItemClick('Suy nghĩ chuyên sâu hơn')}
+                                    >
+                                        🔍 Suy nghĩ chi tiết hơn
+                                    </div>
+
+                                    <div
+                                        className={styles.menuItem}
+                                        onClick={() => handleMenuItemClick('Tìm mẫu yêu thích')}
+                                    >
+                                        💌 Tìm mẫu yêu thích
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className={styles.textareaWrapper}>
+                            <textarea
+                                placeholder="Ask me anything..."
+                                value={input}
+                                onChange={handleInputChange}
+                                onKeyPress={handleKeyPress}
+                                disabled={isLoading}
+                                rows={3}
+                                maxLength={1000}
+                                aria-label="Chat input"
+                            />
+                        </div>
+                        {showColon && <span className={styles.colon}></span>}
+
                         <IoSend
                             onClick={handleSend}
                             className={`${styles.sendIcon} ${isLoading ? styles.disabled : ''}`}

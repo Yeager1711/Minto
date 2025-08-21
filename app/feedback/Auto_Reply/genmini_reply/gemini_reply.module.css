@@ -241,8 +241,8 @@
   bottom: 0%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 60rem;
-  width: 88%;
+  max-width: 50rem;
+  width: 80%;
   padding: 1.5rem;
   border-radius: 5rem;
   border: 1px solid #dbdbdb;
@@ -251,26 +251,100 @@
   align-items: center;
   z-index: 99999 !important;
 }
-.gemini_reply .model .wrapper .input_question textarea {
+@media (max-width: 768px) {
+  .gemini_reply .model .wrapper .input_question {
+    max-width: 35rem;
+    width: 95%;
+    height: 3rem;
+  }
+}
+@media (max-width: 480px) {
+  .gemini_reply .model .wrapper .input_question {
+    max-width: 29rem;
+    width: 95%;
+    height: 2rem;
+  }
+}
+.gemini_reply .model .wrapper .input_question.focused {
+  max-width: 80rem;
+  width: 90%;
+  box-shadow: 0 0 1rem rgba(138, 177, 255, 0.5), 0 0 2rem rgba(102, 153, 255, 0.4), 0 0 3rem rgba(102, 153, 255, 0.3);
+  border-color: rgba(102, 153, 255, 0.6);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  background: rgb(255, 255, 255);
+  height: 6rem;
+}
+.gemini_reply .model .wrapper .input_question .plusMenuWrapper {
+  position: relative;
+}
+.gemini_reply .model .wrapper .input_question .plusMenuWrapper .plusButton {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: none;
+  background: #f1f1f1;
+  font-size: 2rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gemini_reply .model .wrapper .input_question .plusMenuWrapper .plusButton:hover {
+  background: #ddd;
+}
+.gemini_reply .model .wrapper .input_question .plusMenuWrapper .menuDropdown {
+  position: absolute;
+  bottom: 120%;
+  left: 0;
+  background: #222;
+  color: #fff;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 0;
+  min-width: 22rem;
+  z-index: 10000;
+  animation: fadeIn 0.25s ease-out;
+}
+.gemini_reply .model .wrapper .input_question .plusMenuWrapper .menuDropdown .menuItem {
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+}
+.gemini_reply .model .wrapper .input_question .plusMenuWrapper .menuDropdown .menuItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.gemini_reply .model .wrapper .input_question .textareaWrapper {
   flex: 1;
+  position: relative;
+}
+.gemini_reply .model .wrapper .input_question .textareaWrapper textarea {
   background: none;
   color: #333;
   font-size: 16px;
   border: none;
   outline: none;
-  line-height: 1.6rem;
+  line-height: 3.6rem;
   height: 3.5rem;
+  width: 100%;
+  resize: none;
 }
-.gemini_reply .model .wrapper .input_question textarea::-webkit-scrollbar {
+.gemini_reply .model .wrapper .input_question .textareaWrapper textarea::-webkit-scrollbar {
   display: none;
 }
-.gemini_reply .model .wrapper .input_question textarea::-moz-placeholder {
+.gemini_reply .model .wrapper .input_question .textareaWrapper textarea::-moz-placeholder {
   color: #333;
   font-size: 1.3rem;
 }
-.gemini_reply .model .wrapper .input_question textarea::placeholder {
+.gemini_reply .model .wrapper .input_question .textareaWrapper textarea::placeholder {
   color: #333;
   font-size: 1.3rem;
+}
+.gemini_reply .model .wrapper .input_question .textareaWrapper .colon {
+  position: absolute;
+  bottom: -2rem;
+  left: 1rem;
+  font-size: 1.6rem;
+  color: #333;
 }
 .gemini_reply .model .wrapper .input_question svg {
   padding: 1rem 1rem 1rem 1.5rem;
@@ -278,16 +352,7 @@
   font-size: 2rem;
   cursor: pointer;
 }
-.gemini_reply .model .wrapper .input_question:focus-within {
-  box-shadow: 0 0 1rem rgba(138, 177, 255, 0.5), 0 0 2rem rgba(102, 153, 255, 0.4), 0 0 3rem rgba(102, 153, 255, 0.3);
-  border-color: rgba(102, 153, 255, 0.6);
-  padding: 2rem 1rem 2rem 2rem;
-  border-radius: 2rem;
-  max-width: 80rem;
-  height: 5rem;
-  background: rgb(255, 255, 255);
-}
-.gemini_reply .sendIcon.disabled {
+.gemini_reply .model .wrapper .sendIcon.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -318,28 +383,13 @@
     opacity: 0;
   }
 }
-@keyframes siriPulse {
-  0%, 100% {
-    box-shadow: 0 0 1rem rgba(102, 153, 255, 0.4), 0 0 2rem rgba(102, 153, 255, 0.3), 0 0 3rem rgba(102, 153, 255, 0.2);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  50% {
-    box-shadow: 0 0 1.5rem rgba(102, 153, 255, 0.6), 0 0 2.5rem rgba(102, 153, 255, 0.4), 0 0 3.5rem rgba(102, 153, 255, 0.3);
-  }
-}
-@keyframes glowWave {
-  0% {
-    box-shadow: inset 0.5rem 0.5rem 5rem var(--c1), inset -0.5rem 0.5rem 3rem var(--c1), inset 0.5rem -0.5rem 3rem var(--c2), inset -0.5rem -0.5rem 3rem var(--c2);
-  }
-  25% {
-    box-shadow: inset 0.5rem 0.5rem 3rem var(--c1), inset -0.5rem 0.5rem 7rem var(--c1), inset 0.5rem -0.5rem 3rem var(--c2), inset -0.5rem -0.5rem 3rem var(--c2);
-  }
-  50% {
-    box-shadow: inset 0.5rem 0.5rem 3rem var(--c1), inset -0.5rem 0.5rem 3rem var(--c1), inset 0.5rem -0.5rem 7rem var(--c2), inset -0.5rem -0.5rem 3rem var(--c2);
-  }
-  75% {
-    box-shadow: inset 0.5rem 0.5rem 3rem var(--c1), inset -0.5rem 0.5rem 3rem var(--c1), inset 0.5rem -0.5rem 3rem var(--c2), inset -0.5rem -0.5rem 7rem var(--c2);
-  }
-  100% {
-    box-shadow: inset 0.5rem 0.5rem 7rem var(--c1), inset -0.5rem 0.5rem 3rem var(--c1), inset 0.5rem -0.5rem 3rem var(--c2), inset -0.5rem -0.5rem 3rem var(--c2);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }/*# sourceMappingURL=gemini_reply.module.css.map */
