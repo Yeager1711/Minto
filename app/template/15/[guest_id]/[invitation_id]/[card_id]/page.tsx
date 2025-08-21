@@ -393,6 +393,10 @@ const Template15InviteeName: React.FC = () => {
                         <FontAwesomeIcon icon={faChevronLeft} className={styles.chevronRight} />
                     </div>
                 </div>
+                <div className={styles.invition_name}>
+                    <span>Trân Trọng Kính Mời</span>
+                    <strong>{guestName}</strong>
+                </div>
             </div>
 
             <div className={`${styles.wrapper} ${isIntroOpen ? styles.wrapper_hidden : ''}`}>
@@ -436,10 +440,7 @@ const Template15InviteeName: React.FC = () => {
                             <h1>
                                 We joyfully invite you to join us in celebrating the wedding of our beloved children
                             </h1>
-                            <div className={styles.invition_name}>
-                                <span>Trân Trọng Kính Mời</span>
-                                <strong>{guestName}</strong>
-                            </div>
+                          
                             <div className={styles.flex}>
                                 <div className={styles.familySide} data-aos="fade-right" data-aos-delay="300">
                                     <h3>Groom&apos;s Family</h3>
@@ -672,6 +673,7 @@ const Template15InviteeName: React.FC = () => {
                     <div className={`${styles.google_map} ${showMap !== 'none' ? styles.showMap : ''}`}>
                         {showMap !== 'none' && (
                             <button className={styles.closeButton} onClick={handleCloseMap}>
+                                Đóng
                             </button>
                         )}
                         {showMap === 'groom' && (
