@@ -184,14 +184,32 @@
   height: 52rem;
   overflow: hidden;
 }
+@media (max-width: 480px) {
+  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard {
+    height: 30rem;
+  }
+}
 .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard .image {
   height: 40rem;
   overflow: hidden;
   border-radius: 1rem;
 }
+@media (max-width: 480px) {
+  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard .image {
+    height: 20rem;
+  }
+}
 .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard h3 {
   font-size: 1.3rem;
   padding: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 480px) {
+  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard h3 {
+    font-size: 1.2rem;
+  }
 }
 .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard p {
   padding: 0 1rem 1rem 1rem;

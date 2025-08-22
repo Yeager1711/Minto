@@ -204,15 +204,30 @@
                                 height: 52rem;
                                 overflow: hidden;
 
+                                @media (max-width: 480px) {
+                                    height: 30rem;
+                                }
+
                                 .image {
                                     height: 40rem;
                                     overflow: hidden;
                                     border-radius: 1rem;
+
+                                    @media (max-width: 480px) {
+                                        height: 20rem;
+                                    }
                                 }
 
                                 h3 {
                                     font-size: 1.3rem;
                                     padding: 1rem;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+
+                                    @media (max-width: 480px) {
+                                        font-size: 1.2rem;
+                                    }
                                 }
 
                                 p {
