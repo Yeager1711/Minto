@@ -673,7 +673,6 @@ const Template15InviteeName: React.FC = () => {
                     <div className={`${styles.google_map} ${showMap !== 'none' ? styles.showMap : ''}`}>
                         {showMap !== 'none' && (
                             <button className={styles.closeButton} onClick={handleCloseMap}>
-                                Đóng
                             </button>
                         )}
                         {showMap === 'groom' && (
@@ -776,11 +775,11 @@ const Template15InviteeName: React.FC = () => {
                     </div>
                 </div>
 
-                <div className={styles.btn_invitionQR__popop} data-aos="fade-up" data-aos-delay="300">
+                <div className={styles.btn_invitionQR__popop} >
                     {userId ? <InvitionsQR userId={userId} /> : <p>Lỗi: Không tìm thấy thông tin người dùng.</p>}
                 </div>
 
-                <div className={styles.footer} data-aos="fade-up" data-aos-delay="300">
+                <div className={styles.footer}>
                     <div className={styles.column_text}>
                         <h3>Thank You</h3>
                         <span className={styles.subtext}>

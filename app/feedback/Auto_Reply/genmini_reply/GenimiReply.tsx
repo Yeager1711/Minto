@@ -666,7 +666,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 aria-label="Chat input"
                             />
                         </div>
-                        {showColon && <span className={styles.colon}></span>}
 
                         <IoSend
                             onClick={handleSend}
