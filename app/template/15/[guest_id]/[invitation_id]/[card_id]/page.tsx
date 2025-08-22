@@ -775,7 +775,7 @@ const Template15InviteeName: React.FC = () => {
                     </div>
                 </div>
 
-                <div className={styles.btn_invitionQR__popop} >
+                <div className={styles.btn_invitionQR__popop} style={{margin: "2rem 0"}}>
                     {userId ? <InvitionsQR userId={userId} /> : <p>Lỗi: Không tìm thấy thông tin người dùng.</p>}
                 </div>
 
