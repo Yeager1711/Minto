@@ -22,8 +22,9 @@ interface GeminiTemplate {
     status: string;
     features: string[];
     imageSource?: string;
-    music?: string;
     imageUrl?: string;
+    reason?: string;
+    suggestion?: string;
 }
 
 interface PopupTemplate {
@@ -71,41 +72,12 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const [isClosing, setIsClosing] = useState<boolean>(false);
     const [isUserScrollingUp, setIsUserScrollingUp] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<PopupTemplate | null>(null);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [showColon, setShowColon] = useState(false);
 
     // refs
     const answerRef = useRef<HTMLDivElement | null>(null);
     const textSpanRefs = useRef<Record<string, HTMLSpanElement | null>>({});
     const typingTimerRef = useRef<number | null>(null);
-    const plusMenuRef = useRef<HTMLDivElement | null>(null);
-    const inputQuestionRef = useRef<HTMLDivElement | null>(null); // New ref for input_question
-
-    const toggleMenu = () => {
-        setIsMenuOpen((prev) => !prev);
-    };
-
-    const handleMenuItemClick = (item: string) => {
-        if (item === 'Tìm mẫu sở thich') {
-            setInput('gu thiệp: ');
-            setShowColon(true);
-        }
-        setIsMenuOpen(false);
-    };
-
-    // Handle click outside to close menu
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (plusMenuRef.current && !plusMenuRef.current.contains(event.target as Node)) {
-                setIsMenuOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    const inputQuestionRef = useRef<HTMLDivElement | null>(null);
 
     // Handle textarea focus and blur to toggle the focused class
     useEffect(() => {
@@ -192,7 +164,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         const userId = genId();
         setMessages((prev) => [...prev, { id: userId, text: input, isUser: true }]);
         setInput('');
-        setShowColon(false);
         setIsLoading(true);
         setError(null);
 
@@ -464,8 +435,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                     {message.templates ? (
                                                         <div className={styles.messageContent}>
                                                             <span>
-                                                                Em đã tìm thấy một vài template thiệp cưới phù hợp với
-                                                                sở thích của Anh/Chị:
+                                                                Em đã tìm thấy một vài template thiệp cưới phù hợp:
                                                             </span>
                                                             <Swiper
                                                                 modules={[Navigation, Pagination]}
@@ -519,10 +489,16 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                                                     }).format(template.price)}
                                                                                 </p>
 
-                                                                                {template.music && (
+                                                                                {template.reason && (
                                                                                     <p>
-                                                                                        <strong>Music:</strong>{' '}
-                                                                                        {template.music}
+                                                                                        <strong>Lý do gợi ý:</strong>{' '}
+                                                                                        {template.reason}
+                                                                                    </p>
+                                                                                )}
+                                                                                {template.suggestion && (
+                                                                                    <p>
+                                                                                        <strong>Gợi ý:</strong>{' '}
+                                                                                        {template.suggestion}
                                                                                     </p>
                                                                                 )}
                                                                             </div>
@@ -531,9 +507,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                             </Swiper>
                                                             {message.displayedTemplates ===
                                                                 message.templates?.length && (
-                                                                <span style={{ marginTop: '1rem' }}>
-                                                                    Anh/Chị muốn biết thêm chi tiết về mẫu nào không? 😊
-                                                                </span>
+                                                                <span style={{ marginTop: '1rem' }}></span>
                                                             )}
                                                         </div>
                                                     ) : (
@@ -621,39 +595,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                             </div>
                         )}
                     </div>
-
                     <div className={styles.input_question} ref={inputQuestionRef}>
-                        <div className={styles.plusMenuWrapper} ref={plusMenuRef}>
-                            <button className={styles.plusButton} onClick={toggleMenu} aria-label="Open menu">
-                                +
-                            </button>
-
-                            {isMenuOpen && (
-                                <div className={styles.menuDropdown}>
-                                    <div
-                                        className={styles.menuItem}
-                                        onClick={() => handleMenuItemClick('Phân tích hình ảnh')}
-                                    >
-                                        📂 Phân tích hình ảnh
-                                    </div>
-
-                                    <div
-                                        className={styles.menuItem}
-                                        onClick={() => handleMenuItemClick('Suy nghĩ chuyên sâu hơn')}
-                                    >
-                                        🔍 Suy nghĩ chi tiết hơn
-                                    </div>
-
-                                    <div
-                                        className={styles.menuItem}
-                                        onClick={() => handleMenuItemClick('Tìm mẫu yêu thích')}
-                                    >
-                                        💌 Tìm mẫu yêu thích
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
                         <div className={styles.textareaWrapper}>
                             <textarea
                                 placeholder="Ask me anything..."
@@ -665,7 +607,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 maxLength={1000}
                                 aria-label="Chat input"
                             />
-                            {showColon && <span className={styles.colon}>:</span>}
                         </div>
 
                         <IoSend
