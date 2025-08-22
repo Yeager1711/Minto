@@ -665,6 +665,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 maxLength={1000}
                                 aria-label="Chat input"
                             />
+                            {showColon && <span className={styles.colon}>:</span>}
                         </div>
 
                         <IoSend
