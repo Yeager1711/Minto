@@ -1,0 +1,321 @@
+@charset "UTF-8";
+.db {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #013f3c 0%, #05665c 100%);
+  overflow: hidden;
+  position: relative;
+}
+.db .wrapper {
+  margin: auto;
+  max-width: 80rem;
+  border: 0.2rem solid #ccaa80;
+}
+.db .wrapper .img_header {
+  position: relative;
+  display: none;
+}
+.db .wrapper .img_header img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.db .wrapper .img_header .overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  max-width: 75rem;
+  width: 100%;
+  margin: auto;
+}
+.db .wrapper .img_header .overlay .card h2 {
+  font-size: 5rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+.db .wrapper .img_header .overlay .card p {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: #ccaa80;
+}
+.db .wrapper .img_header .overlay .card .ready {
+  font-weight: 600;
+  margin: 1rem 0;
+}
+.db .wrapper .img_header .overlay .card .btn {
+  background: #fff;
+  color: #333;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.db .wrapper .img_header .overlay .card .btn svg {
+  margin-left: 0.4rem;
+}
+.db .wrapper .img_header .overlay .card .btn:hover {
+  background: #fff;
+}
+.db .wrapper .content {
+  min-height: 90vh;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+.db .wrapper .content .img_top {
+  z-index: 10;
+}
+.db .wrapper .content .img_top img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.db .wrapper .content .img_bottom {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%);
+  max-width: 80rem;
+  z-index: 9;
+}
+.db .wrapper .content .img_bottom img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.db .wrapper .content .text {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 2rem;
+  border: 2px solid #ccaa80;
+  backdrop-filter: blur(0.2rem);
+  -webkit-backdrop-filter: blur(0.2rem);
+  padding: 4rem 2rem;
+  color: #ccaa80;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 79rem;
+  width: 90%;
+  padding: 2rem 1rem 1rem 1rem;
+  z-index: 999999 !important;
+}
+.db .wrapper .content .text .h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  font-family: "Pinyon Script", cursive;
+  font-family: 400;
+  text-transform: capitalize;
+}
+@media (max-width: 768px) {
+  .db .wrapper .content .text .h1 {
+    font-size: 4rem;
+  }
+}
+@media (max-width: 480px) {
+  .db .wrapper .content .text .h1 {
+    font-size: 3rem;
+  }
+}
+.db .wrapper .content .text p {
+  font-size: 1.8rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+@media (max-width: 768px) {
+  .db .wrapper .content .text p {
+    font-size: 1.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .db .wrapper .content .text p {
+    font-size: 1.1rem;
+  }
+}
+.db .wrapper .content .text h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+@media (max-width: 768px) {
+  .db .wrapper .content .text h3 {
+    font-size: 1.3rem;
+  }
+}
+@media (max-width: 480px) {
+  .db .wrapper .content .text h3 {
+    font-size: 1.1rem;
+  }
+}
+.db .wrapper .content .text h4 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.db .wrapper .content .text .schedule {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  text-align: left;
+}
+.db .wrapper .content .text .schedule .column {
+  width: 45%;
+}
+.db .wrapper .content .text .schedule .column h5 {
+  font-size: 1.6rem;
+  color: #ccaa80;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.db .wrapper .content .text .schedule .column .left {
+  text-align: center;
+}
+.db .wrapper .content .text .schedule .column .right {
+  text-align: center;
+}
+.db .wrapper .content .text .schedule .column .right li {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+@media (max-width: 768px) {
+  .db .wrapper .content .text .schedule .column .right li {
+    font-size: 1.4rem;
+  }
+}
+@media (max-width: 480px) {
+  .db .wrapper .content .text .schedule .column .right li {
+    font-size: 1.1rem;
+    line-height: 2;
+  }
+}
+.db .wrapper .content .text .schedule .column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.db .wrapper .content .text .schedule .column ul li {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+.db .wrapper .content .text .note {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #bbb;
+}
+@media (max-width: 768px) {
+  .db .wrapper .content .text .note {
+    font-size: 2.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .db .wrapper .content .text .note {
+    font-size: 1.1rem;
+  }
+}
+.db .wrapper .events {
+  padding: 6rem 2rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 2px solid #ccaa80;
+  position: relative;
+  /* Kết nối timeline */
+}
+.db .wrapper .events h2 {
+  font-size: 3rem;
+  color: #ccaa80;
+  margin-bottom: 6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+.db .wrapper .events .timeline {
+  position: relative;
+  max-width: 90rem;
+  margin: auto;
+}
+.db .wrapper .events .timeline::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  background: #ccaa80;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.db .wrapper .events .event {
+  padding: 2rem;
+  position: relative;
+  width: 46.5%;
+}
+.db .wrapper .events .event img {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  border: 2px solid #ccaa80;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4);
+}
+.db .wrapper .events .event .caption {
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  border: 1px solid #ccaa80;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-top: 1rem;
+  color: #ccaa80;
+}
+.db .wrapper .events .event .caption h3 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+.db .wrapper .events .event .caption p {
+  font-size: 1.4rem;
+  line-height: 1.6;
+}
+.db .wrapper .events .left {
+  left: 0;
+  text-align: right;
+}
+.db .wrapper .events .right {
+  left: 50%;
+  text-align: left;
+}
+.db .wrapper .events .event::after {
+  content: "";
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  right: 0rem;
+  background: #ccaa80;
+  border: 3px solid #013f3c;
+  top: 2rem;
+  border-radius: 50%;
+  z-index: 1;
+}
+.db .wrapper .events .right::after {
+  left: -1rem;
+}
+@media (max-width: 768px) {
+  .db .wrapper .events .timeline::after {
+    left: 1rem;
+  }
+  .db .wrapper .events .event {
+    width: 95%;
+  }
+  .db .wrapper .events .event.right {
+    left: 0;
+  }
+  .db .wrapper .events .event::after {
+    left: 0;
+  }
+}/*# sourceMappingURL=db.module.css.map */
