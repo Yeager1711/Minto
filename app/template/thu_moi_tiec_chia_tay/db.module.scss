@@ -4,75 +4,16 @@
     overflow: hidden;
     position: relative;
 
-
     .wrapper {
         margin: auto;
         max-width: 80rem;
         border: .2rem solid #ccaa80;
 
-        .img_header {
-            position: relative;
-            display: none;
 
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                display: block;
-            }
-
-            .overlay {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-                max-width: 75rem;
-                width: 100%;
-                margin: auto;
-
-                .card {
-                    h2 {
-                        font-size: 5rem;
-                        text-transform: uppercase;
-                        color: #fff;
-                    }
-
-                    p {
-                        font-size: 1.6rem;
-                        line-height: 1.7;
-                        color: #ccaa80;
-                    }
-
-                    .ready {
-                        font-weight: 600;
-                        margin: 1rem 0;
-                    }
-
-                    .btn {
-                        background: #fff;
-                        color: #333;
-                        border: none;
-                        border-radius: 0.4rem;
-                        padding: 0.8rem 1.5rem;
-                        font-size: 1.5rem;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-
-                        svg {
-                            margin-left: 0.4rem;
-                        }
-
-                        &:hover {
-                            background: #fff;
-                        }
-                    }
-                }
-            }
-        }
 
         .content {
-            min-height: 90vh;
+            height: 100%;
+            min-height: 100vh;
             position: relative;
             text-align: center;
             overflow: hidden;
@@ -106,7 +47,7 @@
                 background: rgba(0, 0, 0, 0.5);
                 border-radius: 2rem;
                 border: 2px solid #ccaa80;
-                backdrop-filter: blur(.2rem); // 
+                backdrop-filter: blur(.2rem);
                 -webkit-backdrop-filter: blur(.2rem);
                 padding: 4rem 2rem;
                 color: #ccaa80;
@@ -125,7 +66,6 @@
                     font-family: "Pinyon Script", cursive;
                     font-family: 400;
                     text-transform: capitalize;
-
 
                     @media (max-width: 768px) {
                         font-size: 4rem;
@@ -170,60 +110,47 @@
                     margin-bottom: 2rem;
                 }
 
-                .schedule {
-                    display: flex;
-                    justify-content: space-between;
-                    margin: 0;
-                    text-align: left;
+                .wrapper_map {
+                    .btn_map {
+                        display: inline-block;
+                        padding: 1rem 1.5rem;
+                        background: #ccaa80;
+                        color: #fff;
+                        border-radius: 0.5rem;
+                        cursor: pointer;
+                        font-weight: 400;
+                        margin-bottom: 1rem;
+                        font-size: 1.4rem;
+                        transition: background 0.3s ease;
 
-                    .column {
-                        width: 45%;
+                        &:hover {
+                            background: #e6c999;
+                        }
+                    }
 
-                        h5 {
-                            font-size: 1.6rem;
-                            color: #ccaa80;
-                            margin-bottom: 1rem;
-                            text-align: center;
+                    .iframe_map {
+                        max-height: 0;
+                        opacity: 0;
+                        transform: scale(0.9);
+                        overflow: hidden;
+                        transition: all 0.4s ease;
+                        border-radius: 1rem;
+
+                        iframe {
+                            width: 100%;
+                            height: 35rem;
+                            border: 0;
                         }
 
-                        .left {
-                            text-align: center;
-                        }
-
-                        .right {
-                            text-align: center;
-
-                            li {
-                                font-size: 1.4rem;
-                                margin-bottom: 0.5rem;
-                                line-height: 1.5;
-
-                                @media (max-width: 768px) {
-                                    font-size: 1.4rem;
-                                }
-
-                                @media (max-width: 480px) {
-                                    font-size: 1.1rem;
-                                    line-height: 2;
-                                }
-                            }
-
-                        }
-
-                        ul {
-                            list-style: none;
-                            padding: 0;
-                            margin: 0;
-
-                            li {
-                                font-size: 1.4rem;
-                                margin-bottom: 0.5rem;
-                                line-height: 1.5;
-
-                            }
+                        &.active {
+                            max-height: 50rem;
+                            opacity: 1;
+                            transform: scale(1);
                         }
                     }
                 }
+
+
 
                 .note {
                     margin-top: 2rem;
@@ -237,6 +164,67 @@
 
                     @media (max-width: 480px) {
                         font-size: 1.1rem;
+                    }
+                }
+            }
+
+
+        }
+
+        .schedule {
+            padding:0 2rem;
+            text-align: center;
+
+            h3 {
+                font-size: 2.5rem;
+                color: #ccaa80;
+                margin-bottom: 3rem;
+                text-transform: uppercase;
+            }
+
+            .timeline {
+                position: relative;
+                margin: 0 auto;
+                padding-left: 2rem;
+                border-left: 2px solid #ccaa80; // đường dọc timeline
+                max-width: 600px;
+                text-align: left;
+            }
+
+            .item {
+                position: relative;
+                margin-bottom: 8rem;
+                padding-left: 2rem;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: -2.6rem;
+                    top: 0;
+                    width: 1rem;
+                    height: 1rem;
+                    background: #ccaa80;
+                    border-radius: 50%;
+                }
+
+                .time {
+                    font-size: 1.3rem;
+                    color: #ccaa80;
+                    margin-bottom: 0.5rem;
+                    font-weight: 500;
+                }
+
+                .schedule_content {
+                    h4 {
+                        font-size: 2rem;
+                        color: #fff;
+                        margin: 0 0 0.5rem 0;
+                    }
+
+                    p {
+                        font-size: 1.3rem;
+                        color: #ddd;
+                        margin: 0;
                     }
                 }
             }
@@ -323,9 +311,9 @@
             .event::after {
                 content: '';
                 position: absolute;
-                width: 2rem;
-                height: 2rem;
-                right: 0rem;
+                width: 3rem;
+                height: 3rem;
+                right: -.5rem;
                 background: #ccaa80;
                 border: 3px solid #013f3c;
                 top: 2rem;
@@ -334,7 +322,7 @@
             }
 
             .right::after {
-                left: -1rem;
+                left: -1.5rem;
             }
 
             @media (max-width: 768px) {
@@ -355,6 +343,5 @@
                 }
             }
         }
-
     }
 }
