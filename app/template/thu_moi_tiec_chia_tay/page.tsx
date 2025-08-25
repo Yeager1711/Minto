@@ -1,12 +1,12 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './db.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faTimes, faGlassCheers } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faTimes, faGlassCheers, faCirclePlay, faCirclePause } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 // Define interface for timeLeft state
@@ -26,6 +26,9 @@ function DB() {
         seconds: 0,
     });
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     // Calendar data for August 2025
     const eventDate = new Date('2025-08-29T17:00:00');
@@ -79,6 +82,21 @@ function DB() {
         };
     }, []);
 
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    const togglePlayPause = () => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.pause();
+            } else {
+                audioRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
     const openModal = (imageSrc: string) => {
         setSelectedImage(imageSrc);
     };
@@ -89,6 +107,35 @@ function DB() {
 
     return (
         <div className={styles.db}>
+            <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
+                <div className={styles.dynamic_content}>
+                    <div
+                        className={styles.controls}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            togglePlayPause();
+                        }}
+                    >
+                        <FontAwesomeIcon
+                            icon={isPlaying ? faCirclePause : faCirclePlay}
+                            className={styles.playPauseIcon}
+                        />
+                    </div>
+                    <h3>{isPlaying ? 'Đang Phát: SAY HI NEVER SAY GOODBYE' : 'SAY HI NEVER SAY GOODBYE'}</h3>
+                </div>
+                {isExpanded && (
+                    <div className={styles.expanded_content}>
+                        <div className={styles.song_info}>
+                            <h4>SAY HI NEVER SAY GOODBYE</h4>
+                            <p>Thực hiện bởi: 30 Anh Trai | Anh Trai &quot;Say Hi&quot;</p>
+                        </div>
+                        <div className={styles.progress_bar}>
+                            <div className={styles.progress}></div>
+                        </div>
+                    </div>
+                )}
+                <audio ref={audioRef} src="/audio/tualaithoigian.mp3" />
+            </div>
             <div className={styles.wrapper}>
                 <div className={styles.content} data-aos="fade-up">
                     <div className={styles.img_top} data-aos="zoom-in">
@@ -235,7 +282,7 @@ function DB() {
                             />
                             <div className={styles.caption}>
                                 <h3>Chuyến công tác</h3>
-                                <p>Để là hồi nào ai cũng xinh gáii... cho đến tận bây giờ vẫn thế nhé các em 🥰 </p>
+                                <p>Hồi nào ai cũng xinh gáii... cho đến tận bây giờ vẫn thế nhé các em 🥰 </p>
                             </div>
                         </div>
 
@@ -298,21 +345,7 @@ function DB() {
                             </div>
                         </div>
 
-                        <div className={`${styles.event} ${styles.left}`} data-aos="fade-left" data-aos-delay="600">
-                            <img
-                                src="/images/db/31.jpg"
-                                alt="Ngày nghỉ hưu"
-                                onClick={() => openModal('/images/db/31.jpg')}
-                            />
-                            <div className={styles.caption}>
-                                <p>
-                                    Cùng nhau vượt qua giai đoạn khó khăn cho đến hiện tại cùng nhau cô gắng tiếp cho
-                                    hành trình phía trước khi không có chị nhé
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className={`${styles.event} ${styles.right}`} data-aos="fade-right" data-aos-delay="500">
+                        <div className={`${styles.event} ${styles.left}`} data-aos="fade-right" data-aos-delay="500">
                             <img
                                 src="/images/db/28.jpg"
                                 alt="Khoảnh khắc tập thể"
@@ -322,6 +355,52 @@ function DB() {
                                 <p>Cho tôi dừng lại khoảnh khắc này để nhớ...và sau này vẫn nhớ... ❤️</p>
                             </div>
                         </div>
+
+                        {/* ================================ */}
+                        <div className={`${styles.event} ${styles.right}`} data-aos="fade-right" data-aos-delay="500">
+                            <img
+                                src="/images/db/27.jpg"
+                                alt="Khoảnh khắc tập thể"
+                                onClick={() => openModal('/images/db/27.jpg')}
+                            />
+                            <div className={styles.caption}>
+                                <p>Vui vì thanh xuân đó mình luôn có nhau... 😉.</p>
+                            </div>
+                        </div>
+                        <div className={`${styles.event} ${styles.left}`} data-aos="fade-right" data-aos-delay="500">
+                            <img
+                                src="/images/db/41.jpg"
+                                alt="Khoảnh khắc tập thể"
+                                onClick={() => openModal('/images/db/41.jpg')}
+                            />
+                            <div className={styles.caption}>
+                                <p>Một kỉ niệm đáng giá tin chắc rằng sẽ mãi trong tim ❤️</p>
+                            </div>
+                        </div>
+
+                        <div className={`${styles.event} ${styles.right}`} data-aos="fade-right" data-aos-delay="500">
+                            <img
+                                src="/images/db/40.jpg"
+                                alt="Khoảnh khắc tập thể"
+                                onClick={() => openModal('/images/db/40.jpg')}
+                            />
+                            <div className={styles.caption}>
+                                <p>Tổng kết cuối năm của tập đoàn LYV thật trân quý khoảnh khắc này. Nhớ lắm❤️</p>
+                            </div>
+                        </div>
+
+                        <div className={`${styles.event} ${styles.left}`} data-aos="fade-left" data-aos-delay="600">
+                            <img
+                                src="/images/db/31.jpg"
+                                alt="Ngày nghỉ hưu"
+                                onClick={() => openModal('/images/db/31.jpg')}
+                            />
+                            <div className={styles.caption}>
+                                <p>Never Say Goodbye</p>
+                            </div>
+                        </div>
+
+                        {/* ================================ */}
                     </div>
                 </div>
 
