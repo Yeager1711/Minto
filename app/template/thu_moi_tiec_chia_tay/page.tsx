@@ -396,7 +396,7 @@ function DB() {
                                 onClick={() => openModal('/images/db/31.jpg')}
                             />
                             <div className={styles.caption}>
-                                <p>Never Say Goodbye</p>
+                                <p>Never Say Goodbye. Củng nhau vượt qua giai đoạn khó khăn cho đến hiện tại cùng nhau cô gắng tiếp cho hành trình phía trước khi không có chị nhé 🥰</p>
                             </div>
                         </div>
 
