@@ -6,7 +6,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './db.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faTimes, faGlassCheers } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 // Define interface for timeLeft state
@@ -27,13 +27,23 @@ function DB() {
     });
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
+    // Calendar data for August 2025
+    const eventDate = new Date('2025-08-29T17:00:00');
+    const year = 2025;
+    const month = 7; // August (0-based index for Date)
+    const firstDayOfMonth = new Date(year, month, 1).getDay(); // First day of August 2025 (Friday = 5)
+    const daysInMonth = new Date(year, month + 1, 0).getDate(); // 31 days in August
+    const calendarDays: (number | null)[] = Array(firstDayOfMonth)
+        .fill(null)
+        .concat(Array.from({ length: daysInMonth }, (_, i) => i + 1));
+
     useEffect(() => {
         AOS.init({
             duration: 1000,
             once: true,
         });
 
-        const targetDate = new Date('2025-08-29T17:00:00').getTime();
+        const targetDate = eventDate.getTime();
 
         const updateCountdown = () => {
             const now = new Date().getTime();
@@ -55,7 +65,6 @@ function DB() {
         updateCountdown();
         const interval = setInterval(updateCountdown, 1000);
 
-        // Add keyboard event for accessibility
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 setSelectedImage(null);
@@ -70,7 +79,6 @@ function DB() {
         };
     }, []);
 
-    // Type the modal handlers
     const openModal = (imageSrc: string) => {
         setSelectedImage(imageSrc);
     };
@@ -93,8 +101,8 @@ function DB() {
                         <p data-aos="fade-left">
                             Trân trọng mời các em đến tham dự buổi tiệc chia tay nhân dịp về hưu.
                             <br />
-                            Đây là dịp để chúng ta cùng nhau ôn lại những kỉ niệm những khoảnh khắc đáng nhớ. khép lại một
-                            hành dài 36 năm đầy gian nan, thử thách, buồn vui ở tại 1 nơi bắt đầu và kết thúc!
+                            Đây là dịp để chúng ta cùng nhau ôn lại những kỉ niệm những khoảnh khắc đáng nhớ. khép lại
+                            một hành dài 36 năm đầy gian nan, thử thách, buồn vui ở tại 1 nơi bắt đầu và kết thúc!
                         </p>
                         <h3 data-aos="fade-right">Tại Tư Gia | 161 Lê Khả Phiêu, Khu phố 55, P.55, TP.HCM</h3>
                         <h4 data-aos="fade-left">17:00 | 29.08.2025</h4>
@@ -170,6 +178,48 @@ function DB() {
                                 <span>{timeLeft.seconds}</span>
                                 <p>Giây</p>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className={styles.calendar}>
+                        <div className={styles.calendarHeader}>
+                            <h3>Tháng 08, 2025</h3>
+                        </div>
+                        <div className={styles.calendarGrid}>
+                            <div className={styles.dayName}>CN</div>
+                            <div className={styles.dayName}>T2</div>
+                            <div className={styles.dayName}>T3</div>
+                            <div className={styles.dayName}>T4</div>
+                            <div className={styles.dayName}>T5</div>
+                            <div className={styles.dayName}>T6</div>
+                            <div className={styles.dayName}>T7</div>
+                            {calendarDays.map((day, index) => {
+                                const isEventDay = day === eventDate.getDate();
+                                const isValidDay = day !== null;
+                                return (
+                                    <div
+                                        key={index}
+                                        className={`${styles.calendarDay} ${isEventDay ? styles.eventDay : ''} ${
+                                            !isValidDay ? styles.emptyDay : ''
+                                        }`}
+                                    >
+                                        {isValidDay && (
+                                            <>
+                                                {isEventDay ? (
+                                                    <span className={styles.eventDayContent}>
+                                                        <FontAwesomeIcon
+                                                            icon={faGlassCheers as IconProp}
+                                                            className={styles.eventIcon}
+                                                        />
+                                                    </span>
+                                                ) : (
+                                                    day
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -275,7 +325,6 @@ function DB() {
                     </div>
                 </div>
 
-                {/* Modal for displaying clicked image */}
                 {selectedImage && (
                     <div className={styles.modal}>
                         <div className={styles.modalContent}>

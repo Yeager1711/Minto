@@ -59,6 +59,7 @@
         margin: auto;
         max-width: 80rem;
         border: .2rem solid #ccaa80;
+        overflow: hidden;
 
 
 
@@ -359,6 +360,128 @@
                             }
                         }
                     }
+                }
+            }
+
+            .calendar {
+                position: relative;
+                text-align: center;
+                font-family: Arial, sans-serif;
+                padding: 0rem 1rem 1rem 1rem;
+                border: none;
+                background-position: bottom;
+                background-size: 100% 2px;
+                background-repeat: repeat-x;
+                position: relative;
+                margin-bottom: 5rem;
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    bottom: 0rem;
+                    left: -5rem;
+                    width: 5rem;
+                    height: 90%;
+                    border-radius: 5rem;
+                    background: #fff;
+                }
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    bottom: 0rem;
+                    right: -5rem;
+                    width: 5rem;
+                    height: 90%;
+                    border-radius: 5rem;
+                    background: #fff;
+                }
+
+                .calendarHeader {
+                    h3 {
+                        font-size: 3.5rem;
+                        color: #fff;
+                        margin: 1rem;
+                        font-family: 'Times New Roman', Times, serif;
+                    }
+                }
+
+                .calendarGrid {
+                    display: grid;
+                    grid-template-columns: repeat(7, 1fr);
+                    gap: 5px;
+                    padding: 1rem;
+                    border-radius: 8px;
+                }
+
+                .dayName {
+                    font-weight: bold;
+                    color: #fff;
+                    text-align: center;
+                    padding: 8px;
+                    font-size: 1.5rem;
+                }
+
+                .calendarDay {
+                    padding: 8px;
+                    text-align: center;
+                    font-size: 2rem;
+                    color: #fff;
+                    border-radius: 50%;
+                    transition: background-color 0.3s;
+                    position: relative;
+                    font-family: "Sue Ellen Francisco", cursive;
+                    font-weight: 400;
+                    font-style: normal;
+
+                    .eventDay {
+                        background-color: #f0f8ff;
+                        border-radius: 50%;
+                        color: #e6c999;
+                        font-weight: bold;
+                        font-size: 2rem;
+                    }
+
+                    .eventIcon {
+                        margin-left: 5px;
+                        font-size: 3rem;
+                        color: #e6c999;
+                    }
+
+                    .eventDayContent {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    &.weddingDay {
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: "Sue Ellen Francisco", cursive;
+                        font-weight: 500;
+                        font-style: normal;
+
+                        .weddingDayContent {
+                            position: relative;
+                            z-index: 2;
+                            font-size: 1.6rem;
+                            color: #630606;
+                            font-weight: 600;
+                        }
+
+                        .heartIcon {
+                            position: absolute;
+                            z-index: -1;
+                            font-size: 4rem;
+                            color: #ccaa80;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+
                 }
             }
         }
