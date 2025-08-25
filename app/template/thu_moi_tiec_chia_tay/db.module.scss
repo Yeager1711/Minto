@@ -1,3 +1,54 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.modalImage {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+}
+
+.closeButton:hover {
+    background: #f0f0f0;
+}
+
 .db {
     min-height: 100vh;
     background: linear-gradient(180deg, #013f3c 0%, #05665c 100%);
@@ -86,7 +137,7 @@
                     }
 
                     @media (max-width: 480px) {
-                        font-size: 1.1rem;
+                        font-size: 1.2rem;
                     }
                 }
 
@@ -172,7 +223,7 @@
         }
 
         .schedule {
-            padding:0 2rem;
+            padding: 0 2rem;
             text-align: center;
 
             h3 {
@@ -228,6 +279,88 @@
                     }
                 }
             }
+
+            .countDown {
+                text-align: center;
+                padding: 2rem;
+                border-radius: 1rem;
+                color: #ccaa80;
+
+                h3 {
+                    font-size: 2.5rem;
+                    margin-bottom: 2rem;
+                    text-transform: uppercase;
+
+                    @media (max-width: 480px) {
+                        font-size: 2.2rem;
+                    }
+                }
+
+                .countdownTimer {
+                    display: flex;
+                    justify-content: center;
+                    gap: 2rem;
+                    flex-wrap: wrap;
+
+                    .countdownItem {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        min-width: 6rem;
+
+                        span {
+                            font-size: 3rem;
+                            font-weight: 600;
+                            color: #fff;
+                            background: #ccaa80;
+                            padding: 1rem;
+                            border-radius: 0.5rem;
+                            width: 5rem;
+                            text-align: center;
+                        }
+
+                        p {
+                            font-size: 1.4rem;
+                            margin-top: 0.5rem;
+                            color: #ccaa80;
+                        }
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .countdownTimer {
+                        gap: 1.5rem;
+
+                        .countdownItem {
+                            span {
+                                font-size: 2.2rem;
+                                width: 4.5rem;
+                            }
+
+                            p {
+                                font-size: 1.2rem;
+                            }
+                        }
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .countdownTimer {
+                        gap: 1rem;
+
+                        .countdownItem {
+                            span {
+                                font-size: 2rem;
+                                width: 4rem;
+                            }
+
+                            p {
+                                font-size: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -264,7 +397,7 @@
             }
 
             .event {
-                padding: 2rem;
+                padding: 1rem;
                 position: relative;
                 width: 46.5%;
 
@@ -277,13 +410,12 @@
                 }
 
                 .caption {
-                    background: rgba(0, 0, 0, 0.6);
+                    background: #fff;
                     backdrop-filter: blur(5px);
-                    border: 1px solid #ccaa80;
                     padding: 1.5rem;
                     border-radius: 1rem;
                     margin-top: 1rem;
-                    color: #ccaa80;
+                    color: #333;
 
                     h3 {
                         font-size: 1.8rem;
@@ -313,7 +445,7 @@
                 position: absolute;
                 width: 3rem;
                 height: 3rem;
-                right: -.5rem;
+                right: -2.5rem;
                 background: #ccaa80;
                 border: 3px solid #013f3c;
                 top: 2rem;
@@ -322,16 +454,16 @@
             }
 
             .right::after {
-                left: -1.5rem;
+                left: -1.9rem;
             }
 
             @media (max-width: 768px) {
                 .timeline::after {
-                    left: 1rem;
+                    left: 0rem;
                 }
 
                 .event {
-                    width: 95%;
+                    width: 90%;
 
                     &.right {
                         left: 0;
@@ -339,7 +471,7 @@
                 }
 
                 .event::after {
-                    left: 0;
+                    left: -18px;
                 }
             }
         }

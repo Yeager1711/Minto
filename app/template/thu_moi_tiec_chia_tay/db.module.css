@@ -1,4 +1,56 @@
 @charset "UTF-8";
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.modalImage {
+  max-width: 100%;
+  max-height: 80vh;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+}
+
+.closeButton:hover {
+  background: #f0f0f0;
+}
+
 .db {
   min-height: 100vh;
   background: linear-gradient(180deg, #013f3c 0%, #05665c 100%);
@@ -86,7 +138,7 @@
 }
 @media (max-width: 480px) {
   .db .wrapper .content .text p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 }
 .db .wrapper .content .text h3 {
@@ -207,6 +259,73 @@
   color: #ddd;
   margin: 0;
 }
+.db .wrapper .schedule .countDown {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 1rem;
+  color: #ccaa80;
+}
+.db .wrapper .schedule .countDown h3 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+@media (max-width: 480px) {
+  .db .wrapper .schedule .countDown h3 {
+    font-size: 2.2rem;
+  }
+}
+.db .wrapper .schedule .countDown .countdownTimer {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.db .wrapper .schedule .countDown .countdownTimer .countdownItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 6rem;
+}
+.db .wrapper .schedule .countDown .countdownTimer .countdownItem span {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #fff;
+  background: #ccaa80;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 5rem;
+  text-align: center;
+}
+.db .wrapper .schedule .countDown .countdownTimer .countdownItem p {
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+  color: #ccaa80;
+}
+@media (max-width: 768px) {
+  .db .wrapper .schedule .countDown .countdownTimer {
+    gap: 1.5rem;
+  }
+  .db .wrapper .schedule .countDown .countdownTimer .countdownItem span {
+    font-size: 2.2rem;
+    width: 4.5rem;
+  }
+  .db .wrapper .schedule .countDown .countdownTimer .countdownItem p {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 480px) {
+  .db .wrapper .schedule .countDown .countdownTimer {
+    gap: 1rem;
+  }
+  .db .wrapper .schedule .countDown .countdownTimer .countdownItem span {
+    font-size: 2rem;
+    width: 4rem;
+  }
+  .db .wrapper .schedule .countDown .countdownTimer .countdownItem p {
+    font-size: 1rem;
+  }
+}
 .db .wrapper .events {
   padding: 6rem 2rem;
   text-align: center;
@@ -238,7 +357,7 @@
   transform: translateX(-50%);
 }
 .db .wrapper .events .event {
-  padding: 2rem;
+  padding: 1rem;
   position: relative;
   width: 46.5%;
 }
@@ -250,14 +369,13 @@
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4);
 }
 .db .wrapper .events .event .caption {
-  background: rgba(0, 0, 0, 0.6);
+  background: #fff;
   -webkit-backdrop-filter: blur(5px);
           backdrop-filter: blur(5px);
-  border: 1px solid #ccaa80;
   padding: 1.5rem;
   border-radius: 1rem;
   margin-top: 1rem;
-  color: #ccaa80;
+  color: #333;
 }
 .db .wrapper .events .event .caption h3 {
   font-size: 1.8rem;
@@ -280,7 +398,7 @@
   position: absolute;
   width: 3rem;
   height: 3rem;
-  right: -0.5rem;
+  right: -2.5rem;
   background: #ccaa80;
   border: 3px solid #013f3c;
   top: 2rem;
@@ -288,19 +406,19 @@
   z-index: 1;
 }
 .db .wrapper .events .right::after {
-  left: -1.5rem;
+  left: -1.9rem;
 }
 @media (max-width: 768px) {
   .db .wrapper .events .timeline::after {
-    left: 1rem;
+    left: 0rem;
   }
   .db .wrapper .events .event {
-    width: 95%;
+    width: 90%;
   }
   .db .wrapper .events .event.right {
     left: 0;
   }
   .db .wrapper .events .event::after {
-    left: 0;
+    left: -18px;
   }
 }/*# sourceMappingURL=db.module.css.map */
