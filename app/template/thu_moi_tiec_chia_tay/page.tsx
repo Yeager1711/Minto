@@ -93,8 +93,8 @@ function DB() {
                         <p data-aos="fade-left">
                             Trân trọng mời các em đến tham dự buổi tiệc chia tay nhân dịp về hưu.
                             <br />
-                            Đây là dịp để chúng ta cùng nhau ôn lại những kỉ niệm, những khoảnh khắc đáng nhớ, khép lại
-                            hành trình 35 năm con đường sự nghiệp để bước ra một chặng đường mới đầy ý nghĩa phía trước!
+                            Đây là dịp để chúng ta cùng nhau ôn lại những kỉ niệm những khoảnh khắc đáng nhớ. khép lại một
+                            hành dài 36 năm đầy gian nan, thử thách, buồn vui ở tại 1 nơi bắt đầu và kết thúc!
                         </p>
                         <h3 data-aos="fade-right">Tại Tư Gia | 161 Lê Khả Phiêu, Khu phố 55, P.55, TP.HCM</h3>
                         <h4 data-aos="fade-left">17:00 | 29.08.2025</h4>
@@ -185,7 +185,7 @@ function DB() {
                             />
                             <div className={styles.caption}>
                                 <h3>Chuyến công tác</h3>
-                                <p>Để là hồi nào ai củng xinh gáii... cho đến tận bây giờ vẫn thế nhé các em 🥰 </p>
+                                <p>Để là hồi nào ai cũng xinh gáii... cho đến tận bây giờ vẫn thế nhé các em 🥰 </p>
                             </div>
                         </div>
 
@@ -220,7 +220,7 @@ function DB() {
                                 onClick={() => openModal('/images/db/16.jpg')}
                             />
                             <div className={styles.caption}>
-                                <h3>Ai củng xinh hết nè nha 😉</h3>
+                                <h3>Ai cũng xinh hết nè nha 😉</h3>
                             </div>
                         </div>
 

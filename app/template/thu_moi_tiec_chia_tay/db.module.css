@@ -110,7 +110,7 @@
   z-index: 999999 !important;
 }
 .db .wrapper .content .text .h1 {
-  font-size: 4rem;
+  font-size: 6rem;
   margin-bottom: 1rem;
   font-family: "Pinyon Script", cursive;
   font-family: 400;
@@ -118,12 +118,12 @@
 }
 @media (max-width: 768px) {
   .db .wrapper .content .text .h1 {
-    font-size: 4rem;
+    font-size: 5rem;
   }
 }
 @media (max-width: 480px) {
   .db .wrapper .content .text .h1 {
-    font-size: 3rem;
+    font-size: 5rem;
   }
 }
 .db .wrapper .content .text p {
