@@ -1,0 +1,262 @@
+.travel {
+  position: relative;
+  min-height: 100vh;
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  /* background */
+  /* header */
+  /* timeline */
+  /* hero */
+  /* footer */
+}
+.travel::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("/images/tv/tv1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -2;
+  transform: scale(1);
+}
+.travel::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(60% 60% at 70% 40%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+.travel .header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 4rem 10%;
+  margin: 0 auto;
+}
+.travel .header .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.travel .header .brand .logoDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff6a00;
+  box-shadow: 0 0 0 4px rgba(255, 106, 0, 0.25);
+}
+.travel .header .brand .logoText {
+  font-weight: 700;
+  font-size: 20px;
+}
+.travel .header .brand .logoSub {
+  margin-left: 8px;
+  opacity: 0.8;
+  font-size: 12px;
+}
+.travel .header .nav {
+  display: none;
+  gap: 22px;
+}
+.travel .header .nav a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 14px;
+}
+.travel .header .nav a:hover {
+  color: #fff;
+}
+.travel .header .menuBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+@media (min-width: 1024px) {
+  .travel .header .nav {
+    display: flex;
+  }
+}
+.travel .timeline {
+  position: fixed;
+  left: 2vw;
+  top: 70px;
+  bottom: 70px;
+  display: grid;
+  place-items: center;
+}
+.travel .timeline ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height: 100%;
+}
+.travel .timeline ul::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.35);
+  z-index: 1;
+}
+.travel .timeline ul li {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  margin: 0 0 13rem 0;
+}
+.travel .timeline ul li.active {
+  background: #ff6a00;
+  box-shadow: 0 0 0 6px rgba(255, 106, 0, 0.25);
+}
+.travel .hero {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 160rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.travel .hero .copy {
+  flex: 2 1;
+}
+.travel .hero .copy h1 {
+  font-size: 72px;
+  margin: 0 0 16px;
+}
+.travel .hero .copy p {
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.7rem;
+  line-height: 1.5;
+}
+.travel .hero .copy .linkMore {
+  color: #ee8a30;
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 0.2rem solid #ee8a30;
+  padding-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+.travel .hero .cards {
+  display: grid;
+  gap: 1rem;
+  flex: 2 1;
+}
+@media (min-width: 860px) {
+  .travel .hero .cards {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: none;
+  }
+}
+.travel .hero .cards .card {
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+          backdrop-filter: blur(14px) saturate(120%);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 18px;
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+}
+.travel .hero .cards .card h3 {
+  margin: 0;
+  font-size: 20px;
+}
+.travel .hero .cards .card p {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+.travel .hero .cards .card .cardCta {
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-block;
+  gap: 1rem;
+  text-align: start;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+}
+.travel .hero .cards .card .cardCta span {
+  border: 0.1rem solid #ee8a30;
+  border-radius: 5rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.4rem;
+}
+.travel .hero .cards .card .cardCta:hover {
+  border-color: #fff;
+}
+.travel .footer {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 28px;
+  gap: 12px;
+}
+.travel .footer .progressDots {
+  display: flex;
+  gap: 8px;
+}
+.travel .footer .progressDots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+}
+.travel .footer .progressDots .dot.dotActive {
+  background: #fff;
+}
+.travel .footer .nextPrev {
+  justify-self: center;
+  display: flex;
+  gap: 10px;
+}
+.travel .footer .nextPrev .ghostBtn {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.travel .footer .nextPrev .ghostBtn:hover {
+  border-color: #fff;
+}
+.travel .footer .actions {
+  justify-self: end;
+  display: flex;
+  gap: 10px;
+}
+.travel .footer .actions .circleBtn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  cursor: pointer;
+}
+.travel .footer .actions .circleBtn:hover {
+  border-color: #fff;
+}/*# sourceMappingURL=travel.module.css.map */

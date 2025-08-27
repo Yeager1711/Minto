@@ -4,50 +4,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 import { IoSend } from 'react-icons/io5';
 import { FaRegCopy } from 'react-icons/fa';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import styles from './gemini_reply.module.css';
-import Popup from 'app/popup/template_details/Template_Details';
 import { showToastSuccess } from 'app/Ultils/toast';
-
-// Define interfaces for type safety
-interface GeminiTemplate {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    status: string;
-    features: string[];
-    imageSource?: string;
-    imageUrl?: string;
-    reason?: string;
-    suggestion?: string;
-}
-
-interface PopupTemplate {
-    template_id: number;
-    name: string;
-    image_url: string;
-    price: number;
-    description?: string;
-    status: string;
-    link?: string;
-    category: {
-        category_id: number;
-        category_name: string;
-    };
-}
 
 interface Message {
     id: string;
     text: string;
     isUser: boolean;
     isTyping?: boolean;
-    templates?: GeminiTemplate[];
-    displayedTemplates?: number;
 }
 
 interface GeminiReplyProps {
@@ -71,7 +35,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const [error, setError] = useState<string | null>(null);
     const [isClosing, setIsClosing] = useState<boolean>(false);
     const [isUserScrollingUp, setIsUserScrollingUp] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState<PopupTemplate | null>(null);
 
     // refs
     const answerRef = useRef<HTMLDivElement | null>(null);
@@ -114,28 +77,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
 
-    const mapToPopupTemplate = (template: GeminiTemplate): PopupTemplate => ({
-        template_id: template.id,
-        name: template.name,
-        image_url: template.imageSource || template.imageUrl || '/images/fallback.png',
-        price: template.price,
-        description: template.description,
-        status: template.status,
-        link: undefined,
-        category: {
-            category_id: 0,
-            category_name: 'Unknown',
-        },
-    });
-
-    const handleProductClick = (template: GeminiTemplate) => {
-        setSelectedProduct(mapToPopupTemplate(template));
-    };
-
-    const handleClosePopup = () => {
-        setSelectedProduct(null);
-    };
-
     const handleCloseGeminiReply = (): void => {
         setIsClosing(true);
 
@@ -173,7 +114,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 throw new Error('Bạn cần đăng nhập để sử dụng Minto Bot!');
             }
 
-            const response = await axios.post<{ response: string | GeminiTemplate[] }>(
+            const response = await axios.post<{ response: string }>(
                 `${apiUrl}/ai/ask-minto`,
                 { question: input },
                 {
@@ -184,24 +125,14 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 }
             );
 
-            const responseData = response.data.response;
-            let templates: GeminiTemplate[] | undefined = undefined;
-
-            if (Array.isArray(responseData)) {
-                templates = responseData;
-                console.log('Received templates:', JSON.stringify(templates, null, 2));
-            }
-
             const botId = genId();
             setMessages((prev) => [
                 ...prev,
                 {
                     id: botId,
-                    text: templates ? '' : (responseData as string),
+                    text: response.data.response,
                     isUser: false,
                     isTyping: true,
-                    templates,
-                    displayedTemplates: templates ? 0 : undefined,
                 },
             ]);
         } catch (err: unknown) {
@@ -309,41 +240,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
         if (!lastMessage || lastMessage.isUser || !lastMessage.isTyping) return;
 
-        if (lastMessage.templates && lastMessage.templates.length > 0) {
-            typingTimerRef.current = window.setInterval(() => {
-                setMessages((prev) => {
-                    const newMsgs = [...prev];
-                    const idx = newMsgs.findIndex((m) => m.id === lastMessage.id);
-                    if (idx === -1) {
-                        if (typingTimerRef.current) {
-                            clearInterval(typingTimerRef.current);
-                            typingTimerRef.current = null;
-                        }
-                        return prev;
-                    }
-                    const msg = newMsgs[idx];
-                    const current = msg.displayedTemplates ?? 0;
-                    if (current < (msg.templates?.length ?? 0)) {
-                        msg.displayedTemplates = current + 1;
-                        return newMsgs;
-                    } else {
-                        msg.isTyping = false;
-                        if (typingTimerRef.current) {
-                            clearInterval(typingTimerRef.current);
-                            typingTimerRef.current = null;
-                        }
-                        return newMsgs;
-                    }
-                });
-            }, 250);
-            return () => {
-                if (typingTimerRef.current) {
-                    clearInterval(typingTimerRef.current);
-                    typingTimerRef.current = null;
-                }
-            };
-        }
-
         const plain = lastMessage.text || '';
         let idx = 0;
         requestAnimationFrame(() => {
@@ -410,9 +306,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         {messages.map((message) => (
                             <div
                                 key={message.id}
-                                className={`${styles.message} ${
-                                    message.isUser ? styles.userMessage : styles.botMessage
-                                } ${message.templates ? styles.templateMessage : ''}`}
+                                className={`${styles.message} ${message.isUser ? styles.userMessage : styles.botMessage}`}
                             >
                                 {!message.isUser && (
                                     <img src="/images/logo.png" alt="Minto Bot" className={styles.botLogo} />
@@ -432,143 +326,55 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                 />
                                             ) : (
                                                 <>
-                                                    {message.templates ? (
-                                                        <div className={styles.messageContent}>
-                                                            <span>
-                                                                Em đã tìm thấy một vài template thiệp cưới phù hợp:
-                                                            </span>
-                                                            <Swiper
-                                                                modules={[Navigation, Pagination]}
-                                                                spaceBetween={10}
-                                                                slidesPerView={2.5}
-                                                                className={styles.swiper}
-                                                            >
-                                                                {message.templates
-                                                                    .slice(0, message.displayedTemplates || 0)
-                                                                    .map((template, idx) => (
-                                                                        <SwiperSlide
-                                                                            key={idx}
-                                                                            className={styles.swiperSlide}
-                                                                        >
-                                                                            <div
-                                                                                className={styles.templateCard}
-                                                                                onClick={() =>
-                                                                                    handleProductClick(template)
-                                                                                }
-                                                                            >
-                                                                                <div className={styles.image}>
-                                                                                    {template.imageSource ||
-                                                                                    template.imageUrl ? (
-                                                                                        <img
-                                                                                            src={
-                                                                                                template.imageSource ||
-                                                                                                template.imageUrl
-                                                                                            }
-                                                                                            alt={template.name}
-                                                                                            className={
-                                                                                                styles.templateImage
-                                                                                            }
-                                                                                        />
-                                                                                    ) : (
-                                                                                        <div
-                                                                                            className={
-                                                                                                styles.imagePlaceholder
-                                                                                            }
-                                                                                        >
-                                                                                            Không có ảnh
-                                                                                        </div>
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <h3>{template.name}</h3>
-                                                                                <p>
-                                                                                    <strong>Giá:</strong>{' '}
-                                                                                    {new Intl.NumberFormat('vi-VN', {
-                                                                                        style: 'currency',
-                                                                                        currency: 'VND',
-                                                                                    }).format(template.price)}
-                                                                                </p>
-
-                                                                                {template.reason && (
-                                                                                    <p>
-                                                                                        <strong>Lý do gợi ý:</strong>{' '}
-                                                                                        {template.reason}
-                                                                                    </p>
-                                                                                )}
-                                                                                {template.suggestion && (
-                                                                                    <p>
-                                                                                        <strong>Gợi ý:</strong>{' '}
-                                                                                        {template.suggestion}
-                                                                                    </p>
-                                                                                )}
-                                                                            </div>
-                                                                        </SwiperSlide>
-                                                                    ))}
-                                                            </Swiper>
-                                                            {message.displayedTemplates ===
-                                                                message.templates?.length && (
-                                                                <span style={{ marginTop: '1rem' }}></span>
+                                                    {message.text?.includes('Tọa độ từ link Anh/Chị cung cấp là') ? (
+                                                        <>
+                                                            <span
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: escapeHtml(
+                                                                        formatText(message.text || '')
+                                                                    ).replace(/\n/g, '<br/>'),
+                                                                }}
+                                                            />
+                                                            {extractCoordinates(message.text) && (
+                                                                <div
+                                                                    className={styles.cp_coordinates}
+                                                                    onClick={() =>
+                                                                        handleCopy(
+                                                                            extractCoordinates(message.text) || ''
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <FaRegCopy
+                                                                        style={{ cursor: 'pointer' }}
+                                                                        title="Copy tọa độ"
+                                                                    />
+                                                                    {extractCoordinates(message.text)}
+                                                                </div>
                                                             )}
-                                                        </div>
+                                                        </>
                                                     ) : (
                                                         <>
-                                                            {message.text?.includes(
-                                                                'Tọa độ từ link Anh/Chị cung cấp là'
-                                                            ) ? (
-                                                                <>
-                                                                    <span
-                                                                        dangerouslySetInnerHTML={{
-                                                                            __html: escapeHtml(
-                                                                                formatText(message.text || '')
-                                                                            ).replace(/\n/g, '<br/>'),
-                                                                        }}
-                                                                    />
-                                                                    {extractCoordinates(message.text) && (
-                                                                        <div
-                                                                            className={styles.cp_coordinates}
-                                                                            onClick={() =>
-                                                                                handleCopy(
-                                                                                    extractCoordinates(message.text) ||
-                                                                                        ''
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            <FaRegCopy
-                                                                                style={{ cursor: 'pointer' }}
-                                                                                title="Copy tọa độ"
-                                                                            />
-                                                                            {extractCoordinates(message.text)}
-                                                                        </div>
-                                                                    )}
-                                                                </>
-                                                            ) : (
-                                                                <>
-                                                                    <span
-                                                                        dangerouslySetInnerHTML={{
-                                                                            __html: escapeHtml(
-                                                                                formatText(
-                                                                                    cleanTextFromUrls(message.text)
-                                                                                        .cleanedText
-                                                                                )
-                                                                            ).replace(/\n/g, '<br/>'),
-                                                                        }}
-                                                                    />
-                                                                    {cleanTextFromUrls(message.text).links.map(
-                                                                        (link, idx) => (
-                                                                            <div key={idx}>
-                                                                                <a
-                                                                                    href={link}
-                                                                                    className={styles.link}
-                                                                                    target="_blank"
-                                                                                    rel="noopener noreferrer"
-                                                                                >
-                                                                                    Nhấn để xem TikTok của Minto
-                                                                                </a>
-                                                                            </div>
+                                                            <span
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: escapeHtml(
+                                                                        formatText(
+                                                                            cleanTextFromUrls(message.text).cleanedText
                                                                         )
-                                                                    )}
-                                                                </>
-                                                            )}
+                                                                    ).replace(/\n/g, '<br/>'),
+                                                                }}
+                                                            />
+                                                            {cleanTextFromUrls(message.text).links.map((link, idx) => (
+                                                                <div key={idx}>
+                                                                    <a
+                                                                        href={link}
+                                                                        className={styles.link}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                    >
+                                                                        Nhấn để xem TikTok của Minto
+                                                                    </a>
+                                                                </div>
+                                                            ))}
                                                         </>
                                                     )}
                                                 </>
@@ -584,7 +390,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 <div className={styles.botLogo_thinking}>
                                     <img src="/images/logo.png" alt="Minto Bot" />
                                 </div>
-
                                 <div style={{ marginTop: '1rem' }}> Đang suy nghĩ....</div>
                             </div>
                         )}
@@ -608,7 +413,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 aria-label="Chat input"
                             />
                         </div>
-
                         <IoSend
                             onClick={handleSend}
                             className={`${styles.sendIcon} ${isLoading ? styles.disabled : ''}`}
@@ -617,7 +421,6 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                     </div>
                 </div>
             </div>
-            {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}
         </div>
     );
 };
