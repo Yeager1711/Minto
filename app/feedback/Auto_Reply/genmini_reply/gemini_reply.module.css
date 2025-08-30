@@ -177,62 +177,6 @@
 .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .cp_coordinates svg {
   margin-right: 1rem;
 }
-.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard {
-  background: #fff;
-  border-radius: 2rem;
-  border: 0.1rem solid rgba(221, 187, 221, 0.7333333333);
-  height: 52rem;
-  overflow: hidden;
-}
-@media (max-width: 480px) {
-  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard {
-    height: 30rem;
-  }
-}
-.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard .image {
-  height: 40rem;
-  overflow: hidden;
-  border-radius: 1rem;
-}
-@media (max-width: 480px) {
-  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard .image {
-    height: 20rem;
-  }
-}
-.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard h3 {
-  font-size: 1.3rem;
-  padding: 1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-@media (max-width: 480px) {
-  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard h3 {
-    font-size: 1.2rem;
-  }
-}
-.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard p {
-  padding: 0 1rem 1rem 1rem;
-}
-.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard .templateImage {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  -o-object-position: top center;
-     object-position: top center;
-}
-.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot .templateCard .imagePlaceholder {
-  width: 100%;
-  height: 150px;
-  background: #f0f0f0;
-  color: #777;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  font-size: 14px;
-}
 .gemini_reply .model .wrapper .answer .message.userMessage {
   align-self: flex-end;
   background: #e9eef6;

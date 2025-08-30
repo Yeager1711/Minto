@@ -3,7 +3,7 @@
   min-height: 100vh;
   padding: 2rem 2%;
   margin: 8.3rem auto 2rem;
-  background: #fff;
+  background: #f5f2ed;
 }
 @media (max-width: 1024px) {
   .main {
@@ -75,9 +75,9 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 .main .wrapper_main .header .wrapper_expend {
-  background: rgba(255, 255, 255, 0.95);
+  background: #fbf7f4;
   border-radius: 1rem;
-  padding: 1rem;
+  padding: 2rem;
 }
 .main .wrapper_main .header .wrapper_expend .search_bar {
   display: inline-flex;
@@ -569,7 +569,7 @@
   gap: 1.5rem;
 }
 .main .wrapper_main .advantage .advantage_wrapper .advantage_box:hover {
-  background: #f1fff0;
+  background: #fbf7f4;
 }
 .main .wrapper_main .advantage .advantage_wrapper .advantage_box .advantage_box__flex {
   width: 5rem;
@@ -680,7 +680,7 @@
   padding: 1.5rem 1rem;
 }
 .main .wrapper_main .faqSection .faqSection_right .faqSection_wrapper .faqSection_box__item:hover {
-  background: #f1fff0;
+  background: #fbf7f4;
   border-radius: 1.5rem;
   transition: 0.3s ease-in;
 }

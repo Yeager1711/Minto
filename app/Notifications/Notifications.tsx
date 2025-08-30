@@ -23,10 +23,10 @@ interface Notification {
     items: string[];
 }
 
-const Discount = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY)
+const Discount = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY);
 
 const notifications: Notification[] = [
-     {
+    {
         id: 1,
         title: (
             <>
@@ -40,8 +40,8 @@ const notifications: Notification[] = [
             from: '15/08/2025',
         },
         items: [
-           'Hỏi đáp thắc mắc, những vấn đề trong quá trình sử dụng',
-           'Hướng dẫn và hỗ trợ khách hàng việc lấy tọa độ'
+            'Hỏi đáp thắc mắc, những vấn đề trong quá trình sử dụng',
+            'Hướng dẫn và hỗ trợ khách hàng việc lấy tọa độ',
         ],
     },
     {
@@ -75,7 +75,6 @@ const notifications: Notification[] = [
             'Áp dụng trực tiếp trong quá trình "Nhập thông tin thiệp" và nhận trực tiếp tại: Thiệp đã được tạo !',
         ],
     },
-    
 ];
 
 const Notifications: React.FC = () => {
@@ -83,8 +82,8 @@ const Notifications: React.FC = () => {
         <div className={styles.notifications}>
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
-                spaceBetween={0}
-                slidesPerView={1}
+                spaceBetween={10}
+                slidesPerView={1.1}
                 navigation={{
                     prevEl: `.${styles.prev_button}`,
                     nextEl: `.${styles.next_button}`,
@@ -95,13 +94,17 @@ const Notifications: React.FC = () => {
                 }}
                 autoplay={{
                     delay: 50000000, // 5 giây
-                    disableOnInteraction: false, // Tiếp tục autoplay sau khi người dùng tương tác
+                    disableOnInteraction: false, 
                 }}
                 loop={true}
                 breakpoints={{
+                    480: {
+                        slidesPerView: 1.2,
+                        spaceBetween: 10,
+                    },
                     768: {
                         slidesPerView: 2,
-                        spaceBetween: 0,
+                        spaceBetween: 10,
                     },
                 }}
                 className={styles.wrapper_notifications}

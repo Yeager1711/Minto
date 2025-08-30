@@ -16,7 +16,7 @@ interface InviteePopupProps {
 
 const priceCardDefault = Number(process.env.NEXT_PUBLIC_PRICE_CARD) || 500;
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-const DiscountEligibility = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY) || 0.2; 
+const DiscountEligibility = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY) || 0.2;
 
 const InviteePopup: React.FC<InviteePopupProps> = ({
     templateId,
@@ -25,8 +25,12 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
     weddingImages,
 }) => {
     const [isClosing, setIsClosing] = useState(false);
-    const [inviteeNames, setInviteeNames] = useState<string[]>(Array(initialQuantity).fill(''));
-    const [quantity, setQuantity] = useState(initialQuantity);
+    // Always include "Everyone" and initialize editable inputs based on quantity
+    const [inviteeNames, setInviteeNames] = useState<string[]>([
+        'Everyone',
+        ...Array(Math.max(0, initialQuantity)).fill(''),
+    ]);
+    const [quantity, setQuantity] = useState(Math.max(0, initialQuantity)); // Allow quantity to be 0 or more
     const [isLoading, setIsLoading] = useState(false);
     const [templatePrice, setTemplatePrice] = useState<number | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -36,14 +40,14 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { checkDiscountEligibility } = useApi();
 
-    // Function to format name to title case
+    // Function to format name to title case, preserving spaces correctly
     const formatName = (name: string): string => {
+        if (name === 'Everyone') return name; // Preserve "Everyone" as is
         return name
-            .toLowerCase()
-            .trim()
-            .split(/\s+/)
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
+            .trim() // Remove leading/trailing spaces
+            .split(/\s+/) // Split by one or more whitespace characters
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' '); // Join with a single space
     };
 
     // Function to update URL query parameter
@@ -53,7 +57,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
         window.history.pushState({}, '', url.toString());
     };
 
-    // Handle file input change
+    // Handle file import
     const handleFileImport = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
@@ -82,7 +86,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             }
 
             setQuantity(names.length);
-            setInviteeNames(names);
+            setInviteeNames(['Everyone', ...names]);
             updateUrlQuantity(names.length);
 
             if (fileInputRef.current) {
@@ -109,12 +113,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             try {
                 const parsedNames = JSON.parse(storedData);
                 if (Array.isArray(parsedNames)) {
-                    const adjustedNames = Array(initialQuantity).fill('');
-                    parsedNames.forEach((name: string, index: number) => {
-                        if (index < initialQuantity) {
-                            adjustedNames[index] = formatName(name);
-                        }
-                    });
+                    const adjustedNames = ['Everyone', ...parsedNames.slice(1).slice(0, initialQuantity)];
                     setInviteeNames(adjustedNames);
                 }
             } catch (err) {
@@ -126,7 +125,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             try {
                 const response = await checkDiscountEligibility();
                 setIsEligibleForDiscount(response.isEligible);
-                console.log('Discount Eligibility:', response); // Debug
+                console.log('Discount Eligibility:', response);
             } catch (err) {
                 console.error('Error checking discount eligibility:', err);
                 setIsEligibleForDiscount(false);
@@ -162,8 +161,8 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 const response = await fetch(`${apiUrl}/templates/getTemplate/${templateId}`);
                 const result = await response.json();
                 if (result.statusCode === 200 && result.data?.price) {
-                    const price = Number(result.data.price); // Chuyển đổi sang số để đảm bảo tính toán đúng
-                    console.log('Fetched Template Price:', price); // Debug
+                    const price = Number(result.data.price);
+                    console.log('Fetched Template Price:', price);
                     setTemplatePrice(price);
                 } else {
                     throw new Error(result.message || 'Không lấy được giá template');
@@ -183,9 +182,10 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
     useEffect(() => {
         if (!isMounted.current) return;
         setInviteeNames((prev) => {
-            const newNames = Array(quantity).fill('');
+            const newNames = ['Everyone', ...Array(Math.max(0, quantity)).fill('')];
             prev.forEach((name, index) => {
-                if (index < quantity) {
+                if (index === 0) return; // Skip "Everyone"
+                if (index - 1 < quantity) {
                     newNames[index] = name;
                 }
             });
@@ -193,29 +193,30 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
         });
     }, [quantity]);
 
-    // Calculate totalPrice
+    // Calculate totalPrice, adding 500đ for each invitee beyond 10
     const calculatedTotalPrice =
         templatePrice !== null
             ? (() => {
-                  const basePrice = Number(templatePrice); // Đảm bảo là số
+                  const basePrice = Number(templatePrice);
                   let totalPrice = basePrice;
-                  if (quantity > Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST ||  20)) {
-                      const extraPeople = quantity - Number(process.env.NEXT_PUBLIC_APP_NUMBER_REQUEST || 20);
-                      totalPrice += extraPeople * priceCardDefault; // +500đ cho mỗi người thêm
+                  if (quantity > 10) {
+                      const extraPeople = quantity - 10;
+                      totalPrice += extraPeople * priceCardDefault; // +500đ for each invitee beyond 10
                   }
                   console.log(
                       'Base Price:',
                       basePrice,
+                      'Extra Invitees:',
+                      quantity > 10 ? quantity - 10 : 0,
                       'Extra Cost:',
-                      quantity > 20 ? (quantity - 20) * 500 : 0,
+                      quantity > 10 ? (quantity - 10) * 500 : 0,
                       'Total Before Discount:',
                       totalPrice
-                  ); // Debug
-                  // Apply 20% discount if eligible
+                  );
                   if (isEligibleForDiscount) {
-                      const discountAmount = totalPrice * DiscountEligibility / 100;
+                      const discountAmount = totalPrice * DiscountEligibility;
                       totalPrice -= discountAmount;
-                      console.log('Discount Amount:', discountAmount, 'Total After Discount:', totalPrice); // Debug
+                      console.log('Discount Amount:', discountAmount, 'Total After Discount:', totalPrice);
                   }
                   return totalPrice;
               })()
@@ -237,8 +238,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
     };
 
     const handleNameChange = (index: number, value: string) => {
+        if (index === 0) return; // Prevent editing "Everyone"
         const updatedNames = [...inviteeNames];
-        updatedNames[index] = formatName(value);
+        updatedNames[index] = value; // Use raw value to preserve spaces, format only on submit if needed
         setInviteeNames(updatedNames);
     };
 
@@ -248,23 +250,24 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             updateUrlQuantity(newQuantity);
             return newQuantity;
         });
-        setInviteeNames((prev) => [...prev, '']);
+        setInviteeNames((prev) => ['Everyone', ...prev.slice(1), '']);
     };
 
     const handleRemoveInvitee = (index: number) => {
-        if (quantity > 1) {
+        if (index === 0) return; // Prevent removing "Everyone"
+        if (quantity > 0) {
             setQuantity((prev) => {
                 const newQuantity = prev - 1;
                 updateUrlQuantity(newQuantity);
                 return newQuantity;
             });
-            setInviteeNames((prev) => prev.filter((_, i) => i !== index));
+            setInviteeNames((prev) => ['Everyone', ...prev.slice(1).filter((_, i) => i !== index - 1)]);
         }
     };
 
     const handleSubmit = async () => {
-        if (inviteeNames.some((name) => name.trim() === '')) {
-            alert('Vui lòng nhập đầy đủ tên của tất cả người được mời.');
+        if (inviteeNames.slice(1).some((name) => name.trim() === '')) {
+            alert('Vui lòng nhập đầy đủ tên của tất cả người được mời (ngoại trừ Everyone).');
             return;
         }
 
@@ -298,6 +301,9 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 console.warn('Không có ảnh được chọn để tải lên.');
             }
 
+            // Format names before submission
+            const formattedInviteeNames = inviteeNames.map((name) => (name === 'Everyone' ? name : formatName(name)));
+
             // Create payment
             const paymentResponse = await fetch(`${apiUrl}/payos/create-payment`, {
                 method: 'POST',
@@ -309,7 +315,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                     totalAmount: calculatedTotalPrice,
                     description: 'Thanh toán thiệp cưới',
                     templateId,
-                    inviteeNames,
+                    inviteeNames: formattedInviteeNames,
                     weddingImages: uploadedImageUrls,
                 }),
             });
@@ -373,7 +379,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 </div>
                 <div className={styles.popupBody}>
                     <div className={styles.inviteeSection}>
-                        {Array.from({ length: quantity }, (_, index) => (
+                        {Array.from({ length: quantity + 1 }, (_, index) => (
                             <div key={index} className={styles.inviteeInput}>
                                 <div
                                     className={styles.skeletonLabel}
@@ -421,7 +427,7 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
                 <p className={styles.popupSubtitle}>
                     Số lượng: {quantity} lời mời • Tổng giá: {formattedTotalPrice}
                     {isEligibleForDiscount && (
-                        <span className={styles.discountNote}> (Đã giảm {DiscountEligibility}%)</span>
+                        <span className={styles.discountNote}> (Đã giảm {DiscountEligibility * 100}%)</span>
                     )}
                 </p>
             </div>
@@ -439,26 +445,27 @@ const InviteePopup: React.FC<InviteePopupProps> = ({
             </div>
             <div className={styles.popupBody}>
                 <div className={styles.inviteeSection}>
-                    {Array.from({ length: quantity }, (_, index) => (
+                    {inviteeNames.map((name, index) => (
                         <div key={index} className={styles.inviteeInput}>
                             <div className={styles.inputWrapper}>
                                 <label htmlFor={`invitee-${index}`}>
-                                    Tên người mời {index + 1}
-                                    {index >= 20 && <span className={styles.extraCost}> (+500đ)</span>}
+                                    {index === 0 ? 'Everyone' : `Tên người mời ${index}`}
+                                    {index > 10 && <span className={styles.extraCost}> (+500đ)</span>}
                                 </label>
                                 <div className={styles.inputContainer}>
                                     <input
                                         type="text"
                                         id={`invitee-${index}`}
-                                        value={inviteeNames[index]}
+                                        value={name}
                                         onChange={(e) => handleNameChange(index, e.target.value)}
-                                        placeholder={`Nhập tên người mời ${index + 1}`}
+                                        placeholder={index === 0 ? 'Everyone' : `Nhập tên người mời ${index}`}
+                                        disabled={index === 0} // Disable input for "Everyone"
                                     />
-                                    {quantity > 1 && (
+                                    {index > 0 && quantity > 0 && (
                                         <button
                                             className={styles.removeButton}
                                             onClick={() => handleRemoveInvitee(index)}
-                                            aria-label={`Xóa người mời ${index + 1}`}
+                                            aria-label={`Xóa người mời ${index}`}
                                         >
                                             <FaMinus />
                                         </button>

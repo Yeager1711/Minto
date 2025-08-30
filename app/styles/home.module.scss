@@ -2,7 +2,7 @@
   min-height: 100vh;
   padding: 2rem 2%;
   margin: 8.3rem auto 2rem;
-  background: #fff;
+  background: #f5f2ed;
 
   @media (max-width: 1024px) {
     padding: 1.5rem 4%;
@@ -80,9 +80,9 @@
       }
 
       .wrapper_expend {
-        background: rgba(255, 255, 255, 0.95);
+        background: #fbf7f4;
         border-radius: 1rem;
-        padding: 1rem;
+        padding: 2rem;
 
         .search_bar {
           display: inline-flex;
@@ -682,7 +682,7 @@
           gap: 1.5rem;
 
           &:hover {
-            background: #f1fff0;
+            background: #fbf7f4;
           }
 
           .advantage_box__flex {
@@ -822,7 +822,7 @@
             padding: 1.5rem 1rem;
 
             &:hover {
-              background: #f1fff0;
+              background: #fbf7f4;
               border-radius: 1.5rem;
               transition: 0.3s ease-in;
             }

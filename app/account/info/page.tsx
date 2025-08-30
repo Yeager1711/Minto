@@ -79,7 +79,8 @@ function AccountInfo() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editedFullName, setEditedFullName] = useState<string>('');
-    const [templates, setTemplates] = useState<Template[]>([]);
+    const [allTemplates, setAllTemplates] = useState<Template[]>([]); // Store all orders
+    const [uniqueTemplates, setUniqueTemplates] = useState<Template[]>([]); // Store merged templates for display
     const [showGuestsModal, setShowGuestsModal] = useState<boolean>(false);
     const [selectedGuests, setSelectedGuests] = useState<{
         guests: Guest[];
@@ -119,6 +120,8 @@ function AccountInfo() {
                 setUser(userData);
                 setEditedFullName(userData.full_name);
                 setError('');
+
+                // Store all templates (orders) as received
                 const formattedTemplates: Template[] = templateData.map((item: Template) => ({
                     card_id: item.card_id,
                     template: {
@@ -130,30 +133,40 @@ function AccountInfo() {
                         guests: item.template.guests,
                     },
                 }));
-                const uniqueTemplates: Template[] = formattedTemplates.reduce((acc: Template[], current: Template) => {
+                setAllTemplates(formattedTemplates);
+
+                // Merge templates by template_id for unique display (e.g., in grid)
+                const mergedTemplates: Template[] = formattedTemplates.reduce((acc: Template[], current: Template) => {
                     const existing = acc.find((item) => item.template.template_id === current.template.template_id);
                     if (!existing) {
                         acc.push(current);
+                    } else {
+                        const existingIndex = acc.findIndex(
+                            (item) => item.template.template_id === current.template.template_id
+                        );
+                        if (existingIndex !== -1) {
+                            acc[existingIndex].template.guests = [
+                                ...acc[existingIndex].template.guests,
+                                ...current.template.guests.filter(
+                                    (guest) =>
+                                        !acc[existingIndex].template.guests.some((g) => g.guest_id === guest.guest_id)
+                                ),
+                            ];
+                            acc[existingIndex].template.payments = [
+                                ...acc[existingIndex].template.payments,
+                                ...current.template.payments.filter(
+                                    (payment) =>
+                                        !acc[existingIndex].template.payments.some(
+                                            (p) => p.payment_date === payment.payment_date
+                                        )
+                                ),
+                            ];
+                        }
                     }
                     return acc;
                 }, []);
+                setUniqueTemplates(mergedTemplates);
 
-                // Sắp xếp templates theo ngày thanh toán (mới nhất đến cũ nhất)
-                uniqueTemplates.sort((a, b) => {
-                    const dateA = a.template.payments[0]?.payment_date
-                        ? new Date(a.template.payments[0].payment_date).getTime()
-                        : 0;
-                    const dateB = b.template.payments[0]?.payment_date
-                        ? new Date(b.template.payments[0].payment_date).getTime()
-                        : 0;
-                    // Nếu không có ngày thanh toán, đẩy xuống cuối
-                    if (!dateA && !dateB) return 0;
-                    if (!dateA) return 1;
-                    if (!dateB) return -1;
-                    return dateB - dateA; // Sắp xếp giảm dần (mới nhất trước)
-                });
-
-                setTemplates(uniqueTemplates);
                 if (bankData.code === '00' && Array.isArray(bankData.data)) {
                     setBanks(bankData.data);
                 } else {
@@ -167,7 +180,7 @@ function AccountInfo() {
                 if (discountResponse.isEligible && userData.created_at) {
                     const eligibilityEndDate = new Date(userData.created_at);
                     eligibilityEndDate.setDate(eligibilityEndDate.getDate() + 7);
-                    const now = new Date(); // Current date: July 09, 2025, 10:56 AM +07
+                    const now = new Date('2025-08-30T12:57:00+07:00'); // Current date and time
                     if (eligibilityEndDate > now) {
                         setDiscountEndDate(eligibilityEndDate);
                     } else {
@@ -202,7 +215,7 @@ function AccountInfo() {
         let timer: NodeJS.Timeout;
         if (discountEndDate && isEligibleForDiscount) {
             const calculateTimeLeft = (): void => {
-                const now = new Date();
+                const now = new Date('2025-08-30T12:57:00+07:00'); // Current date and time
                 const difference = discountEndDate.getTime() - now.getTime();
 
                 if (difference <= 0) {
@@ -433,11 +446,11 @@ function AccountInfo() {
                                         </div>
                                     ))}
                                 </div>
-                            ) : templates.length === 0 ? (
+                            ) : uniqueTemplates.length === 0 ? (
                                 <p>Chưa có template nào được sử dụng.</p>
                             ) : (
                                 <div className={styles.grid_template}>
-                                    {templates.map((template) => (
+                                    {uniqueTemplates.map((template) => (
                                         <div key={template.card_id} className={styles.template_item}>
                                             <div className={styles.image}>
                                                 <img
@@ -480,61 +493,73 @@ function AccountInfo() {
                                             ))}
                                         </tr>
                                     ))
-                                ) : templates.length === 0 ? (
+                                ) : allTemplates.length === 0 ? (
                                     <tr>
                                         <td colSpan={6}>Chưa có đơn hàng nào.</td>
                                     </tr>
                                 ) : (
-                                    templates.map((template) => (
-                                        <tr key={template.card_id}>
-                                            <td data-label="Tên template">{template.template.name}</td>
-                                            <td data-label="Giá">
-                                                {parseFloat(template.template.price).toLocaleString('vi-VN')} VNĐ
-                                            </td>
-                                            <td data-label="Số tiền thanh toán">
-                                                {template.template.payments[0]?.amount
-                                                    ? `${parseFloat(template.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
-                                                    : 'Chưa có'}
-                                            </td>
-                                            <td data-label="Ngày thanh toán">
-                                                {template.template.payments[0]?.payment_date
-                                                    ? new Date(
-                                                          template.template.payments[0].payment_date
-                                                      ).toLocaleDateString('vi-VN')
-                                                    : 'Chưa có'}
-                                            </td>
-                                            <td data-label="Trạng thái">
-                                                {template.template.payments[0]?.status === 'COMPLETED'
-                                                    ? 'Hoàn tất'
-                                                    : template.template.payments[0]?.status || 'Chưa thanh toán'}
-                                            </td>
-                                            <td data-label="Danh sách khách mời">
-                                                <button
-                                                    style={{
-                                                        padding: '0.8rem 1.5rem',
-                                                        background: '#007bff',
-                                                        color: '#fff',
-                                                        borderRadius: '0.5rem',
-                                                    }}
-                                                    onClick={() =>
-                                                        handleShowGuests(
-                                                            template.template.guests,
-                                                            template.template.name,
-                                                            template.template.template_id,
-                                                            template.template.price,
-                                                            template.template.payments[0]?.amount,
-                                                            template.template.payments[0]?.payment_date
-                                                        )
-                                                    }
-                                                    disabled={template.template.guests.length === 0}
-                                                >
-                                                    {template.template.guests.length > 0
-                                                        ? 'Danh sách'
-                                                        : 'Chưa có khách mời'}
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
+                                    [...allTemplates]
+                                        .sort((a, b) => {
+                                            const latestPaymentA =
+                                                a.template.payments.length > 0
+                                                    ? new Date(a.template.payments[0].payment_date).getTime()
+                                                    : 0;
+                                            const latestPaymentB =
+                                                b.template.payments.length > 0
+                                                    ? new Date(b.template.payments[0].payment_date).getTime()
+                                                    : 0;
+                                            return latestPaymentB - latestPaymentA; // Newest to oldest
+                                        })
+                                        .map((template) => (
+                                            <tr key={template.card_id}>
+                                                <td data-label="Tên template">{template.template.name}</td>
+                                                <td data-label="Giá">
+                                                    {parseFloat(template.template.price).toLocaleString('vi-VN')} VNĐ
+                                                </td>
+                                                <td data-label="Số tiền thanh toán">
+                                                    {template.template.payments[0]?.amount
+                                                        ? `${parseFloat(template.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
+                                                        : 'Chưa có'}
+                                                </td>
+                                                <td data-label="Ngày thanh toán">
+                                                    {template.template.payments[0]?.payment_date
+                                                        ? new Date(
+                                                              template.template.payments[0].payment_date
+                                                          ).toLocaleDateString('vi-VN')
+                                                        : 'Chưa có'}
+                                                </td>
+                                                <td data-label="Trạng thái">
+                                                    {template.template.payments[0]?.status === 'COMPLETED'
+                                                        ? 'Hoàn tất'
+                                                        : template.template.payments[0]?.status || 'Chưa thanh toán'}
+                                                </td>
+                                                <td data-label="Danh sách khách mời">
+                                                    <button
+                                                        style={{
+                                                            padding: '0.8rem 1.5rem',
+                                                            background: '#007bff',
+                                                            color: '#fff',
+                                                            borderRadius: '0.5rem',
+                                                        }}
+                                                        onClick={() =>
+                                                            handleShowGuests(
+                                                                template.template.guests,
+                                                                template.template.name,
+                                                                template.template.template_id,
+                                                                template.template.price,
+                                                                template.template.payments[0]?.amount,
+                                                                template.template.payments[0]?.payment_date
+                                                            )
+                                                        }
+                                                        disabled={template.template.guests.length === 0}
+                                                    >
+                                                        {template.template.guests.length > 0
+                                                            ? 'Danh sách'
+                                                            : 'Chưa có khách mời'}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
                                 )}
                             </tbody>
                         </table>
