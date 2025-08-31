@@ -34,12 +34,11 @@ const notifications: Notification[] = [
         title: (
             <>
                 Nhân dịp kỷ niệm <strong>80 năm Quốc khánh 2/9/2025</strong>, xin gửi lời chúc mừng nồng nhiệt nhất đến
-                toàn thể đồng bào Việt Nam. Chúc đất nước ta ngày càng giàu đẹp, phồn vinh, hùng cường, nhân dân ấm no,
-                hạnh phúc, vững bước trên con đường hội nhập và phát triển.
+                khách hàng của <strong>Minto</strong>. Nhân dịp kỷ niệm <strong>Minto</strong> có 1 số ưu đãi:
             </>
         ),
         period: { from: '00:00 [01/09/2025] - 12:00 [03/09/2025]' },
-        items: ['Giảm giá Thiệp Online trên hệ thống 10%', 'Áp dụng toàn bộ thiệp'],
+        items: ['Giảm giá Thiệp Online trên hệ thống 10%', 'Áp dụng toàn bộ thiệp', 'Áp dụng cộng thêm đối với các tài khoản đang trong quá trình giảm giá 7 ngày kể từ ngày đăng kí tài khoản.'],
         icon: <FontAwesomeIcon icon={faExpand} className={styles.icon} />,
     },
     {
