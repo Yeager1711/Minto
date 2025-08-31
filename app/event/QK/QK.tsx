@@ -67,7 +67,7 @@ export default function EventQK({ onClose, title, items = [], period }: EventQKP
 
                     {/* fallback/khuyến mãi (nếu muốn) */}
                     <p style={{ marginTop: '1rem' }}>
-                        Đây là thông báo quan trọng. <strong> Chúc mọi người có một ngày đại lễ thật vui vẻ bên gia đình và người thân!</strong>
+                       <strong> Chúc mọi người có một ngày đại lễ thật vui vẻ bên gia đình và người thân!</strong>
                     </p>
                 </div>
             </div>
