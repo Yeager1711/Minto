@@ -22,7 +22,7 @@ export default function EventQK({ onClose, title, items = [], period }: EventQKP
                     ×
                 </button>
 
-                <h2 className={styles['event__title']}>Mừng Đại Lễ Quốc khánh 02-09-2025</h2>
+                <h2 className={styles['event__title']}>Mừng Đại Lễ Quốc khánh 02/09</h2>
 
                 <div className={styles['event__content']}>
                     {title ? (

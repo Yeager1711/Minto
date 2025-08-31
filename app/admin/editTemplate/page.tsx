@@ -159,6 +159,7 @@ const EditTemplate: React.FC = () => {
                                 className={styles.template}
                                 onClick={() => handleEditClick(template)}
                             >
+                                <div>{template.template_id}</div>
                                 <div className={styles.name_template}>{template.name}</div>
                                 <button className={styles.btn_edit}>Chỉnh sửa</button>
                             </div>

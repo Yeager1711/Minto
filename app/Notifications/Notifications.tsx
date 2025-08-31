@@ -38,7 +38,7 @@ const notifications: Notification[] = [
                 hạnh phúc, vững bước trên con đường hội nhập và phát triển.
             </>
         ),
-        period: { from: '00:00 [31/09/2025]' },
+        period: { from: '00:00 [01/09/2025] - 12:00 [03/09/2025]' },
         items: ['Giảm giá Thiệp Online trên hệ thống 10%', 'Áp dụng toàn bộ thiệp'],
         icon: <FontAwesomeIcon icon={faExpand} className={styles.icon} />,
     },
