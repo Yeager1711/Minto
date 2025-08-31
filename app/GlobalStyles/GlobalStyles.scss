@@ -55,6 +55,12 @@ textarea {
     --hoverBox: #f9fbff;
     --hoverBoxBd: #cfe0ff;
 
+
+    // =========== event
+    --eventColor: #fff;
+    --eventColorBlr: #dbdbdb;
+    --eventBg: rgba(255,255,255, .3);
+
 }
 
 html,
@@ -88,7 +94,8 @@ html {
 }
 
 .container {
-    background-color: var(--bg-White);
+    // background-color: var(--bg-White);
+
     min-height: 100vh;
     width: 100%;
 
