@@ -1,0 +1,137 @@
+.card_product {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(245, 245, 255, 0.9));
+  border-radius: 3rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.03);
+  max-width: 100%;
+}
+.card_product:hover {
+  box-shadow: 0 8px 24px rgba(136, 136, 232, 0.2);
+  transform: scale(1.02);
+}
+.card_product .image_products {
+  width: 100%;
+  height: 53rem;
+  background: #fff;
+  overflow: hidden;
+}
+.card_product .image_products img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: top center;
+     object-position: top center;
+  transform: scale(1.12);
+  transition: transform 0.3s ease;
+}
+.card_product .image_products .card_overlay {
+  position: absolute;
+  bottom: 4%;
+  right: 4%;
+  left: 4%;
+  background: #fff;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  border: 0.1rem solid #dbdbdb;
+}
+.card_product .image_products .card_overlay .card_title {
+  font-size: 1.5rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card_product .image_products .card_overlay .card_price {
+  font-size: 1.4rem;
+  color: #618df9;
+  font-weight: 600;
+}
+.card_product .image_products .card_overlay .card_status {
+  margin: 0;
+  color: #888;
+  font-weight: 400;
+}
+.card_product .image_products:hover .card_overlay {
+  opacity: 1;
+}
+
+.card_product_skeleton {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(245, 245, 255, 0.9));
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(232, 232, 240, 0.5);
+  height: 20rem;
+  width: 32rem;
+  max-width: 100%;
+}
+.card_product_skeleton .image_products_skeleton {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(136, 136, 232, 0.1), rgba(200, 200, 200, 0.2), rgba(136, 136, 232, 0.1));
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@media (max-width: 1024px) {
+  .card_product .card_overlay .card_title {
+    font-size: 1.5rem;
+  }
+  .card_product .card_overlay .card_price {
+    font-size: 1.3rem;
+  }
+  .card_product .card_overlay .card_status {
+    font-size: 1.3rem;
+  }
+  .card_product_skeleton {
+    width: 18rem;
+  }
+}
+@media (max-width: 768px) {
+  .card_product .image_products {
+    height: 40rem;
+  }
+  .card_product .card_overlay .card_title {
+    font-size: 1.5rem;
+  }
+  .card_product .card_overlay .card_price {
+    font-size: 1.3rem;
+  }
+  .card_product .card_overlay .card_status {
+    font-size: 1.3rem;
+  }
+  .card_product_skeleton {
+    width: 18rem;
+  }
+}
+@media (max-width: 480px) {
+  .card_product .image_products {
+    height: 35rem !important;
+  }
+  .card_product .card_overlay .card_title {
+    font-size: 1.3rem;
+  }
+  .card_product .card_overlay .card_price {
+    font-size: 1.1rem;
+  }
+  .card_product .card_overlay .card_status {
+    font-size: 1.1rem;
+  }
+  .card_product_skeleton {
+    width: 12rem;
+  }
+  .swiper_container {
+    padding-bottom: 3rem;
+  }
+}
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}/*# sourceMappingURL=products.module.css.map */

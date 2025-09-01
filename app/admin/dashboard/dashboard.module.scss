@@ -14,9 +14,7 @@
     margin: 0 auto;
     padding: 4rem 2rem 10rem 2rem;
     overflow: hidden;
-    background-image: url('/images/bg_ad.jpg');
-    background-size: cover;
-    background-position: center;
+    background: #f5f2ed;
 
     &::before {
         content: '';
@@ -25,7 +23,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, .5);
+        background: rgba(0, 0, 0, .05);
         background-position: center;
         background-size: cover;
         z-index: 0;

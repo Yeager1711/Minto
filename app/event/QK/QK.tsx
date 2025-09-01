@@ -6,13 +6,14 @@ interface EventQKProps {
     onClose: () => void;
     title?: React.ReactNode;
     items?: string[];
+    text_items?: string[];
     period?: {
         from: string;
         to?: string;
     };
 }
 
-export default function EventQK({ onClose, title, items = [], period }: EventQKProps) {
+export default function EventQK({ onClose, title, text_items = [], period }: EventQKProps) {
     return (
         <div className={styles.event} role="dialog" aria-modal="true">
             <div className={styles['event__overlay']} onClick={onClose}></div>
@@ -52,13 +53,13 @@ export default function EventQK({ onClose, title, items = [], period }: EventQKP
                     )}
 
                     {/* items nếu có */}
-                    {items.length > 0 && (
+                    {text_items.length > 0 && (
                         <div className={styles['event__promo']}>
                             <p>
                                 <strong>Chi tiết:</strong>
                             </p>
                             <ul>
-                                {items.map((it, idx) => (
+                                {text_items.map((it, idx) => (
                                     <li key={idx}>{it}</li>
                                 ))}
                             </ul>

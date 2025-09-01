@@ -9,12 +9,12 @@
   right: 0;
   background: #fff;
   border-bottom: 0.1rem solid #dbdbdb;
-  z-index: 1000;
+  z-index: 9;
 
   .margin {
     max-width: 120rem;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,7 +28,7 @@
       height: 5rem;
       width: 5rem;
       border-radius: 50%;
-      background: #ffedda;
+      border:  .1rem solid #ffedda;
 
       img {
         transform: scale(.85);

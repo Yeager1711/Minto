@@ -22,6 +22,7 @@ interface Notification {
         to?: string;
     };
     items: string[];
+    text_items: string[];
     /** optional jsx icon — we still render wrapper button to handle click */
     icon?: React.ReactNode;
 }
@@ -38,7 +39,12 @@ const notifications: Notification[] = [
             </>
         ),
         period: { from: '00:00 [01/09/2025] - 12:00 [03/09/2025]' },
-        items: ['Giảm giá Thiệp Online trên hệ thống 10%', 'Áp dụng toàn bộ thiệp', 'Áp dụng cộng thêm đối với các tài khoản đang trong quá trình giảm giá 7 ngày kể từ ngày đăng kí tài khoản.'],
+        items: ['Xem chi tiết tại góc phải thông báo'],
+        text_items: [
+            'Giảm giá Thiệp Online trên hệ thống 10%',
+            'Áp dụng toàn bộ thiệp',
+            'Áp dụng cộng thêm đối với các tài khoản đang trong quá trình giảm giá 7 ngày kể từ ngày đăng kí tài khoản.',
+        ],
         icon: <FontAwesomeIcon icon={faExpand} className={styles.icon} />,
     },
     {
@@ -56,6 +62,7 @@ const notifications: Notification[] = [
             'Hỏi đáp thắc mắc, những vấn đề trong quá trình sử dụng',
             'Hướng dẫn và hỗ trợ khách hàng việc lấy tọa độ',
         ],
+        text_items: [],
     },
     {
         id: 3,
@@ -73,6 +80,7 @@ const notifications: Notification[] = [
             'Không áp dụng đồng thời với các mã khuyến mãi khác',
             'Ưu đãi chỉ áp dụng trong 7 ngày kể từ ngày đăng ký',
         ],
+        text_items: [],
     },
     {
         id: 4,
@@ -83,6 +91,7 @@ const notifications: Notification[] = [
             'Mỗi tài khoản được tạo tối đa 2 QR để nhận Hỷ',
             'Áp dụng trực tiếp trong quá trình "Nhập thông tin thiệp" và nhận trực tiếp tại: Thiệp đã được tạo !',
         ],
+        text_items: [],
     },
 ];
 
@@ -175,6 +184,7 @@ const Notifications: React.FC = () => {
                     onClose={() => setSelected(null)}
                     title={selected.title}
                     items={selected.items}
+                    text_items={selected.text_items}
                     period={selected.period}
                 />
             )}

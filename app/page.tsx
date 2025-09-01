@@ -14,20 +14,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
-import Image from 'next/image';
 import Notifications from './Notifications/Notifications';
 import FeatureCard from './func/FeatureCard/page';
 import SupportError from 'app/feedback/SupportError/SupportError';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/autoplay';
 import GeminiButton from './feedback/Auto_Reply/gemini_button/Gemini';
 import GeminiReply from './feedback/Auto_Reply/genmini_reply/GenimiReply';
+import Products from './pages/DefaultLayouts/Products/Products';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
 interface Template {
     template_id: number;
     name: string;
@@ -73,50 +71,10 @@ interface Feedback {
         password: string;
         created_at: string | null;
     };
-    template: Template; // Align with Template interface
-}
-
-interface ProductCardProps {
-    name: string;
-    image: string;
-    price: number;
-    status: string;
-    onClick: () => void;
-}
-
-interface ProductListProps {
-    templates: Template[];
-    onProductClick: (template: Template) => void;
-    isLoading: boolean;
+    template: Template;
 }
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-const ProductCard: React.FC<ProductCardProps> = ({ name, image, price, status, onClick }) => (
-    <div className={styles.card_product} onClick={onClick}>
-        <div className={styles.image_products}>
-            <Image
-                src={image || '/default-image.jpg'}
-                alt={name}
-                width={300}
-                height={200}
-                priority={false}
-                unoptimized
-                style={{ aspectRatio: '3/2' }}
-            />
-            <div className={styles.card_overlay}>
-                <h3 className={styles.card_title}>{name}</h3>
-                <h3 className={styles.card_price}>{Number(price).toLocaleString('vi-VN') + ' VNĐ'}</h3>
-                <h3 className={styles.card_status}>{status.toUpperCase()}</h3>
-            </div>
-        </div>
-    </div>
-);
-
-const ProductCardSkeleton: React.FC = () => (
-    <div className={styles.card_product_skeleton}>
-        <div className={styles.image_products_skeleton}></div>
-    </div>
-);
 
 const HeadingSkeleton: React.FC = () => (
     <div className={styles.heading_skeleton}>
@@ -133,76 +91,6 @@ const CategorySkeleton: React.FC = () => (
             ))}
     </div>
 );
-
-const ProductList: React.FC<ProductListProps> = ({ templates, onProductClick, isLoading }) => {
-    const sortedTemplates = [...templates].sort((a, b) => b.template_id - a.template_id);
-
-    return (
-        <div className={styles.product_list}>
-            {isLoading ? (
-                <Swiper
-                    slidesPerView={1}
-                    spaceBetween={10}
-                    breakpoints={{
-                        375: { slidesPerView: 1.5, spaceBetween: 10 },
-                        600: { slidesPerView: 2.5, spaceBetween: 15 },
-                        1024: { slidesPerView: 3, spaceBetween: 15 },
-                    }}
-                    modules={[Autoplay, Navigation]}
-                    className={styles.swiper_container}
-                    autoplay={{ delay: 100000000000000, disableOnInteraction: false }}
-                    navigation={{
-                        prevEl: '.swiper-button-prev',
-                        nextEl: '.swiper-button-next',
-                    }}
-                >
-                    {Array(4)
-                        .fill(0)
-                        .map((_, index) => (
-                            <SwiperSlide key={index}>
-                                <ProductCardSkeleton />
-                            </SwiperSlide>
-                        ))}
-                    <button className="swiper-button-prev"></button>
-                    <button className="swiper-button-next"></button>
-                </Swiper>
-            ) : sortedTemplates.length === 0 ? (
-                <div className={styles.no_results}>Không tìm thấy kết quả</div>
-            ) : (
-                <Swiper
-                    slidesPerView={1}
-                    spaceBetween={10}
-                    breakpoints={{
-                        375: { slidesPerView: 1.5, spaceBetween: 10 },
-                        600: { slidesPerView: 2.2, spaceBetween: 15 },
-                        1024: { slidesPerView: 3, spaceBetween: 15 },
-                    }}
-                    modules={[Autoplay, Navigation]}
-                    className={styles.swiper_container}
-                    autoplay={{ delay: 10000, disableOnInteraction: false }}
-                    navigation={{
-                        prevEl: '.swiper-button-prev',
-                        nextEl: '.swiper-button-next',
-                    }}
-                >
-                    {sortedTemplates.map((template) => (
-                        <SwiperSlide key={template.template_id}>
-                            <ProductCard
-                                name={template.name}
-                                image={template.image_url}
-                                price={template.price}
-                                status={template.status}
-                                onClick={() => onProductClick(template)}
-                            />
-                        </SwiperSlide>
-                    ))}
-                    <button className="swiper-button-prev"></button>
-                    <button className="swiper-button-next"></button>
-                </Swiper>
-            )}
-        </div>
-    );
-};
 
 const Home: React.FC = () => {
     const { getTemplates, getCategories, getUserProfile, accessToken } = useApi();
@@ -240,7 +128,6 @@ const Home: React.FC = () => {
         setIsSupportOpen((prev) => !prev);
     };
 
-    // Fetch templates and categories
     useEffect(() => {
         const fetchTemplatesAndCategories = async () => {
             setIsLoading(true);
@@ -265,7 +152,6 @@ const Home: React.FC = () => {
         fetchTemplatesAndCategories();
     }, [getTemplates, getCategories]);
 
-    // Fetch user profile
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (!accessToken) {
@@ -282,7 +168,6 @@ const Home: React.FC = () => {
         fetchUserProfile();
     }, [getUserProfile]);
 
-    // Fetch feedback data
     useEffect(() => {
         const fetchFeedbacks = async () => {
             setIsFeedbackLoading(true);
@@ -506,7 +391,7 @@ const Home: React.FC = () => {
                     {isLoading ? (
                         <div className={styles.section_skeleton}>
                             <div className={styles.section_title_skeleton}></div>
-                            <ProductList templates={[]} onProductClick={handleProductClick} isLoading={true} />
+                            <Products templates={[]} onProductClick={handleProductClick} isLoading={true} />
                         </div>
                     ) : sortedGroupedTemplates.length === 0 ? (
                         <div className={styles.no_results}>Không tìm thấy kết quả</div>
@@ -514,11 +399,7 @@ const Home: React.FC = () => {
                         sortedGroupedTemplates.map(([categoryName, templates]) => (
                             <div key={categoryName} className={styles.category_section}>
                                 <h2 className={styles.section_title}>{categoryName}</h2>
-                                <ProductList
-                                    templates={templates}
-                                    onProductClick={handleProductClick}
-                                    isLoading={false}
-                                />
+                                <Products templates={templates} onProductClick={handleProductClick} isLoading={false} />
                             </div>
                         ))
                     )}
