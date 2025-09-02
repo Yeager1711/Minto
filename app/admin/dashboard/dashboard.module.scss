@@ -14,7 +14,8 @@
     margin: 0 auto;
     padding: 4rem 2rem 10rem 2rem;
     overflow: hidden;
-    background: #f5f2ed;
+    // background: #f5f2ed;
+    background: #0a0710;
 
     &::before {
         content: '';
@@ -114,6 +115,15 @@
             width: 100%;
             padding: 0 0rem 0 0;
             border-radius: 2rem;
+
+            .controlCenter {
+
+
+                svg {
+                    font-size: 2rem;
+                    color: #333;
+                }
+            }
 
             .dynamic {
                 position: fixed;
@@ -393,7 +403,7 @@
                         .Virtual_revenue {
                             flex: 2 1 12rem;
                             width: 100%;
-                            padding: 1.5rem;
+                            padding: 2rem 1.5rem;
                             border-radius: 1.5rem;
                             position: relative;
                             background: linear-gradient(135deg, #f3f4f6, #e0f2fe);
@@ -450,7 +460,7 @@
                     .Most_used_model {
                         background: linear-gradient(135deg, #f3f4f6, #e0f2fe);
                         /* Light gradient */
-                        padding: 1rem;
+                        padding: 2.3rem 1.5rem;
                         border-radius: 1.5rem;
                         display: flex;
                         align-items: center;
@@ -596,9 +606,16 @@
                         }
 
                         .box_left {
-                            background: #fff;
+                            // background: #fff;
+                            background: #23222a;
                             padding: 1rem;
                             border-radius: 1rem;
+
+                            h3 {
+                                color: #fff;
+                                font-family: "Poppins", sans-serif;
+                                font-size: 2rem;
+                            }
                         }
 
                         .box_left,
@@ -644,7 +661,7 @@
                                 p {
                                     font-size: 1.2rem;
                                     margin-bottom: 1rem;
-                                    color: #333;
+                                    color: #fff;
                                     /* Dark gray */
 
                                     @media (max-width: 768px) {
@@ -714,7 +731,7 @@
                                         font-size: 1.3rem;
                                         padding: 1rem;
                                         float: right;
-                                        color: #333;
+                                        color: #fff;
 
                                         @media (max-width: 768px) {
                                             font-size: 1.3rem;

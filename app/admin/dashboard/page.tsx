@@ -35,6 +35,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import ManageUser from '../manage_user/page';
+import ControlCenter from '../ControlCenter/ControlCenter';
 
 // Register ChartJS components
 ChartJS.register(
@@ -192,6 +193,7 @@ const Dashboard: React.FC = () => {
     const [showServerStatus, setShowServerStatus] = useState<boolean>(false);
     const [serverStatusData, setServerStatusData] = useState<ServerStatusData[]>([]);
     const serverStatusRef = useRef<HTMLDivElement>(null);
+    const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -750,9 +752,11 @@ const Dashboard: React.FC = () => {
     const renderContent = () => {
         switch (activeSection) {
             case 'account':
-                return <div className={styles.section_content}>
-                    <ManageUser/>
-                </div>;
+                return (
+                    <div className={styles.section_content}>
+                        <ManageUser />
+                    </div>
+                );
             case 'revenue':
                 return <div className={styles.section_content}>Quản lý</div>;
             case 'feedback':
@@ -821,6 +825,16 @@ const Dashboard: React.FC = () => {
                                     )}
                                 </div>
                             )}
+                        </div>
+
+                        <div className={styles.controlCenter}    onClick={() => setIsControlCenterOpen(true)}>
+                            {/* <FontAwesomeIcon
+                                icon={faExpand}
+                                className={styles.btn_expand}
+                             
+                            /> */}
+                            []
+                            {isControlCenterOpen && <ControlCenter onClose={() => setIsControlCenterOpen(false)} />}
                         </div>
 
                         <div className={styles.header} data-aos="fade-in" data-aos-delay="300">

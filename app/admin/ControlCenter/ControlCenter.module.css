@@ -1,0 +1,166 @@
+.controlCenter {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+}
+.controlCenter .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #24292f;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  max-width: 128rem;
+  width: 100%;
+  z-index: 9999 !important;
+}
+.controlCenter .popup .closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 3rem;
+  cursor: pointer;
+  padding: 0.5rem 1.3rem;
+}
+.controlCenter .popup .closeButton:hover {
+  color: #333;
+  background: #dbdbdb;
+  border-radius: 5rem;
+  transition: 0.3s ease;
+}
+.controlCenter .popup .top {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.controlCenter .popup .top .box_1 {
+  flex: 1 1;
+}
+.controlCenter .popup .top .box_1 .box_template {
+  background: #353944;
+  padding: 1.5rem;
+  border-radius: 2rem;
+  margin-left: 10rem;
+}
+.controlCenter .popup .top .box_1 .box_template .box_search {
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  background: #2c3039;
+}
+.controlCenter .popup .top .box_1 .box_template .box_search input {
+  background: none;
+  color: #dbdbdb;
+  font-size: 16px;
+}
+.controlCenter .popup .top .box_1 .box_template .box_search input::-moz-placeholder {
+  font-size: 1.1rem;
+}
+.controlCenter .popup .top .box_1 .box_template .box_search input::placeholder {
+  font-size: 1.1rem;
+}
+.controlCenter .popup .top .box_1 .box_template .template_item {
+  margin-top: 1rem;
+}
+.controlCenter .popup .top .box_1 .box_template .template_item span {
+  display: block;
+  padding: 1.5rem 1rem;
+  color: #fff;
+}
+.controlCenter .popup .top .box_1 .wraper_total {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  background: #2c3039;
+  margin-top: 2rem;
+  padding: 0.5rem;
+  border-radius: 5rem;
+}
+.controlCenter .popup .top .box_1 .wraper_total .total_products {
+  color: #fff;
+  font-size: 1.3rem;
+  padding: 2rem;
+  background: #242833;
+  border-radius: 5rem;
+  position: relative;
+  flex: 1 1;
+  text-align: center;
+}
+.controlCenter .popup .top .box_1 .wraper_total .total_products span {
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  transform: translate(-30%, 0);
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 5rem;
+  background: #0a6dd9;
+}
+.controlCenter .popup .top .box_1 .wraper_total .total_using {
+  color: #fff;
+  font-size: 1.3rem;
+  padding: 2rem;
+  background: #242833;
+  border-radius: 5rem;
+  position: relative;
+  flex: 1 1;
+  text-align: center;
+}
+.controlCenter .popup .top .box_1 .wraper_total .total_using span {
+  position: absolute;
+  top: -1rem;
+  right: 50%;
+  transform: translate(30%, 0);
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 5rem;
+  background: #0a6dd9;
+}
+.controlCenter .popup .top .box_2 {
+  flex: 2 1;
+  border-radius: 2rem;
+  height: 37rem;
+  background: #353944;
+  margin-right: 5rem;
+}
+.controlCenter .popup .bottom .bottom_left {
+  flex: 2 1;
+}
+.controlCenter .popup .bottom .bottom_right {
+  flex: 1 1;
+  margin-top: 2rem;
+}
+.controlCenter .popup .bottom .bottom_right .btn_uploadTemplate {
+  background: #333742;
+  padding: 1.5rem;
+  max-width: 30rem;
+  width: 100%;
+  float: right;
+  border-radius: 2rem;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+.controlCenter .popup .bottom .bottom_right .btn_uploadTemplate svg {
+  color: #fff;
+}
+.controlCenter .popup .bottom .bottom_right .btn_uploadTemplate h3 {
+  color: #fff;
+  font-size: 1.4rem;
+}
+.controlCenter .popup .bottom .bottom_right .btn_uploadTemplate .btn_upload {
+  position: absolute;
+  left: 50%;
+  bottom: -1.5rem;
+  transform: translate(-50%, 0);
+  background: #0a6dd9;
+  color: #fff;
+  padding: 1rem 1.5rem;
+  font-size: 1.3rem;
+  border-radius: 5rem;
+}/*# sourceMappingURL=ControlCenter.module.css.map */
