@@ -38,8 +38,8 @@ textarea {
   --weight600: 600;
   --hoverBox: #f9fbff;
   --hoverBoxBd: #cfe0ff;
-  --eventColor: #fff;
-  --eventColorBlr: #dbdbdb;
+  --eventColor: #333;
+  --eventColorBlr: #888;
   --eventBg: rgba(255,255,255, .3);
 }
 

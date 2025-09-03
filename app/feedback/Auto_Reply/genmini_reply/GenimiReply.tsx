@@ -242,6 +242,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
             ]);
         } catch (err: unknown) {
             let errorMessage: string = 'Có lỗi xảy ra khi gọi Minto Bot. Vui lòng thử lại!';
+
             if (err instanceof AxiosError) {
                 if (err.response) {
                     if (err.response.status === 401) {
@@ -255,10 +256,18 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                             errorMessage = serverMessage || 'Câu hỏi không hợp lệ!';
                         }
                     } else if (err.response.status === 503) {
-                        errorMessage = 'Máy chủ của Minto Bot đang bận. Vui lòng thử lại sau vài phút nhé! 😊';
+                        // ✅ Thay đổi thông báo tại đây
+                        errorMessage =
+                            'Xin lỗi, hiện tại máy chủ Minto Bot đang quá tải hoặc bận xử lý nhiều yêu cầu. Anh/Chị vui lòng thử lại sau ít phút nhé! 🙏😊';
                     }
                 } else if (err.message) {
-                    errorMessage = err.message;
+                    // nếu lỗi dạng network (fetch thất bại, timeout, etc)
+                    if (err.message.includes('overloaded') || err.message.includes('Service Unavailable')) {
+                        errorMessage =
+                            'Hiện tại Minto Bot đang gặp sự cố kết nối với máy chủ. Anh/Chị vui lòng thử lại sau ít phút nhé! 🚧';
+                    } else {
+                        errorMessage = err.message;
+                    }
                 }
             } else if (err instanceof Error) {
                 errorMessage = err.message;

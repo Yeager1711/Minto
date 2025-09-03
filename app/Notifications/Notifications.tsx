@@ -39,7 +39,7 @@ const notifications: Notification[] = [
             </>
         ),
         period: { from: '00:00 [01/09/2025] - 12:00 [03/09/2025]' },
-        items: ['Đang diễn ra ...'],
+        items: ['Đã kết thúc'],
         text_items: [
             'Giảm giá Thiệp Online trên hệ thống 10%',
             'Áp dụng toàn bộ thiệp',
