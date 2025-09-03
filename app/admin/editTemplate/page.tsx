@@ -40,6 +40,7 @@ const EditTemplate: React.FC = () => {
         category_id: '',
         status: '',
     });
+    const [allPrices, setAllPrices] = React.useState('');
 
     const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
@@ -85,6 +86,11 @@ const EditTemplate: React.FC = () => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    // Xử lý thay đổi input giá tất cả template
+    const handleAllPricesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAllPrices(e.target.value);
     };
 
     // Xử lý cập nhật template
@@ -139,6 +145,43 @@ const EditTemplate: React.FC = () => {
         }
     };
 
+    // Xử lý cập nhật giá cho tất cả template
+    const handleUpdateAllPrices = async () => {
+        if (!allPrices || isNaN(parseFloat(allPrices)) || parseFloat(allPrices) <= 0) {
+            toast.error('Vui lòng nhập giá hợp lệ (số lớn hơn 0)');
+            return;
+        }
+
+        try {
+            const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+            if (!accessToken) {
+                throw new Error('Vui lòng đăng nhập');
+            }
+
+            await axios.patch(
+                `${apiUrl}/templates/update-all-prices`,
+                { price: allPrices },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'ngrok-skip-browser-warning': 'true',
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            toast.success('Cập nhật giá cho tất cả mẫu thiệp thành công');
+            setAllPrices('');
+
+            // Cập nhật lại danh sách templates
+            const updatedTemplates = await getTemplates();
+            setTemplates(updatedTemplates);
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : 'Cập nhật giá tất cả mẫu thiệp thất bại';
+            toast.error(errorMessage);
+        }
+    };
+
     if (loading) {
         return <div>Đang tải...</div>;
     }
@@ -150,6 +193,20 @@ const EditTemplate: React.FC = () => {
     return (
         <div className={styles.edtiTemplate}>
             <div className={styles.wrapper}>
+                <div className={styles.all_price_update}>
+                    <h3>Cập nhật giá tất cả template</h3>
+                    <div className={styles.input}>
+                        <input
+                            type="text"
+                            value={allPrices}
+                            onChange={handleAllPricesChange}
+                            placeholder="Nhập giá mới"
+                        />
+                        <button className={styles.btn_update} onClick={handleUpdateAllPrices}>
+                            Cập nhật giá tất cả
+                        </button>
+                    </div>
+                </div>
                 {!isEditing ? (
                     <div className={styles.list_template}>
                         <h3>Danh sách Template</h3>
