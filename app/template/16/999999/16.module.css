@@ -1,0 +1,460 @@
+@charset "UTF-8";
+.guestSelectionModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: transparent;
+}
+
+.modalContent {
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 50rem;
+  width: 80%;
+}
+
+.selectionButtons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1.5rem;
+}
+
+.groomButton,
+.brideButton {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.groomButton {
+  background: #4a90e2;
+  color: white;
+}
+
+.brideButton {
+  background: #ff6b6b;
+  color: white;
+}
+
+.groomButton:hover {
+  background: #357abd;
+}
+
+.brideButton:hover {
+  background: #e55a5a;
+}
+
+.template16c {
+  font-family: "Georgia", serif;
+  background: #f5f2ed;
+  color: #222;
+  display: flex;
+  justify-content: center;
+  /* ===== HERO (ảnh fixed + linear-gradient) ===== */
+  /* ===== Timeline giống mẫu ===== */
+}
+.template16c .wrapper {
+  max-width: 80rem;
+  width: 100%;
+  text-align: center;
+}
+.template16c .header {
+  padding: 2rem 0 0 0;
+}
+.template16c .header .title {
+  font-size: 10rem;
+  font-style: italic;
+  margin: 0;
+  font-family: "Allura", cursive;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .template16c .header .title {
+    font-size: 7rem;
+  }
+}
+@media (max-width: 480px) {
+  .template16c .header .title {
+    font-size: 5rem;
+  }
+}
+.template16c .photoWrapper {
+  margin: 2rem 0;
+  padding: 2rem 1rem;
+}
+.template16c .photoWrapper .photo {
+  width: 100%;
+  border-radius: 50% 50% 1rem 1rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.template16c .countdown {
+  margin: 2rem 0;
+}
+.template16c .countdown p {
+  font-size: 5.5rem;
+  font-family: "Great Vibes", cursive;
+  margin: 5rem 0 0 0;
+}
+.template16c .countdown .timeBoxes {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem 3rem;
+}
+.template16c .countdown .timeBoxes div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.template16c .countdown .timeBoxes div span {
+  font-size: 8rem;
+  font-weight: bold;
+}
+@media (max-width: 480px) {
+  .template16c .countdown .timeBoxes div span {
+    font-size: 4.5rem;
+  }
+}
+.template16c .countdown .timeBoxes div small {
+  font-size: 1.5rem;
+}
+.template16c .rsvp {
+  margin: 2rem 0;
+}
+.template16c .rsvp .rsvpButton {
+  background: none;
+  border: 0.1rem solid #222;
+  border-radius: 50%;
+  padding: 4rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.template16c .rsvp .video {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 1rem;
+}
+.template16c .form_family {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+@media (max-width: 480px) {
+  .template16c .form_family {
+    margin-bottom: 2rem;
+  }
+}
+.template16c .form_family .family_groom,
+.template16c .form_family .family_bride {
+  flex: 1 1;
+  padding: 0.5rem;
+  text-align: center;
+  max-width: 300px;
+}
+.template16c .form_family .family_groom span,
+.template16c .form_family .family_bride span {
+  font-size: 1.4rem;
+}
+.template16c .form_family .family_groom h3,
+.template16c .form_family .family_bride h3 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2rem;
+  margin: 0.7rem 0;
+  font-weight: 400;
+}
+@media (max-width: 480px) {
+  .template16c .form_family .family_groom h3,
+  .template16c .form_family .family_bride h3 {
+    font-size: 1.3rem;
+  }
+}
+.template16c .form_family .family_groom h3 strong,
+.template16c .form_family .family_bride h3 strong {
+  font-weight: 550;
+  text-transform: uppercase;
+}
+.template16c .inviteText {
+  margin: 2rem 0 4rem 0;
+}
+.template16c .inviteText h3 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-transform: uppercase;
+  font-family: "Times New Roman", Times, serif;
+}
+@media (max-width: 480px) {
+  .template16c .inviteText h3 {
+    font-size: 1.8rem;
+  }
+}
+.template16c .groom_name,
+.template16c .bride_name {
+  font-size: 9rem;
+  font-weight: 550;
+  font-family: "Pinyon Script", cursive;
+  color: #003238;
+}
+@media (max-width: 480px) {
+  .template16c .groom_name,
+  .template16c .bride_name {
+    font-size: 4.5rem;
+  }
+}
+.template16c .and {
+  color: #003238;
+  font-size: 4rem;
+}
+@media (max-width: 480px) {
+  .template16c .and {
+    font-size: 3rem;
+  }
+}
+.template16c .organize_Time h3,
+.template16c .organize_Time span {
+  font-size: 2.1rem;
+  margin-bottom: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-transform: uppercase;
+  font-family: "Times New Roman", Times, serif;
+}
+@media (max-width: 480px) {
+  .template16c .organize_Time h3,
+  .template16c .organize_Time span {
+    font-size: 1.6rem;
+  }
+}
+@media (max-width: 480px) {
+  .template16c .organize_Time span {
+    font-size: 1.4rem;
+  }
+}
+.template16c .organize_Time p {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-transform: capitalize;
+  font-family: "Times New Roman", Times, serif;
+}
+@media (max-width: 480px) {
+  .template16c .organize_Time p {
+    font-size: 1.4rem;
+  }
+}
+.template16c .google_map {
+  margin-top: 2rem;
+}
+.template16c .google_map button {
+  padding: 0.8rem 2rem;
+  background: #483a19;
+  color: #fff;
+  font-size: 1.4rem;
+  border-radius: 0.3rem;
+}
+.template16c .google_map .map_frame {
+  margin-top: 2rem;
+  overflow: hidden;
+}
+.template16c .google_map .map_frame iframe {
+  width: 100%;
+  height: 40rem;
+  border: none;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+.template16c .calendar {
+  margin: 4rem 0;
+}
+.template16c .calendar h4 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+.template16c .calendar .days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  font-size: 1.6rem;
+  font-family: "Times New Roman", Times, serif;
+}
+.template16c .calendar .days span {
+  padding: 5px;
+}
+.template16c .calendar .weddingDay {
+  color: red;
+  font-weight: bold;
+  font-size: 16px;
+}
+.template16c .schedule {
+  padding: 0;
+  text-align: center;
+  position: relative;
+}
+.template16c .schedule::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.template16c .schedule .image_schedule {
+  height: 70rem;
+}
+.template16c .schedule .image_schedule img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.template16c .schedule .wrapper_timeLine {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-20%, -50%);
+  width: 85%;
+}
+.template16c .schedule .wrapper_timeLine h3 {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 3rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .template16c .schedule .wrapper_timeLine h3 {
+    font-size: 2rem;
+  }
+}
+.template16c .schedule .wrapper_timeLine .timeline {
+  margin: 0 auto;
+  padding-left: 2rem;
+  border-left: 2px solid #ccaa80;
+  max-width: 600px;
+  text-align: left;
+}
+.template16c .schedule .wrapper_timeLine .timeline .item {
+  position: relative;
+  margin-bottom: 6rem;
+  padding-left: 2rem;
+}
+.template16c .schedule .wrapper_timeLine .timeline .item::before {
+  content: "";
+  position: absolute;
+  left: -2.6rem;
+  top: 0;
+  width: 1rem;
+  height: 1rem;
+  background: #ccaa80;
+  border-radius: 50%;
+}
+.template16c .schedule .wrapper_timeLine .timeline .item .time {
+  font-size: 1.6rem;
+  color: #ccaa80;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.template16c .schedule .wrapper_timeLine .timeline .item .schedule_content h4 {
+  font-size: 3rem;
+  color: #fff;
+  font-family: "Great Vibes", cursive;
+  margin: 0 0 0.5rem 0;
+  font-weight: 400;
+}
+.template16c .schedule .wrapper_timeLine .timeline .item .schedule_content p {
+  font-size: 1.4rem;
+  color: #fff;
+  margin: 0;
+  font-weight: 400;
+}
+.template16c .btn_invitionQR__popop {
+  font-family: "Poppins", sans-serif;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift {
+  text-align: center;
+  width: 100%;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .flex_center {
+  margin: auto;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .btn_gift_code {
+  padding: 0.8rem 2rem;
+  display: inline-block;
+  background: #640606;
+  margin-bottom: 2rem;
+  color: #fffff3;
+  border-radius: 0.5rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .btn_gift_code:hover {
+  border-radius: 5rem;
+  transition: 0.3s ease-in-out;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .btn_gift_code svg {
+  margin-left: 0.5rem;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .flex {
+  max-width: 50rem;
+  margin: auto;
+  display: flex;
+  gap: 1.5rem;
+  text-align: center;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+  padding: 0 1rem;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .flex.open {
+  height: auto;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .flex .groom,
+.template16c .btn_invitionQR__popop .wrapper_gift .flex .bride {
+  margin: auto;
+  padding: 1.5rem;
+  border: 0.1rem solid #dbdbdb;
+  border-radius: 1rem;
+  max-width: 20rem !important;
+  height: auto;
+  background: #fffff3;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .flex .groom img,
+.template16c .btn_invitionQR__popop .wrapper_gift .flex .bride img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .flex .groom p,
+.template16c .btn_invitionQR__popop .wrapper_gift .flex .bride p {
+  display: block;
+  font-size: 1.2rem;
+}
+.template16c .btn_invitionQR__popop .wrapper_gift .flex .groom p strong,
+.template16c .btn_invitionQR__popop .wrapper_gift .flex .bride p strong {
+  display: block;
+  padding: 0.5rem 0;
+  font-size: 1.4rem;
+}
+.template16c .footer .footerContent h3 {
+  font-family: "Great Vibes", cursive;
+  font-weight: 400 !important;
+  font-style: normal;
+  font-size: 8rem;
+  margin-bottom: 1rem;
+}/*# sourceMappingURL=16.module.css.map */

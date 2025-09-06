@@ -17,6 +17,56 @@
         animation: slideOut 0.4s ease-out forwards;
     }
 
+    .requestOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .3);
+
+        .requestModal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 2rem;
+            max-width: 50rem;
+            width: 95%;
+            border-radius: 2rem;
+
+            h3 {
+                font-size: 2rem;
+                margin-top: 0;
+            }
+
+            p {
+                font-size: 1.4rem;
+                padding: .5rem 0;
+            }
+
+            textarea {
+                border: .1rem solid #dbdbdb;
+                width: 100%;
+                padding: 1rem;
+                border-radius: 1rem;
+                font-size: 16px;
+                min-height: 15rem;
+
+                &::placeholder {
+                    font-size: 1.2rem;
+                }
+            }
+
+            .sendButton {
+                float:  right;
+                margin-top: 2rem;
+                padding: 1rem 1.5rem;
+                background: #3eade5;
+                color: #fff;
+                border-radius: 1rem;
+            }
+        }
+    }
+
     /* Popup content container */
     .popupContent {
         background: #ffffff;

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import styles from './template_details.module.css'; // giữ nguyên ext như bạn đang dùng
+import styles from './template_details.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faChevronCircleRight, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,8 @@ interface Template {
     link?: string;
     category: {
         category_id: number;
-        category_name: string;
+        category_name?: string; // có nơi đặt là category_name
+        name?: string; // dự phòng nếu API trả về name
     };
 }
 
@@ -50,10 +51,9 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         return () => setIsClosing(false);
     }, [product]);
 
-    // Đồng bộ thời gian đóng với CSS animation
     useEffect(() => {
         if (!isClosing) return;
-        const ANIM_MS = isMobile ? 500 : 400; // mobile: translateIn/out 0.5s, desktop: slideIn/out 0.4s
+        const ANIM_MS = isMobile ? 500 : 400;
         const timer = setTimeout(() => {
             onClose();
             setIsClosing(false);
@@ -62,6 +62,10 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     }, [isClosing, isMobile, onClose]);
 
     if (!product) return null;
+
+    // --- helpers ---
+    const catName = (product.category?.category_name || product.category?.name || '').trim().toLowerCase();
+    const isCommonTemplate = catName === 'thiệp chung' || catName === 'thiep chung';
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) setIsClosing(true);
@@ -109,35 +113,24 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
     const toggleDescription = () => setIsDescriptionExpanded((v) => !v);
     const toggleContent = () => setIsContentExpanded((v) => !v);
 
-    const renderDescription = () => {
-        if (!product.description) return <p>Không có mô tả</p>;
-        const lines = product.description.split('\n');
-        const maxLines = 3;
-        const shouldShowButton = lines.length > maxLines;
-        return (
-            <>
-                <div className={`${styles.descriptionWrapper} ${isDescriptionExpanded ? '' : styles.collapsed}`}>
-                    {lines.map((line, i) => (
-                        <p key={i}>{line}</p>
-                    ))}
-                </div>
-                {shouldShowButton && (
-                    <button
-                        className={styles.showMoreButton}
-                        onClick={toggleDescription}
-                        aria-label={isDescriptionExpanded ? 'Thu gọn mô tả' : 'Xem thêm mô tả'}
-                    >
-                        <span>{isDescriptionExpanded ? 'Thu gọn' : 'Xem thêm'}</span>
-                        <FontAwesomeIcon
-                            icon={isDescriptionExpanded ? faChevronUp : faChevronDown}
-                            className={styles.showMoreIcon}
-                        />
-                    </button>
-                )}
-            </>
-        );
+    // --- Zalo request (no modal) ---
+    const openZaloRequest = () => {
+        const phone = process.env.NEXT_PUBLIC_ZALO_PHONE || '0333409892';
+        const msgLines = [
+            'Chào Admin, em muốn yêu cầu hỗ trợ mẫu Thiệp chung:',
+            `• Template ID: ${product.template_id}`,
+            `• Tên mẫu: ${product.name}`,
+            `• Giá gốc: ${formatPrice(Number(product.price))}`,
+            `• Số lượng khách mời: ${quantity}`,
+            `• Tổng tạm tính: ${formattedPrice}`,
+            product.link ? `• Link mẫu: ${product.link}` : '',
+        ].filter(Boolean);
+        const text = msgLines.join('\n');
+        const url = `https://zalo.me/${phone}?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
     };
 
+    // --- render ---
     if (isMobile) {
         return (
             <div
@@ -158,7 +151,6 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                     />
                 </div>
 
-                {/* SỬA Ở ĐÂY: toggle đúng expanded/collapsed */}
                 <div className={`${styles.content} ${isContentExpanded ? styles.expanded : styles.collapsed}`}>
                     <button
                         className={styles.expand_toggle}
@@ -177,7 +169,33 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                             className={`${styles.description} ${isContentExpanded ? '' : styles.hidden}`}
                             aria-hidden={!isContentExpanded}
                         >
-                            {renderDescription()}
+                            {/* mô tả rút gọn/mở rộng */}
+                            {product.description ? (
+                                <>
+                                    <div
+                                        className={`${styles.descriptionWrapper} ${isDescriptionExpanded ? '' : styles.collapsed}`}
+                                    >
+                                        {product.description.split('\n').map((line, i) => (
+                                            <p key={i}>{line}</p>
+                                        ))}
+                                    </div>
+                                    {product.description.split('\n').length > 3 && (
+                                        <button
+                                            className={styles.showMoreButton}
+                                            onClick={toggleDescription}
+                                            aria-label={isDescriptionExpanded ? 'Thu gọn mô tả' : 'Xem thêm mô tả'}
+                                        >
+                                            <span>{isDescriptionExpanded ? 'Thu gọn' : 'Xem thêm'}</span>
+                                            <FontAwesomeIcon
+                                                icon={isDescriptionExpanded ? faChevronUp : faChevronDown}
+                                                className={styles.showMoreIcon}
+                                            />
+                                        </button>
+                                    )}
+                                </>
+                            ) : (
+                                <p>Không có mô tả</p>
+                            )}
                             <p className={statusClass}>{product.status}</p>
                         </div>
 
@@ -210,11 +228,15 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                             </div>
                             <div
                                 className={styles.using_template}
-                                onClick={handleUseTemplate}
+                                onClick={isCommonTemplate ? openZaloRequest : handleUseTemplate}
                                 title={
-                                    !isReady ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!' : 'Sử dụng mẫu này'
+                                    isCommonTemplate
+                                        ? 'Gửi yêu cầu đến Admin qua Zalo'
+                                        : !isReady
+                                          ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!'
+                                          : 'Sử dụng mẫu này'
                                 }
-                                aria-disabled={!isReady}
+                                aria-disabled={!isReady && !isCommonTemplate}
                             >
                                 <FontAwesomeIcon icon={faChevronCircleRight} />
                             </div>
@@ -225,7 +247,7 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
         );
     }
 
-    // Desktop giữ nguyên logic, chỉ đồng bộ thời gian đóng (đã làm ở useEffect)
+    // Desktop
     return (
         <div
             className={`${styles.popupOverlay_pc} ${isClosing ? styles.closing : ''}`}
@@ -283,19 +305,22 @@ const Popup: React.FC<PopupProps> = ({ product, onClose }) => {
                                     )}
                                 </div>
                             </div>
+
                             <div className={styles.actionButtons}>
                                 <button
                                     className={styles.customizeButton}
-                                    onClick={handleUseTemplate}
-                                    disabled={!isReady}
+                                    onClick={isCommonTemplate ? openZaloRequest : handleUseTemplate}
+                                    disabled={!isReady && !isCommonTemplate}
                                     title={
-                                        !isReady
-                                            ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!'
-                                            : 'Sử dụng mẫu này'
+                                        isCommonTemplate
+                                            ? 'Gửi yêu cầu đến Admin qua Zalo'
+                                            : !isReady
+                                              ? 'Sản phẩm đang được cập nhật, vui lòng thử lại sau!'
+                                              : 'Sử dụng mẫu này'
                                     }
-                                    aria-disabled={!isReady}
+                                    aria-disabled={!isReady && !isCommonTemplate}
                                 >
-                                    Sử dụng mẫu
+                                    {isCommonTemplate ? 'Yêu cầu đến admin' : 'Sử dụng mẫu'}
                                 </button>
                             </div>
                         </div>

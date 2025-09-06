@@ -19,6 +19,52 @@
 .popupOverlay_pc.closing {
   animation: slideOut 0.4s ease-out forwards;
 }
+.popupOverlay_pc .requestOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+.popupOverlay_pc .requestOverlay .requestModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 2rem;
+  max-width: 50rem;
+  width: 95%;
+  border-radius: 2rem;
+}
+.popupOverlay_pc .requestOverlay .requestModal h3 {
+  font-size: 2rem;
+  margin-top: 0;
+}
+.popupOverlay_pc .requestOverlay .requestModal p {
+  font-size: 1.4rem;
+  padding: 0.5rem 0;
+}
+.popupOverlay_pc .requestOverlay .requestModal textarea {
+  border: 0.1rem solid #dbdbdb;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  min-height: 15rem;
+}
+.popupOverlay_pc .requestOverlay .requestModal textarea::-moz-placeholder {
+  font-size: 1.2rem;
+}
+.popupOverlay_pc .requestOverlay .requestModal textarea::placeholder {
+  font-size: 1.2rem;
+}
+.popupOverlay_pc .requestOverlay .requestModal .sendButton {
+  float: right;
+  margin-top: 2rem;
+  padding: 1rem 1.5rem;
+  background: #3eade5;
+  color: #fff;
+  border-radius: 1rem;
+}
 .popupOverlay_pc .popupContent {
   background: #ffffff;
   padding: 2rem;
