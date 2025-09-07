@@ -4,10 +4,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 import { IoSend } from 'react-icons/io5';
 import { FaRegCopy } from 'react-icons/fa';
-import Image from 'next/image'; // Import Image from next/image
+import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import styles from './gemini_reply.module.css';
 import { showToastSuccess } from 'app/Ultils/toast';
+import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
+
+// Khai báo interface mở rộng cho Window để xử lý MSStream
+declare global {
+    interface Window {
+        MSStream?: unknown;
+    }
+}
 
 interface Message {
     id: string;
@@ -31,12 +39,14 @@ declare const process: {
 const apiUrl: string | undefined = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
+    useDisableDevTools();
+
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [isClosing, setIsClosing] = useState<boolean>(false);
-    const [isUserScrollingUp, setIsUserScrollingUp] = useState(false);
+    const [isUserScrollingUp, setIsUserScrollingUp] = useState<boolean>(false);
 
     // refs
     const answerRef = useRef<HTMLDivElement | null>(null);
@@ -45,9 +55,9 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     const inputQuestionRef = useRef<HTMLDivElement | null>(null);
 
     // --- utilities ---
-    const genId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    const genId = (): string => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-    const escapeHtml = (unsafe: string) =>
+    const escapeHtml = (unsafe: string): string =>
         unsafe
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
@@ -97,26 +107,56 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
         if (!inputQuestion || !textarea) return;
 
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
         const handleFocus = () => {
             inputQuestion.classList.add(styles.focused);
-            // Đẩy container hoặc textarea lên khi bàn phím xuất hiện
-            window.scrollTo({
-                top: inputQuestion.offsetTop - 100, // Điều chỉnh khoảng cách để tránh bị che
-                behavior: 'smooth',
-            });
+            if (isIOS && window.visualViewport) {
+                const viewportHeight = window.visualViewport.height;
+                const textareaRect = textarea.getBoundingClientRect();
+                if (textareaRect.bottom > viewportHeight) {
+                    window.scrollTo({
+                        top: window.scrollY + textareaRect.bottom - viewportHeight + 20,
+                        behavior: 'smooth',
+                    });
+                }
+            } else {
+                window.scrollTo({
+                    top: inputQuestion.offsetTop - 100,
+                    behavior: 'smooth',
+                });
+            }
         };
 
         const handleBlur = () => {
             inputQuestion.classList.remove(styles.focused);
         };
 
-        // Thêm sự kiện focus và blur
+        const handleViewportChange = () => {
+            if (isIOS && window.visualViewport && document.activeElement === textarea) {
+                const viewportHeight = window.visualViewport.height;
+                const textareaRect = textarea.getBoundingClientRect();
+                if (textareaRect.bottom > viewportHeight) {
+                    window.scrollTo({
+                        top: window.scrollY + textareaRect.bottom - viewportHeight + 20,
+                        behavior: 'smooth',
+                    });
+                }
+            }
+        };
+
         textarea.addEventListener('focus', handleFocus);
         textarea.addEventListener('blur', handleBlur);
+        if (isIOS && window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+        }
 
         return () => {
             textarea.removeEventListener('focus', handleFocus);
             textarea.removeEventListener('blur', handleBlur);
+            if (isIOS && window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', handleViewportChange);
+            }
         };
     }, []);
 
@@ -189,7 +229,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 typingTimerRef.current = null;
             }
         };
-    }, [lastMessage, lastMessageId]); // Added lastMessage to dependency array
+    }, [lastMessage, lastMessageId]);
 
     // --- handlers ---
     const handleCloseGeminiReply = (): void => {
@@ -267,12 +307,10 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                             errorMessage = serverMessage || 'Câu hỏi không hợp lệ!';
                         }
                     } else if (err.response.status === 503) {
-                        // ✅ Thay đổi thông báo tại đây
                         errorMessage =
                             'Xin lỗi, hiện tại máy chủ Minto Bot đang quá tải hoặc bận xử lý nhiều yêu cầu. Anh/Chị vui lòng thử lại sau ít phút nhé! 🙏😊';
                     }
                 } else if (err.message) {
-                    // nếu lỗi dạng network (fetch thất bại, timeout, etc)
                     if (err.message.includes('overloaded') || err.message.includes('Service Unavailable')) {
                         errorMessage =
                             'Hiện tại Minto Bot đang gặp sự cố kết nối với máy chủ. Anh/Chị vui lòng thử lại sau ít phút nhé! 🚧';
@@ -307,7 +345,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         setInput(e.target.value);
     };
 
-    const handleCopy = (text: string) => {
+    const handleCopy = (text: string): void => {
         navigator.clipboard
             .writeText(text)
             .then(() => {
@@ -355,7 +393,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                     <Image
                                         src="/images/logo.png"
                                         alt="Minto Bot"
-                                        width={40} // Adjust based on your design
+                                        width={40}
                                         height={40}
                                         className={styles.botLogo}
                                     />
@@ -463,12 +501,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                             className={`${styles.loader__inner} ${styles['loader__inner--three']}`}
                                         ></div>
                                     </div>
-                                    <Image
-                                        src="/images/logo.png"
-                                        alt="Minto Bot"
-                                        width={40} // Adjust based on your design
-                                        height={40}
-                                    />
+                                    <Image src="/images/logo.png" alt="Minto Bot" width={40} height={40} />
                                 </div>
                                 <div style={{ marginTop: '1rem' }}> Đang suy nghĩ....</div>
                             </div>
@@ -479,7 +512,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 <Image
                                     src="/images/logo.png"
                                     alt="Minto Bot"
-                                    width={40} // Adjust based on your design
+                                    width={40}
                                     height={40}
                                     className={styles.botLogo}
                                 />

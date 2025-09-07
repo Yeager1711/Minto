@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .gemini_reply {
   --c1: rgba(102, 153, 255, 0.55);
   --c2: rgba(204, 102, 255, 0.55);
@@ -176,6 +177,8 @@
   transform: translate(-50%, -50%);
   flex: 1;
   background: linear-gradient(90deg, #151549, #ec4899, #6366f1);
+  background-size: 100% 100%;
+  /* 👈 ép gradient khớp với text */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 2.5rem;
@@ -184,7 +187,8 @@
   text-align: center;
   text-transform: none;
   font-weight: 550;
-  width: 90%;
+  max-width: 100%;
+  width: 100%;
 }
 @media (max-width: 480px) {
   .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro {
@@ -315,10 +319,7 @@
   padding: 0 1.5rem;
 }
 .gemini_reply .model .wrapper .input_question {
-  position: absolute;
-  bottom: 0%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 0 auto 4rem auto;
   max-width: 50rem;
   width: 80%;
   padding: 1.5rem;
@@ -328,18 +329,18 @@
   align-items: center;
   background: #fff;
   z-index: 99999 !important;
+  margin-top: -2rem;
 }
 @media (max-width: 768px) {
   .gemini_reply .model .wrapper .input_question {
     max-width: 35rem;
+    margin-top: -2rem;
     width: 95%;
   }
 }
 @media (max-width: 480px) {
   .gemini_reply .model .wrapper .input_question {
-    bottom: 10%;
-    left: 50%;
-    transform: translate(-50%, 50%);
+    margin-top: -2rem;
     max-width: 29rem;
     width: 95%;
   }
