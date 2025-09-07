@@ -189,13 +189,13 @@
 @media (max-width: 480px) {
   .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro {
     position: absolute;
-    top: 55%;
-    transform: translate(-50%, -60%);
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader {
   position: absolute;
-  top: 170%;
+  top: 220%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 0.1rem;

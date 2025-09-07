@@ -203,13 +203,13 @@
 
                             @media (max-width: 480px) {
                                 position: absolute;
-                                top: 55%;
-                                transform: translate(-50%, -60%);
+                                top: 50%;
+                                transform: translate(-50%, -50%);
                             }
 
                             .loader {
                                 position: absolute; // cố định toàn màn hình
-                                top: 170%;
+                                top: 220%;
                                 left: 50%;
                                 transform: translate(-50%, -50%); // canh giữa
                                 width: .1rem;
