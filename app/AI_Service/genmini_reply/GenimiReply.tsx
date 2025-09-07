@@ -475,7 +475,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
                                                                 >
-                                                                    Nhấn để xem
+                                                                    {/* Nhấn để xem */}
                                                                 </a>
                                                             )}
                                                         </>

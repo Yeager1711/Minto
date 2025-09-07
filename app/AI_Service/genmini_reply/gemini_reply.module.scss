@@ -12,7 +12,8 @@
     height: 90%;
     margin: auto;
     inset: 0;
-    background: linear-gradient(to bottom, #f8e7e7, #e9ecf9);
+    // background: linear-gradient(to bottom, #f8e7e7, #e9ecf9);
+    background: linear-gradient(180deg, #eefee9 0%, #fce7f3 50%, #f9fafb 100%);
     backdrop-filter: blur(0.5rem);
     z-index: 1000 !important;
     animation: glowWave 4s ease-in-out infinite;
@@ -20,6 +21,7 @@
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     transform: translateY(5rem) scale(0.8);
     opacity: 0;
+
 
     &.opening {
         animation: translateIn 0.4s ease-out forwards;
@@ -114,7 +116,8 @@
                             height: 4rem;
                             border-radius: 50%;
                             position: relative;
-                            background: linear-gradient(to bottom, #f8e7e7, #e9ecf9);
+                            // background: linear-gradient(to bottom, #f8e7e7, #e9ecf9);
+                            background: transparent;
                             padding: 0.5rem;
                             flex-shrink: 0;
                             aspect-ratio: 1;
