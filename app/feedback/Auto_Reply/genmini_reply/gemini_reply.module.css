@@ -179,16 +179,23 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 2.5rem;
-  line-height: 2;
+  line-height: 1.5;
   font-family: "Poppins", sans-serif;
   text-align: center;
-  text-transform: capitalize;
+  text-transform: none;
   font-weight: 550;
-  width: 100%;
+  width: 90%;
+}
+@media (max-width: 480px) {
+  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro {
+    position: absolute;
+    top: 55%;
+    transform: translate(-50%, -60%);
+  }
 }
 .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader {
   position: absolute;
-  top: 130%;
+  top: 170%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 0.1rem;
@@ -314,9 +321,8 @@
   transform: translate(-50%, -50%);
   max-width: 50rem;
   width: 80%;
-  padding: 1rem;
-  border-radius: 5rem;
-  border: 1px solid #dbdbdb;
+  padding: 1.5rem;
+  border-radius: 2rem;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -327,14 +333,15 @@
   .gemini_reply .model .wrapper .input_question {
     max-width: 35rem;
     width: 95%;
-    height: 3rem;
   }
 }
 @media (max-width: 480px) {
   .gemini_reply .model .wrapper .input_question {
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
     max-width: 29rem;
     width: 95%;
-    height: 2rem;
   }
 }
 .gemini_reply .model .wrapper .input_question.focused {
@@ -342,44 +349,10 @@
   width: 90%;
   box-shadow: 0 0 1rem rgba(138, 177, 255, 0.5), 0 0 5rem rgba(102, 153, 255, 0.4), 0 0 10rem rgba(102, 153, 255, 0.3);
   border-color: rgba(102, 153, 255, 0.6);
-  padding: 0.5rem 1rem;
+  padding: 1.5rem 1rem;
   border-radius: 2rem;
   background: rgb(255, 255, 255);
   height: 6rem;
-}
-.gemini_reply .model .wrapper .input_question .favoriteWrapper {
-  position: absolute;
-  top: -4rem;
-  left: 0;
-}
-.gemini_reply .model .wrapper .input_question .favoriteWrapper .favoriteButton {
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 5rem;
-  font-size: 1.3rem;
-}
-.gemini_reply .model .wrapper .input_question .favoriteWrapper .favoriteButton:hover {
-  background: rgba(200, 200, 200, 0.5);
-}
-.gemini_reply .model .wrapper .input_question .favoriteWrapper .favoriteTextarea {
-  position: absolute;
-  bottom: -2.5rem;
-  left: 0;
-  width: 10rem;
-  height: 2rem;
-  padding: 0.3rem;
-  font-size: 0.9rem;
-  border: 1px solid #ccc;
-  border-radius: 1rem;
-  background: #fff;
-  color: #333;
-  resize: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.2s ease;
-}
-.gemini_reply .model .wrapper .input_question .favoriteWrapper .favoriteTextarea:focus {
-  outline: none;
-  border-color: #666;
 }
 .gemini_reply .model .wrapper .input_question .hidden {
   display: none !important;
@@ -394,8 +367,6 @@
   font-size: 16px;
   border: none;
   outline: none;
-  line-height: 3.6rem;
-  height: 3.5rem;
   width: 100%;
   resize: none;
 }
@@ -404,11 +375,11 @@
 }
 .gemini_reply .model .wrapper .input_question .textareaWrapper textarea::-moz-placeholder {
   color: #666;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 .gemini_reply .model .wrapper .input_question .textareaWrapper textarea::placeholder {
   color: #666;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 .gemini_reply .model .wrapper .input_question .textareaWrapper .colon {
   position: absolute;
@@ -418,10 +389,12 @@
   color: #333;
 }
 .gemini_reply .model .wrapper .input_question svg {
-  padding: 1rem 1rem 1rem 1.5rem;
-  border-radius: 50%;
+  padding: 1rem 1rem 1rem 1.3rem;
+  border-radius: 1rem;
   font-size: 2rem;
   cursor: pointer;
+  background: #637fff;
+  color: #fff;
 }
 .gemini_reply .model .wrapper .sendIcon.disabled {
   opacity: 0.5;

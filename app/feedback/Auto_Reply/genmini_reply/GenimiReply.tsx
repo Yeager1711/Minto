@@ -330,7 +330,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         {messages.length === 0 && (
                             <div className={`${styles.message} ${styles.botMessage}`}>
                                 <div className={styles.messageContent_bot_intro}>
-                                    Hello, <br /> how may I assist you?
+                                    Anh/Chị <br /> Cần em hỗ trợ gì ?
                                     <div className={styles.loader}>
                                         <div
                                             className={`${styles.loader__inner} ${styles['loader__inner--one']}`}
