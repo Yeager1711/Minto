@@ -13,6 +13,7 @@ import imagekit from 'app/lib/imagekit/imagekit';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 interface TemplateWeddingData {
     bride: string;
@@ -463,7 +464,11 @@ function Template10Edit() {
     }, [weddingData.weddingDate]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (
@@ -544,7 +549,9 @@ function Template10Edit() {
                     <div className={styles.story_groom__wrapper}>
                         <h1>The Groom&apos;s Story</h1>
                         <h3 className={styles.for_groom}>{weddingData.groom}</h3>
-                        <span className={styles.story_text}>{weddingData.groomStory || defaultWeddingData.groomStory}</span>
+                        <span className={styles.story_text}>
+                            {weddingData.groomStory || defaultWeddingData.groomStory}
+                        </span>
                     </div>
 
                     <div className={styles.flex_image_groom}>
@@ -606,7 +613,9 @@ function Template10Edit() {
                     <div className={styles.story_bride__wrapper}>
                         <h1>The Bride&apos;s Story</h1>
                         <h3 className={styles.for_bride}>{weddingData.bride}</h3>
-                        <span className={styles.story_text}>{weddingData.brideStory || defaultWeddingData.brideStory}</span>
+                        <span className={styles.story_text}>
+                            {weddingData.brideStory || defaultWeddingData.brideStory}
+                        </span>
                     </div>
 
                     <div className={styles.flex_image_groom}>

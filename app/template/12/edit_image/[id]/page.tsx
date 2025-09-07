@@ -23,6 +23,7 @@ import { useApi } from 'app/lib/apiContext/apiContext';
 import { showToastError } from 'app/Ultils/toast';
 import imagekit from 'app/lib/imagekit/imagekit';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 // Định nghĩa interface cho dữ liệu đám cưới
 interface TemplateWeddingData {
@@ -564,7 +565,11 @@ const Template12Edit: React.FC = () => {
     };
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (

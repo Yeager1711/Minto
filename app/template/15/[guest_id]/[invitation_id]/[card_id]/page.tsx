@@ -20,6 +20,7 @@ import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { parse } from 'date-fns';
 import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 // Define interfaces for state and data
 interface WeddingData {
@@ -355,7 +356,11 @@ const Template15InviteeName: React.FC = () => {
     };
 
     if (isLoading) {
-        return <div className={styles.loading}>Đang tải dữ liệu...</div>;
+        return (
+            <div className={styles.loading}>
+                <Loading />
+            </div>
+        );
     }
 
     if (error) {
@@ -440,7 +445,7 @@ const Template15InviteeName: React.FC = () => {
                             <h1>
                                 We joyfully invite you to join us in celebrating the wedding of our beloved children
                             </h1>
-                          
+
                             <div className={styles.flex}>
                                 <div className={styles.familySide} data-aos="fade-right" data-aos-delay="300">
                                     <h3>Groom&apos;s Family</h3>
@@ -672,8 +677,7 @@ const Template15InviteeName: React.FC = () => {
                 <div className={styles.wrapper_map} data-aos="fade-up">
                     <div className={`${styles.google_map} ${showMap !== 'none' ? styles.showMap : ''}`}>
                         {showMap !== 'none' && (
-                            <button className={styles.closeButton} onClick={handleCloseMap}>
-                            </button>
+                            <button className={styles.closeButton} onClick={handleCloseMap}></button>
                         )}
                         {showMap === 'groom' && (
                             <iframe
@@ -775,7 +779,7 @@ const Template15InviteeName: React.FC = () => {
                     </div>
                 </div>
 
-                <div className={styles.btn_invitionQR__popop} style={{margin: "2rem 0"}}>
+                <div className={styles.btn_invitionQR__popop} style={{ margin: '2rem 0' }}>
                     {userId ? <InvitionsQR userId={userId} /> : <p>Lỗi: Không tìm thấy thông tin người dùng.</p>}
                 </div>
 

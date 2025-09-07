@@ -97,9 +97,20 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
         if (!inputQuestion || !textarea) return;
 
-        const handleFocus = () => inputQuestion.classList.add(styles.focused);
-        const handleBlur = () => inputQuestion.classList.remove(styles.focused);
+        const handleFocus = () => {
+            inputQuestion.classList.add(styles.focused);
+            // Đẩy container hoặc textarea lên khi bàn phím xuất hiện
+            window.scrollTo({
+                top: inputQuestion.offsetTop - 100, // Điều chỉnh khoảng cách để tránh bị che
+                behavior: 'smooth',
+            });
+        };
 
+        const handleBlur = () => {
+            inputQuestion.classList.remove(styles.focused);
+        };
+
+        // Thêm sự kiện focus và blur
         textarea.addEventListener('focus', handleFocus);
         textarea.addEventListener('blur', handleBlur);
 
@@ -282,12 +293,13 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if (e.key === 'Enter') {
             e.preventDefault();
-            handleSend();
-        } else if (e.key === 'Enter' && e.shiftKey) {
-            e.preventDefault();
-            setInput((prev) => prev + '\n');
+            if (!e.shiftKey) {
+                handleSend();
+            } else {
+                setInput((prev) => prev + '\n');
+            }
         }
     };
 
@@ -317,15 +329,19 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                     <div className={styles.answer} ref={answerRef}>
                         {messages.length === 0 && (
                             <div className={`${styles.message} ${styles.botMessage}`}>
-                                <Image
-                                    src="/images/logo.png"
-                                    alt="Minto Bot"
-                                    width={40} // Adjust based on your design
-                                    height={40}
-                                    className={styles.botLogo}
-                                />
-                                <div className={styles.messageContent_bot}>
-                                    Hi, em là Minto Bot nè! Anh/Chị cần em giúp gì đóa? 😊
+                                <div className={styles.messageContent_bot_intro}>
+                                    Hello, <br /> how may I assist you?
+                                    <div className={styles.loader}>
+                                        <div
+                                            className={`${styles.loader__inner} ${styles['loader__inner--one']}`}
+                                        ></div>
+                                        <div
+                                            className={`${styles.loader__inner} ${styles['loader__inner--two']}`}
+                                        ></div>
+                                        <div
+                                            className={`${styles.loader__inner} ${styles['loader__inner--three']}`}
+                                        ></div>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -436,6 +452,17 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                         {isLoading && (
                             <div className={`${styles.message} ${styles.botMessage}`}>
                                 <div className={styles.botLogo_thinking}>
+                                    <div className={styles.loader}>
+                                        <div
+                                            className={`${styles.loader__inner} ${styles['loader__inner--one']}`}
+                                        ></div>
+                                        <div
+                                            className={`${styles.loader__inner} ${styles['loader__inner--two']}`}
+                                        ></div>
+                                        <div
+                                            className={`${styles.loader__inner} ${styles['loader__inner--three']}`}
+                                        ></div>
+                                    </div>
                                     <Image
                                         src="/images/logo.png"
                                         alt="Minto Bot"

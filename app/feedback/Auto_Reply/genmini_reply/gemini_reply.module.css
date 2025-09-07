@@ -106,7 +106,6 @@
   height: 4rem;
   border-radius: 50%;
   position: relative;
-  overflow: hidden;
   background: linear-gradient(to bottom, #f8e7e7, #e9ecf9);
   padding: 0.5rem;
   flex-shrink: 0;
@@ -122,31 +121,141 @@
   z-index: 2;
   animation: pulseImage 2s ease-in-out infinite;
 }
-.gemini_reply .model .wrapper .answer .message.botMessage .botLogo_thinking::before {
-  content: "";
+.gemini_reply .model .wrapper .answer .message.botMessage .botLogo_thinking .loader {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.1rem;
+  height: 0.1rem;
   border-radius: 50%;
-  padding: 3px;
-  aspect-ratio: 1;
-  background: radial-gradient(farthest-side, #16c5ff 94%, transparent) top/8px 8px no-repeat, conic-gradient(transparent 30%, #169eff);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  animation: spinBorder 1s linear infinite;
-  z-index: 1;
+  perspective: 80rem;
+  padding: 3rem;
 }
-@keyframes spinBorder {
+@media (max-width: 768px) {
+  .gemini_reply .model .wrapper .answer .message.botMessage .botLogo_thinking .loader {
+    width: 0.1rem;
+    height: 0.1rem;
+  }
+}
+@media (max-width: 480px) {
+  .gemini_reply .model .wrapper .answer .message.botMessage .botLogo_thinking .loader {
+    width: 0.1rem;
+    height: 0.1rem;
+  }
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .botLogo_thinking .loader__inner {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .botLogo_thinking .loader__inner--one {
+  left: 0%;
+  top: 0%;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 0.5rem solid #ff6bcb;
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .botLogo_thinking .loader__inner--two {
+  right: 0%;
+  top: 0%;
+  animation: rotate-two 1s linear infinite;
+  border-right: 0.5rem solid #ffb86c;
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .botLogo_thinking .loader__inner--three {
+  right: 0%;
+  bottom: 0%;
+  animation: rotate-three 1s linear infinite;
+  border-top: 0.5rem solid #2cccff;
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex: 1;
+  background: linear-gradient(90deg, #151549, #ec4899, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  line-height: 2;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: 550;
+  width: 100%;
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader {
+  position: absolute;
+  top: 130%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.1rem;
+  height: 0.1rem;
+  border-radius: 50%;
+  perspective: 800px;
+  padding: 3rem;
+}
+@media (max-width: 768px) {
+  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader {
+    width: 0.1rem;
+    height: 0.1rem;
+  }
+}
+@media (max-width: 480px) {
+  .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader {
+    width: 0.1rem;
+    height: 0.1rem;
+  }
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader__inner {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader__inner--one {
+  left: 0%;
+  top: 0%;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 0.5rem solid #ff6bcb;
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader__inner--two {
+  right: 0%;
+  top: 0%;
+  animation: rotate-two 1s linear infinite;
+  border-right: 0.5rem solid #ffb86c;
+}
+.gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot_intro .loader__inner--three {
+  right: 0%;
+  bottom: 0%;
+  animation: rotate-three 1s linear infinite;
+  border-top: 0.5rem solid #2cccff;
+}
+@keyframes rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
   100% {
-    transform: rotate(360deg);
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
   }
 }
-@keyframes pulseImage {
-  0%, 100% {
-    transform: scale(1);
+@keyframes rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
   }
-  50% {
-    transform: scale(0.85);
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+@keyframes rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
   }
 }
 .gemini_reply .model .wrapper .answer .message.botMessage .messageContent_bot {

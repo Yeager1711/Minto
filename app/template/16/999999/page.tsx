@@ -55,7 +55,7 @@ interface Bank {
 }
 
 const apiUrl: string | undefined = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
-const userId: number = 676538; // Biến userId cố định
+const userId: number = 999999; // Biến userId cố định
 
 const Template16C: React.FC = () => {
     const weddingDateGroom: Date = new Date(2026, 0, 13); // 13 Jan 2026

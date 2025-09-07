@@ -13,6 +13,7 @@ import imagekit from 'app/lib/imagekit/imagekit';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 // Define TypeScript interfaces
 interface WeddingData {
@@ -75,7 +76,7 @@ function Template13Edit() {
     const defaultWeddingData: WeddingData = {
         bride: '',
         groom: '',
-        weddingDate: new Date(0, 0, 0, 100, 0, 0), 
+        weddingDate: new Date(0, 0, 0, 100, 0, 0),
         weddingTime: '',
         weddingDayOfWeek: '',
         lunarDay: '',
@@ -402,7 +403,7 @@ function Template13Edit() {
                         ...updatedData,
                         weddingDate: updatedData.weddingDate
                             ? `${updatedData.weddingDate.getDate()}/${updatedData.weddingDate.getMonth() + 1}/${updatedData.weddingDate.getFullYear()}`
-                            : '', 
+                            : '',
                     })
                 );
             } catch (e) {
@@ -424,7 +425,11 @@ function Template13Edit() {
     }, [templateId, weddingData.weddingDate]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (
@@ -753,7 +758,8 @@ function Template13Edit() {
                         </div>
                         <div className={styles.quoteText}>
                             <p>
-                                <strong>She.</strong> <br /> &quot;I knew the first time he saw you, he would never let go.&quot;
+                                <strong>She.</strong> <br /> &quot;I knew the first time he saw you, he would never let
+                                go.&quot;
                             </p>
                         </div>
                     </div>

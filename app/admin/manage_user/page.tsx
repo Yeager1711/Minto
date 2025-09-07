@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styles from './manage_user.module.scss';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 // Define interfaces for type safety
 interface Role {
@@ -58,7 +59,12 @@ const ManageUser: React.FC = () => {
         fetchUsers();
     }, []);
 
-    if (loading) return <div className={styles.loading}>Loading...</div>;
+    if (loading)
+        return (
+            <div className={styles.loading}>
+                <Loading />
+            </div>
+        );
     if (error) return <div className={styles.error}>Error: {error}</div>;
 
     return (

@@ -9,6 +9,7 @@ import { faUser, faChevronLeft, faSignOutAlt } from '@fortawesome/free-solid-svg
 import LoginPopup from '../../../v2/login/Login';
 import SignUpPopup from '../../../v2/signup/SignUp';
 import { useApi } from 'app/lib/apiContext/apiContext';
+import Loading from '../Loading_default/Loading';
 
 // Kết hợp styles của cả Header và UserPopup
 const cx = classNames.bind(styles);
@@ -116,7 +117,9 @@ const UserPopup: React.FC<UserPopupProps> = ({ isOpen, onClose, onLogout }) => {
                     <p>{user.email}</p>
                 </div>
             ) : (
-                <p>Loading...</p>
+                <p>
+                    <Loading />
+                </p>
             )}
             <div className={styles.control}>
                 <button onClick={() => handleNavigation('/account/templates')}>Template đã chọn</button>

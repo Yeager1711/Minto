@@ -1,0 +1,112 @@
+.fixed_pss {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: 999999 !important;
+
+    .loader {
+        position: absolute; // cố định toàn màn hình
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); // canh giữa
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        perspective: 800px;
+        padding: 3rem;
+
+        @media (max-width: 768px) {
+            width: 7rem;
+            height: 7rem;
+        }
+
+        @media (max-width: 480px) {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        &__inner {
+            position: absolute;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+
+            &--one {
+                left: 0%;
+                top: 0%;
+                animation: rotate-one 1s linear infinite;
+                border-bottom: .5rem solid #ff6bcb;
+
+                @media (max-width: 768px) {
+                    border-bottom: .4rem solid #ff6bcb;
+                }
+
+                @media (max-width: 480px) {
+                    border-bottom: .3rem solid #ff6bcb;
+                }
+            }
+
+            &--two {
+                right: 0%;
+                top: 0%;
+                animation: rotate-two 1s linear infinite;
+                border-right: .5rem solid #ffb86c;
+
+                @media (max-width: 768px) {
+                    border-right: .4rem solid #ffb86c;
+                }
+
+                @media (max-width: 480px) {
+                    border-right: .3rem solid #ffb86c;
+                }
+            }
+
+            &--three {
+                right: 0%;
+                bottom: 0%;
+                animation: rotate-three 1s linear infinite;
+                border-top: .5rem solid #2cccff;
+
+                @media (max-width: 768px) {
+                    border-top: .4rem solid #2cccff;
+                }
+
+                @media (max-width: 480px) {
+                    border-top: .3rem solid #2cccff;
+
+                }
+            }
+        }
+    }
+
+    @keyframes rotate-one {
+        0% {
+            transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+        }
+
+        100% {
+            transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+        }
+    }
+
+    @keyframes rotate-two {
+        0% {
+            transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+        }
+
+        100% {
+            transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+        }
+    }
+
+    @keyframes rotate-three {
+        0% {
+            transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+        }
+
+        100% {
+            transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+        }
+    }
+}

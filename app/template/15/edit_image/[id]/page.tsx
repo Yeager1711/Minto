@@ -14,6 +14,7 @@ import imagekit from 'app/lib/imagekit/imagekit';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 // Define TypeScript interfaces
 interface WeddingData {
@@ -402,7 +403,11 @@ const Template15Edit: React.FC = () => {
     }, [templateId, calculateTimeLeft]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (

@@ -13,6 +13,7 @@ import imagekit from 'app/lib/imagekit/imagekit';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 interface TemplateWeddingData {
     bride: string;
@@ -399,7 +400,11 @@ const Template8Edit: React.FC = () => {
     }, [weddingData.weddingDate]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (
@@ -444,7 +449,7 @@ const Template8Edit: React.FC = () => {
 
                     <div className={styles.specific_time}>
                         <h4>
-                            Lúc: <strong>{formatTime(weddingData.weddingTime)}</strong>  ||{' '}
+                            Lúc: <strong>{formatTime(weddingData.weddingTime)}</strong> ||{' '}
                             {formatDayOfWeek(weddingData.weddingDate)}, {weddingData.weddingDate?.getDate() || 17} Tháng{' '}
                             {weddingData.weddingDate ? weddingData.weddingDate.getMonth() + 1 : 8},{' '}
                             {weddingData.weddingDate?.getFullYear() || 2025}

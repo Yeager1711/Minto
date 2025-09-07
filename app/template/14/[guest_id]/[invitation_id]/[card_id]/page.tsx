@@ -19,6 +19,7 @@ import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { parse } from 'date-fns';
 import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 // Define interfaces for state and data
 interface WeddingData {
@@ -367,7 +368,11 @@ const Template14InviteeName: React.FC = () => {
     const calendarDays = generateCalendarDays();
 
     if (isLoading) {
-        return <div className={styles.loading}>Đang tải dữ liệu...</div>;
+        return (
+            <div className={styles.loading}>
+                <Loading />
+            </div>
+        );
     }
 
     if (error) {
@@ -484,11 +489,21 @@ const Template14InviteeName: React.FC = () => {
                     </div>
 
                     <div className={styles.content_header}>
-                        <span data-aos="fade-up" data-aos-delay="200">Please join us for</span>
-                        <h3 data-aos="fade-up" data-aos-delay="400">The Wedding of</h3>
-                        <div className={styles.groom} data-aos="fade-up" data-aos-delay="600">{weddingData.groom}</div>
-                        <div className={styles.and} data-aos="fade-up" data-aos-delay="800">and</div>
-                        <div className={styles.bride} data-aos="fade-up" data-aos-delay="1000">{weddingData.bride}</div>
+                        <span data-aos="fade-up" data-aos-delay="200">
+                            Please join us for
+                        </span>
+                        <h3 data-aos="fade-up" data-aos-delay="400">
+                            The Wedding of
+                        </h3>
+                        <div className={styles.groom} data-aos="fade-up" data-aos-delay="600">
+                            {weddingData.groom}
+                        </div>
+                        <div className={styles.and} data-aos="fade-up" data-aos-delay="800">
+                            and
+                        </div>
+                        <div className={styles.bride} data-aos="fade-up" data-aos-delay="1000">
+                            {weddingData.bride}
+                        </div>
                     </div>
                 </div>
 
@@ -527,8 +542,12 @@ const Template14InviteeName: React.FC = () => {
                                 </div>
                             </div>
                             <div className={styles.groom_and_bride}>
-                                <div data-aos="fade-up" data-aos-delay="600">{weddingData.groom}</div>
-                                <div data-aos="fade-up" data-aos-delay="900">{weddingData.bride}</div>
+                                <div data-aos="fade-up" data-aos-delay="600">
+                                    {weddingData.groom}
+                                </div>
+                                <div data-aos="fade-up" data-aos-delay="900">
+                                    {weddingData.bride}
+                                </div>
                             </div>
                             <div className={styles.dat} data-aos="fade-up" data-aos-delay="600">
                                 Lúc:{' '}
@@ -550,7 +569,7 @@ const Template14InviteeName: React.FC = () => {
                     </div>
                 </div>
 
-                <div className={styles.story} >
+                <div className={styles.story}>
                     <div className={styles.story_groom}>
                         <div className={styles.preview_select}>
                             <div className={styles.flex_content}>
@@ -676,11 +695,21 @@ const Template14InviteeName: React.FC = () => {
 
                     <div className={styles.wrapper_map}>
                         <div className={styles.flex_btn__map}>
-                            <button className={styles.map_groom} onClick={() => handleShowMap('groom')} data-aos="fade-right" data-aos-delay="300">
+                            <button
+                                className={styles.map_groom}
+                                onClick={() => handleShowMap('groom')}
+                                data-aos="fade-right"
+                                data-aos-delay="300"
+                            >
                                 <FontAwesomeIcon icon={faLocationDot} />
                                 {showMap === 'groom' ? 'Mở map lớn' : 'Chỉ đường chú rể'}
                             </button>
-                            <button className={styles.map_bride} onClick={() => handleShowMap('bride')} data-aos="fade-left" data-aos-delay="600">
+                            <button
+                                className={styles.map_bride}
+                                onClick={() => handleShowMap('bride')}
+                                data-aos="fade-left"
+                                data-aos-delay="600"
+                            >
                                 <FontAwesomeIcon icon={faLocationDot} />
                                 {showMap === 'bride' ? 'Mở map lớn' : 'Chỉ đường cô dâu'}
                             </button>

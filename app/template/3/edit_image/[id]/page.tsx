@@ -13,6 +13,7 @@ import ButtonDown from 'app/template/buttonDown/ButtonDown';
 import imagekit from 'app/lib/imagekit/imagekit';
 import { useApi } from '../../../../lib/apiContext/apiContext';
 import { showToastError } from 'app/Ultils/toast';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 interface Images {
     mainImage: { url: string; position: string; fileName?: string };
@@ -289,11 +290,21 @@ function Template3Edit() {
     const daysInMonthArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+            fallback={
+                <div>
+                    <Loading />
+                </div>
+            }
+        >
             <div className={styles.template3}>
                 <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
                 <div className={styles.header} data-aos="fade-up">

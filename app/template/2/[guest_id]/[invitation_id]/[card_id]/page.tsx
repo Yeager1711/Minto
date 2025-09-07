@@ -10,6 +10,7 @@ import { faHeart, faCirclePlay, faCirclePause, faChevronRight, faChevronLeft } f
 import { Suspense } from 'react';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 export const dynamic = 'force-dynamic';
 
@@ -251,11 +252,21 @@ function Mau2InviteeName() {
     }
 
     if (!weddingData || Object.keys(images).length === 0) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+            fallback={
+                <div>
+                    <Loading />
+                </div>
+            }
+        >
             <div className={styles.mau_2_container}>
                 <div
                     className={`${styles.intro} ${isIntroOpen ? styles.visible : styles.hidden}`}

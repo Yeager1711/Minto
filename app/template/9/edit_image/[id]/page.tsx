@@ -13,6 +13,7 @@ import imagekit from 'app/lib/imagekit/imagekit';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 interface TemplateWeddingData {
     bride: string;
@@ -385,7 +386,7 @@ const Template9Edit: React.FC = () => {
 
         setWeddingData((prev) => {
             const updatedData = { ...prev };
-            
+
             try {
                 localStorage.setItem(
                     `WeddingData${templateId}`,
@@ -438,7 +439,11 @@ const Template9Edit: React.FC = () => {
     }, [weddingData.weddingDate]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (

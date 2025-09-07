@@ -14,6 +14,7 @@ import ButtonDown from 'app/template/buttonDown/ButtonDown';
 import imagekit from 'app/lib/imagekit/imagekit';
 import { useApi } from '../../../../lib/apiContext/apiContext';
 import { showToastError } from 'app/Ultils/toast';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 interface Images {
     mainImage: { url: string; position: string; fileName?: string };
@@ -30,8 +31,6 @@ interface Images {
     galleryImage3: { url: string; position: string; fileName?: string };
     galleryImage4: { url: string; position: string; fileName?: string };
 }
-
-
 
 function Template2Edit() {
     const params = useParams();
@@ -296,11 +295,21 @@ function Template2Edit() {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+            fallback={
+                <div>
+                    <Loading />
+                </div>
+            }
+        >
             <div className={styles.mau_2_container}>
                 <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
                 <div className={`${styles.dynamic} ${isExpanded ? styles.expanded : ''}`} onClick={toggleExpand}>
@@ -526,7 +535,7 @@ function Template2Edit() {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div className={styles.story_bride}>
                         <div className={styles.story_bride_wrapper}>
                             <div className={styles.story_bride__content} data-aos="zoom-in" data-aos-delay="400">

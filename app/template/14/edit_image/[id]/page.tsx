@@ -13,6 +13,7 @@ import imagekit from 'app/lib/imagekit/imagekit';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ButtonDown from 'app/template/buttonDown/ButtonDown';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 // Define TypeScript interfaces
 interface WeddingData {
@@ -277,8 +278,7 @@ const Template14InviteeName: React.FC = () => {
     // Countdown logic
     const calculateTimeLeft = (): TimeLeft => {
         const now = new Date(); // Current date and time
-        const difference =
-            (weddingData.weddingDate?.getTime() || new Date().getTime()) - now.getTime();
+        const difference = (weddingData.weddingDate?.getTime() || new Date().getTime()) - now.getTime();
 
         if (difference <= 0) {
             return { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -405,7 +405,11 @@ const Template14InviteeName: React.FC = () => {
     }, [templateId, weddingData.weddingDate]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (

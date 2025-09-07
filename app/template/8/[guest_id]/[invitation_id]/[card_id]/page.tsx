@@ -20,6 +20,7 @@ import { parse } from 'date-fns';
 import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
 export const dynamic = 'force-dynamic';
 import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 interface WeddingData {
     bride: string;
@@ -355,7 +356,11 @@ const Template8InviteeName: React.FC = () => {
     };
 
     if (isLoading) {
-        return <div className={styles.loading}>Đang tải dữ liệu...</div>;
+        return (
+            <div className={styles.loading}>
+                <Loading />
+            </div>
+        );
     }
 
     if (error) {

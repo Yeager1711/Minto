@@ -19,6 +19,7 @@ import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { parse } from 'date-fns';
 import InvitionsQR from 'app/QR_received/invitionsQR/invitionsQR';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 interface WeddingData {
     bride: string;
@@ -374,7 +375,11 @@ function Template10InviteeName() {
     };
 
     if (isLoading) {
-        return <div className={styles.loading}>Đang tải dữ liệu...</div>;
+        return (
+            <div className={styles.loading}>
+                <Loading />
+            </div>
+        );
     }
 
     if (error) {

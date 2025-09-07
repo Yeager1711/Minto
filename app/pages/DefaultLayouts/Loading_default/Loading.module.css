@@ -1,0 +1,108 @@
+.fixed_pss {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999999 !important;
+}
+.fixed_pss .loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  perspective: 800px;
+  padding: 3rem;
+}
+@media (max-width: 768px) {
+  .fixed_pss .loader {
+    width: 7rem;
+    height: 7rem;
+  }
+}
+@media (max-width: 480px) {
+  .fixed_pss .loader {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+.fixed_pss .loader__inner {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.fixed_pss .loader__inner--one {
+  left: 0%;
+  top: 0%;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 0.5rem solid #ff6bcb;
+}
+@media (max-width: 768px) {
+  .fixed_pss .loader__inner--one {
+    border-bottom: 0.4rem solid #ff6bcb;
+  }
+}
+@media (max-width: 480px) {
+  .fixed_pss .loader__inner--one {
+    border-bottom: 0.3rem solid #ff6bcb;
+  }
+}
+.fixed_pss .loader__inner--two {
+  right: 0%;
+  top: 0%;
+  animation: rotate-two 1s linear infinite;
+  border-right: 0.5rem solid #ffb86c;
+}
+@media (max-width: 768px) {
+  .fixed_pss .loader__inner--two {
+    border-right: 0.4rem solid #ffb86c;
+  }
+}
+@media (max-width: 480px) {
+  .fixed_pss .loader__inner--two {
+    border-right: 0.3rem solid #ffb86c;
+  }
+}
+.fixed_pss .loader__inner--three {
+  right: 0%;
+  bottom: 0%;
+  animation: rotate-three 1s linear infinite;
+  border-top: 0.5rem solid #2cccff;
+}
+@media (max-width: 768px) {
+  .fixed_pss .loader__inner--three {
+    border-top: 0.4rem solid #2cccff;
+  }
+}
+@media (max-width: 480px) {
+  .fixed_pss .loader__inner--three {
+    border-top: 0.3rem solid #2cccff;
+  }
+}
+@keyframes rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+@keyframes rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+@keyframes rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}/*# sourceMappingURL=Loading.module.css.map */

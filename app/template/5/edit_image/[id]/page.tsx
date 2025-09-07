@@ -15,6 +15,7 @@ import ButtonDown from 'app/template/buttonDown/ButtonDown';
 import imagekit from 'app/lib/imagekit/imagekit';
 import { useApi } from '../../../../lib/apiContext/apiContext';
 import { showToastError } from 'app/Ultils/toast';
+import Loading from 'app/pages/DefaultLayouts/Loading_default/Loading';
 
 interface Images {
     mainImage: { url: string; position: string; fileName?: string };
@@ -398,11 +399,21 @@ function Template5Edit() {
     }, [images]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+            fallback={
+                <div>
+                    <Loading />
+                </div>
+            }
+        >
             <div className={styles.template5}>
                 <ButtonDown templateId={templateId} quantity={quantity} weddingImages={imageFiles} />
                 <div className={styles.wrapper}>
@@ -501,7 +512,7 @@ function Template5Edit() {
                             <p>{weddingData.brideStory}</p>
                         </div>
                     </div>
-                    
+
                     <div className={styles.calendar} data-aos="fade-up">
                         <div className={styles.imageMainCalendar} data-aos="fade-down" data-aos-delay="400">
                             <Image
@@ -687,9 +698,7 @@ function Template5Edit() {
                             </div>
                         </div>
                     </div>
-                    <div className={styles.footer} data-aos="fade-up" data-aos-delay="1400">
-                       
-                    </div>
+                    <div className={styles.footer} data-aos="fade-up" data-aos-delay="1400"></div>
                     <div className={styles.footer_image} data-aos="fade-up">
                         <div className={styles.image_ft}>
                             <Image
