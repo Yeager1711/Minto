@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
-import { IoSend } from 'react-icons/io5';
 import { FaRegCopy } from 'react-icons/fa';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import styles from './gemini_reply.module.css';
 import { showToastSuccess } from 'app/Ultils/toast';
 import { useDisableDevTools } from 'app/Ultils/useDisableDevTools';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronCircleUp } from '@fortawesome/free-solid-svg-icons';
 
 // Khai báo interface mở rộng cho Window để xử lý MSStream
 declare global {
@@ -122,7 +123,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                 }
             } else {
                 window.scrollTo({
-                    top: inputQuestion.offsetTop - 100,
+                    top: inputQuestion.offsetTop - 120,
                     behavior: 'smooth',
                 });
             }
@@ -533,12 +534,13 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                                 maxLength={1000}
                                 aria-label="Chat input"
                             />
+                            <FontAwesomeIcon
+                                onClick={handleSend}
+                                className={`${styles.sendIcon} ${isLoading ? styles.disabled : ''}`}
+                                aria-label="Send message"
+                                icon={faChevronCircleUp}
+                            />
                         </div>
-                        <IoSend
-                            onClick={handleSend}
-                            className={`${styles.sendIcon} ${isLoading ? styles.disabled : ''}`}
-                            aria-label="Send message"
-                        />
                     </div>
                 </div>
             </div>

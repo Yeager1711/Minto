@@ -20,8 +20,8 @@ import SupportError from 'app/feedback/SupportError/SupportError';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
-import GeminiButton from './feedback/Auto_Reply/gemini_button/Gemini';
-import GeminiReply from './feedback/Auto_Reply/genmini_reply/GenimiReply';
+import GeminiButton from './AI_Service/gemini_button/Gemini';
+import GeminiReply from './AI_Service/genmini_reply/GenimiReply';
 import Products from './pages/DefaultLayouts/Products/Products';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
