@@ -321,7 +321,7 @@
 .gemini_reply .model .wrapper .input_question {
   margin: 0 auto 4rem auto;
   max-width: 50rem;
-  width: 80%;
+  width: 70%;
   padding: 1.5rem;
   border-radius: 2rem;
   transition: all 0.3s ease;
@@ -347,7 +347,7 @@
 }
 .gemini_reply .model .wrapper .input_question.focused {
   max-width: 80rem;
-  width: 90%;
+  width: 85%;
   box-shadow: 0 0 1rem rgba(138, 177, 255, 0.5), 0 0 5rem rgba(102, 153, 255, 0.4), 0 0 10rem rgba(102, 153, 255, 0.3);
   border-color: rgba(102, 153, 255, 0.6);
   padding: 1.5rem;

@@ -525,7 +525,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
                     <div className={styles.input_question} ref={inputQuestionRef}>
                         <div className={styles.textareaWrapper}>
                             <textarea
-                                placeholder="Ask me anything..."
+                                placeholder="Ask me Anything..."
                                 value={input}
                                 onChange={handleInputChange}
                                 onKeyPress={handleKeyPress}
