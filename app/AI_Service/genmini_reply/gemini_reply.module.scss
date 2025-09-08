@@ -367,6 +367,10 @@
                 background: #fff;
                 z-index: 99999 !important;
                 margin-top: -2rem;
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translate(-50%, 0);
 
                 @media (max-width: 768px) {
                     max-width: 35rem;
