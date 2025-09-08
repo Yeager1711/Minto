@@ -52,7 +52,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     // refs
     const answerRef = useRef<HTMLDivElement | null>(null);
     const textSpanRefs = useRef<Record<string, HTMLSpanElement | null>>({});
-    const typingTimerRef = useRef<number | null>(null);
+    const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
     const inputQuestionRef = useRef<HTMLDivElement | null>(null);
 
     // --- utilities ---
@@ -105,44 +105,56 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
     useEffect(() => {
         const inputQuestion = inputQuestionRef.current;
         const textarea = inputQuestion?.querySelector('textarea');
-
         if (!inputQuestion || !textarea) return;
 
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
         const handleFocus = () => {
             inputQuestion.classList.add(styles.focused);
-            if (isIOS && window.visualViewport) {
-                const viewportHeight = window.visualViewport.height;
+            requestAnimationFrame(() => {
+                const visualViewport = window.visualViewport;
+                const viewportHeight = visualViewport ? visualViewport.height : window.innerHeight;
                 const textareaRect = textarea.getBoundingClientRect();
-                if (textareaRect.bottom > viewportHeight) {
+                const safeAreaBottom = visualViewport ? visualViewport.offsetTop : 0;
+                const scrollOffset = textareaRect.bottom - viewportHeight + safeAreaBottom + 20;
+
+                if (scrollOffset > 0) {
                     window.scrollTo({
-                        top: window.scrollY + textareaRect.bottom - viewportHeight + 20,
+                        top: window.scrollY + scrollOffset,
+                        behavior: 'smooth',
+                    });
+                } else {
+                    window.scrollTo({
+                        top: inputQuestion.offsetTop - (visualViewport ? visualViewport.offsetTop : 120),
                         behavior: 'smooth',
                     });
                 }
-            } else {
-                window.scrollTo({
-                    top: inputQuestion.offsetTop - 120,
-                    behavior: 'smooth',
-                });
-            }
+            });
         };
 
         const handleBlur = () => {
             inputQuestion.classList.remove(styles.focused);
         };
 
+        let resizeTimeout: NodeJS.Timeout | null = null;
         const handleViewportChange = () => {
             if (isIOS && window.visualViewport && document.activeElement === textarea) {
-                const viewportHeight = window.visualViewport.height;
-                const textareaRect = textarea.getBoundingClientRect();
-                if (textareaRect.bottom > viewportHeight) {
-                    window.scrollTo({
-                        top: window.scrollY + textareaRect.bottom - viewportHeight + 20,
-                        behavior: 'smooth',
-                    });
-                }
+                if (resizeTimeout) clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    const visualViewport = window.visualViewport;
+                    if (!visualViewport) return; // Exit if visualViewport is null
+                    const viewportHeight = visualViewport.height;
+                    const textareaRect = textarea.getBoundingClientRect();
+                    const safeAreaBottom = visualViewport.offsetTop;
+                    const scrollOffset = textareaRect.bottom - viewportHeight + safeAreaBottom + 20;
+
+                    if (scrollOffset > 0) {
+                        window.scrollTo({
+                            top: window.scrollY + scrollOffset,
+                            behavior: 'smooth',
+                        });
+                    }
+                }, 50); // Debounce resize events
             }
         };
 
@@ -158,31 +170,43 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
             if (isIOS && window.visualViewport) {
                 window.visualViewport.removeEventListener('resize', handleViewportChange);
             }
+            if (resizeTimeout) clearTimeout(resizeTimeout);
         };
     }, []);
 
     useEffect(() => {
         const answerDiv = answerRef.current;
-        if (!answerDiv) return;
+        const inputQuestion = inputQuestionRef.current;
+        if (!answerDiv || !inputQuestion) return;
+
+        const scrollToBottom = () => {
+            requestAnimationFrame(() => {
+                // Calculate the height of the input area to ensure messages are visible above it
+                const inputHeight = inputQuestion.getBoundingClientRect().height;
+                const visualViewport = window.visualViewport;
+                const viewportHeight = visualViewport ? visualViewport.height : window.innerHeight;
+                const safeAreaBottom = visualViewport ? visualViewport.offsetTop : 0;
+                // Scroll to the bottom, accounting for input height and safe area
+                answerDiv.scrollTo({
+                    top: answerDiv.scrollHeight - viewportHeight + inputHeight + safeAreaBottom + 20,
+                    behavior: 'smooth',
+                });
+            });
+        };
+
+        // Scroll to bottom when messages, isLoading, or error change, unless user is scrolling up
+        if (!isUserScrollingUp && document.activeElement !== inputQuestion.querySelector('textarea')) {
+            scrollToBottom();
+        }
 
         const handleScroll = () => {
-            const isAtBottom = answerDiv.scrollHeight - answerDiv.scrollTop - answerDiv.clientHeight < 50;
+            const isAtBottom = answerDiv.scrollHeight - answerDiv.scrollTop - answerDiv.clientHeight < 10;
             setIsUserScrollingUp(!isAtBottom);
         };
 
         answerDiv.addEventListener('scroll', handleScroll);
         return () => answerDiv.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    useEffect(() => {
-        if (!answerRef.current || isUserScrollingUp) return;
-        requestAnimationFrame(() => {
-            answerRef.current?.scrollTo({
-                top: answerRef.current.scrollHeight,
-                behavior: 'smooth',
-            });
-        });
-    }, [messages.length, isLoading, error, isUserScrollingUp]);
+    }, [messages, isLoading, error, isUserScrollingUp]);
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -197,7 +221,7 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
 
     useEffect(() => {
         if (typingTimerRef.current) {
-            clearInterval(typingTimerRef.current);
+            clearTimeout(typingTimerRef.current);
             typingTimerRef.current = null;
         }
 
@@ -206,31 +230,44 @@ const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
         const plain = lastMessage.text || '';
         let idx = 0;
 
-        requestAnimationFrame(() => {
-            typingTimerRef.current = window.setInterval(() => {
-                idx++;
-                const span = textSpanRefs.current[lastMessage.id];
-                if (span) {
-                    const partial = plain.slice(0, idx);
-                    span.innerHTML = escapeHtml(formatText(partial)).replace(/\n/g, '<br/>');
+        typingTimerRef.current = setInterval(() => {
+            idx++;
+            const span = textSpanRefs.current[lastMessage.id];
+            if (span) {
+                const partial = plain.slice(0, idx);
+                span.innerHTML = escapeHtml(formatText(partial)).replace(/\n/g, '<br/>');
+                // Scroll to bottom during typing animation
+                const answerDiv = answerRef.current;
+                const inputQuestion = inputQuestionRef.current;
+                if (answerDiv && inputQuestion && !isUserScrollingUp) {
+                    requestAnimationFrame(() => {
+                        const inputHeight = inputQuestion.getBoundingClientRect().height;
+                        const visualViewport = window.visualViewport;
+                        const viewportHeight = visualViewport ? visualViewport.height : window.innerHeight;
+                        const safeAreaBottom = visualViewport ? visualViewport.offsetTop : 0;
+                        answerDiv.scrollTo({
+                            top: answerDiv.scrollHeight - viewportHeight + inputHeight + safeAreaBottom + 20,
+                            behavior: 'smooth',
+                        });
+                    });
                 }
-                if (idx >= plain.length) {
-                    if (typingTimerRef.current) {
-                        clearInterval(typingTimerRef.current);
-                        typingTimerRef.current = null;
-                    }
-                    setMessages((prev) => prev.map((m) => (m.id === lastMessage.id ? { ...m, isTyping: false } : m)));
+            }
+            if (idx >= plain.length) {
+                if (typingTimerRef.current) {
+                    clearTimeout(typingTimerRef.current);
+                    typingTimerRef.current = null;
                 }
-            }, 10);
-        });
+                setMessages((prev) => prev.map((m) => (m.id === lastMessage.id ? { ...m, isTyping: false } : m)));
+            }
+        }, 20); // Optimized interval for performance
 
         return () => {
             if (typingTimerRef.current) {
-                clearInterval(typingTimerRef.current);
+                clearTimeout(typingTimerRef.current);
                 typingTimerRef.current = null;
             }
         };
-    }, [lastMessage, lastMessageId]);
+    }, [lastMessage, lastMessageId, isUserScrollingUp]);
 
     // --- handlers ---
     const handleCloseGeminiReply = (): void => {
