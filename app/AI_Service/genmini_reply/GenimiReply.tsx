@@ -40,7 +40,7 @@ declare const process: {
 const apiUrl: string | undefined = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const GeminiReply: React.FC<GeminiReplyProps> = ({ onClose }) => {
-    // useDisableDevTools();
+    useDisableDevTools();
 
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState<string>('');
