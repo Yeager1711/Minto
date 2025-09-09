@@ -1,50 +1,44 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import styles from './QR_created.module.css';
+import { useState } from 'react';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faChevronRight, faChevronLeft, faQrcode } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faQrcode, faCheck } from '@fortawesome/free-solid-svg-icons';
+import styles from './QR_created.module.css';
 
-// Define the QrResponse interface
 interface QrResponse {
     qrId: number;
     bank: string;
     accountNumber: string;
     accountHolder: string;
     qrCodeUrl: string;
-    createdAt: string;
+    createdAt: Date | string;
     status: string;
-    representative: string;
+    representative: string | null;
 }
 
 interface Bank {
     id: string;
     name: string;
-    logo?: string;
-    bin?: string;
     shortName?: string;
     code?: string;
+    bin?: string;
+    logo?: string;
 }
 
-interface QRPopupProps {
+interface QR_CreatedProps {
     isOpen: boolean;
     onClose: () => void;
     qrData: QrResponse[] | null;
     banks: Bank[];
+    createdAt?: string | Date | null;
 }
 
-const QRPopupCreated: React.FC<QRPopupProps> = ({ isOpen, onClose, qrData, banks }) => {
-    const [isNavigating, setIsNavigating] = useState(false);
+const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks, createdAt }) => {
     const [showQR, setShowQR] = useState<{ [key: number]: boolean }>({});
-    const [currentCard, setCurrentCard] = useState<'groom' | 'bride'>('groom');
-    const touchStartY = useRef<number | null>(null);
 
-    useEffect(() => {
-    }, [banks, qrData, currentCard]);
-
-    const handleNavigate = () => {
-        setIsNavigating((prev) => !prev);
-        setShowQR({});
+    const getBank = (bankId: string) => {
+        return banks.find((b) => String(b.id) === String(bankId));
     };
 
     const handleQRClick = (qrId: number) => {
@@ -54,119 +48,148 @@ const QRPopupCreated: React.FC<QRPopupProps> = ({ isOpen, onClose, qrData, banks
         }));
     };
 
-    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-        if (isNavigating) return;
-        touchStartY.current = e.touches[0].clientY;
-    };
+    if (!isOpen) return null;
 
-    const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-        if (isNavigating || touchStartY.current === null) return;
-
-        const touchEndY = e.changedTouches[0].clientY;
-        const deltaY = touchStartY.current - touchEndY;
-
-        if (deltaY > 50 && currentCard === 'groom') {
-            setCurrentCard('bride');
-        } else if (deltaY < -50 && currentCard === 'bride') {
-            setCurrentCard('groom');
-        }
-
-        touchStartY.current = null;
-    };
-
-    if (!isOpen || !qrData) return null;
-
-    // Sort qrData để groom luôn đầu tiên
-    const sortedQrData = [...qrData].sort((a, b) => {
-        if (a.representative === 'groom') return -1;
-        if (b.representative === 'groom') return 1;
-        return 0;
-    });
-
-    // Lọc dữ liệu cho thẻ hiện tại
-    const currentQr = sortedQrData.find((qr) => qr.representative === currentCard);
-    if (!currentQr) {
-        console.error('No currentQr found for representative:', currentCard);
-        return null;
+    if (!qrData) {
+        return <div style={{ textAlign: 'center', padding: '20px' }}>Không có dữ liệu QR.</div>;
     }
 
-    // Tìm ngân hàng tương ứng với currentQr.bank
-    const currentBank = banks.find((bank) => String(bank.id) === String(currentQr.bank));
-    const bankName = currentBank?.shortName || currentBank?.name || 'Không xác định';
+    const groomQr = qrData.find((qr) => qr.representative === 'groom');
+    const brideQr = qrData.find((qr) => qr.representative === 'bride');
+
+    // Sort QR items by createdAt (earlier date goes below)
+    const sortedQrs = [groomQr, brideQr]
+        .filter((qr): qr is QrResponse => !!qr)
+        .sort((a, b) => {
+            const dateA = new Date(a.createdAt).getTime();
+            const dateB = new Date(b.createdAt).getTime();
+            return dateA - dateB; // Earlier date comes first (will be reversed in rendering)
+        });
+
+    // Determine if timeline should be marked as completed
+    const isTimelineCompleted =
+        groomQr && brideQr && groomQr.status === 'ACTIVE' && brideQr.status === 'ACTIVE' && createdAt;
+
     return (
-        <div className={styles.popupOverlay} onClick={onClose}>
-            <div
-                className={`${styles.popupContainer} ${isNavigating ? styles.navigating : ''}`}
-                onClick={(e) => e.stopPropagation()}
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-            >
-                <div className={styles.header}>
-                    <FontAwesomeIcon icon={faArrowLeft} onClick={onClose} />
+        <div className={styles.QR_CheckAsset} onClick={onClose}>
+            <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
+                <div className={styles.header} onClick={onClose}>
+                    <FontAwesomeIcon className={styles.btn_close} icon={faArrowLeft} />
                     Trở lại
                 </div>
+                <div className={styles.current_day}>
+                    {new Date().toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: '2-digit',
+                        year: 'numeric',
+                    })}
+                    <br />
+                    <h3>Today</h3>
+                </div>
 
-                <div className={styles.cardsView}>
-                    <div className={styles.cardWrapper}>
-                        <div className={styles.blurCardLeft}></div>
-                        <div className={styles.blurCardRight}></div>
-                        <div key={currentQr.qrId} className={`${styles.mainCard} ${styles.cardTransition}`}>
-                            <h3 className={styles.account_number}>
-                                {currentQr.representative === 'groom' ? 'Thẻ chú rể' : 'Thẻ cô dâu'}
-                            </h3>
-                            <p className={styles.name_bank}>{bankName}</p>
-                            <h3 className={styles.create_at}>Minto Editions Card</h3>
+                <div className={styles.progress_checkTask}>
+                    <div className={styles.progress_wrapper}>
+                        <div className={`${styles.timeline} ${isTimelineCompleted ? styles.completed : ''}`}>
+                            {/* Render sorted QR items in reverse order (earlier below) */}
+                            {sortedQrs.reverse().map((qr) => (
+                                <div
+                                    key={qr.qrId}
+                                    className={`${styles.item} ${qr.status === 'ACTIVE' ? styles.completed : ''}`} // Using 'ACTIVE' as per image
+                                >
+                                    <div className={styles.time}>
+                                        {qr.representative === 'groom' ? 'Groom' : 'Bride'}
+                                    </div>
+                                    <div className={styles.schedule_content}>
+                                        <div className={styles.card}>
+                                            <h3>QR của {qr.representative === 'groom' ? 'Chú Rể' : 'Cô Dâu'}</h3>
+                                            <div className={styles.image_bank}>
+                                                {showQR[qr.qrId] ? (
+                                                    <Image
+                                                        src={qr.qrCodeUrl}
+                                                        alt={`QR ${qr.representative}`}
+                                                        width={200}
+                                                        height={200}
+                                                        onError={(e) => (e.currentTarget.src = '/placeholder.png')}
+                                                        onClick={() => handleQRClick(qr.qrId)}
+                                                    />
+                                                ) : getBank(qr.bank)?.logo ? (
+                                                    <Image
+                                                        src={getBank(qr.bank)?.logo || '/placeholder.png'}
+                                                        alt="Bank Logo"
+                                                        width={50}
+                                                        height={50}
+                                                        style={{ objectFit: 'cover' }}
+                                                        onClick={() => handleQRClick(qr.qrId)}
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        src={qr.qrCodeUrl}
+                                                        alt={`QR ${qr.representative}`}
+                                                        width={200}
+                                                        height={200}
+                                                        onError={(e) => (e.currentTarget.src = '/placeholder.png')}
+                                                        onClick={() => handleQRClick(qr.qrId)}
+                                                    />
+                                                )}
+                                            </div>
+
+                                            <div className={styles.QR_code}>
+                                                {!showQR[qr.qrId] && (
+                                                    <FontAwesomeIcon
+                                                        className={styles.qr_icon}
+                                                        icon={faQrcode}
+                                                        onClick={() => handleQRClick(qr.qrId)}
+                                                    />
+                                                )}
+                                            </div>
+                                            <div className={styles.number_banks}>
+                                                {qr.accountNumber
+                                                    ? qr.accountNumber.replace(/(\d{4})/g, '$1 ').trim()
+                                                    : 'XXX XXX XXX'}
+                                            </div>
+                                            <div className={styles.create_at}>
+                                                Created: {new Date(qr.createdAt).toLocaleDateString('en-GB')}
+                                            </div>
+                                            <div className={styles.name_banks}>
+                                                {getBank(qr.bank)?.shortName || getBank(qr.bank)?.name || 'Ngân hàng'}
+                                            </div>
+                                        </div>
+                                        <div className={styles.status}>
+                                            Trạng thái: <strong>{qr.status}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+
+                            {/* Unfinished */}
+                            <div className={`${styles.item} ${!groomQr || !brideQr ? '' : styles.completed}`}>
+                                <div className={styles.schedule_content}>
+                                    <h4>Tạo QR thẻ Ngân hàng</h4>
+                                    {!groomQr || !brideQr ? (
+                                        <p className={styles.unfinished}>Chưa Tạo</p>
+                                    ) : (
+                                        <p className={styles.status}>Đã đủ QR</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Display created_at */}
+                            <div className={`${styles.item} ${createdAt ? styles.completed : ''}`}>
+                                <div className={styles.time}>
+                                    {createdAt
+                                        ? new Date(createdAt).toLocaleDateString('en-US', {
+                                              month: 'long',
+                                              day: '2-digit',
+                                              year: 'numeric',
+                                          })
+                                        : 'Chưa có ngày tạo'}
+                                </div>
+                                <div className={styles.schedule_content}>
+                                    <h4>Tạo tài khoản</h4>
+                                    <p className={styles.status}>Đang hoạt động</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div className={styles.cardContent}>
-                    <span className={styles.cardLabel}>Card Holder</span>
-                    <h4 className={styles.accountHolder}>{currentQr.accountHolder || 'CLIENT NAME'}</h4>
-                </div>
-
-                <button
-                    className={`${styles.rightButton} ${isNavigating ? styles.navigateActive : ''}`}
-                    onClick={handleNavigate}
-                >
-                    <FontAwesomeIcon icon={isNavigating ? faChevronLeft : faChevronRight} />
-                </button>
-
-                <div className={styles.navigationPanel}>
-                    <div
-                        key={currentQr.qrId}
-                        className={`${styles.mainCard} ${isNavigating ? styles.animateCard : ''} ${
-                            showQR[currentQr.qrId] ? styles.qrExpanded : ''
-                        }`}
-                    >
-                        {!showQR[currentQr.qrId] ? (
-                            <>
-                                <h3 className={styles.account_number}>
-                                    {currentQr.accountNumber
-                                        ? currentQr.accountNumber.replace(/(\d{4})/g, '$1 ').trim()
-                                        : 'XXX XXX XXX'}
-                                </h3>
-                                <h3 className={styles.create_at}>
-                                    Create at: {' '}
-                                    {currentQr.createdAt
-                                        ? new Date(currentQr.createdAt).toLocaleDateString('en-GB')
-                                        : 'DD/MM/YYYY'}
-                                </h3>
-                                <FontAwesomeIcon
-                                    className={styles.qr_icon}
-                                    icon={faQrcode}
-                                    onClick={() => handleQRClick(currentQr.qrId)}
-                                />
-                            </>
-                        ) : (
-                            <img
-                                className={styles.qrImage}
-                                src={currentQr.qrCodeUrl}
-                                alt={`QR Code for ${currentQr.accountHolder}`}
-                                onClick={() => handleQRClick(currentQr.qrId)}
-                                onError={(e) => (e.currentTarget.src = '/placeholder.png')}
-                            />
-                        )}
                     </div>
                 </div>
             </div>
@@ -174,4 +197,4 @@ const QRPopupCreated: React.FC<QRPopupProps> = ({ isOpen, onClose, qrData, banks
     );
 };
 
-export default QRPopupCreated;
+export default QR_Created;

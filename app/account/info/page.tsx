@@ -6,7 +6,7 @@ import { useApi } from 'app/lib/apiContext/apiContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQrcode, faCopy } from '@fortawesome/free-solid-svg-icons';
-import QRPopupCreated from '../../popup/QR_created/QR_created';
+import QR_Created from 'app/popup/QR_created/QR_created';
 import UserFeedback from 'app/feedback/userFeedback/userFeedBack';
 
 interface UserProfile {
@@ -77,10 +77,11 @@ function AccountInfo() {
     const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isQrLoading, setIsQrLoading] = useState<boolean>(false); // Thêm trạng thái loading cho QR
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editedFullName, setEditedFullName] = useState<string>('');
-    const [allTemplates, setAllTemplates] = useState<Template[]>([]); // Store all orders
-    const [uniqueTemplates, setUniqueTemplates] = useState<Template[]>([]); // Store merged templates for display
+    const [allTemplates, setAllTemplates] = useState<Template[]>([]);
+    const [uniqueTemplates, setUniqueTemplates] = useState<Template[]>([]);
     const [showGuestsModal, setShowGuestsModal] = useState<boolean>(false);
     const [selectedGuests, setSelectedGuests] = useState<{
         guests: Guest[];
@@ -95,13 +96,12 @@ function AccountInfo() {
     const [banks, setBanks] = useState<Bank[]>([]);
     const [showFeedback, setShowFeedback] = useState<boolean>(false);
     const [templateId, setTemplateId] = useState<number | null>(null);
-
-    const router = useRouter();
-    const searchParams = useSearchParams();
-
     const [isEligibleForDiscount, setIsEligibleForDiscount] = useState<boolean>(false);
     const [discountEndDate, setDiscountEndDate] = useState<Date | null>(null);
     const [timeLeft, setTimeLeft] = useState<string>('');
+
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         if (!accessToken) {
@@ -121,7 +121,6 @@ function AccountInfo() {
                 setEditedFullName(userData.full_name);
                 setError('');
 
-                // Store all templates (orders) as received
                 const formattedTemplates: Template[] = templateData.map((item: Template) => ({
                     card_id: item.card_id,
                     template: {
@@ -135,7 +134,6 @@ function AccountInfo() {
                 }));
                 setAllTemplates(formattedTemplates);
 
-                // Merge templates by template_id for unique display (e.g., in grid)
                 const mergedTemplates: Template[] = formattedTemplates.reduce((acc: Template[], current: Template) => {
                     const existing = acc.find((item) => item.template.template_id === current.template.template_id);
                     if (!existing) {
@@ -175,12 +173,11 @@ function AccountInfo() {
                 setError('');
 
                 const discountResponse: DiscountEligibilityResponse = await checkDiscountEligibility();
-                console.log('Discount Response:', discountResponse);
                 setIsEligibleForDiscount(discountResponse.isEligible);
                 if (discountResponse.isEligible && userData.created_at) {
                     const eligibilityEndDate = new Date(userData.created_at);
                     eligibilityEndDate.setDate(eligibilityEndDate.getDate() + 7);
-                    const now = new Date('2025-08-30T12:57:00+07:00'); // Current date and time
+                    const now = new Date(); // Sử dụng thời gian thực
                     if (eligibilityEndDate > now) {
                         setDiscountEndDate(eligibilityEndDate);
                     } else {
@@ -215,7 +212,7 @@ function AccountInfo() {
         let timer: NodeJS.Timeout;
         if (discountEndDate && isEligibleForDiscount) {
             const calculateTimeLeft = (): void => {
-                const now = new Date('2025-08-30T12:57:00+07:00'); // Current date and time
+                const now = new Date(); // Sử dụng thời gian thực
                 const difference = discountEndDate.getTime() - now.getTime();
 
                 if (difference <= 0) {
@@ -240,6 +237,7 @@ function AccountInfo() {
     }, [discountEndDate, isEligibleForDiscount]);
 
     const handleEdit = (): void => setIsEditing(true);
+
     const handleSave = async (): Promise<void> => {
         try {
             const updatedUser = await updateUserName(editedFullName);
@@ -272,12 +270,16 @@ function AccountInfo() {
     };
 
     const handleShowQrPopup = async (): Promise<void> => {
+        setIsQrLoading(true);
         try {
             const qrList = await getUserQr();
             if (qrList.length > 0) {
                 const convertedQrList: QrResponse[] = qrList.map((qr) => ({
                     ...qr,
-                    createdAt: qr.createdAt instanceof Date ? qr.createdAt.toISOString() : qr.createdAt,
+                    createdAt:
+                        qr.createdAt instanceof Date
+                            ? qr.createdAt.toISOString()
+                            : new Date(qr.createdAt).toISOString(), // Đảm bảo định dạng ISO
                 }));
                 setQrData(convertedQrList);
                 setShowQrPopup(true);
@@ -290,6 +292,8 @@ function AccountInfo() {
             else if (typeof err === 'object' && err !== null && 'message' in err)
                 errorMessage = (err as { message: string }).message;
             setError(errorMessage);
+        } finally {
+            setIsQrLoading(false);
         }
     };
 
@@ -308,7 +312,7 @@ function AccountInfo() {
         const links: string = selectedGuests.guests
             .map(
                 (guest) =>
-                    `${guest.full_name}: ${baseUrl}template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`
+                    `${guest.full_name}: ${baseUrl}/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`
             )
             .join('\n');
 
@@ -342,9 +346,8 @@ function AccountInfo() {
                             <h3>
                                 Chào mừng bạn đến với <strong>Minto</strong>
                             </h3>
-                            {error ? (
-                                <p className={styles.error}>Lỗi: {error}</p>
-                            ) : isLoading ? (
+                            {error && <p className={styles.error}>Lỗi: {error}</p>}
+                            {isLoading ? (
                                 <div className={styles.skeleton_wrapper}>
                                     <div className={styles.box_item}>
                                         <div className={styles.box_flex}>
@@ -382,6 +385,7 @@ function AccountInfo() {
                                                         setEditedFullName(e.target.value)
                                                     }
                                                     className={styles.input}
+                                                    aria-label="Chỉnh sửa họ và tên"
                                                 />
                                             ) : (
                                                 <h2>{user.full_name || 'Chưa cập nhật'}</h2>
@@ -389,16 +393,19 @@ function AccountInfo() {
                                         </div>
                                         <div className={styles.box_right}>
                                             {isEditing ? (
-                                                <button onClick={handleSave}>Lưu</button>
+                                                <button onClick={handleSave} aria-label="Lưu tên">
+                                                    Lưu
+                                                </button>
                                             ) : (
-                                                <button onClick={handleEdit}>Chỉnh sửa</button>
+                                                <button onClick={handleEdit} aria-label="Chỉnh sửa tên">
+                                                    Chỉnh sửa
+                                                </button>
                                             )}
                                         </div>
                                     </div>
                                     <div className={styles.box_item}>
                                         <div className={styles.box_flex}>
                                             <span>
-                                                {' '}
                                                 <strong>Email: </strong> {user.email || 'Chưa cập nhật'}
                                             </span>
                                         </div>
@@ -417,7 +424,6 @@ function AccountInfo() {
                                             </span>
                                         </div>
                                     </div>
-
                                     <div className={styles.isEligibleForDiscount}>
                                         <div className={styles.box_flex}>
                                             <h4>Ưu đãi khi lần đầu sử dụng: </h4>
@@ -425,7 +431,9 @@ function AccountInfo() {
                                                 <div className={styles.wrapper_countDown_discount}>
                                                     <span>{timeLeft}</span>
                                                 </div>
-                                            ) : null}
+                                            ) : (
+                                                <span>Hết hạn hoặc không đủ điều kiện</span>
+                                            )}
                                         </div>
                                     </div>
                                 </>
@@ -436,7 +444,12 @@ function AccountInfo() {
                     </div>
                     <div className={styles.right}>
                         <div className={styles.wrapper__right_template}>
-                            <FontAwesomeIcon className={styles.icon_QR} icon={faQrcode} onClick={handleShowQrPopup} />
+                            <FontAwesomeIcon
+                                className={styles.icon_QR}
+                                icon={faQrcode}
+                                onClick={handleShowQrPopup}
+                                aria-label="Xem mã QR"
+                            />
                             <h4>Mẫu template đã sử dụng</h4>
                             {isLoading ? (
                                 <div className={styles.grid_template}>
@@ -471,7 +484,7 @@ function AccountInfo() {
                 <div className={styles.list_orders}>
                     <h4>Đơn hàng và hóa đơn</h4>
                     <div className={styles.list_item}>
-                        <table className={styles.table}>
+                        <table className={styles.table} role="grid">
                             <thead>
                                 <tr>
                                     <th>Tên template</th>
@@ -508,7 +521,7 @@ function AccountInfo() {
                                                 b.template.payments.length > 0
                                                     ? new Date(b.template.payments[0].payment_date).getTime()
                                                     : 0;
-                                            return latestPaymentB - latestPaymentA; // Newest to oldest
+                                            return latestPaymentB - latestPaymentA;
                                         })
                                         .map((template) => (
                                             <tr key={template.card_id}>
@@ -552,6 +565,7 @@ function AccountInfo() {
                                                             )
                                                         }
                                                         disabled={template.template.guests.length === 0}
+                                                        aria-label="Xem danh sách khách mời"
                                                     >
                                                         {template.template.guests.length > 0
                                                             ? 'Danh sách'
@@ -633,7 +647,7 @@ function AccountInfo() {
                             {selectedGuests.guests.length === 0 ? (
                                 <p>Chưa có khách mời nào.</p>
                             ) : (
-                                <table className={styles.invoice_table}>
+                                <table className={styles.invoice_table} role="grid">
                                     <thead>
                                         <tr>
                                             <th>Mô tả</th>
@@ -656,6 +670,7 @@ function AccountInfo() {
                                                                 icon={faCopy}
                                                                 style={{ marginLeft: '3rem', cursor: 'pointer' }}
                                                                 onClick={() => copyToClipboard(link)}
+                                                                aria-label={`Sao chép liên kết cho ${guest.full_name}`}
                                                             />
                                                         ) : (
                                                             <span style={{ color: '#ff9999' }}>
@@ -671,14 +686,28 @@ function AccountInfo() {
                             )}
                         </div>
                         <div className={styles.footer}>
-                            <button className={styles.close_button} onClick={handleCloseGuestsModal}>
+                            <button
+                                className={styles.close_button}
+                                onClick={handleCloseGuestsModal}
+                                aria-label="Đóng modal"
+                            >
                                 Đóng
                             </button>
                         </div>
                     </div>
                 </div>
             )}
-            <QRPopupCreated isOpen={showQrPopup} onClose={handleCloseQrPopup} qrData={qrData} banks={banks} />
+            {isQrLoading ? (
+                <div className={styles.qr_loading}>Đang tải mã QR...</div>
+            ) : (
+                <QR_Created
+                    isOpen={showQrPopup}
+                    onClose={handleCloseQrPopup}
+                    qrData={qrData}
+                    banks={banks}
+                    createdAt={user?.created_at || null} // Pass the created_at value
+                />
+            )}
             {showFeedback && templateId && user && <UserFeedback templateId={templateId} />}
         </div>
     );

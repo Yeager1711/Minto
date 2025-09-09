@@ -585,6 +585,7 @@ const Home: React.FC = () => {
                     </div>
                 </div>
 
+
                 <div className={styles.control_right}>
                     <div className={styles.wrapper_center}>
                         <GeminiButton onClick={openReply} />

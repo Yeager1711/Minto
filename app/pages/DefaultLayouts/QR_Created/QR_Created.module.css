@@ -1,18 +1,33 @@
 .QR_CheckAsset {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   font-family: "Poppins", sans-serif;
   background: #fff;
   z-index: 9999 !important;
+}
+.QR_CheckAsset .header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 .QR_CheckAsset .btn_close {
   position: absolute;
   top: 1rem;
   right: 1rem;
   padding: 1rem;
-  background: #dbdbdb;
   background: rgba(255, 255, 255, 0.3);
   font-size: 2rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.QR_CheckAsset .btn_close:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 .QR_CheckAsset .wrapper {
   margin: auto;
@@ -35,6 +50,11 @@
   padding: 3rem 1rem;
   position: relative;
 }
+@media (max-width: 768px) {
+  .QR_CheckAsset .wrapper .progress_checkTask {
+    height: 80vh;
+  }
+}
 @media (max-width: 480px) {
   .QR_CheckAsset .wrapper .progress_checkTask {
     height: 70vh;
@@ -54,6 +74,9 @@
   padding-left: 2rem;
   padding: 0.5rem;
   background: #fff;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
 }
 @media (max-width: 480px) {
   .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item {
@@ -95,12 +118,23 @@
   position: relative;
   overflow: hidden;
   padding: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+@media (max-width: 768px) {
+  .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card {
+    max-width: 35rem;
+    height: 17rem;
+  }
 }
 @media (max-width: 480px) {
   .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card {
     max-width: 30rem;
     height: 16rem;
   }
+}
+.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card::before {
   content: "";
@@ -137,7 +171,6 @@
   position: absolute;
   top: 10%;
   right: 5%;
-  text-transform: capitalize;
   max-width: 5rem;
   overflow: hidden;
   border-radius: 0.5rem;
@@ -147,6 +180,20 @@
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .image_bank img:hover {
+  transform: scale(1.05);
+}
+.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .qr_icon {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 4;
 }
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .number_banks {
   position: absolute;
@@ -174,6 +221,13 @@
   font-size: 1.2rem;
   text-transform: capitalize;
 }
+.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .status {
+  position: absolute;
+  bottom: 3%;
+  left: 5%;
+  color: #538c2b;
+  font-size: 1.2rem;
+}
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content h4 {
   font-size: 2rem;
   color: #333;
@@ -188,4 +242,16 @@
   color: #dbdbdb;
   font-size: 1.3rem;
   margin: 0;
-}/*# sourceMappingURL=invitionsQR.module.css.map */
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 2rem 1rem;
+  }
+}/*# sourceMappingURL=QR_Created.module.css.map */
