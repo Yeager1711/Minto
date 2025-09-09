@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faQrcode, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import styles from './QR_created.module.css';
 
 interface QrResponse {

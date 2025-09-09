@@ -1,191 +1,65 @@
-.QR_CheckAsset {
-  position: fixed;
-  inset: 0;
-  font-family: "Poppins", sans-serif;
-  background: #fff;
-  z-index: 9999 !important;
+.wrapper_gift {
+  text-align: center;
+  width: 100%;
 }
-.QR_CheckAsset .btn_close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 1rem;
-  background: #dbdbdb;
-  background: rgba(255, 255, 255, 0.3);
-  font-size: 2rem;
-}
-.QR_CheckAsset .wrapper {
+.wrapper_gift .flex_center {
   margin: auto;
-  max-width: 80rem;
-  width: 100%;
-  padding: 4rem 2rem;
-  border: 0.1rem solid #dbdbdb;
-  min-height: 100vh;
 }
-.QR_CheckAsset .wrapper .current_day {
-  font-size: 1.5rem;
-}
-.QR_CheckAsset .wrapper .current_day h3 {
-  margin-top: 1rem;
-  font-size: 3rem;
-}
-.QR_CheckAsset .wrapper .progress_checkTask {
-  overflow-y: scroll;
-  height: 90vh;
-  padding: 3rem 1rem;
-  position: relative;
-}
-@media (max-width: 480px) {
-  .QR_CheckAsset .wrapper .progress_checkTask {
-    height: 70vh;
-  }
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .timeline {
-  position: relative;
-  margin: 0 auto;
-  padding-left: 2rem;
-  border-left: 2px solid #ccaa80;
-  max-width: 600px;
-  text-align: left;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item {
-  position: relative;
-  margin-bottom: 8rem;
-  padding-left: 2rem;
-  padding: 0.5rem;
-  background: #fff;
-}
-@media (max-width: 480px) {
-  .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item {
-    padding-left: 0;
-  }
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item::before {
-  content: "";
-  position: absolute;
-  left: -2.6rem;
-  top: 0;
-  width: 1rem;
-  height: 1rem;
-  background: #ccaa80;
-  border-radius: 50%;
-}
-@media (max-width: 480px) {
-  .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item::before {
-    width: 1.5rem;
-    height: 1.5rem;
-    left: -2.8rem;
-  }
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .time {
-  font-size: 1.3rem;
-  color: #ccaa80;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  text-transform: capitalize;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card {
-  background-image: url(../../../../public/images/5d4e0272ec749092bf93fdda0abb05cb.jpg);
-  background-position: center;
-  background-repeat: no-repeat;
-  max-width: 40rem;
-  width: 100%;
-  height: 18rem;
-  border-radius: 3rem;
-  position: relative;
-  overflow: hidden;
-  padding: 1rem;
-}
-@media (max-width: 480px) {
-  .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card {
-    max-width: 30rem;
-    height: 16rem;
-  }
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card::before {
-  content: "";
-  position: absolute;
-  bottom: 1rem;
-  right: 10%;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  background: rgba(245, 14, 65, 0.5);
-  z-index: 3;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card::after {
-  content: "";
-  position: absolute;
-  bottom: 1rem;
-  right: 5%;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  background: rgba(243, 159, 47, 0.5);
-  z-index: 3;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card h3 {
-  font-size: 1.2rem;
-  color: #fff;
-  margin: 1rem;
-  position: absolute;
-  top: 20%;
-  left: 3%;
-  text-transform: capitalize;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .image_bank {
-  position: absolute;
-  top: 10%;
-  right: 5%;
-  text-transform: capitalize;
-  max-width: 5rem;
-  overflow: hidden;
+.wrapper_gift .btn_gift_code {
+  padding: 0.8rem 2rem;
+  display: inline-block;
+  background: #640606;
+  margin-bottom: 2rem;
+  color: #fffff3;
   border-radius: 0.5rem;
+  font-size: 1.3rem;
+  cursor: pointer;
 }
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .image_bank img {
+.wrapper_gift .btn_gift_code:hover {
+  border-radius: 5rem;
+  transition: 0.3s ease-in-out;
+}
+.wrapper_gift .btn_gift_code svg {
+  margin-left: 0.5rem;
+}
+.wrapper_gift .flex {
+  max-width: 50rem;
+  margin: auto;
+  display: flex;
+  gap: 1.5rem;
+  text-align: center;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+}
+.wrapper_gift .flex.open {
+  height: auto;
+}
+.wrapper_gift .flex .groom,
+.wrapper_gift .flex .bride {
+  margin: auto;
+  padding: 1.5rem;
+  border: 0.1rem solid #dbdbdb;
+  border-radius: 1rem;
+  max-width: 20rem !important;
+  height: auto;
+  background: #fffff3;
+}
+.wrapper_gift .flex .groom img,
+.wrapper_gift .flex .bride img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .number_banks {
-  position: absolute;
-  top: 12%;
-  left: 5%;
-  color: #fff;
-  font-size: 2rem;
-  text-transform: capitalize;
-  font-family: "Orbitron", sans-serif;
-  font-weight: bolder;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .create_at {
-  position: absolute;
-  bottom: 16%;
-  left: 5%;
-  color: #7bf6d5;
+.wrapper_gift .flex .groom p,
+.wrapper_gift .flex .bride p {
+  display: block;
   font-size: 1.2rem;
-  text-transform: capitalize;
 }
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .name_banks {
-  position: absolute;
-  bottom: 7%;
-  left: 5%;
-  color: #fff;
-  font-size: 1.2rem;
-  text-transform: capitalize;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content h4 {
-  font-size: 2rem;
-  color: #333;
-  margin: 0 0 0.5rem 0;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .status {
-  font-size: 1.3rem;
-  color: #538c2b;
-  margin: 0;
-}
-.QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .unfinished {
-  color: #dbdbdb;
-  font-size: 1.3rem;
-  margin: 0;
+.wrapper_gift .flex .groom p strong,
+.wrapper_gift .flex .bride p strong {
+  display: block;
+  padding: 0.5rem 0;
+  font-size: 1.4rem;
 }/*# sourceMappingURL=invitionsQR.module.css.map */
