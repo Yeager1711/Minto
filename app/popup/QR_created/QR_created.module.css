@@ -140,7 +140,7 @@
   text-transform: capitalize;
 }
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card {
-  background-image: url(../../../public/images/5d4e0272ec749092bf93fdda0abb05cb.jpg);
+  background: #111;
   background-position: center;
   background-repeat: no-repeat;
   max-width: 40rem;
