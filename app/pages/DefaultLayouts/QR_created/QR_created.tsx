@@ -130,7 +130,7 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
         }
 
         try {
-            const accessToken = localStorage.getItem('accessToken')
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(`${apiUrl}/qr/edit/${selectedQr.qrId}`, {
                 method: 'PATCH',
                 headers: {
@@ -169,34 +169,6 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
             setApiError(errorMessage);
         }
     };
-
-    useEffect(() => {
-        const fetchQrStatus = async () => {
-            try {
-                const qrList = await getUserQr();
-                console.log('Dữ liệu QR nhận được từ getUserQr:', qrList);
-                if (qrList.length > 0) {
-                    const allActive = qrList.every((qr: QrResponse) => qr.status === 'ACTIVE');
-                    setReceiveDonation(allActive);
-                    setLocalQrData(qrList);
-                    setApiError('');
-                } else {
-                    setReceiveDonation(false);
-                    setLocalQrData([]);
-                    setApiError('Bạn chưa có mã QR cho phép nhận tiền Hỷ qua QR');
-                }
-            } catch (error) {
-                console.error('Lỗi khi lấy trạng thái QR:', error);
-                setReceiveDonation(false);
-                setLocalQrData([]);
-                setApiError('Bạn chưa có mã QR cho phép nhận tiền Hỷ qua QR');
-            }
-        };
-
-        if (isOpen && qrData) {
-            fetchQrStatus();
-        }
-    }, [isOpen, qrData, getUserQr]);
 
     const handleToggle = async () => {
         const newReceiveDonation = !receiveDonation;
@@ -241,6 +213,34 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
     };
 
     useEffect(() => {
+        const fetchQrStatus = async () => {
+            try {
+                const qrList = await getUserQr();
+                console.log('Dữ liệu QR nhận được từ getUserQr:', qrList);
+                if (qrList.length > 0) {
+                    const allActive = qrList.every((qr: QrResponse) => qr.status === 'ACTIVE');
+                    setReceiveDonation(allActive);
+                    setLocalQrData(qrList);
+                    setApiError('');
+                } else {
+                    setReceiveDonation(false);
+                    setLocalQrData([]);
+                    setApiError('Bạn chưa có mã QR cho phép nhận tiền Hỷ qua QR');
+                }
+            } catch (error) {
+                console.error('Lỗi khi lấy trạng thái QR:', error);
+                setReceiveDonation(false);
+                setLocalQrData([]);
+                setApiError('Bạn chưa có mã QR cho phép nhận tiền Hỷ qua QR');
+            }
+        };
+
+        if (isOpen && qrData) {
+            fetchQrStatus();
+        }
+    }, [isOpen, qrData, getUserQr]);
+
+    useEffect(() => {
         setLocalQrData(qrData);
     }, [qrData]);
 
@@ -261,8 +261,7 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
             return dateA - dateB;
         });
 
-    const isTimelineCompleted =
-        groomQr && brideQr && groomQr.status === 'ACTIVE' && brideQr.status === 'ACTIVE' && createdAt;
+    const isTimelineCompleted = groomQr && brideQr && groomQr.status === 'ACTIVE' && brideQr.status === 'ACTIVE';
 
     return (
         <div className={styles.QR_CheckAsset}>
@@ -386,7 +385,7 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                                 </div>
                             </div>
 
-                            <div className={`${styles.item} ${createdAt ? styles.completed : ''}`}>
+                            <div className={`${styles.item} ${styles.completed}`}>
                                 <div className={styles.time}>
                                     {createdAt
                                         ? new Date(createdAt).toLocaleDateString('en-US', {
