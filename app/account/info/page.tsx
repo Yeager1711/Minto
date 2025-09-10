@@ -6,7 +6,7 @@ import { useApi } from 'app/lib/apiContext/apiContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQrcode, faCopy } from '@fortawesome/free-solid-svg-icons';
-import QR_Created from 'app/popup/QR_created/QR_created';
+import QR_Created from 'app/pages/DefaultLayouts/QR_created/QR_created';
 import UserFeedback from 'app/feedback/userFeedback/userFeedBack';
 
 interface UserProfile {

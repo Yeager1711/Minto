@@ -32,23 +32,64 @@
   max-width: 80rem;
   width: 100%;
   padding: 2rem;
-  min-height: 100vh;
+  height: 90vh;
+  overflow-y: scroll;
+}
+.QR_CheckAsset .wrapper::-webkit-scrollbar {
+  display: none;
 }
 .QR_CheckAsset .wrapper .current_day {
   font-size: 1.5rem;
+  width: 90%;
 }
 .QR_CheckAsset .wrapper .current_day h3 {
   margin-top: 1rem;
   font-size: 3rem;
 }
+.QR_CheckAsset .wrapper .current_day .toggleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 60rem;
+  width: 100%;
+}
+.QR_CheckAsset .wrapper .current_day .toggleContainer .toggleButton {
+  position: relative;
+  width: 5rem;
+  height: 26px;
+  border: none;
+  background-color: #e0e0e0;
+  border-radius: 1.75rem;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+.QR_CheckAsset .wrapper .current_day .toggleContainer .toggleButton.active {
+  background-color: #ff6f61;
+}
+.QR_CheckAsset .wrapper .current_day .toggleContainer .toggleButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.1875rem rgba(255, 111, 97, 0.3);
+}
+.QR_CheckAsset .wrapper .current_day .toggleContainer .toggleButton .toggleSlider {
+  position: absolute;
+  height: 1.8rem;
+  width: 1.8rem;
+  background-color: #ffffff;
+  border-radius: 50%;
+  top: 3.5px;
+  left: 0.25rem;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+}
+.QR_CheckAsset .wrapper .current_day .toggleContainer .toggleButton.active .toggleSlider {
+  transform: translateX(2.7rem);
+}
 .QR_CheckAsset .wrapper .progress_checkTask {
-  overflow-y: scroll;
-  height: 90vh;
   padding: 3rem 1rem;
   position: relative;
-}
-.QR_CheckAsset .wrapper .progress_checkTask::-webkit-scrollbar {
-  display: none;
 }
 @media (max-width: 768px) {
   .QR_CheckAsset .wrapper .progress_checkTask {
@@ -87,6 +128,7 @@
   transform: translateY(20px);
   animation: fadeInUp 0.5s ease forwards;
   width: 90%;
+  cursor: pointer;
 }
 @media (max-width: 480px) {
   .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item {
@@ -140,7 +182,7 @@
   text-transform: capitalize;
 }
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card {
-  background-image: url(../../../public/images/card.jpg);
+  background-image: url(../../../../public/images/card.jpg);
   background-position: center;
   background-repeat: no-repeat;
   max-width: 40rem;
@@ -202,7 +244,7 @@
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .image_bank {
   position: absolute;
   top: 10%;
-  right: 5%;
+  right: 2%;
   max-width: 10rem;
   overflow: hidden;
   border-radius: 0.5rem;
@@ -214,6 +256,7 @@
      object-fit: cover;
   cursor: pointer;
   transition: transform 0.3s ease;
+  display: block;
 }
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .image_bank img:hover {
   transform: scale(1.05);
@@ -221,7 +264,7 @@
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .QR_code {
   position: absolute;
   top: 40%;
-  right: 2rem;
+  right: 0;
   transform: translate(-2rem, -50%);
 }
 .QR_CheckAsset .wrapper .progress_checkTask .progress_wrapper .item .schedule_content .card .QR_code svg {
@@ -284,11 +327,227 @@
   font-size: 1.3rem;
   margin: 0;
 }
+.QR_CheckAsset .nav_slide__Edit {
+  position: fixed;
+  top: 1%;
+  right: -100%;
+  bottom: 1%;
+  max-width: 50rem;
+  width: 95%;
+  background: #fff;
+  border-radius: 1.5rem 0 0 1.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  min-height: 90vh;
+  overflow-y: scroll;
+  transition: right 0.5s ease-in-out;
+}
+.QR_CheckAsset .nav_slide__Edit.active {
+  right: 0;
+}
+.QR_CheckAsset .nav_slide__Edit::-webkit-scrollbar {
+  display: none;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper {
+  padding: 2rem;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper h3 {
+  font-size: 1.8rem;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview {
+  padding: 1rem 1rem 5rem 1rem;
+  overflow: hidden;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew {
+  background-image: url(../../../../public/images/card.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  max-width: 40rem;
+  width: 100%;
+  height: 18rem;
+  border-radius: 3rem;
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  margin: auto;
+  opacity: 0;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew.animate {
+  animation: slideUp 0.8s ease forwards;
+  opacity: 1;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew.slideDown {
+  animation: slideDown 0.8s ease forwards;
+}
+@media (max-width: 768px) {
+  .QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew {
+    max-width: 35rem;
+    height: 17rem;
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  .QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew {
+    max-width: 30rem;
+    height: 16rem;
+    width: 90%;
+  }
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew::before {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  right: 10%;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: rgba(245, 14, 65, 0.5);
+  z-index: 3;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew::after {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  right: 5%;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: rgba(243, 159, 47, 0.5);
+  z-index: 3;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew h3 {
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 1rem;
+  position: absolute;
+  top: 20%;
+  left: 3%;
+  text-transform: capitalize;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew .image_bank {
+  position: absolute;
+  top: 10%;
+  right: 2%;
+  max-width: 10rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew .image_bank img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: block;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew .image_bank img:hover {
+  transform: scale(1.05);
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew .number_banks {
+  position: absolute;
+  top: 12%;
+  left: 5%;
+  color: #fff;
+  font-size: 2rem;
+  text-transform: capitalize;
+  font-family: "Orbitron", sans-serif;
+  font-weight: bolder;
+}
+@media (max-width: 480px) {
+  .QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew .number_banks {
+    font-size: 1.7rem;
+  }
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew .create_at {
+  position: absolute;
+  bottom: 16%;
+  left: 5%;
+  color: #7bf6d5;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+.QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew .name_banks {
+  position: absolute;
+  bottom: 7%;
+  left: 5%;
+  color: #fff;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+@media (max-width: 480px) {
+  .QR_CheckAsset .nav_slide__Edit .slideEdit__wrapper .wrapper_preview .card_previrew .name_banks {
+    font-size: 0.8rem;
+  }
+}
+.QR_CheckAsset .nav_slide__Edit .qr_for {
+  padding: 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 550;
+}
+.QR_CheckAsset .nav_slide__Edit .wrapper_boxInput {
+  margin-top: 3rem;
+}
+.QR_CheckAsset .nav_slide__Edit .wrapper_boxInput .box_input {
+  margin-bottom: 3rem;
+}
+.QR_CheckAsset .nav_slide__Edit .wrapper_boxInput .box_input span {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 0.7rem;
+}
+.QR_CheckAsset .nav_slide__Edit .wrapper_boxInput .box_input input,
+.QR_CheckAsset .nav_slide__Edit .wrapper_boxInput .box_input select {
+  padding: 1rem 1.5rem;
+  border: 0.1rem solid #d3d7f7;
+  width: 100%;
+  border-radius: 0.5rem;
+  font-size: 16px;
+}
+.QR_CheckAsset .nav_slide__Edit .wrapper_boxInput .box_input input::-moz-placeholder, .QR_CheckAsset .nav_slide__Edit .wrapper_boxInput .box_input select::-moz-placeholder {
+  font-size: 1.3rem;
+}
+.QR_CheckAsset .nav_slide__Edit .wrapper_boxInput .box_input input::placeholder,
+.QR_CheckAsset .nav_slide__Edit .wrapper_boxInput .box_input select::placeholder {
+  font-size: 1.3rem;
+}
+.QR_CheckAsset .nav_slide__Edit .btn_save {
+  padding: 1.5rem;
+  background: #697cf7;
+  color: #fff;
+  text-align: center;
+  font-size: 1.4rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
 
 @keyframes fadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(50rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(50rem);
+    opacity: 0;
   }
 }
 @media (max-width: 768px) {
