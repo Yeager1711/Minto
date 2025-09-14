@@ -407,8 +407,8 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
 
             <div className={`${styles.nav_slide__Edit} ${isEditOpen ? styles.active : ''}`}>
                 <div className={styles.slideEdit__wrapper}>
-                    <div className={styles.header} onClick={handleCloseEdit}>
-                        <FontAwesomeIcon className={styles.btn_close} icon={faTimes} />
+                    <div className={styles.btn_close} onClick={handleCloseEdit}>
+                        <FontAwesomeIcon icon={faTimes} />
                         Đóng
                     </div>
                     <h3>Chỉnh sửa thông tin thẻ</h3>

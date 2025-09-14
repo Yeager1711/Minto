@@ -1,0 +1,429 @@
+.template17c {
+  background: #2b0307;
+  min-height: 100vh;
+  padding: 1rem 0rem;
+}
+.template17c .wrapper {
+  max-width: 80rem;
+  width: 95%;
+  margin: auto;
+  font-weight: 400;
+  overflow: hidden;
+}
+.template17c .wrapper .first {
+  position: relative;
+  height: 100%;
+  height: 95vh;
+  background: #e9e3db;
+  border-radius: 1rem;
+  padding: 1.5rem 0 0 0.5rem;
+}
+.template17c .wrapper .first .text_1 {
+  color: #333;
+  font-size: 1.8rem;
+  line-height: 1.3;
+  padding: 0 1rem;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: bold;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .text_1 {
+    font-size: 1.4rem;
+  }
+}
+.template17c .wrapper .first .center_pss {
+  padding: 1.5rem;
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  transform: translate(0, 10%);
+  text-align: end;
+}
+@media (max-width: 768px) {
+  .template17c .wrapper .first .center_pss {
+    transform: translate(0, 20%);
+  }
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .center_pss {
+    padding: 1rem;
+    top: 0%;
+    transform: translate(0, 30%);
+  }
+}
+.template17c .wrapper .first .center_pss .center_abs .text_2 {
+  color: #333;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  text-align: right;
+  padding-right: 3rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .center_pss .center_abs .text_2 {
+    padding-right: 0;
+  }
+}
+.template17c .wrapper .first .center_pss .center_abs .groom_name,
+.template17c .wrapper .first .center_pss .center_abs .bride_name {
+  font-family: "Arizonia", handwriting;
+  font-size: 13rem;
+  font-weight: 400;
+  text-align: end;
+  text-transform: capitalize;
+  z-index: 99 !important;
+  color: #4b3935;
+}
+@media (max-width: 768px) {
+  .template17c .wrapper .first .center_pss .center_abs .groom_name,
+  .template17c .wrapper .first .center_pss .center_abs .bride_name {
+    width: 95%;
+    font-size: 12rem;
+  }
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .center_pss .center_abs .groom_name,
+  .template17c .wrapper .first .center_pss .center_abs .bride_name {
+    font-size: 7.6rem;
+  }
+}
+.template17c .wrapper .first .center_pss .center_abs .groom_name {
+  margin-right: 10rem;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+  position: relative;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .center_pss .center_abs .groom_name {
+    margin-right: 5rem;
+  }
+}
+.template17c .wrapper .first .center_pss .center_abs .groom_name .plus {
+  position: absolute;
+  bottom: -4rem;
+  right: -2%;
+  font-family: "Arizonia", handwriting;
+  font-size: 6rem;
+  font-weight: 400;
+  text-align: end;
+  margin: 0;
+  margin-right: 15rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .center_pss .center_abs .groom_name .plus {
+    bottom: -3.2rem;
+    right: -30%;
+    font-size: 4rem;
+  }
+}
+.template17c .wrapper .first .center_pss .center_abs .bride_name {
+  margin-right: 4rem;
+  margin-bottom: 2rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .center_pss .center_abs .bride_name {
+    margin-right: 0rem;
+  }
+}
+.template17c .wrapper .first .footer {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  transform: translate(0, 0);
+  padding: 0 1rem;
+}
+.template17c .wrapper .first .footer .text_3,
+.template17c .wrapper .first .footer .text_4 {
+  color: #333;
+  font-size: 2rem;
+  line-height: 2;
+  font-weight: bold;
+  font-family: "Cormorant Garamond", serif;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .footer .text_3,
+  .template17c .wrapper .first .footer .text_4 {
+    font-size: 1.6rem;
+  }
+}
+.template17c .wrapper .first .footer .text_4 {
+  padding-bottom: 1rem;
+  border-bottom: 0.1rem solid #333;
+}
+.template17c .wrapper .first .footer .DateTime {
+  font-size: 10rem;
+  font-family: "Cormorant Garamond", serif;
+  padding: 1rem 0;
+  font-weight: 600;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .footer .DateTime {
+    font-size: 6rem;
+  }
+}
+.template17c .wrapper .first .image_flow1 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  max-width: 25rem;
+  width: 100%;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .first .image_flow1 {
+    max-width: 16rem;
+  }
+}
+.template17c .wrapper .first .image_flow1 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.template17c .wrapper .family_info__wrapper {
+  color: #e0bdbb;
+}
+.template17c .wrapper .family_info__wrapper .family_info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 0.5rem;
+  justify-content: space-between;
+}
+.template17c .wrapper .family_info__wrapper .family_info .groom_family,
+.template17c .wrapper .family_info__wrapper .family_info .bride_family {
+  flex: 1 1 16rem;
+  text-align: center;
+}
+.template17c .wrapper .family_info__wrapper .family_info .groom_family span,
+.template17c .wrapper .family_info__wrapper .family_info .bride_family span {
+  font-size: 1.8rem;
+  text-transform: capitalize;
+  font-family: "Cormorant Garamond", serif;
+  margin-bottom: 2rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .family_info .groom_family span,
+  .template17c .wrapper .family_info__wrapper .family_info .bride_family span {
+    font-size: 1.5rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .family_info .groom_family div,
+.template17c .wrapper .family_info__wrapper .family_info .bride_family div {
+  font-size: 1.4rem;
+  padding: 0.3rem 0;
+  text-transform: capitalize;
+}
+.template17c .wrapper .family_info__wrapper .family_info .groom_family .location,
+.template17c .wrapper .family_info__wrapper .family_info .bride_family .location {
+  font-size: 1.4rem;
+  padding: 0.3rem 0;
+  text-transform: capitalize;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .family_info .groom_family .location,
+  .template17c .wrapper .family_info__wrapper .family_info .bride_family .location {
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub {
+  text-align: center;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .subtilte {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+  color: #e9e3db;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__names .groom__names,
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__names .bride__names {
+  font-family: "Arizonia", handwriting;
+  font-size: 12rem;
+  color: #e9e3db;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .invitation_sub .invitation__names .groom__names,
+  .template17c .wrapper .family_info__wrapper .invitation_sub .invitation__names .bride__names {
+    font-size: 7rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__names .and {
+  font-size: 4rem;
+  line-height: 1.5;
+  font-family: "Allura", cursive;
+  color: #e9e3db;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__location {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+  margin-top: 4rem;
+  color: #e9e3db;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__datetime {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 0 1rem 0;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__datetime .dateTime_flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__datetime .dateTime_flex .flex_left {
+  text-align: right;
+  border-right: 0.1rem solid #dbdbdb;
+  padding-right: 1rem;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__datetime .dateTime_flex .flex_left span {
+  display: block;
+  font-size: 3rem;
+  color: #fff;
+  font-family: "Arizonia", handwriting;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__datetime .dateTime_flex .flex_right {
+  text-align: left;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .invitation__datetime .dateTime_flex .flex_right span {
+  display: block;
+  font-weight: 600;
+  font-size: 3rem;
+  color: #fff;
+  font-family: "Arizonia", handwriting;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .lunarDay {
+  font-size: 2.3rem;
+  font-family: "Cormorant Garamond", serif;
+  padding: 1rem 0;
+}
+@media (max-width: 768px) {
+  .template17c .wrapper .family_info__wrapper .invitation_sub .lunarDay {
+    font-size: 1.6rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .btn_googleMap {
+  padding: 1rem 5rem;
+  border: 0.2rem solid #4b3935;
+  color: #fff;
+  margin-top: 1.5rem;
+  font-size: 1.4rem;
+}
+@media (max-width: 768px) {
+  .template17c .wrapper .family_info__wrapper .invitation_sub .btn_googleMap {
+    font-size: 1.3rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .card {
+  max-width: 80rem;
+  margin: auto;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Cormorant Garamond", serif;
+  color: #333;
+  text-align: center;
+  padding: 2rem;
+  margin-top: 2.5rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .card {
+    padding: 1rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .card__imageTop img, .template17c .wrapper .family_info__wrapper .card__imageMiddle img, .template17c .wrapper .family_info__wrapper .card__imageBottom img {
+  width: 100%;
+  height: 35rem;
+  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .card__imageTop img, .template17c .wrapper .family_info__wrapper .card__imageMiddle img, .template17c .wrapper .family_info__wrapper .card__imageBottom img {
+    height: 20rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .card__saveDate {
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.template17c .wrapper .family_info__wrapper .card__saveDateTitle {
+  font-size: 3.5rem;
+  font-weight: 600;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+.template17c .wrapper .family_info__wrapper .card__saveDateInfo {
+  font-size: 1.5rem;
+  color: #555;
+  font-weight: 600;
+}
+.template17c .wrapper .family_info__wrapper .card__coupleNames {
+  font-size: 5rem;
+  font-family: "Arizonia", handwriting;
+  font-weight: 500;
+  color: #5c2a2a;
+  margin: 1rem 0;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .card__coupleNames {
+    font-size: 3rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .card__footer {
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+  color: #555;
+  margin: 1.5rem 0 1rem 0;
+}
+.template17c .wrapper .family_info__wrapper .Schedule {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-family: "Arizonia", handwriting;
+  color: #fff;
+}
+.template17c .wrapper .family_info__wrapper .Schedule__title {
+  font-size: 7rem;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 2rem;
+  text-transform: capitalize;
+  margin-top: 1rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .Schedule__title {
+    font-size: 4.5rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .Schedule__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.8rem;
+  font-family: "Times New Roman", Times, serif;
+}
+.template17c .wrapper .family_info__wrapper .Schedule__list li {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+.template17c .wrapper .family_info__wrapper .Schedule .time {
+  font-weight: 600;
+  font-size: 1.7rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .Schedule .time {
+    font-size: 1.4rem;
+  }
+}
+.template17c .wrapper .family_info__wrapper .Schedule .event {
+  font-size: 1.6rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .family_info__wrapper .Schedule .event {
+    font-size: 1.4rem;
+  }
+}/*# sourceMappingURL=17.module.css.map */

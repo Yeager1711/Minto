@@ -254,7 +254,7 @@
                                 position: absolute;
                                 top: 20%;
                                 left: 3%;
-                                text-transform: capitalize;
+                                text-transform: uppercase;
                             }
 
                             .image_bank {
@@ -363,15 +363,15 @@
 
     .nav_slide__Edit {
         position: fixed;
-        top: 1%;
+        top: 0%;
         right: -100%;
-        bottom: 1%;
+        bottom: 0%;
         max-width: 50rem;
         width: 95%;
         background: #fff;
         border-radius: 1.5rem 0 0 1.5rem;
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-        min-height: 90vh;
+        min-height: 100vh;
         overflow-y: scroll;
         transition: right 0.5s ease-in-out;
 
@@ -388,6 +388,8 @@
 
             h3 {
                 font-size: 1.8rem;
+                margin-top: 4rem;
+                margin-bottom: 1rem;
             }
 
             .wrapper_preview {
@@ -465,7 +467,7 @@
                         position: absolute;
                         top: 20%;
                         left: 3%;
-                        text-transform: capitalize;
+                        text-transform: uppercase;
                     }
 
                     .image_bank {
@@ -571,6 +573,25 @@
             font-size: 1.4rem;
             border-radius: 1rem;
             cursor: pointer;
+        }
+
+        .btn_close {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 1rem 1.5rem;
+            background: #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.4rem;
+            border-radius: 2rem 0 2rem 0;
+            cursor: pointer;
+
+            svg {
+                font-size: 2rem;
+            }
         }
     }
 }
