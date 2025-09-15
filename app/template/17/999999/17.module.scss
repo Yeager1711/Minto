@@ -1,24 +1,74 @@
 .template17c {
     background: #2b0307;
     min-height: 100vh;
-    padding: 1rem 0rem;
+
+
+    .guestPopup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+
+        &__content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            max-width: 90%;
+            width: 40rem;
+
+            h2 {
+                font-family: "Cormorant Garamond", serif;
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+                color: #333;
+            }
+
+            button {
+                display: block;
+                width: 80%;
+                margin: 1rem auto;
+                padding: 1rem;
+                font-size: 1.6rem;
+                font-family: "Cormorant Garamond", serif;
+                background: #4b3935;
+                color: #fff;
+                border: none;
+                border-radius: 0.5rem;
+                cursor: pointer;
+                transition: background 0.3s;
+
+                &:hover {
+                    background: #5c2a2a;
+                }
+            }
+        }
+    }
 
     .wrapper {
         max-width: 80rem;
-        width: 95%;
-        // background: #eaddd5;
         margin: auto;
         font-weight: 400;
         overflow: hidden;
-
+        border-left: 0.1rem solid #e4dfd9;
+        border-right: 0.1rem solid #e4dfd9;
+        padding: 1rem 0;
+        position: relative;
 
         .first {
             position: relative;
-            height: 100%;
+            width: 95%;
             height: 95vh;
-            background: #e9e3db;
+            background: #e4dfd9;
             border-radius: 1rem;
-            padding: 1.5rem 0 0 .5rem;
+            padding: 1.5rem 0 0 0.5rem;
+            margin: auto;
 
             .text_1 {
                 color: #333;
@@ -48,7 +98,7 @@
                 @media (max-width: 480px) {
                     padding: 1rem;
                     top: 0%;
-                    transform: translate(0, 30%);
+                    transform: translate(0, 50%);
                 }
 
                 .center_abs {
@@ -66,15 +116,13 @@
 
                     .groom_name,
                     .bride_name {
-                        // font-family: 'Luxurious Script', handwriting;
-                        font-family: 'Arizonia', handwriting;
+                        font-family: "Arizonia", handwriting;
                         font-size: 13rem;
                         font-weight: 400;
                         text-align: end;
                         text-transform: capitalize;
                         z-index: 99 !important;
                         color: #4b3935;
-
 
                         @media (max-width: 768px) {
                             width: 95%;
@@ -96,11 +144,11 @@
                             margin-right: 5rem;
                         }
 
-                        .plus {
+                        .and {
                             position: absolute;
-                            bottom: -4rem;
-                            right: -2%;
-                            font-family: 'Arizonia', handwriting;
+                            bottom: -5rem;
+                            right: 8%;
+                            font-family: "Allura", cursive;
                             font-size: 6rem;
                             font-weight: 400;
                             text-align: end;
@@ -109,7 +157,7 @@
 
                             @media (max-width: 480px) {
                                 bottom: -3.2rem;
-                                right: -30%;
+                                right: -10%;
                                 font-size: 4rem;
                             }
                         }
@@ -148,7 +196,7 @@
 
                 .text_4 {
                     padding-bottom: 1rem;
-                    border-bottom: .1rem solid #333;
+                    border-bottom: 0.1rem solid #333;
                 }
 
                 .DateTime {
@@ -184,13 +232,14 @@
         }
 
         .family_info__wrapper {
-            color: #e0bdbb;
+            color: #e4dfd9;
+            padding: 1rem;
 
             .family_info {
                 display: flex;
                 align-items: center;
-                gap: .5rem;
-                padding: 2rem .5rem;
+                gap: 0.5rem;
+                padding: 2rem 0.5rem;
                 justify-content: space-between;
 
                 .groom_family,
@@ -211,13 +260,13 @@
 
                     div {
                         font-size: 1.4rem;
-                        padding: .3rem 0;
+                        padding: 0.3rem 0;
                         text-transform: capitalize;
                     }
 
                     .location {
                         font-size: 1.4rem;
-                        padding: .3rem 0;
+                        padding: 0.3rem 0;
                         text-transform: capitalize;
 
                         @media (max-width: 480px) {
@@ -241,7 +290,7 @@
 
                     .groom__names,
                     .bride__names {
-                        font-family: 'Arizonia', handwriting;
+                        font-family: "Arizonia", handwriting;
                         font-size: 12rem;
                         color: #e9e3db;
 
@@ -253,7 +302,7 @@
                     .and {
                         font-size: 4rem;
                         line-height: 1.5;
-                        font-family: 'Allura', cursive;
+                        font-family: "Allura", cursive;
                         color: #e9e3db;
                     }
                 }
@@ -278,15 +327,14 @@
 
                         .flex_left {
                             text-align: right;
-                            border-right: .1rem solid #dbdbdb;
+                            border-right: 0.1rem solid #dbdbdb;
                             padding-right: 1rem;
 
                             span {
                                 display: block;
                                 font-size: 3rem;
                                 color: #fff;
-                                font-family: 'Arizonia', handwriting;
-
+                                font-family: "Arizonia", handwriting;
                             }
                         }
 
@@ -298,28 +346,42 @@
                                 font-weight: 600;
                                 font-size: 3rem;
                                 color: #fff;
-                                font-family: 'Arizonia', handwriting;
+                                font-family: "Arizonia", handwriting;
                             }
                         }
                     }
                 }
 
                 .lunarDay {
-                    font-size: 2.3rem;
-                    font-family: "Cormorant Garamond", serif;
+                    font-size: 3.2rem;
+                    font-family: "Bonheur Royale", handwriting;
                     padding: 1rem 0;
 
                     @media (max-width: 768px) {
-                        font-size: 1.6rem;
+                        font-size: 2rem;
+                    }
+                }
+
+                .img_default_1 {
+                    max-width: 30rem;
+                    margin: auto;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
                     }
                 }
 
                 .btn_googleMap {
                     padding: 1rem 5rem;
-                    border: .2rem solid #4b3935;
+                    border: 0.2rem solid #aba7a2;
                     color: #fff;
                     margin-top: 1.5rem;
                     font-size: 1.4rem;
+                    cursor: pointer;
+                    background: none;
 
                     @media (max-width: 768px) {
                         font-size: 1.3rem;
@@ -336,11 +398,12 @@
                 font-family: "Cormorant Garamond", serif;
                 color: #333;
                 text-align: center;
-                padding: 2rem;
+                padding: 3rem 1.5rem 1.5rem 1.5rem;
                 margin-top: 2.5rem;
 
                 @media (max-width: 480px) {
-                    padding: 1rem;
+                    padding: 2rem 1rem 1rem 1rem;
+                    border-radius: 1rem;
                 }
 
                 &__imageTop img,
@@ -379,7 +442,7 @@
 
                 &__coupleNames {
                     font-size: 5rem;
-                    font-family: 'Arizonia', handwriting;
+                    font-family: "Arizonia", handwriting;
                     font-weight: 500;
                     color: #5c2a2a;
                     margin: 1rem 0;
@@ -397,62 +460,235 @@
                 }
             }
 
-
             .Schedule {
                 text-align: center;
-                padding: 2rem 1rem;
-                font-family: 'Arizonia', handwriting;
+                padding: 2rem 0;
                 color: #fff;
+                font-family: "Bonheur Royale", handwriting;
 
                 &__title {
                     font-size: 7rem;
                     font-weight: 400;
-                    font-style: italic;
-                    margin-bottom: 2rem;
+                    margin-bottom: 3rem;
                     text-transform: capitalize;
-                    margin-top: 1rem;
 
                     @media (max-width: 480px) {
-                        font-size: 4.5rem;
+                        font-size: 5.5rem;
                     }
                 }
 
                 &__list {
+                    position: relative;
                     list-style: none;
+                    margin: 0 auto;
                     padding: 0;
-                    margin: 0;
-                    font-size: 1.8rem;
-                    font-family: 'Times New Roman', Times, serif;
+                    max-width: 80rem;
+                    width: 95%;
 
-
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translate(-50%, 0);
+                        width: 0.2rem;
+                        background: #ccc;
+                        transform: translateX(-50%);
+                    }
 
                     li {
+                        position: relative;
                         display: flex;
-                        justify-content: center;
-                        align-items: baseline;
-                        gap: 1rem;
-                        padding: 1rem 0;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 10rem;
+                        text-align: left;
+
+                        &:last-child {
+                            margin-bottom: 2rem;
+                        }
                     }
-                }
 
-                .time {
-                    font-weight: 600;
-                    font-size: 1.7rem;
-
-                    @media (max-width: 480px) {
-                        font-size: 1.4rem;
+                    .time {
+                        width: 40%;
+                        text-align: right;
+                        font-weight: bold;
+                        font-size: 3rem;
                     }
-                }
 
-                .event {
-                    font-size: 1.6rem;
+                    .event {
+                        width: 40%;
+                        text-align: left;
+                        margin-top: -1rem;
+                        font-size: 3rem;
+                    }
 
-                    @media (max-width: 480px) {
-                        font-size: 1.4rem;
+                    .dot {
+                        position: relative;
+                        z-index: 1;
+                        width: 2rem;
+                        height: 2rem;
+                        background: #e4e4e4;
+                        border-radius: 50%;
+                        margin-top: -0.5rem;
                     }
                 }
             }
+        }
 
+        .countdown {
+            position: relative;
+
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                background-position: center;
+                background-size: cover;
+            }
+
+            .countdown__timer {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                gap: 3rem;
+                padding: 1rem;
+                border-radius: 0.5rem;
+
+                @media (max-width: 480px) {
+                    gap: 1rem;
+                    padding: 0.5rem;
+                }
+
+                .countdown__item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-family: "Cormorant Garamond", serif;
+                    font-size: 5rem;
+                    color: #333;
+                    background: rgba(255, 255, 255, 0.5);
+                    width: 6rem;
+                    padding: 0 1rem 1rem 1rem;
+                    border-radius: 1rem;
+
+                    @media (max-width: 480px) {
+                        font-size: 3rem;
+                    }
+
+                    span:first-child {
+                        font-weight: 600;
+                    }
+
+                    span:last-child {
+                        font-size: 1.4rem;
+                        text-transform: uppercase;
+                        margin-top: 1rem;
+
+                        @media (max-width: 480px) {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .mapPopup {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        z-index: 1000;
+        max-width: 80rem;
+        width: 100%;
+        margin: auto;
+        opacity: 0;
+        transform: translateY(100%);
+        pointer-events: none;
+
+        &.mapPopup__open {
+            animation: slideUp 0.5s ease-out forwards;
+            pointer-events: auto;
+        }
+
+        &.mapPopup__closeAnim {
+            animation: slideDown 0.5s ease-in forwards;
+        }
+
+        &__content {
+            position: relative;
+            height: 100%;
+            max-width: 80rem;
+            margin: 0 auto;
+            padding: 1rem;
+            overflow: hidden;
+
+            iframe {
+                width: 100%;
+                height: 50rem;
+                border-radius: 2rem;
+                border: none;
+            }
+        }
+
+        &__close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: #4b3935;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+
+            &:hover {
+                background: #5c2a2a;
+            }
+        }
+    }
+
+    /* ✅ Keyframes */
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        to {
+            transform: translateY(100%);
+            opacity: 0;
         }
     }
 

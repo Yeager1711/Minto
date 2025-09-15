@@ -1,22 +1,70 @@
+@charset "UTF-8";
 .template17c {
   background: #2b0307;
   min-height: 100vh;
-  padding: 1rem 0rem;
+  /* ✅ Keyframes */
+}
+.template17c .guestPopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.template17c .guestPopup__content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 90%;
+  width: 40rem;
+}
+.template17c .guestPopup__content h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+.template17c .guestPopup__content button {
+  display: block;
+  width: 80%;
+  margin: 1rem auto;
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-family: "Cormorant Garamond", serif;
+  background: #4b3935;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.template17c .guestPopup__content button:hover {
+  background: #5c2a2a;
 }
 .template17c .wrapper {
   max-width: 80rem;
-  width: 95%;
   margin: auto;
   font-weight: 400;
   overflow: hidden;
+  border-left: 0.1rem solid #e4dfd9;
+  border-right: 0.1rem solid #e4dfd9;
+  padding: 1rem 0;
+  position: relative;
 }
 .template17c .wrapper .first {
   position: relative;
-  height: 100%;
+  width: 95%;
   height: 95vh;
-  background: #e9e3db;
+  background: #e4dfd9;
   border-radius: 1rem;
   padding: 1.5rem 0 0 0.5rem;
+  margin: auto;
 }
 .template17c .wrapper .first .text_1 {
   color: #333;
@@ -48,7 +96,7 @@
   .template17c .wrapper .first .center_pss {
     padding: 1rem;
     top: 0%;
-    transform: translate(0, 30%);
+    transform: translate(0, 50%);
   }
 }
 .template17c .wrapper .first .center_pss .center_abs .text_2 {
@@ -97,11 +145,11 @@
     margin-right: 5rem;
   }
 }
-.template17c .wrapper .first .center_pss .center_abs .groom_name .plus {
+.template17c .wrapper .first .center_pss .center_abs .groom_name .and {
   position: absolute;
-  bottom: -4rem;
-  right: -2%;
-  font-family: "Arizonia", handwriting;
+  bottom: -5rem;
+  right: 8%;
+  font-family: "Allura", cursive;
   font-size: 6rem;
   font-weight: 400;
   text-align: end;
@@ -109,9 +157,9 @@
   margin-right: 15rem;
 }
 @media (max-width: 480px) {
-  .template17c .wrapper .first .center_pss .center_abs .groom_name .plus {
+  .template17c .wrapper .first .center_pss .center_abs .groom_name .and {
     bottom: -3.2rem;
-    right: -30%;
+    right: -10%;
     font-size: 4rem;
   }
 }
@@ -180,7 +228,8 @@
   display: block;
 }
 .template17c .wrapper .family_info__wrapper {
-  color: #e0bdbb;
+  color: #e4dfd9;
+  padding: 1rem;
 }
 .template17c .wrapper .family_info__wrapper .family_info {
   display: flex;
@@ -291,21 +340,34 @@
   font-family: "Arizonia", handwriting;
 }
 .template17c .wrapper .family_info__wrapper .invitation_sub .lunarDay {
-  font-size: 2.3rem;
-  font-family: "Cormorant Garamond", serif;
+  font-size: 3.2rem;
+  font-family: "Bonheur Royale", handwriting;
   padding: 1rem 0;
 }
 @media (max-width: 768px) {
   .template17c .wrapper .family_info__wrapper .invitation_sub .lunarDay {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .img_default_1 {
+  max-width: 30rem;
+  margin: auto;
+}
+.template17c .wrapper .family_info__wrapper .invitation_sub .img_default_1 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
 }
 .template17c .wrapper .family_info__wrapper .invitation_sub .btn_googleMap {
   padding: 1rem 5rem;
-  border: 0.2rem solid #4b3935;
+  border: 0.2rem solid #aba7a2;
   color: #fff;
   margin-top: 1.5rem;
   font-size: 1.4rem;
+  cursor: pointer;
+  background: none;
 }
 @media (max-width: 768px) {
   .template17c .wrapper .family_info__wrapper .invitation_sub .btn_googleMap {
@@ -321,12 +383,13 @@
   font-family: "Cormorant Garamond", serif;
   color: #333;
   text-align: center;
-  padding: 2rem;
+  padding: 3rem 1.5rem 1.5rem 1.5rem;
   margin-top: 2.5rem;
 }
 @media (max-width: 480px) {
   .template17c .wrapper .family_info__wrapper .card {
-    padding: 1rem;
+    padding: 2rem 1rem 1rem 1rem;
+    border-radius: 1rem;
   }
 }
 .template17c .wrapper .family_info__wrapper .card__imageTop img, .template17c .wrapper .family_info__wrapper .card__imageMiddle img, .template17c .wrapper .family_info__wrapper .card__imageBottom img {
@@ -379,51 +442,208 @@
 }
 .template17c .wrapper .family_info__wrapper .Schedule {
   text-align: center;
-  padding: 2rem 1rem;
-  font-family: "Arizonia", handwriting;
+  padding: 2rem 0;
   color: #fff;
+  font-family: "Bonheur Royale", handwriting;
 }
 .template17c .wrapper .family_info__wrapper .Schedule__title {
   font-size: 7rem;
   font-weight: 400;
-  font-style: italic;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   text-transform: capitalize;
-  margin-top: 1rem;
 }
 @media (max-width: 480px) {
   .template17c .wrapper .family_info__wrapper .Schedule__title {
-    font-size: 4.5rem;
+    font-size: 5.5rem;
   }
 }
 .template17c .wrapper .family_info__wrapper .Schedule__list {
+  position: relative;
   list-style: none;
+  margin: 0 auto;
   padding: 0;
-  margin: 0;
-  font-size: 1.8rem;
-  font-family: "Times New Roman", Times, serif;
+  max-width: 80rem;
+  width: 95%;
+}
+.template17c .wrapper .family_info__wrapper .Schedule__list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 0.2rem;
+  background: #ccc;
+  transform: translateX(-50%);
 }
 .template17c .wrapper .family_info__wrapper .Schedule__list li {
+  position: relative;
   display: flex;
-  justify-content: center;
-  align-items: baseline;
-  gap: 1rem;
-  padding: 1rem 0;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rem;
+  text-align: left;
 }
-.template17c .wrapper .family_info__wrapper .Schedule .time {
-  font-weight: 600;
-  font-size: 1.7rem;
+.template17c .wrapper .family_info__wrapper .Schedule__list li:last-child {
+  margin-bottom: 2rem;
+}
+.template17c .wrapper .family_info__wrapper .Schedule__list .time {
+  width: 40%;
+  text-align: right;
+  font-weight: bold;
+  font-size: 3rem;
+}
+.template17c .wrapper .family_info__wrapper .Schedule__list .event {
+  width: 40%;
+  text-align: left;
+  margin-top: -1rem;
+  font-size: 3rem;
+}
+.template17c .wrapper .family_info__wrapper .Schedule__list .dot {
+  position: relative;
+  z-index: 1;
+  width: 2rem;
+  height: 2rem;
+  background: #e4e4e4;
+  border-radius: 50%;
+  margin-top: -0.5rem;
+}
+.template17c .wrapper .countdown {
+  position: relative;
+}
+.template17c .wrapper .countdown::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.template17c .wrapper .countdown img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  background-position: center;
+  background-size: cover;
+}
+.template17c .wrapper .countdown .countdown__timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 3rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 @media (max-width: 480px) {
-  .template17c .wrapper .family_info__wrapper .Schedule .time {
-    font-size: 1.4rem;
+  .template17c .wrapper .countdown .countdown__timer {
+    gap: 1rem;
+    padding: 0.5rem;
   }
 }
-.template17c .wrapper .family_info__wrapper .Schedule .event {
-  font-size: 1.6rem;
+.template17c .wrapper .countdown .countdown__timer .countdown__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 5rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.5);
+  width: 6rem;
+  padding: 0 1rem 1rem 1rem;
+  border-radius: 1rem;
 }
 @media (max-width: 480px) {
-  .template17c .wrapper .family_info__wrapper .Schedule .event {
-    font-size: 1.4rem;
+  .template17c .wrapper .countdown .countdown__timer .countdown__item {
+    font-size: 3rem;
+  }
+}
+.template17c .wrapper .countdown .countdown__timer .countdown__item span:first-child {
+  font-weight: 600;
+}
+.template17c .wrapper .countdown .countdown__timer .countdown__item span:last-child {
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  margin-top: 1rem;
+}
+@media (max-width: 480px) {
+  .template17c .wrapper .countdown .countdown__timer .countdown__item span:last-child {
+    font-size: 1rem;
+  }
+}
+.template17c .mapPopup {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 1000;
+  max-width: 80rem;
+  width: 100%;
+  margin: auto;
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+}
+.template17c .mapPopup.mapPopup__open {
+  animation: slideUp 0.5s ease-out forwards;
+  pointer-events: auto;
+}
+.template17c .mapPopup.mapPopup__closeAnim {
+  animation: slideDown 0.5s ease-in forwards;
+}
+.template17c .mapPopup__content {
+  position: relative;
+  height: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem;
+  overflow: hidden;
+}
+.template17c .mapPopup__content iframe {
+  width: 100%;
+  height: 50rem;
+  border-radius: 2rem;
+  border: none;
+}
+.template17c .mapPopup__close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: #4b3935;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s;
+}
+.template17c .mapPopup__close:hover {
+  background: #5c2a2a;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
   }
 }/*# sourceMappingURL=17.module.css.map */
