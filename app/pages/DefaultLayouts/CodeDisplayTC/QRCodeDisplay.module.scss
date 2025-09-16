@@ -1,0 +1,82 @@
+ .btn_invitionQR__popop {
+     max-width: 80rem;
+     width: 100%;
+     margin: 2rem auto;
+     text-align: center;
+     color: #e4dfd9;
+     font-family: "Cormorant Garamond", serif;
+
+     p {
+         font-size: 1.6rem;
+         margin: 1rem 0;
+     }
+
+     .wrapper_gift {
+         .flex_center {
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+
+             .btn_gift_code {
+                 background: rgb(204, 170, 128);
+                 color: #fff;
+                 padding: 1rem 2rem;
+                 border-radius: 0.5rem;
+                 font-size: 1.6rem;
+                 cursor: pointer;
+                 display: flex;
+                 align-items: center;
+                 gap: 0.5rem;
+                 transition: background 0.3s;
+
+                 &:hover {
+                     background: #5c2a2a;
+                 }
+             }
+
+             .flex {
+                 display: flex;
+                 flex-direction: column;
+                 gap: 2rem;
+                 max-height: 0;
+                 overflow: hidden;
+                 transition: max-height 0.5s ease-in-out;
+
+                 &.open {
+                     max-height: 100rem;
+                 }
+
+                 .groom,
+                 .bride {
+                     background: rgba(204, 170, 128, .2);
+                     padding: 2rem;
+                     border-radius: 1rem;
+                     text-align: center;
+                     max-width: 80%;
+                     margin: 2rem auto;
+
+                     h3 {
+                         font-size: 2rem;
+                         margin-bottom: 1rem;
+                         color: #e9e3db;
+                     }
+
+                     p {
+                         font-size: 1.4rem;
+                         margin: 0.5rem 0;
+                         color: #e4dfd9;
+
+                         strong {
+                             color: #fff;
+                         }
+                     }
+
+                     img {
+                         margin: 1rem auto;
+                         border-radius: 1rem;
+                     }
+                 }
+             }
+         }
+     }
+ }

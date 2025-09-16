@@ -1,0 +1,73 @@
+.btn_invitionQR__popop {
+  max-width: 80rem;
+  width: 100%;
+  margin: 2rem auto;
+  text-align: center;
+  color: #e4dfd9;
+  font-family: "Cormorant Garamond", serif;
+}
+.btn_invitionQR__popop p {
+  font-size: 1.6rem;
+  margin: 1rem 0;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .btn_gift_code {
+  background: rgb(204, 170, 128);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.3s;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .btn_gift_code:hover {
+  background: #5c2a2a;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex.open {
+  max-height: 100rem;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .groom,
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .bride {
+  background: rgba(204, 170, 128, 0.2);
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 80%;
+  margin: 2rem auto;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .groom h3,
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .bride h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #e9e3db;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .groom p,
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .bride p {
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  color: #e4dfd9;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .groom p strong,
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .bride p strong {
+  color: #fff;
+}
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .groom img,
+.btn_invitionQR__popop .wrapper_gift .flex_center .flex .bride img {
+  margin: 1rem auto;
+  border-radius: 1rem;
+}/*# sourceMappingURL=QRCodeDisplay.module.css.map */

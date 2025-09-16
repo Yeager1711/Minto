@@ -2,6 +2,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import styles from './17.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCompress } from '@fortawesome/free-solid-svg-icons';
+import QRCodeDisplay from 'app/pages/DefaultLayouts/CodeDisplayTC/QRCodeDisplay';
 
 // Define interfaces for the data structure
 interface CountdownLabels {
@@ -18,6 +21,15 @@ interface Images {
     coupleBottom: string;
     flow1: string;
     default1: string;
+    gallery: {
+        moment1: string;
+        moment2: string;
+        moment3: string;
+        moment4: string;
+        moment5: string;
+        moment6: string;
+        moment7: string;
+    };
 }
 
 interface Family {
@@ -67,6 +79,11 @@ interface Schedule {
     bride: ScheduleItem[];
 }
 
+interface GalleryItem {
+    time: string;
+    image: string;
+}
+
 interface DefaultData {
     weddingDates: {
         groom: string;
@@ -104,6 +121,15 @@ const defaultData: DefaultData = {
         coupleBottom: '/images/m17/2.jpg',
         flow1: '/images/m17/flow_1.png',
         default1: '/images/m17/91f22ed5da8ce8a9cd7df67d55ec9907-Photoroom.png',
+        gallery: {
+            moment1: '/images/m17/4.jpg',
+            moment2: '/images/m17/2.jpg',
+            moment3: '/images/m17/3.jpg',
+            moment4: '/images/m17/1.jpg',
+            moment5: '/images/m17/5.jpg',
+            moment6: '/images/m17/6.jpg',
+            moment7: '/images/m17/9.jpg',
+        },
     },
     couple: {
         groom: {
@@ -167,6 +193,7 @@ const defaultData: DefaultData = {
 };
 
 const Template17C: React.FC = () => {
+    const userId: number = 999999; // Unique userId for this instance
     const [timeLeft, setTimeLeft] = useState<TimeLeft>({
         days: 0,
         hours: 0,
@@ -175,9 +202,14 @@ const Template17C: React.FC = () => {
     });
     const [guestType, setGuestType] = useState<'groom' | 'bride' | null>(null);
     const [showMapPopup, setShowMapPopup] = useState<boolean>(false);
-    const [closing, setClosing] = React.useState(false);
+    const [closing, setClosing] = useState(false);
+    const [expandedImage, setExpandedImage] = useState<string | null>(null);
+    const [isAnimating, setIsAnimating] = useState<boolean>(false);
+    const [isCollapsing, setIsCollapsing] = useState<boolean>(false);
 
     useEffect(() => {
+        if (!guestType) return;
+
         const targetDate = new Date(
             guestType === 'bride' ? defaultData.weddingDates.bride : defaultData.weddingDates.groom
         ).getTime();
@@ -207,6 +239,16 @@ const Template17C: React.FC = () => {
 
     const handleGuestSelection = (type: 'groom' | 'bride'): void => {
         setGuestType(type);
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 1000);
+    };
+
+    const handleCollapse = (): void => {
+        setIsCollapsing(true);
+        setTimeout(() => {
+            setGuestType(null);
+            setIsCollapsing(false);
+        }, 700);
     };
 
     const handleMapButtonClick = (): void => {
@@ -218,7 +260,11 @@ const Template17C: React.FC = () => {
         setTimeout(() => {
             setShowMapPopup(false);
             setClosing(false);
-        }, 500); // trùng với thời gian animation
+        }, 500);
+    };
+
+    const handleImageClick = (image: string) => {
+        setExpandedImage(expandedImage === image ? null : image);
     };
 
     const invitationData: InvitationDetails =
@@ -229,6 +275,16 @@ const Template17C: React.FC = () => {
         guestType === 'bride'
             ? defaultData.couple.bride.family.mapIframeSrc
             : defaultData.couple.groom.family.mapIframeSrc;
+
+    const galleryItems: GalleryItem[] = [
+        { time: 'Khoảnh khắc đầu tiên', image: defaultData.images.gallery.moment1 },
+        { time: 'Giây phút hạnh phúc', image: defaultData.images.gallery.moment2 },
+        { time: 'Lời thề nguyện', image: defaultData.images.gallery.moment3 },
+        { time: 'Nụ cười & niềm vui', image: defaultData.images.gallery.moment4 },
+        { time: 'Khoảnh khắc ngọt ngào', image: defaultData.images.gallery.moment5 },
+        { time: 'Bên nhau trọn đời', image: defaultData.images.gallery.moment6 },
+        { time: 'Hạnh phúc viên mãn', image: defaultData.images.gallery.moment7 },
+    ];
 
     return (
         <div className={styles.template17c}>
@@ -247,7 +303,12 @@ const Template17C: React.FC = () => {
             )}
             {guestType && (
                 <>
-                    <div className={styles.wrapper}>
+                    <div className={styles.expand_invitions} onClick={handleCollapse}>
+                        <FontAwesomeIcon icon={faCompress} className={styles.icon} />
+                    </div>
+                    <div
+                        className={`${styles.wrapper} ${isAnimating ? styles.animate : ''} ${isCollapsing ? styles.collapse : ''}`}
+                    >
                         <div className={styles.first}>
                             <div
                                 className={styles.text_1}
@@ -307,7 +368,10 @@ const Template17C: React.FC = () => {
                                     <div className={styles.and}>&</div>
                                     <div className={styles.bride__names}>{defaultData.couple.bride.firstName}</div>
                                 </div>
-                                <p className={styles.invitation__location}>Hôn Lễ được cử hành tại <br />{invitationData.location}</p>
+                                <p className={styles.invitation__location}>
+                                    Hôn Lễ được cử hành tại <br />
+                                    {invitationData.location}
+                                </p>
                                 <div className={styles.invitation__datetime}>
                                     <div className={styles.dateTime_flex}>
                                         <div className={styles.flex_left}>
@@ -390,6 +454,31 @@ const Template17C: React.FC = () => {
                                 </div>
                             </div>
                         </div>
+
+                        <div className={styles.schedule_galaryImage}>
+                            <h3>Gallery Image</h3>
+                            <div className={styles.timeline}>
+                                {galleryItems.map((item, index) => (
+                                    <div className={styles.item} key={index}>
+                                        <div
+                                            className={`${styles.schedule_content} ${
+                                                expandedImage === item.image ? styles.expanded : ''
+                                            }`}
+                                            onClick={() => handleImageClick(item.image)}
+                                        >
+                                            <img src={item.image} alt={item.time} />
+                                            <div className={styles.time}>{item.time}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <QRCodeDisplay userId={userId} guestType={guestType} />
+
+                        <div className={styles.text_ThanksYou}>
+                            Thanks You
+                        </div>
                     </div>
 
                     {showMapPopup && (
@@ -411,6 +500,14 @@ const Template17C: React.FC = () => {
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
                                 ></iframe>
+                            </div>
+                        </div>
+                    )}
+
+                    {expandedImage && (
+                        <div className={styles.imageOverlay} onClick={() => setExpandedImage(null)}>
+                            <div className={styles.expandedImageContainer}>
+                                <img src={expandedImage} alt="Expanded" className={styles.expandedImage} />
                             </div>
                         </div>
                     )}

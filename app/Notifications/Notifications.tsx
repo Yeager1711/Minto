@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import styles from './Notifications.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faExpand } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import EventQK from 'app/event/QK/QK';
 
 // Swiper styles
@@ -30,23 +30,23 @@ interface Notification {
 const Discount = Number(process.env.NEXT_PUBLIC_PRICE_CHECK_DISCOUNT_ELIGIBILITY || 10);
 
 const notifications: Notification[] = [
-    {
-        id: 1,
-        title: (
-            <>
-                Nhân dịp kỷ niệm <strong>80 năm Quốc khánh 2/9/2025</strong>, xin gửi lời chúc mừng nồng nhiệt nhất đến
-                khách hàng của <strong>Minto</strong>. Nhân dịp kỷ niệm <strong>Minto</strong> có 1 số ưu đãi:
-            </>
-        ),
-        period: { from: '00:00 [01/09/2025] - 12:00 [03/09/2025]' },
-        items: ['Đã kết thúc'],
-        text_items: [
-            'Giảm giá Thiệp Online trên hệ thống 10%',
-            'Áp dụng toàn bộ thiệp',
-            'Áp dụng cộng thêm đối với các tài khoản đang trong quá trình giảm giá 7 ngày kể từ ngày đăng kí tài khoản.',
-        ],
-        icon: <FontAwesomeIcon icon={faExpand} className={styles.icon} />,
-    },
+    // {
+    //     id: 1,
+    //     title: (
+    //         <>
+    //             Nhân dịp kỷ niệm <strong>80 năm Quốc khánh 2/9/2025</strong>, xin gửi lời chúc mừng nồng nhiệt nhất đến
+    //             khách hàng của <strong>Minto</strong>. Nhân dịp kỷ niệm <strong>Minto</strong> có 1 số ưu đãi:
+    //         </>
+    //     ),
+    //     period: { from: '00:00 [01/09/2025] - 12:00 [03/09/2025]' },
+    //     items: ['Đã kết thúc'],
+    //     text_items: [
+    //         'Giảm giá Thiệp Online trên hệ thống 10%',
+    //         'Áp dụng toàn bộ thiệp',
+    //         'Áp dụng cộng thêm đối với các tài khoản đang trong quá trình giảm giá 7 ngày kể từ ngày đăng kí tài khoản.',
+    //     ],
+    //     icon: <FontAwesomeIcon icon={faExpand} className={styles.icon} />,
+    // },
     {
         id: 2,
         title: (
