@@ -148,8 +148,11 @@ $shrink-dur: 300ms;
 
 /* ========== Action ========== */
 $island-open-dur: 400ms;
-$island-expand-delay: 300ms;
-$island-expand-dur: 400ms;
+$island-expand-delay: 900ms; // Delay .9s before expansion
+$island-expand-dur: 900ms; // Total duration for shrink (0.5s) + expand (0.4s)
+$shrink-dur: 500ms; // Duration for shrinking to 15rem
+$expand-dur: 500ms; // Duration for expanding to 40rem
+$island-content-delay: $island-expand-delay + $island-expand-dur - 500;
 
 .dynamicSystem_Action {
     position: fixed;
@@ -181,15 +184,15 @@ $island-expand-dur: 400ms;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    // background: rgba(0, 0, 0, 0.95);
-    background: #021024;
-    border: 0.1rem solid #464444;
+    // background: #021024;
+    background: #111;
+    // border: 0.1rem solid #464444;
     box-sizing: border-box;
     transition: border-radius 0.3s ease;
 
     /* Open state */
     &.open {
-        top: 2%;
+        top: 3%;
         opacity: 1;
         animation:
             dynamicIslandOpenActions $island-open-dur cubic-bezier(.4, 0, .2, 1) forwards,
@@ -206,12 +209,14 @@ $island-expand-dur: 400ms;
     .actionContent {
         width: 100%;
         height: auto;
-        min-height: 3rem;
+        height: 4rem;
         padding: 1rem;
         opacity: 0;
         transform: scale(0.8) translateY(0.5rem);
         max-height: 0;
-        animation: showContent $island-expand-dur cubic-bezier(.4, 0, .2, 1) forwards $island-expand-delay;
+        animation: showContent $island-expand-dur cubic-bezier(.4, 0, .2, 1) forwards $island-content-delay;
+
+
         overflow: hidden;
 
         .actionContent__wrapper {
@@ -219,7 +224,6 @@ $island-expand-dur: 400ms;
             text-align: start;
             padding: 0 0 0 .5rem;
             display: flex;
-            align-items: center;
             box-sizing: border-box;
 
             &.enter {
@@ -235,7 +239,7 @@ $island-expand-dur: 400ms;
 
                 h3 {
                     font-size: 1.4rem;
-                    margin: .5rem 0;
+                    margin: .3rem 0 .5rem 0;
                     font-weight: 400;
                     font-family: "Poppins", sans-serif;
 
@@ -257,7 +261,8 @@ $island-expand-dur: 400ms;
             }
 
             .right {
-                flex: 1 1 3rem;
+                flex: 1 1;
+                margin-top: -.35rem;
 
                 .iconWrapper {
                     display: inline-flex;
@@ -295,7 +300,6 @@ $island-expand-dur: 400ms;
                         }
                     }
                 }
-
             }
         }
     }
@@ -315,22 +319,30 @@ $island-expand-dur: 400ms;
 
     100% {
         top: 3%;
-        max-width: 18rem;
+        max-width: 13rem;
         width: 90%;
-        height: 3rem;
+        height: 4rem;
         transform: translateX(-50%) scale(1);
         opacity: 1;
         border-radius: 2rem;
     }
 }
 
-/* Step 2: Mở rộng với height auto */
+/* Step 2: Mở rộng với shrink rồi expand */
 @keyframes dynamicIslandExpandActions {
     0% {
-        max-width: 18rem;
-        width: 60%;
-        height: 3rem;
+        max-width: 13rem;
+        width: 90%;
+        height: 4rem;
         transform: translateX(-50%) scale(1);
+        border-radius: 2rem;
+    }
+
+    50% {
+        max-width: 12rem;
+        width: 80%;
+        height: 5rem;
+        transform: translateX(-50%) scale(0.8);
         border-radius: 5rem;
     }
 
@@ -395,11 +407,6 @@ $island-expand-dur: 400ms;
         max-height: 0;
     }
 
-    50% {
-        opacity: 0.5;
-        transform: scale(0.9) translateY(0.2rem);
-        max-height: 4rem;
-    }
 
     100% {
         opacity: 1;
