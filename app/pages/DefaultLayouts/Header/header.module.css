@@ -4,14 +4,13 @@
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.5);
-  z-index: 999 !important;
-  transition: opacity 0.3s ease-in-out;
   -webkit-backdrop-filter: blur(1.5rem);
   backdrop-filter: blur(1.5rem);
   border-bottom: 0.1rem solid #dbdbdb;
-  z-index: 999;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
   border-radius: 0 0 5rem 5rem;
+  z-index: 999;
+  isolation: isolate;
 }
 @media (max-width: 480px) {
   .sidebar {
