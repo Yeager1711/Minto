@@ -8,13 +8,15 @@
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, .5);
+  z-index: 999 !important;
+  transition: opacity 0.3s ease-in-out;
   -webkit-backdrop-filter: blur(1.5rem);
   backdrop-filter: blur(1.5rem);
   border-bottom: 0.1rem solid #dbdbdb;
+  z-index: 999;
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.05);
   border-radius: 0 0 5rem 5rem;
-  z-index: 999;
-  isolation: isolate;
+  // display: none;
 
   @media (max-width: 480px) {
     // border-radius: 5rem;
@@ -220,18 +222,21 @@
 // app/components/UserPopup.module.scss
 .user-popup {
   position: fixed;
-  top: 10%;
+  top: 110%;
   right: 1rem;
-  background: #fff;
-  border: 1px solid #dbdbdb;
-  border-radius: 0.5rem;
+  background: #f3f0ee;
+  border-radius: 3rem;
   padding: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out, right 0.3s ease-in-out;
   z-index: 1001;
   max-width: 30rem;
   width: 100%;
+  transition: opacity 0.3s ease-in-out;
+  -webkit-backdrop-filter: blur(1.5rem);
+  backdrop-filter: blur(1.5rem);
+  border-bottom: 0.1rem solid #dbdbdb;
 
   &.popup-open {
     transform: translateX(0);
@@ -257,9 +262,9 @@
 
     &:hover {
       cursor: pointer;
-      border-radius: 1rem;
+      border-radius: 3rem;
       transition: 0.3s linear;
-      background: #f1f1f1;
+      background: #ffffff;
     }
   }
 
@@ -280,8 +285,10 @@
       text-align: left;
 
       &:hover {
-        background: #f1f1f1;
-        border-radius: 0.7rem;
+        background: #ffffff;
+        transition: 0.3s linear;
+        border-radius: 3rem;
+
       }
     }
   }
@@ -349,7 +356,7 @@
   @media (min-width: 1600px) {
     &.popup-open {
       transform: translateX(0);
-      right: 13% !important;
+      right: 19% !important;
     }
   }
 }
