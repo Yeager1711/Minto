@@ -3,7 +3,7 @@
 .popupOverlay_pc {
   position: fixed;
   inset: 0;
-  background: rgb(255, 255, 255);
+  background: linear-gradient(to bottom, #b5ae9e, #998c7e);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -391,7 +391,7 @@
   bottom: 2%;
   right: 2%;
   left: 2%;
-  background: rgba(0, 0, 0, 0.9);
+  background: linear-gradient(to bottom, #b5ae9e, #998c7e);
   border-radius: 3rem;
   padding: 1.5rem 0.8rem 0 2rem;
   overflow: scroll;

@@ -5,9 +5,9 @@ import Select from 'react-select';
 import styles from './CreateCardPopup.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faXmark, faQrcode, faDownload } from '@fortawesome/free-solid-svg-icons';
-import { showToastSuccess } from 'app/Ultils/toast';
 import { useApi } from '../../lib/apiContext/apiContext';
 import { useSwipeable } from 'react-swipeable';
+import DynamicSystem from 'app/pages/DefaultLayouts/dynamic_system/DynamicSystem';
 
 interface CreateCardPopupProps {
     isOpen: boolean;
@@ -69,6 +69,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
     const [isQrCreated, setIsQrCreated] = useState<boolean>(false);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [showWrapperMobile, setShowWrapperMobile] = useState<boolean>(true);
+    const [dynamicStatus, setDynamicStatus] = useState<'success' | 'error' | null>(null);
     const wasOpenedRef = useRef<boolean>(false);
 
     useEffect(() => {
@@ -115,6 +116,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
             setIsQrCreated(false);
             setIsExpanded(false);
             setShowWrapperMobile(true);
+            setDynamicStatus(null);
         } else if (wasOpenedRef.current) {
             setIsAnimatingOut(true);
             const timer = setTimeout(() => {
@@ -143,6 +145,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
         const validationError = validateInputs();
         if (validationError) {
             setError(validationError);
+            setDynamicStatus('error'); // Kích hoạt DynamicSystem với trạng thái error
             return;
         }
 
@@ -170,10 +173,11 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                 representative: savedQr.representative,
             });
             setIsQrCreated(true);
-            showToastSuccess('Tạo thẻ thành công');
+            setDynamicStatus('success'); // Kích hoạt DynamicSystem với trạng thái success
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : 'Lỗi khi tạo thẻ. Vui lòng thử lại.';
             setError(errorMessage);
+            setDynamicStatus('error'); // Kích hoạt DynamicSystem với trạng thái error
         } finally {
             setIsVerifying(false);
         }
@@ -280,6 +284,15 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
 
     return (
         <div className={`${styles.popupOverlay} ${isOpen ? styles.animateIn : ''}`} onClick={handleOverlayClick}>
+            {/* Dynamic System hiển thị thông báo */}
+            {dynamicStatus && (
+                <DynamicSystem
+                    mode="action"
+                    status={dynamicStatus}
+                    action="Tạo thẻ"
+                />
+            )}
+
             {/* PC Interface */}
             <div
                 className={`${styles.popupContainer} ${isOpen && !isAnimatingOut ? styles.animateContainer : ''} ${styles.pcOnly}`}
@@ -304,7 +317,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                                 </p>
                             </div>
                             <div className={styles.form}>
-                                {error && <p className={styles.error}>{error}</p>}
+                                {error && !dynamicStatus && <p className={styles.error}>{error}</p>}
                                 <div className={styles.inputWrapper}>
                                     <div className={styles.inputField}>
                                         <Select
@@ -526,7 +539,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                         </div>
                         <h3 className={styles.title}>Tạo QR tích hợp thẻ ngân hàng</h3>
                         <div className={styles.form}>
-                            {error && <p className={styles.error}>{error}</p>}
+                            {error && !dynamicStatus && <p className={styles.error}>{error}</p>}
                             <div className={styles.inputWrapper}>
                                 <div className={styles.inputField}>
                                     <Select

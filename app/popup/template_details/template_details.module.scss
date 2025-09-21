@@ -2,7 +2,7 @@
 .popupOverlay_pc {
     position: fixed;
     inset: 0;
-    background: rgba(255, 255, 255, 1);
+    background: linear-gradient(to bottom, #b5ae9e, #998c7e);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,7 +57,7 @@
             }
 
             .sendButton {
-                float:  right;
+                float: right;
                 margin-top: 2rem;
                 padding: 1rem 1.5rem;
                 background: #3eade5;
@@ -415,7 +415,7 @@
         bottom: 2%;
         right: 2%;
         left: 2%;
-        background: rgba(0, 0, 0, .9);
+        background: linear-gradient(to bottom, #b5ae9e, #998c7e);
         border-radius: 3rem;
         padding: 1.5rem .8rem 0 2rem;
         overflow: scroll;

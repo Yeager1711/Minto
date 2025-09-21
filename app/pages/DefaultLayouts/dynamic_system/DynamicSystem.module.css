@@ -1,0 +1,673 @@
+@charset "UTF-8";
+/* ========== Notifications ========== */
+/* Timings */
+/* Base container */
+.dynamicSystem_Notifications {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 9999;
+}
+.dynamicSystem_Notifications.closing {
+  animation: fadeOutContainer 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Wrapper (closed state) */
+.dynamicSystem_wrapper {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  top: -8%;
+  max-width: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  border-radius: 3rem;
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  /* Open state */
+  /* Closing state */
+}
+.dynamicSystem_wrapper.open {
+  top: 2%;
+  max-width: 30rem;
+  width: 100%;
+  height: 1rem;
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  animation: dynamicIslandOpen 200ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+.dynamicSystem_wrapper.closing {
+  animation: islandShrink 300ms ease forwards, dynamicIslandClose 800ms ease forwards 300ms;
+}
+
+/* Notification box */
+.notificationBox {
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 3rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  max-width: 30rem;
+  opacity: 0;
+  animation: fadeInTitle 200ms ease forwards;
+  animation-delay: 200ms;
+}
+
+/* Keyframes */
+@keyframes dynamicIslandOpen {
+  0% {
+    top: -8%;
+    max-width: 0;
+    width: 0;
+    height: 0;
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    top: 2%;
+    max-width: 30rem;
+    width: 100%;
+    height: 1rem;
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+@keyframes islandShrink {
+  0% {
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    transform: translateX(-50%) scale(0.5);
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+@keyframes dynamicIslandClose {
+  0% {
+    top: 2%;
+    max-width: 26rem;
+    width: 100%;
+    height: 1rem;
+    transform: translateX(-50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    top: -8%;
+    max-width: 0;
+    width: 0;
+    height: 0;
+    transform: translateX(-50%) scale(0.3);
+    opacity: 0;
+  }
+}
+@keyframes fadeInTitle {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOutContainer {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+/* ========== Action ========== */
+.dynamicSystem_Action {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 9999;
+}
+.dynamicSystem_Action.closing {
+  animation: fadeOutContainerAction 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Wrapper (closed state) */
+.dynamicSystem_wrapper_Action {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  top: -8%;
+  max-width: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: #021024;
+  border: 0.1rem solid #464444;
+  box-sizing: border-box;
+  transition: border-radius 0.3s ease;
+  /* Open state */
+  /* Closing state */
+}
+.dynamicSystem_wrapper_Action.open {
+  top: 2%;
+  opacity: 1;
+  animation: dynamicIslandOpenActions 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandExpandActions 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards 300ms;
+}
+.dynamicSystem_wrapper_Action.closing {
+  animation: dynamicIslandCollapseExpand 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandCollapseOpen 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards 400ms;
+}
+.dynamicSystem_wrapper_Action .actionContent {
+  width: 100%;
+  height: auto;
+  min-height: 3rem;
+  padding: 1rem;
+  opacity: 0;
+  transform: scale(0.8) translateY(0.5rem);
+  max-height: 0;
+  animation: showContent 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards 300ms;
+  overflow: hidden;
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper {
+  border-radius: 5rem;
+  text-align: start;
+  padding: 0 1rem 0rem 2rem;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper.enter {
+  animation: showContent 300ms ease forwards;
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper.exit {
+  animation: hideContent 300ms ease forwards;
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .left {
+  flex: 2 1 28rem;
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .left h3 {
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  font-weight: 400;
+  font-family: "Poppins", sans-serif;
+}
+@media (max-width: 480px) {
+  .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .left h3 {
+    font-size: 1.1rem;
+  }
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .left p {
+  font-size: 1.1rem;
+  color: #8b8b8b;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+@media (max-width: 480px) {
+  .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .left p {
+    font-size: 0.9rem;
+  }
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right {
+  flex: 1 1 3rem;
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right svg {
+  font-size: 2rem;
+  padding: 0.8rem 2rem;
+  background: #70e697;
+  border-radius: 5rem;
+}
+@media (max-width: 480px) {
+  .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right svg {
+    font-size: 1.5rem;
+  }
+}
+
+/* Step 1: Mở nhỏ */
+@keyframes dynamicIslandOpenActions {
+  0% {
+    top: -8%;
+    max-width: 0;
+    width: 0;
+    height: 0;
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+    border-radius: 5rem;
+  }
+  100% {
+    top: 3%;
+    max-width: 18rem;
+    width: 90%;
+    height: 3rem;
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    border-radius: 2rem;
+  }
+}
+/* Step 2: Mở rộng với height auto */
+@keyframes dynamicIslandExpandActions {
+  0% {
+    max-width: 18rem;
+    width: 60%;
+    height: 3rem;
+    transform: translateX(-50%) scale(1);
+    border-radius: 5rem;
+  }
+  100% {
+    max-width: 40rem;
+    width: 80%;
+    height: auto;
+    min-height: 5rem;
+    transform: translateX(-50%) scale(1.1);
+    border-radius: 5rem;
+  }
+}
+/* Đóng lại */
+/* Bước 1: thu nhỏ từ expand → open */
+@keyframes dynamicIslandCollapseExpand {
+  0% {
+    max-width: 40rem;
+    width: 80%;
+    min-height: 5rem;
+    transform: translateX(-50%) scale(1.1);
+    border-radius: 5rem;
+  }
+  100% {
+    max-width: 18rem;
+    width: 90%;
+    height: 3rem;
+    transform: translateX(-50%) scale(1);
+    border-radius: 2rem;
+  }
+}
+/* Bước 2: thu nhỏ từ open → biến mất */
+@keyframes dynamicIslandCollapseOpen {
+  0% {
+    top: 3%;
+    max-width: 18rem;
+    width: 90%;
+    height: 3rem;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    border-radius: 2rem;
+  }
+  100% {
+    top: -8%;
+    max-width: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.9);
+    border-radius: 5rem;
+  }
+}
+/* Hiệu ứng nội dung hiển thị mượt mà */
+@keyframes showContent {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(0.5rem);
+    max-height: 0;
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.9) translateY(0.2rem);
+    max-height: 4rem;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    max-height: 20rem;
+  }
+}
+@keyframes hideContent {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    max-height: 20rem;
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.9) translateY(0.2rem);
+    max-height: 4rem;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(0.5rem);
+    max-height: 0;
+  }
+}
+@keyframes fadeOutContainerAction {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+/* ========== Payment ========== */
+/* Timings */
+/* Base container */
+.dynamicSystem_Payment {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 9999;
+}
+.dynamicSystem_Payment.open {
+  animation: dynamicIslandOpen 200ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+.dynamicSystem_Payment.closing {
+  animation: fadeOutContainer 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Wrapper (closed state) */
+.dynamicSystem_wrapper_Payment {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  top: -8%;
+  max-width: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  border-radius: 3rem;
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  /* Open state */
+  /* Closing state */
+}
+.dynamicSystem_wrapper_Payment.open {
+  top: 2%;
+  max-width: 30rem;
+  width: 100%;
+  height: 1rem;
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  animation: dynamicIslandOpen 200ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+.dynamicSystem_wrapper_Payment.closing {
+  animation: islandShrink 300ms ease forwards 500ms, dynamicIslandClose 800ms ease forwards 800ms;
+}
+
+/* Dynamic flow container */
+.dynamic_flow1 {
+  display: flex;
+  align-items: center;
+  max-width: 30rem;
+  width: 80%;
+  height: 1rem;
+  padding: 1.3rem;
+  justify-content: center;
+  gap: 0;
+  border-radius: 3rem;
+  position: relative;
+  /* Open flow animation */
+  /* Title content */
+  /* Status dot */
+  /* Status */
+}
+.dynamic_flow1.openFlow {
+  animation: flowSplit 500ms ease forwards;
+  animation-delay: 200ms;
+}
+.dynamic_flow1 .title_content {
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 3rem;
+  padding: 1rem 1.5rem;
+  text-align: start;
+  width: 40rem;
+  color: #fff;
+  font-size: 1.1rem;
+  opacity: 0;
+  text-transform: capitalize;
+  border: 0.1rem solid #7a7a7a;
+}
+.dynamic_flow1 .title_content.openTitle {
+  animation: fadeInTitle 300ms ease forwards;
+  animation-delay: 700ms;
+}
+.dynamic_flow1 .title_content.completedTitle {
+  color: #26a65b;
+  font-weight: 600;
+}
+.dynamic_flow1 .title_content.cancellTitle {
+  color: #e74c3c;
+  font-weight: 600;
+}
+.dynamic_flow1 .statusDot {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 50%;
+  opacity: 0;
+  position: absolute;
+  right: 5.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.dynamic_flow1 .statusDot.openStatusDot {
+  animation: statusDotMove 400ms ease forwards;
+  animation-delay: 900ms;
+}
+.dynamic_flow1 .statusDot.closingStatusDot {
+  display: none;
+}
+.dynamic_flow1 .status {
+  position: relative;
+  width: 3.5rem;
+  height: 1.5rem;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 1rem;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  border: 0.1rem solid #7a7a7a;
+}
+.dynamic_flow1 .status.openStatus {
+  animation: statusSlide 400ms cubic-bezier(0.25, 1, 0.5, 1) forwards, statusPop 0.3s cubic-bezier(0.25, 1.5, 0.5, 1) forwards 400ms;
+  animation-delay: 1000ms, 1400ms;
+}
+.dynamic_flow1 .status.completedStatus {
+  color: #26a65b !important;
+  font-size: 1.4rem;
+}
+.dynamic_flow1 .status.cancelledStatus {
+  color: #e74c3c !important;
+  font-size: 1.4rem;
+}
+
+.content {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  opacity: 0;
+  background: rgb(255, 255, 255);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  max-width: 50rem;
+  width: 80%;
+  border-radius: 3rem;
+  color: #111;
+  /* Open state */
+  /* Closing state */
+}
+.content.open {
+  animation: contentSlideUp 500ms ease forwards;
+  animation-delay: 1400ms;
+}
+.content.closing {
+  animation: contentSlideDown 500ms ease forwards;
+}
+.content h3 {
+  font-size: 1.7rem;
+  margin: 0 0 2.6rem;
+  text-transform: capitalize;
+}
+.content p {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1.5rem;
+}
+.content p strong {
+  color: #26a65b;
+}
+.content em {
+  font-size: 1.2rem;
+  color: #ff6f61;
+  padding-top: 1rem;
+  border-top: 0.1rem solid #dbdbdb;
+}
+
+/* Complete button */
+.completeBtn {
+  color: #fff;
+  border: none;
+  padding: 1.1rem 2.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-weight: 400;
+  transition: background 0.2s ease;
+  float: right;
+  background: #3dac55;
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+}
+
+/* Keyframes */
+@keyframes flowSplit {
+  0% {
+    gap: 0;
+    background: transparent;
+  }
+  100% {
+    gap: 1rem;
+    background: transparent;
+  }
+}
+@keyframes fadeInTitle {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes statusDotMove {
+  0% {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(1.5rem, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(3rem, -50%) scale(0.5);
+  }
+}
+@keyframes statusSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(1rem);
+  }
+}
+@keyframes statusPop {
+  0% {
+    transform: translateX(1rem) scale(1);
+  }
+  50% {
+    transform: translateX(1rem) scale(1.1);
+  }
+  100% {
+    transform: translateX(1rem) scale(1);
+  }
+}
+@keyframes contentSlideUp {
+  0% {
+    bottom: 0;
+    opacity: 0;
+  }
+  100% {
+    bottom: 5%;
+    opacity: 1;
+  }
+}
+@keyframes contentSlideDown {
+  0% {
+    bottom: 5%;
+    opacity: 1;
+  }
+  100% {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+@keyframes islandShrink {
+  0% {
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    transform: translateX(-50%) scale(0.5);
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+@keyframes dynamicIslandClose {
+  0% {
+    top: 2%;
+    max-width: 26rem;
+    width: 100%;
+    height: 1rem;
+    transform: translateX(-50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    top: -8%;
+    max-width: 0;
+    width: 0;
+    height: 0;
+    transform: translateX(-50%) scale(0.3);
+    opacity: 0;
+  }
+}
+@keyframes fadeOutContainer {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}/*# sourceMappingURL=DynamicSystem.module.css.map */

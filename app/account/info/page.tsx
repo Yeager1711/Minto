@@ -77,10 +77,9 @@ function AccountInfo() {
     const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isQrLoading, setIsQrLoading] = useState<boolean>(false); // Thêm trạng thái loading cho QR
+    const [isQrLoading, setIsQrLoading] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editedFullName, setEditedFullName] = useState<string>('');
-    const [allTemplates, setAllTemplates] = useState<Template[]>([]);
     const [uniqueTemplates, setUniqueTemplates] = useState<Template[]>([]);
     const [showGuestsModal, setShowGuestsModal] = useState<boolean>(false);
     const [selectedGuests, setSelectedGuests] = useState<{
@@ -132,22 +131,36 @@ function AccountInfo() {
                         guests: item.template.guests,
                     },
                 }));
-                setAllTemplates(formattedTemplates);
 
                 const mergedTemplates: Template[] = formattedTemplates.reduce((acc: Template[], current: Template) => {
-                    const existing = acc.find((item) => item.template.template_id === current.template.template_id);
+                    const existing = acc.find(
+                        (item) =>
+                            item.template.template_id === current.template.template_id &&
+                            item.card_id === current.card_id &&
+                            item.template.guests.some((g) =>
+                                current.template.guests.some((cg) => cg.invitation_id === g.invitation_id)
+                            )
+                    );
+
                     if (!existing) {
                         acc.push(current);
                     } else {
                         const existingIndex = acc.findIndex(
-                            (item) => item.template.template_id === current.template.template_id
+                            (item) =>
+                                item.template.template_id === current.template.template_id &&
+                                item.card_id === current.card_id
                         );
                         if (existingIndex !== -1) {
                             acc[existingIndex].template.guests = [
                                 ...acc[existingIndex].template.guests,
                                 ...current.template.guests.filter(
                                     (guest) =>
-                                        !acc[existingIndex].template.guests.some((g) => g.guest_id === guest.guest_id)
+                                        !acc[existingIndex].template.guests.some(
+                                            (g) =>
+                                                g.guest_id === guest.guest_id &&
+                                                g.invitation_id === guest.invitation_id &&
+                                                g.card_id === guest.card_id
+                                        )
                                 ),
                             ];
                             acc[existingIndex].template.payments = [
@@ -163,6 +176,7 @@ function AccountInfo() {
                     }
                     return acc;
                 }, []);
+
                 setUniqueTemplates(mergedTemplates);
 
                 if (bankData.code === '00' && Array.isArray(bankData.data)) {
@@ -177,7 +191,7 @@ function AccountInfo() {
                 if (discountResponse.isEligible && userData.created_at) {
                     const eligibilityEndDate = new Date(userData.created_at);
                     eligibilityEndDate.setDate(eligibilityEndDate.getDate() + 7);
-                    const now = new Date(); // Sử dụng thời gian thực
+                    const now = new Date();
                     if (eligibilityEndDate > now) {
                         setDiscountEndDate(eligibilityEndDate);
                     } else {
@@ -212,7 +226,7 @@ function AccountInfo() {
         let timer: NodeJS.Timeout;
         if (discountEndDate && isEligibleForDiscount) {
             const calculateTimeLeft = (): void => {
-                const now = new Date(); // Sử dụng thời gian thực
+                const now = new Date();
                 const difference = discountEndDate.getTime() - now.getTime();
 
                 if (difference <= 0) {
@@ -279,7 +293,7 @@ function AccountInfo() {
                     createdAt:
                         qr.createdAt instanceof Date
                             ? qr.createdAt.toISOString()
-                            : new Date(qr.createdAt).toISOString(), // Đảm bảo định dạng ISO
+                            : new Date(qr.createdAt).toISOString(),
                 }));
                 setQrData(convertedQrList);
                 setShowQrPopup(true);
@@ -506,12 +520,12 @@ function AccountInfo() {
                                             ))}
                                         </tr>
                                     ))
-                                ) : allTemplates.length === 0 ? (
+                                ) : uniqueTemplates.length === 0 ? (
                                     <tr>
                                         <td colSpan={6}>Chưa có đơn hàng nào.</td>
                                     </tr>
                                 ) : (
-                                    [...allTemplates]
+                                    [...uniqueTemplates]
                                         .sort((a, b) => {
                                             const latestPaymentA =
                                                 a.template.payments.length > 0
@@ -531,7 +545,9 @@ function AccountInfo() {
                                                 </td>
                                                 <td data-label="Số tiền thanh toán">
                                                     {template.template.payments[0]?.amount
-                                                        ? `${parseFloat(template.template.payments[0].amount).toLocaleString('vi-VN')} VNĐ`
+                                                        ? `${parseFloat(
+                                                              template.template.payments[0].amount
+                                                          ).toLocaleString('vi-VN')} VNĐ`
                                                         : 'Chưa có'}
                                                 </td>
                                                 <td data-label="Ngày thanh toán">
@@ -705,7 +721,7 @@ function AccountInfo() {
                     onClose={handleCloseQrPopup}
                     qrData={qrData}
                     banks={banks}
-                    createdAt={user?.created_at || null} // Pass the created_at value
+                    createdAt={user?.created_at || null}
                 />
             )}
             {showFeedback && templateId && user && <UserFeedback templateId={templateId} />}

@@ -4,7 +4,11 @@ import { useState, useEffect } from 'react';
 import styles from './17.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompress } from '@fortawesome/free-solid-svg-icons';
-import QRCodeDisplay from 'app/pages/DefaultLayouts/CodeDisplayTC/QRCodeDisplay';
+import QRCodeDisplay from 'app/pages/DefaultLayouts/DF_TC/CodeDisplayTC/QRCodeDisplay';
+
+// Import AOS
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Define interfaces for the data structure
 interface CountdownLabels {
@@ -193,7 +197,7 @@ const defaultData: DefaultData = {
 };
 
 const Template17C: React.FC = () => {
-    const userId: number = 676538; // Unique userId for this instance
+    const userId: number = 999999; // Unique userId for this instance
     const [timeLeft, setTimeLeft] = useState<TimeLeft>({
         days: 0,
         hours: 0,
@@ -206,6 +210,15 @@ const Template17C: React.FC = () => {
     const [expandedImage, setExpandedImage] = useState<string | null>(null);
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [isCollapsing, setIsCollapsing] = useState<boolean>(false);
+
+    // Initialize AOS
+    useEffect(() => {
+        AOS.init({
+            duration: 1000, // Animation duration in milliseconds
+            once: true, // Animations happen only once
+            offset: 100, // Trigger animations 100px before element is in view
+        });
+    }, []);
 
     useEffect(() => {
         if (!guestType) return;
@@ -290,7 +303,7 @@ const Template17C: React.FC = () => {
         <div className={styles.template17c}>
             {guestType === null && (
                 <div className={styles.guestPopup}>
-                    <div className={styles.guestPopup__content}>
+                    <div className={styles.guestPopup__content} data-aos="fade-up">
                         <h2>Bạn là khách mời của ai?</h2>
                         <button onClick={() => handleGuestSelection('groom')}>
                             Khách của chú rể ({defaultData.couple.groom.firstName})
@@ -339,7 +352,7 @@ const Template17C: React.FC = () => {
 
                         <div className={styles.family_info__wrapper}>
                             <div className={styles.family_info}>
-                                <div className={styles.groom_family}>
+                                <div className={styles.groom_family} data-aos="fade-up">
                                     <span>groom&apos;s family</span>
                                     <div style={{ marginTop: '1.5rem' }}>
                                         Ông: <strong>{defaultData.couple.groom.family.father}</strong>
@@ -349,7 +362,7 @@ const Template17C: React.FC = () => {
                                     </div>
                                     <div className={styles.location}>{defaultData.couple.groom.family.address}</div>
                                 </div>
-                                <div className={styles.bride_family}>
+                                <div className={styles.bride_family} data-aos="fade-up">
                                     <span>bride&apos;s family</span>
                                     <div style={{ marginTop: '1.5rem' }}>
                                         Ông: <strong>{defaultData.couple.bride.family.father}</strong>
@@ -362,17 +375,25 @@ const Template17C: React.FC = () => {
                             </div>
 
                             <div className={styles.invitation_sub}>
-                                <p className={styles.subtilte}>Trân trọng báo tin Lễ Thành Hôn</p>
+                                <p className={styles.subtilte} data-aos="fade-up" data-aos-delay="200">
+                                    Trân trọng báo tin Lễ Thành Hôn
+                                </p>
                                 <div className={styles.invitation__names}>
-                                    <div className={styles.groom__names}>{defaultData.couple.groom.firstName}</div>
-                                    <div className={styles.and}>&</div>
-                                    <div className={styles.bride__names}>{defaultData.couple.bride.firstName}</div>
+                                    <div className={styles.groom__names} data-aos="fade-up" data-aos-delay="400">
+                                        {defaultData.couple.groom.firstName}
+                                    </div>
+                                    <div className={styles.and} data-aos="fade-up" data-aos-delay="600">
+                                        &
+                                    </div>
+                                    <div className={styles.bride__names} data-aos="fade-up" data-aos-delay="600">
+                                        {defaultData.couple.bride.firstName}
+                                    </div>
                                 </div>
-                                <p className={styles.invitation__location}>
+                                <p className={styles.invitation__location} data-aos="fade-up" data-aos-delay="400">
                                     Hôn Lễ được cử hành tại <br />
                                     {invitationData.location}
                                 </p>
-                                <div className={styles.invitation__datetime}>
+                                <div className={styles.invitation__datetime} data-aos="fade-up" data-aos-delay="300">
                                     <div className={styles.dateTime_flex}>
                                         <div className={styles.flex_left}>
                                             <span>
@@ -386,40 +407,49 @@ const Template17C: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className={styles.lunarDay}>({invitationData.lunarDate})</div>
+                                <div className={styles.lunarDay} data-aos="fade-up" data-aos-delay="400">
+                                    ({invitationData.lunarDate})
+                                </div>
                                 <div className={styles.img_default_1}>
                                     <img src={defaultData.images.default1} alt="Decoration" />
                                 </div>
-                                <button className={styles.btn_googleMap} onClick={handleMapButtonClick}>
+                                <button
+                                    className={styles.btn_googleMap}
+                                    onClick={handleMapButtonClick}
+                                    data-aos="fade-up"
+                                    data-aos-delay="800"
+                                >
                                     {defaultData.invitation.googleMapButton}
                                 </button>
                             </div>
 
                             <div className={styles.card}>
-                                <div className={styles.card__imageTop}>
+                                <div className={styles.card__imageTop} data-aos="fade-in">
                                     <img src={defaultData.images.coupleTop} alt="Couple" />
                                 </div>
-                                <div className={styles.card__saveDate}>
+                                <div className={styles.card__saveDate} data-aos="fade-up" data-aos-delay="300">
                                     <h2 className={styles.card__saveDateTitle}>SAVE THE DATE</h2>
                                     <p className={styles.card__saveDateInfo}>{invitationData.saveTheDate}</p>
                                 </div>
-                                <div className={styles.card__imageMiddle}>
+                                <div className={styles.card__imageMiddle} data-aos="fade-in">
                                     <img src={defaultData.images.coupleMiddle} alt="Couple" />
                                 </div>
-                                <div className={styles.card__coupleNames}>
+                                <div className={styles.card__coupleNames} data-aos="fade-up" data-aos-delay="600">
                                     {defaultData.couple.groom.firstName} &amp; {defaultData.couple.bride.firstName}
                                 </div>
-                                <div className={styles.card__imageBottom}>
+                                <div className={styles.card__imageBottom} data-aos="fade-in">
                                     <img src={defaultData.images.coupleBottom} alt="Couple" />
                                 </div>
-                                <div className={styles.card__footer}>And you are invited</div>
+                                <div className={styles.card__footer} data-aos="fade-up" data-aos-delay="900">
+                                    And you are invited
+                                </div>
                             </div>
 
-                            <section className={styles.Schedule}>
+                            <section className={styles.Schedule} data-aos="fade-left">
                                 <h2 className={styles.Schedule__title}>Wedding Program</h2>
                                 <ul className={styles.Schedule__list}>
                                     {scheduleData.map((item: ScheduleItem, index: number) => (
-                                        <li key={index}>
+                                        <li key={index} data-aos="fade-up" data-aos-delay={`${index * 100}`}>
                                             <span className={styles.time}>
                                                 <em>{item.time}</em>
                                             </span>
@@ -433,7 +463,7 @@ const Template17C: React.FC = () => {
                             </section>
                         </div>
 
-                        <div className={styles.countdown}>
+                        <div className={styles.countdown} data-aos="zoom-in">
                             <img src={defaultData.images.countdown} alt="Countdown background" />
                             <div className={styles.countdown__timer}>
                                 <div className={styles.countdown__item}>
@@ -455,11 +485,16 @@ const Template17C: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className={styles.schedule_galaryImage}>
+                        <div className={styles.schedule_galaryImage} data-aos="fade-up">
                             <h3>Gallery Image</h3>
                             <div className={styles.timeline}>
                                 {galleryItems.map((item, index) => (
-                                    <div className={styles.item} key={index}>
+                                    <div
+                                        className={styles.item}
+                                        key={index}
+                                        data-aos="fade-up"
+                                        data-aos-delay={`${index * 100}`}
+                                    >
                                         <div
                                             className={`${styles.schedule_content} ${
                                                 expandedImage === item.image ? styles.expanded : ''
@@ -474,9 +509,9 @@ const Template17C: React.FC = () => {
                             </div>
                         </div>
 
-                        <QRCodeDisplay userId={userId} guestType={guestType} />
+                        <QRCodeDisplay userId={userId} guestType={guestType} data-aos="fade-up" />
 
-                        <div className={styles.text_ThanksYou}>
+                        <div className={styles.text_ThanksYou} data-aos="fade-up">
                             Thanks You
                         </div>
                     </div>
@@ -486,6 +521,7 @@ const Template17C: React.FC = () => {
                             className={`${styles.mapPopup} ${
                                 closing ? styles.mapPopup__closeAnim : styles.mapPopup__open
                             }`}
+                            data-aos="zoom-in"
                         >
                             <div className={styles.mapPopup__content}>
                                 <button className={styles.mapPopup__close} onClick={closeMapPopup}>
@@ -505,7 +541,7 @@ const Template17C: React.FC = () => {
                     )}
 
                     {expandedImage && (
-                        <div className={styles.imageOverlay} onClick={() => setExpandedImage(null)}>
+                        <div className={styles.imageOverlay} onClick={() => setExpandedImage(null)} data-aos="zoom-in">
                             <div className={styles.expandedImageContainer}>
                                 <img src={expandedImage} alt="Expanded" className={styles.expandedImage} />
                             </div>

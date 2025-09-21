@@ -1,15 +1,22 @@
-.display-none {
-  display: none;
-}
-
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 999 !important;
+  transition: opacity 0.3s ease-in-out;
+  -webkit-backdrop-filter: blur(1.5rem);
+  backdrop-filter: blur(1.5rem);
   border-bottom: 0.1rem solid #dbdbdb;
   z-index: 999;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+  border-radius: 0 0 5rem 5rem;
+}
+@media (max-width: 480px) {
+  .sidebar {
+    border-radius: 0 0 3rem 3rem;
+  }
 }
 .sidebar .margin {
   max-width: 120rem;

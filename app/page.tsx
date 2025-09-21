@@ -23,9 +23,12 @@ import CountUp from 'react-countup';
 import GeminiButton from './AI_Service/gemini_button/Gemini';
 import GeminiReply from './AI_Service/genmini_reply/GenimiReply';
 import Products from './pages/DefaultLayouts/Products/Products';
+import DynamicSystem from './pages/DefaultLayouts/dynamic_system/DynamicSystem';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
+import { useSearchParams } from 'next/navigation';
+
 interface Template {
     template_id: number;
     name: string;
@@ -94,6 +97,7 @@ const CategorySkeleton: React.FC = () => (
 
 const Home: React.FC = () => {
     const { getTemplates, getCategories, getUserProfile, accessToken } = useApi();
+    const searchParams = useSearchParams();
     const [selectedProduct, setSelectedProduct] = useState<Template | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [allTemplates, setAllTemplates] = useState<Template[]>([]);
@@ -109,6 +113,21 @@ const Home: React.FC = () => {
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
     const [isFeedbackLoading, setIsFeedbackLoading] = useState<boolean>(false);
 
+    // Parse URL parameters
+    const templateId = searchParams.get('templateId');
+    const checkOut = searchParams.get('checkOut') === 'true';
+    const status = searchParams.get('status');
+
+    //
+    const [dynamicMode, setDynamicMode] = useState<'' | 'payment' | 'action' | 'notifications'>('');
+
+    useEffect(() => {
+        if (templateId && checkOut) {
+            setDynamicMode('payment');
+        }
+    }, [templateId, checkOut]);
+
+    // ===========================================
     const openReply = () => {
         setIsReplyVisible(true);
     };
@@ -289,7 +308,7 @@ const Home: React.FC = () => {
     };
 
     return (
-        <main className={styles.main}>
+        <main className={styles.main}>          
             <div className={styles.wrapper_main}>
                 <header className={styles.header}>
                     <h1 className={styles.header_title}>Bạn thích mẫu thiệp như nào ?</h1>
@@ -410,7 +429,7 @@ const Home: React.FC = () => {
                         Ưu điểm
                     </span>
                     <h1 className={styles.advantage_h1} data-aos="fade-up" data-aos-delay="400">
-                        Thiệp cưới của Minto có gì đặc biệt ? <strong>Tại sao bạn nên sử dụng ?</strong>
+                        Thiệp cưới Minto có gì đặc biệt ? <strong>Tại sao bạn nên sử dụng ?</strong>
                     </h1>
                     <p className={styles.advantage_text} data-aos="fade-up" data-aos-delay="600">
                         Tạo thiệp nhanh chóng, lưu giữ kỉ niệm cưới của bạn và chia sẻ với bạn bè người thân của bạn một
@@ -585,7 +604,6 @@ const Home: React.FC = () => {
                     </div>
                 </div>
 
-
                 <div className={styles.control_right}>
                     <div className={styles.wrapper_center}>
                         <GeminiButton onClick={openReply} />
@@ -596,6 +614,7 @@ const Home: React.FC = () => {
                 {isReplyVisible && <GeminiReply onClose={closeReply} />}
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}
+            {dynamicMode && <DynamicSystem status={status} mode={dynamicMode} />}
         </main>
     );
 };
