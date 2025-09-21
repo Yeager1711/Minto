@@ -532,7 +532,6 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                 {showWrapperMobile && (
                     <div className={styles.wrapper_mobile}>
                         <div className={styles.header}>
-                            <span className={styles.brand}>⚡ Minto</span>
                             <button className={styles.closeButton} onClick={onClose}>
                                 <FontAwesomeIcon icon={faXmark} />
                             </button>
@@ -600,26 +599,26 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                                                     borderRadius: '4px',
                                                     padding: '4px',
                                                     minHeight: '4rem',
-                                                    fontSize: '13px',
+                                                    fontSize: '16px',
                                                 }),
                                                 singleValue: (base) => ({
                                                     ...base,
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     gap: '12px',
-                                                    fontSize: '13px',
+                                                    fontSize: '10px',
                                                 }),
                                                 input: (base) => ({
                                                     ...base,
-                                                    fontSize: '13px !important',
+                                                    fontSize: '10px !important',
                                                 }),
                                                 placeholder: (base) => ({
                                                     ...base,
-                                                    fontSize: '13px !important',
+                                                    fontSize: '10px !important',
                                                 }),
                                                 option: (base) => ({
                                                     ...base,
-                                                    fontSize: '13px',
+                                                    fontSize: '10px',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     gap: '12px',

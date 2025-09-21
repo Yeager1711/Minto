@@ -2,8 +2,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  min-height: 100vh;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -335,9 +336,9 @@
 }
 .popupOverlay .mobile_tablet .card_qr {
   position: fixed;
-  top: 28%;
+  bottom: 15%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -15%);
   height: 18rem;
   width: 90%;
   background: linear-gradient(135deg, #111111, #1a1a1a, #222222);
@@ -500,21 +501,20 @@
   height: auto;
   overflow-y: scroll;
   position: absolute;
-  left: 3%;
-  right: 3%;
-  bottom: 1%;
+  left: 2%;
+  right: 2%;
+  top: 5%;
   z-index: 999;
   transition: opacity 0.3s ease;
-  height: 30rem;
+  height: 33rem;
 }
 .popupOverlay .mobile_tablet .wrapper_mobile::-webkit-scrollbar {
   display: none;
 }
 .popupOverlay .mobile_tablet .wrapper_mobile .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
 }
 .popupOverlay .mobile_tablet .wrapper_mobile .header .brand {
   font-size: 1.8rem;
