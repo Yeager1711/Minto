@@ -186,7 +186,7 @@
 .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper {
   border-radius: 5rem;
   text-align: start;
-  padding: 0 1rem 0rem 2rem;
+  padding: 0 0 0 0.5rem;
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -225,16 +225,37 @@
 .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right {
   flex: 1 1 3rem;
 }
-.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right svg {
-  font-size: 2rem;
-  padding: 0.8rem 2rem;
-  background: #70e697;
-  border-radius: 5rem;
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right .iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 1rem;
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right .iconWrapper svg {
+  font-size: 1.6em;
+  color: #fff;
 }
 @media (max-width: 480px) {
-  .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right svg {
-    font-size: 1.5rem;
+  .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right .iconWrapper svg {
+    font-size: 1.3rem;
   }
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right .iconWrapper.success {
+  background: rgba(112, 230, 151, 0.2);
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right .iconWrapper.success svg {
+  background: #70e697;
+  border-radius: 50%;
+  padding: 0.6rem 0.7rem;
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right .iconWrapper.fail {
+  background: rgba(255, 77, 109, 0.2);
+}
+.dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right .iconWrapper.fail svg {
+  background: #ff4d6d;
+  border-radius: 50%;
+  padding: 0.6rem 0.8rem;
 }
 
 /* Step 1: Mở nhỏ */

@@ -5,16 +5,14 @@ import styles from './DynamicSystem.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faCheck,
-    faXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface DynamicSystemProps {
     status?: string | null; // success, error, CANCELLED, hoặc null
     mode?: DynamicMode;
-    action?: string; // Tên chức năng, ví dụ: "Tạo thẻ, ....      "
+    action?: string; // Tên chức năng, ví dụ: "Tạo thẻ, ...."
     actionContent?: React.ReactNode;
+    onClose?: () => void; // Thêm prop onClose
 }
 
 interface PaymentResponse {
@@ -29,7 +27,7 @@ type DynamicMode = 'payment' | 'action' | 'notifications';
 
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
-function DynamicSystem({ status, mode, action, actionContent }: DynamicSystemProps) {
+function DynamicSystem({ status, mode, action, actionContent, onClose }: DynamicSystemProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [open, setOpen] = React.useState(false); // Ban đầu là false để kích hoạt animation
@@ -145,10 +143,11 @@ function DynamicSystem({ status, mode, action, actionContent }: DynamicSystemPro
             console.warn('No orderCode found in URL');
         }
 
-        // Chờ animation hoàn tất (giả sử animation kéo dài 500ms)
+        // Chờ animation hoàn tất (giả sử animation kéo dài 300ms)
         setTimeout(() => {
+            onClose?.(); // Gọi onClose để thông báo cho parent
             router.push('/');
-        }, 500);
+        }, 300); // Điều chỉnh thời gian khớp với CSS
     };
 
     // Handle toggle for action mode
@@ -156,6 +155,10 @@ function DynamicSystem({ status, mode, action, actionContent }: DynamicSystemPro
         if (mode === 'action') {
             if (!closing) {
                 setClosing(true);
+                // Chờ animation hoàn tất
+                setTimeout(() => {
+                    onClose?.(); // Gọi onClose để thông báo cho parent
+                }, 300); // Điều chỉnh thời gian khớp với CSS
             }
         }
     };
@@ -204,7 +207,9 @@ function DynamicSystem({ status, mode, action, actionContent }: DynamicSystemPro
                                 </p>
                             </div>
                             <div className={styles.right}>
-                                <div className="icon">
+                                <div
+                                    className={`${styles.iconWrapper} ${status === 'success' ? styles.success : styles.fail}`}
+                                >
                                     <FontAwesomeIcon icon={status === 'success' ? faCheck : faXmark} />
                                 </div>
                             </div>

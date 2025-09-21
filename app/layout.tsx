@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'aos/dist/aos.css';
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Loading from './pages/DefaultLayouts/Loading_default/Loading';
 
 // Định nghĩa interface cho props của RootLayoutContent
 interface RootLayoutContentProps {
@@ -47,7 +48,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 />
             </head>
             <body>
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<Loading />}>
                     <RootLayoutContent>{children}</RootLayoutContent> {/* Sửa ở đây */}
                 </Suspense>
             </body>

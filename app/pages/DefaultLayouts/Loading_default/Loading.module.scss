@@ -1,7 +1,7 @@
 .fixed_pss {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, .5);
+    background: transparent;
     z-index: 999999 !important;
 
     .loader {

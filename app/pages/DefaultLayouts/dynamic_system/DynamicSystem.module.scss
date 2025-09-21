@@ -217,7 +217,7 @@ $island-expand-dur: 400ms;
         .actionContent__wrapper {
             border-radius: 5rem;
             text-align: start;
-            padding: 0 1rem 0rem 2rem;
+            padding: 0 0 0 .5rem;
             display: flex;
             align-items: center;
             box-sizing: border-box;
@@ -259,16 +259,43 @@ $island-expand-dur: 400ms;
             .right {
                 flex: 1 1 3rem;
 
-                svg {
-                    font-size: 2rem;
-                    padding: .8rem 2rem;
-                    background: #70e697;
-                    border-radius: 5rem;
+                .iconWrapper {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    padding: 1rem;
 
-                    @media (max-width: 480px) {
-                        font-size: 1.5rem;
+                    svg {
+                        font-size: 1.6em;
+                        color: #fff; // icon trắng cho nổi
+
+                        @media (max-width: 480px) {
+                            font-size: 1.3rem;
+                        }
+                    }
+
+                    &.success {
+                        background: rgba(112, 230, 151, 0.2); // nền nhạt kiểu glow xanh
+
+                        svg {
+                            background: #70e697; // vòng trong đặc
+                            border-radius: 50%;
+                            padding: .6rem .7rem;
+                        }
+                    }
+
+                    &.fail {
+                        background: rgba(255, 77, 109, 0.2); // nền nhạt glow đỏ
+
+                        svg {
+                            background: #ff4d6d; // vòng trong đặc
+                            border-radius: 50%;
+                            padding: .6rem .8rem;
+                        }
                     }
                 }
+
             }
         }
     }

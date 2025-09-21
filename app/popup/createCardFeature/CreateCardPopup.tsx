@@ -183,6 +183,11 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
         }
     };
 
+    // Thêm hàm để reset dynamicStatus
+    const handleDynamicSystemClose = () => {
+        setDynamicStatus(null); // Reset để unmount DynamicSystem
+    };
+
     const validateInputs = () => {
         if (!accountNumber || accountNumber.length < 6 || accountNumber.length > 20) {
             return 'Số tài khoản phải có từ 6 đến 20 chữ số';
@@ -290,6 +295,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                     mode="action"
                     status={dynamicStatus}
                     action="Tạo thẻ"
+                    onClose={handleDynamicSystemClose} // Truyền onClose
                 />
             )}
 
