@@ -81,7 +81,7 @@ interface UserProfile {
     email: string;
     phone: string | null;
     address: string | null;
-    created_at: Date
+    created_at: Date;
     role: {
         role_id: number;
         name: string;
@@ -270,6 +270,28 @@ interface DiscountEligibilityResponse {
     message: string;
 }
 
+/* ------------------ Dynamic types (no `any`) ------------------ */
+interface DynamicContent {
+    message?: string;
+    note?: string;
+    // allow extra fields but typed as unknown
+    [key: string]: unknown;
+}
+
+type DynamicState = 'minimal' | 'compact' | 'expanded';
+
+interface DynamicPayload {
+    state: DynamicState;
+    type?: 'success' | 'error' | string;
+    title?: string;
+    content?: DynamicContent;
+    time?: string;
+    action?: string;
+    duration?: number;
+    [key: string]: unknown;
+}
+/* ------------------------------------------------------------- */
+
 interface ApiContextType {
     accessToken: string | null;
     login: (data: LoginData) => Promise<LoginResponse>;
@@ -298,6 +320,7 @@ interface ApiContextType {
     updateErrorFeedbackStatus: (feedbackId: number, status: string, resolutionNotes?: string) => Promise<void>;
     getUserErrorFeedback: () => Promise<ErrorFeedbackResponse>;
     checkDiscountEligibility: () => Promise<DiscountEligibilityResponse>;
+    updateDynamic: (data: DynamicPayload) => Promise<DynamicPayload>;
 }
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
@@ -830,7 +853,30 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
-    const value = {
+    const updateDynamic = async (payload: DynamicPayload): Promise<DynamicPayload> => {
+        // try to use accessToken from state, fallback to localStorage
+        const token = accessToken ?? localStorage.getItem('accessToken');
+        if (!token) {
+            throw new Error('Vui lòng đăng nhập để thực hiện thao tác này');
+        }
+
+        try {
+            const response = await axios.post<DynamicPayload>(`${apiUrl}/dynamic/update`, payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true',
+                },
+            });
+            return response.data;
+        } catch (err: unknown) {
+            console.error('Lỗi khi gọi /dynamic/update:', err);
+            // You can show toast here if you want
+            throw err;
+        }
+    };
+
+    const value: ApiContextType = {
         accessToken,
         login,
         register,
@@ -853,6 +899,7 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updateErrorFeedbackStatus,
         getUserErrorFeedback,
         checkDiscountEligibility,
+        updateDynamic,
     };
 
     return <ApiContext.Provider value={value}>{isReady ? children : null}</ApiContext.Provider>;

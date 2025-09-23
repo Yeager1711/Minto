@@ -148,11 +148,11 @@ $shrink-dur: 300ms;
 
 /* ========== Action ========== */
 $island-open-dur: 400ms;
-$island-expand-delay: 900ms; // Delay .9s before expansion
-$island-expand-dur: 900ms; // Total duration for shrink (0.5s) + expand (0.4s)
+$island-expand-delay: 500ms; // Delay .9s before expansion
+$island-expand-dur: 1000ms; // Total duration for shrink (0.5s) + expand (0.4s)
 $shrink-dur: 500ms; // Duration for shrinking to 15rem
-$expand-dur: 500ms; // Duration for expanding to 40rem
-$island-content-delay: $island-expand-delay + $island-expand-dur - 500;
+$expand-dur: 400ms; // Duration for expanding to 40rem
+$island-content-delay: $island-expand-delay + $island-expand-dur - 450;
 
 .dynamicSystem_Action {
     position: fixed;

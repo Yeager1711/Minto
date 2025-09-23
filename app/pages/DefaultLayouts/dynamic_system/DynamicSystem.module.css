@@ -157,17 +157,16 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background: #021024;
-  border: 0.1rem solid #464444;
+  background: #111;
   box-sizing: border-box;
   transition: border-radius 0.3s ease;
   /* Open state */
   /* Closing state */
 }
 .dynamicSystem_wrapper_Action.open {
-  top: 2%;
+  top: 3%;
   opacity: 1;
-  animation: dynamicIslandOpenActions 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandExpandActions 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards 300ms;
+  animation: dynamicIslandOpenActions 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandExpandActions 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards 500ms;
 }
 .dynamicSystem_wrapper_Action.closing {
   animation: dynamicIslandCollapseExpand 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandCollapseOpen 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards 400ms;
@@ -175,12 +174,12 @@
 .dynamicSystem_wrapper_Action .actionContent {
   width: 100%;
   height: auto;
-  min-height: 3rem;
+  height: 4rem;
   padding: 1rem;
   opacity: 0;
   transform: scale(0.8) translateY(0.5rem);
   max-height: 0;
-  animation: showContent 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards 300ms;
+  animation: showContent 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards 1050ms;
   overflow: hidden;
 }
 .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper {
@@ -188,7 +187,6 @@
   text-align: start;
   padding: 0 0 0 0.5rem;
   display: flex;
-  align-items: center;
   box-sizing: border-box;
 }
 .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper.enter {
@@ -223,7 +221,8 @@
   }
 }
 .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right {
-  flex: 1 1 3rem;
+  flex: 1 1;
+  margin-top: -0.35rem;
 }
 .dynamicSystem_wrapper_Action .actionContent .actionContent__wrapper .right .iconWrapper {
   display: inline-flex;
@@ -271,21 +270,28 @@
   }
   100% {
     top: 3%;
-    max-width: 18rem;
+    max-width: 13rem;
     width: 90%;
-    height: 3rem;
+    height: 4rem;
     transform: translateX(-50%) scale(1);
     opacity: 1;
     border-radius: 2rem;
   }
 }
-/* Step 2: Mở rộng với height auto */
+/* Step 2: Mở rộng với shrink rồi expand */
 @keyframes dynamicIslandExpandActions {
   0% {
-    max-width: 18rem;
-    width: 60%;
-    height: 3rem;
+    max-width: 13rem;
+    width: 90%;
+    height: 4rem;
     transform: translateX(-50%) scale(1);
+    border-radius: 2rem;
+  }
+  50% {
+    max-width: 12rem;
+    width: 80%;
+    height: 5rem;
+    transform: translateX(-50%) scale(0.8);
     border-radius: 5rem;
   }
   100% {
@@ -342,11 +348,6 @@
     opacity: 0;
     transform: scale(0.8) translateY(0.5rem);
     max-height: 0;
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.9) translateY(0.2rem);
-    max-height: 4rem;
   }
   100% {
     opacity: 1;

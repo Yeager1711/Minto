@@ -1,0 +1,270 @@
+.Compact {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 9999;
+}
+.Compact.closing {
+  animation: fadeOutContainerAction 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Wrapper (closed state) */
+.Compact_wrapper {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  top: -8%;
+  max-width: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: #111;
+  box-sizing: border-box;
+  transition: border-radius 0.3s ease;
+  /* Open state */
+  /* Closing state */
+}
+.Compact_wrapper.open {
+  top: 2%;
+  opacity: 1;
+  animation: dynamicIslandOpenActions 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandExpandActions 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards 500ms;
+}
+.Compact_wrapper.closing {
+  animation: dynamicIslandCollapseExpand 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandCollapseOpen 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards 500ms;
+}
+.Compact_wrapper.closing .actionContent {
+  animation: hideContent 1200ms cubic-bezier(0.4, 0, 0.2, 1) forwards 1200ms;
+}
+.Compact_wrapper .actionContent {
+  width: 100%;
+  height: auto;
+  height: 4rem;
+  padding: 1rem;
+  opacity: 0;
+  transform: scale(0.8) translateY(0.5rem);
+  max-height: 0;
+  animation: showContent 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards 1050ms;
+  /* Apply hideContent when parent wrapper is closing */
+}
+.Compact_wrapper .actionContent .actionContent__wrapper {
+  border-radius: 5rem;
+  text-align: start;
+  padding: 0 0 0 0.5rem;
+  display: flex;
+  box-sizing: border-box;
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .left {
+  flex: 2 1 28rem;
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .left h3 {
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  font-weight: 400;
+  font-family: "Poppins", sans-serif;
+}
+@media (max-width: 480px) {
+  .Compact_wrapper .actionContent .actionContent__wrapper .left h3 {
+    font-size: 1.1rem;
+  }
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .left p {
+  font-size: 1.1rem;
+  color: #8b8b8b;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+@media (max-width: 480px) {
+  .Compact_wrapper .actionContent .actionContent__wrapper .left p {
+    font-size: 0.9rem;
+  }
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .right {
+  flex: 1 1;
+  margin-top: -0.35rem;
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .right .iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 1rem;
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .right .iconWrapper svg {
+  font-size: 1.6em;
+  color: #fff;
+}
+@media (max-width: 480px) {
+  .Compact_wrapper .actionContent .actionContent__wrapper .right .iconWrapper svg {
+    font-size: 1.3rem;
+  }
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .right .iconWrapper.success {
+  background: rgba(112, 230, 151, 0.2);
+  animation: pulseSuccess 1.8s infinite ease-in-out;
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .right .iconWrapper.success svg {
+  background: #70e697;
+  border-radius: 50%;
+  padding: 0.6rem 0.7rem;
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .right .iconWrapper.fail {
+  background: rgba(255, 77, 109, 0.2);
+  animation: pulseFail 1.8s infinite ease-in-out;
+}
+.Compact_wrapper .actionContent .actionContent__wrapper .right .iconWrapper.fail svg {
+  background: #ff4d6d;
+  border-radius: 50%;
+  padding: 0.6rem 0.8rem;
+}
+
+@keyframes pulseSuccess {
+  0%, 100% {
+    transform: scale(1);
+    background: rgba(112, 230, 151, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    background: rgba(112, 230, 151, 0.35);
+  }
+}
+@keyframes pulseFail {
+  0%, 100% {
+    transform: scale(1);
+    background: rgba(255, 77, 109, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    background: rgba(255, 77, 109, 0.35);
+  }
+}
+@keyframes dynamicIslandOpenActions {
+  0% {
+    top: -8%;
+    max-width: 0;
+    width: 0;
+    height: 0;
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+    border-radius: 5rem;
+  }
+  100% {
+    top: 2%;
+    max-width: 13rem;
+    width: 90%;
+    height: 4rem;
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    border-radius: 5rem;
+  }
+}
+@keyframes dynamicIslandExpandActions {
+  0% {
+    max-width: 13rem;
+    width: 90%;
+    height: 4rem;
+    transform: translateX(-50%) scale(1);
+    border-radius: 5rem;
+  }
+  50% {
+    max-width: 12rem;
+    width: 90%;
+    height: 5rem;
+    transform: translateX(-50%) scale(0.8);
+    border-radius: 5rem;
+  }
+  100% {
+    max-width: 40rem;
+    width: 90%;
+    height: auto;
+    min-height: 5rem;
+    transform: translateX(-50%) scale(1.1);
+    border-radius: 5rem;
+  }
+}
+@keyframes dynamicIslandCollapseExpand {
+  0% {
+    max-width: 40rem;
+    width: 90%;
+    min-height: 5rem;
+    transform: translateX(-50%) scale(1.1);
+    border-radius: 5rem;
+  }
+  50% {
+    max-width: 40rem;
+    width: 90%;
+    min-height: 5rem;
+    transform: translateX(-50%) scale(1.1);
+    border-radius: 5rem;
+  }
+  100% {
+    max-width: 18rem;
+    width: 90%;
+    height: 5rem;
+    transform: translateX(-50%) scale(1);
+    border-radius: 5rem;
+  }
+}
+@keyframes dynamicIslandCollapseOpen {
+  0% {
+    top: 2%;
+    max-width: 18rem;
+    width: 90%;
+    height: 3rem;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    border-radius: 2rem;
+  }
+  100% {
+    top: -8%;
+    max-width: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.9);
+    border-radius: 5rem;
+  }
+}
+@keyframes showContent {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(0.5rem);
+    max-height: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    max-height: 20rem;
+  }
+}
+@keyframes hideContent {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    max-height: 20rem;
+    overflow: hidden;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) translateY(0.5rem);
+    max-height: 0;
+    overflow: hidden;
+  }
+}
+@keyframes fadeOutContainerAction {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}/*# sourceMappingURL=Compact.module.css.map */

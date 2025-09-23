@@ -183,14 +183,14 @@ function DynamicSystem({ status, mode, action, actionContent, onClose }: Dynamic
     // Mode: Action
     if (mode === 'action' && action) {
         return (
-            <div className={[styles.dynamicSystem_Action, closing ? styles.closing : ''].join(' ')}>
+            <div className={[styles.dynamicSystem_Action, closing ? styles.closing : ''].join(' ')}  onClick={handleToggle}>
                 <div
                     className={[
                         styles.dynamicSystem_wrapper_Action,
                         open ? styles.open : '',
                         closing ? styles.closing : '',
                     ].join(' ')}
-                    onClick={handleToggle}
+                   
                 >
                     <div className={styles.actionContent}>
                         <div

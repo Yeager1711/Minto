@@ -1,0 +1,18 @@
+.test {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  display: flex;
+}
+.test .test__wrapper {
+  margin: auto;
+  display: flex;
+  gap: 2rem;
+}
+.test .test__wrapper .btnSuccess,
+.test .test__wrapper .btnError {
+  padding: 1rem 3rem;
+  border: 0.1rem solid #dbdbdb;
+  font-size: 1.4rem;
+  border-radius: 5rem;
+}/*# sourceMappingURL=test.module.css.map */

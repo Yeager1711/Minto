@@ -7,7 +7,7 @@ import { faArrowLeft, faQrcode, faTimes } from '@fortawesome/free-solid-svg-icon
 import styles from './QR_created.module.css';
 import { useApi } from '../../../lib/apiContext/apiContext';
 import { showToastError } from 'app/Ultils/toast';
-import { toast } from 'react-toastify';
+import DynamicIsland from 'app/pages/Dynamic_Island/DynamicIsLand';
 
 interface QrResponse {
     qrId: number;
@@ -57,17 +57,68 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
         accountHolder: '',
         representative: null,
     });
-    const { getUserQr, updateQrStatus } = useApi();
+
+    // DynamicIsland states (local UI)
+    const [isOpenDynamic, setIsOpenDynamic] = useState<boolean>(false);
+    const [dynamicState, setDynamicState] = useState<'compact'>('compact'); // only compact
+    const [dynamicStatus, setDynamicStatus] = useState<'success' | 'error' | undefined>(undefined);
+    const [dynamicAction, setDynamicAction] = useState<string | undefined>(undefined);
+    const [dynamicDuration, setDynamicDuration] = useState<number | undefined>(undefined);
+
+    const { getUserQr, updateQrStatus, updateDynamic } = useApi();
     const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL || '';
 
     const getBank = (bankId: string) => {
         return banks.find((b) => String(b.id) === String(bankId));
     };
 
+    // Helper: show dynamic notification by calling backend updateDynamic,
+    // but always use compact state on client-side. If backend fails, fallback to local display.
+    const showDynamicMessage = async (type: 'success' | 'error', title: string, message: string, duration?: number) => {
+        const payload = {
+            state: 'compact' as const,
+            type,
+            title,
+            content: { message },
+            time: new Date().toISOString(),
+            action: title,
+            duration: duration ?? 3000,
+        };
+
+        try {
+            // call backend via apiContext
+            const data = await updateDynamic(payload);
+
+            // prefer server response if available, but we still force compact on UI
+            setDynamicState('compact');
+            setDynamicStatus((data?.type as 'success' | 'error') ?? type);
+            setDynamicAction((data?.action as string) ?? title);
+            setDynamicDuration((data?.duration as number) ?? payload.duration);
+            setIsOpenDynamic(true);
+        } catch (err) {
+            // fallback: still show local compact notification so user sees feedback
+            console.error('updateDynamic failed, falling back to local display:', err);
+            setDynamicState('compact');
+            setDynamicStatus(type);
+            setDynamicAction(title);
+            setDynamicDuration(duration ?? 3000);
+            setIsOpenDynamic(true);
+        }
+    };
+
+    // Validation helpers
+    const validateAccountNumber = (accountNumber: string) => {
+        return accountNumber.length >= 6 && accountNumber.length <= 20 && /^\d+$/.test(accountNumber);
+    };
+
+    const validateAccountHolder = (accountHolder: string) => {
+        return accountHolder.length >= 3 && /^[A-Za-z\s]+$/.test(accountHolder);
+    };
+
     const handleQRClick = (qrId: number) => {
         setShowQR((prev) => ({
             ...prev,
-            [qrId]: !prev[qrId] || false,
+            [qrId]: !prev[qrId],
         }));
     };
 
@@ -110,22 +161,17 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
     const handleSave = async () => {
         if (!selectedQr) return;
 
-        // Kiểm tra hợp lệ phía client
-        if (
-            formData.accountNumber &&
-            (formData.accountNumber.length < 6 ||
-                formData.accountNumber.length > 20 ||
-                !/^\d+$/.test(formData.accountNumber))
-        ) {
-            showToastError('Số tài khoản phải có từ 6 đến 20 chữ số');
+        if (!validateAccountNumber(formData.accountNumber)) {
+            const msg = 'Số tài khoản phải có từ 6 đến 20 chữ số';
+            showToastError(msg);
+            await showDynamicMessage('error', 'Cập nhật QR thất bại', msg);
             return;
         }
 
-        if (
-            formData.accountHolder &&
-            (formData.accountHolder.length < 3 || !/^[A-Za-z\s]+$/.test(formData.accountHolder))
-        ) {
-            showToastError('Tên chủ tài khoản chỉ được chứa chữ cái và khoảng trắng, tối thiểu 3 ký tự');
+        if (!validateAccountHolder(formData.accountHolder)) {
+            const msg = 'Tên chủ tài khoản chỉ được chứa chữ cái và khoảng trắng, tối thiểu 3 ký tự';
+            showToastError(msg);
+            await showDynamicMessage('error', 'Cập nhật QR thất bại', msg);
             return;
         }
 
@@ -161,11 +207,15 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                 accountHolder: updatedQr.accountHolder,
                 representative: updatedQr.representative,
             });
-            toast.success('Cập nhật thông tin QR thành công');
+
+            // success dynamic notification (compact)
+            await showDynamicMessage('success', 'Cập nhật QR thành công', 'Thông tin QR đã được cập nhật thành công');
+
             handleCloseEdit();
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Lỗi khi cập nhật thông tin QR';
             showToastError(errorMessage);
+            await showDynamicMessage('error', 'Cập nhật QR thất bại', errorMessage);
             setApiError(errorMessage);
         }
     };
@@ -197,16 +247,23 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
             }
 
             setLocalQrData(updatedQrList);
-            toast.success(
+
+            // success dynamic notification (compact)
+            await showDynamicMessage(
+                'success',
+                newReceiveDonation ? 'Cho phép nhận Hỷ' : 'Dừng nhận Hỷ',
                 newReceiveDonation
                     ? 'Đã cho phép nhận tiền Hỷ qua QR code'
                     : 'Đã dừng cho phép nhận tiền Hỷ qua QR code'
             );
+
             setApiError('');
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Lỗi khi cập nhật trạng thái QR code';
             console.error('Lỗi trong handleToggle:', errorMessage, error);
-            showToastError(errorMessage);
+
+            await showDynamicMessage('error', 'Cập nhật trạng thái QR thất bại', errorMessage);
+
             setApiError(errorMessage);
             setReceiveDonation(!newReceiveDonation);
         }
@@ -237,6 +294,7 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
 
         if (isOpen && qrData) {
             fetchQrStatus();
+            // intentionally removed checkDynamicStatus() — no server-driven auto open
         }
     }, [isOpen, qrData, getUserQr]);
 
@@ -265,6 +323,16 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
 
     return (
         <div className={styles.QR_CheckAsset}>
+            {/* DynamicIsland controlled locally (compact only) */}
+            <DynamicIsland
+                isOpenDynamic={isOpenDynamic}
+                onCloseDynamic={() => setIsOpenDynamic(false)}
+                state={dynamicState}
+                status={dynamicStatus}
+                action={dynamicAction}
+                duration={dynamicDuration}
+            />
+
             <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.header} onClick={onClose}>
                     <FontAwesomeIcon className={styles.btn_close} icon={faArrowLeft} />
@@ -415,7 +483,9 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                     <div className={styles.wrapper_preview}>
                         <div
                             key={animationKey}
-                            className={`${styles.card_previrew} ${isEditOpen && !isClosing ? styles.animate : isClosing ? styles.slideDown : ''}`}
+                            className={`${styles.card_previrew} ${
+                                isEditOpen && !isClosing ? styles.animate : isClosing ? styles.slideDown : ''
+                            }`}
                         >
                             <div className={styles.number_banks}>
                                 {formData.accountNumber ? formData.accountNumber.replace(/(\d{4})/g, '$1 ').trim() : ''}
