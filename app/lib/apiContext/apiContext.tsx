@@ -288,6 +288,7 @@ interface DynamicPayload {
     time?: string;
     action?: string;
     duration?: number;
+    TypeContextCollapsed?: boolean;
     [key: string]: unknown;
 }
 /* ------------------------------------------------------------- */

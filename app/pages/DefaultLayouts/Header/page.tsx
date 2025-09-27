@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import classNames from 'classnames/bind';
-import styles from './header.module.scss'; // Giả sử stylesheet của Header được sử dụng
+import styles from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faChevronLeft, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import LoginPopup from '../../../v2/login/Login';
@@ -11,10 +11,8 @@ import SignUpPopup from '../../../v2/signup/SignUp';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import Loading from '../Loading_default/Loading';
 
-// Kết hợp styles của cả Header và UserPopup
 const cx = classNames.bind(styles);
 
-// Định nghĩa interface cho UserProfile
 interface UserProfile {
     user_id: number;
     full_name: string;
@@ -27,14 +25,12 @@ interface UserProfile {
     };
 }
 
-// Định nghĩa interface cho UserPopupProps
 interface UserPopupProps {
     isOpen: boolean;
     onClose: () => void;
     onLogout: () => void;
 }
 
-// Component UserPopup
 const UserPopup: React.FC<UserPopupProps> = ({ isOpen, onClose, onLogout }) => {
     const popupRef = useRef<HTMLDivElement>(null);
     const { getUserProfile } = useApi();
@@ -135,7 +131,6 @@ const UserPopup: React.FC<UserPopupProps> = ({ isOpen, onClose, onLogout }) => {
     );
 };
 
-// Component Header
 const navItems = [
     { name: 'Trang chủ', path: '/' },
     { name: 'Hướng dẫn', path: '/instruct' },
@@ -148,7 +143,22 @@ function Header() {
     const [isNavBoxOpen, setIsNavBoxOpen] = useState(false);
     const [isUserPopupOpen, setIsUserPopupOpen] = useState(false);
     const [accessToken, setAccessToken] = useState('');
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const isInitialLogin = useRef(true);
+
+    // Listen for custom event to toggle sidebar state
+    useEffect(() => {
+        const handleSidebarToggle = (event: Event) => {
+            const customEvent = event as CustomEvent<{ collapsed: boolean }>;
+            setIsSidebarCollapsed(customEvent.detail.collapsed);
+        };
+
+        window.addEventListener('toggleSidebar', handleSidebarToggle);
+
+        return () => {
+            window.removeEventListener('toggleSidebar', handleSidebarToggle);
+        };
+    }, []);
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken') || '';
@@ -208,6 +218,7 @@ function Header() {
         <aside
             className={cx('sidebar', {
                 'display-none': pathname.includes('/template') || pathname.startsWith('/admin'),
+                'sidebar-collapsed': isSidebarCollapsed,
             })}
         >
             <div className={styles.margin}>

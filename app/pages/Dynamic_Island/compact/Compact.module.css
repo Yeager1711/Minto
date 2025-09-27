@@ -7,7 +7,7 @@
   z-index: 9999;
 }
 .Compact.closing {
-  animation: fadeOutContainerAction 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: fadeOutContainerAction 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Wrapper (closed state) */
@@ -15,7 +15,7 @@
   position: fixed;
   left: 50%;
   transform: translateX(-50%) scale(0.9);
-  top: -8%;
+  top: 2%;
   max-width: 0;
   width: 0;
   height: 0;
@@ -28,6 +28,10 @@
   align-items: center;
   cursor: pointer;
   background: #111;
+  /* this applies frosted glass to content beneath */
+  -webkit-backdrop-filter: blur(5rem) saturate(1.1);
+  backdrop-filter: blur(5rem) saturate(1.1);
+  overflow: hidden;
   box-sizing: border-box;
   transition: border-radius 0.3s ease;
   /* Open state */
@@ -39,10 +43,10 @@
   animation: dynamicIslandOpenActions 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandExpandActions 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards 500ms;
 }
 .Compact_wrapper.closing {
-  animation: dynamicIslandCollapseExpand 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandCollapseOpen 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards 500ms;
+  animation: dynamicIslandCollapseExpand 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandCollapseOpen 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards 300ms;
 }
 .Compact_wrapper.closing .actionContent {
-  animation: hideContent 1200ms cubic-bezier(0.4, 0, 0.2, 1) forwards 1200ms;
+  animation: hideContent 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards 1200ms;
 }
 .Compact_wrapper .actionContent {
   width: 100%;
@@ -52,7 +56,7 @@
   opacity: 0;
   transform: scale(0.8) translateY(0.5rem);
   max-height: 0;
-  animation: showContent 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards 1050ms;
+  animation: showContent 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 750ms;
   /* Apply hideContent when parent wrapper is closing */
 }
 .Compact_wrapper .actionContent .actionContent__wrapper {
@@ -63,13 +67,16 @@
   box-sizing: border-box;
 }
 .Compact_wrapper .actionContent .actionContent__wrapper .left {
-  flex: 2 1 28rem;
+  flex: 2 1 24rem;
 }
 .Compact_wrapper .actionContent .actionContent__wrapper .left h3 {
+  max-width: 20rem;
+  width: 90%;
   font-size: 1.4rem;
   margin: 0.5rem 0;
-  font-weight: 400;
+  font-weight: 500;
   font-family: "Poppins", sans-serif;
+  color: #fff;
 }
 @media (max-width: 480px) {
   .Compact_wrapper .actionContent .actionContent__wrapper .left h3 {
@@ -77,10 +84,15 @@
   }
 }
 .Compact_wrapper .actionContent .actionContent__wrapper .left p {
+  max-width: 24rem;
+  width: 90%;
   font-size: 1.1rem;
   color: #8b8b8b;
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 @media (max-width: 480px) {
   .Compact_wrapper .actionContent .actionContent__wrapper .left p {
@@ -89,7 +101,8 @@
 }
 .Compact_wrapper .actionContent .actionContent__wrapper .right {
   flex: 1 1;
-  margin-top: -0.35rem;
+  margin-top: -0.5rem;
+  margin-left: 1rem;
 }
 .Compact_wrapper .actionContent .actionContent__wrapper .right .iconWrapper {
   display: inline-flex;
@@ -148,7 +161,7 @@
 }
 @keyframes dynamicIslandOpenActions {
   0% {
-    top: -8%;
+    top: 2%;
     max-width: 0;
     width: 0;
     height: 0;
@@ -158,8 +171,8 @@
   }
   100% {
     top: 2%;
-    max-width: 13rem;
-    width: 90%;
+    max-width: 14rem;
+    width: 85%;
     height: 4rem;
     transform: translateX(-50%) scale(1);
     opacity: 1;
@@ -168,47 +181,33 @@
 }
 @keyframes dynamicIslandExpandActions {
   0% {
-    max-width: 13rem;
-    width: 90%;
+    max-width: 14rem;
+    width: 85%;
     height: 4rem;
     transform: translateX(-50%) scale(1);
     border-radius: 5rem;
   }
-  50% {
-    max-width: 12rem;
-    width: 90%;
-    height: 5rem;
-    transform: translateX(-50%) scale(0.8);
-    border-radius: 5rem;
-  }
   100% {
     max-width: 40rem;
-    width: 90%;
-    height: auto;
-    min-height: 5rem;
-    transform: translateX(-50%) scale(1.1);
+    width: 85%;
+    height: 6rem;
+    min-height: 3rem;
+    transform: translateX(-50%) scale(1);
     border-radius: 5rem;
   }
 }
 @keyframes dynamicIslandCollapseExpand {
   0% {
     max-width: 40rem;
-    width: 90%;
-    min-height: 5rem;
-    transform: translateX(-50%) scale(1.1);
-    border-radius: 5rem;
-  }
-  50% {
-    max-width: 40rem;
-    width: 90%;
-    min-height: 5rem;
-    transform: translateX(-50%) scale(1.1);
+    width: 85%;
+    height: 6rem;
+    transform: translateX(-50%) scale(1.05);
     border-radius: 5rem;
   }
   100% {
-    max-width: 18rem;
-    width: 90%;
-    height: 5rem;
+    max-width: 14rem;
+    width: 85%;
+    height: 4rem;
     transform: translateX(-50%) scale(1);
     border-radius: 5rem;
   }
@@ -216,21 +215,22 @@
 @keyframes dynamicIslandCollapseOpen {
   0% {
     top: 2%;
-    max-width: 18rem;
-    width: 90%;
-    height: 3rem;
-    opacity: 1;
+    max-width: 14rem;
+    width: 85%;
+    height: 4rem;
     transform: translateX(-50%) scale(1);
-    border-radius: 2rem;
+    border-radius: 5rem;
+    background: #111;
   }
   100% {
-    top: -8%;
+    top: 2%;
     max-width: 0;
     width: 0;
     height: 0;
-    opacity: 0;
     transform: translateX(-50%) scale(0.9);
     border-radius: 5rem;
+    visibility: hidden;
+    background: #111;
   }
 }
 @keyframes showContent {
@@ -255,7 +255,7 @@
   100% {
     opacity: 0;
     transform: scale(0) translateY(0.5rem);
-    max-height: 0;
+    max-height: 14rem;
     overflow: hidden;
   }
 }
@@ -264,7 +264,7 @@
     opacity: 1;
   }
   100% {
-    opacity: 0;
+    opacity: 1;
     visibility: hidden;
   }
 }/*# sourceMappingURL=Compact.module.css.map */

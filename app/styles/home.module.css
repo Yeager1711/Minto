@@ -69,7 +69,7 @@
   background: linear-gradient(135deg, #fce1e4 0%, #e3d0ff 35%, #c0e6f9 70%, #fdecc8 100%);
   -webkit-backdrop-filter: blur(0.5rem);
           backdrop-filter: blur(0.5rem);
-  z-index: 99;
+  z-index: 95;
 }
 .main .wrapper_main .control_right .wrapper_center {
   padding: 0.5rem;

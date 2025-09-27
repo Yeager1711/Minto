@@ -6,7 +6,7 @@
 }
 .test .test__wrapper {
   margin: auto;
-  display: flex;
+  display: block;
   gap: 2rem;
 }
 .test .test__wrapper .btnSuccess,

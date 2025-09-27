@@ -1,5 +1,6 @@
 'use client';
 import * as React from 'react';
+import { createPortal } from 'react-dom';
 import styles from './DynamicIsland.module.css';
 import Compact from './compact/Compact';
 import Minimal from './minimal/Minimal';
@@ -22,27 +23,51 @@ function DynamicIsland({ isOpenDynamic, onCloseDynamic, state, status, action, d
     }, [isOpenDynamic, onCloseDynamic]);
 
     return (
-        <div className={styles.DynamicIsland}>
-            {state === 'minimal' && <Minimal />}
-            {state === 'expanded' && status && action && (
-                <Expanded
-                    status={status}
-                    action={action}
-                    isOpen={isOpenDynamic}
-                    onClose={onCloseDynamic}
-                    duration={duration} // 👈 truyền xuống Expanded
-                />
-            )}
-            {state === 'compact' && status && action && (
-                <Compact
-                    status={status}
-                    action={action}
-                    isOpen={isOpenDynamic}
-                    onClose={onCloseDynamic}
-                    duration={duration} // 👈 truyền xuống Compact
-                />
-            )}
-        </div>
+        <>
+            <div className={styles.DynamicIsland}>
+                {state === 'minimal' &&
+                    status &&
+                    action &&
+                    createPortal(
+                        <Minimal
+                            status={status}
+                            action={action}
+                            isOpen={isOpenDynamic}
+                            onClose={onCloseDynamic}
+                            duration={duration}
+                        />,
+                        document.body
+                    )}
+
+                {state === 'compact' &&
+                    status &&
+                    action &&
+                    createPortal(
+                        <Compact
+                            status={status}
+                            action={action}
+                            isOpen={isOpenDynamic}
+                            onClose={onCloseDynamic}
+                            duration={duration}
+                        />,
+                        document.body
+                    )}
+            </div>
+
+            {state === 'expanded' &&
+                status &&
+                action &&
+                createPortal(
+                    <Expanded
+                        status={status}
+                        action={action}
+                        isOpen={isOpenDynamic}
+                        onClose={onCloseDynamic}
+                        duration={duration}
+                    />,
+                    document.body // 👈 expanded luôn nằm top-level
+                )}
+        </>
     );
 }
 

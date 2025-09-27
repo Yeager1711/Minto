@@ -2,21 +2,123 @@
   display: none;
 }
 
+/* Keyframes cho hiệu ứng co lại */
+/* Keyframes cho hiệu ứng co lại */
+@keyframes collapseSidebar {
+  0% {
+    width: 100%;
+    height: 6rem;
+    top: 0;
+    left: 0;
+    transform: translateX(0);
+    border-radius: 5rem;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  100% {
+    width: 14rem;
+    height: 4rem;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5rem;
+    opacity: 1;
+    background: #111;
+  }
+}
+
+/* Keyframes cho hiệu ứng mở rộng */
+@keyframes expandSidebar {
+  0% {
+    width: 15rem;
+    height: 6rem;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 3rem;
+    opacity: 0.6;
+    background: #111;
+  }
+
+  100% {
+    width: 100%;
+    height: 6rem;
+    top: 0;
+    left: 0;
+    transform: translateX(0);
+    border-radius: 0 0 3rem 3rem;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.5);
+  }
+}
+
 .sidebar {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, .5);
-  z-index: 999 !important;
-  transition: opacity 0.3s ease-in-out;
+  width: 100%;
+  /* Thay left: 0; right: 0 bằng width: 100% */
+  height: 5rem;
+  /* Giả sử chiều cao mặc định, điều chỉnh nếu khác */
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 95;
+  /* Giữ z-index: 95, bỏ z-index: 999 !important */
   -webkit-backdrop-filter: blur(1.5rem);
   backdrop-filter: blur(1.5rem);
   border-bottom: 0.1rem solid #dbdbdb;
-  z-index: 99;
-  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
   border-radius: 0 0 5rem 5rem;
-  // display: none;
+  overflow: hidden;
+  /* Ngăn nội dung bị lộ ra ngoài */
+  animation: expandSidebar 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  /* Áp dụng khi mở rộng ban đầu */
+
+  &.sidebar-collapsed {
+    animation: collapseSidebar 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    /* Áp dụng khi co lại */
+
+    .margin {
+      padding: 0.5rem 1rem;
+      transition: padding 0.3s ease;
+      display: none;
+      /* Giữ transition cho padding */
+
+      .logo {
+        display: none;
+        /* Giữ nguyên như bạn yêu cầu */
+      }
+
+      .nav-container {
+        opacity: 0;
+        transition: opacity 0.2s ease 0.1s;
+        /* Nhanh hơn và delay nhẹ */
+        display: none;
+        /* Ẩn sau khi opacity mờ đi */
+      }
+    }
+  }
+
+  .margin {
+    padding: 1rem;
+    /* Giá trị mặc định */
+    transition: padding 0.3s ease;
+    /* Giữ transition cho padding */
+
+    .logo {
+      height: 4rem;
+      /* Giả sử giá trị mặc định */
+      width: 4rem;
+      /* Giả sử giá trị mặc định */
+      transition: opacity 0.2s ease;
+      /* Transition nhẹ cho logo nếu cần */
+    }
+
+    .nav-container {
+      opacity: 1;
+      transition: opacity 0.2s ease;
+    }
+  }
+
 
   @media (max-width: 480px) {
     // border-radius: 5rem;
@@ -39,8 +141,8 @@
       color: #333;
       display: flex;
       align-items: center;
-      height: 5rem;
-      width: 5rem;
+      height: 4rem;
+      width: 4rem;
       border-radius: 50%;
       border: .1rem solid #ffedda;
 
