@@ -50,7 +50,7 @@ function TestAPIDynamic() {
                 },
                 time: new Date().toISOString(),
                 action: 'Trạng thái ',
-                duration: state === 'expanded' ? 4000 : state === 'minimal' ? 5000 : 3000,
+                duration: state === 'expanded' ? 4000 : state === 'minimal' ? 3000 : 3000,
                 TypeContextCollapsed: true, // Gửi trường này trong payload
             };
 
@@ -68,7 +68,7 @@ function TestAPIDynamic() {
                     setAction(data.action);
                     setDuration(data.duration ?? mockData.duration);
                     setIsOpenDynamic(true);
-                }, 1000);
+                }, 300);
             } else {
                 console.error('Invalid type received:', data.type);
             }

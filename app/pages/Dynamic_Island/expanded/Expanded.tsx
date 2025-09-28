@@ -24,7 +24,7 @@ function Expanded({ status, action, isOpen, onClose, duration }: ExpandedProps) 
                 setTimeout(() => {
                     setIsClosing(false);
                     onClose();
-                }, 800);
+                }, 500);
             }, duration ?? 0);
         }
         return () => clearTimeout(timer);

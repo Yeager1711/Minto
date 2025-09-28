@@ -16,7 +16,6 @@ interface RootLayoutContentProps {
     children: React.ReactNode;
 }
 
-// Component RootLayoutContent nhận children làm prop
 function RootLayoutContent({ children }: RootLayoutContentProps) {
     const searchParams = useSearchParams();
     const templateId = searchParams.get('templateId');
@@ -32,12 +31,10 @@ function RootLayoutContent({ children }: RootLayoutContentProps) {
     );
 }
 
-// Định nghĩa interface cho props của RootLayout
 interface RootLayoutProps {
     children: React.ReactNode;
 }
 
-// Component RootLayout
 export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="en">
@@ -48,8 +45,28 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 />
             </head>
             <body>
+                {/* SVG filter global đặt ở đây */}
+                <svg width="0" height="0" style={{ position: 'absolute' }}>
+                    <defs>
+                        <filter id="gooey">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                            <feColorMatrix
+                                in="blur"
+                                mode="matrix"
+                                values="
+                                    1 0 0 0 0
+                                    0 1 0 0 0
+                                    0 0 1 0 0
+                                    0 0 0 20 -10"
+                                result="gooey"
+                            />
+                            <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
+                        </filter>
+                    </defs>
+                </svg>
+
                 <Suspense fallback={<Loading />}>
-                    <RootLayoutContent>{children}</RootLayoutContent> {/* Sửa ở đây */}
+                    <RootLayoutContent>{children}</RootLayoutContent>
                 </Suspense>
             </body>
         </html>

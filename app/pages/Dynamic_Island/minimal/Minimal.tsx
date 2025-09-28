@@ -75,25 +75,6 @@ function Minimal({ status, action, isOpen, onClose, duration = 5000 }: MinimalPr
 
     return (
         <div className={styles.Minimal}>
-            <svg style={{ display: 'none' }}>
-                <defs>
-                    <filter id="gooey">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
-                        <feColorMatrix
-                            in="blur"
-                            mode="matrix"
-                            values="
-                                1 0 0 0 0
-                                0 1 0 0 0
-                                0 0 1 0 0
-                                0 0 0 18 -7"
-                            result="gooey"
-                        />
-                        <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
-                    </filter>
-                </defs>
-            </svg>
-
             <div ref={wrapperRef} className={`${styles.Minimal_wrapper} ${expanded ? styles.expanded : styles.shrunk}`}>
                 <div className={styles.stage_wrapper}>
                     <div className={styles.object_content}>
