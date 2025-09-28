@@ -7,7 +7,7 @@ import { ApiProvider } from './lib/apiContext/apiContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'aos/dist/aos.css';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Loading from './pages/DefaultLayouts/Loading_default/Loading';
 
@@ -36,6 +36,14 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+    // Detect Safari
+    useEffect(() => {
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('safari') && !ua.includes('chrome')) {
+            document.body.classList.add('safari');
+        }
+    }, []);
+
     return (
         <html lang="en">
             <head>

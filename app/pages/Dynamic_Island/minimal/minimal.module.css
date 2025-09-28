@@ -16,6 +16,12 @@
   filter: url("#gooey");
   -webkit-filter: url("#gooey");
 }
+body.safari .Minimal_wrapper {
+  filter: none !important;
+  -webkit-filter: none !important;
+  -webkit-backdrop-filter: blur(12px) contrast(1.2);
+  background: rgba(30, 30, 30, 0.6);
+}
 .Minimal_wrapper.expanded {
   width: 22rem;
 }
@@ -24,7 +30,7 @@
   animation: contentScale 0.5s forwards;
 }
 .Minimal_wrapper.expanded .object_status {
-  animation: statusSlideOut 0.5s forwards;
+  animation: statusSlideOut 3.5s forwards;
 }
 .Minimal_wrapper.shrunk {
   width: 100%;
@@ -35,7 +41,7 @@
   z-index: 3 !important;
 }
 .Minimal_wrapper.shrunk .object_status {
-  right: 0;
+  right: 3rem;
   opacity: 0;
 }
 .Minimal_wrapper .stage_wrapper .expand_payment {
@@ -115,6 +121,9 @@
   will-change: left, transform;
   backface-visibility: hidden;
 }
+.Minimal_wrapper .object_content .action {
+  font-size: 1.3rem;
+}
 .Minimal_wrapper .object_status {
   position: absolute;
   top: 50%;
@@ -133,8 +142,10 @@
   transition: right 0.5s ease-in-out, opacity 0.3s;
   will-change: right, opacity;
   backface-visibility: hidden;
-  font-size: 1.3rem;
   line-height: 3;
+}
+.Minimal_wrapper .object_status .status {
+  font-size: 1.7rem;
 }
 
 @keyframes contentScale {

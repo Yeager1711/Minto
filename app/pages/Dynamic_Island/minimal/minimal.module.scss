@@ -13,8 +13,19 @@
     height: 3.5rem;
     opacity: 1;
     z-index: 999 !important;
+
+    // Gooey filter cho browser hỗ trợ
     filter: url("#gooey");
     -webkit-filter: url("#gooey");
+
+    // Safari fallback
+    body.safari & {
+        filter: none !important;
+        -webkit-filter: none !important;
+        -webkit-backdrop-filter: blur(12px) contrast(1.2);
+
+        background: rgba(30, 30, 30, 0.6); // để thấy hiệu ứng
+    }
 
     &.expanded {
         width: 22rem;
@@ -25,7 +36,7 @@
         }
 
         .object_status {
-            animation: statusSlideOut 0.5s forwards;
+            animation: statusSlideOut 3.5s forwards;
         }
     }
 
@@ -39,7 +50,7 @@
         }
 
         .object_status {
-            right: 0;
+            right: 3rem;
             opacity: 0;
         }
     }
@@ -129,6 +140,10 @@
         transition: left .5s ease-in-out;
         will-change: left, transform;
         backface-visibility: hidden;
+
+        .action {
+            font-size: 1.3rem;
+        }
     }
 
     .object_status {
@@ -149,8 +164,11 @@
         transition: right .5s ease-in-out, opacity 0.3s;
         will-change: right, opacity;
         backface-visibility: hidden;
-        font-size: 1.3rem;
         line-height: 3;
+
+        .status {
+            font-size: 1.7rem;
+        }
     }
 }
 

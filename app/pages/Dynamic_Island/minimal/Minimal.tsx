@@ -75,6 +75,7 @@ function Minimal({ status, action, isOpen, onClose, duration = 5000 }: MinimalPr
 
     return (
         <div className={styles.Minimal}>
+           
             <div ref={wrapperRef} className={`${styles.Minimal_wrapper} ${expanded ? styles.expanded : styles.shrunk}`}>
                 <div className={styles.stage_wrapper}>
                     <div className={styles.object_content}>
