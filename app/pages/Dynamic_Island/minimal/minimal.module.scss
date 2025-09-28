@@ -15,17 +15,8 @@
     z-index: 999 !important;
 
     // Gooey filter cho browser hỗ trợ
-    filter: url("#gooey");
+    filter: url("/public/filter/gooey.svg");
     -webkit-filter: url("#gooey");
-
-    // Safari fallback
-    body.safari & {
-        filter: none !important;
-        -webkit-filter: none !important;
-        -webkit-backdrop-filter: blur(12px) contrast(1.2);
-
-        background: rgba(30, 30, 30, 0.6); // để thấy hiệu ứng
-    }
 
     &.expanded {
         width: 22rem;
