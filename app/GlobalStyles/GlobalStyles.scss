@@ -66,6 +66,46 @@ textarea {
     --eventColorBlr: #888;
     --eventBg: rgba(255, 255, 255, .3);
 
+
+    // liquid Glass
+    --bg-color: rgba(255, 255, 255, 0.5);
+}
+
+// Liquid Glass
+.layout_liquidGlass {
+    position: relative;
+    height: 0;
+    border-radius: 5rem;
+    display: flex;
+    padding: .5rem 0;
+    align-items: center;
+}
+
+.card__layout_liquidGlass {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5rem;
+    height: auto;
+    position: relative;
+    transform: translate(0, 0);
+
+
+}
+
+.layout_contrain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: url(#meltEffect);
+    border-radius: 5rem;
+    overflow: hidden;
+    backdrop-filter: blur(.5px) saturate(90%); // Tăng blur và saturate
+    -webkit-backdrop-filter: blur(1px) saturate(90%);
+
 }
 
 html,
@@ -86,7 +126,7 @@ html {
         background: #dbdbdb;
         height: 1px;
         width: 1rem;
-        display: none;
+        // display: none;
     }
 
     &::-webkit-scrollbar-thumb {

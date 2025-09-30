@@ -73,6 +73,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     </defs>
                 </svg>
 
+                
+
                 <Suspense fallback={<Loading />}>
                     <RootLayoutContent>{children}</RootLayoutContent>
                 </Suspense>

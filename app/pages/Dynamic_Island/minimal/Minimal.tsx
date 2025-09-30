@@ -16,7 +16,6 @@ function Minimal({ status, action, isOpen, onClose, duration = 5000 }: MinimalPr
     const [showExpandPayment, setShowExpandPayment] = React.useState(false);
 
     const wrapperRef = React.useRef<HTMLDivElement>(null);
-    const statusRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
         let mounted = true;
@@ -39,22 +38,6 @@ function Minimal({ status, action, isOpen, onClose, duration = 5000 }: MinimalPr
     }, [isOpen, duration]);
 
     React.useEffect(() => {
-        const statusNode = statusRef.current;
-        if (!statusNode) return;
-
-        const handleStatusTransitionEnd = (e: TransitionEvent) => {
-            if (e.propertyName === 'opacity' && !expanded) {
-                setShowExpandPayment(true);
-            }
-        };
-
-        statusNode.addEventListener('transitionend', handleStatusTransitionEnd);
-        return () => {
-            statusNode.removeEventListener('transitionend', handleStatusTransitionEnd);
-        };
-    }, [expanded]);
-
-    React.useEffect(() => {
         const node = wrapperRef.current;
         if (!node) return;
 
@@ -62,6 +45,8 @@ function Minimal({ status, action, isOpen, onClose, duration = 5000 }: MinimalPr
             if (e.propertyName === 'width' && !expanded && !isOpen) {
                 setIsVisible(false);
                 onClose();
+            } else if (e.propertyName === 'width' && !expanded) {
+                setShowExpandPayment(true);
             }
         };
 
@@ -75,15 +60,11 @@ function Minimal({ status, action, isOpen, onClose, duration = 5000 }: MinimalPr
 
     return (
         <div className={styles.Minimal}>
-           
             <div ref={wrapperRef} className={`${styles.Minimal_wrapper} ${expanded ? styles.expanded : styles.shrunk}`}>
                 <div className={styles.stage_wrapper}>
                     <div className={styles.object_content}>
                         <div className={styles.action}>{action}</div>
-
-                        <div ref={statusRef} className={styles.object_status}>
-                            <div className={styles.status}>{status === 'success' ? '✔' : '✘'}</div>
-                        </div>
+                        <div className={styles.object_status}>{status === 'success' ? '✔' : '✘'}</div>
                     </div>
 
                     <div className={`${styles.expand_payment} ${showExpandPayment ? styles.show : ''}`}>

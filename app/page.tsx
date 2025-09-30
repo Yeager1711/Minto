@@ -16,18 +16,16 @@ import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
 import Notifications from './Notifications/Notifications';
 import FeatureCard from './func/FeatureCard/page';
-import SupportError from 'app/feedback/SupportError/SupportError';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
-import GeminiButton from './AI_Service/gemini_button/Gemini';
 import GeminiReply from './AI_Service/genmini_reply/GenimiReply';
 import Products from './pages/DefaultLayouts/Products/Products';
 import DynamicSystem from './pages/DefaultLayouts/dynamic_system/DynamicSystem';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import { useSearchParams } from 'next/navigation';
+import NavCenter from './pages/DefaultLayouts/navCenter/page';
 
 interface Template {
     template_id: number;
@@ -106,7 +104,6 @@ const Home: React.FC = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false);
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
     const [isReplyVisible, setIsReplyVisible] = useState<boolean>(false);
@@ -118,7 +115,6 @@ const Home: React.FC = () => {
     const checkOut = searchParams.get('checkOut') === 'true';
     const status = searchParams.get('status');
 
-    //
     const [dynamicMode, setDynamicMode] = useState<'' | 'payment' | 'action' | 'notifications'>('');
 
     useEffect(() => {
@@ -127,25 +123,12 @@ const Home: React.FC = () => {
         }
     }, [templateId, checkOut]);
 
-    // ===========================================
-    const openReply = () => {
-        setIsReplyVisible(true);
-    };
-
-    const closeReply = () => {
-        setIsReplyVisible(false);
-    };
-
     useEffect(() => {
         AOS.init({
             duration: 1000,
             once: true,
         });
     }, []);
-
-    const toggleSupportPopup = () => {
-        setIsSupportOpen((prev) => !prev);
-    };
 
     useEffect(() => {
         const fetchTemplatesAndCategories = async () => {
@@ -185,7 +168,7 @@ const Home: React.FC = () => {
             }
         };
         fetchUserProfile();
-    }, [getUserProfile]);
+    }, [getUserProfile, accessToken]); // Added accessToken to dependency array
 
     useEffect(() => {
         const fetchFeedbacks = async () => {
@@ -281,6 +264,10 @@ const Home: React.FC = () => {
         }
     };
 
+    const closeReply = () => {
+        setIsReplyVisible(false);
+    };
+
     const groupedTemplates = categories.reduce(
         (acc, category) => {
             const templatesInCategory = filteredTemplates.filter(
@@ -308,7 +295,7 @@ const Home: React.FC = () => {
     };
 
     return (
-        <main className={styles.main}>          
+        <main className={styles.main}>
             <div className={styles.wrapper_main}>
                 <header className={styles.header}>
                     <h1 className={styles.header_title}>Bạn thích mẫu thiệp như nào ?</h1>
@@ -604,12 +591,7 @@ const Home: React.FC = () => {
                     </div>
                 </div>
 
-                <div className={styles.control_right}>
-                    <div className={styles.wrapper_center}>
-                        <GeminiButton onClick={openReply} />
-                        <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupportPopup} />
-                    </div>
-                </div>
+                <NavCenter />
 
                 {isReplyVisible && <GeminiReply onClose={closeReply} />}
             </div>

@@ -1,19 +1,14 @@
   .support {
       display: flex;
       align-items: center;
-      margin-top: 2rem;
       padding: 1rem;
       border-radius: 5rem;
-      background: #fff;
-      border: 0.1rem solid #dbdbdb;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.03);
       cursor: pointer;
       transition: all 0.3s ease;
       z-index: 1;
       /* Ensure icon is above other elements */
 
       svg {
-          font-size: 1.8rem;
           color: rgba(136, 136, 232, 0.9);
       }
 
@@ -28,8 +23,8 @@
 
   .wrapper_support {
       position: fixed;
-      bottom: 110%;
-      right: 5%;
+      bottom: 130%;
+      right: -169%;
       transform: translate(-50%, -50%) scale(0.1) translateY(50px);
       background: rgb(255, 255, 255);
       border-radius: 1rem;

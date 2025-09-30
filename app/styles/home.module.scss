@@ -62,27 +62,23 @@
 
      .control_right {
        position: fixed;
-       right: 6%;
+       right: 5%;
        bottom: 10%;
-       width: 5rem;
-       height: 12rem;
        border-radius: 5rem;
-       background: linear-gradient(135deg,
-           #fce1e4 0%,
-           /* Hồng nhạt */
-           #e3d0ff 35%,
-           /* Tím pastel */
-           #c0e6f9 70%,
-           /* Xanh pastel */
-           #fdecc8 100%
-           /* Cam nhạt */
-         );
-
-       backdrop-filter: blur(.5rem);
+       overflow: hidden;
+       transform: translate(0, 0);
+       /* Đảm bảo không bị dịch chuyển */
+       filter: url(#liquidGlass);
+       backdrop-filter: blur(1px) saturate(100%); // Tăng blur và saturate
+       -webkit-backdrop-filter: blur(1px) saturate(100%);
        z-index: 95;
 
        .wrapper_center {
          padding: .5rem;
+         transform: translate(0, 0);
+         filter: url(#liquidGlass1);
+         position: relative;
+
        }
      }
 

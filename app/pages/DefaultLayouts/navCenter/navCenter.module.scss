@@ -1,0 +1,87 @@
+.NavCenter {
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translate(-50%, -5%);
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+}
+
+.layout_liquidGlass {
+    position: relative;
+    height: 0;
+    border-radius: 5rem;
+    display: flex;
+    padding: .5rem 0;
+    align-items: center;
+}
+
+.card__layout_liquidGlass {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5rem;
+    height: auto;
+    position: relative;
+    transform: translate(0, 0);
+
+    .layout_contrain {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        filter: url(#meltEffect);
+        border-radius: 5rem;
+        overflow: hidden;
+        backdrop-filter: blur(.5px) saturate(90%); // Tăng blur và saturate
+        -webkit-backdrop-filter: blur(1px) saturate(90%);
+
+    }
+
+    .ingredient {
+        display: flex;
+        gap: 2rem;
+        backdrop-filter: blur(1px) saturate(90%); // Tăng blur và saturate
+        -webkit-backdrop-filter: blur(1px) saturate(90%);
+        border-radius: 5rem;
+        // overflow: hidden;
+        padding: .5rem 1rem;
+        border: .01rem solid #dbdbdb;
+
+        .btn_control {
+            background: rgba(255, 255, 255, .4);
+            border: .1rem solid rgba(255, 255, 255, 0.5);
+            border-radius: 5rem;
+            color: #000;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: .5rem 1.5rem;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px) saturate(90%); // Tăng blur và saturate
+            -webkit-backdrop-filter: blur(1px) saturate(90%);
+
+            svg {
+                font-size: 2rem;
+            }
+
+
+            @media (max-width: 480px) {
+                svg {
+                    font-size: 1.5rem;
+                }
+
+            }
+
+
+        }
+
+
+    }
+}

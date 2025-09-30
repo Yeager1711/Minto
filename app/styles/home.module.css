@@ -61,18 +61,22 @@
 }
 .main .wrapper_main .control_right {
   position: fixed;
-  right: 6%;
+  right: 5%;
   bottom: 10%;
-  width: 5rem;
-  height: 12rem;
   border-radius: 5rem;
-  background: linear-gradient(135deg, #fce1e4 0%, #e3d0ff 35%, #c0e6f9 70%, #fdecc8 100%);
-  -webkit-backdrop-filter: blur(0.5rem);
-          backdrop-filter: blur(0.5rem);
+  overflow: hidden;
+  transform: translate(0, 0);
+  /* Đảm bảo không bị dịch chuyển */
+  filter: url(#liquidGlass);
+  backdrop-filter: blur(1px) saturate(100%);
+  -webkit-backdrop-filter: blur(1px) saturate(100%);
   z-index: 95;
 }
 .main .wrapper_main .control_right .wrapper_center {
   padding: 0.5rem;
+  transform: translate(0, 0);
+  filter: url(#liquidGlass1);
+  position: relative;
 }
 .main .wrapper_main .header {
   padding: 2rem 0;

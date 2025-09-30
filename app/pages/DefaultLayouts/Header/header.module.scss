@@ -62,14 +62,13 @@
   height: 6rem;
   /* Giả sử chiều cao mặc định, điều chỉnh nếu khác */
   background: rgba(255, 255, 255, 0.5);
-  z-index: 95;
+  z-index: 96;
   /* Giữ z-index: 95, bỏ z-index: 999 !important */
   -webkit-backdrop-filter: blur(1.5rem);
   backdrop-filter: blur(1.5rem);
   border-bottom: 0.1rem solid #dbdbdb;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
   border-radius: 0 0 5rem 5rem;
-  overflow: hidden;
   /* Ngăn nội dung bị lộ ra ngoài */
   animation: expandSidebar 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   /* Áp dụng khi mở rộng ban đầu */
