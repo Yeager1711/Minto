@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-export function useLiquidGlass(containerRef: React.RefObject<HTMLElement>) {
+export function useLiquidGlass() {
     useEffect(() => {
-        if (typeof window === 'undefined' || !containerRef.current) return; // Exit if running on server or no container
+        if (typeof window === 'undefined') return; // Thoát nếu chạy trên server
 
         const instances: Shader[] = [];
 
@@ -31,45 +31,55 @@ export function useLiquidGlass(containerRef: React.RefObject<HTMLElement>) {
             fragment: (uv: { x: number; y: number }) => { x: number; y: number };
             canvasDPI: number;
             id: string;
-            container: HTMLElement;
+            container!: HTMLDivElement;
             svg!: SVGSVGElement;
             feImage!: SVGFEImageElement;
             feDisplacementMap!: SVGFEDisplacementMapElement;
             canvas!: HTMLCanvasElement;
             context!: CanvasRenderingContext2D;
 
-            constructor(
-                container: HTMLElement,
-                options: {
-                    fragment: (uv: { x: number; y: number }) => { x: number; y: number };
-                }
-            ) {
-                this.container = container;
-                const rect = container.getBoundingClientRect();
-                this.width = rect.width;
-                this.height = rect.height;
+            constructor(options: {
+                width: number;
+                height: number;
+                fragment: (uv: { x: number; y: number }) => { x: number; y: number };
+            }) {
+                this.width = options.width;
+                this.height = options.height;
                 this.fragment = options.fragment;
                 this.canvasDPI = window.devicePixelRatio || 1;
                 this.id = generateId();
 
                 this.createElement();
+                this.setupEventListeners();
                 this.updateShader();
             }
 
             createElement(): void {
-                // Container setup (apply backdrop-filter to the provided container)
-                this.container.style.position = 'relative';
-                this.container.style.overflow = 'hidden';
-                this.container.style.backdropFilter = `url(#${this.id}_filter) blur(0.35px) contrast(1) brightness(1.05) saturate(1)`;
-                this.container.style.zIndex = '1';
-                this.container.style.boxShadow =
-                    '0 4px 8px rgba(0, 0, 0, 0.05), 0 -10px 25px inset rgba(0, 0, 0, 0.04)';
+                // Container
+                this.container = document.createElement('div');
+                this.container.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: ${this.width}px;
+                    height: ${this.height}px;
+                    overflow: hidden;
+                    border-radius: 150px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25),
+                                0 -10px 25px inset rgba(0, 0, 0, 0.15);
+                    cursor: grab;
+                    backdrop-filter: url(#${this.id}_filter) blur(0.25px)
+                                     contrast(1.2) brightness(1.05) saturate(1.1);
+                    z-index: 9999;
+                    pointer-events: auto;
+                `;
 
                 // SVG filter
                 this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                 this.svg.setAttribute('width', '0');
                 this.svg.setAttribute('height', '0');
-                this.svg.style.cssText = 'position: absolute; top: 0; left: 0; pointer-events: none; z-index: 0;';
+                this.svg.style.cssText = 'position:fixed; top:0; left:0; pointer-events:none; z-index:9998;';
 
                 const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
                 const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
@@ -106,10 +116,47 @@ export function useLiquidGlass(containerRef: React.RefObject<HTMLElement>) {
                 this.context = ctx;
             }
 
+            setupEventListeners(): void {
+                let isDragging = false;
+                let startX = 0,
+                    startY = 0,
+                    initialX = 0,
+                    initialY = 0;
+
+                this.container.addEventListener('mousedown', (e: MouseEvent) => {
+                    isDragging = true;
+                    this.container.style.cursor = 'grabbing';
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    const rect = this.container.getBoundingClientRect();
+                    initialX = rect.left;
+                    initialY = rect.top;
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', (e: MouseEvent) => {
+                    if (isDragging) {
+                        const deltaX = e.clientX - startX;
+                        const deltaY = e.clientY - startY;
+                        const newX = initialX + deltaX;
+                        const newY = initialY + deltaY;
+
+                        this.container.style.left = `${newX}px`;
+                        this.container.style.top = `${newY}px`;
+                        this.container.style.transform = 'none';
+                    }
+                });
+
+                document.addEventListener('mouseup', () => {
+                    isDragging = false;
+                    this.container.style.cursor = 'grab';
+                });
+            }
+
             updateShader(): void {
                 const update = () => {
-                    const w = Math.floor(this.width * this.canvasDPI);
-                    const h = Math.floor(this.height * this.canvasDPI);
+                    const w = this.width * this.canvasDPI;
+                    const h = this.height * this.canvasDPI;
                     const data = new Uint8ClampedArray(w * h * 4);
 
                     let maxScale = 0;
@@ -125,11 +172,11 @@ export function useLiquidGlass(containerRef: React.RefObject<HTMLElement>) {
                         rawValues.push(dx, dy);
                     }
 
-                    maxScale *= 1;
+                    maxScale *= 0.5;
 
                     let index = 0;
                     for (let i = 0; i < data.length; i += 4) {
-                        const r = rawValues[index++] / maxScale + 0.75;
+                        const r = rawValues[index++] / maxScale + 0.5;
                         const g = rawValues[index++] / maxScale + 0.5;
                         data[i] = r * 255;
                         data[i + 1] = g * 255;
@@ -140,56 +187,42 @@ export function useLiquidGlass(containerRef: React.RefObject<HTMLElement>) {
                     this.context.putImageData(new ImageData(data, w, h), 0, 0);
                     this.feImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', this.canvas.toDataURL());
                     this.feDisplacementMap.setAttribute('scale', (maxScale / this.canvasDPI).toString());
-                    requestAnimationFrame(update); // Continuous animation
                 };
                 requestAnimationFrame(update);
             }
 
             appendTo(parent: HTMLElement): void {
                 parent.appendChild(this.svg);
+                parent.appendChild(this.container);
             }
 
             destroy(): void {
                 this.svg.remove();
+                this.container.remove();
                 this.canvas.remove();
             }
         }
 
         // ================== Create instance ==================
-        const shader = new Shader(containerRef.current, {
+        const shader = new Shader({
+            width: 150,
+            height: 50,
             fragment: (uv) => {
                 const ix = uv.x - 0.5;
                 const iy = uv.y - 0.5;
-                const distanceToEdge = roundedRectSDF(ix, iy, 0.4, 0.3, 0.6);
+                const distanceToEdge = roundedRectSDF(ix, iy, 0.3, 0.2, 0.6);
                 const displacement = smoothStep(0.8, 0, distanceToEdge - 0.15);
-                const scaled = smoothStep(0, 1.1, displacement);
+                const scaled = smoothStep(0, 1, displacement);
                 return texture(ix * scaled + 0.5, iy * scaled + 0.5);
             },
         });
 
-        shader.appendTo(containerRef.current);
+        shader.appendTo(document.body);
         instances.push(shader);
-
-        // Handle resize
-        const handleResize = () => {
-            if (!containerRef.current) return;
-            const rect = containerRef.current.getBoundingClientRect();
-            shader.width = rect.width;
-            shader.height = rect.height;
-            shader.canvas.width = shader.width * shader.canvasDPI;
-            shader.canvas.height = shader.height * shader.canvasDPI;
-            shader.feImage.setAttribute('width', shader.width.toString());
-            shader.feImage.setAttribute('height', shader.height.toString());
-            shader.feDisplacementMap.setAttribute('width', shader.width.toString());
-            shader.feDisplacementMap.setAttribute('height', shader.height.toString());
-        };
-
-        window.addEventListener('resize', handleResize);
 
         return () => {
             shader.destroy();
             instances.splice(instances.indexOf(shader), 1);
-            window.removeEventListener('resize', handleResize);
         };
-    }, [containerRef]);
+    }, []);
 }

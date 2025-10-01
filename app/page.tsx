@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import styles from './styles/home.module.css';
 import Popup from './popup/template_details/Template_Details';
@@ -25,7 +24,8 @@ import DynamicSystem from './pages/DefaultLayouts/dynamic_system/DynamicSystem';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import { useSearchParams } from 'next/navigation';
-import NavCenter from './pages/DefaultLayouts/navCenter/page';
+import NavCenter from './pages/DefaultLayouts/navCenter/navCenter';
+import SupportError from 'app/feedback/SupportError/SupportError';
 
 interface Template {
     template_id: number;
@@ -107,6 +107,7 @@ const Home: React.FC = () => {
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
     const [isReplyVisible, setIsReplyVisible] = useState<boolean>(false);
+    const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false); // Thêm trạng thái cho SupportError
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
     const [isFeedbackLoading, setIsFeedbackLoading] = useState<boolean>(false);
 
@@ -116,6 +117,21 @@ const Home: React.FC = () => {
     const status = searchParams.get('status');
 
     const [dynamicMode, setDynamicMode] = useState<'' | 'payment' | 'action' | 'notifications'>('');
+
+    // Hàm để mở GeminiReply
+    const openReply = () => {
+        setIsReplyVisible(true);
+    };
+
+    // Hàm để đóng GeminiReply
+    const closeReply = () => {
+        setIsReplyVisible(false);
+    };
+
+    // Hàm để mở/đóng SupportError
+    const toggleSupport = () => {
+        setIsSupportOpen((prev) => !prev);
+    };
 
     useEffect(() => {
         if (templateId && checkOut) {
@@ -168,7 +184,7 @@ const Home: React.FC = () => {
             }
         };
         fetchUserProfile();
-    }, [getUserProfile, accessToken]); // Added accessToken to dependency array
+    }, [getUserProfile, accessToken]);
 
     useEffect(() => {
         const fetchFeedbacks = async () => {
@@ -262,10 +278,6 @@ const Home: React.FC = () => {
         if (e.key === 'Enter') {
             handleSearch();
         }
-    };
-
-    const closeReply = () => {
-        setIsReplyVisible(false);
     };
 
     const groupedTemplates = categories.reduce(
@@ -582,7 +594,7 @@ const Home: React.FC = () => {
                             <div className={styles.faqSection_box__item} data-aos="fade-left" data-aos-delay="1100">
                                 <h4>Tiền mừng sẽ được rút từ hệ thống hay được đưa thẳng vào Ngân Hàng cá nhân</h4>
                                 <p>
-                                    Khi tạo tạo QR nhận mừng Hỷ, tiền sẽ thông qua QR đến trực tiếp tài khoản của{' '}
+                                    Khi tạo QR nhận mừng Hỷ, tiền sẽ thông qua QR đến trực tiếp tài khoản của{' '}
                                     <strong>Chú Rể</strong> hoặc <strong>Cô Dâu</strong> khi khách mời quét QR.
                                 </p>
                                 <p>Hệ thống không nhận hay giữ bất cứ tiền liên quan từ phía khách hàng.</p>
@@ -591,9 +603,9 @@ const Home: React.FC = () => {
                     </div>
                 </div>
 
-                <NavCenter />
-
+                <NavCenter onOpenReply={openReply} onToggleSupport={toggleSupport} />
                 {isReplyVisible && <GeminiReply onClose={closeReply} />}
+                {isSupportOpen && <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupport} />}
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}
             {dynamicMode && <DynamicSystem status={status} mode={dynamicMode} />}

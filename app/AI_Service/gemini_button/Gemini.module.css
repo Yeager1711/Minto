@@ -14,7 +14,7 @@
   position: relative;
   z-index: 1;
   transition: transform 0.3s ease;
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
 }
 .gemini_button svg {
   z-index: 2;

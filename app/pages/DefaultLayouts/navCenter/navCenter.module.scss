@@ -67,6 +67,12 @@
             backdrop-filter: blur(10px) saturate(90%); // Tăng blur và saturate
             -webkit-backdrop-filter: blur(1px) saturate(90%);
 
+            .support {
+                svg {
+                    margin-bottom: -1.3rem;
+                }
+            }
+
             svg {
                 font-size: 2rem;
             }

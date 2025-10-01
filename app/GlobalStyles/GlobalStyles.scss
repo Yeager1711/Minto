@@ -119,14 +119,11 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
 
-
-
-
     &::-webkit-scrollbar {
         background: #dbdbdb;
         height: 1px;
         width: 1rem;
-        // display: none;
+        display: none;
     }
 
     &::-webkit-scrollbar-thumb {

@@ -1,7 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeadset, faXmark } from '@fortawesome/free-solid-svg-icons';
 import styles from './SupportError.module.css';
 import { useApi } from 'app/lib/apiContext/apiContext';
 import { toast } from 'react-toastify';
@@ -74,10 +72,7 @@ const SupportError: React.FC<SupportErrorProps> = ({ isSupportOpen, toggleSuppor
 
     return (
         <>
-            <div className={styles.support} onClick={toggleSupportPopup}>
-                <FontAwesomeIcon icon={isSupportOpen ? faXmark : faHeadset} />
-            </div>
-
+        
             <div className={`${styles.wrapper_support} ${isSupportOpen ? styles.active : ''}`}>
                 <div className={styles.box}>
                     <label htmlFor="user_id">Mã khách hàng</label>

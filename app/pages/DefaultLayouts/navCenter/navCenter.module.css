@@ -63,6 +63,9 @@
   backdrop-filter: blur(10px) saturate(90%);
   -webkit-backdrop-filter: blur(1px) saturate(90%);
 }
+.card__layout_liquidGlass .ingredient .btn_control .support svg {
+  margin-bottom: -1.3rem;
+}
 .card__layout_liquidGlass .ingredient .btn_control svg {
   font-size: 2rem;
 }

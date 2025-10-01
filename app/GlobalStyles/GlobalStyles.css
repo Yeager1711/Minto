@@ -94,6 +94,7 @@ html::-webkit-scrollbar {
   background: #dbdbdb;
   height: 1px;
   width: 1rem;
+  display: none;
 }
 html::-webkit-scrollbar-thumb {
   height: 1px;

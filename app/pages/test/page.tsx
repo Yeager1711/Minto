@@ -3,7 +3,7 @@ import * as React from 'react';
 import styles from './test.module.css';
 import DynamicIsland from '../Dynamic_Island/DynamicIsLand';
 import { useApi } from 'app/lib/apiContext/apiContext';
-import { useLiquidGlass } from '../DefaultLayouts/useLiquidGlass/useLiquidGlass';
+// import { useLiquidGlass } from '../DefaultLayouts/useLiquidGlass/useLiquidGlass';
 
 interface DynamicPayload {
     state: 'minimal' | 'compact' | 'expanded';
@@ -21,7 +21,6 @@ interface DynamicPayload {
 
 function TestAPIDynamic() {
     const { updateDynamic } = useApi();
-    useLiquidGlass();
     const [isOpenDynamic, setIsOpenDynamic] = React.useState(false);
     const [dynamicState, setDynamicState] = React.useState<'minimal' | 'compact' | 'expanded'>('compact');
     const [status, setStatus] = React.useState<'success' | 'error' | undefined>(undefined);
