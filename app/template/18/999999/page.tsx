@@ -33,7 +33,7 @@ function Template18C() {
                         <div className={styles.flex}>
                             <div className={styles.left}>
                                 <h2>
-                                    Bride <strong>Story</strong>
+                                    Groom <strong>Story</strong>
                                 </h2>
                                 <div className={styles.GroomStory}>
                                     <strong>✧</strong> Hạnh phúc nhất trên đời không phải là việc gặp được người tuyệt
