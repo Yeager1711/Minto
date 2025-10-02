@@ -1,0 +1,246 @@
+.Template18C {
+    .wrapper {
+        max-width: 80rem;
+        width: 100%;
+        margin: auto;
+        // border: .1rem solid #dbdbdb;
+        min-height: 100vh;
+
+        .main {
+            .first {
+                padding: 5rem 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: .5rem;
+
+                .text1,
+                .text3 {
+                    font-family: "Cormorant Garamond", serif;
+                    font-size: 2rem;
+
+                    @media (max-width: 480px) {
+                        font-size: 1.5rem;
+                    }
+                }
+
+                .text3 {
+                    text-align: end;
+                }
+
+                .text2 {
+                    font-family: "Arizonia", handwriting;
+                    font-weight: 550;
+                    font-size: 6rem;
+                    text-align: center;
+
+                    @media (max-width: 480px) {
+                        font-size: 4.2rem;
+                    }
+                }
+            }
+
+            .image_heade {
+                img {
+                    width: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .footer_head {
+                text-align: center;
+                padding: 5rem 1rem;
+                line-height: 4rem;
+                font-size: 3rem;
+                font-family: "Cormorant Garamond", serif;
+
+                @media (max-width: 480px) {
+                    font-size: 2rem;
+                }
+
+                em {
+                    font-family: "Arizonia", handwriting;
+                    padding: 0 .5rem;
+                }
+            }
+        }
+
+        .groom_story {
+            margin-bottom: 2rem;
+
+            .getGroom {
+                .flex {
+                    display: flex;
+
+                    .left {
+                        flex: 1 1;
+                        position: relative;
+                        z-index: 2;
+                        padding: 0 1rem 0 0;
+
+                        h2 {
+                            position: absolute;
+                            left: 2rem;
+                            font-size: 4rem;
+                            font-family: "Cormorant Garamond", serif;
+                            text-transform: uppercase;
+                            margin: 0;
+                            padding-bottom: 1rem;
+                            border-bottom: .2rem solid #333;
+                            width: 80%;
+
+                            strong {
+                                font-size: 2rem;
+                            }
+
+                            @media (max-width: 480px) {
+                                font-size: 3.5rem;
+                            }
+                        }
+
+                        .GroomStory {
+                            position: absolute;
+                            left: 2rem;
+                            top: 50%;
+                            transform: translate(2rem, -50%);
+                            width: 80%;
+                            font-size: 1.9rem;
+                            line-height: 2;
+                            font-family: "Cormorant Garamond", serif;
+
+                            @media (max-width: 480px) {
+                                left: 0;
+                                top: 56%;
+                                transform: translate(2rem, -50%);
+                                font-size: 1.25rem;
+                                line-height: 2;
+                            }
+                        }
+
+                        .location {
+                            position: absolute;
+                            bottom: 5%;
+                            left: 2rem;
+                            font-size: 1.8rem;
+                            font-family: "Cormorant Garamond", serif;
+                            text-transform: uppercase;
+                            background: #333;
+                            color: #fff;
+                            padding: .7rem 2rem;
+
+
+                            @media (max-width: 480px) {
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+
+                    .right {
+                        flex: 1 1;
+
+                        img {
+                            width: 100%;
+                            height: 60rem;
+                            object-fit: cover;
+
+
+                            @media (max-width: 480px) {
+                                height: 40rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .bride_story {
+            padding-top: 2rem;
+
+            .getBride {
+                .flex {
+                    display: flex;
+
+                    .right {
+                        flex: 1 1;
+                        position: relative;
+                        z-index: 2;
+                        padding: 0 1rem 0 0;
+
+                        h2 {
+                            position: absolute;
+                            right: 2rem;
+                            font-size: 4rem;
+                            font-family: "Cormorant Garamond", serif;
+                            text-transform: uppercase;
+                            margin: 0;
+                            padding-bottom: 1rem;
+                            border-bottom: .2rem solid #333;
+                            width: 80%;
+                            text-align: end;
+
+                            strong {
+                                font-size: 2rem;
+                            }
+
+                            @media (max-width: 480px) {
+                                font-size: 3.5rem;
+                            }
+                        }
+
+                        .BrideStory {
+                            position: absolute;
+                            right: 2rem;
+                            top: 50%;
+                            transform: translate(2rem, -50%);
+                            width: 80%;
+                            font-size: 1.9rem;
+                            line-height: 2;
+                            font-family: "Cormorant Garamond", serif;
+                            text-align: end;
+
+                            @media (max-width: 480px) {
+                                left: 0;
+                                top: 56%;
+                                transform: translate(2rem, -50%);
+                                font-size: 1.25rem;
+                                line-height: 2;
+                            }
+                        }
+
+                        .location {
+                            position: absolute;
+                            bottom: 5%;
+                            right: 2rem;
+                            font-size: 1.8rem;
+                            font-family: "Cormorant Garamond", serif;
+                            text-transform: uppercase;
+                            background: #333;
+                            color: #fff;
+                            padding: .7rem 2rem;
+                            text-align: end;
+
+                            @media (max-width: 480px) {
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+
+                    .left {
+                        flex: 1 1;
+
+                        img {
+                            width: 100%;
+                            height: 60rem;
+                            object-fit: cover;
+
+
+                            @media (max-width: 480px) {
+                                height: 40rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

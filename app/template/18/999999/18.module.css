@@ -1,0 +1,222 @@
+.Template18C .wrapper {
+  max-width: 80rem;
+  width: 100%;
+  margin: auto;
+  min-height: 100vh;
+}
+.Template18C .wrapper .main .first {
+  padding: 5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.Template18C .wrapper .main .first .text1,
+.Template18C .wrapper .main .first .text3 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .main .first .text1,
+  .Template18C .wrapper .main .first .text3 {
+    font-size: 1.5rem;
+  }
+}
+.Template18C .wrapper .main .first .text3 {
+  text-align: end;
+}
+.Template18C .wrapper .main .first .text2 {
+  font-family: "Arizonia", handwriting;
+  font-weight: 550;
+  font-size: 6rem;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .main .first .text2 {
+    font-size: 4.2rem;
+  }
+}
+.Template18C .wrapper .main .image_heade img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.Template18C .wrapper .main .footer_head {
+  text-align: center;
+  padding: 5rem 1rem;
+  line-height: 4rem;
+  font-size: 3rem;
+  font-family: "Cormorant Garamond", serif;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .main .footer_head {
+    font-size: 2rem;
+  }
+}
+.Template18C .wrapper .main .footer_head em {
+  font-family: "Arizonia", handwriting;
+  padding: 0 0.5rem;
+}
+.Template18C .wrapper .groom_story {
+  margin-bottom: 2rem;
+}
+.Template18C .wrapper .groom_story .getGroom .flex {
+  display: flex;
+}
+.Template18C .wrapper .groom_story .getGroom .flex .left {
+  flex: 1 1;
+  position: relative;
+  z-index: 2;
+  padding: 0 1rem 0 0;
+}
+.Template18C .wrapper .groom_story .getGroom .flex .left h2 {
+  position: absolute;
+  left: 2rem;
+  font-size: 4rem;
+  font-family: "Cormorant Garamond", serif;
+  text-transform: uppercase;
+  margin: 0;
+  padding-bottom: 1rem;
+  border-bottom: 0.2rem solid #333;
+  width: 80%;
+}
+.Template18C .wrapper .groom_story .getGroom .flex .left h2 strong {
+  font-size: 2rem;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .groom_story .getGroom .flex .left h2 {
+    font-size: 3.5rem;
+  }
+}
+.Template18C .wrapper .groom_story .getGroom .flex .left .GroomStory {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translate(2rem, -50%);
+  width: 80%;
+  font-size: 1.9rem;
+  line-height: 2;
+  font-family: "Cormorant Garamond", serif;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .groom_story .getGroom .flex .left .GroomStory {
+    left: 0;
+    top: 56%;
+    transform: translate(2rem, -50%);
+    font-size: 1.25rem;
+    line-height: 2;
+  }
+}
+.Template18C .wrapper .groom_story .getGroom .flex .left .location {
+  position: absolute;
+  bottom: 5%;
+  left: 2rem;
+  font-size: 1.8rem;
+  font-family: "Cormorant Garamond", serif;
+  text-transform: uppercase;
+  background: #333;
+  color: #fff;
+  padding: 0.7rem 2rem;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .groom_story .getGroom .flex .left .location {
+    font-size: 1.5rem;
+  }
+}
+.Template18C .wrapper .groom_story .getGroom .flex .right {
+  flex: 1 1;
+}
+.Template18C .wrapper .groom_story .getGroom .flex .right img {
+  width: 100%;
+  height: 60rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .groom_story .getGroom .flex .right img {
+    height: 40rem;
+  }
+}
+.Template18C .wrapper .bride_story {
+  padding-top: 2rem;
+}
+.Template18C .wrapper .bride_story .getBride .flex {
+  display: flex;
+}
+.Template18C .wrapper .bride_story .getBride .flex .right {
+  flex: 1 1;
+  position: relative;
+  z-index: 2;
+  padding: 0 1rem 0 0;
+}
+.Template18C .wrapper .bride_story .getBride .flex .right h2 {
+  position: absolute;
+  right: 2rem;
+  font-size: 4rem;
+  font-family: "Cormorant Garamond", serif;
+  text-transform: uppercase;
+  margin: 0;
+  padding-bottom: 1rem;
+  border-bottom: 0.2rem solid #333;
+  width: 80%;
+  text-align: end;
+}
+.Template18C .wrapper .bride_story .getBride .flex .right h2 strong {
+  font-size: 2rem;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .bride_story .getBride .flex .right h2 {
+    font-size: 3.5rem;
+  }
+}
+.Template18C .wrapper .bride_story .getBride .flex .right .BrideStory {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translate(2rem, -50%);
+  width: 80%;
+  font-size: 1.9rem;
+  line-height: 2;
+  font-family: "Cormorant Garamond", serif;
+  text-align: end;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .bride_story .getBride .flex .right .BrideStory {
+    left: 0;
+    top: 56%;
+    transform: translate(2rem, -50%);
+    font-size: 1.25rem;
+    line-height: 2;
+  }
+}
+.Template18C .wrapper .bride_story .getBride .flex .right .location {
+  position: absolute;
+  bottom: 5%;
+  right: 2rem;
+  font-size: 1.8rem;
+  font-family: "Cormorant Garamond", serif;
+  text-transform: uppercase;
+  background: #333;
+  color: #fff;
+  padding: 0.7rem 2rem;
+  text-align: end;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .bride_story .getBride .flex .right .location {
+    font-size: 1.5rem;
+  }
+}
+.Template18C .wrapper .bride_story .getBride .flex .left {
+  flex: 1 1;
+}
+.Template18C .wrapper .bride_story .getBride .flex .left img {
+  width: 100%;
+  height: 60rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media (max-width: 480px) {
+  .Template18C .wrapper .bride_story .getBride .flex .left img {
+    height: 40rem;
+  }
+}/*# sourceMappingURL=18.module.css.map */
