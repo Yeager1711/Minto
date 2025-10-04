@@ -263,7 +263,7 @@
   top: 110%;
   right: 1rem;
   width: 100%;
-  max-width: 20rem;
+  max-width: 21.5rem;
   padding: 1.2rem 1.4rem;
   border-radius: 2.5rem;
   overflow: hidden;
@@ -301,6 +301,7 @@
 .user-popup .user-info:hover {
   background: rgba(255, 255, 255, 0.1);
   transition: background 0.3s ease;
+  cursor: pointer;
   border-radius: 1.5rem;
 }
 .user-popup .control {
