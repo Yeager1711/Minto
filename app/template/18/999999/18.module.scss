@@ -1,10 +1,60 @@
 .Template18C {
+    .guestPopup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+
+        &__content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            max-width: 40rem;
+            width: 85%;
+            height: 18rem;
+
+            h2 {
+                font-family: "Cormorant Garamond", serif;
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+                color: #333;
+            }
+
+            button {
+                display: block;
+                width: 80%;
+                margin: 1rem auto;
+                padding: 1rem;
+                font-size: 1.6rem;
+                font-family: "Cormorant Garamond", serif;
+                background: #4b3935;
+                color: #fff;
+                border: none;
+                border-radius: 0.5rem;
+                cursor: pointer;
+                transition: background 0.3s;
+
+                &:hover {
+                    background: #5c2a2a;
+                }
+            }
+        }
+    }
+
     .wrapper {
         max-width: 80rem;
         width: 100%;
         margin: auto;
         // border: .1rem solid #dbdbdb;
         min-height: 100vh;
+
 
         .main {
             .first {
@@ -14,19 +64,16 @@
                 justify-content: space-between;
                 gap: .5rem;
 
-                .text1,
                 .text3 {
                     font-family: "Cormorant Garamond", serif;
-                    font-size: 2rem;
+                    font-size: 3rem;
+                    text-align: end;
 
                     @media (max-width: 480px) {
                         font-size: 1.5rem;
                     }
                 }
 
-                .text3 {
-                    text-align: end;
-                }
 
                 .text2 {
                     font-family: "Arizonia", handwriting;
@@ -35,7 +82,7 @@
                     text-align: center;
 
                     @media (max-width: 480px) {
-                        font-size: 4.2rem;
+                        font-size: 4.5rem;
                     }
                 }
             }
@@ -116,23 +163,6 @@
                                 line-height: 2;
                             }
                         }
-
-                        .location {
-                            position: absolute;
-                            bottom: 5%;
-                            left: 2rem;
-                            font-size: 1.8rem;
-                            font-family: "Cormorant Garamond", serif;
-                            text-transform: uppercase;
-                            background: #333;
-                            color: #fff;
-                            padding: .7rem 2rem;
-
-
-                            @media (max-width: 480px) {
-                                font-size: 1.5rem;
-                            }
-                        }
                     }
 
                     .right {
@@ -206,23 +236,6 @@
                                 line-height: 2;
                             }
                         }
-
-                        .location {
-                            position: absolute;
-                            bottom: 5%;
-                            right: 2rem;
-                            font-size: 1.8rem;
-                            font-family: "Cormorant Garamond", serif;
-                            text-transform: uppercase;
-                            background: #333;
-                            color: #fff;
-                            padding: .7rem 2rem;
-                            text-align: end;
-
-                            @media (max-width: 480px) {
-                                font-size: 1.5rem;
-                            }
-                        }
                     }
 
                     .left {
@@ -237,6 +250,371 @@
                             @media (max-width: 480px) {
                                 height: 40rem;
                             }
+                        }
+                    }
+                }
+            }
+        }
+
+        .family_info__wrapper {
+            color: #e4dfd9;
+            padding: 1rem;
+
+            .family_info {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 2rem 0.5rem;
+                justify-content: space-between;
+
+                .groom_family,
+                .bride_family {
+                    flex: 1 1 16rem;
+                    text-align: center;
+
+                    span {
+                        font-size: 1.8rem;
+                        text-transform: capitalize;
+                        font-family: "Cormorant Garamond", serif;
+                        margin-bottom: 2rem;
+                        color: #333;
+
+                        @media (max-width: 480px) {
+                            font-size: 1.5rem;
+                        }
+                    }
+
+                    div {
+                        font-size: 1.4rem;
+                        padding: 0.3rem 0;
+                        text-transform: capitalize;
+                        color: #333;
+                    }
+
+                    .location {
+                        font-size: 1.4rem;
+                        padding: 0.3rem 0;
+                        text-transform: capitalize;
+
+                        @media (max-width: 480px) {
+                            font-size: 1.1rem;
+                            line-height: 1.3;
+                        }
+                    }
+                }
+            }
+
+            .invitation_sub {
+                text-align: center;
+
+                .subtilte {
+                    font-family: "Cormorant Garamond", serif;
+                    font-size: 2rem;
+                    color: #111;
+                }
+
+                .invitation__names {
+
+                    .groom__names,
+                    .bride__names {
+                        font-family: "Arizonia", handwriting;
+                        font-size: 12rem;
+                        color: #111;
+
+                        @media (max-width: 480px) {
+                            font-size: 7rem;
+                        }
+                    }
+
+                    .and {
+                        font-size: 4rem;
+                        line-height: 1.5;
+                        font-family: "Allura", cursive;
+                        color: #111;
+                    }
+                }
+
+                .invitation__location {
+                    font-family: "Cormorant Garamond", serif;
+                    font-size: 2rem;
+                    margin-top: 4rem;
+                    color: #333;
+                }
+
+                .invitation__datetime {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 1.5rem 0 1rem 0;
+
+                    .dateTime_flex {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+
+                        .flex_left {
+                            text-align: right;
+                            border-right: 0.1rem solid #dbdbdb;
+                            padding-right: 1rem;
+
+                            span {
+                                display: block;
+                                font-size: 3rem;
+                                color: #111;
+                                font-family: "Arizonia", handwriting;
+                            }
+                        }
+
+                        .flex_right {
+                            text-align: left;
+                            color: #111;
+                            font-size: 3rem;
+
+                            span {
+                                display: block;
+                                font-weight: 600;
+                                color: #111;
+                                font-family: "Arizonia", handwriting;
+                            }
+                        }
+                    }
+                }
+
+                .lunarDay {
+                    font-size: 3.2rem;
+                    font-family: "Bonheur Royale", handwriting;
+                    padding: 1rem 0;
+                    color: #333;
+
+                    @media (max-width: 768px) {
+                        font-size: 2rem;
+                    }
+                }
+
+                .btn_googleMap {
+                    padding: 1rem 5rem;
+                    border: 0.2rem solid #aba7a2;
+                    color: #fff;
+                    margin-top: 1.5rem;
+                    font-size: 1.4rem;
+                    cursor: pointer;
+                    background: none;
+
+                    @media (max-width: 768px) {
+                        font-size: 1.3rem;
+                    }
+                }
+            }
+
+            .card {
+                max-width: 80rem;
+                margin: auto;
+                background: #fff;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                font-family: "Cormorant Garamond", serif;
+                color: #333;
+                text-align: center;
+                padding: 3rem 1.5rem 1.5rem 1.5rem;
+                margin-top: 2.5rem;
+
+                @media (max-width: 480px) {
+                    padding: 2rem 1rem 1rem 1rem;
+                    border-radius: 1rem;
+                }
+
+                &__imageTop img,
+                &__imageMiddle img,
+                &__imageBottom img {
+                    width: 100%;
+                    height: 35rem;
+                    display: block;
+                    object-fit: cover;
+
+                    @media (max-width: 480px) {
+                        height: 20rem;
+                    }
+                }
+
+                &__saveDate {
+                    padding: 1rem;
+                    border-top: 1px solid #eee;
+                    border-bottom: 1px solid #eee;
+
+                    &Title {
+                        font-size: 3.5rem;
+                        font-weight: 600;
+                        letter-spacing: 0.15rem;
+                        text-transform: uppercase;
+                        margin-bottom: 0.5rem;
+                        margin-top: 1rem;
+                    }
+
+                    &Info {
+                        font-size: 1.5rem;
+                        color: #555;
+                        font-weight: 600;
+                    }
+                }
+
+                &__coupleNames {
+                    font-size: 5rem;
+                    font-family: "Arizonia", handwriting;
+                    font-weight: 500;
+                    color: #333;
+                    margin: 1rem 0;
+
+                    @media (max-width: 480px) {
+                        font-size: 3rem;
+                    }
+                }
+
+                &__footer {
+                    font-size: 1.5rem;
+                    letter-spacing: 0.1rem;
+                    color: #555;
+                    margin: 1.5rem 0 1rem 0;
+                }
+            }
+
+            .Schedule {
+                text-align: center;
+                padding: 2rem 0;
+                color: #fff;
+                font-family: "Bonheur Royale", handwriting;
+
+                &__title {
+                    font-size: 7rem;
+                    font-weight: 400;
+                    margin-bottom: 3rem;
+                    text-transform: capitalize;
+
+                    @media (max-width: 480px) {
+                        font-size: 5.5rem;
+                    }
+                }
+
+                &__list {
+                    position: relative;
+                    list-style: none;
+                    margin: 0 auto;
+                    padding: 0;
+                    max-width: 80rem;
+                    width: 95%;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translate(-50%, 0);
+                        width: 0.2rem;
+                        background: #ccc;
+                        transform: translateX(-50%);
+                    }
+
+                    li {
+                        position: relative;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 10rem;
+                        text-align: left;
+
+                        &:last-child {
+                            margin-bottom: 2rem;
+                        }
+                    }
+
+                    .time {
+                        width: 40%;
+                        text-align: right;
+                        font-weight: bold;
+                        font-size: 3rem;
+                    }
+
+                    .event {
+                        width: 40%;
+                        text-align: left;
+                        margin-top: -1rem;
+                        font-size: 3rem;
+                    }
+
+                    .dot {
+                        position: relative;
+                        z-index: 1;
+                        width: 2rem;
+                        height: 2rem;
+                        background: #e4e4e4;
+                        border-radius: 50%;
+                        margin-top: -0.5rem;
+                    }
+                }
+            }
+        }
+
+        .countdown {
+            position: relative;
+
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                background-position: center;
+                background-size: cover;
+            }
+
+            .countdown__timer {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                gap: 3rem;
+                padding: 1rem;
+                border-radius: 0.5rem;
+
+                @media (max-width: 480px) {
+                    gap: 1rem;
+                    padding: 0.5rem;
+                }
+
+                .countdown__item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-family: "Cormorant Garamond", serif;
+                    font-size: 5rem;
+                    color: #333;
+                    background: rgba(255, 255, 255, 0.5);
+                    width: 6rem;
+                    padding: 0 1rem 1rem 1rem;
+                    border-radius: 1rem;
+
+                    @media (max-width: 480px) {
+                        font-size: 3rem;
+                    }
+
+                    span:first-child {
+                        font-weight: 600;
+                    }
+
+                    span:last-child {
+                        font-size: 1.4rem;
+                        text-transform: uppercase;
+                        margin-top: 1rem;
+
+                        @media (max-width: 480px) {
+                            font-size: 1rem;
                         }
                     }
                 }

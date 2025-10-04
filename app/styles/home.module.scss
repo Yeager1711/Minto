@@ -101,7 +101,6 @@
          // background: #fbf7f4;
          background: transparent;
          border-radius: 1rem;
-         padding: 2rem;
 
          .search_bar {
            display: inline-flex;
@@ -116,6 +115,7 @@
            transition: all 0.3s ease;
 
            &.search_bar_expanded {
+             width: 90%;
              padding: 1.5rem;
            }
 

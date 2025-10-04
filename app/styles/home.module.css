@@ -95,7 +95,6 @@
 .main .wrapper_main .header .wrapper_expend {
   background: transparent;
   border-radius: 1rem;
-  padding: 2rem;
 }
 .main .wrapper_main .header .wrapper_expend .search_bar {
   display: inline-flex;
@@ -110,6 +109,7 @@
   transition: all 0.3s ease;
 }
 .main .wrapper_main .header .wrapper_expend .search_bar.search_bar_expanded {
+  width: 90%;
   padding: 1.5rem;
 }
 .main .wrapper_main .header .wrapper_expend .search_bar:hover {

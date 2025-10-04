@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .swiper-pagination.swiper-pagination-bullets-dynamic.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal {
   margin-bottom: -3rem;
 }
@@ -40,14 +41,21 @@
 }
 .notifications .wrapper_notifications .box {
   padding: 1.5rem 1rem;
-  background: #fbf7f4;
-  border-radius: 1rem;
-  border-left: 5px solid rgba(136, 136, 232, 0.8);
+  border-radius: 2.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   height: 15rem;
   overflow: auto;
   position: relative;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  backdrop-filter: blur(2.5rem) saturate(180%);
+  -webkit-backdrop-filter: blur(2.5rem) saturate(180%);
+  background: rgba(255, 255, 255, 0.2);
+  /* Liquid glass viền ánh sáng phản chiếu */
+  border: 1px solid rgb(255, 255, 255);
+  /* Hiệu ứng ánh sáng lỏng */
+  background-image: radial-gradient(circle at top left, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05)), linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  box-shadow: inset 0 -3px 8px rgba(0, 0, 0, 0.1);
 }
 .notifications .wrapper_notifications .box .icon_wrapper {
   position: absolute;
@@ -63,7 +71,6 @@
   display: none;
 }
 .notifications .wrapper_notifications .box:hover {
-  box-shadow: 0 6px 16px rgba(136, 136, 232, 0.15);
   transform: translateY(-2px);
 }
 .notifications .wrapper_notifications .box h3 {
