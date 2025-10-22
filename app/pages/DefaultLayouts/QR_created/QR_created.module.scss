@@ -5,8 +5,40 @@
     right: 0;
     bottom: 0;
     font-family: 'Poppins', sans-serif;
-    background: #fff;
     z-index: 999 !important;
+    backdrop-filter: blur(.5rem) saturate(90%);
+    -webkit-backdrop-filter: blur(.5rem) saturate(90%);
+    background: rgba(255, 255, 255, .7);
+
+    /* Liquid glass viền ánh sáng phản chiếu */
+    border: 1px solid rgba(255, 255, 255, 1);
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.05),
+        inset 0 0 30px rgba(255, 255, 255, 0.1),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 2rem;
+        pointer-events: none;
+        transition: 0.3s ease;
+    }
+
+    &::before {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.4), transparent);
+        mix-blend-mode: screen;
+        opacity: 0.4;
+    }
+
+    &::after {
+        background: radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.2), transparent);
+        mix-blend-mode: multiply;
+        opacity: 0.7;
+    }
+
 
     .header {
         display: flex;
@@ -30,12 +62,17 @@
     }
 
     .wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         margin: auto;
         max-width: 80rem;
-        width: 100%;
+        width: 85%;
         padding: 2rem;
-        height: 90vh;
+        height: 80vh;
         overflow-y: scroll;
+        border-radius: 2rem;
 
         &::-webkit-scrollbar {
             display: none;
@@ -134,12 +171,12 @@
                     margin-bottom: 4rem;
                     padding-left: 2rem;
                     padding: 0 0.5rem 0.5rem 0.5rem;
-                    background: #fff;
                     opacity: 0;
                     transform: translateY(20px);
                     animation: fadeInUp 0.5s ease forwards;
                     width: 90%;
                     cursor: pointer;
+
 
                     @media (max-width: 480px) {
                         padding-left: 0;

@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import styles from './PaymentHistory.module.scss';
 import { useApi } from 'app/lib/apiContext/apiContext';
@@ -9,10 +10,9 @@ interface Guest {
     guest_id: number;
     invitation_id: number;
     full_name: string;
-    card_id: number;
 }
 
-interface Template {
+interface UserTemplateItem {
     card_id: number;
     template: {
         template_id: number;
@@ -29,40 +29,44 @@ interface Template {
     };
 }
 
+interface UserTemplatesResponse {
+    paidTemplates: {
+        orders_success: UserTemplateItem[];
+        orders_cancel: UserTemplateItem[];
+    };
+}
+
+interface SelectedGuests {
+    guests: Guest[];
+    templateName: string;
+    template_id: number;
+    card_id: number;
+}
+
 function PaymentHistory() {
     const { getUserTemplates } = useApi();
-    const [templates, setTemplates] = useState<Template[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [templates, setTemplates] = useState<UserTemplatesResponse>({
+        paidTemplates: { orders_success: [], orders_cancel: [] },
+    });
+    const [activeTab, setActiveTab] = useState<'success' | 'cancel'>('success');
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
-    const [selectedGuests, setSelectedGuests] = useState<{
-        guests: Guest[];
-        templateName: string;
-        template_id: number;
-    } | null>(null);
+    const [selectedGuests, setSelectedGuests] = useState<SelectedGuests | null>(null);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async (): Promise<void> => {
             setIsLoading(true);
             try {
-                const templateData = await getUserTemplates();
-                const formattedTemplates = templateData.map((item: Template) => ({
-                    card_id: item.card_id,
-                    template: {
-                        template_id: item.template.template_id,
-                        name: item.template.name,
-                        image_url: item.template.image_url,
-                        price: item.template.price,
-                        payments: item.template.payments,
-                        guests: item.template.guests,
-                    },
-                }));
-                setTemplates(formattedTemplates);
+                const templateData: UserTemplatesResponse = await getUserTemplates();
+                setTemplates(templateData);
                 setError('');
             } catch (err: unknown) {
-                let errorMessage = 'Không thể lấy dữ liệu';
-                if (err instanceof Error) errorMessage = err.message;
-                else if (typeof err === 'object' && err !== null && 'message' in err)
-                    errorMessage = (err as { message: string }).message;
+                const errorMessage =
+                    err instanceof Error
+                        ? err.message
+                        : typeof err === 'object' && err !== null && 'message' in err
+                          ? (err as { message: string }).message
+                          : 'Không thể lấy dữ liệu';
                 setError(errorMessage);
             } finally {
                 setIsLoading(false);
@@ -71,15 +75,15 @@ function PaymentHistory() {
         fetchData();
     }, [getUserTemplates]);
 
-    const handleShowGuests = (guests: Guest[], templateName: string, template_id: number) => {
-        setSelectedGuests({ guests, templateName, template_id });
+    const handleShowGuests = (guests: Guest[], templateName: string, template_id: number, card_id: number): void => {
+        setSelectedGuests({ guests, templateName, template_id, card_id });
     };
 
-    const handleCloseGuests = () => {
+    const handleCloseGuests = (): void => {
         setSelectedGuests(null);
     };
 
-    const copyToClipboard = (text: string) => {
+    const copyToClipboard = (text: string): void => {
         navigator.clipboard
             .writeText(text)
             .then(() => {
@@ -97,6 +101,20 @@ function PaymentHistory() {
                 <div className={styles.orderSection}>
                     <h2 className={styles.sectionTitle}>Lịch sử thanh toán</h2>
                     {error && <p className={styles.error}>{error}</p>}
+                    <div className={styles.btn_change__list}>
+                        <button
+                            className={activeTab === 'success' ? styles.active : ''}
+                            onClick={() => setActiveTab('success')}
+                        >
+                            Đơn hàng thành công
+                        </button>
+                        <button
+                            className={activeTab === 'cancel' ? styles.active : ''}
+                            onClick={() => setActiveTab('cancel')}
+                        >
+                            Đơn hàng bị hủy
+                        </button>
+                    </div>
                     <div className={styles.orderList}>
                         <table className={styles.orderTable}>
                             <thead>
@@ -106,26 +124,38 @@ function PaymentHistory() {
                                     <th>Giá Thanh Toán</th>
                                     <th>Ngày Thanh Toán</th>
                                     <th>Trạng Thái</th>
-                                    <th>Khách Mời</th>
+                                    {activeTab === 'success' && <th>Khách Mời</th>}
                                 </tr>
                             </thead>
                             <tbody>
                                 {isLoading ? (
                                     Array.from({ length: 3 }).map((_, rowIndex) => (
                                         <tr key={rowIndex}>
-                                            {Array.from({ length: 6 }).map((_, cellIndex) => (
-                                                <td key={cellIndex}>
-                                                    <div className={`${styles.skeleton} ${styles.skeletonCell}`}></div>
-                                                </td>
-                                            ))}
+                                            {Array.from({ length: activeTab === 'success' ? 6 : 5 }).map(
+                                                (_, cellIndex) => (
+                                                    <td key={cellIndex}>
+                                                        <div
+                                                            className={`${styles.skeleton} ${styles.skeletonCell}`}
+                                                        ></div>
+                                                    </td>
+                                                )
+                                            )}
                                         </tr>
                                     ))
-                                ) : templates.length === 0 ? (
+                                ) : !templates.paidTemplates ||
+                                  templates.paidTemplates[activeTab === 'success' ? 'orders_success' : 'orders_cancel']
+                                      .length === 0 ? (
                                     <tr>
-                                        <td colSpan={6}>Chưa có đơn hàng nào.</td>
+                                        <td colSpan={activeTab === 'success' ? 6 : 5}>
+                                            {activeTab === 'success'
+                                                ? 'Chưa có đơn hàng thành công.'
+                                                : 'Chưa có đơn hàng bị hủy.'}
+                                        </td>
                                     </tr>
                                 ) : (
-                                    templates.map((template) => (
+                                    templates.paidTemplates[
+                                        activeTab === 'success' ? 'orders_success' : 'orders_cancel'
+                                    ].map((template) => (
                                         <tr key={template.card_id}>
                                             <td data-label="Tên Template">{template.template.name}</td>
                                             <td data-label="Giá Template">
@@ -143,28 +173,40 @@ function PaymentHistory() {
                                                       ).toLocaleDateString('vi-VN')
                                                     : 'Chưa có'}
                                             </td>
-                                            <td data-label="Trạng Thái">
+                                            <td
+                                                data-label="Trạng Thái"
+                                                className={
+                                                    template.template.payments[0]?.status === 'COMPLETED'
+                                                        ? styles.statusSuccess
+                                                        : template.template.payments[0]?.status === 'CANCELLED'
+                                                          ? styles.statusCancel
+                                                          : ''
+                                                }
+                                            >
                                                 {template.template.payments[0]?.status === 'COMPLETED'
-                                                    ? 'Hoàn tất'
+                                                    ? 'Success'
                                                     : template.template.payments[0]?.status || 'Chưa thanh toán'}
                                             </td>
-                                            <td data-label="Khách Mời">
-                                                <button
-                                                    className={styles.guestButton}
-                                                    onClick={() =>
-                                                        handleShowGuests(
-                                                            template.template.guests,
-                                                            template.template.name,
-                                                            template.template.template_id
-                                                        )
-                                                    }
-                                                    disabled={template.template.guests.length === 0}
-                                                >
-                                                    {template.template.guests.length > 0
-                                                        ? 'Xem danh sách'
-                                                        : 'Chưa có khách mời'}
-                                                </button>
-                                            </td>
+                                            {activeTab === 'success' && (
+                                                <td data-label="Khách Mời">
+                                                    <button
+                                                        className={styles.guestButton}
+                                                        onClick={() =>
+                                                            handleShowGuests(
+                                                                template.template.guests,
+                                                                template.template.name,
+                                                                template.template.template_id,
+                                                                template.card_id
+                                                            )
+                                                        }
+                                                        disabled={template.template.guests.length === 0}
+                                                    >
+                                                        {template.template.guests.length > 0
+                                                            ? 'Xem danh sách'
+                                                            : 'Chưa có khách mời'}
+                                                    </button>
+                                                </td>
+                                            )}
                                         </tr>
                                     ))
                                 )}
@@ -198,39 +240,29 @@ function PaymentHistory() {
                                     </thead>
                                     <tbody>
                                         {selectedGuests.guests.map((guest, index) => {
-                                            const link = `${process.env.NEXT_PUBLIC_BASE_URL || ''}/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${guest.card_id}`;
+                                            const link = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/template/${selectedGuests.template_id}/${guest.guest_id}/${guest.invitation_id}/${selectedGuests.card_id}`;
                                             return (
                                                 <tr key={guest.guest_id}>
-                                                    <td data-label="STT">{index+1}</td>
+                                                    <td data-label="STT">{index + 1}</td>
                                                     <td data-label="Template">{selectedGuests.templateName}</td>
                                                     <td data-label="Tên Khách Mời">
-                                                        {guest.card_id ? (
-                                                            <a
-                                                                href={link}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                className={styles.guestLink}
-                                                            >
-                                                                {guest.full_name}
-                                                            </a>
-                                                        ) : (
-                                                            <span>{guest.full_name}</span>
-                                                        )}
+                                                        <a
+                                                            href={link}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className={styles.guestLink}
+                                                        >
+                                                            {guest.full_name}
+                                                        </a>
                                                     </td>
                                                     <td data-label="Link Mời">
-                                                        {guest.card_id ? (
-                                                            <button
-                                                                className={styles.copyButton}
-                                                                onClick={() => copyToClipboard(link)}
-                                                                title="Sao chép link"
-                                                            >
-                                                                <FontAwesomeIcon icon={faCopy} />
-                                                            </button>
-                                                        ) : (
-                                                            <span className={styles.linkUnavailable}>
-                                                                Link không khả dụng
-                                                            </span>
-                                                        )}
+                                                        <button
+                                                            className={styles.copyButton}
+                                                            onClick={() => copyToClipboard(link)}
+                                                            title="Sao chép link"
+                                                        >
+                                                            <FontAwesomeIcon icon={faCopy} />
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             );

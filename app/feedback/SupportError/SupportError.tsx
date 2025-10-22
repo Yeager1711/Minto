@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SupportError.module.css';
 import { useApi } from 'app/lib/apiContext/apiContext';
-import { toast } from 'react-toastify';
+import DynamicIsland from 'app/pages/Dynamic_Island/DynamicIsLand';
 
 interface UserProfile {
     user_id: number;
@@ -21,11 +21,26 @@ interface SupportErrorProps {
     toggleSupportPopup: () => void;
 }
 
+interface DynamicPayload {
+    state: 'minimal' | 'compact' | 'expanded';
+    TypeContextCollapsed?: boolean;
+    action: 'success' | 'failure';
+    actionTitle?: string;
+    describe?: string; // Fixed typo from describle
+    time?: string;
+    type?: string;
+    duration?: number;
+    [key: string]: unknown;
+}
+
 const SupportError: React.FC<SupportErrorProps> = ({ isSupportOpen, toggleSupportPopup }) => {
-    const { getUserProfile, submitPostError } = useApi();
+    const { getUserProfile, submitPostError, updateDynamic } = useApi();
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [selectedIssue, setSelectedIssue] = useState<string>('');
     const [otherIssue, setOtherIssue] = useState<string>('');
+    const [isOpenDynamic, setIsOpenDynamic] = useState(false);
+    const [payload, setPayload] = useState<DynamicPayload | null>(null);
+    const [closeTimeoutId, setCloseTimeoutId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -38,11 +53,56 @@ const SupportError: React.FC<SupportErrorProps> = ({ isSupportOpen, toggleSuppor
                 const userProfileData = await getUserProfile();
                 setUserProfile(userProfileData);
             } catch {
-                toast.error('Không thể tải hồ sơ người dùng');
+                const errorPayload: DynamicPayload = {
+                    state: 'compact',
+                    TypeContextCollapsed: true,
+                    action: 'failure',
+                    actionTitle: 'Tải hồ sơ thất bại',
+                    describe: 'Không thể tải thông tin hồ sơ người dùng. Vui lòng đăng nhập lại.', // Fixed typo
+                    time: new Date().toISOString(),
+                    type: 'error',
+                    duration: 3500,
+                };
+                try {
+                    const response = await updateDynamic(errorPayload);
+                    toggleSidebar(response.TypeContextCollapsed ?? true);
+                    setPayload(response);
+                    setIsOpenDynamic(true);
+                    scheduleAutoClose(response);
+                } catch (updateError) {
+                    console.error('Lỗi khi cập nhật dynamic:', updateError, { payload: errorPayload });
+                }
             }
         };
         fetchUserProfile();
-    }, [getUserProfile]);
+
+        return () => {
+            if (closeTimeoutId) {
+                clearTimeout(closeTimeoutId);
+            }
+        };
+    }, [getUserProfile, updateDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const toggleSidebar = (collapsed: boolean) => {
+        const event = new CustomEvent('toggleSidebar', { detail: { collapsed } });
+        window.dispatchEvent(event);
+    };
+
+    const scheduleAutoClose = (data: DynamicPayload) => {
+        if (closeTimeoutId) {
+            clearTimeout(closeTimeoutId);
+            setCloseTimeoutId(null);
+        }
+        const duration = data.duration ?? 3500;
+        const id = window.setTimeout(() => {
+            setIsOpenDynamic(false);
+            setPayload(null);
+            toggleSidebar(false);
+            toggleSupportPopup();
+            setCloseTimeoutId(null);
+        }, duration);
+        setCloseTimeoutId(id);
+    };
 
     const handleIssueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedIssue(e.target.value);
@@ -55,24 +115,102 @@ const SupportError: React.FC<SupportErrorProps> = ({ isSupportOpen, toggleSuppor
     const handleSubmit = async () => {
         const errorMessage = selectedIssue === 'other' ? otherIssue : selectedIssue;
         if (!errorMessage) {
-            toast.error('Vui lòng chọn hoặc nhập vấn đề');
+            const errorPayload: DynamicPayload = {
+                state: 'compact',
+                TypeContextCollapsed: true,
+                action: 'failure',
+                actionTitle: 'Gửi phản hồi thất bại',
+                describe: 'Chưa chọn vấn đề cần mô tả.', // Fixed typo
+                time: new Date().toISOString(),
+                type: 'error',
+                duration: 3500,
+            };
+            try {
+                const response = await updateDynamic(errorPayload);
+                toggleSidebar(response.TypeContextCollapsed ?? true);
+                setPayload(response);
+                setIsOpenDynamic(true);
+                scheduleAutoClose(response);
+            } catch (updateError) {
+                console.error('Lỗi khi cập nhật dynamic:', updateError, { payload: errorPayload });
+            }
             return;
         }
 
         try {
-            const response = await submitPostError(errorMessage);
-            toast.success(response.message || 'Phản hồi đã được gửi thành công');
+            await submitPostError(errorMessage);
+
+            const successPayload: DynamicPayload = {
+                state: 'compact',
+                TypeContextCollapsed: true,
+                action: 'success',
+                actionTitle: 'Gửi phản hồi thành công',
+                describe: 'Phản hồi của bạn đã được gửi thành công! Chúng tôi sẽ xem xét sớm.', // Fixed typo
+                time: new Date().toISOString(),
+                type: 'success',
+                duration: 3500,
+            };
+
+            const response = await updateDynamic(successPayload);
+            console.log('Dynamic response:', response);
+
+            toggleSidebar(response.TypeContextCollapsed ?? true);
+            setPayload(response);
+            setIsOpenDynamic(true);
+
             setSelectedIssue('');
             setOtherIssue('');
-            toggleSupportPopup();
+
+            scheduleAutoClose(response);
         } catch {
-            toast.error('Không thể gửi phản hồi. Vui lòng thử lại.');
+            const errorPayload: DynamicPayload = {
+                state: 'compact',
+                TypeContextCollapsed: true,
+                action: 'failure',
+                actionTitle: 'Gửi phản hồi thất bại',
+                describe: 'Có lỗi xảy ra khi gửi phản hồi. Vui lòng thử lại.', // Fixed typo
+                time: new Date().toISOString(),
+                type: 'error',
+                duration: 3500,
+            };
+            try {
+                const response = await updateDynamic(errorPayload);
+                console.log('Dynamic response:', response);
+                toggleSidebar(response.TypeContextCollapsed ?? true);
+                setPayload(response);
+                setIsOpenDynamic(true);
+                scheduleAutoClose(response);
+            } catch (updateError) {
+                console.error('Lỗi khi cập nhật dynamic:', updateError, { payload: errorPayload });
+            }
+        }
+    };
+
+    const handleCloseDynamic = () => {
+        setIsOpenDynamic(false);
+        setPayload(null);
+        toggleSidebar(false);
+        if (closeTimeoutId) {
+            clearTimeout(closeTimeoutId);
+            setCloseTimeoutId(null);
         }
     };
 
     return (
         <>
-        
+            <DynamicIsland
+                isOpenDynamic={isOpenDynamic}
+                onCloseDynamic={handleCloseDynamic}
+                payload={
+                    payload || {
+                        state: 'compact',
+                        action: 'success',
+                        actionTitle: 'Thông báo mặc định',
+                        describe: 'Không có thông báo.', // Fixed typo
+                    }
+                }
+            />
+
             <div className={`${styles.wrapper_support} ${isSupportOpen ? styles.active : ''}`}>
                 <div className={styles.box}>
                     <label htmlFor="user_id">Mã khách hàng</label>

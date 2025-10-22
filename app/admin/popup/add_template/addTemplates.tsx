@@ -257,7 +257,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onClose }) => {
                                 onChange={handleCategoryNameChange}
                             />
                             <button className={styles.btnCreate} onClick={handleCreateCategory} disabled={isLoading}>
-                                {isLoading ? 'Đang tạo...' : 'Tạo'}
+                                {isLoading ? 'Creating...' : 'Create'}
                             </button>
                         </div>
 

@@ -203,7 +203,7 @@ const EditTemplate: React.FC = () => {
                             placeholder="Nhập giá mới"
                         />
                         <button className={styles.btn_update} onClick={handleUpdateAllPrices}>
-                            Cập nhật giá tất cả
+                            Update
                         </button>
                     </div>
                 </div>

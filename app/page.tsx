@@ -20,7 +20,7 @@ import 'aos/dist/aos.css';
 import CountUp from 'react-countup';
 import GeminiReply from './AI_Service/genmini_reply/GenimiReply';
 import Products from './pages/DefaultLayouts/Products/Products';
-import DynamicSystem from './pages/DefaultLayouts/dynamic_system/DynamicSystem';
+import DynamicSystem from './pages/Dynamic_Island/DynamicIsLand';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import { useSearchParams } from 'next/navigation';
@@ -75,6 +75,18 @@ interface Feedback {
     template: Template;
 }
 
+interface DynamicPayload {
+    state: 'minimal' | 'compact' | 'expanded';
+    TypeContextCollapsed?: boolean;
+    action: 'success' | 'failure';
+    actionTitle?: string;
+    describle?: string;
+    time?: string;
+    type?: string;
+    duration?: number;
+    [key: string]: unknown;
+}
+
 const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL;
 
 const HeadingSkeleton: React.FC = () => (
@@ -107,16 +119,17 @@ const Home: React.FC = () => {
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
     const [isReplyVisible, setIsReplyVisible] = useState<boolean>(false);
-    const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false); // Thêm trạng thái cho SupportError
+    const [isSupportOpen, setIsSupportOpen] = useState<boolean>(false);
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
     const [isFeedbackLoading, setIsFeedbackLoading] = useState<boolean>(false);
+    const [isOpenDynamic, setIsOpenDynamic] = useState<boolean>(false);
+    const [payload, setPayload] = useState<DynamicPayload | null>(null);
+    const [closeTimeoutId, setCloseTimeoutId] = useState<number | null>(null);
 
     // Parse URL parameters
     const templateId = searchParams.get('templateId');
     const checkOut = searchParams.get('checkOut') === 'true';
     const status = searchParams.get('status');
-
-    const [dynamicMode, setDynamicMode] = useState<'' | 'payment' | 'action' | 'notifications'>('');
 
     // Hàm để mở GeminiReply
     const openReply = () => {
@@ -133,11 +146,56 @@ const Home: React.FC = () => {
         setIsSupportOpen((prev) => !prev);
     };
 
-    useEffect(() => {
-        if (templateId && checkOut) {
-            setDynamicMode('payment');
+    // Hàm để lên lịch tự động đóng DynamicSystem
+    // const scheduleAutoClose = (data: DynamicPayload) => {
+    //     if (closeTimeoutId) {
+    //         clearTimeout(closeTimeoutId);
+    //         setCloseTimeoutId(null);
+    //     }
+    //     const duration = data.duration ?? 10000;
+    //     const id = window.setTimeout(() => {
+    //         setIsOpenDynamic(false);
+    //         setPayload(null);
+    //         setCloseTimeoutId(null);
+    //     }, duration);
+    //     setCloseTimeoutId(id);
+    // };
+
+    // Hàm để đóng DynamicSystem thủ công
+    const handleCloseDynamic = () => {
+        setIsOpenDynamic(false);
+        setPayload(null);
+        if (closeTimeoutId) {
+            clearTimeout(closeTimeoutId);
+            setCloseTimeoutId(null);
         }
-    }, [templateId, checkOut]);
+    };
+
+    useEffect(() => {
+        if (templateId && checkOut && status) {
+            const newPayload: DynamicPayload = {
+                state: 'minimal',
+                action: status === 'PAID' ? 'success' : 'failure',
+                actionTitle: status === 'PAID' ? 'Thanh toán thành công' : 'Thanh toán thất bại',
+                describle: status === 'PAID' ? 'Thiệp cưới đã được lưu.' : 'Không thể xử lý thanh toán.',
+                time: new Date().toISOString(),
+                type: status === 'PAID' ? 'success' : 'error',
+                duration: 10000, // Đặt bằng payload.duration mặc định trong Minimal
+            };
+            setPayload(newPayload);
+            setIsOpenDynamic(true);
+        } else {
+            setIsOpenDynamic(false);
+            setPayload(null);
+        }
+
+        // Cleanup timeout on unmount (không cần vì không dùng scheduleAutoClose)
+        return () => {
+            if (closeTimeoutId) {
+                clearTimeout(closeTimeoutId);
+            }
+        };
+    }, [templateId, checkOut, status]);
 
     useEffect(() => {
         AOS.init({
@@ -606,9 +664,15 @@ const Home: React.FC = () => {
                 <NavCenter onOpenReply={openReply} onToggleSupport={toggleSupport} />
                 {isReplyVisible && <GeminiReply onClose={closeReply} />}
                 {isSupportOpen && <SupportError isSupportOpen={isSupportOpen} toggleSupportPopup={toggleSupport} />}
+                {isOpenDynamic && payload && (
+                    <DynamicSystem
+                        isOpenDynamic={isOpenDynamic}
+                        onCloseDynamic={handleCloseDynamic}
+                        payload={payload}
+                    />
+                )}
             </div>
             {selectedProduct && <Popup product={selectedProduct} onClose={handleClosePopup} />}
-            {dynamicMode && <DynamicSystem status={status} mode={dynamicMode} />}
         </main>
     );
 };

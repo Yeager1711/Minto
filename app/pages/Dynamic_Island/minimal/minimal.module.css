@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .Minimal_wrapper {
   position: fixed;
   top: 2.3%;
@@ -13,8 +14,6 @@
   height: 3.5rem;
   opacity: 1;
   z-index: 999 !important;
-  filter: url("/public/filter/gooey.svg");
-  -webkit-filter: url("#gooey");
 }
 .Minimal_wrapper.expanded {
   width: 22rem;
@@ -35,7 +34,7 @@
   z-index: 3 !important;
 }
 .Minimal_wrapper.shrunk .object_status {
-  right: 3rem;
+  right: 2rem;
   opacity: 0;
 }
 .Minimal_wrapper .stage_wrapper .expand_payment {
@@ -44,18 +43,39 @@
   left: 50%;
   transform: translate(-50%, 0%) scale(0.8);
   opacity: 0;
-  background: #333;
+  background: #111;
   color: #fff;
-  border: 0.1rem solid #111;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.01);
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  filter: url("#gooey");
-  -webkit-filter: url("#gooey");
+  border-radius: 3rem;
+  padding: 1.5rem 2rem 1.5rem 1.5rem;
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
-  max-width: 45rem;
-  width: 90%;
+  max-width: 55rem;
+  width: 110%;
+  backdrop-filter: blur(0.5rem) saturate(90%);
+  -webkit-backdrop-filter: blur(0.5rem) saturate(90%);
+  background: rgba(255, 255, 255, 0.98);
+  /* Liquid glass viền ánh sáng phản chiếu */
+  border: 1px solid rgb(255, 255, 255);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.1), inset 0 0 30px rgba(255, 255, 255, 0.1);
+}
+.Minimal_wrapper .stage_wrapper .expand_payment::before, .Minimal_wrapper .stage_wrapper .expand_payment::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2rem;
+  pointer-events: none;
+  transition: 0.3s ease;
+}
+.Minimal_wrapper .stage_wrapper .expand_payment::before {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.4), transparent);
+  mix-blend-mode: screen;
+  opacity: 0.4;
+}
+.Minimal_wrapper .stage_wrapper .expand_payment::after {
+  background: radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.2), transparent);
+  mix-blend-mode: multiply;
+  opacity: 0.7;
 }
 .Minimal_wrapper .stage_wrapper .expand_payment.show {
   top: 130%;
@@ -69,22 +89,90 @@
   justify-content: space-between;
 }
 .Minimal_wrapper .stage_wrapper .expand_payment__wrapper h3 {
-  font-size: 1.7rem;
+  display: block;
+  font-size: 2rem;
   font-weight: 400;
-  margin: 0;
+  margin: 0 0 2rem 0;
+  flex: 1 1 18rem;
+  text-transform: capitalize;
+  padding-bottom: 1rem;
+  color: #333;
+  font-weight: 600;
+  width: 100%;
+}
+@media (max-width: 480px) {
+  .Minimal_wrapper .stage_wrapper .expand_payment__wrapper h3 {
+    font-size: 1.8rem;
+  }
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper p,
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper em {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper span {
+  font-size: 1.6rem;
+  color: #333;
+  display: block;
+  padding: 0 0 1rem 0;
+}
+@media (max-width: 480px) {
+  .Minimal_wrapper .stage_wrapper .expand_payment__wrapper span {
+    font-size: 1.45rem;
+  }
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper span .big_number {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-top: -1rem;
+  float: right;
+  padding: 1.5rem 0;
+}
+@media (max-width: 480px) {
+  .Minimal_wrapper .stage_wrapper .expand_payment__wrapper span .big_number {
+    font-size: 2.4rem;
+  }
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper .typeSuccess {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper .typeSuccess .typeSuccess_left {
+  flex: 2 1 34rem;
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper .typeSuccess .typeSuccess_right {
+  flex: 1 1 16rem;
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper .typeSuccess .typeSuccess_right .big_number {
+  display: block;
+  font-size: 3rem;
+  font-weight: 600;
+  margin-top: -1rem;
+  float: right;
+  padding: 1.5rem 0;
+}
+@media (max-width: 480px) {
+  .Minimal_wrapper .stage_wrapper .expand_payment__wrapper .typeSuccess .typeSuccess_right .big_number {
+    font-size: 2.4rem;
+  }
 }
 .Minimal_wrapper .stage_wrapper .expand_payment__wrapper .btn_success {
+  flex: 1 1 8rem;
   background: #28a745;
   color: #fff;
-  padding: 1rem 1.5rem;
+  padding: 1.5rem 1.5rem;
   border: none;
   border-radius: 5rem;
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   position: relative;
+  float: right;
+  text-transform: capitalize;
 }
 .Minimal_wrapper .stage_wrapper .expand_payment__wrapper .btn_success::before {
-  content: "";
   content: "";
   position: absolute;
   background: rgba(112, 230, 151, 0.2);
@@ -95,6 +183,54 @@
   right: -1rem;
   bottom: -1rem;
   z-index: -1;
+  animation: pulseSuccess 1.8s infinite ease-in-out;
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper .btn_cancel {
+  background: #ff4d6d;
+  color: #fff;
+  padding: 1.5rem 3.5rem;
+  border: none;
+  border-radius: 5rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  position: relative;
+  float: right;
+  text-transform: capitalize;
+}
+.Minimal_wrapper .stage_wrapper .expand_payment__wrapper .btn_cancel::before {
+  content: "";
+  position: absolute;
+  background: rgba(255, 77, 109, 0.2);
+  border-radius: 5rem;
+  padding: 0.6rem 0.7rem;
+  top: -1rem;
+  left: -1rem;
+  right: -1rem;
+  bottom: -1rem;
+  z-index: -1;
+  animation: pulseFail 1.8s infinite ease-in-out;
+}
+@keyframes pulseSuccess {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes pulseFail {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .Minimal_wrapper .object_content {
   position: absolute;
@@ -109,14 +245,14 @@
   align-items: center;
   justify-content: start;
   padding: 0 0.5rem 0 1.5rem;
-  z-index: 2 !important;
+  z-index: 99 !important;
   transform: translate(-50%, -50%) translateZ(0);
   transition: left 0.5s ease-in-out;
   will-change: left, transform;
   backface-visibility: hidden;
 }
 .Minimal_wrapper .object_content .action {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 .Minimal_wrapper .object_status {
   position: absolute;
@@ -147,12 +283,12 @@
     transform: translate(-50%, -50%) scale(1) translateZ(0);
   }
   100% {
-    transform: translate(-50%, -50%) scale(0.95) translateZ(0);
+    transform: translate(-50%, -50%) scale(1) translateZ(0);
   }
 }
 @keyframes contentScaleReverse {
   0% {
-    transform: translate(-50%, -50%) scale(0.95) translateZ(0);
+    transform: translate(-50%, -50%) scale(1) translateZ(0);
   }
   100% {
     transform: translate(-50%, -50%) scale(1) translateZ(0);

@@ -1,0 +1,589 @@
+@charset "UTF-8";
+/* Phần SCSS ban đầu bạn cung cấp, giữ nguyên */
+.dashboard {
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 1rem;
+  position: relative;
+}
+.dashboard__bg {
+  position: absolute;
+  inset: 0;
+  background: url("../../../../public/images/banner/bg_ad.jpg") center/cover no-repeat;
+  filter: blur(5px);
+  transform: scale(1.01);
+  z-index: 0;
+  display: block;
+}
+.dashboard__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+.dashboard .dashboard_wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  /* === Đặt riêng nút plus === */
+}
+.dashboard .dashboard_wrapper .navigation_center__dashboard {
+  position: fixed;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 65rem;
+  width: 90%;
+  overflow: hidden;
+  backdrop-filter: blur(20px) saturate(180%) contrast(2);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(2);
+  background: rgba(255, 255, 255, 0.1);
+}
+.dashboard .dashboard_wrapper .navigation_center__dashboard::before, .dashboard .dashboard_wrapper .navigation_center__dashboard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.dashboard .dashboard_wrapper .navigation_center__dashboard::before {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.45), rgba(0, 0, 0, 0));
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+.dashboard .dashboard_wrapper .navigation_center__dashboard::after {
+  background: radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.3), transparent 70%);
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+}
+.dashboard .dashboard_wrapper .nav__item {
+  padding: 1rem 2rem;
+  font-size: 1.35rem;
+  border-radius: 1rem;
+  color: #3f88cc;
+  line-height: 2rem;
+  transition: all 0.3s ease;
+  font-weight: 550;
+}
+.dashboard .dashboard_wrapper .nav__item--active {
+  background: #3f88cc;
+  color: #fff;
+  border-radius: 5rem;
+}
+.dashboard .dashboard_wrapper .nav__item--AddProduct {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  border: 0.3rem solid #2d7ee8;
+  width: 4.5rem;
+  height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+.dashboard .dashboard_wrapper .nav__item--AddProduct svg {
+  font-size: 2.2rem;
+  color: #2d7ee8;
+}
+.dashboard .dashboard_wrapper .userInfo {
+  position: absolute;
+  top: 0;
+  right: 0%;
+  padding: 1rem 2rem;
+  border-radius: 1.5rem;
+  background: rgba(16, 202, 34, 0.3);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: #fff;
+}
+.dashboard .dashboard_wrapper .userInfo h3 {
+  margin: 0.5rem 0;
+}
+.dashboard .dashboard_wrapper .wrap_content {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  /* Bổ sung SCSS cho các thành phần còn lại theo Bento Layout */
+}
+.dashboard .dashboard_wrapper .wrap_content h1 {
+  grid-column: span 1;
+  font-size: 3rem;
+  color: #fff;
+  text-align: start;
+}
+.dashboard .dashboard_wrapper .wrap_content .error {
+  grid-column: span 2;
+  color: red;
+  text-align: center;
+  font-size: 1.2rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen {
+  grid-column: span 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue {
+  position: relative;
+  border-radius: 2rem;
+  padding: 1rem;
+  max-width: 35rem;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 0.1rem solid rgba(255, 255, 255, 0.2);
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .box_revenue {
+  position: relative;
+  z-index: 1;
+  padding: 0.5rem 1.5rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .box_revenue svg {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .box_revenue span {
+  font-size: 1.35rem;
+  color: #fff;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .box_revenue h2 {
+  font-size: 3rem;
+  margin: 2rem 0 0 0;
+  font-weight: 600;
+  color: #fff;
+}
+@media (max-width: 480px) {
+  .dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .box_revenue h2 {
+    font-size: 2.3rem;
+  }
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .box_revenue svg {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #fff;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_RealTotalRevenue,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_TotalVirtualRevenue {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 1rem;
+  flex: 1 1 8rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_RealTotalRevenue svg,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_TotalVirtualRevenue svg {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_RealTotalRevenue span,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_TotalVirtualRevenue span {
+  font-size: 1.25rem;
+  color: #333;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_RealTotalRevenue h2,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_TotalVirtualRevenue h2 {
+  margin: 1rem 0 0 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response {
+  position: relative;
+  border-radius: 2rem;
+  padding: 1.5rem 2rem;
+  max-width: 10rem;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  text-transform: capitalize;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .return_time h3 {
+  margin-bottom: 0;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .status,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .update_at,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .response_time,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .return_time {
+  position: relative;
+  z-index: 1;
+  padding: 0.5rem 0;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .status span,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .update_at span,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .response_time span,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .return_time span {
+  font-size: 1.1rem;
+  color: #333;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .status h3,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .update_at h3,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .response_time h3,
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .return_time h3 {
+  font-size: 1.3rem;
+  color: #43a95b;
+  margin: 0;
+  padding-top: 0.5rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response .server_info {
+  margin-top: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .controlCenter {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 10;
+}
+.dashboard .dashboard_wrapper .wrap_content .controlCenter .btn_expand {
+  font-size: 1.6rem;
+  color: #fff;
+}
+.dashboard .dashboard_wrapper .wrap_content .OrdersByYear {
+  grid-column: span 2;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+.dashboard .dashboard_wrapper .wrap_content .OrdersByYear .Most_used_model {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .OrdersByYear .Most_used_model h3 {
+  font-size: 1.4rem;
+  color: #fff;
+}
+.dashboard .dashboard_wrapper .wrap_content .OrdersByYear .Most_used_model .change_chart {
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+}
+.dashboard .dashboard_wrapper .wrap_content .OrdersByYear .chart_section {
+  position: relative;
+}
+.dashboard .dashboard_wrapper .wrap_content .OrdersByYear .chart_section .change_chart {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+}
+.dashboard .dashboard_wrapper .wrap_content .OrdersByYear .chart_section .chart {
+  min-height: 350px;
+}
+.dashboard .dashboard_wrapper .wrap_content .Revenue_box {
+  grid-column: span 2;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+.dashboard .dashboard_wrapper .wrap_content .Revenue_box h3 {
+  font-size: 1.4rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .Revenue_box .btn_expand {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+}
+.dashboard .dashboard_wrapper .wrap_content .Revenue_box .chart {
+  min-height: 300px;
+}
+.dashboard .dashboard_wrapper .wrap_content .total_client {
+  grid-column: span 1;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  height: 29rem;
+  width: 16rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .total_client .btn_expand {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+}
+.dashboard .dashboard_wrapper .wrap_content .total_client .client {
+  flex: 1 1 45%;
+  text-align: center;
+}
+.dashboard .dashboard_wrapper .wrap_content .total_client .client h3 {
+  font-size: 1.3rem;
+  color: #fff !important;
+  margin-bottom: 0.8rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .total_client .client .progressBar svg .bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  color: #fff !important;
+  stroke-width: 6;
+}
+.dashboard .dashboard_wrapper .wrap_content .total_client .client .progressBar svg .fg {
+  fill: none;
+  stroke: #60a5fa;
+  stroke-width: 6;
+  color: #fff !important;
+  stroke-linecap: round;
+}
+.dashboard .dashboard_wrapper .wrap_content .total_client .client .progressBar svg .progressText {
+  color: #fff !important;
+  font-size: 1.1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .template {
+  grid-column: span 4;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  height: 13rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .template h3 {
+  font-size: 1.4rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .template .btn_expand {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+}
+.dashboard .dashboard_wrapper .wrap_content .template .template_wrapper_item .swiper_container {
+  position: relative;
+}
+.dashboard .dashboard_wrapper .wrap_content .template .template_wrapper_item .swiper_container .swiper-button-prev,
+.dashboard .dashboard_wrapper .wrap_content .template .template_wrapper_item .swiper_container .swiper-button-next {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard .dashboard_wrapper .wrap_content .template .template_wrapper_item .swiper_container .swiper-button-prev::after,
+.dashboard .dashboard_wrapper .wrap_content .template .template_wrapper_item .swiper_container .swiper-button-next::after {
+  font-size: 0.9rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .template .template_wrapper_item .swiper_container .template_card {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dashboard .dashboard_wrapper .wrap_content .template .template_wrapper_item .swiper_container .template_card p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .template .template_wrapper_item .swiper_container .template_skeleton {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  padding: 1rem;
+  min-height: 80px;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer {
+  grid-column: span 1;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin-top: -11rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer .btn_expand {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer .box_left {
+  flex: 2 1 60%;
+  padding: 1rem 0;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer .box_left h3 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer .box_left .list_of_responses .response_item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 0.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 550;
+  font-size: 1.2rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer .box_left .list_of_responses .response_item .Processed {
+  color: #60a5fa;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer .box_right {
+  flex: 1 1 30%;
+  padding: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer .box_right .cancel_order h3 {
+  font-size: 1.4rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.dashboard .dashboard_wrapper .wrap_content .left_footer .box_right .cancel_order p {
+  font-size: 1.5rem;
+  color: red;
+}
+@media (max-width: 768px) {
+  .dashboard .dashboard_wrapper .navigation_center__dashboard .nav__item {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+  }
+  .dashboard .dashboard_wrapper .navigation_center__dashboard .nav__item--AddProduct {
+    height: 5rem;
+    width: 5rem;
+  }
+  .dashboard .dashboard_wrapper .navigation_center__dashboard .nav__item--AddProduct svg {
+    font-size: 2rem;
+  }
+  .dashboard .dashboard_wrapper .wrap_content {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .dashboard .dashboard_wrapper .wrap_content h1 {
+    font-size: 2.5rem;
+  }
+  .dashboard .dashboard_wrapper .wrap_content .SpancebetWeen {
+    flex-direction: column;
+  }
+  .dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue {
+    max-width: 100%;
+  }
+  .dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .server_response {
+    max-width: 100%;
+  }
+  .dashboard .dashboard_wrapper .wrap_content .OrdersByYear,
+  .dashboard .dashboard_wrapper .wrap_content .template,
+  .dashboard .dashboard_wrapper .wrap_content .left_footer {
+    grid-column: span 1;
+  }
+  .dashboard .dashboard_wrapper .wrap_content .Revenue_box,
+  .dashboard .dashboard_wrapper .wrap_content .total_client {
+    grid-column: span 1;
+  }
+}
+@media (max-width: 480px) {
+  .dashboard .dashboard_wrapper .wrap_content h1 {
+    font-size: 2rem;
+  }
+  .dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .box_revenue h2 {
+    font-size: 2rem;
+  }
+  .dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_RealTotalRevenue h2,
+  .dashboard .dashboard_wrapper .wrap_content .SpancebetWeen .Revenue .flex .box_TotalVirtualRevenue h2 {
+    font-size: 1.5rem;
+  }
+  .dashboard .dashboard_wrapper .wrap_content .Revenue_box .client,
+  .dashboard .dashboard_wrapper .wrap_content .total_client .client {
+    flex: 1 1 100%;
+    color: #fff !important;
+  }
+}/*# sourceMappingURL=dashboard.module.css.map */

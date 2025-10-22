@@ -3,6 +3,11 @@ import React, { useState, useEffect } from 'react';
 import styles from './error_list.module.scss';
 import { useApi } from 'app/lib/apiContext/apiContext';
 
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
+
 // Define interface for Feedback
 interface Feedback {
     feedback_id: number;
@@ -167,13 +172,20 @@ function ErrorList() {
                 <div className={styles.date_filter}>
                     <label htmlFor="date-select">Lọc theo ngày:</label>
                     <select id="date-select" value={selectedDate} onChange={handleDateChange}>
-                        {dateOptions.map((date) => (
-                            <option key={date} value={date}>
-                                {date === 'all' ? 'Tất cả' : date}
-                            </option>
-                        ))}
+                        {dateOptions
+                            .sort((a, b) => {
+                                if (a === 'all') return -1; // "Tất cả" luôn xuống cuối
+                                if (b === 'all') return 1;
+                                return new Date(b).getTime() - new Date(a).getTime(); // mới → cũ
+                            })
+                            .map((date) => (
+                                <option key={date} value={date}>
+                                    {date === 'all' ? 'Tất cả' : date}
+                                </option>
+                            ))}
                     </select>
                 </div>
+
                 <div className={styles.table_container}>
                     {loading && <p className={styles.loading}>Đang tải...</p>}
                     {error && <p className={styles.error}>{error}</p>}
@@ -296,7 +308,7 @@ function ErrorList() {
                                 <strong>Resolution Notes:</strong> {selectedError.resolution_notes || 'NULL'}
                             </div>
                             <button className={styles.popup__close} onClick={closeDetails}>
-                                Đóng
+                              <FontAwesomeIcon icon={faXmark} />
                             </button>
                         </div>
                     </div>

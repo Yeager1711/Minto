@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faXmark, faQrcode, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { useApi } from '../../lib/apiContext/apiContext';
 import { useSwipeable } from 'react-swipeable';
-import DynamicSystem from 'app/pages/DefaultLayouts/dynamic_system/DynamicSystem';
 
 interface CreateCardPopupProps {
     isOpen: boolean;
@@ -59,7 +58,6 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
     const [accountNumber, setAccountNumber] = useState<string>('');
     const [accountHolder, setAccountHolder] = useState<string>('');
     const [representative, setRepresentative] = useState<string | null>(null);
-    const [error, setError] = useState<string>('');
     const [isAnimatingOut, setIsAnimatingOut] = useState<boolean>(false);
     const [banks, setBanks] = useState<Bank[]>([]);
     const [isLoadingBanks, setIsLoadingBanks] = useState<boolean>(false);
@@ -69,7 +67,6 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
     const [isQrCreated, setIsQrCreated] = useState<boolean>(false);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [showWrapperMobile, setShowWrapperMobile] = useState<boolean>(true);
-    const [dynamicStatus, setDynamicStatus] = useState<'success' | 'error' | null>(null);
     const wasOpenedRef = useRef<boolean>(false);
 
     useEffect(() => {
@@ -82,18 +79,15 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                             'Content-Type': 'application/json',
                         },
                     });
-                    if (!response.ok) {
-                        throw new Error(`Lỗi tải danh sách ngân hàng: ${response.status}`);
-                    }
+                    if (!response.ok) return;
                     const data: BankApiResponse = await response.json();
                     const enhancedBanks = data.data.map((bank) => ({
                         ...bank,
                         short_name: bank.short_name || bank.code || bank.bin || 'UNKNOWN',
                     }));
                     setBanks([{ id: '', name: 'Chọn ngân hàng', logo: '', bin: '', short_name: '' }, ...enhancedBanks]);
-                } catch (err: unknown) {
-                    const errorMessage = err instanceof Error ? err.message : 'Không thể tải danh sách ngân hàng';
-                    setError(errorMessage);
+                } catch {
+                    // Loại bỏ xử lý lỗi
                 } finally {
                     setIsLoadingBanks(false);
                 }
@@ -110,13 +104,11 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
             setAccountNumber('');
             setAccountHolder('');
             setRepresentative(null);
-            setError('');
             setQrCodeUrl(null);
             setShowQr(false);
             setIsQrCreated(false);
             setIsExpanded(false);
             setShowWrapperMobile(true);
-            setDynamicStatus(null);
         } else if (wasOpenedRef.current) {
             setIsAnimatingOut(true);
             const timer = setTimeout(() => {
@@ -131,9 +123,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
         const selectedBank = banks.find((b) => b.id === bank);
         const bankShortName = selectedBank?.short_name || 'UNKNOWN';
 
-        if (bankShortName === 'UNKNOWN' && bank) {
-            throw new Error(`Ngân hàng ${selectedBank?.name} hiện không được hỗ trợ để tạo mã QR`);
-        }
+        if (bankShortName === 'UNKNOWN' && bank) return null;
 
         const qrString = `https://qr.sepay.vn/img?acc=${encodeURIComponent(accountNumber)}&bank=${encodeURIComponent(bankShortName)}&amount=0&des=${encodeURIComponent(`Thanh toán cho ${accountHolder}`)}&template=TEM&download=DOWNLOAD`;
         setQrCodeUrl(qrString);
@@ -141,18 +131,14 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
     };
 
     const handleCreateCardClick = async () => {
-        setError('');
         const validationError = validateInputs();
-        if (validationError) {
-            setError(validationError);
-            setDynamicStatus('error'); // Kích hoạt DynamicSystem với trạng thái error
-            return;
-        }
+        if (validationError) return;
 
         setIsVerifying(true);
         try {
             const selectedBank = banks.find((b) => b.id === bank);
             const qrUrl = await generateQRCode(selectedBank?.bin, accountNumber, accountHolder);
+            if (!qrUrl) return;
 
             const qrData: QrData = {
                 bank: bank || 'Không chọn ngân hàng',
@@ -173,19 +159,11 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                 representative: savedQr.representative,
             });
             setIsQrCreated(true);
-            setDynamicStatus('success'); // Kích hoạt DynamicSystem với trạng thái success
-        } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Lỗi khi tạo thẻ. Vui lòng thử lại.';
-            setError(errorMessage);
-            setDynamicStatus('error'); // Kích hoạt DynamicSystem với trạng thái error
+        } catch {
+            // Loại bỏ xử lý lỗi
         } finally {
             setIsVerifying(false);
         }
-    };
-
-    // Thêm hàm để reset dynamicStatus
-    const handleDynamicSystemClose = () => {
-        setDynamicStatus(null); // Reset để unmount DynamicSystem
     };
 
     const validateInputs = () => {
@@ -289,15 +267,7 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
 
     return (
         <div className={`${styles.popupOverlay} ${isOpen ? styles.animateIn : ''}`} onClick={handleOverlayClick}>
-            {/* Dynamic System hiển thị thông báo */}
-            {dynamicStatus && (
-                <DynamicSystem
-                    mode="action"
-                    status={dynamicStatus}
-                    action="Tạo thẻ"
-                    onClose={handleDynamicSystemClose} // Truyền onClose
-                />
-            )}
+            {/* Loại bỏ DynamicIsland */}
 
             {/* PC Interface */}
             <div
@@ -323,7 +293,6 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                                 </p>
                             </div>
                             <div className={styles.form}>
-                                {error && !dynamicStatus && <p className={styles.error}>{error}</p>}
                                 <div className={styles.inputWrapper}>
                                     <div className={styles.inputField}>
                                         <Select
@@ -544,7 +513,6 @@ const CreateCardPopup: React.FC<CreateCardPopupProps> = ({ isOpen, onClose, onSu
                         </div>
                         <h3 className={styles.title}>Tạo QR tích hợp thẻ ngân hàng</h3>
                         <div className={styles.form}>
-                            {error && !dynamicStatus && <p className={styles.error}>{error}</p>}
                             <div className={styles.inputWrapper}>
                                 <div className={styles.inputField}>
                                     <Select

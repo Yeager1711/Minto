@@ -29,6 +29,19 @@ interface Bank {
     logo?: string;
 }
 
+interface DynamicPayload {
+    state: 'minimal' | 'compact' | 'expanded';
+    action: 'success' | 'failure';
+    actionTitle?: string;
+    describe?: string;
+    time?: string;
+    type?: string;
+    duration?: number;
+    oldData?: Partial<QrResponse>;
+    newData?: Partial<QrResponse>;
+    [key: string]: unknown;
+}
+
 interface QR_CreatedProps {
     isOpen: boolean;
     onClose: () => void;
@@ -60,69 +73,74 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
 
     // DynamicIsland states (local UI)
     const [isOpenDynamic, setIsOpenDynamic] = useState<boolean>(false);
-    const [dynamicState, setDynamicState] = useState<'compact'>('compact'); // only compact
-    const [dynamicStatus, setDynamicStatus] = useState<'success' | 'error' | undefined>(undefined);
+    const [dynamicState, setDynamicState] = useState<'minimal' | 'compact' | 'expanded'>('compact');
+    const [dynamicStatus, setDynamicStatus] = useState<'success' | 'failure' | undefined>(undefined);
     const [dynamicAction, setDynamicAction] = useState<string | undefined>(undefined);
     const [dynamicDuration, setDynamicDuration] = useState<number | undefined>(undefined);
 
     const { getUserQr, updateQrStatus, updateDynamic } = useApi();
-    const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL || '';
+    const apiUrl = process.env.NEXT_PUBLIC_APP_API_BASE_URL ?? '';
 
-    const getBank = (bankId: string) => {
+    const getBank = (bankId: string): Bank | undefined => {
         return banks.find((b) => String(b.id) === String(bankId));
     };
 
-    // Helper: show dynamic notification by calling backend updateDynamic,
-    // but always use compact state on client-side. If backend fails, fallback to local display.
-    const showDynamicMessage = async (type: 'success' | 'error', title: string, message: string, duration?: number) => {
-        const payload = {
-            state: 'compact' as const,
-            type,
-            title,
-            content: { message },
+    const showDynamicMessage = async (
+        type: 'success' | 'error',
+        title: string,
+        message: string,
+        duration?: number,
+        oldData?: Partial<QrResponse>,
+        newData?: Partial<QrResponse>,
+        state: 'compact' | 'expanded' = 'expanded' // Default to 'expanded' unless specified
+    ): Promise<void> => {
+        const payload: DynamicPayload = {
+            state: state,
+            action: type === 'success' ? 'success' : 'failure',
+            actionTitle: title,
+            describe: message,
             time: new Date().toISOString(),
-            action: title,
             duration: duration ?? 3000,
+            oldData,
+            newData,
         };
 
-        try {
-            // call backend via apiContext
-            const data = await updateDynamic(payload);
+        console.log('Payload sent to updateDynamic:', payload); // Thêm log để kiểm tra
 
-            // prefer server response if available, but we still force compact on UI
-            setDynamicState('compact');
-            setDynamicStatus((data?.type as 'success' | 'error') ?? type);
-            setDynamicAction((data?.action as string) ?? title);
-            setDynamicDuration((data?.duration as number) ?? payload.duration);
+        try {
+            const data = await updateDynamic(payload);
+            console.log('Response from updateDynamic:', data); // Thêm log để kiểm tra
+            setDynamicState(data?.state ?? state);
+            setDynamicStatus(data?.action ?? (type === 'success' ? 'success' : 'failure'));
+            setDynamicAction(data?.actionTitle ?? title);
+            setDynamicDuration(data?.duration ?? payload.duration);
             setIsOpenDynamic(true);
-        } catch (err) {
-            // fallback: still show local compact notification so user sees feedback
+        } catch (err: unknown) {
             console.error('updateDynamic failed, falling back to local display:', err);
-            setDynamicState('compact');
-            setDynamicStatus(type);
+            setDynamicState(state);
+            setDynamicStatus(type === 'success' ? 'success' : 'failure');
             setDynamicAction(title);
             setDynamicDuration(duration ?? 3000);
             setIsOpenDynamic(true);
         }
     };
 
-    // Validation helpers
-    const validateAccountNumber = (accountNumber: string) => {
+    const validateAccountNumber = (accountNumber: string): boolean => {
         return accountNumber.length >= 6 && accountNumber.length <= 20 && /^\d+$/.test(accountNumber);
     };
 
-    const validateAccountHolder = (accountHolder: string) => {
+    const validateAccountHolder = (accountHolder: string): boolean => {
         return accountHolder.length >= 3 && /^[A-Za-z\s]+$/.test(accountHolder);
     };
 
-    const handleQRClick = (qrId: number) => {
+    const handleQRClick = (qrId: number): void => {
         setShowQR((prev) => ({
             ...prev,
             [qrId]: !prev[qrId],
         }));
     };
 
-    const handleCardClick = (qr: QrResponse) => {
+    const handleCardClick = (qr: QrResponse): void => {
         setSelectedQr(qr);
         setFormData({
             bank: qr.bank,
@@ -135,7 +153,7 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
         setIsClosing(false);
     };
 
-    const handleCloseEdit = () => {
+    const handleCloseEdit = (): void => {
         setIsClosing(true);
         setTimeout(() => {
             setIsEditOpen(false);
@@ -150,7 +168,7 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
         }, 300);
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
@@ -158,7 +176,7 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
         }));
     };
 
-    const handleSave = async () => {
+    const handleSave = async (): Promise<void> => {
         if (!selectedQr) return;
 
         if (!validateAccountNumber(formData.accountNumber)) {
@@ -177,11 +195,13 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
 
         try {
             const accessToken = localStorage.getItem('accessToken');
+            const oldQrData: QrResponse = { ...selectedQr };
             const response = await fetch(`${apiUrl}/qr/edit/${selectedQr.qrId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${accessToken ?? ''}`,
+                    'ngrok-skip-browser-warning': 'true',
                 },
                 body: JSON.stringify({
                     bank: formData.bank,
@@ -197,6 +217,41 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
             }
 
             const updatedQr: QrResponse = await response.json();
+
+            // Identify changed fields
+            const changedFields: Partial<QrResponse> = {};
+            const oldChangedFields: Partial<QrResponse> = {};
+
+            if (oldQrData.bank !== updatedQr.bank) {
+                changedFields.bank = updatedQr.bank;
+                oldChangedFields.bank = oldQrData.bank;
+            }
+            if (oldQrData.accountNumber !== updatedQr.accountNumber) {
+                changedFields.accountNumber = updatedQr.accountNumber;
+                oldChangedFields.accountNumber = oldQrData.accountNumber;
+            }
+            if (oldQrData.accountHolder !== updatedQr.accountHolder) {
+                changedFields.accountHolder = updatedQr.accountHolder;
+                oldChangedFields.accountHolder = oldQrData.accountHolder;
+            }
+            if (oldQrData.representative !== updatedQr.representative) {
+                changedFields.representative = updatedQr.representative;
+                oldChangedFields.representative = oldQrData.representative;
+            }
+
+            // Nếu không có thay đổi nào, sử dụng dữ liệu đầy đủ để hiển thị
+            if (Object.keys(changedFields).length === 0) {
+                changedFields.bank = updatedQr.bank;
+                changedFields.accountNumber = updatedQr.accountNumber;
+                changedFields.accountHolder = updatedQr.accountHolder;
+                changedFields.representative = updatedQr.representative;
+                oldChangedFields.bank = oldQrData.bank;
+                oldChangedFields.accountNumber = oldQrData.accountNumber;
+                oldChangedFields.accountHolder = oldQrData.accountHolder;
+                oldChangedFields.representative = oldQrData.representative;
+            }
+
+            // Update local QR data
             setLocalQrData((prev) =>
                 prev ? prev.map((qr) => (qr.qrId === updatedQr.qrId ? updatedQr : qr)) : [updatedQr]
             );
@@ -208,8 +263,15 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                 representative: updatedQr.representative,
             });
 
-            // success dynamic notification (compact)
-            await showDynamicMessage('success', 'Cập nhật QR thành công', 'Thông tin QR đã được cập nhật thành công');
+            // Pass only changed fields to DynamicIsland with 'expanded' state
+            await showDynamicMessage(
+                'success',
+                'Cập nhật QR',
+                'Thông tin QR đã được cập nhật thành công',
+                5000,
+                oldChangedFields,
+                changedFields
+            );
 
             handleCloseEdit();
         } catch (error: unknown) {
@@ -220,60 +282,59 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
         }
     };
 
-    const handleToggle = async () => {
+    const handleToggle = async (): Promise<void> => {
         const newReceiveDonation = !receiveDonation;
         setReceiveDonation(newReceiveDonation);
 
         try {
             const qrList = await getUserQr();
-            console.log('Dữ liệu QR nhận được từ getUserQr:', qrList);
-
             if (qrList.length === 0) {
                 throw new Error('Không tìm thấy mã QR');
             }
 
             const newStatus = newReceiveDonation ? 'ACTIVE' : 'SUCCESS';
             const updatePromises = qrList.map((qr: QrResponse) => updateQrStatus(qr.qrId, newStatus));
-
             await Promise.all(updatePromises);
-            console.log('Đã cập nhật trạng thái cho tất cả QR codes:', newStatus);
 
             const updatedQrList = await getUserQr();
-            console.log('Dữ liệu QR sau khi cập nhật:', updatedQrList);
-
             const allUpdated = updatedQrList.every((qr: QrResponse) => qr.status === newStatus);
             if (!allUpdated) {
                 throw new Error('Cập nhật trạng thái QR không thành công');
             }
 
             setLocalQrData(updatedQrList);
-
-            // success dynamic notification (compact)
             await showDynamicMessage(
                 'success',
                 newReceiveDonation ? 'Cho phép nhận Hỷ' : 'Dừng nhận Hỷ',
                 newReceiveDonation
                     ? 'Đã cho phép nhận tiền Hỷ qua QR code'
-                    : 'Đã dừng cho phép nhận tiền Hỷ qua QR code'
+                    : 'Đã dừng cho phép nhận tiền Hỷ qua QR code',
+                3500, // Duration phù hợp với Compact (3.5s + 1.3s delay)
+                undefined,
+                undefined,
+                'compact' // Use 'compact' state for toggle actions
             );
-
             setApiError('');
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Lỗi khi cập nhật trạng thái QR code';
-            console.error('Lỗi trong handleToggle:', errorMessage, error);
-
-            await showDynamicMessage('error', 'Cập nhật trạng thái QR thất bại', errorMessage);
-
+            await showDynamicMessage(
+                'error',
+                'Cập nhật trạng thái QR thất bại',
+                errorMessage,
+                3500,
+                undefined,
+                undefined,
+                'compact' // Use 'compact' state for error
+            );
             setApiError(errorMessage);
             setReceiveDonation(!newReceiveDonation);
         }
     };
 
     useEffect(() => {
-        const fetchQrStatus = async () => {
+        const fetchQrStatus = async (): Promise<void> => {
             try {
                 const qrList = await getUserQr();
-                console.log('Dữ liệu QR nhận được từ getUserQr:', qrList);
                 if (qrList.length > 0) {
                     const allActive = qrList.every((qr: QrResponse) => qr.status === 'ACTIVE');
                     setReceiveDonation(allActive);
@@ -284,17 +345,16 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                     setLocalQrData([]);
                     setApiError('Bạn chưa có mã QR cho phép nhận tiền Hỷ qua QR');
                 }
-            } catch (error) {
-                console.error('Lỗi khi lấy trạng thái QR:', error);
+            } catch (error: unknown) {
+                const errorMessage = error instanceof Error ? error.message : 'Lỗi khi lấy trạng thái QR';
                 setReceiveDonation(false);
                 setLocalQrData([]);
-                setApiError('Bạn chưa có mã QR cho phép nhận tiền Hỷ qua QR');
+                setApiError(errorMessage);
             }
         };
 
         if (isOpen && qrData) {
             fetchQrStatus();
-            // intentionally removed checkDynamicStatus() — no server-driven auto open
         }
     }, [isOpen, qrData, getUserQr]);
 
@@ -323,14 +383,16 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
 
     return (
         <div className={styles.QR_CheckAsset}>
-            {/* DynamicIsland controlled locally (compact only) */}
             <DynamicIsland
                 isOpenDynamic={isOpenDynamic}
                 onCloseDynamic={() => setIsOpenDynamic(false)}
-                state={dynamicState}
-                status={dynamicStatus}
-                action={dynamicAction}
-                duration={dynamicDuration}
+                payload={{
+                    state: dynamicState,
+                    action: dynamicStatus ?? 'success',
+                    actionTitle: dynamicAction,
+                    describe: dynamicAction,
+                    duration: dynamicDuration,
+                }}
             />
 
             <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
@@ -413,7 +475,6 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                                                     />
                                                 )}
                                             </div>
-
                                             <div className={styles.QR_code}>
                                                 {!showQR[qr.qrId] && (
                                                     <FontAwesomeIcon
@@ -441,7 +502,6 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                                     </div>
                                 </div>
                             ))}
-
                             <div className={`${styles.item} ${!groomQr || !brideQr ? '' : styles.completed}`}>
                                 <div className={styles.schedule_content}>
                                     <h4>Tạo QR thẻ Ngân hàng</h4>
@@ -452,7 +512,6 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                                     )}
                                 </div>
                             </div>
-
                             <div className={`${styles.item} ${styles.completed}`}>
                                 <div className={styles.time}>
                                     {createdAt
@@ -529,11 +588,9 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                             </div>
                         </div>
                     </div>
-
                     <div className={styles.qr_for}>
                         ✧ QR của {formData.representative === 'groom' ? 'Chú Rể' : 'Cô Dâu'}
                     </div>
-
                     <div className={styles.wrapper_boxInput}>
                         <div className={styles.box_input}>
                             <span>Người đại diện</span>
@@ -546,7 +603,6 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                                 <option value="groom">Chú rể</option>
                             </select>
                         </div>
-
                         <div className={styles.box_input}>
                             <span>Chọn loại ngân hàng</span>
                             <select name="bank" value={formData.bank || ''} onChange={handleInputChange}>
@@ -557,7 +613,6 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                                 ))}
                             </select>
                         </div>
-
                         <div className={styles.box_input}>
                             <span>Số tài khoản</span>
                             <input
@@ -568,7 +623,6 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                                 onChange={handleInputChange}
                             />
                         </div>
-
                         <div className={styles.box_input}>
                             <span>Tên Tài khoản</span>
                             <input
@@ -580,7 +634,6 @@ const QR_Created: React.FC<QR_CreatedProps> = ({ isOpen, onClose, qrData, banks,
                             />
                         </div>
                     </div>
-
                     <div className={styles.btn_save} onClick={handleSave}>
                         Lưu thông tin
                     </div>

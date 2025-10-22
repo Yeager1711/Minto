@@ -1,6 +1,7 @@
 .Error_list {
-    padding: 1.5rem;
-    background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+    padding: 8rem 2rem 0 2rem;
+
+
     min-height: 80vh;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     border-radius: 1.5rem;
@@ -9,7 +10,6 @@
     &__wrapper {
         max-width: 1280px;
         margin: 0 auto;
-        background: #ffffff;
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
@@ -17,26 +17,32 @@
     .date_filter {
         display: flex;
         align-items: center;
-        gap: 12px;
-        margin-bottom: 24px;
-        padding: 16px;
-        background: #f8fafc;
-        border-radius: 8px;
-        border: 1px solid #e2e8f0;
+        gap: .5rem;
+        margin-bottom: 2rem;
+        padding: .5rem .5rem .5rem 1rem;
+        border-radius: 5rem;
+        border: 1px solid #dedede;
+        max-width: 30.5rem;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(20px) saturate(90%);
+        -webkit-backdrop-filter: blur(20px) saturate(90%);
 
         label {
+            flex: 1 1 16rem;
             font-size: 14px;
             font-weight: 600;
-            color: #1e293b;
+            color: #fff;
+            font-weight: 550;
         }
 
         select {
+            flex: 1 1 16rem;
             padding: 8px 12px;
             font-size: 14px;
             color: #334155;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            background: #ffffff;
+            border: 1px solid #dedede;
+            border-radius: 5rem;
             cursor: pointer;
             transition: border-color 0.2s ease;
             width: 100%;
@@ -52,8 +58,11 @@
 
     .table_container {
         overflow-x: auto;
-        border-radius: 8px;
-        border: 1px solid #e2e8f0;
+        border-radius: 2rem;
+        border-bottom: 1px solid #dedede;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(20px) saturate(90%);
+        -webkit-backdrop-filter: blur(20px) saturate(90%);
 
         .table_wrapper {
             min-width: 600px;
@@ -64,26 +73,30 @@
             border-collapse: separate;
             border-spacing: 0;
 
+            th {
+                background: #fff;
+                color: #333 !important;
+            }
+
             th,
             td {
-                padding: 12px 16px;
+                padding: 2rem;
                 text-align: left;
                 font-size: 14px;
                 border-bottom: 1px solid #e2e8f0;
             }
 
+
             th {
-                background: #f1f5f9;
                 font-weight: 600;
-                color: #1e293b;
+                color: #fff;
                 position: sticky;
                 top: 0;
                 z-index: 1;
             }
 
             td {
-                color: #334155;
-                background: #ffffff;
+                color: #fff;
                 transition: background 0.2s ease;
 
                 &.status {
@@ -119,7 +132,7 @@
                 transition: background 0.2s ease;
 
                 &:hover {
-                    background: #f8fafc;
+                    cursor: pointer;
                 }
 
                 &:last-child td {
@@ -134,7 +147,7 @@
         font-size: 13px;
         color: #334155;
         border: none;
-        border-radius: 4px;
+        border-radius: 1rem;
         cursor: pointer;
         width: 100%;
         text-align: left;
@@ -167,7 +180,7 @@
         color: #ffffff;
         background: #2563eb;
         border: none;
-        border-radius: 6px;
+        border-radius: 1rem;
         cursor: pointer;
         transition: background 0.2s ease;
         touch-action: manipulation;
@@ -183,12 +196,14 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
+        // background: rgba(0, 0, 0, 0.3);
+        // backdrop-filter: blur(5px) saturate(90%);
+        // -webkit-backdrop-filter: blur(5px) saturate(90%);
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 1000;
-        padding: 16px;
+        padding: 2rem 1rem;
 
         &__enter {
             animation: fadeIn 0.3s ease-out;
@@ -199,13 +214,14 @@
         }
 
         &__content {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 70rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px) saturate(90%);
+            -webkit-backdrop-filter: blur(10px) saturate(90%);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            max-width: 60rem;
             width: 100%;
             max-height: 80vh;
-            overflow-y: auto;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 
             &_enter {
@@ -221,6 +237,7 @@
                 font-weight: 600;
                 color: #1e293b;
                 margin-bottom: 16px;
+                margin-top: 0;
             }
         }
 
@@ -265,23 +282,81 @@
         }
 
         &__close {
-            display: block;
-            margin: 16px auto 0;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
-            background: #dc2626;
-            border: none;
-            border-radius: 6px;
+            position: absolute;
+            top: -2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4.5rem;
+            height: 4.5rem;
+            border-radius: 50%;
             cursor: pointer;
-            transition: background 0.2s ease;
-            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+            filter: contrast(1.2) brightness(1.05) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+            backdrop-filter: blur(20px) saturate(180%) contrast(1.2);
+            -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(1.2);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            // ánh sáng + bóng bên trong
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+
+            // ánh sáng phía trên (tạo cảm giác bị lõm)
+            &::before {
+                background: linear-gradient(145deg, rgba(255, 255, 255, 0.45), rgba(0, 0, 0, 0));
+                mix-blend-mode: screen;
+                opacity: 0.6;
+            }
+
+            // bóng phía dưới (đối lập để tạo chiều sâu)
+            &::after {
+                background: radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.3), transparent 70%);
+                mix-blend-mode: multiply;
+                opacity: 0.8;
+            }
+
+            svg {
+                font-size: 1.8rem;
+                color: rgba(255, 255, 255, 0.9);
+                filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+                transition: transform 0.25s ease;
+                pointer-events: none;
+            }
 
             &:hover {
-                background: #b91c1c;
+                filter: brightness(1.3) contrast(1.3);
+                transform: translateX(-50%) scale(1.05);
+
+                svg {
+                    transform: rotate(90deg);
+                }
+            }
+
+            &:active {
+                filter: brightness(0.9) contrast(1.1);
+                transform: translateX(-50%) scale(0.95);
+
+                &::before {
+                    opacity: 0.3;
+                }
+
+                &::after {
+                    opacity: 1;
+                }
             }
         }
+
     }
 
     .error {

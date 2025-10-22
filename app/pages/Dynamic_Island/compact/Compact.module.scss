@@ -1,9 +1,9 @@
-$island-open-dur: 500ms;
-$island-expand-delay: 500ms;
-$island-expand-dur: 400ms;
+$island-open-dur: 300ms; // Giảm từ 500ms xuống 300ms để hiệu ứng mở hoàn tất trong 0.3s
+$island-expand-delay: 300ms; // Bắt đầu expand ngay sau khi open hoàn tất
+$island-expand-dur: 400ms; // Giữ nguyên thời gian expand
 $shrink-dur: 400ms;
 $expand-dur: 300ms;
-$island-content-delay: $island-expand-delay + $island-expand-dur - 350;
+$island-content-delay: $island-expand-delay + $island-expand-dur - 200ms; // 300ms + 400ms - 200ms = 500ms
 
 .Compact {
     position: fixed;
@@ -50,14 +50,14 @@ $island-content-delay: $island-expand-delay + $island-expand-dur - 350;
         opacity: 1;
         animation:
             dynamicIslandOpenActions $island-open-dur cubic-bezier(.1, 0, .2, 1) forwards,
-            dynamicIslandExpandActions $island-expand-dur cubic-bezier(.1, 0, .2, 1) forwards 200ms;
+            dynamicIslandExpandActions $island-expand-dur cubic-bezier(.1, 0, .2, 1) forwards 500ms;
     }
 
     /* Closing state */
     &.closing {
         animation:
             dynamicIslandCollapseExpand 500ms cubic-bezier(.4, 0, .2, 1) forwards,
-            dynamicIslandCollapseOpen 300ms cubic-bezier(.4, 0, .2, 1) forwards 300ms;
+            dynamicIslandCollapseOpen 300ms cubic-bezier(.4, 0, .2, 1) forwards 1000ms;
 
         .actionContent {
             animation: hideContent 1000ms cubic-bezier(.4, 0, .2, 1) forwards 1200ms;
@@ -76,8 +76,6 @@ $island-content-delay: $island-expand-delay + $island-expand-dur - 350;
         animation: showContent 1.5s cubic-bezier(.4, 0, .2, 1) forwards $island-content-delay;
 
         /* Apply hideContent when parent wrapper is closing */
-
-
 
         .actionContent__wrapper {
             border-radius: 5rem;
@@ -200,19 +198,19 @@ $island-content-delay: $island-expand-delay + $island-expand-dur - 350;
 @keyframes dynamicIslandOpenActions {
     0% {
         top: 2%;
-        max-width: 12rem;
+        max-width: 10rem;
         width: 95%;
-        height: 4rem;
+        height: 3rem;
         transform: translateX(-50%) scale(1);
-        opacity: 0;
+        opacity: 1;
         border-radius: 5rem;
     }
 
     100% {
         top: 2%;
-        max-width: 14rem;
+        max-width: 10rem;
         width: 95%;
-        height: 4rem;
+        height: 3rem;
         transform: translateX(-50%) scale(1);
         opacity: 1;
         border-radius: 5rem;
@@ -221,9 +219,9 @@ $island-content-delay: $island-expand-delay + $island-expand-dur - 350;
 
 @keyframes dynamicIslandExpandActions {
     0% {
-        max-width: 14rem;
+        max-width: 10rem;
         width: 95%;
-        height: 4rem;
+        height: 3rem;
         transform: translateX(-50%) scale(1);
         border-radius: 5rem;
     }
@@ -248,9 +246,9 @@ $island-content-delay: $island-expand-delay + $island-expand-dur - 350;
     }
 
     100% {
-        max-width: 14rem;
+        max-width: 10rem;
         width: 95%;
-        height: 4rem;
+        height: 3rem;
         transform: translateX(-50%) scale(1);
         border-radius: 5rem;
     }
@@ -259,9 +257,9 @@ $island-content-delay: $island-expand-delay + $island-expand-dur - 350;
 @keyframes dynamicIslandCollapseOpen {
     0% {
         top: 2%;
-        max-width: 14rem;
+        max-width: 10rem;
         width: 95%;
-        height: 4rem;
+        height: 3rem;
         transform: translateX(-50%) scale(1);
         border-radius: 5rem;
         background: #111;

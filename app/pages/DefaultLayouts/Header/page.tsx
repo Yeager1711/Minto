@@ -118,7 +118,6 @@ const UserPopup: React.FC<UserPopupProps> = ({ isOpen, onClose, onLogout }) => {
                 </p>
             )}
             <div className={styles.control}>
-                <button onClick={() => handleNavigation('/account/templates')}>Template đã chọn</button>
                 <button onClick={() => handleNavigation('/account/PaymentHistory')}>Lịch sử thanh toán</button>
                 {user?.role.name === 'customer' && (
                     <button onClick={() => handleNavigation('/account/error_handling')}>Phản hồi</button>

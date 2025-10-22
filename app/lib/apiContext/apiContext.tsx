@@ -69,7 +69,6 @@ interface RegisterData {
 
 interface LoginResponse {
     accessToken: string;
-
     user: {
         full_name: string;
     };
@@ -127,7 +126,14 @@ interface CreateTemplateResponse {
     message?: string;
 }
 
-interface TemplateResponse {
+interface UserTemplatesResponse {
+    paidTemplates: {
+        orders_success: UserTemplateItem[];
+        orders_cancel: UserTemplateItem[];
+    };
+}
+
+interface UserTemplateItem {
     card_id: number;
     template: {
         template_id: number;
@@ -144,7 +150,6 @@ interface TemplateResponse {
             guest_id: number;
             invitation_id: number;
             full_name: string;
-            card_id: number;
         }[];
     };
 }
@@ -256,6 +261,7 @@ interface ErrorFeedbackResponse {
         status: string;
         resolved_at: string | null;
         resolution_notes: string | null;
+        is_read: number | null;
         user: {
             user_id: number;
             full_name: string;
@@ -264,34 +270,22 @@ interface ErrorFeedbackResponse {
     }[];
 }
 
-// Định nghĩa interface cho phản hồi từ API checkDiscountEligibility
 interface DiscountEligibilityResponse {
     isEligible: boolean;
     message: string;
 }
 
-/* ------------------ Dynamic types (no `any`) ------------------ */
-interface DynamicContent {
-    message?: string;
-    note?: string;
-    // allow extra fields but typed as unknown
-    [key: string]: unknown;
-}
-
-type DynamicState = 'minimal' | 'compact' | 'expanded';
-
 interface DynamicPayload {
-    state: DynamicState;
-    type?: 'success' | 'error' | string;
-    title?: string;
-    content?: DynamicContent;
-    time?: string;
-    action?: string;
-    duration?: number;
+    state: 'minimal' | 'compact' | 'expanded';
     TypeContextCollapsed?: boolean;
+    action: 'success' | 'failure';
+    actionTitle?: string;
+    describle?: string;
+    time?: string;
+    type?: string;
+    duration?: number;
     [key: string]: unknown;
 }
-/* ------------------------------------------------------------- */
 
 interface ApiContextType {
     accessToken: string | null;
@@ -303,7 +297,7 @@ interface ApiContextType {
     createTemplate: (data: CreateTemplateData) => Promise<CreateTemplateResponse>;
     getTemplates: () => Promise<Template[]>;
     saveCard: (data: SaveCardData) => Promise<SaveCardResponse>;
-    getUserTemplates: () => Promise<TemplateResponse[]>;
+    getUserTemplates: () => Promise<UserTemplatesResponse>;
     getGuestAndCard: (
         template_id: string,
         guest_id: string,
@@ -314,7 +308,7 @@ interface ApiContextType {
     updateUserName: (fullName: string) => Promise<UserProfile>;
     createQr: (data: QrData) => Promise<QrResponse>;
     getUserQr: () => Promise<QrResponse[]>;
-    getUserQrPublic: (userId: number) => Promise<QrResponse[]>; // Updated return type
+    getUserQrPublic: (userId: number) => Promise<QrResponse[]>;
     updateQrStatus: (qrId: number, status: 'ACTIVE' | 'SUCCESS') => Promise<QrResponse>;
     submitPostError: (errorMessage: string) => Promise<SubmitErrorResponse>;
     getAllErrorFeedback: () => Promise<ErrorFeedbackResponse>;
@@ -542,12 +536,12 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
-    const getUserTemplates = async (): Promise<TemplateResponse[]> => {
+    const getUserTemplates = async (): Promise<UserTemplatesResponse> => {
         if (!accessToken) {
             throw new Error('Vui lòng đăng nhập');
         }
         try {
-            const response = await axios.get(`${apiUrl}/cards/user-templates`, {
+            const response = await axios.get<UserTemplatesResponse>(`${apiUrl}/cards/user-templates`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'ngrok-skip-browser-warning': 'true',
@@ -692,14 +686,13 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             if (!Array.isArray(qrList) || qrList.length === 0) {
                 throw new Error('Không tìm thấy mã QR');
             }
-            return qrList; // Return the full array of QR codes
+            return qrList;
         } catch (err: unknown) {
             const axiosError = err as AxiosErrorResponse;
             const errorMessage =
                 axiosError.response?.data?.message && typeof axiosError.response.data.message === 'string'
                     ? axiosError.response.data.message
                     : '';
-
             throw new Error(errorMessage);
         }
     };
@@ -855,7 +848,6 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     const updateDynamic = async (payload: DynamicPayload): Promise<DynamicPayload> => {
-        // try to use accessToken from state, fallback to localStorage
         const token = accessToken ?? localStorage.getItem('accessToken');
         if (!token) {
             throw new Error('Vui lòng đăng nhập để thực hiện thao tác này');
@@ -872,7 +864,6 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             return response.data;
         } catch (err: unknown) {
             console.error('Lỗi khi gọi /dynamic/update:', err);
-            // You can show toast here if you want
             throw err;
         }
     };

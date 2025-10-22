@@ -2,7 +2,7 @@
 
 .paymentHistory {
     padding: 8rem 1rem;
-    background-color: #f8f9fa;
+    background-color: #f4f4f4;
     min-height: 100vh;
 }
 
@@ -13,14 +13,37 @@
 }
 
 .orderSection {
-    background: #ffffff;
-    border-radius: 12px;
+    border-radius: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 2rem;
     transition: transform 0.2s ease;
 
+
     &:hover {
         transform: translateY(-2px);
+    }
+
+    .btn_change__list {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+
+        button {
+            padding: 1rem 1.5rem;
+            font-size: 1.3rem;
+            border-radius: .8rem;
+
+            &:hover {
+                border-radius: 1.3rem;
+                transition: .3s linear;
+            }
+        }
+
+        .active {
+            background: #b9d6f6;
+            color: #0064d1;
+        }
     }
 }
 
@@ -58,7 +81,7 @@
         font-weight: 600;
         color: #1f2937;
         text-transform: uppercase;
-        font-size: 0.9rem;
+        font-size: 1.1rem;
         letter-spacing: 0.05em;
     }
 
@@ -100,16 +123,72 @@
 
 .guestPanel {
     position: fixed;
-    top: 0;
+    top: 1rem;
+    bottom: 1rem;
     right: 0;
     width: 100%;
     max-width: 500px;
-    height: 100vh;
     background: #ffffff;
     border-left: 1px solid #e5e7eb;
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     animation: slideIn 0.3s ease-out;
+    border-radius: 2rem 0 0 2rem;
+    overflow: hidden;
+
+    backdrop-filter: blur(20px) saturate(90%) contrast(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(90%) contrast(1.2);
+    background: rgba(255, 255, 255, 0.5);
+    border: .1rem solid #fff;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+
+    // ánh sáng + bóng bên trong
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 2rem;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    // ánh sáng phía trên (tạo cảm giác bị lõm)
+    &::before {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));
+        mix-blend-mode: screen;
+        opacity: 0.6;
+    }
+
+    // bóng phía dưới (đối lập để tạo chiều sâu)
+    &::after {
+        background: radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3), transparent 20%);
+        mix-blend-mode: multiply;
+        opacity: 0.8;
+    }
+
+    .btn_change__list {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin: 1.5rem;
+
+        button {
+            padding: 1rem 1.5rem;
+            font-size: 1.3rem;
+            border-radius: .8rem;
+
+            &:hover {
+                border-radius: 1.3rem;
+                transition: .3s linear;
+            }
+        }
+
+        .active {
+            background: #b9d6f6;
+            color: #0064d1;
+        }
+    }
 }
 
 @keyframes slideIn {
@@ -126,7 +205,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 2rem;
+    padding: 2rem 2rem 1.5rem 2rem;
     border-bottom: 1px solid #e5e7eb;
     background: #f9fafb;
 }
@@ -136,6 +215,8 @@
     font-weight: 600;
     color: #1f2937;
     margin: 0;
+    max-width: 50rem;
+    width: 80%;
 }
 
 .guestPanelBody {
@@ -145,12 +226,12 @@
 }
 
 .closeButton {
-    padding: 0.5rem 1.5rem;
+    padding: 1rem 1.5rem;
     background: #dc2626;
     color: #ffffff;
     border: none;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
@@ -174,7 +255,6 @@
     border-spacing: 0;
     font-size: 1rem;
     color: #374151;
-    height: 50rem;
     text-align: center;
 
     th,
@@ -194,7 +274,6 @@
     }
 
     td {
-        background: #ffffff;
         transition: background 0.2s ease;
         font-size: 1.3rem;
         padding: 1.5rem;
@@ -315,7 +394,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 0;
+            padding: 1.5rem 1rem;
             border-bottom: 1px solid #f3f4f6;
             max-width: none;
             white-space: normal;
@@ -334,7 +413,7 @@
         }
 
         .guestButton {
-            width: 100%;
+            width: 50%;
             padding: 0.75rem;
         }
     }
@@ -368,7 +447,7 @@
 
     .guestButton,
     .closeButton {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
         padding: 0.5rem 1rem;
     }
 }

@@ -3,29 +3,23 @@ import * as React from 'react';
 import styles from './test.module.css';
 import DynamicIsland from '../Dynamic_Island/DynamicIsLand';
 import { useApi } from 'app/lib/apiContext/apiContext';
-// import { useLiquidGlass } from '../DefaultLayouts/useLiquidGlass/useLiquidGlass';
 
 interface DynamicPayload {
     state: 'minimal' | 'compact' | 'expanded';
-    type: 'success' | 'error';
-    title: string;
-    content: {
-        message: string;
-        note?: string;
-    };
-    time: string;
-    action: string;
-    duration: number;
-    TypeContextCollapsed: boolean; // Thêm trường mới
+    TypeContextCollapsed?: boolean;
+    action: 'success' | 'failure';
+    actionTitle?: string;
+    describle?: string;
+    time?: string;
+    type?: string;
+    duration?: number;
+    [key: string]: unknown;
 }
 
 function TestAPIDynamic() {
     const { updateDynamic } = useApi();
     const [isOpenDynamic, setIsOpenDynamic] = React.useState(false);
-    const [dynamicState, setDynamicState] = React.useState<'minimal' | 'compact' | 'expanded'>('compact');
-    const [status, setStatus] = React.useState<'success' | 'error' | undefined>(undefined);
-    const [action, setAction] = React.useState<string | undefined>(undefined);
-    const [duration, setDuration] = React.useState<number | undefined>(undefined);
+    const [payload, setPayload] = React.useState<DynamicPayload | null>(null);
 
     const toggleSidebar = (collapsed: boolean) => {
         const event = new CustomEvent('toggleSidebar', { detail: { collapsed } });
@@ -33,45 +27,36 @@ function TestAPIDynamic() {
     };
 
     const handleButtonClick = async (
-        type: 'success' | 'error',
+        action: 'success' | 'failure',
         state: 'minimal' | 'compact' | 'expanded' = 'compact'
     ) => {
         try {
             // Prepare data for API
-            const mockData = {
+            const mockData: DynamicPayload = {
                 state,
-                type,
-                title: type === 'success' ? 'Cho phép nhận Hỷ' : 'Lỗi nhận Hỷ',
-                content: {
-                    message:
-                        type === 'success'
-                            ? 'Đã cho phép nhận tiền Hỷ qua QRRRR code'
-                            : 'Không thể cho phép nhận tiền HỷRRRR qua QR code',
-                },
+                TypeContextCollapsed: true,
+                action,
+                actionTitle: action === 'success' ? 'Cho phép nhận Hỷ' : 'Lỗi nhận Hỷ',
+                describle:
+                    action === 'success'
+                        ? 'Đã cho phép nhận tiền Hỷ qua QR code'
+                        : 'Không thể cho phép nhận tiền Hỷ qua QR code',
                 time: new Date().toISOString(),
-                action: 'Trạng thái ',
-                duration: state === 'expanded' ? 4000 : state === 'minimal' ? 3000 : 3000,
-                TypeContextCollapsed: true, // Gửi trường này trong payload
+                type: action === 'success' ? 'success' : 'error',
+                duration: state === 'expanded' ? 4000 : state === 'minimal' ? 3000 : 3500,
             };
 
             // Call API
-            const data = (await updateDynamic(mockData)) as DynamicPayload;
+            const data = await updateDynamic(mockData);
 
-            if (data.type === 'success' || data.type === 'error') {
-                // Trigger sidebar collapse based on API response
-                toggleSidebar(data.TypeContextCollapsed);
+            // Trigger sidebar collapse based on API response
+            toggleSidebar(data.TypeContextCollapsed ?? true);
 
-                // Delay showing DynamicIsland by 1 second
-                setTimeout(() => {
-                    setDynamicState(data.state);
-                    setStatus(data.type);
-                    setAction(data.action);
-                    setDuration(data.duration ?? mockData.duration);
-                    setIsOpenDynamic(true);
-                }, 1000);
-            } else {
-                console.error('Invalid type received:', data.type);
-            }
+            // Delay showing DynamicIsland by 1 second
+            setTimeout(() => {
+                setPayload(data);
+                setIsOpenDynamic(true);
+            }, 1000);
         } catch (error) {
             console.error('Error calling dynamic/update:', error);
         }
@@ -79,9 +64,7 @@ function TestAPIDynamic() {
 
     const handleCloseDynamic = () => {
         setIsOpenDynamic(false);
-        setStatus(undefined);
-        setAction(undefined);
-        setDuration(undefined);
+        setPayload(null);
         // Reset sidebar to normal state
         toggleSidebar(false);
     };
@@ -94,7 +77,7 @@ function TestAPIDynamic() {
                     <button className={styles.btnSuccess} onClick={() => handleButtonClick('success')}>
                         Thành công
                     </button>
-                    <button className={styles.btnError} onClick={() => handleButtonClick('error')}>
+                    <button className={styles.btnError} onClick={() => handleButtonClick('failure')}>
                         Thất bại
                     </button>
                 </div>
@@ -115,24 +98,10 @@ function TestAPIDynamic() {
             <DynamicIsland
                 isOpenDynamic={isOpenDynamic}
                 onCloseDynamic={handleCloseDynamic}
-                state={dynamicState}
-                status={status}
-                action={action}
-                duration={duration}
+                payload={payload || { state: 'compact', action: 'success', actionTitle: '', describle: '' }}
             />
         </div>
     );
 }
 
 export default TestAPIDynamic;
-
-// // export default TestAPIDynamic;
-// import * as React from 'react';
-// import styles from './test.module.css'
-// function TestAPIDynamic() {
-//     return (
-//         <div className={styles.test}>test</div>
-//      );
-// }
-
-// export default TestAPIDynamic;

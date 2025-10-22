@@ -1,0 +1,710 @@
+/* Phần SCSS ban đầu bạn cung cấp, giữ nguyên */
+.dashboard {
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 1rem;
+    position: relative;
+
+    &__bg {
+        position: absolute;
+        inset: 0;
+        background: url('../../../../public/images/banner/bg_ad.jpg') center/cover no-repeat;
+        filter: blur(5px);
+        transform: scale(1.01);
+        z-index: 0;
+        display: block;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .dashboard_wrapper {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+
+        .navigation_center__dashboard {
+            position: fixed;
+            top: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 5rem;
+            padding: .5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: -moz-fit-content;
+            width: fit-content;
+            max-width: 65rem;
+            width: 90%;
+            overflow: hidden;
+            backdrop-filter: blur(20px) saturate(180%) contrast(2);
+            -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(2);
+            background: rgba(255, 255, 255, 0.1);
+
+            // ánh sáng + bóng bên trong
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 1rem;
+                transition: all 0.3s ease;
+                pointer-events: none;
+            }
+
+            // ánh sáng phía trên (tạo cảm giác bị lõm)
+            &::before {
+                background: linear-gradient(145deg, rgba(255, 255, 255, 0.45), rgba(0, 0, 0, 0));
+                mix-blend-mode: screen;
+                opacity: 0.6;
+            }
+
+            // bóng phía dưới (đối lập để tạo chiều sâu)
+            &::after {
+                background: radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.3), transparent 70%);
+                mix-blend-mode: multiply;
+                opacity: 0.8;
+            }
+        }
+
+        .nav__item {
+            padding: 1rem 2rem;
+            font-size: 1.35rem;
+            border-radius: 1rem;
+            color: #3f88cc;
+            line-height: 2rem;
+            transition: all 0.3s ease;
+            font-weight: 550;
+
+            &--active {
+                background: #3f88cc;
+                color: #fff;
+                border-radius: 5rem;
+            }
+        }
+
+        /* === Đặt riêng nút plus === */
+        .nav__item--AddProduct {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            border: 0.3rem solid #2d7ee8;
+            width: 4.5rem;
+            height: 4.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+            svg {
+                font-size: 2.2rem;
+                color: #2d7ee8;
+            }
+
+
+        }
+
+
+        .userInfo {
+            position: absolute;
+            top: 0;
+            right: 0%;
+            padding: 1rem 2rem;
+            border-radius: 1.5rem;
+            background: rgba(16, 202, 34, 0.3);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            color: #fff;
+
+            h3 {
+                margin: .5rem 0;
+            }
+        }
+
+        .wrap_content {
+            min-height: 100vh;
+            display: grid; // Chuyển sang grid để hỗ trợ Bento Layout
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+
+            h1 {
+                grid-column: span 1; // Tiêu đề chiếm toàn bộ chiều rộng
+                font-size: 3rem;
+                color: #fff;
+                text-align: start;
+            }
+
+            .error {
+                grid-column: span 2;
+                color: red;
+                text-align: center;
+                font-size: 1.2rem;
+            }
+
+            .SpancebetWeen {
+                grid-column: span 5;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                gap: 1rem;
+
+                .Revenue {
+                    position: relative;
+                    border-radius: 2rem;
+                    padding: 1rem;
+                    max-width: 35rem;
+                    width: 100%;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(20px) saturate(180%);
+                    -webkit-backdrop-filter: blur(20px) saturate(180%);
+                    border: 1px solid rgba(255, 255, 255, 0.25);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+                    border: .1rem solid rgba(255, 255, 255, 0.2);
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        border-radius: inherit;
+                        background: linear-gradient(145deg,
+                                rgba(255, 255, 255, 0.3) 0%,
+                                rgba(255, 255, 255, 0.05) 100%);
+                        pointer-events: none;
+                        z-index: 0;
+                    }
+
+                    .box_revenue {
+                        position: relative;
+                        z-index: 1;
+                        padding: .5rem 1.5rem;
+
+                        svg {
+                            position: absolute;
+                            top: 1rem;
+                            right: 1rem;
+                        }
+
+                        span {
+                            font-size: 1.35rem;
+                            color: #fff;
+                        }
+
+                        h2 {
+                            font-size: 3rem;
+                            margin: 2rem 0 0 0;
+                            font-weight: 600;
+                            color: #fff;
+
+                            @media (max-width: 480px) {
+                                font-size: 2.3rem;
+                            }
+                        }
+
+                        svg {
+                            margin-left: 0.5rem;
+                            cursor: pointer;
+                            font-size: 1.2rem;
+                            color: #fff;
+                        }
+                    }
+
+                    .flex {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 1rem;
+                        margin-top: 1rem;
+                        flex-wrap: wrap;
+
+                        .box_RealTotalRevenue,
+                        .box_TotalVirtualRevenue {
+                            background: rgba(255, 255, 255, 0.8);
+                            backdrop-filter: blur(15px);
+                            -webkit-backdrop-filter: blur(15px);
+                            padding: 1rem;
+                            flex: 1 1 8rem;
+                            border-radius: 1.5rem;
+                            border: 1px solid rgba(255, 255, 255, 0.2);
+
+                            svg {
+                                position: absolute;
+                                top: 1rem;
+                                right: 1rem;
+                            }
+
+                            span {
+                                font-size: 1.25rem;
+                                color: #333;
+                            }
+
+                            h2 {
+                                margin: 1rem 0 0 0;
+                                color: #333;
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+                }
+
+                .server_response {
+                    position: relative;
+                    border-radius: 2rem;
+                    padding: 1.5rem 2rem;
+                    max-width: 10rem;
+                    width: 100%;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(20px) saturate(180%);
+                    -webkit-backdrop-filter: blur(20px) saturate(180%);
+                    border: 1px solid rgba(255, 255, 255, 0.25);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+                    text-transform: capitalize;
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        border-radius: inherit;
+                        background: linear-gradient(145deg,
+                                rgba(255, 255, 255, 0.3) 0%,
+                                rgba(255, 255, 255, 0.05) 100%);
+                        pointer-events: none;
+                        z-index: 0;
+                    }
+
+                    .return_time {
+                        h3 {
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    .status,
+                    .update_at,
+                    .response_time,
+                    .return_time {
+                        position: relative;
+                        z-index: 1;
+                        padding: .5rem 0;
+
+                        span {
+                            font-size: 1.1rem;
+                            color: #333;
+                        }
+
+                        h3 {
+                            font-size: 1.3rem;
+                            color: #43a95b;
+                            margin: 0;
+                            padding-top: .5rem;
+                        }
+                    }
+
+                    .server_info {
+                        margin-top: 1rem;
+                    }
+                }
+            }
+
+            /* Bổ sung SCSS cho các thành phần còn lại theo Bento Layout */
+            .controlCenter {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(10px) saturate(180%);
+                -webkit-backdrop-filter: blur(10px) saturate(180%);
+                border-radius: 50%;
+                width: 3.5rem;
+                height: 3.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+                cursor: pointer;
+                z-index: 10;
+
+                .btn_expand {
+                    font-size: 1.6rem;
+                    color: #fff;
+                }
+            }
+
+            .OrdersByYear {
+                grid-column: span 2; // Chiếm toàn bộ chiều rộng
+                border-radius: 1.5rem;
+                padding: 1.5rem;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px) saturate(180%);
+                -webkit-backdrop-filter: blur(12px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+                .Most_used_model {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1rem;
+
+                    h3 {
+                        font-size: 1.4rem;
+                        color: #fff;
+                    }
+
+                    .change_chart {
+                        font-size: 1.4rem;
+                        color: #fff;
+                        cursor: pointer;
+                    }
+                }
+
+                .chart_section {
+                    position: relative;
+
+                    .change_chart {
+                        position: absolute;
+                        top: 1rem;
+                        right: 1rem;
+                        font-size: 1.4rem;
+                        color: #fff;
+                        cursor: pointer;
+                    }
+
+                    .chart {
+                        min-height: 350px;
+                    }
+                }
+            }
+
+            .Revenue_box {
+                grid-column: span 2; // Chiếm một cột
+                border-radius: 1.5rem;
+                padding: 1.5rem;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px) saturate(180%);
+                -webkit-backdrop-filter: blur(12px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+                h3 {
+                    font-size: 1.4rem;
+                    color: #fff;
+                    margin-bottom: 1rem;
+                }
+
+                .btn_expand {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    font-size: 1.4rem;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                .chart {
+                    min-height: 300px;
+                }
+            }
+
+            .total_client {
+                grid-column: span 1; // Chiếm một cột
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+                border-radius: 1.5rem;
+                padding: 1.5rem;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px) saturate(180%);
+                -webkit-backdrop-filter: blur(12px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                height: 29rem;
+                width: 16rem;
+
+                .btn_expand {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    font-size: 1.4rem;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                .client {
+                    flex: 1 1 45%;
+                    text-align: center;
+
+                    h3 {
+                        font-size: 1.3rem;
+                        color: #fff !important;
+                        margin-bottom: 0.8rem;
+                    }
+
+                    .progressBar {
+                        svg {
+                            .bg {
+                                fill: none;
+                                stroke: rgba(255, 255, 255, 0.2);
+                                color: #fff !important;
+                                stroke-width: 6;
+                            }
+
+                            .fg {
+                                fill: none;
+                                stroke: #60a5fa;
+                                stroke-width: 6;
+                                color: #fff !important;
+                                stroke-linecap: round;
+                            }
+
+                            .progressText {
+                                color: #fff !important;
+                                font-size: 1.1rem;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .template {
+                grid-column: span 4; // Chiếm toàn bộ chiều rộng
+                border-radius: 1.5rem;
+                padding: 1.5rem;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px) saturate(180%);
+                -webkit-backdrop-filter: blur(12px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                height: 13rem;
+
+                h3 {
+                    font-size: 1.4rem;
+                    color: #fff;
+                    margin-bottom: 1rem;
+                }
+
+                .btn_expand {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    font-size: 1.4rem;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                .template_wrapper_item {
+                    .swiper_container {
+                        position: relative;
+
+                        .swiper-button-prev,
+                        .swiper-button-next {
+                            color: #fff;
+                            background: rgba(255, 255, 255, 0.15);
+                            border-radius: 50%;
+                            width: 1rem;
+                            height: 1rem;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            &::after {
+                                font-size: 0.9rem;
+                            }
+                        }
+
+                        .template_card {
+                            background: rgba(255, 255, 255, 0.15);
+                            border-radius: 1rem;
+                            padding: 1rem;
+                            text-align: center;
+                            color: #fff;
+                            border: 1px solid rgba(255, 255, 255, 0.2);
+
+                            p {
+                                margin: 0.5rem 0;
+                                font-size: 1rem;
+                            }
+                        }
+
+                        .template_skeleton {
+                            background: rgba(255, 255, 255, 0.15);
+                            border-radius: 1rem;
+                            padding: 1rem;
+                            min-height: 80px;
+                        }
+                    }
+                }
+            }
+
+            .left_footer {
+                grid-column: span 1; // Chiếm toàn bộ chiều rộng
+                display: flex;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                border-radius: 1.5rem;
+                padding: 1.5rem;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px) saturate(180%);
+                -webkit-backdrop-filter: blur(12px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                margin-top: -11rem;
+
+                .btn_expand {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    font-size: 1.4rem;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                .box_left {
+                    flex: 2 1 60%;
+                    padding: 1rem 0;
+
+                    h3 {
+                        font-size: 1.4rem;
+                        color: #333;
+                        margin-bottom: 1rem;
+                    }
+
+                    .list_of_responses {
+                        .response_item {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 1.5rem;
+                            background: rgba(255, 255, 255, 0.15);
+                            border-radius: 0.8rem;
+                            margin-bottom: 1rem;
+                            color: #333;
+                            border: 1px solid rgba(255, 255, 255, 0.2);
+                            font-weight: 550;
+                            font-size: 1.2rem;
+
+                            .Processed {
+                                color: #60a5fa;
+                            }
+                        }
+                    }
+                }
+
+                .box_right {
+                    flex: 1 1 30%;
+                    padding: 1rem;
+
+                    .cancel_order {
+                        h3 {
+                            font-size: 1.4rem;
+                            color: #fff;
+                            margin-bottom: 1rem;
+                        }
+
+                        p {
+                            font-size: 1.5rem;
+                            color: red;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .dashboard_wrapper {
+            .navigation_center__dashboard {
+
+                .nav__item {
+                    padding: 0.8rem 1.5rem;
+                    font-size: 1.1rem;
+                }
+
+                .nav__item--AddProduct {
+                    height: 5rem;
+                    width: 5rem;
+
+                    svg {
+                        font-size: 2rem;
+                    }
+                }
+            }
+
+            .wrap_content {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+
+                h1 {
+                    font-size: 2.5rem;
+                }
+
+                .SpancebetWeen {
+                    flex-direction: column;
+
+                    .Revenue {
+                        max-width: 100%;
+                    }
+
+                    .server_response {
+                        max-width: 100%;
+                    }
+                }
+
+                .OrdersByYear,
+                .template,
+                .left_footer {
+                    grid-column: span 1;
+                }
+
+                .Revenue_box,
+                .total_client {
+                    grid-column: span 1;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dashboard_wrapper {
+            .wrap_content {
+                h1 {
+                    font-size: 2rem;
+                }
+
+                .SpancebetWeen {
+                    .Revenue {
+                        .box_revenue {
+                            h2 {
+                                font-size: 2rem;
+                            }
+                        }
+
+                        .flex {
+
+                            .box_RealTotalRevenue,
+                            .box_TotalVirtualRevenue {
+                                h2 {
+                                    font-size: 1.5rem;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .Revenue_box,
+                .total_client {
+                    .client {
+                        flex: 1 1 100%;
+                        color: #fff !important;
+                    }
+                }
+            }
+        }
+    }
+}

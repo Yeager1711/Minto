@@ -41,10 +41,10 @@
 .Compact_wrapper.open {
   top: 2%;
   opacity: 1;
-  animation: dynamicIslandOpenActions 500ms cubic-bezier(0.1, 0, 0.2, 1) forwards, dynamicIslandExpandActions 400ms cubic-bezier(0.1, 0, 0.2, 1) forwards 200ms;
+  animation: dynamicIslandOpenActions 300ms cubic-bezier(0.1, 0, 0.2, 1) forwards, dynamicIslandExpandActions 400ms cubic-bezier(0.1, 0, 0.2, 1) forwards 500ms;
 }
 .Compact_wrapper.closing {
-  animation: dynamicIslandCollapseExpand 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandCollapseOpen 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards 300ms;
+  animation: dynamicIslandCollapseExpand 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards, dynamicIslandCollapseOpen 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards 1000ms;
 }
 .Compact_wrapper.closing .actionContent {
   animation: hideContent 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards 1200ms;
@@ -57,7 +57,7 @@
   opacity: 0;
   transform: scale(0.8) translateY(0.5rem);
   max-height: 0;
-  animation: showContent 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 550ms;
+  animation: showContent 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 500ms;
   /* Apply hideContent when parent wrapper is closing */
 }
 .Compact_wrapper .actionContent .actionContent__wrapper {
@@ -163,18 +163,18 @@
 @keyframes dynamicIslandOpenActions {
   0% {
     top: 2%;
-    max-width: 12rem;
+    max-width: 10rem;
     width: 95%;
-    height: 4rem;
+    height: 3rem;
     transform: translateX(-50%) scale(1);
-    opacity: 0;
+    opacity: 1;
     border-radius: 5rem;
   }
   100% {
     top: 2%;
-    max-width: 14rem;
+    max-width: 10rem;
     width: 95%;
-    height: 4rem;
+    height: 3rem;
     transform: translateX(-50%) scale(1);
     opacity: 1;
     border-radius: 5rem;
@@ -182,9 +182,9 @@
 }
 @keyframes dynamicIslandExpandActions {
   0% {
-    max-width: 14rem;
+    max-width: 10rem;
     width: 95%;
-    height: 4rem;
+    height: 3rem;
     transform: translateX(-50%) scale(1);
     border-radius: 5rem;
   }
@@ -206,9 +206,9 @@
     border-radius: 5rem;
   }
   100% {
-    max-width: 14rem;
+    max-width: 10rem;
     width: 95%;
-    height: 4rem;
+    height: 3rem;
     transform: translateX(-50%) scale(1);
     border-radius: 5rem;
   }
@@ -216,9 +216,9 @@
 @keyframes dynamicIslandCollapseOpen {
   0% {
     top: 2%;
-    max-width: 14rem;
+    max-width: 10rem;
     width: 95%;
-    height: 4rem;
+    height: 3rem;
     transform: translateX(-50%) scale(1);
     border-radius: 5rem;
     background: #111;
